@@ -118,8 +118,9 @@
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \contentsline {section}{\numberline {I.3}Tujuan}{6}{section.1.3}%
-\contentsline {section}{\numberline {I.4}Ruang Lingkup dan Batasan Masalah}{6}{section.1.4}%
-\contentsline {section}{\numberline {I.5}Hipotesis}{7}{section.1.5}%
+\contentsline {section}{\numberline {I.4}Manfaat Penelitian}{6}{section.1.4}%
+\contentsline {section}{\numberline {I.5}Ruang Lingkup dan Batasan Masalah}{7}{section.1.5}%
+\contentsline {section}{\numberline {I.6}Hipotesis}{8}{section.1.6}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -146,7 +147,12 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {section}{\numberline {I.6}Sistematika Penulisan}{8}{section.1.6}%
+\contentsline {section}{\numberline {I.7}Metodologi Penelitian}{9}{section.1.7}%
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\contentsline {section}{\numberline {I.8}Sistematika Penulisan}{10}{section.1.8}%
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 

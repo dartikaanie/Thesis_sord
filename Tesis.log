@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.3.4)  23 MAY 2026 01:04
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.3.4)  23 MAY 2026 01:41
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1267,291 +1267,304 @@ Overfull \hbox (0.24626pt too wide) in paragraph at lines 75--90
 \TU/TimesNewRoman(0)/m/it/12 Generation \TU/TimesNewRoman(0)/m/n/12 (GraphRAG) diusulkan untuk mengintegrasikan struktur \TU/TimesNewRoman(0)/m/it/12 knowledge gra-
  []
 
-[3]
-Underfull \hbox (badness 10000) in paragraph at lines 108--108
+[3] (./tables/research_gap.tex
+Underfull \hbox (badness 10000) in paragraph at lines 9--9
 []|\TU/TimesNewRoman(0)/b/n/10.95 Metode yang Digu-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 108--108
+Underfull \hbox (badness 10000) in paragraph at lines 9--9
 []|\TU/TimesNewRoman(0)/b/n/10.95 Sumber Pengetahu-
  []
 
 
-Underfull \hbox (badness 1325) in paragraph at lines 110--110
+Underfull \hbox (badness 1325) in paragraph at lines 11--11
 []|[][][][][]\TU/TimesNewRoman(0)/m/n/10.95 Silva, Samhi, dan
  []
 
 
-Underfull \hbox (badness 1354) in paragraph at lines 111--111
+Underfull \hbox (badness 1354) in paragraph at lines 12--12
 []|\TU/TimesNewRoman(0)/m/n/10.95 Studi empiris perban-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 111--111
+Underfull \hbox (badness 10000) in paragraph at lines 12--12
 \TU/TimesNewRoman(0)/m/n/10.95 (ChatGPT, LLaMA)
  []
 
 
-Underfull \hbox (badness 3260) in paragraph at lines 112--112
+Underfull \hbox (badness 3260) in paragraph at lines 13--13
 \TU/TimesNewRoman(0)/m/n/10.95 sebagai \TU/TimesNewRoman(0)/m/it/10.95 ground truth
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 113--114
+Underfull \hbox (badness 10000) in paragraph at lines 14--15
 \TU/TimesNewRoman(0)/m/n/10.95 usulkan mekanisme
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 113--114
+Underfull \hbox (badness 10000) in paragraph at lines 14--15
 \TU/TimesNewRoman(0)/m/it/10.95 grounding \TU/TimesNewRoman(0)/m/n/10.95 atau inte-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 115--115
+Underfull \hbox (badness 10000) in paragraph at lines 16--16
 []|[][][][][]\TU/TimesNewRoman(0)/m/n/10.95 Nashid, Sintaha,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 116--116
+Underfull \hbox (badness 10000) in paragraph at lines 17--17
 []|\TU/TimesNewRoman(0)/m/it/10.95 Retrieval-based
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 116--116
+Underfull \hbox (badness 10000) in paragraph at lines 17--17
 \TU/TimesNewRoman(0)/m/it/10.95 prompt selection
  []
 
 
-Underfull \hbox (badness 6910) in paragraph at lines 116--116
+Underfull \hbox (badness 6910) in paragraph at lines 17--17
 \TU/TimesNewRoman(0)/m/n/10.95 menggunakan konten
  []
 
 
-Underfull \hbox (badness 1365) in paragraph at lines 116--116
+Underfull \hbox (badness 1365) in paragraph at lines 17--17
 \TU/TimesNewRoman(0)/m/n/10.95 Stack Overflow seba-
  []
 
 
-Underfull \hbox (badness 7186) in paragraph at lines 116--116
+Underfull \hbox (badness 7186) in paragraph at lines 17--17
 \TU/TimesNewRoman(0)/m/n/10.95 gai sumber \TU/TimesNewRoman(0)/m/it/10.95 few-shot
  []
 
 
-Underfull \hbox (badness 1014) in paragraph at lines 117--117
+Underfull \hbox (badness 1014) in paragraph at lines 18--18
 []|\TU/TimesNewRoman(0)/m/n/10.95 Stack Overflow (kon-
  []
 
 
-Underfull \hbox (badness 7238) in paragraph at lines 117--117
+Underfull \hbox (badness 7238) in paragraph at lines 18--18
 \TU/TimesNewRoman(0)/m/n/10.95 ten jawaban sebagai
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 118--119
+Underfull \hbox (badness 10000) in paragraph at lines 19--20
 []|\TU/TimesNewRoman(0)/m/n/10.95 RAG konvensional
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 118--119
+Underfull \hbox (badness 10000) in paragraph at lines 19--20
 \TU/TimesNewRoman(0)/m/n/10.95 berbasis kemiripan
  []
 
 
-Underfull \hbox (badness 1019) in paragraph at lines 118--119
+Underfull \hbox (badness 1019) in paragraph at lines 19--20
 \TU/TimesNewRoman(0)/m/n/10.95 vektor; tidak meman-
  []
 
 
-Underfull \hbox (badness 4303) in paragraph at lines 118--119
+Underfull \hbox (badness 4303) in paragraph at lines 19--20
 \TU/TimesNewRoman(0)/m/n/10.95 faatkan struktur rela-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 118--119
+Underfull \hbox (badness 10000) in paragraph at lines 19--20
 \TU/TimesNewRoman(0)/m/n/10.95 sional pengetahuan;
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 118--119
+Underfull \hbox (badness 10000) in paragraph at lines 19--20
 \TU/TimesNewRoman(0)/m/n/10.95 tidak mengevaluasi
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 118--119
+Underfull \hbox (badness 10000) in paragraph at lines 19--20
 \TU/TimesNewRoman(0)/m/n/10.95 reduksi halusinasi
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 121--121
+Underfull \hbox (badness 10000) in paragraph at lines 22--22
 []|\TU/TimesNewRoman(0)/m/n/10.95 Studi empiris ka-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 121--121
+Underfull \hbox (badness 10000) in paragraph at lines 22--22
 \TU/TimesNewRoman(0)/m/n/10.95 rakteristik jawaban
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 121--121
+Underfull \hbox (badness 10000) in paragraph at lines 22--22
 \TU/TimesNewRoman(0)/m/n/10.95 ChatGPT terhadap
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 121--121
+Underfull \hbox (badness 10000) in paragraph at lines 22--22
 \TU/TimesNewRoman(0)/m/n/10.95 pertanyaan Stack
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 123--124
+Underfull \hbox (badness 10000) in paragraph at lines 24--25
 []|\TU/TimesNewRoman(0)/m/n/10.95 Bersifat evaluatif;
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 123--124
+Underfull \hbox (badness 10000) in paragraph at lines 24--25
 \TU/TimesNewRoman(0)/m/n/10.95 tidak mengusulkan
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 123--124
+Underfull \hbox (badness 10000) in paragraph at lines 24--25
 \TU/TimesNewRoman(0)/m/n/10.95 arsitektur mitigasi;
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 123--124
+Underfull \hbox (badness 10000) in paragraph at lines 24--25
 \TU/TimesNewRoman(0)/m/n/10.95 tidak memanfaatkan
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 123--124
+Underfull \hbox (badness 10000) in paragraph at lines 24--25
 \TU/TimesNewRoman(0)/m/n/10.95 sinyal kepercayaan
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 125--125
+Underfull \hbox (badness 10000) in paragraph at lines 26--26
 []|[][][][][]\TU/TimesNewRoman(0)/m/n/10.95 De la Cruz Ca-
  []
 
 
-Underfull \hbox (badness 6252) in paragraph at lines 125--125
+Underfull \hbox (badness 6252) in paragraph at lines 26--26
 \TU/TimesNewRoman(0)/m/n/10.95 bello, Sales, dan
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 130--130
+Underfull \hbox (badness 10000) in paragraph at lines 31--31
 []|[][][][][]\TU/TimesNewRoman(0)/m/n/10.95 Alomari dkk.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 135--135
+Underfull \hbox (badness 10000) in paragraph at lines 36--36
 []|\TU/TimesNewRoman(0)/m/n/10.95 Pendekatan Gra-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 135--135
+Underfull \hbox (badness 10000) in paragraph at lines 36--36
 \TU/TimesNewRoman(0)/m/n/10.95 phRAG generik
  []
 
 
-Underfull \hbox (badness 1990) in paragraph at lines 135--135
+Underfull \hbox (badness 1990) in paragraph at lines 36--36
 \TU/TimesNewRoman(0)/m/n/10.95 ([][][]Zhu dkk. [][]2026[][][][][];
  []
 
 
-Underfull \hbox (badness 4279) in paragraph at lines 136--136
+Underfull \hbox (badness 4279) in paragraph at lines 37--37
 []|\TU/TimesNewRoman(0)/m/n/10.95 GraphRAG dan inte-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 138--139
+Underfull \hbox (badness 10000) in paragraph at lines 39--40
 []|\TU/TimesNewRoman(0)/m/n/10.95 Tidak menggunakan
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 138--139
+Underfull \hbox (badness 10000) in paragraph at lines 39--40
 \TU/TimesNewRoman(0)/m/n/10.95 pengetahuan komuni-
  []
 
 
-Underfull \hbox (badness 2538) in paragraph at lines 138--139
+Underfull \hbox (badness 2538) in paragraph at lines 39--40
 \TU/TimesNewRoman(0)/m/n/10.95 tas teknis tervalidasi;
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 138--139
+Underfull \hbox (badness 10000) in paragraph at lines 39--40
 \TU/TimesNewRoman(0)/m/n/10.95 tidak mengkodekan
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 138--139
+Underfull \hbox (badness 10000) in paragraph at lines 39--40
 \TU/TimesNewRoman(0)/m/n/10.95 sinyal kepercayaan
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 138--139
+Underfull \hbox (badness 10000) in paragraph at lines 39--40
 \TU/TimesNewRoman(0)/m/n/10.95 komunitas (\TU/TimesNewRoman(0)/m/it/10.95 upvote\TU/TimesNewRoman(0)/m/n/10.95 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 141--141
+Underfull \hbox (badness 10000) in paragraph at lines 42--42
 []|\TU/TimesNewRoman(0)/b/n/10.95 GraphRAG Fra-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 141--141
+Underfull \hbox (badness 10000) in paragraph at lines 42--42
 \TU/TimesNewRoman(0)/b/n/10.95 mework dengan
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 141--141
+Underfull \hbox (badness 10000) in paragraph at lines 42--42
 \TU/TimesNewRoman(0)/b/it/10.95 knowledge graph
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 141--141
+Underfull \hbox (badness 10000) in paragraph at lines 42--42
 \TU/TimesNewRoman(0)/b/n/10.95 dari SO + sinyal
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 141--141
+Underfull \hbox (badness 10000) in paragraph at lines 42--42
 \TU/TimesNewRoman(0)/b/n/10.95 kepercayaan komu-
  []
 
 
-Underfull \hbox (badness 5077) in paragraph at lines 141--141
+Underfull \hbox (badness 5077) in paragraph at lines 42--42
 \TU/TimesNewRoman(0)/b/n/10.95 nitas sebagai bobot
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 142--142
+Underfull \hbox (badness 10000) in paragraph at lines 43--43
 \TU/TimesNewRoman(0)/b/n/10.95 trukturkan sebagai
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 142--142
+Underfull \hbox (badness 10000) in paragraph at lines 43--43
 \TU/TimesNewRoman(0)/b/it/10.95 knowledge graph
  []
 
 
-Overfull \hbox (35.77356pt too wide) in paragraph at lines 106--146
+Overfull \hbox (35.77356pt too wide) in paragraph at lines 7--47
  [][] 
  []
 
 
-LaTeX Warning: Float too large for page by 3.46977pt on input line 146.
+LaTeX Warning: Float too large for page by 3.46977pt on input line 47.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-
+)
 Underfull \vbox (badness 1412) has occurred while \output is active []
 
  [4]
-Overfull \hbox (1.33124pt too wide) in paragraph at lines 216--221
+Overfull \hbox (1.33124pt too wide) in paragraph at lines 174--179
 []\TU/TimesNewRoman(0)/m/n/12 Bagaimana merancang mekanisme \TU/TimesNewRoman(0)/m/it/12 graph-guided retrieval \TU/TimesNewRoman(0)/m/n/12 yang mampu meng-
  []
 
-[5] [6] [7] [8]) [9] [10]
+[5] [6]
+Overfull \hbox (5.1614pt too wide) in paragraph at lines 256--261
+[]\TU/TimesNewRoman(0)/b/n/12 Peningkatan keandalan bantuan pemrograman berbasis LLM. \TU/TimesNewRoman(0)/m/it/12 GraphRAG
+ []
+
+
+Underfull \vbox (badness 3058) has occurred while \output is active []
+
+ [7] [8]
+Overfull \hbox (8.96092pt too wide) in paragraph at lines 358--367
+[]\TU/TimesNewRoman(0)/m/n/12 Penelitian ini menggunakan kerangka \TU/TimesNewRoman(0)/m/it/12 Design Science Research Methodology \TU/TimesNewRoman(0)/m/n/12 (DSRM)
+ []
+
+[9] [10]) [11] [12]
 Overfull \hbox (7.21263pt too wide) in paragraph at lines 410--410
 [][]\TU/TimesNewRoman(0)/m/n/12 Haque, Md Asraful. 2025. “  LLMs: A Game-Changer for Software Engineers?” \TU/TimesNewRoman(0)/m/it/12 Bench-
  []
@@ -1566,7 +1579,7 @@ Overfull \hbox (11.59732pt too wide) in paragraph at lines 410--410
 [][]\TU/TimesNewRoman(0)/m/n/12 Huang, Yizheng, dan Jimmy Xiangji Huang. 2026. “  A Survey on Retrieval-Augmented
  []
 
-[11
+[13
 
 
 ]
@@ -1574,7 +1587,7 @@ Overfull \hbox (1.91806pt too wide) in paragraph at lines 410--410
 \TU/TimesNewRoman(0)/m/n/12 2024. “  Unifying Large Language Models and Knowledge Graphs: A Roadmap”.
  []
 
-[12] [13] [14
+[14] [15] [16
 
 ]
 
@@ -1591,18 +1604,18 @@ LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
 Package rerunfilecheck Info: File `Tesis.out' has not changed.
-(rerunfilecheck)             Checksum: 130303EFB08C4117B1FCFB362C35CBAA;2045.
+(rerunfilecheck)             Checksum: 2510164896B4F73CFC5B4B81A917113F;2356.
 Package logreq Info: Writing requests to 'Tesis.run.xml'.
 \openout1 = `Tesis.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 34457 strings out of 468168
- 674938 string characters out of 5432816
- 2076136 words of memory out of 5000000
- 62759 multiletter control sequences out of 15000+600000
+ 34466 strings out of 468168
+ 675164 string characters out of 5432816
+ 2079537 words of memory out of 5000000
+ 62764 multiletter control sequences out of 15000+600000
  634498 words of font info for 93 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  73i,11n,95p,1345b,7210s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on Tesis.pdf (34 pages).
+Output written on Tesis.pdf (36 pages).

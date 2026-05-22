@@ -1,0 +1,47 @@
+
+\begin{table}[h!]
+\centering
+\caption{Ringkasan penelitian terkait dan kesenjangan terhadap tujuan penelitian ini}
+\label{tab:research_gap}
+\small
+\begin{tabular}{|p{3.0cm}|p{3.5cm}|p{3.5cm}|p{3.5cm}|}
+\hline
+\textbf{Penelitian} & \textbf{Metode yang Digunakan} & \textbf{Sumber Pengetahuan} & \textbf{Keterbatasan} \\
+\hline
+\textcite{DaSilva2025} &
+Studi empiris perbandingan jawaban LLM (ChatGPT, LLaMA) vs.\ jawaban komunitas Stack Overflow &
+Stack Overflow (pasif, sebagai \emph{ground truth} perbandingan) &
+Evaluatif; tidak mengusulkan mekanisme \emph{grounding} atau integrasi pengetahuan SO ke dalam LLM \\
+\hline
+\textcite{Nashid2023} &
+\emph{Retrieval-based prompt selection} menggunakan konten Stack Overflow sebagai sumber \emph{few-shot example} &
+Stack Overflow (konten jawaban sebagai contoh kode) &
+RAG konvensional berbasis kemiripan vektor; tidak memanfaatkan struktur relasional pengetahuan; tidak mengevaluasi reduksi halusinasi secara eksplisit \\
+\hline
+\textcite{Kabir2024} &
+Studi empiris karakteristik jawaban ChatGPT terhadap pertanyaan Stack Overflow &
+Stack Overflow (sebagai \emph{benchmark} perbandingan) &
+Bersifat evaluatif; tidak mengusulkan arsitektur mitigasi; tidak memanfaatkan sinyal kepercayaan komunitas SO \\
+\hline
+\textcite{DelaCruzCabello2025} &
+RAG + LLM untuk deteksi anomali \emph{log} sistem (domain AIOps) &
+Log data sistem operasional &
+Domain spesifik AIOps; bukan pemrograman; tidak menggunakan pengetahuan komunitas berbasis \emph{knowledge graph} \\
+\hline
+\textcite{Alomari2026} &
+Tinjauan literatur sistematis LLM untuk peningkatan kualitas kode (\emph{refactoring}, deteksi \emph{code smell}) &
+Dataset validasi umum &
+Fokus pada \emph{prompting} dan \emph{fine-tuning}; tidak membahas GraphRAG sebagai strategi \emph{grounding}; keandalan LLM masih rendah \\
+\hline
+Pendekatan GraphRAG generik \autocite{Zhu2026, Pan2024} &
+GraphRAG dan integrasi \emph{knowledge graph} dengan LLM pada berbagai domain &
+Korpus dokumen generik atau basis pengetahuan umum &
+Tidak menggunakan pengetahuan komunitas teknis tervalidasi; tidak mengkodekan sinyal kepercayaan komunitas (\emph{upvote}, \emph{accepted answer}) \\
+\hline
+\textbf{Penelitian ini} &
+\textbf{GraphRAG Framework dengan \emph{knowledge graph} dari SO + sinyal kepercayaan komunitas sebagai bobot eksplisit} &
+\textbf{Stack Overflow (distrukturkan sebagai \emph{knowledge graph} berbobot)} &
+\textbf{---} \\
+\hline
+\end{tabular}
+\end{table}
