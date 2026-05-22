@@ -44,10 +44,10 @@
   <internal package="biblatex" priority="9" active="0">
     <generic>latex</generic>
     <provides type="dynamic">
-      <file>Tesis.bcf</file>
+      <file>tesis.bcf</file>
     </provides>
     <requires type="dynamic">
-      <file>Tesis.bbl</file>
+      <file>tesis.bbl</file>
     </requires>
     <requires type="static">
       <file>blx-dm.def</file>
@@ -65,19 +65,19 @@
     <generic>biber</generic>
     <cmdline>
       <binary>biber</binary>
-      <infile>Tesis</infile>
+      <infile>tesis</infile>
     </cmdline>
     <input>
-      <file>Tesis.bcf</file>
+      <file>tesis.bcf</file>
     </input>
     <output>
-      <file>Tesis.bbl</file>
+      <file>tesis.bbl</file>
     </output>
     <provides type="dynamic">
-      <file>Tesis.bbl</file>
+      <file>tesis.bbl</file>
     </provides>
     <requires type="dynamic">
-      <file>Tesis.bcf</file>
+      <file>tesis.bcf</file>
     </requires>
     <requires type="editable">
       <file>daftar-pustaka.bib</file>

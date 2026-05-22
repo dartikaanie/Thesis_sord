@@ -1,94 +1,71 @@
+% ============================================================
+% MASTER BIBTEX
+% Thesis: GraphRAG berbasis Stack Overflow untuk reduksi halusinasi LLM
+% Duplikasi sudah dihapus
+% ============================================================
 
-% --- FONDASI LLM & RETRIEVAL ---
- 
+% ============================================================
+% FONDASI LLM & RAG
+% ============================================================
+
 @inproceedings{Brown2020,
   author    = {Tom Brown and Benjamin Mann and Nick Ryder and Melanie Subbiah
                and Jared D. Kaplan and Prafulla Dhariwal and Arvind Neelakantan
                and Pranav Shyam and Girish Sastry and Amanda Askell and others},
   title     = {Language Models are Few-Shot Learners},
-  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  booktitle = {Advances in Neural Information Processing Systems},
   volume    = {33},
   pages     = {1877--1901},
   year      = {2020},
+  publisher = {Curran Associates, Inc.},
   url       = {https://proceedings.neurips.cc/paper/2020/hash/1457c0d6bfcb4967418bfb8ac142f64a-Abstract.html}
 }
- 
+
+@article{Raffel2020,
+  author    = {Colin Raffel and Noam Shazeer and Adam Roberts and
+               Katherine Lee and Sharan Narang and Michael Matena and
+               Yanqi Zhou and Wei Li and Peter J. Liu},
+  title     = {Exploring the Limits of Transfer Learning with a Unified
+               Text-to-Text Transformer},
+  journal   = {Journal of Machine Learning Research},
+  volume    = {21},
+  number    = {140},
+  pages     = {1--67},
+  year      = {2020}
+}
+
 @inproceedings{Lewis2020,
   author    = {Patrick Lewis and Ethan Perez and Aleksandra Piktus and
                Fabio Petroni and Vladimir Karpukhin and Naman Goyal and
                Heinrich K\"{u}ttler and Mike Lewis and Wen-tau Yih and
                Tim Rockt\"{a}schel and Sebastian Riedel and Douwe Kiela},
-  title     = {Retrieval-Augmented Generation for Knowledge-Intensive {NLP}
-               Tasks},
-  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  title     = {Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks},
+  booktitle = {Advances in Neural Information Processing Systems},
   volume    = {33},
   pages     = {9459--9474},
   year      = {2020},
   url       = {https://proceedings.neurips.cc/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html}
 }
- 
-% --- SURVEY HALUSINASI LLM (TERINDEKS ACM) ---
- 
-@article{Ji2023,
-  author    = {Ziwei Ji and Nayeon Lee and Rita Frieske and Tiezheng Yu and
-               Dan Su and Yan Xu and Etsuko Ishii and Ye Jin Bang and
-               Andrea Madotto and Pascale Fung},
-  title     = {Survey of Hallucination in Natural Language Generation},
+
+% ============================================================
+% KNOWLEDGE GRAPH & GRAPHRAG
+% ============================================================
+
+@article{Hogan2022,
+  author    = {Aidan Hogan and Eva Blomqvist and Michael Cochez and
+               Claudia d'Amato and Gerard de Melo and Claudio Gutierrez and
+               Sabrina Kirrane and Jos{\'e} Emilio Labra Gayo and
+               Roberto Navigli and Sebastian Neumaier and others},
+  title     = {Knowledge Graphs},
   journal   = {ACM Computing Surveys},
-  volume    = {55},
-  number    = {12},
-  pages     = {1--38},
-  year      = {2023},
-  doi       = {10.1145/3571730},
-  url       = {https://dl.acm.org/doi/10.1145/3571730}
+  volume    = {54},
+  number    = {4},
+  articleno = {71},
+  pages     = {1--37},
+  year      = {2022},
+  doi       = {10.1145/3447772}
 }
- 
-@article{Huang2025,
-  author    = {Lei Huang and Weijiang Yu and Weitao Ma and Weihong Zhong and
-               Zhangyin Feng and Haotian Wang and Qianglong Chen and
-               Weihua Peng and Xiaocheng Feng and Bing Qin and Ting Liu},
-  title     = {A Survey on Hallucination in Large Language Models: Principles,
-               Taxonomy, Challenges, and Open Questions},
-  journal   = {ACM Transactions on Information Systems},
-  volume    = {43},
-  number    = {2},
-  pages     = {42:1--42:55},
-  year      = {2025},
-  doi       = {10.1145/3703155},
-  url       = {https://dl.acm.org/doi/10.1145/3703155}
-}
- 
-% --- SURVEY RAG (TERINDEKS ACM) ---
- 
-@article{YizhengHuang2026,
-  author    = {Yizheng Huang and Jimmy Xiangji Huang},
-  title     = {A Survey on Retrieval-Augmented Text Generation for Large
-               Language Models},
-  journal   = {ACM Computing Surveys},
-  volume    = {58},
-  number    = {12},
-  pages     = {300:1--300:38},
-  year      = {2026},
-  doi       = {10.1145/3805774},
-  url       = {https://dl.acm.org/doi/10.1145/3805774}
-}
- 
-% --- SURVEY GRAPH-BASED RAG (TERINDEKS ACM) ---
- 
-@article{Zhu2026,
-  author    = {Zulun Zhu and Tiancheng Huang and Kai Wang and Junda Ye and
-               Xinghe Chen and Siqiang Luo},
-  title     = {Graph-Based Approaches and Functionalities in
-               Retrieval-Augmented Generation: A Comprehensive Survey},
-  journal   = {ACM Computing Surveys},
-  year      = {2026},
-  doi       = {10.1145/3795880},
-  url       = {https://dl.acm.org/doi/10.1145/3795880},
-  note      = {Published: April 3, 2026}
-}
- 
-% --- INTEGRASI KG + LLM (IEEE TKDE) ---
- 
+
 @article{Pan2024,
   author    = {Shirui Pan and Linhao Luo and Yufei Wang and Chen Chen and
                Jiapu Wang and Xindong Wu},
@@ -99,191 +76,405 @@
   number    = {7},
   pages     = {3580--3599},
   year      = {2024},
-  doi       = {10.1109/TKDE.2024.3352100},
-  url       = {https://ieeexplore.ieee.org/document/10387715}
+  doi       = {10.1109/TKDE.2024.3352100}
 }
- 
-% --- STACK OVERFLOW & LLM (CHI / ICSE) ---
- 
+
+@article{Zhu2026,
+  author    = {Zulun Zhu and Tiancheng Huang and Kai Wang and
+               Junda Ye and Xinghe Chen and Siqiang Luo},
+  title     = {Graph-Based Approaches and Functionalities in
+               Retrieval-Augmented Generation:
+               A Comprehensive Survey},
+  journal   = {ACM Computing Surveys},
+  year      = {2026},
+  doi       = {10.1145/3795880}
+}
+
+@article{YizhengHuang2026,
+  author    = {Yizheng Huang and Jimmy Xiangji Huang},
+  title     = {A Survey on Retrieval-Augmented Text Generation
+               for Large Language Models},
+  journal   = {ACM Computing Surveys},
+  volume    = {58},
+  number    = {12},
+  pages     = {300:1--300:38},
+  year      = {2026},
+  doi       = {10.1145/3805774}
+}
+
+% ============================================================
+% HALUSINASI LLM
+% ============================================================
+
+@article{Ji2023,
+  author    = {Ziwei Ji and Nayeon Lee and Rita Frieske and
+               Tiezheng Yu and Dan Su and Yan Xu and others},
+  title     = {Survey of Hallucination in Natural Language Generation},
+  journal   = {ACM Computing Surveys},
+  volume    = {55},
+  number    = {12},
+  pages     = {1--38},
+  year      = {2023},
+  doi       = {10.1145/3571730}
+}
+
+@article{Huang2025,
+  author    = {Lei Huang and Weijiang Yu and Weitao Ma and
+               Weihong Zhong and Zhangyin Feng and others},
+  title     = {A Survey on Hallucination in Large Language Models:
+               Principles, Taxonomy, Challenges, and Open Questions},
+  journal   = {ACM Transactions on Information Systems},
+  volume    = {43},
+  number    = {2},
+  pages     = {42:1--42:55},
+  year      = {2025},
+  doi       = {10.1145/3703155}
+}
+
+% ============================================================
+% STACK OVERFLOW & SOFTWARE ENGINEERING
+% ============================================================
+
 @inproceedings{Kabir2024,
-  author    = {Samia Kabir and David N. Udo-Imeh and Bonan Kou and
-               Tianyi Zhang},
-  title     = {Is Stack Overflow Obsolete? An Empirical Study of the
-               Characteristics of {ChatGPT} Answers to Stack Overflow
-               Questions},
-  booktitle = {Proceedings of the CHI Conference on Human Factors in
-               Computing Systems (CHI 2024)},
+  author    = {Samia Kabir and David N. Udo-Imeh and
+               Bonan Kou and Tianyi Zhang},
+  title     = {Is Stack Overflow Obsolete? An Empirical Study
+               of ChatGPT Answers to Stack Overflow Questions},
+  booktitle = {CHI Conference on Human Factors in Computing Systems},
   pages     = {1--17},
   year      = {2024},
-  doi       = {10.1145/3613904.3642596},
-  url       = {https://dl.acm.org/doi/10.1145/3613904.3642596}
+  doi       = {10.1145/3613904.3642596}
 }
- 
-@inproceedings{Nashid2023,
-  author    = {Noor Nashid and Mifta Sintaha and Ali Mesbah},
-  title     = {Retrieval-Based Prompt Selection for Code-Related Few-Shot
-               Learning},
-  booktitle = {Proceedings of the 45th International Conference on Software
-               Engineering (ICSE 2023)},
-  pages     = {2450--2462},
-  year      = {2023},
-  doi       = {10.1109/ICSE48619.2023.00205},
-  url       = {https://ieeexplore.ieee.org/document/10172590}
-}
- 
-% --- METODOLOGI PENELITIAN (JMIS) ---
- 
-@article{Peffers2007,
-  author    = {Ken Peffers and Tuure Tuunanen and Marcus A. Rothenberger and
-               Samir Chatterjee},
-  title     = {A Design Science Research Methodology for Information Systems
-               Research},
-  journal   = {Journal of Management Information Systems},
-  volume    = {24},
-  number    = {3},
-  pages     = {45--77},
-  year      = {2007},
-  doi       = {10.2753/MIS0742-1222240302},
-  url       = {https://doi.org/10.2753/MIS0742-1222240302}
-}
- 
-% =========================================================
-%  REFERENSI TAMBAHAN (dari dokumen yang diberikan pengguna)
-%  Semua terindeks Elsevier / ACM / IEEE — tidak ada arXiv
-% =========================================================
- 
+
 @article{DaSilva2025,
   author    = {Leuson Da Silva and Jordan Samhi and Foutse Khomh},
-  title     = {{LLMs} and Stack Overflow Discussions: Reliability, Impact,
-               and Challenges},
+  title     = {LLMs and Stack Overflow Discussions:
+               Reliability, Impact, and Challenges},
   journal   = {Journal of Systems and Software},
   volume    = {230},
-  pages     = {112291},
+  pages     = {112541},
   year      = {2025},
-  doi       = {10.1016/j.jss.2025.112291},
-  url       = {https://www.sciencedirect.com/science/article/pii/S0164121225001894},
-  publisher = {Elsevier}
+  publisher = {Elsevier},
+  doi       = {10.1016/j.jss.2025.112541}
 }
- 
-@article{Alomari2026,
-  author    = {Nawaf Alomari and Moussa Redah and Ahmad Ashraf and
-               Mohammad Alshayeb},
-  title     = {Using {LLMs} to Enhance Code Quality: A Systematic
-               Literature Review},
-  journal   = {Information and Software Technology},
-  volume    = {190},
-  pages     = {107960},
-  year      = {2026},
-  doi       = {10.1016/j.infsof.2025.107960},
-  url       = {https://www.sciencedirect.com/science/article/pii/S0950584925001090},
-  publisher = {Elsevier}
+
+@inproceedings{Nashid2023,
+  author    = {Noor Nashid and Mifta Sintaha and Ali Mesbah},
+  title     = {Retrieval-Based Prompt Selection for
+               Code-Related Few-Shot Learning},
+  booktitle = {International Conference on Software Engineering},
+  pages     = {2450--2462},
+  year      = {2023},
+  doi       = {10.1109/ICSE48619.2023.00205}
 }
- 
+
+% ============================================================
+% SURVEY LLM
+% ============================================================
+
+@article{Kumar2024,
+  author    = {Pranjal Kumar},
+  title     = {Large Language Models (LLMs):
+               Survey, Technical Frameworks,
+               and Future Challenges},
+  journal   = {Artificial Intelligence Review},
+  volume    = {57},
+  year      = {2024},
+  publisher = {Springer},
+  doi       = {10.1007/s10462-024-10888-y}
+}
+
+@article{Qin2025,
+  author    = {Libo Qin and Qiguang Chen and Xiachong Feng and
+               Yang Wu and Yongheng Zhang and others},
+  title     = {Large Language Models Meet NLP:
+               A Survey},
+  journal   = {Frontiers of Computer Science},
+  year      = {2025},
+  doi       = {10.1007/s11704-025-50472-3}
+}
+
 @article{Chang2026,
-  author    = {Zongyu Chang and Feihong Lu and Ziqin Zhu and Qian Li and
-               Cheng Ji and Tao Yang and Zhuo Chen and Hao Peng and
-               Yang Liu and Ruifeng Xu and Yangqiu Song and Jianxin Li and
-               Shangguang Wang},
-  title     = {A Survey of {LLM} Alignment: Instruction Understanding,
-               Intention Reasoning, and Reliable Dialogue Generation},
+  author    = {Zongyu Chang and Feihong Lu and Ziqin Zhu and
+               Qian Li and Cheng Ji and others},
+  title     = {A Survey of LLM Alignment:
+               Instruction Understanding,
+               Intention Reasoning,
+               and Reliable Dialogue Generation},
   journal   = {Neurocomputing},
   volume    = {687},
   pages     = {133629},
   year      = {2026},
-  doi       = {10.1016/j.neucom.2026.133629},
-  url       = {https://www.sciencedirect.com/science/article/pii/S0925231226002807},
-  publisher = {Elsevier}
+  doi       = {10.1016/j.neucom.2025.133629}
 }
- 
+
+% ============================================================
+% SOFTWARE ENGINEERING + LLM
+% ============================================================
+
+@article{Haque2025,
+  author    = {Md Asraful Haque},
+  title     = {LLMs: A Game-Changer for Software Engineers?},
+  journal   = {BenchCouncil Transactions on Benchmarks,
+               Standards and Evaluations},
+  volume    = {5},
+  number    = {1},
+  pages     = {100204},
+  year      = {2025},
+  doi       = {10.1016/j.tbench.2025.100204}
+}
+
+@article{Alomari2026,
+  author    = {Nawaf Alomari and Moussa Redah and
+               Ahmad Ashraf and Mohammad Alshayeb},
+  title     = {Using LLMs to Enhance Code Quality:
+               A Systematic Literature Review},
+  journal   = {Information and Software Technology},
+  volume    = {190},
+  pages     = {107960},
+  year      = {2026},
+  doi       = {10.1016/j.infsof.2025.107960}
+}
+
+@article{Ronanki2026,
+  author    = {Krishna Ronanki and
+               Beatriz Cabrero-Daniel and Tomas Herda and
+               Stefan Sitkovich and Jennifer Horkoff and
+               Christian Berger},
+  title     = {Recommendations for Efficient and Responsible
+               LLM Adoption within Industrial Software Development},
+  journal   = {Information and Software Technology},
+  volume    = {196},
+  pages     = {108171},
+  year      = {2026},
+  doi       = {10.1016/j.infsof.2026.108171}
+}
+
+@article{Gu2026,
+  author    = {Jiawei Gu and Xuhui Jiang and Zhichao Shi and others},
+  title     = {A Survey on LLM-as-a-Judge},
+  journal   = {The Innovation},
+  volume    = {7},
+  pages     = {101253},
+  year      = {2026},
+  doi       = {10.1016/j.xinn.2025.101253}
+}
+
 @article{DelaCruzCabello2025,
-  author    = {Miguel {De la Cruz Cabello} and Tiago Prince Sales and
-               Marcos R. Machado},
-  title     = {{AIOps} for Log Anomaly Detection in the Era of {LLMs}:
+  author    = {Miguel De la Cruz Cabello and
+               Tiago Prince Sales and Marcos R. Machado},
+  title     = {AIOps for Log Anomaly Detection in the Era of LLMs:
                A Systematic Literature Review},
   journal   = {Intelligent Systems with Applications},
   volume    = {28},
   pages     = {200608},
   year      = {2025},
-  doi       = {10.1016/j.iswa.2025.200608},
-  url       = {https://www.sciencedirect.com/science/article/pii/S2667305325000638},
-  publisher = {Elsevier}
-}
- 
-@article{Gu2026,
-  author    = {Jiawei Gu and Xuhui Jiang and Zhichao Shi and Hexiang Tan and
-               Xuehao Zhai and Chengjin Xu and Wei Li and Yinghan Shen and
-               Shengjie Ma and Honghao Liu and others},
-  title     = {A Survey on {LLM}-as-a-Judge},
-  journal   = {The Innovation},
-  volume    = {7},
-  pages     = {101253},
-  year      = {2026},
-  doi       = {10.1016/j.xinn.2025.101253},
-  url       = {https://www.cell.com/the-innovation/fulltext/S2666-6758(25)00017-1},
-  publisher = {Elsevier}
-}
- 
-@article{Haque2025,
-  author    = {Md Asraful Haque},
-  title     = {{LLMs}: A Game-Changer for Software Engineers?},
-  journal   = {BenchCouncil Transactions on Benchmarks, Standards and
-               Evaluations},
-  volume    = {5},
-  number    = {1},
-  pages     = {100204},
-  year      = {2025},
-  doi       = {10.1016/j.tbench.2025.100204},
-  url       = {https://www.sciencedirect.com/science/article/pii/S2772485925000043},
-  publisher = {KeAi}
-}
- 
-@article{Ronanki2026,
-  author    = {Krishna Ronanki and Beatriz Cabrero-Daniel and Tomas Herda and
-               Stefan Sitkovich and Jennifer Horkoff and Christian Berger},
-  title     = {Recommendations for Efficient and Responsible {LLM} Adoption
-               within Industrial Software Development},
-  journal   = {Information and Software Technology},
-  volume    = {196},
-  pages     = {108171},
-  year      = {2026},
-  doi       = {10.1016/j.infsof.2026.108171},
-  url       = {https://www.sciencedirect.com/science/article/pii/S0950584926000892},
-  publisher = {Elsevier}
-}
- 
-@article{Hendawi2025,
-  author    = {Samar Hendawi and Tarek Kanan and Mohammed Elbes and
-               Ala Mughaid and Shadi Alzu'bi},
-  title     = {Automated Prompt Engineering Pipelines: Fine-Tuning {LLMs}
-               for Enhanced Response Accuracy},
-  journal   = {Expert Systems with Applications},
-  volume    = {256},
-  pages     = {129689},
-  year      = {2025},
-  doi       = {10.1016/j.eswa.2025.129689},
-  url       = {https://www.sciencedirect.com/science/article/pii/S0957417425019997},
-  publisher = {Elsevier}
+  doi       = {10.1016/j.iswa.2025.200608}
 }
 
-@article{Kumar2024,
-   author = {Pranjal Kumar},
-   doi = {10.1007/s10462-024-10888-y},
-   issn = {15737462},
-   issue = {9},
-   journal = {Artificial Intelligence Review},
-   keywords = {Artificial intelligence,Generative language models,Large language models,Machine learning,Natural language processing,Neural networks},
-   month = {9},
-   publisher = {Springer Nature},
-   title = {Large language models (LLMs): survey, technical frameworks, and future challenges},
-   volume = {57},
+% ============================================================
+% METODOLOGI
+% ============================================================
+
+@article{Peffers2007,
+  author    = {Ken Peffers and Tuure Tuunanen and
+               Marcus A. Rothenberger and Samir Chatterjee},
+  title     = {A Design Science Research Methodology
+               for Information Systems Research},
+  journal   = {Journal of Management Information Systems},
+  volume    = {24},
+  number    = {3},
+  pages     = {45--77},
+  year      = {2007},
+  doi       = {10.2753/MIS0742-1222240302}
+}
+
+@article{Vizniuk2024,
+   abstract = {The breakthrough in developing large language models (LLMs) over the past few years has led to their widespread implementation in various areas of industry, business, and agriculture. The aim of this article is to critically analyse and generalise the known results and research directions on approaches to the development and utilisation of LLMs, with a particular focus on their functional characteristics when integrated into decision support systems (DSSs) for agricultural monitoring. The subject of the research is approaches to the development and integration of LLMs into DSSs for agrotechnical monitoring. The main scientific and applied results of the article are as follows: the world experience of using LLMs to improve agricultural processes has been analysed; a critical analysis of the functional characteristics of LLMs has been carried out, and the areas of application of their architectures have been identified; the necessity of focusing on retrieval-augmented generation (RAG) as an approach to solving one of the main limitations of LLMs, which is the limited knowledge base of training data, has been established; the characteristics and prospects of using LLMs for DSSs in agriculture have been analysed to highlight trustworthiness, explainability and bias reduction as priority areas of research; the potential socio-economic effect from the implementation of LLMs and RAG in the agricultural sector is substantiated.},
+   author = {Artem Vizniuk and Grygorii Diachenko and Ivan Laktionov and Agnieszka Siwocha and Min Xiao and Jacek Smoląg},
+   doi = {10.2478/jaiscr-2025-0007},
+   issn = {24496499},
+   issue = {2},
+   journal = {Journal of Artificial Intelligence and Soft Computing Research},
+   keywords = {agriculture,decision-making,large language models,retrieval-augmented generation},
+   month = {12},
+   pages = {115-146},
+   publisher = {Sciendo},
+   title = {A Comprehensive Survey of Retrieval-Augmented Large Language Models for Decision Making in Agriculture: Unsolved Problems and Research Opportunities},
+   volume = {15},
    year = {2024}
 }
-@article{Qin2025,
-   author = {Libo Qin and Qiguang Chen and Xiachong Feng and Yang Wu and Yongheng Zhang and Yinghui Li and Min Li and Wanxiang Che and Philip S. Yu},
-   doi = {10.1007/s11704-025-50472-3},
-   issn = {20952236},
-   month = {8},
-   title = {Large Language Models Meet NLP: A Survey},
-   url = {http://arxiv.org/abs/2405.12819},
-   year = {2025}
+
+@article{Kamalipour2026,
+  author    = {Amir Abbas Kamalipour and Shahrokh Asadi and
+               Mohammad Mahyar Amiri Chimeh},
+  title     = {From Vectors to Knowledge Graphs:
+               A Comprehensive Analysis of Modern
+               Retrieval-Augmented Generation Architectures},
+  journal   = {Computer Science Review},
+  volume    = {61},
+  pages     = {100925},
+  year      = {2026},
+  publisher = {Elsevier},
+  doi       = {10.1016/j.cosrev.2026.100925}
+}
+
+% ============================================================
+% GRAPH RAG
+% ============================================================
+
+@article{Wang2026GraphRAG,
+  author    = {Jing Wang and Zhiwei Xu and Siyuan Liu and
+               Ye Lu and Tao Li},
+  title     = {Towards Efficient Graph-RAG via Structure-Aware
+               Intermediate Representation:
+               Incremental Collaborative Exploration
+               on Knowledge Graph},
+  journal   = {Knowledge-Based Systems},
+  volume    = {342},
+  pages     = {115884},
+  year      = {2026},
+  publisher = {Elsevier},
+  doi       = {10.1016/j.knosys.2026.115884}
+}
+
+@article{Ali2026,
+  author    = {Zafar Ali and Yi Huang and Asad Khan and
+               Guilin Qi and Yuxin Zhang and
+               Junlan Feng and Chao Deng and
+               Pavlos Kefalas},
+  title     = {Pythia-RAG:
+               Retrieval-Augmented Generation over
+               a Unified Multimodal Knowledge Graph
+               for Enhanced Question Answering},
+  journal   = {Knowledge-Based Systems},
+  volume    = {335},
+  pages     = {115200},
+  year      = {2026},
+  publisher = {Elsevier},
+  doi       = {10.1016/j.knosys.2025.115200}
+}
+
+@article{BenKhalifa2026,
+  author    = {Ilyes Ben Khalifa and
+               Montassar Ben Messaoud and
+               Mohamed Wiem Mkaouer},
+  title     = {LARK:
+               License Analysis with Retrieval-Augmented
+               Generation and Knowledge Graphs},
+  journal   = {Information and Software Technology},
+  volume    = {197},
+  pages     = {108164},
+  year      = {2026},
+  publisher = {Elsevier},
+  doi       = {10.1016/j.infsof.2026.108164}
+}
+
+% ============================================================
+% KG CONSTRUCTION + KG-RAG
+% ============================================================
+
+@article{Li2026,
+  author    = {Ruihao Li and Chong Chen and Ying Liu and
+               Tao Wang and Haidong Shao and
+               Lianglun Cheng},
+  title     = {A Collaborative Approach Based on Large
+               Language Model and Knowledge Graphs
+               for Information Integration Towards
+               Smart Manufacturing},
+  journal   = {Engineering Applications of Artificial Intelligence},
+  volume    = {176},
+  pages     = {114785},
+  year      = {2026},
+  publisher = {Elsevier},
+  doi       = {10.1016/j.engappai.2026.114785}
+}
+
+@article{Zhou2026,
+  author    = {Xingwei Zhou and Shijiang Li and
+               Ying Liu and Wanran Yang and
+               Chengyue Xiong and Liang Hou},
+  title     = {LLM-Based Domain-Specific Knowledge Graph
+               Construction and Hybrid
+               Retrieval-Augmented Generation},
+  journal   = {Journal of Manufacturing Systems},
+  volume    = {86},
+  pages     = {1022--1038},
+  year      = {2026},
+  publisher = {Elsevier},
+  doi       = {10.1016/j.jmansys.2026.01.002}
+}
+
+@article{Tao2026,
+  author    = {Ye Tao and Yonghao Liu and
+               Xiugong Qin and Hui Li and
+               Xiaoni Wang},
+  title     = {Semantic Perception and Response Generation
+               for Home Scene Based on Knowledge Graphs
+               and Large Language Models},
+  journal   = {Neurocomputing},
+  volume    = {695},
+  pages     = {134003},
+  year      = {2026},
+  publisher = {Elsevier},
+  doi       = {10.1016/j.neucom.2026.134003}
+}
+
+@article{Hussien2025,
+  author    = {Mohamed Manzour Hussien and
+               Angie Nataly Melo and
+               Augusto Luis Ballardini and
+               Carlota Salinas Maldonado and
+               Rub{\'e}n Izquierdo and
+               Miguel {\'A}ngel Sotelo},
+  title     = {RAG-Based Explainable Prediction
+               of Road Users Behaviors for
+               Automated Driving Using
+               Knowledge Graphs and
+               Large Language Models},
+  journal   = {Expert Systems with Applications},
+  volume    = {265},
+  pages     = {125914},
+  year      = {2025},
+  publisher = {Elsevier},
+  doi       = {10.1016/j.eswa.2024.125914}
+}
+
+@article{Awotunde2026,
+  author    = {Ifeoluwa Awotunde and
+               Dharmendra Reddy Chitte and
+               Yongwei Shan and
+               Weihua Sheng and
+               Hossein Khaleghian},
+  title     = {Domain-Specific SQL Generation with LLMs:
+               A Hybrid Framework Combining
+               Knowledge Graphs and
+               Retrieval-Augmentation},
+  journal   = {Advanced Engineering Informatics},
+  volume    = {73},
+  pages     = {104560},
+  year      = {2026},
+  publisher = {Elsevier},
+  doi       = {10.1016/j.aei.2026.104560}
+}
+
+@article{Cong2026,
+  author    = {Yangfan Cong and
+               Suihuai Yu and
+               Jianjie Chu and
+               Pavan Tejaswi Velivela and
+               Pengchao Wang and
+               Yaoyao Fiona Zhao and
+               Stephen Jia Wang},
+  title     = {A Retrieval-Augmented Method
+               for Explainable Product Ideation:
+               Unifying Conceptual Design
+               Knowledge Graph and
+               Large Language Models},
+  journal   = {Advanced Engineering Informatics},
+  volume    = {74},
+  pages     = {104770},
+  year      = {2026},
+  publisher = {Elsevier},
+  doi       = {10.1016/j.aei.2026.104770}
 }
