@@ -8,27 +8,7 @@
 \contentsline {chapter}{ABSTRAK}{ix}{chapter*.6}%
 \contentsline {chapter}{KATA PENGANTAR}{xi}{chapter*.7}%
 \contentsline {chapter}{DAFTAR ISI}{xiii}{section*.8}%
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
 \contentsline {chapter}{DAFTAR GAMBAR}{xv}{section*.9}%
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
 \contentsline {chapter}{DAFTAR TABEL}{xvii}{section*.10}%
 \contentsline {chapter}{DAFTAR SINGKATAN}{xix}{section*.10}%
 \setlength {\cftbeforechapskip }{10pt}
@@ -351,8 +331,8 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {section}{\numberline {II.6}\emph {Graph-based Retrieval-Augmented Generation}}{27}{section.2.6}%
-\contentsline {subsection}{\numberline {II.6.1}Motivasi dan Definisi}{27}{subsection.2.6.1}%
+\contentsline {section}{\numberline {II.6}\emph {Graph-based Retrieval-Augmented Generation}}{28}{section.2.6}%
+\contentsline {subsection}{\numberline {II.6.1}Motivasi dan Definisi}{28}{subsection.2.6.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -432,7 +412,7 @@
 \babel@toc {indonesian}{}\relax 
 \contentsline {subsection}{\numberline {II.8.2}Metrik Evaluasi Halusinasi}{33}{subsection.2.8.2}%
 \contentsline {subsubsection}{\numberline {II.8.2.1}Akurasi Faktual (\emph {Factual Accuracy}).}{33}{subsubsection.2.8.2.1}%
-\contentsline {subsubsection}{\numberline {II.8.2.2}Tingkat Halusinasi (\emph {Hallucination Rate}).}{33}{subsubsection.2.8.2.2}%
+\contentsline {subsubsection}{\numberline {II.8.2.2}Tingkat Halusinasi (\emph {Hallucination Rate}).}{34}{subsubsection.2.8.2.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -504,7 +484,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsection}{\numberline {II.9.3}Kerangka Konseptual Penelitian}{35}{subsection.2.9.3}%
+\contentsline {subsection}{\numberline {II.9.3}Kerangka Konseptual Penelitian}{36}{subsection.2.9.3}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
