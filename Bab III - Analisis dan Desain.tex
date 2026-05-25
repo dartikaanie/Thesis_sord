@@ -1,40 +1,487 @@
-
+%============================================================
+% BAB 3 — ANALISIS DAN DESAIN
+%============================================================
 \cleardoublepage
-\chapter{ANALISIS DAN DESAIN}
+\chapter{Analisis dan Desain}
 \label{chap:analisis-desain}
-\begin{figure}[h] % pilihan opsi yang disarankan: t = top, b = bottom, h = here
-  \caption{Contoh peletakan gambar di bagian atas halaman} 
-	\label{fig:gambar1a}
-    	\includegraphics[width=0.7\textwidth]{images/gambar1a.png}
-\end{figure}
 
-Gambar~\ref{fig:gambar1a} menunjukkan diagram alir sistem.
+Bab ini membahas analisis kondisi sistem saat ini, identifikasi masalah pengguna, analisis kebutuhan, serta rancangan solusi yang diusulkan. Secara garis besar, bab ini membahas:
 
-Bab ini membahas analisis masalah yang ada pada sistem saat ini, analisis kebutuhan yang diperlukan
-untuk menyelesaikan masalah tersebut, serta analisis pemilihan solusi yang diusulkan. Secara garis besar,
-bab ini membahas hal-hal berikut:
 \begin{enumerate}[1.]
-    \item Deskripsi hasil analisis dari persoalan yang sedang ditangani dalam TA;
-    \item Penjelasan tentang solusi yang ditawarkan (dapat berupa algoritma, konsep desain, formula, atau gabungannya) 
-    pada level konsep dan detail yang cukup untuk merealisasikan solusinya; dan
-    \item Penjelasan tentang pendekatan yang dipilih dalam menyelesaikan persoalan TA.
+    \item Deskripsi hasil analisis persoalan utama, yaitu tingginya tingkat halusinasi
+    (\textit{hallucination}) LLM—khususnya ChatGPT dan LLaMA—ketika menjawab
+    pertanyaan teknis di domain \textit{software engineering}, sebagaimana dibuktikan
+    secara empiris oleh \textcite{dasilva2025} menggunakan data Stack Overflow;
+    \item Penjelasan solusi yang ditawarkan, yaitu \textit{GraphRAG Framework} berbasis
+    pengetahuan komunitas Stack Overflow yang dikonstruksi dari dataset SORD, mencakup
+    pembangunan \textit{Knowledge Graph} (KG), deteksi komunitas, serta mekanisme
+    \textit{local} dan \textit{global search}; dan
+    \item Justifikasi pemilihan GraphRAG dibandingkan alternatif lain (Vanilla RAG,
+    Hybrid RAG) berdasarkan analisis komparatif terhadap kebutuhan yang diidentifikasi.
 \end{enumerate}
-Subbab-subbab dalam bab ini dapat disesuaikan dengan kebutuhan topik TA yang dibahas. Berikut adalah contoh pembagian subbab
-yang dapat digunakan sebagai referensi (judul subbab dapat diubah sesuai dengan hal yang hendak dibahas dalam subbab tersebut).
 
+
+%------------------------------------------------------------
 \section{Analisis Kondisi Saat Ini}
-Menurut \textcite{laudon2020}, gambarkan terlebih dahulu model konseptual sistem yang ada saat ini. Model konseptual ini berisi berbagai komponen atau subsitem dan interaksi antarsubsistem tersebut. Setelah itu, berikan penjelasan tentang masalah yang ada pada sistem tersebut. Paragraf berikut berisi contoh penjabaran masalah sistem informasi fasilitas kesehatan untuk pasien \autocite{pressman2019}. 
-\section{Analisis Kebutuhan}
-\lipsum[4]
-\subsection{Identifikasi Masalah Pengguna}
-\lipsum[5]
-\subsection{Kebutuhan Fungsional}
-\lipsum[6]
-\subsection{Kebutuhan Nonfungsional}
-\lipsum[7]
+\label{sec:kondisi-saat-ini}
+%------------------------------------------------------------
 
+\subsection{Model Konseptual Sistem Saat Ini}
+
+Sistem tanya-jawab teknis berbasis LLM yang berlaku saat ini beroperasi dengan mengandalkan
+sepenuhnya \textit{parametric knowledge}—pengetahuan yang tertanam dalam bobot model selama
+proses pra-pelatihan. Pengguna mengajukan pertanyaan teknis, dan LLM menghasilkan jawaban
+berdasarkan pola statistik dari data latih tanpa mekanisme verifikasi eksternal.
+
+%------ Gambar 3.1: Model Konseptual Sistem Saat Ini ------
+
+% \caption{Model konseptual sistem tanya-jawab LLM generik saat ini (tanpa augmentasi pengetahuan).}
+% \label{fig:sistem-saat-ini}
+% \end{figure}
+
+\subsection{Temuan Empiris: Halusinasi LLM pada Pertanyaan Stack Overflow}
+
+Studi empiris oleh \textcite{dasilva2025} memberikan bukti kuantitatif tentang keterbatasan LLM
+ketika menjawab pertanyaan komunitas Stack Overflow. Penelitian tersebut menganalisis ChatGPT-3.5
+dan LLaMA-2-7b menggunakan pertanyaan dari Stack Overflow yang mencakup berbagai domain, seperti
+\textit{Programming Languages}, \textit{Frameworks and Libraries}, \textit{Web Development}, dan lain-lain.
+Temuan utama penelitian tersebut dirangkum sebagai berikut:
+
+\begin{enumerate}
+    \item \textbf{Kesenjangan pada Domain Frameworks dan Libraries.}
+    LLM menunjukkan performa paling lemah pada domain \textit{Frameworks and Libraries}.
+    Pertanyaan mengenai \textit{library} atau \textit{framework} yang rilis setelah \textit{knowledge
+    cutoff} model menghasilkan jawaban yang salah atau usang---contohnya
+    pengguna Stack Overflow melaporkan bahwa \textit{``ChatGPT only knows data up to late 2021.
+    All the current libraries have changed''}. Ini adalah bentuk halusinasi berbasis
+    \textit{knowledge staleness}.
+
+    \item \textbf{Ketidakcocokan Semantik Jawaban.}
+    Meskipun ChatGPT-3.5 secara keseluruhan menunjukkan kemiripan teks yang tinggi
+    (${\sim}85\%$ pertanyaan dengan cosine similarity $> 0{,}5$), terdapat subhimpunan pertanyaan
+    dengan \textit{low similarity} yang ketika dianalisis secara manual mengungkapkan
+    jawaban yang secara semantik tidak tepat atau tidak relevan dengan konteks teknis spesifik.
+
+    \item \textbf{Tidak Ada Keterlacakan Sumber.}
+    Jawaban yang dihasilkan LLM tidak dapat dilacak ke diskusi komunitas, kode contoh, atau
+    solusi terverifikasi di Stack Overflow. Hal ini menyulitkan pengguna untuk memverifikasi
+    kebenaran jawaban secara independen.
+
+    \item \textbf{Penurunan Aktivitas Stack Overflow Pasca-LLM.}
+    Terjadi penurunan signifikan dalam aktivitas posting di Stack Overflow setelah rilis
+    ChatGPT (pertanyaan, jawaban, dan komentar). Namun, pengguna yang pertanyaannya tidak
+    terjawab dengan baik oleh LLM tetap kembali ke Stack Overflow---menunjukkan bahwa LLM
+    belum sepenuhnya menggantikan pengetahuan komunitas manusia.
+\end{enumerate}
+
+Tabel~\ref{tab:temuan-baseline} merangkum hasil kuantitatif dari \textcite{dasilva2025} yang
+akan menjadi \textit{baseline} perbandingan dalam penelitian ini.
+
+\begin{table}[h!]
+\centering
+\caption{Ringkasan hasil empiris Da Silva et al. (2025) sebagai baseline penelitian.}
+\label{tab:temuan-baseline}
+\begin{tabularx}{\textwidth}{|l|X|X|}
+\hline
+\textbf{Aspek Evaluasi} & \textbf{ChatGPT-3.5} & \textbf{LLaMA-2-7b} \\
+\hline
+Pertanyaan dengan cosine similarity $> 0{,}5$ & ${\sim}85\%$ & Lebih rendah dari ChatGPT \\
+\hline
+Domain paling menantang & Frameworks \& Libraries & Frameworks \& Libraries \\
+\hline
+Penyebab kegagalan utama & \textit{Knowledge staleness}, terminologi tidak dikenal & Data \textit{training} lebih terbatas \\
+\hline
+Keterlacakan sumber & Tidak ada & Tidak ada \\
+\hline
+Sentiment respons & Lebih netral & Lebih positif (berlebihan) \\
+\hline
+\end{tabularx}
+\end{table}
+
+\subsection{Identifikasi Masalah Sistem Saat Ini}
+
+Berdasarkan kajian empiris \textcite{dasilva2025} dan tinjauan literatur, empat masalah utama
+diidentifikasi pada sistem LLM generik saat ini:
+
+%------ Gambar 3.2: Peta Masalah ------
+% \caption{Peta masalah sistem LLM generik saat ini berdasarkan temuan Da Silva et al. (2025).}
+% \label{fig:peta-masalah}
+% \end{figure}
+
+
+%------------------------------------------------------------
+\section{Analisis Kebutuhan}
+\label{sec:analisis-kebutuhan}
+%------------------------------------------------------------
+
+\subsection{Identifikasi Masalah Pengguna}
+\label{subsec:identifikasi-masalah}
+
+Pengguna utama sistem adalah \textit{software developer} dan \textit{software engineer} yang
+menggunakan LLM untuk mendapatkan jawaban atas pertanyaan teknis yang biasanya diajukan ke
+Stack Overflow. Tabel~\ref{tab:masalah-pengguna} memetakan masalah pengguna, akar penyebab,
+dan kebutuhan solusi berdasarkan analisis kondisi saat ini.
+
+\begin{table}[h!]
+\centering
+\caption{Identifikasi masalah pengguna dan kebutuhan solusi.}
+\label{tab:masalah-pengguna}
+\begin{tabularx}{\textwidth}{|c|X|X|X|}
+\hline
+\textbf{No.} & \textbf{Masalah Pengguna} & \textbf{Akar Penyebab} & \textbf{Kebutuhan Solusi} \\
+\hline
+1 & LLM memberikan jawaban teknis yang keliru atau halusinasi & \textit{Parametric knowledge} tidak mencakup terminologi/konteks spesifik & Grounding jawaban pada pengetahuan komunitas SO terverifikasi \\
+\hline
+2 & Jawaban tidak mencakup framework/library terbaru & \textit{Knowledge cutoff} model & Injeksi pengetahuan dari SORD secara dinamis tanpa \textit{re-training} \\
+\hline
+3 & Tidak dapat menelusuri sumber jawaban & Tidak ada mekanisme \textit{citation} & Setiap jawaban disertai referensi ke SO thread/answer \\
+\hline
+4 & Pertanyaan relasional kompleks tidak terjawab dengan baik & LLM tidak mampu penalaran multi-hop & Traversal KG untuk menghubungkan entitas terkait \\
+\hline
+5 & Konteks domain-level tidak tersedia & LLM menjawab per-pertanyaan tanpa konteks komunitas & Community summaries dari kluster topik SO \\
+\hline
+\end{tabularx}
+\end{table}
+
+\subsection{Kebutuhan Fungsional}
+\label{subsec:kebutuhan-fungsional}
+
+\begin{enumerate}[label=\textbf{F\arabic*.}]
+    \item \textbf{Konstruksi Knowledge Graph dari SORD.}
+    Sistem harus dapat memproses dataset SORD (pertanyaan, jawaban diterima, komentar, tag)
+    dan mengekstrak triple (subjek, predikat, objek) secara otomatis untuk membangun KG
+    domain \textit{software engineering}. Entitas mencakup: teknologi, bahasa pemrograman,
+    \textit{framework}, \textit{library}, konsep, dan tipe \textit{error}. Relasi mencakup:
+    \texttt{hasAcceptedAnswer}, \texttt{taggedWith}, \texttt{isRelatedTo},
+    \texttt{mentionsError}, \texttt{recommends}.
+
+    \item \textbf{Deteksi Komunitas dan Pembangkitan Ringkasan Komunitas.}
+    Sistem harus menerapkan algoritma deteksi komunitas (Leiden/Louvain) pada KG untuk
+    mengelompokkan node ke dalam kluster topik (\textit{community}), lalu menghasilkan
+    ringkasan (\textit{community summary}) berbasis LLM untuk setiap kluster.
+
+    \item \textbf{\textit{Local Search} — Traversal Subgraf.}
+    Untuk kueri spesifik, sistem harus mampu memetakan entitas kueri ke node KG dan
+    melakukan traversal $k$-hop untuk mengambil subgraf relevan beserta jawaban
+    diterima yang terkait.
+
+    \item \textbf{\textit{Global Search} — Pencarian Berbasis Ringkasan Komunitas.}
+    Untuk kueri tingkat domain, sistem harus mengambil ringkasan komunitas yang paling
+    relevan untuk memberikan konteks global.
+
+    \item \textbf{Pembangkitan Jawaban Teraugmentasi (\textit{Grounded Generation}).}
+    Sistem harus membangkitkan jawaban menggunakan LLM yang hanya menggunakan konteks
+    dari hasil retrieval (subgraf + ringkasan komunitas), disertai kutipan ke SO thread.
+
+    \item \textbf{Pengindeksan Vektor sebagai \textit{Fallback}.}
+    Sistem harus mengindeks chunk teks dari SORD ke \textit{vector store} sebagai
+    jalur \textit{fallback} ketika pencarian berbasis KG tidak menghasilkan
+    subgraf yang memadai.
+
+    \item \textbf{Evaluasi Komparatif.}
+    Sistem harus menyediakan \textit{pipeline} evaluasi yang dapat membandingkan
+    empat kondisi secara \textit{apple-to-apple}: (①) LLM-only (baseline), (②) Vanilla RAG,
+    (③) Hybrid RAG, (④) GraphRAG (penelitian ini), menggunakan dataset evaluasi yang sama.
+\end{enumerate}
+
+\subsection{Kebutuhan Nonfungsional}
+\label{subsec:kebutuhan-nonfungsional}
+
+\begin{table}[h!]
+\centering
+\caption{Kebutuhan nonfungsional sistem GraphRAG.}
+\label{tab:kebutuhan-nonfungsional}
+\begin{tabularx}{\textwidth}{|c|l|X|X|}
+\hline
+\textbf{No.} & \textbf{Kategori} & \textbf{Deskripsi Kebutuhan} & \textbf{Kriteria Sukses} \\
+\hline
+1 & Akurasi & Jawaban lebih faktual dibanding baseline & \textit{Hallucination rate} lebih rendah dari Da Silva et al. (2025) \\
+\hline
+2 & Keterlacakan & Setiap jawaban memiliki sumber SO & $100\%$ jawaban dengan $\geq 1$ \textit{citation} \\
+\hline
+3 & Latensi & Waktu respons wajar untuk mode interaktif & $\leq 10$ detik per kueri (lokal) \\
+\hline
+4 & Skalabilitas & Mendukung KG dari subset SORD besar & KG dengan $> 50{.}000$ node tanpa \textit{crash} \\
+\hline
+5 & Reprodusibilitas & Hasil evaluasi dapat direproduksi & Dataset evaluasi dipublikasikan, kode daring \\
+\hline
+6 & Modularitas & Komponen (KG, vektor, LLM) dapat diganti & Antarmuka berbasis konfigurasi YAML \\
+\hline
+\end{tabularx}
+\end{table}
+
+
+%------------------------------------------------------------
 \section{Analisis Pemilihan Solusi}
+\label{sec:analisis-solusi}
+%------------------------------------------------------------
+
 \subsection{Alternatif Solusi}
-\lipsum[8]
+\label{subsec:alternatif-solusi}
+
+Berdasarkan masalah dan kebutuhan yang telah diidentifikasi, tiga alternatif solusi
+dipertimbangkan—yang sekaligus akan menjadi pembanding dalam evaluasi.
+
+\paragraph{Alternatif 1 — LLM-Only (\textit{Baseline Da Silva et al., 2025}).}
+Pendekatan ini tidak menambahkan mekanisme retrieval apa pun. LLM menjawab langsung
+dari \textit{parametric knowledge}. Ini adalah kondisi yang sudah dievaluasi oleh
+\textcite{dasilva2025} menggunakan ChatGPT-3.5 dan LLaMA-2-7b, dan akan dijadikan titik
+acuan pengukuran \textit{improvement} penelitian ini.
+\textit{Kelemahan:} Halusinasi tinggi, tidak ada \textit{attribution}, gagal pada
+domain Frameworks \& Libraries.
+
+\paragraph{Alternatif 2 — Vanilla RAG.}
+Dokumen dari SORD diindeks ke \textit{vector store} (misalnya FAISS). Pada waktu inferensi,
+potongan teks paling mirip secara semantik diambil dan dimasukkan ke dalam \textit{prompt} LLM.
+\textit{Kelemahan:} Tidak menangkap relasi antar-entitas; tidak mendukung penalaran multi-hop;
+rentan terhadap \textit{knowledge noise} dari chunk yang kurang relevan; tidak ada
+\textit{community context}.
+
+\paragraph{Alternatif 3 — Hybrid RAG (KG + Vektor, tanpa Community Detection).}
+Menggabungkan traversal KG dan pencarian vektor, tetapi tidak menerapkan deteksi komunitas.
+Tidak ada ringkasan komunitas dan pencarian global (\textit{global search}).
+\textit{Kelemahan:} Tidak dapat menjawab kueri tingkat domain yang membutuhkan konteks
+lintas-pertanyaan; tidak ada \textit{community report} untuk agregasi pengetahuan.
+
+\paragraph{Alternatif 4 — GraphRAG Berbasis SORD (Solusi Diusulkan).}
+Pendekatan ini mengimplementasikan GraphRAG penuh: konstruksi KG dari SORD, deteksi komunitas
+dengan algoritma Leiden, pembangkitan \textit{community summaries}, dan pencarian dua jalur
+(\textit{local search} berbasis subgraf dan \textit{global search} berbasis ringkasan komunitas).
+
 \subsection{Analisis Penentuan Solusi}
-\lipsum[9]
+\label{subsec:penentuan-solusi}
+
+Tabel~\ref{tab:komparasi-solusi} menyajikan matriks komparasi keempat alternatif terhadap
+kebutuhan yang telah diidentifikasi. Perbedaan ini juga sekaligus mendefinisikan posisi
+penelitian terhadap studi-studi sebelumnya.
+
+\begin{table}[h!]
+\centering
+\caption{Matriks komparasi alternatif solusi — posisi penelitian ini terhadap baseline dan pembanding.}
+\label{tab:komparasi-solusi}
+\begin{tabularx}{\textwidth}{|X|c|c|c|c|}
+\hline
+\textbf{Kriteria} & \textbf{Alt-1}\newline LLM-Only & \textbf{Alt-2}\newline Vanilla RAG & \textbf{Alt-3}\newline Hybrid RAG & \textbf{Alt-4}\newline \textbf{GraphRAG} \\
+\hline
+Mengurangi halusinasi & ✗ & Sebagian & Baik & \textbf{Sangat Baik} \\
+\hline
+Attribution ke SO thread & ✗ & Sebagian & Ya & \textbf{Ya (eksplisit)} \\
+\hline
+Penalaran multi-hop & ✗ & ✗ & Ya & \textbf{Ya} \\
+\hline
+Konteks komunitas (global) & ✗ & ✗ & ✗ & \textbf{Ya (summaries)} \\
+\hline
+Pembaruan tanpa \textit{re-training} & ✗ & Ya & Ya & \textbf{Ya} \\
+\hline
+Akurasi domain Framework/Lib & Lemah & Sedang & Baik & \textbf{Terbaik} \\
+\hline
+Biaya komputasi & Rendah & Rendah & Sedang & \textbf{Sedang-Tinggi} \\
+\hline
+\textbf{Kesesuaian dengan kebutuhan} & \textbf{Rendah} & \textbf{Sedang} & \textbf{Baik} & \textbf{Terbaik} \\
+\hline
+\end{tabularx}
+\end{table}
+
+Berdasarkan analisis tersebut, \textbf{Alternatif 4 (GraphRAG berbasis SORD)} dipilih sebagai
+solusi yang paling sesuai. Pendekatan ini secara langsung mengatasi seluruh masalah yang
+diidentifikasi, khususnya halusinasi pada domain Frameworks \& Libraries yang menjadi
+kelemahan utama dalam studi \textcite{dasilva2025}. Keempat alternatif ini juga sekaligus
+membentuk \textit{framework} evaluasi komparatif yang akan mengukur sejauh mana
+\textit{improvement} GraphRAG terhadap setiap kondisi.
+
+
+%------------------------------------------------------------
+\section{Desain GraphRAG Framework Berbasis SORD}
+\label{sec:desain-graphrag}
+%------------------------------------------------------------
+
+\subsection{Gambaran Umum Arsitektur}
+\label{subsec:arsitektur-umum}
+
+Arsitektur sistem GraphRAG yang diusulkan terdiri atas empat lapisan utama:
+(1) lapisan sumber data (SORD), (2) lapisan pengindeksan (KG Construction dan Vector Indexing),
+(3) lapisan \textit{retrieval} (Local Search dan Global Search), dan (4) lapisan generasi
+(Context Fusion dan LLM Generator). Gambaran lengkap arsitektur disajikan pada
+Gambar~\ref{fig:arsitektur-graphrag} (lihat juga file \texttt{diagram1\_arsitektur\_sistem.html}
+untuk versi interaktif).
+
+%------ Gambar 3.3: Arsitektur (simplified TikZ) ------
+% \caption{Arsitektur GraphRAG Framework berbasis SORD yang diusulkan.
+% Lihat Gambar~A.1 (Lampiran) untuk versi lebih rinci.}
+% \label{fig:arsitektur-graphrag}
+% \end{figure}
+
+\subsection{Desain Knowledge Graph SORD}
+\label{subsec:desain-kg}
+
+KG SORD dibangun dari komponen dataset sebagai berikut. \textbf{Node types}: (1)
+\texttt{Question} (Q-node), (2) \texttt{Answer} (A-node, khusus jawaban diterima dan
+berbobot tinggi), (3) \texttt{Tag} (T-node, merepresentasikan teknologi/domain), (4)
+\texttt{Community} (C-node, hasil deteksi komunitas). \textbf{Edge types}:
+\texttt{hasAcceptedAnswer}, \texttt{taggedWith}, \texttt{isRelatedTo} (dari data SORD
+recommendations), \texttt{mentionsError}, \texttt{belongsToCommunity}.
+
+Setiap node pertanyaan dan jawaban dilengkapi dengan atribut: \texttt{score}, \texttt{viewCount},
+\texttt{creationDate}, dan embedding vektor untuk mendukung pencarian hibrid.
+
+Gambar~\ref{fig:kg-sord} mengilustrasikan contoh subgraf KG SORD pada domain Python
+(lihat juga file \texttt{diagram5\_sord\_knowledge\_graph.svg} untuk visualisasi lengkap).
+
+\paragraph{Konstruksi KG.} Pipeline konstruksi KG SORD berjalan dalam enam tahap
+(lihat Gambar~\ref{fig:flowchart-kg-sord} dan file \texttt{diagram2\_flowchart\_kg\_construction.html}):
+(1) \textit{Load} dataset SORD dari sumber asli \parencite{dasilva2025} maupun
+\texttt{zenodo.15086541};
+(2) preprocessing teks (pembersihan HTML, normalisasi, deduplication);
+(3) ekstraksi entitas dan relasi menggunakan LLM (GPT-4);
+(4) pembentukan triple (S, P, O);
+(5) validasi, deduplikasi, dan penyimpanan ke Graph Database (Neo4j/NetworkX); dan
+(6) deteksi komunitas menggunakan algoritma Leiden.
+
+%------ Gambar 3.4: Flowchart KG Construction (ringkas) ------
+\subsection{Desain Mekanisme Retrieval: Local dan Global Search}
+\label{subsec:desain-retrieval}
+
+Seperti pada arsitektur GraphRAG orisinal \parencite{edge2024graphrag}, sistem menggunakan
+dua jalur retrieval yang dipilih berdasarkan tipe kueri:
+
+\textbf{Local Search} digunakan untuk kueri yang mengandung entitas spesifik (nama fungsi,
+nama library, tipe error). Sistem: (i) mengekstrak entitas dari kueri menggunakan NER,
+(ii) memetakan entitas ke node KG melalui entity linking, (iii) melakukan traversal $k$-hop
+(default $k=2$) pada KG untuk mengumpulkan subgraf tetangga, dan (iv) mengambil
+jawaban-diterima yang terhubung ke node yang ditemukan.
+
+\textbf{Global Search} digunakan untuk kueri tingkat konsep atau domain (misalnya
+``apa praktik terbaik concurrency di Python?''). Sistem mengambil ringkasan komunitas
+(\textit{community reports}) yang paling relevan berdasarkan kemiripan semantik antara
+embedding kueri dan embedding ringkasan komunitas.
+
+Alur lengkap pemrosesan kueri dari perspektif pengguna disajikan pada
+Gambar~\ref{fig:flowchart-query} (lihat juga file \texttt{diagram3\_flowchart\_query.html}).
+
+\subsection{Desain Evaluasi Komparatif}
+\label{subsec:desain-evaluasi}
+
+Untuk mengukur \textit{improvement} GraphRAG terhadap setiap kondisi pembanding, dirancang
+protokol evaluasi \textit{apple-to-apple} sebagai berikut:
+
+\begin{enumerate}
+    \item \textbf{Dataset Evaluasi.}
+    Subset pertanyaan dari dataset \textcite{dasilva2025} ({\tt chat-stack}/{\tt zenodo.15086541})
+    digunakan sebagai \textit{test set}. Jawaban diterima Stack Overflow dijadikan
+    \textit{ground truth}. Ini memastikan perbandingan langsung dengan hasil yang
+    dilaporkan pada baseline.
+
+    \item \textbf{Model LLM yang Sama.}
+    Keempat kondisi menggunakan model LLM yang sama (GPT-4o) untuk mengeliminasi
+    faktor perbedaan model sebagai variabel perancu. Perbedaan hanya terletak pada
+    mekanisme retrieval yang digunakan.
+
+    \item \textbf{Metrik Evaluasi.}
+    \begin{itemize}
+        \item \textbf{ROUGE-1/2/L}: kemiripan teks dengan jawaban \textit{ground truth} (kompatibel dengan metrik \textcite{dasilva2025})
+        \item \textbf{BERTScore}: kemiripan semantik menggunakan embedding kontekstual
+        \item \textbf{Cosine Similarity}: kemiripan vektor jawaban-\textit{ground truth} (metrik utama baseline)
+        \item \textbf{Hallucination Rate}: persentase jawaban yang mengandung klaim tidak terdukung (dinilai oleh LLM-as-Judge)
+        \item \textbf{Attribution Coverage}: persentase jawaban yang mencantumkan SO thread sebagai sumber
+        \item \textbf{LLM-as-Judge Score}: penilaian kualitas holistik (comprehensiveness, diversity, empowerment, directness) mengikuti metodologi GraphRAG \parencite{edge2024graphrag}
+    \end{itemize}
+\end{enumerate}
+
+Gambar~\ref{fig:comparison-framework} (lihat file \texttt{diagram4\_comparison\_framework.html})
+mengilustrasikan posisi penelitian ini terhadap setiap kondisi pembanding dan
+metrik yang digunakan untuk mengukur \textit{improvement}.
+
+
+%------------------------------------------------------------
+\section{Ringkasan Desain}
+\label{sec:ringkasan-desain}
+%------------------------------------------------------------
+
+Tabel~\ref{tab:ringkasan-komponen} merangkum seluruh komponen GraphRAG Framework yang
+dirancang beserta teknologi yang dipertimbangkan untuk implementasi.
+
+\begin{table}[h!]
+\centering
+\caption{Ringkasan komponen sistem dan teknologi implementasi.}
+\label{tab:ringkasan-komponen}
+\begin{tabularx}{\textwidth}{|c|l|X|X|}
+\hline
+\textbf{No.} & \textbf{Komponen} & \textbf{Fungsi} & \textbf{Teknologi} \\
+\hline
+1 & Data Loader & Load \& parse dataset SORD & Python \texttt{pandas}/JSON parser \\
+\hline
+2 & Preprocessor & Cleaning, deduplication, tokenization & NLTK / spaCy \\
+\hline
+3 & KG Builder & Ekstraksi SPO triple dari teks & GPT-4 API + LangChain \\
+\hline
+4 & Graph Database & Penyimpanan dan traversal KG & Neo4j / NetworkX + JSON \\
+\hline
+5 & Community Detector & Deteksi kluster domain SO & python-igraph (Leiden) \\
+\hline
+6 & Community Summarizer & Pembangkitan ringkasan per komunitas & GPT-4o \\
+\hline
+7 & Embedding Model & Encoding teks untuk pencarian vektor & \texttt{text-embedding-3-small} \\
+\hline
+8 & Vector Store & Indeks dan pencarian top-$k$ & FAISS / ChromaDB \\
+\hline
+9 & Retrieval Engine & Local + Global Search + fallback vektor & Microsoft GraphRAG SDK / custom \\
+\hline
+10 & LLM Generator & Pembangkitan jawaban \textit{grounded} & GPT-4o (API OpenAI) \\
+\hline
+11 & Evaluator & Komputasi metrik evaluasi & ROUGE, BERTScore, DeepEval \\
+\hline
+\end{tabularx}
+\end{table}
+
+Desain ini mengakomodasi seluruh kebutuhan fungsional (F1--F7) dan nonfungsional yang
+telah diidentifikasi. Implementasi sistem akan dibahas pada Bab~\ref{chap:implementasi}
+dan hasil evaluasi komparatif pada Bab~\ref{chap:evaluasi}.
+
+
+%============================================================
+% DAFTAR ENTRI BIBTEX (tambahkan ke file .bib Anda)
+%
+% @article{dasilva2025,
+%   author  = {Da Silva, Leuson and Samhi, Jordan and Khomh, Foutse},
+%   title   = {{LLMs and Stack Overflow discussions: Reliability,
+%               impact, and challenges}},
+%   journal = {Journal of Systems and Software},
+%   volume  = {230},
+%   pages   = {112541},
+%   year    = {2025},
+%   doi     = {10.1016/j.jss.2025.112541}
+% }
+%
+% @inproceedings{edge2024graphrag,
+%   author    = {Edge, Darren and Trinh, Ha and Cheng, Newman and
+%                Bradley, Joshua and Chao, Alex and Mody, Apurva and
+%                Truitt, Steven and Larson, Jonathan},
+%   title     = {{From Local to Global: A Graph RAG Approach to
+%                Query-Focused Summarization}},
+%   booktitle = {arXiv preprint arXiv:2404.16130},
+%   year      = {2024}
+% }
+%
+% @misc{sord2025,
+%   author       = {Da Silva, Leuson and Samhi, Jordan and Khomh, Foutse},
+%   title        = {{chat-stack — Stack Overflow discussions dataset}},
+%   year         = {2025},
+%   howpublished = {\url{https://doi.org/10.5281/zenodo.15086541}}
+% }
+%
+% @book{laudon2020,
+%   author    = {Laudon, Kenneth C. and Laudon, Jane P.},
+%   title     = {Management Information Systems},
+%   edition   = {16},
+%   year      = {2020},
+%   publisher = {Pearson}
+% }
+%
+% @book{pressman2019,
+%   author    = {Pressman, Roger S. and Maxim, Bruce R.},
+%   title     = {Software Engineering: A Practitioner's Approach},
+%   edition   = {9},
+%   year      = {2019},
+%   publisher = {McGraw-Hill}
+% }
+%============================================================

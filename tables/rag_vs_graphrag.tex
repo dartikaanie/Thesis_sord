@@ -1,0 +1,54 @@
+\begin{table}[h!]
+\centering
+\caption{Perbandingan \emph{trade-off} antara Vector RAG dan GraphRAG
+berdasarkan dimensi teknis yang relevan untuk pengembangan \emph{framework}.
+Bersumber dari \textcite{Kamalipour2026}, Tabel~8.}
+\label{tab:rag_vs_graphrag}
+\small
+\begin{tabular}{|p{2.8cm}|p{4.8cm}|p{4.8cm}|}
+\hline
+\textbf{Dimensi} & \textbf{Vector RAG} & \textbf{GraphRAG} \\
+\hline
+\emph{Memory footprint} &
+Gigabyte vektor padat; perlu \emph{re-embedding} seluruh korpus
+saat ada perubahan &
+Lebih ringan: simpul + sisi (opsional \emph{node embedding});
+pembaruan cukup dengan menyisipkan tripel baru \\
+\hline
+Inti \emph{retrieval} &
+ANN berbasis kemiripan (HNSW, IVF-PQ, \emph{k}-NN) &
+Traversal graf multi-hop (BFS, \emph{Greedy-Prune}, SPARQL) \\
+\hline
+\emph{Recall} vs presisi &
+\emph{Recall} tinggi, presisi lebih rendah;
+memerlukan \emph{reranking} atau kompresi tambahan &
+Presisi lebih tinggi pada kueri relasional;
+\emph{recall} turun jika \emph{entity linking} gagal \\
+\hline
+\emph{Explainability} &
+Sulit: hanya skor kemiripan yang tersedia &
+Jalur penuh: entitas $\to$ relasi $\to$ entitas;
+dapat diaudit untuk domain teregulasi \\
+\hline
+Profil latensi &
+Datar terhadap panjang jalur; $<$100 ms dengan HNSW &
+Meningkat seiring jumlah \emph{hop}; umumnya $\sim$3$\times$ Vector
+untuk 3-\emph{hop} \\
+\hline
+\emph{Benchmark} unggulan &
+BEIR, NaturalQuestions (\emph{single-hop} QA) &
+HotpotQA, MultiHop-RAG, RobustQA
+(kueri kompleks multi-\emph{hop}) \\
+\hline
+Kegagalan tipikal &
+Potongan relevan secara topik tetapi tidak relevan secara konteks
+$\to$ halusinasi &
+Simpul antara yang hilang $\to$ kesenjangan jawaban \\
+\hline
+Tepat digunakan saat &
+Throughput tinggi, pencarian \emph{single-hop}, latensi kritis &
+Penalaran multi-\emph{hop}, auditabilitas,
+pembaruan terstruktur berkala \\
+\hline
+\end{tabular}
+\end{table}

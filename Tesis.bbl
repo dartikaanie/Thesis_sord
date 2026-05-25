@@ -387,6 +387,48 @@
       \verb 10.1016/j.iswa.2025.200608
       \endverb
     \endentry
+    \entry{Cui2026}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=d096fac91ce7cc807b9563d4808b91d6}{%
+           family={Cui},
+           familyi={C\bibinitperiod},
+           given={Jinman},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7d7eaac3f4f8cbdd1fa43a54280a3e3b}{%
+           family={Qu},
+           familyi={Q\bibinitperiod},
+           given={Xiaolong},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{59bec4f79661114f90a5e864d1a3d934}
+      \strng{fullhash}{59bec4f79661114f90a5e864d1a3d934}
+      \strng{fullhashraw}{59bec4f79661114f90a5e864d1a3d934}
+      \strng{bibnamehash}{59bec4f79661114f90a5e864d1a3d934}
+      \strng{authorbibnamehash}{59bec4f79661114f90a5e864d1a3d934}
+      \strng{authornamehash}{59bec4f79661114f90a5e864d1a3d934}
+      \strng{authorfullhash}{59bec4f79661114f90a5e864d1a3d934}
+      \strng{authorfullhashraw}{59bec4f79661114f90a5e864d1a3d934}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{author}
+      \field{journaltitle}{Information Fusion}
+      \field{title}{Modality-aware instruction tuning of large language models for multimodal knowledge graph completion}
+      \field{volume}{134}
+      \field{year}{2026}
+      \field{pages}{104387}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.inffus.2026.104387
+      \endverb
+    \endentry
     \entry{Gu2026}{article}{}{}
       \true{moreauthor}
       \true{morelabelname}
@@ -726,6 +768,66 @@
       \verb{doi}
       \verb 10.1145/3571730
       \endverb
+    \endentry
+    \entry{Jiang2026}{misc}{}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=946e48159aa9b5cbafb9c5f8cc7ec679}{%
+           family={Jiang},
+           familyi={J\bibinitperiod},
+           given={Bowen},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=20d5bcda2ff32d4275ac5cb5b156e331}{%
+           family={Ruffolo},
+           familyi={R\bibinitperiod},
+           given={Mitchell},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f309847d3477e1bd037ececd040dcccc}{%
+           family={Kulkarni},
+           familyi={K\bibinitperiod},
+           given={Aaditya},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9c7d0da552a6338ce8ee4b96133c0d7e}{%
+           family={Canini},
+           familyi={C\bibinitperiod},
+           given={Teia},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=23d9055b8779f71f49c3144df4d4e671}{%
+           family={AlOmar},
+           familyi={A\bibinitperiod},
+           given={Eman\bibnamedelima Abdullah},
+           giveni={E\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier B.V.}%
+      }
+      \strng{namehash}{a54279718bbd5307563376c90c022f68}
+      \strng{fullhash}{51c32d42e667c151ac8750c266a89195}
+      \strng{fullhashraw}{51c32d42e667c151ac8750c266a89195}
+      \strng{bibnamehash}{51c32d42e667c151ac8750c266a89195}
+      \strng{authorbibnamehash}{51c32d42e667c151ac8750c266a89195}
+      \strng{authornamehash}{a54279718bbd5307563376c90c022f68}
+      \strng{authorfullhash}{51c32d42e667c151ac8750c266a89195}
+      \strng{authorfullhashraw}{51c32d42e667c151ac8750c266a89195}
+      \field{sortinit}{J}
+      \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{09505849}
+      \field{journaltitle}{Information and Software Technology}
+      \field{month}{7}
+      \field{title}{A systematic mapping study on the research landscape of LLM-based code clone detection}
+      \field{year}{2026}
+      \verb{doi}
+      \verb 10.1016/j.infsof.2026.108096
+      \endverb
+      \keyw{Code clone,LLMs,Literature review,Quality}
     \endentry
     \entry{Kabir2024}{inproceedings}{}{}
       \name{author}{4}{}{%
@@ -1117,6 +1219,66 @@
       \range{pages}{13}
       \verb{doi}
       \verb 10.1109/ICSE48619.2023.00205
+      \endverb
+    \endentry
+    \entry{Oarga2026}{article}{}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=8a80dc165d7cc97428927f99eb5a4ae0}{%
+           family={Oarga},
+           familyi={O\bibinitperiod},
+           given={Alexandru},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a0b948d5e9091ec630cf42f9a722bc5d}{%
+           family={Hart},
+           familyi={H\bibinitperiod},
+           given={Matthew},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6e120b1887bbb6703893f973019994b1}{%
+           family={Bran},
+           familyi={B\bibinitperiod},
+           given={Andres\bibnamedelima M.},
+           giveni={A\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4a03363dd01606e1fd1ac1cba145e772}{%
+           family={Lederbauer},
+           familyi={L\bibinitperiod},
+           given={Magdalena},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b1a2a4b3097315ec7c5752f1040fcb6b}{%
+           family={Schwaller},
+           familyi={S\bibinitperiod},
+           given={Philippe},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Royal Society of Chemistry}%
+      }
+      \strng{namehash}{b93e2905d6ee435472a4251c45f130de}
+      \strng{fullhash}{2a63ce8dfa18ef1f54a3c02b4b83b625}
+      \strng{fullhashraw}{2a63ce8dfa18ef1f54a3c02b4b83b625}
+      \strng{bibnamehash}{2a63ce8dfa18ef1f54a3c02b4b83b625}
+      \strng{authorbibnamehash}{2a63ce8dfa18ef1f54a3c02b4b83b625}
+      \strng{authornamehash}{b93e2905d6ee435472a4251c45f130de}
+      \strng{authorfullhash}{2a63ce8dfa18ef1f54a3c02b4b83b625}
+      \strng{authorfullhashraw}{2a63ce8dfa18ef1f54a3c02b4b83b625}
+      \field{sortinit}{O}
+      \field{sortinithash}{2cd7140a07aea5341f9e2771efe90aae}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{author}
+      \field{journaltitle}{Digital Discovery}
+      \field{title}{Scientific knowledge graph and ontology generation using open large language models}
+      \field{volume}{5}
+      \field{year}{2026}
+      \field{pages}{1269\bibrangedash 1279}
+      \range{pages}{11}
+      \verb{doi}
+      \verb 10.1039/d5dd00275c
       \endverb
     \endentry
     \entry{Pan2024}{article}{}{}
@@ -1661,10 +1823,11 @@
     \endentry
   \enddatalist
   \missing{Hendawi2026}
-  \missing{Jiang2026}
   \missing{Malamas2025}
   \missing{Moia2026}
   \missing{Wang2026}
+  \missing{dasilva2025}
+  \missing{edge2024graphrag}
   \missing{kumar2024}
   \missing{qin2025}
 \endrefsection

@@ -1,0 +1,33 @@
+
+\begin{table}[h!]
+\centering
+\caption{Sinyal kepercayaan komunitas Stack Overflow dan interpretasinya sebagai
+bobot pada \emph{knowledge graph} berbobot}
+\label{tab:so_signals}
+\small
+\begin{tabular}{|p{3.5cm}|p{4.5cm}|p{6.0cm}|}
+\hline
+\textbf{Sinyal} & \textbf{Sumber} & \textbf{Interpretasi sebagai Bobot} \\
+\hline
+Skor jawaban &
+Akumulasi \emph{upvote} $-$ \emph{downvote} &
+Bobot simpul jawaban: penerimaan kolektif komunitas \\
+\hline
+Status \emph{accepted answer} &
+Pilihan eksplisit penanya &
+Bobot biner: validasi langsung oleh praktisi \\
+\hline
+Reputasi kontributor &
+Rekam jejak kontribusi historis &
+Bobot kepercayaan pada sisi kontribusi \\
+\hline
+Skor pertanyaan &
+Akumulasi \emph{upvote} pada pertanyaan &
+Bobot simpul pertanyaan: relevansi masalah \\
+\hline
+Jumlah tampilan (\emph{view count}) &
+Aktivitas baca pengguna &
+Bobot popularitas: relevansi jangka panjang \\
+\hline
+\end{tabular}
+\end{table}
