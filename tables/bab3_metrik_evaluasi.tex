@@ -1,0 +1,43 @@
+
+\begin{table}[h!]
+\centering
+\caption{Metrik evaluasi komparatif \emph{GraphRAG Framework}.}
+\label{tab:metrik-evaluasi}
+\begin{tabularx}{\textwidth}{|l|X|l|}
+\hline
+\textbf{Metrik} & \textbf{Alasan Pemilihan} & \textbf{Kondisi A/B/C} \\
+\hline
+\emph{Cosine Similarity} &
+    Metrik utama \textcite{DaSilva2025}; memastikan komparabilitas
+    \emph{apple-to-apple} &
+    Semua \\
+\hline
+ROUGE-1/2/L &
+    Kemiripan berbasis \emph{n-gram} dengan jawaban \emph{ground truth} &
+    Semua \\
+\hline
+BERTScore &
+    Kemiripan semantik berbasis \emph{embedding} kontekstual &
+    Semua \\
+\hline
+\emph{Hallucination Rate} &
+    Persentase klaim yang tidak terdukung dalam jawaban
+    (dinilai LLM-as-Judge \autocite{Gu2026}) &
+    Semua \\
+\hline
+\emph{Attribution Coverage} &
+    Persentase jawaban yang mencantumkan $\geq 1$ kutipan SO thread &
+    Semua (C sebagai target 100\%) \\
+\hline
+\emph{LLM-as-Judge Score} &
+    Penilaian kualitas holistik: \emph{faithfulness},
+    \emph{comprehensiveness}, \emph{relevance} &
+    Semua \\
+\hline
+Uji Statistik &
+    \emph{Paired t-test} ($\alpha = 0{,}05$) untuk signifikansi
+    perbedaan antar kondisi &
+    A vs C, B vs C \\
+\hline
+\end{tabularx}
+\end{table}

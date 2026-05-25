@@ -1,0 +1,37 @@
+
+\begin{table}[h!]
+\centering
+\caption{Operasionalisasi sinyal kepercayaan Stack Overflow sebagai bobot sisi
+pada \emph{knowledge graph}.}
+\label{tab:bobot-kepercayaan}
+\begin{tabularx}{\textwidth}{|l|l|X|l|}
+\hline
+\textbf{Tipe Sisi} & \textbf{Arah} & \textbf{Makna Semantik} &
+\textbf{Bobot $w$} \\
+\hline
+\texttt{hasAcceptedAnswer} & Q $\to$ A &
+    Jawaban yang diterima sebagai solusi terbaik oleh penanya &
+    $w = 1{,}0$ (deterministic) \\
+\hline
+\texttt{hasAnswer} & Q $\to$ A &
+    Jawaban lain dengan skor tinggi &
+    $w = \text{normalize}(\texttt{score})$ \\
+\hline
+\texttt{taggedWith} & Q $\to$ Tag &
+    Pertanyaan dikategorikan dalam domain teknologi tertentu &
+    $w = 1{,}0$ \\
+\hline
+\texttt{isRelatedTo} & Q $\leftrightarrow$ Q &
+    Pasangan rekomendasi dalam dataset SORD &
+    $w = \text{similarity}(q_i, q_j)$ \\
+\hline
+\texttt{mentions} & Q/A $\to$ Concept &
+    Pertanyaan atau jawaban menyebut entitas teknis tertentu &
+    $w = \text{TF-IDF}(\text{concept}, \text{doc})$ \\
+\hline
+\texttt{authorTrust} & A $\to$ Author &
+    Kepercayaan terhadap kontributor jawaban &
+    $w = \text{normalize}(\texttt{reputation})$ \\
+\hline
+\end{tabularx}
+\end{table}

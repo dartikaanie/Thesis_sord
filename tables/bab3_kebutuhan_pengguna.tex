@@ -1,0 +1,33 @@
+
+\begin{table}[h!]
+\centering
+\caption{Pemetaan masalah pengguna ke kebutuhan solusi \emph{GraphRAG Framework}.}
+\label{tab:kebutuhan-pengguna}
+\begin{tabularx}{\textwidth}{|c|X|X|l|}
+\hline
+\textbf{No.} & \textbf{Masalah Pengguna} & \textbf{Akar Penyebab (Gap)} &
+\textbf{Kebutuhan Solusi} \\
+\hline
+M1 & LLM memberikan jawaban keliru atau halusinasi pada domain Framework
+    \& Library &
+    G1: Absennya \emph{grounding} eksternal &
+    Jawaban di-\emph{ground} pada konten SO terverifikasi \\
+\hline
+M2 & Kualitas jawaban tidak mencerminkan konsensus komunitas SO &
+    G2: Sinyal kepercayaan tidak dieksploitasi &
+    Bobot kepercayaan (\emph{upvote}, \emph{accepted}) dikodekan dalam KG \\
+\hline
+M3 & Tidak dapat menelusuri dari mana jawaban berasal &
+    G1 + G2: Tidak ada mekanisme \emph{citation} &
+    Setiap jawaban menyertakan referensi ke SO thread \\
+\hline
+M4 & Jawaban tidak dapat menangani pertanyaan relasional kompleks &
+    G3: Tidak ada penalaran berbasis struktur graf &
+    Traversal graf untuk menghubungkan entitas terkait \\
+\hline
+M5 & Pengetahuan LLM tidak mencakup versi \emph{library} terbaru &
+    G1 + G2: \emph{Knowledge cutoff} tanpa mekanisme pembaruan &
+    Pembaruan KG tanpa \emph{re-training} LLM \\
+\hline
+\end{tabularx}
+\end{table}

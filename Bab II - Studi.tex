@@ -162,7 +162,7 @@ prompt(\emph{augmentation}), kemudian menghasilkan respons berdasarkan konteks t
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.6\textwidth]{images/vizniuk_rag_pipeline.png}
-\caption{\emph{Inference Pipeline} RAG modular berdasarkan taksonomi \textcite{Vizniuk2024}.}
+\caption{\emph{Inference Pipeline} RAG modular berdasarkan taksonomi \autocite{Vizniuk2024}.}
 \label{fig:vizniuk_rag_pipeline}
 \end{figure}
  
@@ -172,7 +172,7 @@ Sementara itu, \textcite{Kamalipour2026} memformulasikan proses RAG ke dalam emp
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.8\textwidth]{images/kamalipour_rag_taxonomy}
-    \caption{Taksonomi RAG yang terdiri atas tahap \emph{Indexing}, \emph{Retrieval}, \emph{Fusion}, dan \emph{Generation}. \textcite{Kamalipour2026}}.
+    \caption{Taksonomi RAG yang terdiri atas tahap \emph{Indexing}, \emph{Retrieval}, \emph{Fusion}, dan \emph{Generation} \autocite{Kamalipour2026}}.
     \label{fig:kamalipour_rag_taxonomy}
 \end{figure}
  
@@ -182,7 +182,7 @@ Sebelum proses inferensi dijalankan, dokumen-dokumen yang berada di dalam reposi
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.8\textwidth]{images/The_indexing_ process_in_a_RAG_pipeline}
-    \caption{Proses pengindeksan pada pipeline RAG: mulai dari pemuatan data (\emph{data loading}), pemotongan teks (\emph{chunking}), pembentukan embedding, hingga penyimpanan dalam basis data vektor (\emph{vector database}). \textcite{Kamalipour2026}}.
+    \caption{Proses pengindeksan pada pipeline RAG: mulai dari pemuatan data (\emph{data loading}), pemotongan teks (\emph{chunking}), pembentukan embedding, hingga penyimpanan dalam basis data vektor (\emph{vector database}). \autocite{Kamalipour2026}}.
     \label{fig: indexing_process_in_a_RAG}
 \end{figure}
  
@@ -203,9 +203,10 @@ dengan $\mathbf{q}$ menyatakan vektor kueri dan $\mathbf{d}$ menyatakan vektor d
 
 \subsubsection{\emph{Fusion}(\emph{Pre-filtering \& Reranking}).}
 Setelah kandidat dokumen terkumpul dari proses pencarian, sistem dapat menjalankan tahap ketiga yaitu \emph{Fusion}. Pada tahap ini hasil pencarian yang telah diperoleh mengalami proses optimasi seperti \emph{pre-filtering}, \emph{reranking}, atau penggabungan hasil pencarian dari berbagai metode untuk memastikan kualitas informasi.
+
 \begin{enumerate}
-    \item \textbf{\emph{Pre-filtering}:} Berfungsi untuk mengeliminasi secara langsung \emph{chunks} informasi yang terdeteksi tidak relevan atau memiliki skor kemiripan di bawah ambang batas tertentu sebelum masuk ke tahap pemrosesan berikutnya.
-    \item \textbf{\emph{Rerank}:} Berperan mengurutkan ulang \emph{chunks} dokumen yang lolos saringan demi menempatkan informasi yang paling bernilai tinggi pada prioritas teratas. Pendekatan ini dapat diselesaikan melalui metode \emph{Reciprocal Rank Fusion} (RRF) yang efisien karena hanya mengevaluasi posisi peringkat mentah hasil pencarian, atau menggunakan model \emph{Cross-Encoder} yang menghitung ulang skor kemiripan kueri-dokumen secara mendalam (lebih presisi namun membutuhkan beban komputasi yang lebih besar).
+    \item \emph{Pre-filtering}, Berfungsi untuk mengeliminasi secara langsung \emph{chunks} informasi yang terdeteksi tidak relevan atau memiliki skor kemiripan di bawah ambang batas tertentu sebelum masuk ke tahap pemrosesan berikutnya.
+    \item \emph{Rerank}, Berperan mengurutkan ulang \emph{chunks} dokumen yang lolos saringan demi menempatkan informasi yang paling bernilai tinggi pada prioritas teratas. Pendekatan ini dapat diselesaikan melalui metode \emph{Reciprocal Rank Fusion} (RRF) yang efisien karena hanya mengevaluasi posisi peringkat mentah hasil pencarian, atau menggunakan model \emph{Cross-Encoder} yang menghitung ulang skor kemiripan kueri-dokumen secara mendalam (lebih presisi namun membutuhkan beban komputasi yang lebih besar).
 \end{enumerate}
  
 \subsubsection{Augmentasi Konteks dan Generasi respons (\emph{Augmentation \& Generation}).}
@@ -281,15 +282,16 @@ Secara formal, sebuah KG $G$ mengkodekan pengetahuan faktual sebagai himpunan tr
 di mana $\mathcal{E}$ dan $\mathcal{R}$ masing-masing menyatakan himpunan entitas dan himpunan relasi \autocite{Wang2026}. Setiap tripel $(e_x, r, e_y)$ menyatakan bahwa entitas $e_x$ berhubungan dengan entitas $e_y$ melalui relasi $r$. Notasi ini dikenal pula dalam literatur sebagai tripel \emph{subject-predicate-object} (SPO) atau \emph{head-relation-tail} \autocite{Oarga2026, Cui2026}.
 
 Contoh dalam domain pemrograman dapat berupa tripel seperti:
-$({\tt pandas.DataFrame},\ {\tt has\_method},\ {\tt groupby()})$,
-$({\tt MemoryError},\ {\tt caused\_by},\ {\tt large\_dataframe\_load})$, dan
-$({\tt chunked\_reading},\ {\tt solves},\ {\tt MemoryError})$.
+
+\begin{enumerate}
+    \item $({\tt pandas.DataFrame},\ {\tt has\_method},\ {\tt groupby()})$,
+    \item $({\tt MemoryError},\ {\tt caused\_by},\ {\tt large\_dataframe\_load})$,
+    \item $({\tt chunked\_reading},\ {\tt solves},\ {\tt MemoryError})$.
+\end{enumerate}
 
 \textcite{Pan2024} menegaskan bahwa representasi berbasis tripel ini memberikan semantik relasional yang mendukung penalaran komposisional (\emph{compositional reasoning}) dan penalaran \emph{multi-hop} yang dapat diinterpretasikan. Keunggulan ini yang menjadikan KG unggul dibandingkan representasi vektor datar dalam menjawab pertanyaan yang memerlukan penggabungan fakta dari beberapa sumber yang terhubung.
 
-Di sisi lain, \textcite{Oarga2026} mencatat bahwa KG yang hanya berbasis tripel sering kali belum mencukupi untuk domain yang kompleks seperti
-domain ilmiah atau teknis, karena belum mampu memodelkan hierarkikelas dan hubungan yang lebih kaya. Keterbatasan ini mendorong penggunaan \emph{ontologi} sebagai skema konseptual yang mendefinisikan tipe entitas dan tipe relasi yang diperbolehkan dalam KG. Dengan kata lain, ontologi
-berfungsi sebagai lapisan schema yang memberikan konsistensi dan kosakata baku bagi seluruh tripel dalam graf.
+Di sisi lain, \textcite{Oarga2026} mencatat bahwa KG yang hanya berbasis tripel sering kali belum mencukupi untuk domain yang kompleks seperti domain ilmiah atau teknis, karena belum mampu memodelkan hierarkikelas dan hubungan yang lebih kaya. Keterbatasan ini mendorong penggunaan \emph{ontologi} sebagai skema konseptual yang mendefinisikan tipe entitas dan tipe relasi yang diperbolehkan dalam KG. Dengan kata lain, ontologi berfungsi sebagai lapisan schema yang memberikan konsistensi dan kosakata baku bagi seluruh tripel dalam graf.
 
 Keunggulan mendasar KG dalam konteks sistem berbasis LLM adalah kemampuannya menyediakan pengetahuan faktual berkualitas tinggi untuk mengurangi halusinasi pada LLM \autocite{Cui2026}. Mengintegrasikan KG pada tahap inferensi memungkinkan LLM mengakses pengetahuan faktual terkini tanpa pelatihan ulang \autocite{Cui2026, Pan2024}, sebuah sifat yang secara langsung relevan untuk domain pemrograman di mana pengetahuan tentang pustaka, API, dan praktik terbaik terus berkembang.
  
@@ -303,18 +305,11 @@ mengontrol tipe entitas dan relasi yang diperbolehkan sehingga struktur KG menja
 
 \subsubsection{Tahap 1: Penyusunan Ontologi Domain}
 
-Tahap pertama adalah membangun ontologi domain yang berfungsi sebagai kerangka konseptual dalam KG. Ontologi menentukan jenis entitas yang dapat
-muncul serta relasi yang diperbolehkan antar entitas.
+Tahap pertama adalah membangun ontologi domain yang berfungsi sebagai kerangka konseptual dalam KG. Ontologi menentukan jenis entitas yang dapat muncul serta relasi yang diperbolehkan antar entitas.
 
-Menurut \textcite{Cong2026}, proses penyusunan ontologi terdiri dari tiga langkah utama. Pertama, dilakukan akuisisi pengetahuan domain melalui
-aturan, hierarki konsep, dan hubungan logis yang diperoleh dari dokumen teknis maupun pakar. Kedua, dilakukan konseptualisasi untuk mengubah
-informasi tersebut menjadi kelas-kelas entitas. Ketiga, ditentukan batasan relasional yang menjelaskan hubungan antar kelas.
+Menurut \textcite{Cong2026}, proses penyusunan ontologi terdiri dari tiga langkah utama. Pertama, dilakukan akuisisi pengetahuan domain melalui aturan, hierarki konsep, dan hubungan logis yang diperoleh dari dokumen teknis maupun pakar. Kedua, dilakukan konseptualisasi untuk mengubah informasi tersebut menjadi kelas-kelas entitas. Ketiga, ditentukan batasan relasional yang menjelaskan hubungan antar kelas. Ontologi yang dihasilkan kemudian dimasukkan ke dalam \emph{prompt} LLM sebagai batasan ekstraksi sehingga proses pembentukan KG tetap sesuai dengan aturan domain \autocite{Cong2026}.
 
-Ontologi yang dihasilkan kemudian dimasukkan ke dalam \emph{prompt} LLM sebagai batasan ekstraksi sehingga proses pembentukan KG tetap sesuai
-dengan aturan domain \autocite{Cong2026}.
-
-Pendekatan yang lebih otomatis diperkenalkan oleh \textcite{Oarga2026} melalui \emph{pipeline} berbasis LLM \emph{zero-shot} yang terdiri dari
-lima tahap, yaitu:
+Pendekatan yang lebih otomatis diperkenalkan oleh \textcite{Oarga2026} melalui \emph{pipeline} berbasis LLM \emph{zero-shot} yang terdiri dari lima tahap, yaitu:
 
 \begin{enumerate}
     \item ekstraksi kosakata domain,
@@ -324,8 +319,7 @@ lima tahap, yaitu:
     \item ekstraksi relasi.
 \end{enumerate}
 
-Hasil evaluasi pada domain kimia menunjukkan akurasi istilah dan struktur hierarki di atas 80\%, yang menunjukkan bahwa ontologi dan KG dapat
-dibangun secara otomatis tanpa anotasi manual.
+Hasil evaluasi pada domain kimia menunjukkan akurasi istilah dan struktur hierarki di atas 80\%, yang menunjukkan bahwa ontologi dan KG dapat dibangun secara otomatis tanpa anotasi manual.
 
 \subsubsection{Tahap 2: Praproses Dokumen}
 
@@ -477,7 +471,7 @@ penalaran berbasis pengetahuan sekaligus membantu mengurangi halusinasi faktual.
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.9\textwidth]{images/Graph_RAG_pipeline}
-\caption{Gambaran umum \emph{pipeline} Graph-RAG: ekstraksi triple, penelusuran subgraf (\emph{sub-graph traversal}), serta integrasi hibrida antara representasi vektor dan simbolik.\autocite{Kamalipour2026}
+\caption{Gambaran umum \emph{pipeline} Graph-RAG: ekstraksi triple, penelusuran subgraf (\emph{sub-graph traversal}), serta integrasi hibrida antara representasi vektor dan simbolik.\autocite{Kamalipour2026}}
 \label{fig:graphrag_pipeline}
 \end{figure}
  
@@ -635,7 +629,7 @@ Menurut \textcite{Gu2026}, pendekatan ini menggunakan LLM yang lebih kuat sebaga
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=0.9\textwidth]{imagess/gu2026_fig2_judge_pipeline}
+\includegraphics[width=0.9\textwidth]{images/gu2026_fig2_judge_pipeline}
 \caption{(A) \emph{Pipeline} evaluasi \emph{LLM-as-a-judge} dari awal hingga
 akhir, mencakup empat tahap. (B) Metode penilaian: \emph{scoring},
 \emph{classification}, dan \emph{ranking}. \textcite{Gu2026}}
@@ -758,7 +752,7 @@ teoritis ke dalam empat jalur yang kohesif.
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=\textwidth]{gambar/kerangka_konseptual}
+\includegraphics[width=\textwidth]{images/kerangka_konseptual}
 \caption{Kerangka konseptual penelitian: integrasi Stack Overflow sebagai
 sumber pengetahuan tervalidasi sosial, \emph{knowledge graph} berbobot
 sebagai struktur representasi, mekanisme \emph{graph-guided retrieval},

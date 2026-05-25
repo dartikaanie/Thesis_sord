@@ -1,0 +1,32 @@
+
+\begin{table}[h!]
+\centering
+\caption{Temuan empiris \textcite{DaSilva2025} yang menjadi titik acuan
+pengukuran \emph{improvement} penelitian ini.}
+\label{tab:bukti-empiris-baseline}
+\begin{tabularx}{\textwidth}{|l|X|X|}
+\hline
+\textbf{Dimensi} & \textbf{Temuan} & \textbf{Implikasi untuk Penelitian Ini} \\
+\hline
+Kemiripan tekstual keseluruhan &
+Sekitar 85\% pertanyaan memiliki \emph{cosine similarity} $> 0{,}5$
+terhadap jawaban diterima SO &
+15\% pertanyaan—yang terkait domain Framework \& Library—adalah target
+utama \emph{improvement} \\
+\hline
+Domain paling lemah &
+\emph{Frameworks and Libraries}: LLM gagal karena \emph{knowledge
+cutoff} dan absennya \emph{community conventions} &
+GraphRAG Framework harus secara eksplisit menjawab kegagalan pada domain ini \\
+\hline
+Keterlacakan sumber &
+LLM menghasilkan 0\% referensi ke sumber SO &
+Setiap jawaban GraphRAG harus menyertakan kutipan ke SO thread \\
+\hline
+Dampak pada komunitas &
+Penurunan signifikan aktivitas posting SO pasca-rilis ChatGPT, namun
+pengguna kembali ke SO ketika LLM gagal &
+Mengkonfirmasi bahwa pengetahuan komunitas SO belum dapat digantikan LLM \\
+\hline
+\end{tabularx}
+\end{table}

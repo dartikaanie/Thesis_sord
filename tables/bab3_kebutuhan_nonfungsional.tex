@@ -1,0 +1,38 @@
+
+\begin{table}[h!]
+\centering
+\caption{Kebutuhan nonfungsional \emph{GraphRAG Framework}.}
+\label{tab:kebutuhan-nonfungsional}
+\begin{tabularx}{\textwidth}{|c|l|X|X|}
+\hline
+\textbf{No.} & \textbf{Kategori} & \textbf{Deskripsi} & \textbf{Kriteria Sukses} \\
+\hline
+NF1 & Akurasi &
+    Jawaban lebih faktual dari kondisi \emph{baseline} &
+    \emph{Hallucination rate} lebih rendah dari \textcite{DaSilva2025}
+    secara statistik signifikan ($\alpha = 0{,}05$) \\
+\hline
+NF2 & Keterlacakan &
+    Setiap jawaban memiliki referensi ke SO thread &
+    $100\%$ jawaban dengan $\geq 1$ kutipan sumber \\
+\hline
+NF3 & Latensi &
+    Waktu respons yang wajar untuk pengguna &
+    $\leq 15$ detik per kueri pada konfigurasi pengujian standar \\
+\hline
+NF4 & Reprodusibilitas &
+    Hasil evaluasi dapat direproduksi &
+    Dataset evaluasi dan kode dipublikasikan secara terbuka \\
+\hline
+NF5 & Modularitas &
+    Komponen KG, \emph{retrieval}, dan LLM dapat dikonfigurasi &
+    Setiap komponen dapat diganti melalui file konfigurasi \\
+\hline
+NF6 & Skalabilitas &
+    Mendukung subset SORD skala menengah &
+    KG dengan $> 10{.}000$ simpul tanpa degradasi
+    latensi yang signifikan \\
+\hline
+\end{tabularx}
+\end{table}
+

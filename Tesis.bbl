@@ -510,6 +510,66 @@
       \verb 10.1016/j.tbench.2025.100204
       \endverb
     \endentry
+    \entry{Hendawi2026}{article}{}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=d48f70e56db398fbcfed62187548a69a}{%
+           family={Hendawi},
+           familyi={H\bibinitperiod},
+           given={Samar},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=20e1b0e97de6e81c1dc804dae352d10b}{%
+           family={Kanan},
+           familyi={K\bibinitperiod},
+           given={Tarek},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6b3d8a7815fcb9c8cfdf4de9a5eeacfd}{%
+           family={Elbes},
+           familyi={E\bibinitperiod},
+           given={Mohammed},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=bab0c2b5126e3453473daad18d4c9616}{%
+           family={Mughaid},
+           familyi={M\bibinitperiod},
+           given={Ala},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=45d524b70240ae1f3a11b62f84241bab}{%
+           family={Alzu'bi},
+           familyi={A\bibinitperiod},
+           given={Shadi},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{03a7186ccfda73267a5934e9024f97ff}
+      \strng{fullhash}{e95f7afd78daca9ab06eba9a780779de}
+      \strng{fullhashraw}{e95f7afd78daca9ab06eba9a780779de}
+      \strng{bibnamehash}{e95f7afd78daca9ab06eba9a780779de}
+      \strng{authorbibnamehash}{e95f7afd78daca9ab06eba9a780779de}
+      \strng{authornamehash}{03a7186ccfda73267a5934e9024f97ff}
+      \strng{authorfullhash}{e95f7afd78daca9ab06eba9a780779de}
+      \strng{authorfullhashraw}{e95f7afd78daca9ab06eba9a780779de}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{author}
+      \field{journaltitle}{Expert Systems with Applications}
+      \field{title}{Automated Prompt Engineering Pipelines: Fine-Tuning {LLMs} for Enhanced Response Accuracy}
+      \field{volume}{298}
+      \field{year}{2026}
+      \field{pages}{129689}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.eswa.2026.129689
+      \endverb
+    \endentry
     \entry{Hogan2022}{article}{}{}
       \true{moreauthor}
       \true{morelabelname}
@@ -821,7 +881,6 @@
       \field{labeltitlesource}{title}
       \field{issn}{09505849}
       \field{journaltitle}{Information and Software Technology}
-      \field{month}{7}
       \field{title}{A systematic mapping study on the research landscape of LLM-based code clone detection}
       \field{year}{2026}
       \verb{doi}
@@ -1175,6 +1234,129 @@
       \range{pages}{1}
       \verb{doi}
       \verb 10.1016/j.engappai.2026.114785
+      \endverb
+    \endentry
+    \entry{Malamas2025}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=9d25082d51ac728598c26e8f672ecb9f}{%
+           family={Malamas},
+           familyi={M\bibinitperiod},
+           given={Nikolaos},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=eb08a8004adcaace5a6d3c79a3c7d4f2}{%
+           family={Tsardoulias},
+           familyi={T\bibinitperiod},
+           given={Emmanouil},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=79ac9d0cca2c1baa73deb40e78abf219}{%
+           family={Panayiotou},
+           familyi={P\bibinitperiod},
+           given={Konstantinos},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=3a81ca8ebcf57ef443be05ee5c6d3c1d}{%
+           family={Symeonidis},
+           familyi={S\bibinitperiod},
+           given={Andreas\bibnamedelima L.},
+           giveni={A\bibinitperiod\bibinitdelim L\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{a191beec449550c8d2b322375dbc1911}
+      \strng{fullhash}{fb442caa7d858e9a68d213adc2fa7f14}
+      \strng{fullhashraw}{fb442caa7d858e9a68d213adc2fa7f14}
+      \strng{bibnamehash}{fb442caa7d858e9a68d213adc2fa7f14}
+      \strng{authorbibnamehash}{fb442caa7d858e9a68d213adc2fa7f14}
+      \strng{authornamehash}{a191beec449550c8d2b322375dbc1911}
+      \strng{authorfullhash}{fb442caa7d858e9a68d213adc2fa7f14}
+      \strng{authorfullhashraw}{fb442caa7d858e9a68d213adc2fa7f14}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{author}
+      \field{journaltitle}{Journal of Computer Languages}
+      \field{title}{Toward Efficient Vibe Coding: An {LLM}-Based Agent for Low-Code Software Development}
+      \field{volume}{85}
+      \field{year}{2025}
+      \field{pages}{101367}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.cola.2025.101367
+      \endverb
+    \endentry
+    \entry{Moia2026}{article}{}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=293ccf86b6e749a40251beb16eb63a42}{%
+           family={Moia},
+           familyi={M\bibinitperiod},
+           given={Vitor\bibnamedelimb Hugo\bibnamedelima Galhardo},
+           giveni={V\bibinitperiod\bibinitdelim H\bibinitperiod\bibinitdelim G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=fd4cb4c779e6982859c4188b4e0fdf17}{%
+           family={Sanz},
+           familyi={S\bibinitperiod},
+           given={Igor\bibnamedelima Jochem},
+           giveni={I\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=86b463ff6e67b478da250dc9af8db2e2}{%
+           family={Rebello},
+           familyi={R\bibinitperiod},
+           given={Gabriel\bibnamedelimb Antonio\bibnamedelima Fontes},
+           giveni={G\bibinitperiod\bibinitdelim A\bibinitperiod\bibinitdelim F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=25a53566660706f83b1758bce623d54b}{%
+           family={Meneses},
+           familyi={M\bibinitperiod},
+           given={Rodrigo\bibnamedelima Duarte},
+           giveni={R\bibinitperiod\bibinitdelim D\bibinitperiod},
+           givenun=0,
+           prefix={de},
+           prefixi={d\bibinitperiod},
+           prefixun=0}}%
+        {{un=0,uniquepart=base,hash=ea86e6ba0295421071c4a22b005f2217}{%
+           family={Hitaj},
+           familyi={H\bibinitperiod},
+           given={Briland},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=63b776c83115a2fc6e88bc791bdb2ad7}{%
+           family={Lindqvist},
+           familyi={L\bibinitperiod},
+           given={Ulf},
+           giveni={U\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{b365ec7772ac041d25577012971ba494}
+      \strng{fullhash}{6e4641d90c98bb7bf2b2c972b06f2fb6}
+      \strng{fullhashraw}{6e4641d90c98bb7bf2b2c972b06f2fb6}
+      \strng{bibnamehash}{6e4641d90c98bb7bf2b2c972b06f2fb6}
+      \strng{authorbibnamehash}{6e4641d90c98bb7bf2b2c972b06f2fb6}
+      \strng{authornamehash}{b365ec7772ac041d25577012971ba494}
+      \strng{authorfullhash}{6e4641d90c98bb7bf2b2c972b06f2fb6}
+      \strng{authorfullhashraw}{6e4641d90c98bb7bf2b2c972b06f2fb6}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{author}
+      \field{journaltitle}{Computer Science Review}
+      \field{title}{{LLM} in the Middle: A Systematic Review of Threats and Mitigations to Real-World {LLM}-Based Systems}
+      \field{volume}{61}
+      \field{year}{2026}
+      \field{pages}{100916}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.cosrev.2026.100916
       \endverb
     \endentry
     \entry{Nashid2023}{inproceedings}{}{}
@@ -1684,7 +1866,6 @@
       \field{issn}{24496499}
       \field{issue}{2}
       \field{journaltitle}{Journal of Artificial Intelligence and Soft Computing Research}
-      \field{month}{12}
       \field{title}{A Comprehensive Survey of Retrieval-Augmented Large Language Models for Decision Making in Agriculture: Unsolved Problems and Research Opportunities}
       \field{volume}{15}
       \field{year}{2024}
@@ -1694,6 +1875,66 @@
       \verb 10.2478/jaiscr-2025-0007
       \endverb
       \keyw{agriculture,decision-making,large language models,retrieval-augmented generation}
+    \endentry
+    \entry{Wang2026}{article}{}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=49a19e08791a3dc09c932ff975949361}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Jing},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=62b6be7d1cb1fe8fa9bb3c3b79f32e5f}{%
+           family={Xu},
+           familyi={X\bibinitperiod},
+           given={Zhiwei},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1cc1a17bdd09bd0830cf0b32fdfb19a8}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Siyuan},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2f653548f47bde1c3a4686412afd6bc0}{%
+           family={Lu},
+           familyi={L\bibinitperiod},
+           given={Ye},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=38f3efe34cb29092007fe04331b383a3}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Tao},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{bb255b96d1bb6f677f7841b684efd08c}
+      \strng{fullhash}{fbcc8ce1858b8fea730319902c344649}
+      \strng{fullhashraw}{fbcc8ce1858b8fea730319902c344649}
+      \strng{bibnamehash}{fbcc8ce1858b8fea730319902c344649}
+      \strng{authorbibnamehash}{fbcc8ce1858b8fea730319902c344649}
+      \strng{authornamehash}{bb255b96d1bb6f677f7841b684efd08c}
+      \strng{authorfullhash}{fbcc8ce1858b8fea730319902c344649}
+      \strng{authorfullhashraw}{fbcc8ce1858b8fea730319902c344649}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{author}
+      \field{journaltitle}{Knowledge-Based Systems}
+      \field{title}{Towards Efficient Graph-RAG via Structure-Aware Intermediate Representation: Incremental Collaborative Exploration on Knowledge Graph}
+      \field{volume}{342}
+      \field{year}{2026}
+      \field{pages}{115884}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.knosys.2026.115884
+      \endverb
     \endentry
     \entry{Zhou2026}{article}{}{}
       \name{author}{6}{}{%
@@ -1822,12 +2063,6 @@
       \endverb
     \endentry
   \enddatalist
-  \missing{Hendawi2026}
-  \missing{Malamas2025}
-  \missing{Moia2026}
-  \missing{Wang2026}
-  \missing{dasilva2025}
-  \missing{edge2024graphrag}
   \missing{kumar2024}
   \missing{qin2025}
 \endrefsection

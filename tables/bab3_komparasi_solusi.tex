@@ -1,0 +1,35 @@
+
+\begin{table}[h!]
+\centering
+\caption{Matriks komparasi ketiga kondisi terhadap kebutuhan sistem.
+Kondisi C adalah solusi yang diusulkan.}
+\label{tab:komparasi-solusi}
+\begin{tabularx}{\textwidth}{|X|c|c|c|}
+\hline
+\textbf{Kebutuhan / Kriteria} &
+\textbf{Kondisi A}\newline LLM Murni &
+\textbf{Kondisi B}\newline RAG Konvensional &
+\textbf{Kondisi C}\newline \textbf{GraphRAG} \\
+\hline
+Reduksi halusinasi (M1) & ✗ & Sebagian & \textbf{Ya} \\
+\hline
+Bobot sinyal kepercayaan SO (M2, F1) & ✗ & ✗ & \textbf{Ya} \\
+\hline
+Keterlacakan sumber / \emph{citation} (M3, F5) & ✗ & Sebagian & \textbf{Ya (eksplisit)} \\
+\hline
+Penalaran relasional / multi-hop (M4, F4) & ✗ & ✗ & \textbf{Ya} \\
+\hline
+Pembaruan tanpa \emph{re-training} (M5, F7) & ✗ & Ya & \textbf{Ya} \\
+\hline
+Kinerja pada domain Framework \& Library & Lemah & Sedang & \textbf{Target terbaik} \\
+\hline
+Konsistensi dengan temuan G1 (Bab II) & Tidak & Tidak & \textbf{Ya} \\
+\hline
+Konsistensi dengan temuan G2 (Bab II) & Tidak & Tidak & \textbf{Ya} \\
+\hline
+Konsistensi dengan temuan G3 (Bab II) & Tidak & Tidak & \textbf{Ya} \\
+\hline
+\textbf{Kesesuaian keseluruhan} & \textbf{Rendah} & \textbf{Sedang} & \textbf{Tinggi} \\
+\hline
+\end{tabularx}
+\end{table}
