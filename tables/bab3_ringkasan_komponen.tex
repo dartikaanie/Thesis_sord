@@ -1,43 +1,89 @@
-
 \begin{table}[h!]
 \centering
+\small
 \caption{Ringkasan komponen \emph{GraphRAG Framework} dan kaitannya dengan
-kesenjangan penelitian.}
+kesenjangan penelitian}
 \label{tab:ringkasan-komponen}
-\begin{tabularx}{\textwidth}{|c|l|X|c|l|}
+
+\begin{tabularx}{\textwidth}
+{|c|p{2.8cm}|X|c|p{3.2cm}|}
+\hline  
+\textbf{No.} &
+\textbf{Komponen} &
+\textbf{Fungsi} &
+\textbf{Gap} &
+\textbf{Teknologi Kandidat} \\
 \hline
-\textbf{No.} & \textbf{Komponen} & \textbf{Fungsi} &
-\textbf{Gap} & \textbf{Teknologi Kandidat} \\
+
+1 &
+Data Loader &
+Memuat dan memparsing dataset SORD &
+G2, G3 &
+Python \texttt{pandas} / JSON \\
 \hline
-1 & Data Loader & Memuat dan memparsing dataset SORD & G2, G3 &
-    Python \texttt{pandas} / JSON \\
+
+2 &
+Preprocessor &
+Pembersihan, \emph{deduplication}, dan tokenisasi &
+G2 &
+spaCy / NLTK \\
 \hline
-2 & Preprocessor & Pembersihan, deduplication, tokenisasi & G2 &
-    spaCy / NLTK \\
+
+3 &
+KG Builder (NER) &
+Ekstraksi triple $(s,p,o)$ dari teks &
+G3 &
+GPT-4 API + LangChain \\
 \hline
-3 & KG Builder (NER) & Ekstraksi triple $(s,p,o)$ dari teks & G3 &
-    GPT-4 API + LangChain \\
+
+4 &
+Weight Calculator &
+Komputasi bobot kepercayaan SO pada setiap sisi graf &
+G2 &
+Python (normalisasi numerik) \\
 \hline
-4 & Weight Calculator & Komputasi bobot kepercayaan SO per sisi & G2 &
-    Python (normalisasi numerik) \\
+
+5 &
+Graph Database &
+Penyimpanan dan proses traversal \emph{knowledge graph} berbobot &
+G2, G3 &
+Neo4j / NetworkX \\
 \hline
-5 & Graph Database & Penyimpanan dan traversal KG berbobot & G2, G3 &
-    Neo4j / NetworkX \\
+
+6 &
+Embedding Model &
+Pengkodean teks untuk pencarian berbasis vektor &
+--- &
+\texttt{text-embedding-3-small} \\
 \hline
-6 & Embedding Model & Pengkodean teks untuk pencarian vektor & --- &
-    \texttt{text-embedding-3-small} \\
+
+7 &
+Vector Store &
+Indeks dan pencarian top-$k$ &
+--- &
+FAISS / ChromaDB \\
 \hline
-7 & Vector Store & Indeks dan pencarian top-$k$ & --- &
-    FAISS / ChromaDB \\
+
+8 &
+Retrieval Engine &
+\emph{Graph-guided retrieval} dan pencarian berbasis vektor &
+G2, G3 &
+Custom (Python) \\
 \hline
-8 & Retrieval Engine & \emph{Graph-guided retrieval} + vektor & G2, G3 &
-    Custom (Python) \\
+
+9 &
+LLM Generator &
+\emph{Grounded generation} dan mekanisme \emph{citation} &
+G1 &
+GPT-4o (API OpenAI) \\
 \hline
-9 & LLM Generator & \emph{Grounded generation} + \emph{citation} & G1 &
-    GPT-4o (API OpenAI) \\
+
+10 &
+Evaluator &
+Komputasi metrik evaluasi komparatif &
+G1--G3 &
+ROUGE, BERTScore, DeepEval \\
 \hline
-10 & Evaluator & Komputasi metrik evaluasi komparatif & G1--G3 &
-    ROUGE, BERTScore, DeepEval \\
-\hline
+
 \end{tabularx}
 \end{table}

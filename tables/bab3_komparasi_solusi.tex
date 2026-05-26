@@ -1,15 +1,21 @@
 
+% ============================================================
+% Tabel 4: Matriks Komparasi
+% ============================================================
 \begin{table}[h!]
 \centering
 \caption{Matriks komparasi ketiga kondisi terhadap kebutuhan sistem.
 Kondisi C adalah solusi yang diusulkan.}
 \label{tab:komparasi-solusi}
-\begin{tabularx}{\textwidth}{|X|c|c|c|}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|
+    >{\centering\arraybackslash}p{2.8cm}|
+    >{\centering\arraybackslash}p{2.8cm}|
+    >{\centering\arraybackslash}p{2.8cm}|}
 \hline
 \textbf{Kebutuhan / Kriteria} &
-\textbf{Kondisi A}\newline LLM Murni &
-\textbf{Kondisi B}\newline RAG Konvensional &
-\textbf{Kondisi C}\newline \textbf{GraphRAG} \\
+\textbf{Kondisi A} \newline LLM Murni &
+\textbf{Kondisi B} \newline RAG Konvensional &
+\textbf{Kondisi C} \newline \textbf{GraphRAG} \\
 \hline
 Reduksi halusinasi (M1) & ✗ & Sebagian & \textbf{Ya} \\
 \hline
