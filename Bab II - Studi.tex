@@ -1,12 +1,9 @@
 \cleardoublepage % memastikan bab baru dimulai di halaman ganjil (kanan)
 \chapter{STUDI LITERATUR}
 \label{chap:studi-literatur}
-Bab ini menyajikan landasan teori, kajian penelitian terdahulu, serta analisis kesenjangan penelitian (\emph{research gap}) yang menjadi dasar ilmiah dalam
-pengembangan \emph{GraphRAG Framework} pada penelitian ini. Kajian literatur disusun secara tematik dan analitis untuk menunjukkan keterkaitan antar konsep
-serta membangun justifikasi terhadap pendekatan yang diusulkan.
+Bab ini menyajikan landasan teori, kajian penelitian terdahulu, serta analisis kesenjangan penelitian (\emph{research gap}) yang menjadi dasar ilmiah dalam pengembangan \emph{GraphRAG Framework} pada penelitian ini. Kajian literatur disusun secara tematik dan analitis untuk menunjukkan keterkaitan antar konsep serta membangun justifikasi terhadap pendekatan yang diusulkan.
 
-Pembahasan diawali dengan permasalahan utama penelitian, yaitu fenomena halusinasi pada \emph{Large Language Model} (LLM) dalam domain pemrograman. Selanjutnya dibahas teori-teori yang mendukung solusi penelitian, meliputi arsitektur LLM, paradigma \emph{Retrieval-Augmented Generation} (RAG), \emph{knowledge graph}, dan \emph{Graph-based Retrieval-Augmented Generation} (GraphRAG). Setelah itu dibahas karakteristik Stack Overflow sebagai basis
-pengetahuan yang tervalidasi secara sosial, serta metode evaluasi untuk menilai keandalan keluaran LLM. Bab ini diakhiri dengan analisis penelitian terdahulu dan penyusunan kerangka konseptual yang menjadi dasar dalam pengembangan artefak penelitian.
+Pembahasan diawali dengan permasalahan utama penelitian, yaitu fenomena halusinasi pada \emph{Large Language Model} (LLM) dalam domain pemrograman. Selanjutnya dibahas teori-teori yang mendukung solusi penelitian, meliputi keterbatasan pengetahuan parametrik pada LLM, paradigma \emph{Retrieval-Augmented Generation} (RAG), \emph{knowledge graph}, dan \emph{Graph-based Retrieval-Augmented Generation} (GraphRAG) beserta mekanisme \emph{hybrid retrieval}-nya. Setelah itu dibahas karakteristik Stack Overflow sebagai basis pengetahuan yang tervalidasi secara sosial, konsep \emph{grounded generation} untuk menghasilkan jawaban yang dapat dipertanggungjawabkan, serta metode evaluasi untuk menilai keandalan keluaran LLM. Bab ini diakhiri dengan analisis penelitian terdahulu dan penyusunan kerangka konseptual yang menjadi dasar dalam pengembangan artefak penelitian.
 
 % =========================================================
 \section{Halusinasi pada \emph{Large Language Model}}
@@ -36,7 +33,7 @@ pemrograman karena teknologi, \emph{library}, dan dokumentasi terus berkembang.
  
 \begin{figure}[h!]
 \centering
-\includegraphics[width=0.90\textwidth]{images/chang2026_fig7_misinformation}
+\includegraphics[width=\textwidth]{images/chang2026_fig7_misinformation}
 \caption{Contoh kegagalan penalaran akibat ketidaksesuaian waktu informasi
 dan penggunaan data yang mengandung informasi keliru  \textcite{Chang2026}}
 \label{fig:chang_misinfo}
@@ -46,9 +43,9 @@ dan penggunaan data yang mengandung informasi keliru  \textcite{Chang2026}}
 
 Domain pemrograman merupakan salah satu bidang yang paling rentan terhadap dampak halusinasi pada LLM. Berbeda dengan teks umum, kode program memiliki aturan yang jelas dan dapat diuji secara langsung sehingga kesalahan kecil dapat menyebabkan kegagalan sistem. Halusinasi pada kode dapat muncul dalam berbagai bentuk, seperti penggunaan fungsi atau metode yang tidak tersedia, pemakaian parameter API yang sudah usang atau tidak valid, kesalahan logika yang benar secara sintaksis tetapi salah secara makna, serta rekomendasi pustaka yang tidak memiliki fungsi sebagaimana diklaim \autocite{Alomari2026}.
 
-Melalui tinjauan literatur sistematis terhadap 49 studi, \textcite{Alomari2026} menemukan bahwa kode yang dihasilkan maupun direfaktorisasi oleh LLM masih menghadapi tantangan dalam aspek keandalan dan optimasi. Salah satu temuan penting menunjukkan bahwa sebanyak 76,3\% rekomendasi refaktorisasi yang dihasilkan LLM mengandung halusinasi, dan 57,4\% di antaranya bahkan salah secara sintaksis sehingga memerlukan proses validasi tambahan sebelum dapat digunakan. Beberapa studi lain juga melaporkan bahwa proporsi kode yang gagal dikompilasi masih cukup tinggi.
+Melalui tinjauan literatur sistematis terhadap 49 studi, \textcite{Alomari2026} menemukan bahwa kode yang dihasilkan maupun direfaktorisasi oleh LLM masih menghadapi tantangan pada aspek keandalan dan optimasi. Salah satu temuan utama menunjukkan bahwa sebanyak 76,3% rekomendasi refaktorisasi yang dihasilkan LLM mengandung halusinasi, sementara 57,4% di antaranya bahkan tidak valid secara sintaksis sehingga memerlukan proses verifikasi tambahan sebelum dapat digunakan. Beberapa studi lain dalam tinjauan tersebut juga melaporkan bahwa proporsi kode yang gagal dikompilasi masih tergolong tinggi.
 
-\textcite{Alomari2026} menjelaskan bahwa kondisi tersebut berkaitan dengan keterbatasan LLM dalam menghasilkan kode yang akurat, terutama ketika model hanya mengandalkan pendekatan \emph{prompting}. Pendekatan ini bergantung pada informasi yang diberikan melalui \emph{prompt}, tetapi belum didukung oleh mekanisme \emph{grounding} menggunakan sumber pengetahuan eksternal. Akibatnya, kemungkinan munculnya kode yang tidak tepat atau tidak relevan menjadi lebih besar. Distribusi teknik pada penelitian tersebut juga menunjukkan bahwa sebagian besar pendekatan peningkatan kualitas kode masih didominasi oleh teknik \emph{prompting} tanpa dukungan mekanisme \emph{grounding} yang memadai.
+\textcite{Alomari2026} menjelaskan bahwa kondisi tersebut berkaitan dengan keterbatasan LLM dalam menghasilkan kode yang akurat ketika model hanya mengandalkan pendekatan \emph{prompting}. Pendekatan ini bergantung sepenuhnya pada informasi yang diberikan melalui \emph{prompt} tanpa didukung mekanisme \emph{grounding} menggunakan sumber pengetahuan eksternal. Akibatnya, model lebih rentan menghasilkan kode yang tidak tepat, tidak relevan, atau tidak konsisten dengan konteks teknis yang dibutuhkan. Distribusi teknik dalam studi tersebut juga menunjukkan bahwa sebagian besar pendekatan peningkatan kualitas kode masih didominasi oleh strategi \emph{prompting} tanpa dukungan mekanisme \emph{grounding} yang memadai.
 
 \textcite{DaSilva2025} melakukan studi komparatif antara ChatGPT-3.5 dan LLaMA-2 menggunakan pertanyaan dari Stack Overflow. Hasil penelitian
 menunjukkan bahwa ChatGPT-3.5 secara statistik mengungguli LLaMA-2 berdasarkan kemiripan tekstual (nilai kosinus rata-rata 0,642 vs 0,617). Kedua model masih mengalami kesulitan pada pertanyaan di domain \emph{Frameworks and Libraries}, yang menjadi domain paling menantang bagi
@@ -63,65 +60,22 @@ Secara keseluruhan, temuan-temuan tersebut menunjukkan bahwa peningkatan keandal
 Karakteristik domain ini menuntut kebenaran yang dapat diverifikasi secara objektif sehingga kesalahan kecil dapat memberikan dampak yang besar. Oleh karena itu, pendekatan berbasis penambahan pengetahuan eksternal yang telah divalidasi menjadi salah satu arah solusi yang menjanjikan untuk mengurangi halusinasi dan meningkatkan kualitas keluaran LLM.
 
 % =========================================================
-\section{\emph{Large Language Model}}
+\section{\emph{Large Language Model}: Pengetahuan Parametrik dan Keterbatasannya}
 % =========================================================
 
-\subsection{Arsitektur Transformer dan Mekanisme Generasi}
+\subsection{Sifat Parametrik LLM dan Mekanisme Generasi}
 
-\emph{Large Language Model} (LLM) modern dibangun menggunakan arsitektur \emph{Transformer}. Menurut \textcite{Kumar2024}, arsitektur ini menjadi dasar utama berbagai LLM generatif saat ini karena memiliki kemampuan memahami hubungan antar kata dalam suatu konteks secara lebih efektif. Komponen utama pada arsitektur\emph{Transformer} adalah mekanisme \emph{self-attention}, yaitu mekanisme yang memungkinkan model menentukan tingkat keterkaitan setiap token terhadap token lain dalam satu urutan masukan. Secara formal, mekanisme tersebut dinyatakan sebagai:
+\emph{Large Language Model} (LLM) modern dibangun menggunakan arsitektur \emph{Transformer} yang memungkinkan model memahami hubungan antar kata dalam suatu konteks secara efektif \autocite{Kumar2024}. Berbagai model populer seperti GPT, LLaMA, dan turunannya dikembangkan dari arsitektur ini, khususnya varian berbasis dekoder yang dilatih menggunakan pendekatan \emph{next token prediction} \autocite{Haque2025}. Melalui proses tersebut, LLM mempelajari pola bahasa, hubungan antar konsep, serta berbagai informasi yang terdapat pada data pelatihan berskala besar.
 
-\begin{equation}
-    \text{Attention}(Q, K, V) = \text{softmax}\!\left(\frac{QK^\top}{\sqrt{d_k}}\right) V
-    \label{eq:attention}
-\end{equation}
+Pengetahuan yang dipelajari selama proses pelatihan disimpan di dalam parameter model dan dikenal sebagai \emph{parametric knowledge}. Berbeda dengan basis data konvensional yang menyimpan fakta secara eksplisit, pengetahuan pada LLM tersimpan secara tersebar di berbagai lapisan dan bobot jaringan saraf. Mekanisme ini memungkinkan model menghasilkan respons yang tampak natural dan kontekstual, tetapi sekaligus menimbulkan sejumlah keterbatasan mendasar.
 
-\noindent
-dengan $Q$, $K$, dan $V$ masing-masing merepresentasikan \emph{query},
-\emph{key}, dan \emph{value}, sedangkan $d_k$ menyatakan dimensi
-\emph{key}. Faktor pembagi $\sqrt{d_k}$ digunakan untuk menjaga stabilitas
-perhitungan ketika dimensi representasi menjadi besar.
+\subsection{Keterbatasan Pengetahuan Parametrik}
 
-Untuk meningkatkan kemampuan representasi, Transformer menggunakan mekanisme
-\emph{multi-head attention}, yaitu beberapa proses \emph{attention} yang
-dijalankan secara paralel dan hasilnya digabungkan kembali melalui persamaan:
+Keterbatasan pertama adalah sifat pengetahuan parametrik yang statis. Setelah proses pelatihan selesai, model tidak dapat memperoleh informasi baru tanpa dilakukan pelatihan ulang \autocite{YizhengHuang2026}. Akibatnya, model berpotensi menghasilkan jawaban yang tidak sesuai dengan perkembangan terbaru, seperti perubahan versi pustaka, pembaruan API, maupun solusi baru yang berkembang di komunitas pengembang. Keterbatasan ini menjadi penting dalam domain pemrograman karena teknologi perangkat lunak berkembang dengan sangat cepat. \textcite{Moia2026} menunjukkan bahwa keterbatasan pembaruan pengetahuan merupakan salah satu kelemahan utama LLM pada penggunaan nyata.
 
-\begin{equation}
-    \text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, \ldots, \text{head}_h) W^O
-    \label{eq:multihead}
-\end{equation}
+Keterbatasan kedua adalah tidak adanya mekanisme bawaan bagi LLM untuk mengetahui batas pengetahuannya sendiri. Model tidak dapat membedakan secara jelas antara informasi yang benar-benar didukung pengetahuan dan informasi yang hanya tampak masuk akal berdasarkan pola statistik data pelatihan \autocite{Ji2023}. Kondisi ini dikenal sebagai ketidakpastian epistemik dan menjadi salah satu penyebab utama munculnya halusinasi (\emph{hallucination}). Dalam konteks pengembangan perangkat lunak, \textcite{Malamas2025} menemukan bahwa LLM dapat menghasilkan kode yang terlihat meyakinkan dan benar secara struktur, tetapi sebenarnya mengandung kesalahan logika atau penggunaan komponen yang tidak valid.
 
-\noindent
-dengan setiap $\text{head}_i$ dihitung menggunakan mekanisme
-\emph{attention} yang berbeda. Pendekatan ini memungkinkan model menangkap
-beragam hubungan antar token secara simultan, misalnya hubungan sintaksis,
-semantis, maupun hubungan kontekstual.
-
-Berbagai model populer seperti GPT, LLaMA, dan turunannya dikembangkan dari
-arsitektur \emph{Transformer}, khususnya varian berbasis dekoder. Model-model tersebut dilatih menggunakan pendekatan \emph{next token prediction}, yaitu memprediksi token berikutnya berdasarkan urutan token sebelumnya \autocite{Haque2025}. Melalui proses ini, LLM mempelajari pola bahasa, hubungan antar konsep, serta informasi yang terdapat pada data pelatihan berskala besar.
- 
-\textcite{Qin2025} membagi pendekatan pemanfaatan LLM menjadi dua kelompok utama. Kelompok pertama adalah pendekatan \emph{parameter-frozen}, seperti \emph{zero-shot learning} dan \emph{few-shot learning}, di mana parameter model tidak diubah selama penggunaan. Kelompok kedua adalah pendekatan \emph{parameter-tuning}, misalnya \emph{fine-tuning} dan\emph{Reinforcement Learning from Human Feedback} (RLHF), yang digunakan untuk menyesuaikan perilaku model terhadap kebutuhan tertentu.
- 
-Proses pelatihan LLM umumnya terdiri atas beberapa tahap, yaitu \emph{pre-training}, \emph{supervised fine-tuning}, dan RLHF
-(Gambar~\ref{fig:haque_training}). Tahap \emph{pre-training} digunakan untuk mempelajari pola bahasa dari data dalam jumlah besar. Selanjutnya,
-\emph{fine-tuning} dilakukan agar model dapat menyelesaikan tugas tertentu, sedangkan RLHF digunakan untuk menyesuaikan keluaran model agar lebih sesuai dengan preferensi manusia \autocite{Haque2025}. Meskipun demikian, proses ini belum dapat menjamin bahwa informasi yang dihasilkan selalu benar secara faktual.
- 
-\begin{figure}[h!]
-\centering
-\includegraphics[width=0.85\textwidth]{images/haque2025_fig2_chatgpt_training.png}
-\caption{Tahapan pelatihan ChatGPT yang meliputi \emph{pre-training},
-\emph{supervised fine-tuning}, dan RLHF \textcite{Haque2025}}.
-\label{fig:haque_training}
-\end{figure}
-
-\subsection{Pengetahuan Parametrik dan Keterbatasannya}
-
-Pengetahuan yang dipelajari LLM selama proses pelatihan disimpan di dalam parameter model dan dikenal sebagai \emph{parametric knowledge}. Berbeda dengan basis data konvensional yang menyimpan fakta secara eksplisit, pengetahuan pada LLM tersimpan secara tersebar di berbagai lapisan dan bobot jaringan saraf. Kondisi ini memberikan beberapa keterbatasan penting.
- 
-Pertama, pengetahuan parametrik bersifat statis. Setelah proses pelatihan selesai, model tidak dapat memperoleh informasi baru tanpa dilakukan pelatihan ulang \autocite{YizhengHuang2026}. Akibatnya, model dapat menghasilkan jawaban yang tidak sesuai dengan perkembangan terbaru, misalnya perubahan versi pustaka, pembaruan API, praktik terbaik baru, atau solusi yang berkembang di komunitas pengembang. Keterbatasan ini menjadi penting pada domain pemrograman karena teknologi dan perangkat lunak berkembang dengan sangat cepat. \textcite{Moia2026} menunjukkan bahwa keterbatasan pembaruan pengetahuan merupakan salah satu kelemahan utama LLM pada penggunaan nyata.
- 
-Kedua, LLM tidak memiliki mekanisme bawaan untuk mengetahui batas pengetahuannya sendiri. Model tidak dapat membedakan secara jelas antara informasi yang benar-benar didukung pengetahuan dan informasi yang hanya terlihat masuk akal berdasarkan pola statistik data pelatihan \autocite{Ji2023}. Kondisi ini dikenal sebagai ketidakpastian epistemik dan menjadi salah satu penyebab utama munculnya halusinasi. Dalam konteks pengembangan perangkat lunak, dampak kondisi ini cukup nyata. \textcite{Malamas2025} menemukan bahwa LLM dapat menghasilkan kode yang tampak meyakinkan dan benar secara struktur, tetapi sebenarnya mengandung kesalahan logika atau penggunaan komponen yang tidak valid.
-
-Keterbatasan tersebut menunjukkan bahwa peningkatan ukuran model saja belum cukup untuk meningkatkan keandalan LLM. Oleh karena itu, pendekatan berbasis penambahan pengetahuan eksternal saat proses inferensi, seperti \emph{Retrieval-Augmented Generation} (RAG), dipandang lebih menjanjikan untuk meningkatkan akurasi dan mengurangi halusinasi \autocite{Lewis2020}.
+Berbagai keterbatasan tersebut menunjukkan bahwa peningkatan ukuran model saja belum cukup untuk meningkatkan keandalan LLM. Oleh karena itu, pendekatan berbasis penambahan pengetahuan eksternal pada saat proses inferensi, seperti \emph{Retrieval-Augmented Generation} (RAG), dipandang lebih menjanjikan untuk meningkatkan akurasi sekaligus mengurangi halusinasi \autocite{Lewis2020}.
 
 % =========================================================
 \section{\emph{Retrieval-Augmented Generation} (RAG)}
@@ -494,9 +448,65 @@ Tabel~\ref{tab:rag_vs_graphrag}.
  
 Meskipun demikian, GraphRAG juga memiliki keterbatasan. Kualitas hasil sangat bergantung pada akurasi konstruksi graf dan keberhasilan proses
 \emph{entity linking}. Kesalahan pada tahap ini dapat menyebabkan hilangnya jalur penalaran sehingga informasi penting tidak ikut diambil.
- 
+
+% =========================================================
+\subsection{Hybrid Retrieval pada GraphRAG: Penalaran Simbolik dan Semantik}
+% =========================================================
+
+Salah satu komponen utama dalam GraphRAG adalah mekanisme \emph{hybrid retrieval}, yaitu pendekatan pengambilan informasi yang mengombinasikan dua paradigma berbeda, yakni \emph{semantic retrieval} berbasis vektor dan \emph{symbolic retrieval} berbasis traversal graf. Kombinasi kedua pendekatan tersebut menjadi penting karena masing-masing memiliki karakteristik, kelebihan, dan keterbatasan yang saling melengkapi. Pemahaman terhadap hubungan keduanya menjadi landasan konseptual utama dalam pendekatan yang diusulkan pada penelitian ini.
+
+\subsubsection{Semantic Retrieval: Keunggulan dan Keterbatasan}
+
+\emph{Semantic retrieval} atau \emph{dense retrieval} bekerja dengan mengukur kemiripan semantik antara kueri dan dokumen menggunakan representasi \emph{embedding} dalam ruang vektor kontinu. Pendekatan ini unggul dalam menemukan informasi yang relevan secara makna meskipun menggunakan istilah atau struktur kalimat yang berbeda. Selain itu, metode ini memiliki skalabilitas yang baik untuk korpus data berukuran besar.
+
+Meskipun demikian, pendekatan berbasis vektor tidak merepresentasikan hubungan eksplisit antar entitas. Akibatnya, metode ini kurang efektif untuk menjawab pertanyaan yang memerlukan penalaran relasional atau hubungan bertahap antar konsep \autocite{Kamalipour2026}. Sebagai contoh, kueri seperti ``\emph{mengapa} \texttt{pandas.merge()} \emph{menghasilkan} \texttt{NaN}'' tidak hanya memerlukan kemiripan teks, tetapi juga pemahaman terhadap hubungan kausal antar operasi dan struktur data.
+
+\subsubsection{Symbolic Retrieval: Keunggulan dan Keterbatasan}
+
+Berbeda dengan \emph{semantic retrieval}, \emph{symbolic retrieval} bekerja menggunakan representasi pengetahuan yang eksplisit dalam bentuk graf. Pendekatan ini memanfaatkan proses \emph{graph traversal} untuk mengikuti hubungan antar entitas secara terstruktur. Keunggulan utama pendekatan ini adalah kemampuannya dalam melakukan penalaran \emph{multi-hop}, yaitu menelusuri hubungan bertingkat dari satu entitas ke entitas lain \autocite{Wang2026}.
+
+Traversal berbobot juga memungkinkan sistem memprioritaskan jalur tertentu berdasarkan atribut pada simpul maupun sisi graf, misalnya tingkat kepercayaan, reputasi komunitas, atau frekuensi kemunculan relasi. Namun, pendekatan ini memiliki keterbatasan karena hanya dapat menjangkau entitas yang memang terhubung secara eksplisit di dalam graf. Informasi yang relevan tetapi tidak memiliki hubungan struktural langsung berpotensi tidak ditemukan.
+
+\subsubsection{Multi-hop Reasoning sebagai Justifikasi Pendekatan Hibrid}
+
+Permasalahan teknis dalam domain pemrograman umumnya memerlukan penalaran bertahap yang tidak dapat diselesaikan hanya dengan satu mekanisme retrieval. Sebagai contoh:
+
+\[
+\underbrace{\text{\texttt{KeyError}}}_{\text{entitas kueri}}
+\xrightarrow{\text{\texttt{raised\_by}}}
+\text{\texttt{dict.\_\_getitem\_\_}}
+\xrightarrow{\text{\texttt{similar\_to}}}
+\text{\texttt{DataFrame.loc}}
+\xrightarrow{\text{\texttt{solved\_by}}}
+\underbrace{\text{\texttt{.get() pattern}}}_{\text{konteks jawaban}}
+\]
+
+
+Rantai penalaran tersebut menunjukkan bahwa sistem perlu mengikuti hubungan eksplisit antar entitas melalui \emph{graph traversal}, sekaligus menemukan konsep lain yang serupa secara semantik meskipun tidak terhubung langsung di dalam graf. Dalam contoh tersebut, relasi antara \texttt{dict.\_\_getitem\_\_} dan \texttt{DataFrame.loc} lebih mudah ditemukan melalui pencarian semantik dibandingkan hubungan struktural eksplisit.
+
+\subsubsection{Trade-off antara Presisi Retrieval dan Cakupan Kontekstual}
+
+\textcite{Kamalipour2026} menjelaskan bahwa terdapat trade-off mendasar antara pendekatan simbolik dan semantik. \emph{Symbolic retrieval} cenderung memberikan presisi yang lebih tinggi karena hubungan antar entitas bersifat eksplisit dan dapat ditelusuri. Namun, cakupan konteksnya relatif terbatas. Sebaliknya, \emph{semantic retrieval} memiliki cakupan informasi yang lebih luas, tetapi presisinya dapat menurun pada pertanyaan yang memerlukan hubungan relasional yang kompleks.
+
+GraphRAG mengintegrasikan kedua pendekatan tersebut melalui beberapa tahap utama sebagai berikut:
+
+\begin{enumerate}
+\item \emph{Entity anchoring}, yaitu mengidentifikasi entitas pada kueri melalui mekanisme NER dan \emph{entity linking} untuk menentukan simpul awal pada KG;
+
+```
+\item \emph{Graph traversal}, yaitu membangun subgraf kontekstual melalui penelusuran relasi secara bertahap dan berbobot;
+
+\item \emph{Semantic expansion}, yaitu menggunakan simpul pada subgraf sebagai acuan pencarian vektor untuk menemukan informasi relevan lain yang tidak terhubung secara langsung dalam graf.
+```
+
+\end{enumerate}
+
+Kombinasi tersebut memungkinkan sistem mempertahankan keterlacakan (\emph{traceability}) yang dihasilkan oleh traversal graf sekaligus memanfaatkan kemampuan \emph{dense retrieval} dalam menemukan informasi relevan di luar hubungan eksplisit. Dengan demikian, GraphRAG tidak hanya menggabungkan RAG dengan \emph{knowledge graph}, tetapi mengintegrasikan penalaran simbolik dan semantik secara langsung pada mekanisme retrieval.
+
+ % =========================================================
 \subsection{Bukti Empiris Efektivitas GraphRAG}
- 
+ % =========================================================
+
 Berbagai penelitian menunjukkan bahwa integrasi struktur graf dapat meningkatkan akurasi sekaligus menurunkan tingkat halusinasi pada sistem
 berbasis LLM.
  
@@ -580,7 +590,32 @@ pemrograman (Gambar~\ref{fig:dasilva_domain}). Beberapa domain menghasilkan kemi
 
 Temuan tersebut diperkuat oleh \textcite{Kabir2024}, yang melakukan studi terhadap jawaban ChatGPT pada pertanyaan Stack Overflow. Penelitian ini menunjukkan bahwa keluaran LLM masih mengandung ketidakakuratan faktual yang cukup signifikan sehingga aspek keandalan perlu menjadi perhatian utama pada penerapan sistem berbasis LLM.
  
- 
+% =========================================================
+\section{\emph{Grounded Generation} dan \emph{Faithfulness} pada LLM}
+% =========================================================
+
+\subsection{Definisi dan Motivasi}
+
+Pembahasan mengenai halusinasi pada bagian sebelumnya menunjukkan bahwa permasalahan utama LLM tidak hanya terletak pada kemampuan menghasilkan informasi yang salah, tetapi juga pada ketidakmampuan sistem menjelaskan asal-usul informasi yang dihasilkan. Dalam banyak kasus, model dapat menghasilkan jawaban yang terlihat meyakinkan, tetapi tidak memiliki sumber yang jelas dan sulit diverifikasi. Untuk mengatasi permasalahan tersebut, konsep \emph{faithful generation} dan \emph{grounded generation} dikembangkan sebagai pendekatan untuk memastikan bahwa keluaran LLM tetap konsisten dengan sumber pengetahuan yang digunakan.
+
+\emph{Faithful generation} mengacu pada kondisi ketika jawaban yang dihasilkan LLM sesuai dan konsisten dengan informasi yang diberikan melalui konteks \autocite{Ji2023}. Sebuah jawaban disebut \emph{faithful} apabila setiap klaim yang dihasilkan model didukung oleh informasi yang terdapat dalam konteks yang diberikan, bukan semata-mata berasal dari pengetahuan parametrik model yang tidak dapat diverifikasi. \textcite{Huang2025} membedakan dua jenis halusinasi, yaitu \emph{faithfulness hallucination} dan \emph{factual hallucination}. \emph{Faithfulness hallucination} terjadi ketika jawaban tidak sesuai dengan konteks yang diberikan, sedangkan \emph{factual hallucination} terjadi ketika model menghasilkan fakta yang salah meskipun dapat diverifikasi secara independen.
+
+\emph{Grounded generation} merupakan pengembangan lebih lanjut dari konsep \emph{faithful generation}. Pada pendekatan ini, setiap klaim dalam jawaban tidak hanya harus konsisten dengan konteks, tetapi juga harus dapat ditelusuri kembali ke sumber pengetahuan tertentu \autocite{BenKhalifa2026}. Dengan demikian, sistem tidak hanya menghasilkan jawaban yang relevan, tetapi juga menyediakan dasar yang jelas mengenai dari mana informasi tersebut diperoleh.
+
+\subsection{\emph{Provenance} sebagai Mekanisme Keterlacakan}
+
+Dalam sistem berbasis \emph{knowledge graph} (KG), konsep \emph{grounded generation} diwujudkan melalui mekanisme \emph{provenance}. \emph{Provenance} merupakan kemampuan sistem untuk menyimpan dan menampilkan informasi mengenai asal-usul fakta yang digunakan dalam proses pembentukan jawaban \autocite{Ali2026}. Pada GraphRAG, mekanisme ini dapat diimplementasikan dengan menyertakan referensi ke simpul dan relasi pada KG yang menjadi sumber konteks bagi jawaban yang dihasilkan.
+
+Mekanisme \emph{provenance} memberikan beberapa manfaat penting dalam penelitian ini. Pertama, setiap klaim pada jawaban dapat diverifikasi kembali dengan menelusuri sumbernya pada KG. Kedua, pada KG berbobot berbasis Stack Overflow, \emph{provenance} juga membawa informasi tingkat kepercayaan komunitas. Sebagai contoh, jawaban yang berasal dari posting dengan skor tinggi atau berstatus \emph{accepted answer} dapat dianggap lebih terpercaya dibandingkan sumber yang tidak memiliki validasi komunitas. Ketiga, \emph{provenance} meningkatkan \emph{explainability} sistem karena pengguna dapat memahami alasan mengapa suatu jawaban dihasilkan berdasarkan sumber tertentu.
+
+\subsection{\emph{Dual-Constraint} sebagai Mekanisme \emph{Grounded Generation}}
+
+Untuk memastikan bahwa jawaban yang dihasilkan tetap \emph{grounded}, penelitian ini mengadopsi mekanisme \emph{dual-constraint} yang terdiri atas dua lapisan kendali yang bekerja secara bersamaan \autocite{BenKhalifa2026}.
+
+Lapisan pertama adalah kendala berbasis KG (\emph{graph-based constraint}). Pada tahap ini, LLM diarahkan untuk menghasilkan jawaban sesuai fakta yang direpresentasikan oleh subgraf yang diberikan. Setiap tripel pada subgraf direpresentasikan dalam bentuk pasangan \texttt{(Entitas--Relasi--Entitas) + segmen teks sumber} untuk memperjelas batas faktual yang harus diikuti model.
+
+Lapisan kedua adalah mekanisme \emph{RAG grounding}, yaitu proses yang menghubungkan jawaban dengan segmen teks sumber yang dapat diverifikasi dari Stack Overflow. Melalui kombinasi kedua lapisan tersebut, sistem mendorong LLM agar tetap menghasilkan jawaban sesuai konteks pengetahuan yang tersedia, sekaligus menyediakan jalur \emph{provenance} yang dapat ditelusuri kembali ke simpul KG berbasis Stack Overflow \autocite{Ali2026}.
+
 % =========================================================
 \section{Evaluasi Keandalan \emph{Large Language Model}}
 % =========================================================
