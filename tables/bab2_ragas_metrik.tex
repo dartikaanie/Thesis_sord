@@ -1,0 +1,17 @@
+\begin{table}[h!]
+\centering
+\caption{Metrik RAGAS dalam evaluasi GraphRAG berbasis Stack Overflow}
+\label{tab:ragas_metrics}
+\small
+\begin{tabular}{llp{6.5cm}}
+\hline
+\textbf{Kategori} & \textbf{Metrik} & \textbf{Interpretasi} \\
+\hline
+Retrieval & \texttt{context\_relevancy} & Relevansi subgraf terhadap kueri pemrograman \\
+Retrieval & \texttt{context\_recall} & Kelengkapan informasi yang berhasil diambil \\
+Generation & \texttt{faithfulness} & Tingkat keterlacakan jawaban terhadap KG \\
+Generation & \texttt{answer\_relevance} & Kesesuaian jawaban terhadap kebutuhan pengguna \\
+Overall & \texttt{ragas\_score} & Nilai keseluruhan kualitas sistem \\
+\hline
+\end{tabular}
+\end{table}

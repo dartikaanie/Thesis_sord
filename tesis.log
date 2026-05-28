@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.3.4)  29 MAY 2026 04:54
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.3.4)  29 MAY 2026 05:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1358,6 +1358,18 @@ Overfull \hbox (6.75111pt too wide) in paragraph at lines 66--66
 Cakupan Kon- 
  []
 
+
+Overfull \hbox (1.19305pt too wide) in paragraph at lines 74--74
+ [][] [][][]\TU/TimesNewRoman(0)/m/n/12 Analisis Lisensi sebagai Representasi D
+omain Tek- 
+ []
+
+
+Overfull \hbox (0.21295pt too wide) in paragraph at lines 75--75
+ [][] [][][]\TU/TimesNewRoman(0)/m/n/12 Implikasi terhadap Penelitian Berbasis 
+Stack Over- 
+ []
+
 [14])
 \tf@toc=\write5
 \openout5 = `tesis.toc'.
@@ -1390,12 +1402,19 @@ flow. [][][][] []
  []
 
 
-LaTeX Warning: Citation '' on page 17 undefined on input line 11.
+Overfull \hbox (19.94394pt too wide) in paragraph at lines 11--11
+ \TU/TimesNewRoman(0)/m/n/12 teks, inferensi model penilai, \TU/TimesNewRoman(0
+)/m/it/12 post-processing\TU/TimesNewRoman(0)/m/n/12 , dan agregasi skor ([]).[
+][] []  
+ []
 
 
 LaTeX Warning: Citation '' on page 17 undefined on input line 15.
 
-[17]
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [17]
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `lmtt' (encoding: TU).
 (microtype)             For optimal results, create family-specific settings.
@@ -1404,7 +1423,8 @@ Package microtype Info: Loading generic protrusion settings for font family
 \tf@lof=\write6
 \openout6 = `tesis.lof'.
 
-) (./8 Daftar Tabel.tex [18] (./tesis.lot
+)
+(./8 Daftar Tabel.tex [18] (./tesis.lot
 
 LaTeX Warning: Citation '' on page 19 undefined on input line 4.
 
@@ -1415,10 +1435,10 @@ gan \TU/TimesNewRoman(0)/m/it/12 framework\TU/TimesNewRoman(0)/m/n/12 .
  []
 
 
-LaTeX Warning: Citation '' on page 19 undefined on input line 8.
+LaTeX Warning: Citation '' on page 19 undefined on input line 9.
 
 
-Overfull \hbox (0.98744pt too wide) in paragraph at lines 14--14
+Overfull \hbox (0.98744pt too wide) in paragraph at lines 15--15
  [][] [][][]\TU/TimesNewRoman(0)/m/n/12 Ringkasan komponen \TU/TimesNewRoman(0)
 /m/it/12 GraphRAG Framework \TU/TimesNewRoman(0)/m/n/12 dan kaitannya dengan 
  []
@@ -1776,37 +1796,49 @@ LaTeX Warning: Citation '' on page 14 undefined on input line 22.
 LaTeX Warning: Citation 'Ji2023' on page 14 undefined on input line 25.
 
 
-LaTeX Warning: Citation 'Chang2026' on page 14 undefined on input line 29.
+LaTeX Warning: Citation 'Chang2026' on page 14 undefined on input line 27.
 
 File: images/chang2026_fig7_misinformation.png Graphic file (type bmp)
 <images/chang2026_fig7_misinformation.png>
 
-LaTeX Warning: Citation 'Chang2026' on page 14 undefined on input line 38.
+LaTeX Warning: Citation 'Chang2026' on page 14 undefined on input line 36.
 
 
-LaTeX Warning: Citation '' on page 14 undefined on input line 38.
+LaTeX Warning: Citation '' on page 14 undefined on input line 36.
 
 
-LaTeX Warning: Citation 'Chang2026' on page 14 undefined on input line 38.
+LaTeX Warning: Citation 'Chang2026' on page 14 undefined on input line 36.
 
 
-LaTeX Warning: Citation '' on page 14 undefined on input line 38.
+LaTeX Warning: Citation '' on page 14 undefined on input line 36.
 
 
-Underfull \hbox (badness 3128) in paragraph at lines 38--38
+Underfull \hbox (badness 3128) in paragraph at lines 36--36
 [][]|\TU/TimesNewRoman(0)/m/n/12 Contoh kegagalan penalaran akibat ketidaksesua
 ian waktu infor-
  []
 
 
-Underfull \hbox (badness 4899) in paragraph at lines 38--38
+Underfull \hbox (badness 4899) in paragraph at lines 36--36
 \TU/TimesNewRoman(0)/m/n/12 masi dan penggunaan data yang mengandung informasi 
 keliru
  []
 
 [14]
 
+LaTeX Warning: Citation 'Alomari2026' on page 15 undefined on input line 42.
+
+
 LaTeX Warning: Citation 'Alomari2026' on page 15 undefined on input line 44.
+
+
+LaTeX Warning: Citation '' on page 15 undefined on input line 44.
+
+
+Overfull \hbox (9.4153pt too wide) in paragraph at lines 44--45
+[]\TU/TimesNewRoman(0)/m/n/12 Melalui tinjauan literatur sistematis terhadap 49
+ studi, [][]
+ []
 
 
 LaTeX Warning: Citation 'Alomari2026' on page 15 undefined on input line 46.
@@ -1814,226 +1846,205 @@ LaTeX Warning: Citation 'Alomari2026' on page 15 undefined on input line 46.
 
 LaTeX Warning: Citation '' on page 15 undefined on input line 46.
 
-
-Overfull \hbox (9.4153pt too wide) in paragraph at lines 46--47
-[]\TU/TimesNewRoman(0)/m/n/12 Melalui tinjauan literatur sistematis terhadap 49
- studi, [][]
- []
-
-
-LaTeX Warning: Citation 'Alomari2026' on page 15 undefined on input line 48.
-
-
-LaTeX Warning: Citation '' on page 15 undefined on input line 48.
-
 [15]
 
-LaTeX Warning: Citation 'DaSilva2025' on page 16 undefined on input line 50.
+LaTeX Warning: Citation 'DaSilva2025' on page 16 undefined on input line 48.
 
 
-LaTeX Warning: Citation '' on page 16 undefined on input line 50.
+LaTeX Warning: Citation '' on page 16 undefined on input line 48.
 
 
-Overfull \hbox (3.49149pt too wide) in paragraph at lines 50--53
+Overfull \hbox (3.49149pt too wide) in paragraph at lines 48--49
 [][][] \TU/TimesNewRoman(0)/m/n/12 melakukan studi komparatif antara ChatGPT-3.
 5 dan
  []
 
 
-LaTeX Warning: Citation 'Jiang2026' on page 16 undefined on input line 54.
+LaTeX Warning: Citation 'Ronanki2026' on page 16 undefined on input line 50.
 
 
-LaTeX Warning: Citation '' on page 16 undefined on input line 54.
+LaTeX Warning: Citation '' on page 16 undefined on input line 50.
 
 
-Overfull \hbox (64.7226pt too wide) in paragraph at lines 54--55
-\TU/TimesNewRoman(0)/m/n/12 tuhkan pemahaman semantik yang lebih mendalam. Oleh
- karena itu, [][]
- []
+LaTeX Warning: Citation 'Kumar2024' on page 16 undefined on input line 60.
 
 
-LaTeX Warning: Citation 'Ronanki2026' on page 16 undefined on input line 56.
+LaTeX Warning: Citation 'Haque2025' on page 16 undefined on input line 60.
 
 
-LaTeX Warning: Citation '' on page 16 undefined on input line 56.
+Underfull \vbox (badness 1412) has occurred while \output is active []
 
-[16]
+ [16]
 
-LaTeX Warning: Citation 'Kumar2024' on page 17 undefined on input line 68.
-
-
-LaTeX Warning: Citation 'Haque2025' on page 17 undefined on input line 68.
+LaTeX Warning: Citation 'YizhengHuang2026' on page 17 undefined on input line 6
+6.
 
 
-LaTeX Warning: Citation 'YizhengHuang2026' on page 17 undefined on input line 7
-4.
+LaTeX Warning: Citation 'Moia2026' on page 17 undefined on input line 66.
 
 
-LaTeX Warning: Citation 'Moia2026' on page 17 undefined on input line 74.
+LaTeX Warning: Citation '' on page 17 undefined on input line 66.
 
 
-LaTeX Warning: Citation '' on page 17 undefined on input line 74.
-
-
-Overfull \hbox (26.17493pt too wide) in paragraph at lines 74--75
+Overfull \hbox (26.17493pt too wide) in paragraph at lines 66--67
 \TU/TimesNewRoman(0)/m/n/12 teknologi perangkat lunak berkembang dengan sangat 
 cepat. [][]
  []
 
 
-LaTeX Warning: Citation 'Ji2023' on page 17 undefined on input line 76.
+LaTeX Warning: Citation 'Ji2023' on page 17 undefined on input line 68.
 
 
-LaTeX Warning: Citation 'Malamas2025' on page 17 undefined on input line 76.
+LaTeX Warning: Citation 'Malamas2025' on page 17 undefined on input line 68.
 
 
-LaTeX Warning: Citation '' on page 17 undefined on input line 76.
+LaTeX Warning: Citation '' on page 17 undefined on input line 68.
 
 
-Underfull \vbox (badness 4765) has occurred while \output is active []
-
- [17]
-
-LaTeX Warning: Citation 'Lewis2020' on page 18 undefined on input line 78.
+LaTeX Warning: Citation 'Lewis2020' on page 17 undefined on input line 70.
 
 
-LaTeX Warning: Citation 'Lewis2020' on page 18 undefined on input line 86.
+LaTeX Warning: Citation 'Lewis2020' on page 17 undefined on input line 78.
 
 
-LaTeX Warning: Citation '' on page 18 undefined on input line 86.
+LaTeX Warning: Citation '' on page 17 undefined on input line 78.
 
 
-LaTeX Warning: Citation 'YizhengHuang2026' on page 18 undefined on input line 8
-6.
+LaTeX Warning: Citation 'YizhengHuang2026' on page 17 undefined on input line 7
+8.
 
 
-LaTeX Warning: Citation '' on page 18 undefined on input line 86.
+LaTeX Warning: Citation '' on page 17 undefined on input line 78.
 
 
-Overfull \hbox (30.19281pt too wide) in paragraph at lines 86--87
+Overfull \hbox (30.19281pt too wide) in paragraph at lines 78--79
 []\TU/TimesNewRoman(0)/m/it/12 Retrieval-Augmented Generation \TU/TimesNewRoman
 (0)/m/n/12 (RAG) diperkenalkan oleh [][]
  []
 
 
-Overfull \hbox (22.00581pt too wide) in paragraph at lines 86--87
+Overfull \hbox (22.00581pt too wide) in paragraph at lines 78--79
 \TU/TimesNewRoman(0)/m/n/12 yang bersifat statis dan sulit diperbarui. Menurut 
 [][],
  []
 
 
-LaTeX Warning: Citation 'Vizniuk2024' on page 18 undefined on input line 103.
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [17]
+
+LaTeX Warning: Citation 'Vizniuk2024' on page 18 undefined on input line 95.
 
 
-LaTeX Warning: Citation '' on page 18 undefined on input line 103.
+LaTeX Warning: Citation '' on page 18 undefined on input line 95.
 
-[18]
 File: images/vizniuk_rag_pipeline.png Graphic file (type bmp)
 <images/vizniuk_rag_pipeline.png>
 
-
-LaTeX Warning: Citation 'Vizniuk2024' on page 19 undefined on input line 109.
-
-
-LaTeX Warning: Citation 'Vizniuk2024' on page 19 undefined on input line 109.
+LaTeX Warning: Citation 'Vizniuk2024' on page 18 undefined on input line 101.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 109--109
+LaTeX Warning: Citation 'Vizniuk2024' on page 18 undefined on input line 101.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 101--101
 [][]|\TU/TimesNewRoman(0)/m/it/12 Inference Pipeline \TU/TimesNewRoman(0)/m/n/1
 2 RAG modular berdasarkan taksonomi
  []
 
 
-LaTeX Warning: Citation 'Kamalipour2026' on page 19 undefined on input line 113
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: Citation 'Kamalipour2026' on page 18 undefined on input line 105
 .
 
 
-LaTeX Warning: Citation '' on page 19 undefined on input line 113.
+LaTeX Warning: Citation '' on page 18 undefined on input line 105.
 
 
-LaTeX Warning: Citation 'Vizniuk2024' on page 19 undefined on input line 114.
+LaTeX Warning: Citation 'Vizniuk2024' on page 18 undefined on input line 106.
 
 
-LaTeX Warning: Citation '' on page 19 undefined on input line 114.
+LaTeX Warning: Citation '' on page 18 undefined on input line 106.
 
+
+Underfull \vbox (badness 2644) has occurred while \output is active []
+
+ [18]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [19]
 File: images/kamalipour_rag_taxonomy.png Graphic file (type bmp)
 <images/kamalipour_rag_taxonomy.png>
 
-LaTeX Warning: Citation 'Kamalipour2026' on page 19 undefined on input line 119
+
+LaTeX Warning: Citation 'Kamalipour2026' on page 20 undefined on input line 111
 .
 
 
-LaTeX Warning: Citation 'Kamalipour2026' on page 19 undefined on input line 119
+LaTeX Warning: Citation 'Kamalipour2026' on page 20 undefined on input line 111
+.
+
+
+LaTeX Warning: Reference `fig:indexing_process_in_a_RAG' on page 20 undefined o
+n input line 116.
+
+File: images/The_indexing_ process_in_a_RAG_pipeline.png Graphic file (type bmp
+)
+<images/The_indexing_ process_in_a_RAG_pipeline.png>
+
+LaTeX Warning: Citation 'Kamalipour2026' on page 20 undefined on input line 121
+.
+
+
+LaTeX Warning: Citation 'Kamalipour2026' on page 20 undefined on input line 121
 .
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-LaTeX Warning: Reference `fig:indexing_process_in_a_RAG' on page 19 undefined o
-n input line 124.
+LaTeX Warning: Citation 'Vizniuk2024' on page 20 undefined on input line 127.
 
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [19]
-File: images/The_indexing_ process_in_a_RAG_pipeline.png Graphic file (type bmp
-)
-<images/The_indexing_ process_in_a_RAG_pipeline.png>
+LaTeX Warning: Citation '' on page 20 undefined on input line 127.
 
 
-LaTeX Warning: Citation 'Kamalipour2026' on page 20 undefined on input line 129
-.
+LaTeX Warning: Citation 'Vizniuk2024' on page 20 undefined on input line 130.
 
 
-LaTeX Warning: Citation 'Kamalipour2026' on page 20 undefined on input line 129
-.
+LaTeX Warning: Citation '' on page 20 undefined on input line 130.
 
 
-LaTeX Warning: Citation 'Vizniuk2024' on page 20 undefined on input line 135.
-
-
-LaTeX Warning: Citation '' on page 20 undefined on input line 135.
-
-[20]
-
-LaTeX Warning: Citation 'Vizniuk2024' on page 21 undefined on input line 138.
-
-
-LaTeX Warning: Citation '' on page 21 undefined on input line 138.
-
-
-Overfull \hbox (70.42883pt too wide) in paragraph at lines 138--139
+Overfull \hbox (70.42883pt too wide) in paragraph at lines 130--131
 \TU/TimesNewRoman(0)/m/n/12 fikasi sejumlah \TU/TimesNewRoman(0)/m/it/12 chunks
  \TU/TimesNewRoman(0)/m/n/12 dokumen yang paling relevan dengan kueri. [][]
  []
 
+[20] [21]
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [21]
-
-LaTeX Warning: Citation 'Kamalipour2026' on page 22 undefined on input line 165
+LaTeX Warning: Citation 'Kamalipour2026' on page 22 undefined on input line 157
 .
 
 
-LaTeX Warning: Citation '' on page 22 undefined on input line 165.
+LaTeX Warning: Citation '' on page 22 undefined on input line 157.
 
 
-LaTeX Warning: Citation 'Haque2025' on page 22 undefined on input line 169.
+LaTeX Warning: Citation 'Haque2025' on page 22 undefined on input line 161.
 
 
-LaTeX Warning: Citation '' on page 22 undefined on input line 169.
+LaTeX Warning: Citation '' on page 22 undefined on input line 161.
 
 
 LaTeX Warning: Citation 'DelaCruzCabello2025' on page 22 undefined on input lin
-e 174.
+e 166.
 
 
-LaTeX Warning: Citation '' on page 22 undefined on input line 174.
+LaTeX Warning: Citation '' on page 22 undefined on input line 166.
 
 
-Overfull \hbox (16.26688pt too wide) in paragraph at lines 174--179
+Overfull \hbox (16.26688pt too wide) in paragraph at lines 166--171
 [][][] \TU/TimesNewRoman(0)/m/n/12 mendokumentasikan dua implementasi RAG
  []
 
@@ -2042,244 +2053,260 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [22]
 
-LaTeX Warning: Citation 'Awotunde2026' on page 23 undefined on input line 181.
+LaTeX Warning: Citation 'Awotunde2026' on page 23 undefined on input line 173.
 
 
-LaTeX Warning: Citation '' on page 23 undefined on input line 181.
+LaTeX Warning: Citation '' on page 23 undefined on input line 173.
 
 
-Overfull \hbox (0.94121pt too wide) in paragraph at lines 181--185
+Overfull \hbox (0.94121pt too wide) in paragraph at lines 173--177
 [][][] \TU/TimesNewRoman(0)/m/n/12 mendemonstrasikan penerapan RAG hibrid (kom-
 
  []
 
 
-Overfull \hbox (10.99332pt too wide) in paragraph at lines 181--185
+Overfull \hbox (10.99332pt too wide) in paragraph at lines 173--177
 \TU/TimesNewRoman(0)/m/n/12 binasi KG + vektor) untuk \TU/TimesNewRoman(0)/m/it
 /12 text-to-SQL generation \TU/TimesNewRoman(0)/m/n/12 pada infrastruktur basis
  data domain-
  []
 
 
-LaTeX Warning: Citation 'Ronanki2026' on page 23 undefined on input line 187.
+LaTeX Warning: Citation 'Ronanki2026' on page 23 undefined on input line 179.
+
+
+LaTeX Warning: Citation '' on page 23 undefined on input line 179.
+
+
+LaTeX Warning: Citation 'Kamalipour2026' on page 23 undefined on input line 187
+.
 
 
 LaTeX Warning: Citation '' on page 23 undefined on input line 187.
 
 
-LaTeX Warning: Citation 'Kamalipour2026' on page 23 undefined on input line 195
-.
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [23]
+
+LaTeX Warning: Citation 'Hendawi2026' on page 24 undefined on input line 198.
 
 
-LaTeX Warning: Citation '' on page 23 undefined on input line 195.
-
-[23]
-
-LaTeX Warning: Citation 'Hendawi2026' on page 24 undefined on input line 206.
+LaTeX Warning: Citation '' on page 24 undefined on input line 198.
 
 
-LaTeX Warning: Citation '' on page 24 undefined on input line 206.
+LaTeX Warning: Citation 'Oarga2026' on page 24 undefined on input line 208.
 
 
-LaTeX Warning: Citation 'Oarga2026' on page 24 undefined on input line 216.
+LaTeX Warning: Citation 'Oarga2026' on page 24 undefined on input line 208.
 
 
-LaTeX Warning: Citation 'Oarga2026' on page 24 undefined on input line 216.
+LaTeX Warning: Citation 'Hogan2022' on page 24 undefined on input line 208.
 
 
-LaTeX Warning: Citation 'Hogan2022' on page 24 undefined on input line 216.
+LaTeX Warning: Citation 'Wang2026' on page 24 undefined on input line 210.
 
 
 LaTeX Warning: Citation 'Wang2026' on page 24 undefined on input line 218.
 
 
-LaTeX Warning: Citation 'Wang2026' on page 24 undefined on input line 226.
+LaTeX Warning: Citation 'Oarga2026' on page 24 undefined on input line 218.
 
 
-LaTeX Warning: Citation 'Oarga2026' on page 24 undefined on input line 226.
-
-
-LaTeX Warning: Citation 'Cui2026' on page 24 undefined on input line 226.
-
-
-LaTeX Warning: Citation 'Pan2024' on page 24 undefined on input line 236.
-
-
-LaTeX Warning: Citation '' on page 24 undefined on input line 236.
+LaTeX Warning: Citation 'Cui2026' on page 24 undefined on input line 218.
 
 [24]
 
-LaTeX Warning: Citation 'Oarga2026' on page 25 undefined on input line 238.
+LaTeX Warning: Citation 'Pan2024' on page 25 undefined on input line 228.
 
 
-LaTeX Warning: Citation '' on page 25 undefined on input line 238.
+LaTeX Warning: Citation '' on page 25 undefined on input line 228.
 
 
-LaTeX Warning: Citation 'Cui2026' on page 25 undefined on input line 240.
+LaTeX Warning: Citation 'Oarga2026' on page 25 undefined on input line 230.
 
 
-LaTeX Warning: Citation 'Cui2026' on page 25 undefined on input line 240.
+LaTeX Warning: Citation '' on page 25 undefined on input line 230.
 
 
-LaTeX Warning: Citation 'Pan2024' on page 25 undefined on input line 240.
+LaTeX Warning: Citation 'Cui2026' on page 25 undefined on input line 232.
 
 
-LaTeX Warning: Citation 'Zhou2026' on page 25 undefined on input line 244.
+LaTeX Warning: Citation 'Cui2026' on page 25 undefined on input line 232.
 
 
-LaTeX Warning: Citation '' on page 25 undefined on input line 244.
+LaTeX Warning: Citation 'Pan2024' on page 25 undefined on input line 232.
 
 
-LaTeX Warning: Citation 'Cong2026' on page 25 undefined on input line 254.
+LaTeX Warning: Citation 'Zhou2026' on page 25 undefined on input line 236.
 
 
-LaTeX Warning: Citation '' on page 25 undefined on input line 254.
+LaTeX Warning: Citation '' on page 25 undefined on input line 236.
 
 
-LaTeX Warning: Citation 'Cong2026' on page 25 undefined on input line 254.
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[25]
+ [25]
 
-LaTeX Warning: Citation 'Oarga2026' on page 26 undefined on input line 256.
-
-
-LaTeX Warning: Citation '' on page 26 undefined on input line 256.
+LaTeX Warning: Citation 'Cong2026' on page 26 undefined on input line 246.
 
 
-LaTeX Warning: Citation 'Cong2026' on page 26 undefined on input line 270.
+LaTeX Warning: Citation '' on page 26 undefined on input line 246.
 
 
-LaTeX Warning: Citation '' on page 26 undefined on input line 270.
+LaTeX Warning: Citation 'Cong2026' on page 26 undefined on input line 246.
 
 
-LaTeX Warning: Citation 'Cong2026' on page 26 undefined on input line 274.
+LaTeX Warning: Citation 'Oarga2026' on page 26 undefined on input line 248.
 
 
-LaTeX Warning: Citation 'Cong2026' on page 26 undefined on input line 292.
+LaTeX Warning: Citation '' on page 26 undefined on input line 248.
 
 
-LaTeX Warning: Citation '' on page 26 undefined on input line 292.
-
-[26]
-
-LaTeX Warning: Citation 'Tao2026' on page 27 undefined on input line 300.
+LaTeX Warning: Citation 'Cong2026' on page 26 undefined on input line 262.
 
 
-LaTeX Warning: Citation '' on page 27 undefined on input line 300.
+LaTeX Warning: Citation '' on page 26 undefined on input line 262.
 
 
-LaTeX Warning: Citation 'Tao2026' on page 27 undefined on input line 304.
+LaTeX Warning: Citation 'Cong2026' on page 26 undefined on input line 266.
 
 
-LaTeX Warning: Citation 'Cong2026' on page 27 undefined on input line 322.
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [26]
+
+LaTeX Warning: Citation 'Cong2026' on page 27 undefined on input line 284.
 
 
-LaTeX Warning: Citation 'Tao2026' on page 27 undefined on input line 326.
+LaTeX Warning: Citation '' on page 27 undefined on input line 284.
 
 
-LaTeX Warning: Citation 'Zhou2026' on page 27 undefined on input line 326.
+LaTeX Warning: Citation 'Tao2026' on page 27 undefined on input line 292.
 
 
-LaTeX Warning: Citation '' on page 27 undefined on input line 326.
+LaTeX Warning: Citation '' on page 27 undefined on input line 292.
+
+
+LaTeX Warning: Citation 'Tao2026' on page 27 undefined on input line 296.
+
+
+LaTeX Warning: Citation 'Cong2026' on page 27 undefined on input line 314.
 
 [27]
+
+LaTeX Warning: Citation 'Tao2026' on page 28 undefined on input line 318.
+
+
+LaTeX Warning: Citation 'Zhou2026' on page 28 undefined on input line 318.
+
+
+LaTeX Warning: Citation '' on page 28 undefined on input line 318.
+
+
+LaTeX Warning: Citation 'Zhou2026' on page 28 undefined on input line 327.
+
+
+LaTeX Warning: Citation 'Li2026' on page 28 undefined on input line 329.
+
+
+LaTeX Warning: Citation '' on page 28 undefined on input line 329.
+
 
 LaTeX Warning: Citation 'Zhou2026' on page 28 undefined on input line 335.
 
 
-LaTeX Warning: Citation 'Li2026' on page 28 undefined on input line 337.
+LaTeX Warning: Citation 'Oarga2026' on page 28 undefined on input line 338.
 
 
-LaTeX Warning: Citation '' on page 28 undefined on input line 337.
+LaTeX Warning: Citation '' on page 28 undefined on input line 338.
 
 
-LaTeX Warning: Citation 'Zhou2026' on page 28 undefined on input line 343.
+LaTeX Warning: Citation 'Zhou2026' on page 28 undefined on input line 340.
 
 
-LaTeX Warning: Citation 'Oarga2026' on page 28 undefined on input line 346.
+LaTeX Warning: Citation '' on page 28 undefined on input line 340.
 
 
-LaTeX Warning: Citation '' on page 28 undefined on input line 346.
-
-
-LaTeX Warning: Citation 'Zhou2026' on page 28 undefined on input line 348.
-
-
-LaTeX Warning: Citation '' on page 28 undefined on input line 348.
-
-
-Overfull \hbox (84.30658pt too wide) in paragraph at lines 348--351
+Overfull \hbox (84.30658pt too wide) in paragraph at lines 340--343
 \TU/TimesNewRoman(0)/m/n/12 sil keluaran dan sensitivitas terhadap kualitas \TU
 /TimesNewRoman(0)/m/it/12 prompt\TU/TimesNewRoman(0)/m/n/12 . Dari sisi perform
 a, [][]
  []
 
+[28]
 
-LaTeX Warning: Citation 'Pan2024' on page 28 undefined on input line 356.
-
-
-LaTeX Warning: Citation '' on page 28 undefined on input line 356.
+LaTeX Warning: Citation 'Pan2024' on page 29 undefined on input line 348.
 
 
-Overfull \hbox (0.10739pt too wide) in paragraph at lines 356--359
+LaTeX Warning: Citation '' on page 29 undefined on input line 348.
+
+
+Overfull \hbox (0.10739pt too wide) in paragraph at lines 348--351
 []\TU/TimesNewRoman(0)/m/n/12 Menurut [][], integrasi antara LLM dan KG membent
 uk pen-
  []
 
-[28]
-Overfull \hbox (88.50342pt too wide) detected at line 371
+
+Overfull \hbox (88.50342pt too wide) detected at line 363
 [] \OMS/cmsy/m/n/12 ! [] ! [] ! []
  []
 
 
-LaTeX Warning: Citation 'Tao2026' on page 29 undefined on input line 393.
+LaTeX Warning: Citation 'Tao2026' on page 29 undefined on input line 385.
 
 
-LaTeX Warning: Citation '' on page 29 undefined on input line 393.
+LaTeX Warning: Citation '' on page 29 undefined on input line 385.
 
 
-LaTeX Warning: Citation 'Kamalipour2026' on page 29 undefined on input line 405
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [29]
+
+LaTeX Warning: Citation 'Kamalipour2026' on page 30 undefined on input line 397
 .
 
 
-LaTeX Warning: Citation '' on page 29 undefined on input line 405.
-
-[29]
-
-LaTeX Warning: Citation 'Pan2024' on page 30 undefined on input line 408.
+LaTeX Warning: Citation '' on page 30 undefined on input line 397.
 
 
-LaTeX Warning: Citation '' on page 30 undefined on input line 408.
+LaTeX Warning: Citation 'Pan2024' on page 30 undefined on input line 400.
 
 
-LaTeX Warning: Citation 'Zhu2026' on page 30 undefined on input line 409.
+LaTeX Warning: Citation '' on page 30 undefined on input line 400.
 
 
-LaTeX Warning: Citation '' on page 30 undefined on input line 409.
+LaTeX Warning: Citation 'Zhu2026' on page 30 undefined on input line 401.
 
 
-LaTeX Warning: Citation 'Kamalipour2026' on page 30 undefined on input line 413
+LaTeX Warning: Citation '' on page 30 undefined on input line 401.
+
+
+LaTeX Warning: Citation 'Kamalipour2026' on page 30 undefined on input line 405
 .
 
 
-LaTeX Warning: Citation '' on page 30 undefined on input line 413.
+LaTeX Warning: Citation '' on page 30 undefined on input line 405.
 
 File: images/Graph_RAG_pipeline.png Graphic file (type bmp)
 <images/Graph_RAG_pipeline.png>
 
-LaTeX Warning: Citation 'Kamalipour2026' on page 30 undefined on input line 418
+LaTeX Warning: Citation 'Kamalipour2026' on page 30 undefined on input line 410
 .
 
 
-LaTeX Warning: Citation 'Kamalipour2026' on page 30 undefined on input line 418
+LaTeX Warning: Citation 'Kamalipour2026' on page 30 undefined on input line 410
 .
 
 
-LaTeX Warning: Citation 'Kamalipour2026' on page 30 undefined on input line 424
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: Citation 'Kamalipour2026' on page 30 undefined on input line 416
 .
 
 
-Overfull \hbox (15.7736pt too wide) in paragraph at lines 423--425
+Overfull \hbox (15.7736pt too wide) in paragraph at lines 415--417
 \TU/TimesNewRoman(0)/m/it/12 formation Extraction \TU/TimesNewRoman(0)/m/n/12 (
 OpenIE) digunakan untuk mengekstraksi tripel \TU/TimesNewRoman(0)/m/it/12 subje
 ct-predicate-
@@ -2287,21 +2314,25 @@ ct-predicate-
 
 [30]
 
-LaTeX Warning: Citation 'Kamalipour2026' on page 31 undefined on input line 428
+LaTeX Warning: Citation 'Kamalipour2026' on page 31 undefined on input line 420
 .
 
+
+Underfull \vbox (badness 1642) has occurred while \output is active []
+
+ [31]
 (./tables/rag_vs_graphrag.tex
 
-LaTeX Warning: Citation 'Kamalipour2026' on page 31 undefined on input line 5.
+LaTeX Warning: Citation 'Kamalipour2026' on page 32 undefined on input line 5.
 
 
-LaTeX Warning: Citation '' on page 31 undefined on input line 5.
+LaTeX Warning: Citation '' on page 32 undefined on input line 5.
 
 
-LaTeX Warning: Citation 'Kamalipour2026' on page 31 undefined on input line 5.
+LaTeX Warning: Citation 'Kamalipour2026' on page 32 undefined on input line 5.
 
 
-LaTeX Warning: Citation '' on page 31 undefined on input line 5.
+LaTeX Warning: Citation '' on page 32 undefined on input line 5.
 
 
 Underfull \hbox (badness 3815) in paragraph at lines 15--17
@@ -2360,123 +2391,97 @@ Underfull \hbox (badness 2134) in paragraph at lines 49--49
 []|\TU/TimesNewRoman(0)/m/n/10.95 Throughput tinggi, pencarian
  []
 
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
 )
 
-LaTeX Warning: Citation 'Kamalipour2026' on page 31 undefined on input line 447
+LaTeX Warning: Citation 'Kamalipour2026' on page 32 undefined on input line 439
 .
 
 
-LaTeX Warning: Citation '' on page 31 undefined on input line 447.
+LaTeX Warning: Citation '' on page 32 undefined on input line 439.
 
-[31]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+[32]
 
- [32]
-
-LaTeX Warning: Citation 'Kamalipour2026' on page 33 undefined on input line 462
+LaTeX Warning: Citation 'Kamalipour2026' on page 33 undefined on input line 454
 .
 
 
-LaTeX Warning: Citation 'Wang2026' on page 33 undefined on input line 466.
+LaTeX Warning: Citation 'Wang2026' on page 33 undefined on input line 458.
 
-
-Overfull \hbox (75.6187pt too wide) detected at line 482
+[33]
+Overfull \hbox (75.6187pt too wide) detected at line 474
 [] [] [] [] [] [] []
  []
 
-[33]
 
-LaTeX Warning: Citation 'Kamalipour2026' on page 34 undefined on input line 489
+LaTeX Warning: Citation 'Kamalipour2026' on page 34 undefined on input line 481
 .
 
 
-LaTeX Warning: Citation '' on page 34 undefined on input line 489.
-
-
-LaTeX Warning: Citation 'Ali2026' on page 34 undefined on input line 513.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\autocite' on input line 513.
-
-
-Overfull \hbox (0.27652pt too wide) in paragraph at lines 514--515
-[]\TU/TimesNewRoman(0)/m/n/12 Pythia-RAG membangun \TU/TimesNewRoman(0)/m/it/12
- Multimodal Knowledge Graph \TU/TimesNewRoman(0)/m/n/12 (MMKG) dari sumber teks
--
- []
+LaTeX Warning: Citation '' on page 34 undefined on input line 481.
 
 [34]
 
-LaTeX Warning: Citation 'Wang2026' on page 35 undefined on input line 519.
+LaTeX Warning: Citation 'Ali2026' on page 35 undefined on input line 507.
 
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\autocite' on input line 519.
+LaTeX Warning: Citation 'Zhou2026' on page 35 undefined on input line 511.
 
 
-LaTeX Warning: Citation 'BenKhalifa2026' on page 35 undefined on input line 523
+LaTeX Warning: Citation 'Wang2026' on page 35 undefined on input line 515.
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [35]
+
+LaTeX Warning: Citation 'BenKhalifa2026' on page 36 undefined on input line 519
 .
 
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\autocite' on input line 523.
+LaTeX Warning: Citation 'Kamalipour2026' on page 36 undefined on input line 529
+.
 
 
-Overfull \hbox (3.59497pt too wide) in paragraph at lines 524--527
-[]\TU/TimesNewRoman(0)/m/n/12 LARK (\TU/TimesNewRoman(0)/m/it/12 License Analys
-is with RAG and Knowledge Graphs\TU/TimesNewRoman(0)/m/n/12 ) menerapkan GraphR
-AG
- []
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [36]
+
+LaTeX Warning: Citation 'Zhou2026' on page 37 undefined on input line 535.
 
 
-LaTeX Warning: Citation 'Awotunde2026' on page 35 undefined on input line 532.
+LaTeX Warning: Citation 'BenKhalifa2026' on page 37 undefined on input line 539
+.
 
-
-LaTeX Warning: Citation '' on page 35 undefined on input line 532.
-
-
-LaTeX Warning: Citation 'Cong2026' on page 35 undefined on input line 533.
-
-
-LaTeX Warning: Citation '' on page 35 undefined on input line 533.
-
-
-Underfull \vbox (badness 1412) has occurred while \output is active []
-
- [35]
-Overfull \hbox (0.23367pt too wide) in paragraph at lines 546--549
+[37]
+Overfull \hbox (0.23367pt too wide) in paragraph at lines 553--556
 []\TU/TimesNewRoman(0)/m/n/12 Penelitian ini memposisikan diri sebagai pengemba
 ngan lebih lanjut dari GraphRAG
  []
 
 
-LaTeX Warning: Citation 'DaSilva2025' on page 36 undefined on input line 556.
+LaTeX Warning: Citation 'DaSilva2025' on page 38 undefined on input line 563.
 
 
-LaTeX Warning: Citation 'DaSilva2025' on page 36 undefined on input line 558.
+LaTeX Warning: Citation 'DaSilva2025' on page 38 undefined on input line 565.
 
 
-LaTeX Warning: Citation '' on page 36 undefined on input line 558.
+LaTeX Warning: Citation '' on page 38 undefined on input line 565.
 
 File: images/Graph_RAG_pipeline.png Graphic file (type bmp)
 <images/Graph_RAG_pipeline.png>
 
-LaTeX Warning: Citation 'DaSilva2025' on page 36 undefined on input line 563.
+LaTeX Warning: Citation 'DaSilva2025' on page 38 undefined on input line 570.
 
 
-LaTeX Warning: Citation 'DaSilva2025' on page 36 undefined on input line 563.
+LaTeX Warning: Citation 'DaSilva2025' on page 38 undefined on input line 570.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \vbox (badness 3623) has occurred while \output is active []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [36]
+ [38]
 (./tables/so_signals.tex
 Underfull \hbox (badness 7221) in paragraph at lines 16--16
 []|\TU/TimesNewRoman(0)/m/n/10.95 Status \TU/TimesNewRoman(0)/m/it/10.95 accept
@@ -2500,151 +2505,164 @@ Overfull \hbox (37.59995pt too wide) in paragraph at lines 8--33
 
 )
 
-LaTeX Warning: Citation 'Nashid2023' on page 37 undefined on input line 578.
+LaTeX Warning: Citation 'Nashid2023' on page 39 undefined on input line 585.
 
 
-LaTeX Warning: Citation '' on page 37 undefined on input line 578.
-
-[37]
-
-LaTeX Warning: Citation 'DaSilva2025' on page 38 undefined on input line 580.
+LaTeX Warning: Citation '' on page 39 undefined on input line 585.
 
 
-LaTeX Warning: Citation '' on page 38 undefined on input line 580.
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [39]
+
+LaTeX Warning: Citation 'DaSilva2025' on page 40 undefined on input line 587.
+
+
+LaTeX Warning: Citation '' on page 40 undefined on input line 587.
 
 File: images/dasilva_domain.png Graphic file (type bmp)
 <images/dasilva_domain.png>
 
-LaTeX Warning: Citation 'DaSilva2025' on page 38 undefined on input line 587.
+LaTeX Warning: Citation 'DaSilva2025' on page 40 undefined on input line 594.
 
 
-LaTeX Warning: Citation '' on page 38 undefined on input line 587.
+LaTeX Warning: Citation '' on page 40 undefined on input line 594.
 
 
-LaTeX Warning: Citation 'DaSilva2025' on page 38 undefined on input line 587.
+LaTeX Warning: Citation 'DaSilva2025' on page 40 undefined on input line 594.
 
 
-LaTeX Warning: Citation '' on page 38 undefined on input line 587.
+LaTeX Warning: Citation '' on page 40 undefined on input line 594.
 
 
-Underfull \hbox (badness 5161) in paragraph at lines 587--587
+Underfull \hbox (badness 5161) in paragraph at lines 594--594
 [][]|\TU/TimesNewRoman(0)/m/n/12 Distribusi domain pertanyaan untuk jawaban LLM
  dengan ke-
  []
 
 
-Underfull \hbox (badness 4132) in paragraph at lines 587--587
+Underfull \hbox (badness 4132) in paragraph at lines 594--594
 \TU/TimesNewRoman(0)/m/n/12 miripan tinggi dan rendah terhadap komunitas Stack 
 Overflow.
  []
 
 
-LaTeX Warning: Citation 'Kabir2024' on page 38 undefined on input line 591.
+LaTeX Warning: Citation 'Kabir2024' on page 40 undefined on input line 598.
 
 
-LaTeX Warning: Citation '' on page 38 undefined on input line 591.
+LaTeX Warning: Citation '' on page 40 undefined on input line 598.
 
-[38]
+[40]
 
-LaTeX Warning: Citation 'Ji2023' on page 39 undefined on input line 601.
-
-
-LaTeX Warning: Citation 'Huang2025' on page 39 undefined on input line 601.
+LaTeX Warning: Citation 'Ji2023' on page 41 undefined on input line 608.
 
 
-LaTeX Warning: Citation '' on page 39 undefined on input line 601.
+LaTeX Warning: Citation 'Huang2025' on page 41 undefined on input line 608.
 
 
-Overfull \hbox (76.84485pt too wide) in paragraph at lines 601--602
+LaTeX Warning: Citation '' on page 41 undefined on input line 608.
+
+
+Overfull \hbox (76.84485pt too wide) in paragraph at lines 608--609
 \TU/TimesNewRoman(0)/m/n/12 asal dari pengetahuan parametrik model yang tidak d
 apat diverifikasi. [][]
  []
 
 
-LaTeX Warning: Citation 'BenKhalifa2026' on page 39 undefined on input line 603
+LaTeX Warning: Citation 'BenKhalifa2026' on page 41 undefined on input line 610
 .
 
 
-LaTeX Warning: Citation 'Ali2026' on page 39 undefined on input line 607.
+LaTeX Warning: Citation 'Ali2026' on page 41 undefined on input line 614.
 
-[39]
+[41]
 
-LaTeX Warning: Citation 'BenKhalifa2026' on page 40 undefined on input line 613
+LaTeX Warning: Citation 'BenKhalifa2026' on page 42 undefined on input line 620
 .
 
 
-LaTeX Warning: Citation 'Ali2026' on page 40 undefined on input line 617.
+LaTeX Warning: Citation 'Ali2026' on page 42 undefined on input line 624.
 
 
-LaTeX Warning: Citation 'Gu2026' on page 40 undefined on input line 625.
+LaTeX Warning: Citation 'Kamalipour2026' on page 42 undefined on input line 632
+.
 
 
-LaTeX Warning: Citation '' on page 40 undefined on input line 625.
+LaTeX Warning: Citation 'Gu2026' on page 42 undefined on input line 634.
+
+[42]
+
+LaTeX Warning: Citation 'DaSilva2025' on page 43 undefined on input line 636.
 
 
-Overfull \hbox (42.84581pt too wide) in paragraph at lines 625--627
-[]\TU/TimesNewRoman(0)/m/n/12 Evaluasi keandalan LLM bukan merupakan tugas yang
- sederhana. [][]
+LaTeX Warning: Citation 'Kamalipour2026' on page 43 undefined on input line 640
+.
+
+
+LaTeX Warning: Citation 'Kamalipour2026' on page 43 undefined on input line 647
+.
+
+
+LaTeX Warning: Citation 'Kamalipour2026' on page 43 undefined on input line 651
+.
+
+[43]
+Overfull \hbox (4.21014pt too wide) in paragraph at lines 657--658
+[]\TU/TimesNewRoman(0)/m/n/12 Dimensi ini mengukur kesesuaian jawaban terhadap 
+kebutuhan informasi peng-
  []
 
 
-LaTeX Warning: Citation 'Ji2023' on page 40 undefined on input line 636.
+LaTeX Warning: Citation 'Alomari2026' on page 44 undefined on input line 665.
 
 
-LaTeX Warning: Citation 'Huang2025' on page 40 undefined on input line 636.
+LaTeX Warning: Citation 'Kamalipour2026' on page 44 undefined on input line 670
+.
+
+(./tables/bab2_ragas_metrik.tex
+Underfull \hbox (badness 3601) in paragraph at lines 12--13
+[]|\TU/TimesNewRoman(0)/m/n/10.95 Tingkat keterlacakan jawaban terhadap
+ []
+
+)
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: Citation 'Gu2026' on page 44 undefined on input line 679.
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [40]
-
-LaTeX Warning: Citation 'Chang2026' on page 41 undefined on input line 639.
-
-
-LaTeX Warning: Citation 'Jiang2026' on page 41 undefined on input line 640.
-
-
-LaTeX Warning: Citation '' on page 41 undefined on input line 640.
-
-
-LaTeX Warning: Citation 'Gu2026' on page 41 undefined on input line 646.
-
-
-LaTeX Warning: Citation '' on page 41 undefined on input line 646.
-
-
-LaTeX Warning: Reference `fig:gu_judge_framework' on page 41 undefined on input
- line 646.
-
+ [44]
 File: images/gu2026_fig2_judge_pipeline.png Graphic file (type bmp)
 <images/gu2026_fig2_judge_pipeline.png>
 
-LaTeX Warning: Citation 'Gu2026' on page 41 undefined on input line 660.
+
+LaTeX Warning: Citation 'Gu2026' on page 45 undefined on input line 684.
 
 
-LaTeX Warning: Citation '' on page 41 undefined on input line 660.
-
-
-LaTeX Warning: Citation 'Gu2026' on page 41 undefined on input line 660.
-
-
-LaTeX Warning: Citation '' on page 41 undefined on input line 660.
+LaTeX Warning: Citation 'Gu2026' on page 45 undefined on input line 684.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-LaTeX Warning: Citation 'Gu2026' on page 41 undefined on input line 665.
+LaTeX Warning: Citation 'Gu2026' on page 45 undefined on input line 688.
 
 
-LaTeX Warning: Citation '' on page 41 undefined on input line 665.
+LaTeX Warning: Citation 'Alomari2026' on page 45 undefined on input line 692.
 
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [45]
 (./tables/penelitian_terkait.tex
 
-LaTeX Warning: Citation 'DaSilva2025' on page 41 undefined on input line 15.
+LaTeX Warning: Citation 'DaSilva2025' on page 46 undefined on input line 15.
 
 
-LaTeX Warning: Citation '' on page 41 undefined on input line 15.
+LaTeX Warning: Citation '' on page 46 undefined on input line 15.
 
 
 Overfull \hbox (38.50937pt too wide) in paragraph at lines 15--15
@@ -2657,10 +2675,10 @@ Underfull \hbox (badness 4279) in paragraph at lines 16--16
  []
 
 
-LaTeX Warning: Citation 'Kabir2024' on page 41 undefined on input line 19.
+LaTeX Warning: Citation 'Kabir2024' on page 46 undefined on input line 19.
 
 
-LaTeX Warning: Citation '' on page 41 undefined on input line 19.
+LaTeX Warning: Citation '' on page 46 undefined on input line 19.
 
 
 Overfull \hbox (29.98676pt too wide) in paragraph at lines 19--19
@@ -2673,10 +2691,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 20--20
  []
 
 
-LaTeX Warning: Citation 'Alomari2026' on page 41 undefined on input line 23.
+LaTeX Warning: Citation 'Alomari2026' on page 46 undefined on input line 23.
 
 
-LaTeX Warning: Citation '' on page 41 undefined on input line 23.
+LaTeX Warning: Citation '' on page 46 undefined on input line 23.
 
 
 Overfull \hbox (40.92606pt too wide) in paragraph at lines 23--23
@@ -2689,10 +2707,10 @@ Underfull \hbox (badness 2600) in paragraph at lines 24--24
  []
 
 
-LaTeX Warning: Citation 'Jiang2026' on page 41 undefined on input line 27.
+LaTeX Warning: Citation 'Jiang2026' on page 46 undefined on input line 27.
 
 
-LaTeX Warning: Citation '' on page 41 undefined on input line 27.
+LaTeX Warning: Citation '' on page 46 undefined on input line 27.
 
 
 Overfull \hbox (27.55937pt too wide) in paragraph at lines 27--27
@@ -2705,10 +2723,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 28--28
  []
 
 
-LaTeX Warning: Citation 'Nashid2023' on page 41 undefined on input line 31.
+LaTeX Warning: Citation 'Nashid2023' on page 46 undefined on input line 31.
 
 
-LaTeX Warning: Citation '' on page 41 undefined on input line 31.
+LaTeX Warning: Citation '' on page 46 undefined on input line 31.
 
 
 Overfull \hbox (34.86827pt too wide) in paragraph at lines 31--31
@@ -2716,10 +2734,10 @@ Overfull \hbox (34.86827pt too wide) in paragraph at lines 31--31
  []
 
 
-LaTeX Warning: Citation 'Wang2026' on page 41 undefined on input line 35.
+LaTeX Warning: Citation 'Wang2026' on page 46 undefined on input line 35.
 
 
-LaTeX Warning: Citation '' on page 41 undefined on input line 35.
+LaTeX Warning: Citation '' on page 46 undefined on input line 35.
 
 
 Overfull \hbox (29.38792pt too wide) in paragraph at lines 35--35
@@ -2732,10 +2750,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 36--36
  []
 
 
-LaTeX Warning: Citation 'Ali2026' on page 41 undefined on input line 39.
+LaTeX Warning: Citation 'Ali2026' on page 46 undefined on input line 39.
 
 
-LaTeX Warning: Citation '' on page 41 undefined on input line 39.
+LaTeX Warning: Citation '' on page 46 undefined on input line 39.
 
 
 Overfull \hbox (15.9945pt too wide) in paragraph at lines 39--39
@@ -2748,10 +2766,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 40--40
  []
 
 
-LaTeX Warning: Citation 'Zhou2026' on page 41 undefined on input line 43.
+LaTeX Warning: Citation 'Zhou2026' on page 46 undefined on input line 43.
 
 
-LaTeX Warning: Citation '' on page 41 undefined on input line 43.
+LaTeX Warning: Citation '' on page 46 undefined on input line 43.
 
 
 Overfull \hbox (26.96054pt too wide) in paragraph at lines 43--43
@@ -2778,31 +2796,31 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 )
 
-LaTeX Warning: Citation 'DaSilva2025' on page 41 undefined on input line 686.
+LaTeX Warning: Citation 'DaSilva2025' on page 46 undefined on input line 708.
 
 
-LaTeX Warning: Citation '' on page 41 undefined on input line 686.
+LaTeX Warning: Citation '' on page 46 undefined on input line 708.
 
 
-LaTeX Warning: Citation 'Kabir2024' on page 41 undefined on input line 686.
+LaTeX Warning: Citation 'Kabir2024' on page 46 undefined on input line 708.
 
 
-LaTeX Warning: Citation '' on page 41 undefined on input line 686.
+LaTeX Warning: Citation '' on page 46 undefined on input line 708.
 
 
-LaTeX Warning: Citation 'DaSilva2025' on page 41 undefined on input line 686.
+LaTeX Warning: Citation 'DaSilva2025' on page 46 undefined on input line 708.
 
 
-LaTeX Warning: Citation '' on page 41 undefined on input line 686.
+LaTeX Warning: Citation '' on page 46 undefined on input line 708.
 
 
-LaTeX Warning: Citation 'Kabir2024' on page 41 undefined on input line 686.
+LaTeX Warning: Citation 'Kabir2024' on page 46 undefined on input line 708.
 
 
-LaTeX Warning: Citation '' on page 41 undefined on input line 686.
+LaTeX Warning: Citation '' on page 46 undefined on input line 708.
 
 
-Overfull \hbox (3.39253pt too wide) in paragraph at lines 686--687
+Overfull \hbox (3.39253pt too wide) in paragraph at lines 708--709
 \TU/TimesNewRoman(0)/m/n/12 kOverflow. [][] mengonfirmasi bahwa ChatGPT-3.5 dan
 
  []
@@ -2810,236 +2828,228 @@ Overfull \hbox (3.39253pt too wide) in paragraph at lines 686--687
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [41]
+ [46]
 
-LaTeX Warning: Citation 'Alomari2026' on page 42 undefined on input line 694.
-
-
-LaTeX Warning: Citation '' on page 42 undefined on input line 694.
+LaTeX Warning: Citation 'Alomari2026' on page 47 undefined on input line 716.
 
 
-LaTeX Warning: Citation 'Jiang2026' on page 42 undefined on input line 694.
+LaTeX Warning: Citation '' on page 47 undefined on input line 716.
 
 
-LaTeX Warning: Citation '' on page 42 undefined on input line 694.
+LaTeX Warning: Citation 'Jiang2026' on page 47 undefined on input line 716.
 
 
-LaTeX Warning: Citation 'Ronanki2026' on page 42 undefined on input line 694.
+LaTeX Warning: Citation '' on page 47 undefined on input line 716.
 
 
-LaTeX Warning: Citation '' on page 42 undefined on input line 694.
+LaTeX Warning: Citation 'Ronanki2026' on page 47 undefined on input line 716.
 
 
-Overfull \hbox (102.96008pt too wide) in paragraph at lines 694--695
+LaTeX Warning: Citation '' on page 47 undefined on input line 716.
+
+
+Overfull \hbox (102.96008pt too wide) in paragraph at lines 716--717
 \TU/TimesNewRoman(0)/m/n/12 berfokus pada teknik \TU/TimesNewRoman(0)/m/it/12 p
 rompting \TU/TimesNewRoman(0)/m/n/12 dan \TU/TimesNewRoman(0)/m/it/12 fine-tuni
 ng \TU/TimesNewRoman(0)/m/n/12 sebagai strategi mitigasi. [][]
  []
 
+[47]
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [42]
-
-LaTeX Warning: Citation 'Nashid2023' on page 43 undefined on input line 701.
+LaTeX Warning: Citation 'Nashid2023' on page 48 undefined on input line 723.
 
 
-LaTeX Warning: Citation '' on page 43 undefined on input line 701.
+LaTeX Warning: Citation '' on page 48 undefined on input line 723.
 
 
-LaTeX Warning: Citation 'Zhou2026' on page 43 undefined on input line 703.
+LaTeX Warning: Citation 'Zhou2026' on page 48 undefined on input line 725.
 
 
-LaTeX Warning: Citation '' on page 43 undefined on input line 703.
+LaTeX Warning: Citation '' on page 48 undefined on input line 725.
 
 
-LaTeX Warning: Citation 'Nashid2023' on page 43 undefined on input line 703.
+LaTeX Warning: Citation 'Nashid2023' on page 48 undefined on input line 725.
 
 
-LaTeX Warning: Citation '' on page 43 undefined on input line 703.
+LaTeX Warning: Citation '' on page 48 undefined on input line 725.
 
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [43]
-
-LaTeX Warning: Citation 'Wang2026' on page 44 undefined on input line 707.
+LaTeX Warning: Citation 'Wang2026' on page 48 undefined on input line 729.
 
 
-LaTeX Warning: Citation '' on page 44 undefined on input line 707.
+LaTeX Warning: Citation '' on page 48 undefined on input line 729.
 
 
-LaTeX Warning: Citation 'Ali2026' on page 44 undefined on input line 707.
+LaTeX Warning: Citation 'Ali2026' on page 48 undefined on input line 729.
 
 
-LaTeX Warning: Citation '' on page 44 undefined on input line 707.
+LaTeX Warning: Citation '' on page 48 undefined on input line 729.
 
 
-LaTeX Warning: Citation 'Zhou2026' on page 44 undefined on input line 707.
+LaTeX Warning: Citation 'Zhou2026' on page 48 undefined on input line 729.
 
 
-LaTeX Warning: Citation '' on page 44 undefined on input line 707.
+LaTeX Warning: Citation '' on page 48 undefined on input line 729.
 
 
-Overfull \hbox (9.05164pt too wide) in paragraph at lines 707--710
+Overfull \hbox (9.05164pt too wide) in paragraph at lines 729--732
 [][][] \TU/TimesNewRoman(0)/m/n/12 (PRIME), [][] (PythiaRAG), dan
  []
 
 
-LaTeX Warning: Citation 'Chang2026' on page 44 undefined on input line 712.
+LaTeX Warning: Citation 'Chang2026' on page 48 undefined on input line 734.
 
 
-LaTeX Warning: Citation '' on page 44 undefined on input line 712.
+LaTeX Warning: Citation '' on page 48 undefined on input line 734.
 
 
-LaTeX Warning: Citation 'Zhou2026' on page 44 undefined on input line 716.
+LaTeX Warning: Citation 'Zhou2026' on page 48 undefined on input line 738.
 
 
-LaTeX Warning: Citation '' on page 44 undefined on input line 716.
+LaTeX Warning: Citation '' on page 48 undefined on input line 738.
 
 
-LaTeX Warning: Citation 'Chang2026' on page 44 undefined on input line 717.
+LaTeX Warning: Citation 'Chang2026' on page 48 undefined on input line 739.
 
 
-LaTeX Warning: Citation '' on page 44 undefined on input line 717.
+LaTeX Warning: Citation '' on page 48 undefined on input line 739.
 
 
-Overfull \hbox (85.386pt too wide) in paragraph at lines 716--718
+Overfull \hbox (85.386pt too wide) in paragraph at lines 738--740
 \TU/TimesNewRoman(0)/m/n/12 domain-domain lain masih terbuka sebagai arah penel
 itian lanjutan, dan [][]
  []
 
+[48]
 
-LaTeX Warning: Citation 'DaSilva2025' on page 44 undefined on input line 730.
-
-
-LaTeX Warning: Citation '' on page 44 undefined on input line 730.
+LaTeX Warning: Citation 'DaSilva2025' on page 49 undefined on input line 752.
 
 
-LaTeX Warning: Citation 'Kabir2024' on page 44 undefined on input line 730.
+LaTeX Warning: Citation '' on page 49 undefined on input line 752.
 
 
-LaTeX Warning: Citation '' on page 44 undefined on input line 730.
+LaTeX Warning: Citation 'Kabir2024' on page 49 undefined on input line 752.
 
 
-Overfull \hbox (38.93013pt too wide) in paragraph at lines 730--733
+LaTeX Warning: Citation '' on page 49 undefined on input line 752.
+
+
+Overfull \hbox (38.93013pt too wide) in paragraph at lines 752--755
 []\TU/TimesNewRoman(0)/m/n/12 Studi evaluatif oleh [][] dan [][]
  []
 
-[44]
 
-LaTeX Warning: Citation 'Nashid2023' on page 45 undefined on input line 740.
-
-
-LaTeX Warning: Citation '' on page 45 undefined on input line 740.
+LaTeX Warning: Citation 'Nashid2023' on page 49 undefined on input line 762.
 
 
-LaTeX Warning: Citation 'Zhou2026' on page 45 undefined on input line 744.
+LaTeX Warning: Citation '' on page 49 undefined on input line 762.
 
 
-LaTeX Warning: Citation '' on page 45 undefined on input line 744.
+LaTeX Warning: Citation 'Zhou2026' on page 49 undefined on input line 766.
 
 
-LaTeX Warning: Citation 'Wang2026' on page 45 undefined on input line 748.
+LaTeX Warning: Citation '' on page 49 undefined on input line 766.
 
 
-LaTeX Warning: Citation '' on page 45 undefined on input line 748.
+LaTeX Warning: Citation 'Wang2026' on page 49 undefined on input line 770.
 
 
-LaTeX Warning: Citation 'Ali2026' on page 45 undefined on input line 748.
+LaTeX Warning: Citation '' on page 49 undefined on input line 770.
 
 
-LaTeX Warning: Citation '' on page 45 undefined on input line 748.
+LaTeX Warning: Citation 'Ali2026' on page 49 undefined on input line 770.
 
 
-LaTeX Warning: Citation 'Zhou2026' on page 45 undefined on input line 748.
+LaTeX Warning: Citation '' on page 49 undefined on input line 770.
 
 
-LaTeX Warning: Citation '' on page 45 undefined on input line 748.
+LaTeX Warning: Citation 'Zhou2026' on page 49 undefined on input line 770.
 
 
-LaTeX Warning: Citation 'Chang2026' on page 45 undefined on input line 761.
+LaTeX Warning: Citation '' on page 49 undefined on input line 770.
+
+[49]
+
+LaTeX Warning: Citation 'Chang2026' on page 50 undefined on input line 783.
 
 
-LaTeX Warning: Citation '' on page 45 undefined on input line 761.
+LaTeX Warning: Citation '' on page 50 undefined on input line 783.
 
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [45]
 File: images/bab2_kerangka_konseptual.png Graphic file (type bmp)
 <images/bab2_kerangka_konseptual.png>
 
-
-LaTeX Warning: Citation 'Xu2024' on page 46 undefined on input line 785.
-
-
-LaTeX Warning: Citation 'Zhou2026' on page 46 undefined on input line 785.
+LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-LaTeX Warning: Citation 'Cong2026' on page 46 undefined on input line 785.
+LaTeX Warning: Citation 'Xu2024' on page 50 undefined on input line 807.
 
 
-LaTeX Warning: Citation 'Kamalipour2026' on page 46 undefined on input line 785
-.
-
-[46]
-
-LaTeX Warning: Citation 'Wang2026' on page 47 undefined on input line 788.
+LaTeX Warning: Citation 'Zhou2026' on page 50 undefined on input line 807.
 
 
-LaTeX Warning: Citation 'Zhou2026' on page 47 undefined on input line 788.
+LaTeX Warning: Citation 'Cong2026' on page 50 undefined on input line 807.
 
 
-LaTeX Warning: Citation 'BenKhalifa2026' on page 47 undefined on input line 791
+LaTeX Warning: Citation 'Kamalipour2026' on page 50 undefined on input line 807
 .
 
 
-LaTeX Warning: Citation 'Ali2026' on page 47 undefined on input line 791.
+LaTeX Warning: Citation 'Wang2026' on page 50 undefined on input line 810.
 
 
-LaTeX Warning: Citation 'Gu2026' on page 47 undefined on input line 794.
+LaTeX Warning: Citation 'Zhou2026' on page 50 undefined on input line 810.
 
+[50]
 
-LaTeX Warning: Citation 'Kamalipour2026' on page 47 undefined on input line 794
+LaTeX Warning: Citation 'BenKhalifa2026' on page 51 undefined on input line 813
 .
 
 
-LaTeX Warning: Citation 'Peffers2007' on page 47 undefined on input line 796.
+LaTeX Warning: Citation 'Ali2026' on page 51 undefined on input line 813.
 
-)
-Underfull \vbox (badness 1412) has occurred while \output is active []
 
- [47]
-(./Bab III - Analisis dan Desain.tex [48]
+LaTeX Warning: Citation 'Gu2026' on page 51 undefined on input line 816.
+
+
+LaTeX Warning: Citation 'Kamalipour2026' on page 51 undefined on input line 816
+.
+
+
+Underfull \vbox (badness 3449) has occurred while \output is active []
+
+ [51]
+
+LaTeX Warning: Citation 'Peffers2007' on page 52 undefined on input line 818.
+
+) (./Bab III - Analisis dan Desain.tex [52]
 Bab III.
 
-LaTeX Warning: Citation 'Huang2025' on page 49 undefined on input line 26.
+LaTeX Warning: Citation 'Huang2025' on page 53 undefined on input line 26.
 
-[49
+[53
 
 ]
 File: images/bab3_model_konseptual_saat_ini.png Graphic file (type bmp)
 <images/bab3_model_konseptual_saat_ini.png>
 
 
-LaTeX Warning: Citation 'DaSilva2025' on page 50 undefined on input line 43.
+LaTeX Warning: Citation 'DaSilva2025' on page 54 undefined on input line 43.
 
 
-LaTeX Warning: Citation '' on page 50 undefined on input line 43.
+LaTeX Warning: Citation '' on page 54 undefined on input line 43.
 
 (./tables/bab3_bukti_empiris_baseline.tex
 
-LaTeX Warning: Citation 'DaSilva2025' on page 50 undefined on input line 5.
+LaTeX Warning: Citation 'DaSilva2025' on page 54 undefined on input line 5.
 
 
-LaTeX Warning: Citation '' on page 50 undefined on input line 5.
+LaTeX Warning: Citation '' on page 54 undefined on input line 5.
 
 
-LaTeX Warning: Citation 'DaSilva2025' on page 50 undefined on input line 5.
+LaTeX Warning: Citation 'DaSilva2025' on page 54 undefined on input line 5.
 
 
-LaTeX Warning: Citation '' on page 50 undefined on input line 5.
+LaTeX Warning: Citation '' on page 54 undefined on input line 5.
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 31--31
@@ -3141,10 +3151,10 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 )
 
-LaTeX Warning: Citation 'Kabir2024' on page 50 undefined on input line 48.
+LaTeX Warning: Citation 'Kabir2024' on page 54 undefined on input line 48.
 
 
-LaTeX Warning: Citation '' on page 50 undefined on input line 48.
+LaTeX Warning: Citation '' on page 54 undefined on input line 48.
 
 
 Overfull \hbox (1.57733pt too wide) in paragraph at lines 48--50
@@ -3153,15 +3163,15 @@ n bah-
  []
 
 
-LaTeX Warning: Citation 'Nashid2023' on page 50 undefined on input line 51.
+LaTeX Warning: Citation 'Nashid2023' on page 54 undefined on input line 51.
 
 
-LaTeX Warning: Citation '' on page 50 undefined on input line 51.
+LaTeX Warning: Citation '' on page 54 undefined on input line 51.
 
-[50]
+[54]
 Underfull \vbox (badness 1137) has occurred while \output is active []
 
- [51]
+ [55]
 (./tables/bab3_kebutuhan_pengguna.tex
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -3173,16 +3183,16 @@ Overfull \hbox (2.6242pt too wide) in paragraph at lines 93--95
 
  []
 
-[52]
+[56]
 
-LaTeX Warning: Citation 'DaSilva2025' on page 53 undefined on input line 110.
+LaTeX Warning: Citation 'DaSilva2025' on page 57 undefined on input line 110.
 
 (./tables/bab3_kebutuhan_nonfungsional.tex
 
-LaTeX Warning: Citation 'DaSilva2025' on page 53 undefined on input line 37.
+LaTeX Warning: Citation 'DaSilva2025' on page 57 undefined on input line 37.
 
 
-LaTeX Warning: Citation '' on page 53 undefined on input line 37.
+LaTeX Warning: Citation '' on page 57 undefined on input line 37.
 
 
 Overfull \hbox (25.79962pt too wide) in paragraph at lines 37--37
@@ -3195,24 +3205,24 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 )
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [53]
+ [57]
 
-LaTeX Warning: Citation 'DaSilva2025' on page 54 undefined on input line 131.
-
-
-LaTeX Warning: Citation '' on page 54 undefined on input line 131.
+LaTeX Warning: Citation 'DaSilva2025' on page 58 undefined on input line 131.
 
 
-LaTeX Warning: Citation 'DaSilva2025' on page 54 undefined on input line 132.
+LaTeX Warning: Citation '' on page 58 undefined on input line 131.
 
 
-LaTeX Warning: Citation '' on page 54 undefined on input line 132.
+LaTeX Warning: Citation 'DaSilva2025' on page 58 undefined on input line 132.
 
 
-LaTeX Warning: Citation 'Kabir2024' on page 54 undefined on input line 132.
+LaTeX Warning: Citation '' on page 58 undefined on input line 132.
 
 
-LaTeX Warning: Citation '' on page 54 undefined on input line 132.
+LaTeX Warning: Citation 'Kabir2024' on page 58 undefined on input line 132.
+
+
+LaTeX Warning: Citation '' on page 58 undefined on input line 132.
 
 
 Overfull \hbox (0.87616pt too wide) in paragraph at lines 131--133
@@ -3221,13 +3231,13 @@ oman(0)/m/it/12 parametric knowledge \TU/TimesNewRoman(0)/m/n/12 tanpa augmen-
  []
 
 
-LaTeX Warning: Citation 'Zhou2026' on page 54 undefined on input line 134.
+LaTeX Warning: Citation 'Zhou2026' on page 58 undefined on input line 134.
 
 
-LaTeX Warning: Citation 'Nashid2023' on page 54 undefined on input line 134.
+LaTeX Warning: Citation 'Nashid2023' on page 58 undefined on input line 134.
 
 
-LaTeX Warning: Citation '' on page 54 undefined on input line 134.
+LaTeX Warning: Citation '' on page 58 undefined on input line 134.
 
 
 Overfull \hbox (0.12805pt too wide) in paragraph at lines 133--136
@@ -3235,24 +3245,24 @@ Overfull \hbox (0.12805pt too wide) in paragraph at lines 133--136
 van ([]). Studi [][]
  []
 
-[54]
+[58]
 
-LaTeX Warning: Citation 'Zhu2026' on page 55 undefined on input line 137.
-
-
-LaTeX Warning: Citation '' on page 55 undefined on input line 137.
+LaTeX Warning: Citation 'Zhu2026' on page 59 undefined on input line 137.
 
 
-LaTeX Warning: Citation 'Wang2026' on page 55 undefined on input line 137.
+LaTeX Warning: Citation '' on page 59 undefined on input line 137.
 
 
-LaTeX Warning: Citation '' on page 55 undefined on input line 137.
+LaTeX Warning: Citation 'Wang2026' on page 59 undefined on input line 137.
 
 
-LaTeX Warning: Citation 'Zhou2026' on page 55 undefined on input line 137.
+LaTeX Warning: Citation '' on page 59 undefined on input line 137.
 
 
-LaTeX Warning: Citation '' on page 55 undefined on input line 137.
+LaTeX Warning: Citation 'Zhou2026' on page 59 undefined on input line 137.
+
+
+LaTeX Warning: Citation '' on page 59 undefined on input line 137.
 
 
 Overfull \hbox (72.71883pt too wide) in paragraph at lines 136--138
@@ -3307,35 +3317,35 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 )
 
-LaTeX Warning: Citation 'DaSilva2025' on page 55 undefined on input line 151.
+LaTeX Warning: Citation 'DaSilva2025' on page 59 undefined on input line 151.
 
 
-LaTeX Warning: Citation '' on page 55 undefined on input line 151.
+LaTeX Warning: Citation '' on page 59 undefined on input line 151.
 
 File: images/bab3_matriks_komparasi.png Graphic file (type bmp)
 <images/bab3_matriks_komparasi.png>
 
-LaTeX Warning: Citation 'DaSilva2025' on page 55 undefined on input line 167.
+LaTeX Warning: Citation 'DaSilva2025' on page 59 undefined on input line 167.
 
 
-LaTeX Warning: Citation 'DaSilva2025' on page 55 undefined on input line 167.
+LaTeX Warning: Citation 'DaSilva2025' on page 59 undefined on input line 167.
 
 
-LaTeX Warning: Citation '' on page 55 undefined on input line 167.
+LaTeX Warning: Citation '' on page 59 undefined on input line 167.
 
 
-LaTeX Warning: Citation 'DaSilva2025' on page 55 undefined on input line 167.
+LaTeX Warning: Citation 'DaSilva2025' on page 59 undefined on input line 167.
 
 
-LaTeX Warning: Citation 'DaSilva2025' on page 55 undefined on input line 167.
+LaTeX Warning: Citation 'DaSilva2025' on page 59 undefined on input line 167.
 
 
-LaTeX Warning: Citation '' on page 55 undefined on input line 167.
+LaTeX Warning: Citation '' on page 59 undefined on input line 167.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[55]
+[59]
 File: images/bab3_model_konseptual_saat_ini.png Graphic file (type bmp)
 <images/bab3_model_konseptual_saat_ini.png>
 
@@ -3346,14 +3356,14 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 Package hyperref Warning: Difference (2) between bookmark levels is greater 
 (hyperref)                than one, level fixed on input line 210.
 
-[56]
+[60]
 
-LaTeX Warning: Text page 57 contains only floats.
+LaTeX Warning: Text page 61 contains only floats.
 
 
 Underfull \vbox (badness 1308) has occurred while \output is active []
 
- [57]
+ [61]
 Overfull \hbox (23.41101pt too wide) in paragraph at lines 215--218
 []\TU/lmtt/m/n/12 Answer \TU/TimesNewRoman(0)/m/n/12 — merepresentasikan jawaba
 n SO; atribut: \TU/lmtt/m/n/12 id\TU/TimesNewRoman(0)/m/n/12 , \TU/lmtt/m/n/12 
@@ -3389,7 +3399,7 @@ Overfull \hbox (36.6042pt too wide) in paragraph at lines 39--39
 []\OT1/cmr/m/n/12 ([])$|  
  []
 
-) [58]
+) [62]
 File: images/bab3_contoh_subgraf_kg.png Graphic file (type bmp)
 <images/bab3_contoh_subgraf_kg.png>
 
@@ -3403,7 +3413,7 @@ File: images/bab3_flowchart_konstruksi_kg.png Graphic file (type bmp)
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[59]
+[63]
 File: images/bab3_flowchart_query.png Graphic file (type bmp)
 <images/bab3_flowchart_query.png>
 
@@ -3411,16 +3421,16 @@ File: images/bab3_flowchart_query.png Graphic file (type bmp)
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-LaTeX Warning: Citation 'DaSilva2025' on page 60 undefined on input line 294.
+LaTeX Warning: Citation 'DaSilva2025' on page 64 undefined on input line 294.
 
 
-LaTeX Warning: Citation '' on page 60 undefined on input line 294.
+LaTeX Warning: Citation '' on page 64 undefined on input line 294.
 
 
-LaTeX Warning: Citation 'DaSilva2025' on page 60 undefined on input line 295.
+LaTeX Warning: Citation 'DaSilva2025' on page 64 undefined on input line 295.
 
 
-LaTeX Warning: Citation '' on page 60 undefined on input line 295.
+LaTeX Warning: Citation '' on page 64 undefined on input line 295.
 
 
 Overfull \hbox (12.21008pt too wide) in paragraph at lines 293--296
@@ -3434,15 +3444,15 @@ Overfull \hbox (80.19576pt too wide) in paragraph at lines 293--296
 rkan oleh [][]
  []
 
-[60] (./tables/bab3_metrik_evaluasi.tex
+[64] (./tables/bab3_metrik_evaluasi.tex
 
-LaTeX Warning: Citation 'DaSilva2025' on page 61 undefined on input line 45.
-
-
-LaTeX Warning: Citation '' on page 61 undefined on input line 45.
+LaTeX Warning: Citation 'DaSilva2025' on page 65 undefined on input line 45.
 
 
-LaTeX Warning: Citation 'Gu2026' on page 61 undefined on input line 45.
+LaTeX Warning: Citation '' on page 65 undefined on input line 45.
+
+
+LaTeX Warning: Citation 'Gu2026' on page 65 undefined on input line 45.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -3517,7 +3527,7 @@ Underfull \hbox (badness 4792) in paragraph at lines 88--88
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-)) [61] [62] [63] [64
+)) [65] [66] [67] [68
 
 ]
 
@@ -3541,7 +3551,7 @@ L3 programming layer <2026-01-19>
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `tesis.out' has not changed.
-(rerunfilecheck)             Checksum: A066439232BE7649DB7D5B190D715CE4;25422.
+(rerunfilecheck)             Checksum: 415B9B145D97BF8EC517D36E9BB812A7;27039.
 
 Package biblatex Warning: Please (re)run Biber on the file:
 (biblatex)                tesis
@@ -3552,12 +3562,12 @@ Package logreq Info: Writing requests to 'tesis.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 33213 strings out of 468168
- 654309 string characters out of 5432816
- 2067031 words of memory out of 5000000
- 61468 multiletter control sequences out of 15000+600000
+ 33219 strings out of 468168
+ 654488 string characters out of 5432816
+ 2068726 words of memory out of 5000000
+ 61471 multiletter control sequences out of 15000+600000
  634554 words of font info for 100 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  73i,14n,95p,1482b,2369s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on tesis.pdf (86 pages).
+Output written on tesis.pdf (90 pages).
