@@ -1,22 +1,12 @@
 \cleardoublepage % memastikan bab baru dimulai di halaman ganjil (kanan)
 \chapter{STUDI LITERATUR}
 \label{chap:studi-literatur}
-Bab ini menyajikan landasan teori, kajian penelitian terdahulu, serta analisis
-kesenjangan penelitian (\emph{research gap}) yang menjadi dasar ilmiah dalam
-pengembangan \emph{GraphRAG Framework} pada penelitian ini. Kajian literatur
-disusun secara tematik dan analitis untuk menunjukkan keterkaitan antar konsep
+Bab ini menyajikan landasan teori, kajian penelitian terdahulu, serta analisis kesenjangan penelitian (\emph{research gap}) yang menjadi dasar ilmiah dalam
+pengembangan \emph{GraphRAG Framework} pada penelitian ini. Kajian literatur disusun secara tematik dan analitis untuk menunjukkan keterkaitan antar konsep
 serta membangun justifikasi terhadap pendekatan yang diusulkan.
 
-Pembahasan diawali dengan permasalahan utama penelitian, yaitu fenomena
-halusinasi pada \emph{Large Language Model} (LLM) dalam domain pemrograman.
-Selanjutnya dibahas teori-teori yang mendukung solusi penelitian, meliputi
-arsitektur LLM, paradigma \emph{Retrieval-Augmented Generation} (RAG),
-\emph{knowledge graph}, dan \emph{Graph-based Retrieval-Augmented Generation}
-(GraphRAG). Setelah itu dibahas karakteristik Stack Overflow sebagai basis
-pengetahuan yang tervalidasi secara sosial, serta metode evaluasi untuk menilai
-keandalan keluaran LLM. Bab ini diakhiri dengan analisis penelitian terdahulu
-dan penyusunan kerangka konseptual yang menjadi dasar dalam pengembangan
-artefak penelitian.
+Pembahasan diawali dengan permasalahan utama penelitian, yaitu fenomena halusinasi pada \emph{Large Language Model} (LLM) dalam domain pemrograman. Selanjutnya dibahas teori-teori yang mendukung solusi penelitian, meliputi arsitektur LLM, paradigma \emph{Retrieval-Augmented Generation} (RAG), \emph{knowledge graph}, dan \emph{Graph-based Retrieval-Augmented Generation} (GraphRAG). Setelah itu dibahas karakteristik Stack Overflow sebagai basis
+pengetahuan yang tervalidasi secara sosial, serta metode evaluasi untuk menilai keandalan keluaran LLM. Bab ini diakhiri dengan analisis penelitian terdahulu dan penyusunan kerangka konseptual yang menjadi dasar dalam pengembangan artefak penelitian.
 
 % =========================================================
 \section{Halusinasi pada \emph{Large Language Model}}
@@ -747,37 +737,25 @@ Stack Overflow.
 \subsection{Kerangka Konseptual Penelitian}
 % =========================================================
 
-Berdasarkan sintesis literatur, kerangka konseptual penelitian ini (Gambar~\ref{fig:kerangka_konseptual}) menghubungkan komponen-komponen
-teoritis ke dalam empat jalur yang kohesif.
+Berdasarkan studi literatur, kerangka konseptual penelitian ini (Gambar~\ref{fig:kerangka_konseptual}) mengorganisasi komponen-komponen teoritis ke dalam empat jalur yang saling terhubung secara sekuensial, yaitu (1) konstruksi pengetahuan, (2) pengambilan konteks, (3) generasi berbasis graf, dan (4) evaluasi.
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=\textwidth]{images/kerangka_konseptual}
-\caption{Kerangka konseptual penelitian: integrasi Stack Overflow sebagai
-sumber pengetahuan tervalidasi sosial, \emph{knowledge graph} berbobot
-sebagai struktur representasi, mekanisme \emph{graph-guided retrieval},
-\emph{grounded generation}, dan protokol evaluasi halusinasi.}
+\includegraphics[width=\textwidth]{images/bab2_kerangka_konseptual.png}
+\caption{Kerangka konseptual penelitian}
 \label{fig:kerangka_konseptual}
 \end{figure}
 
-\textbf{Jalur 1 — Konstruksi Pengetahuan.}
-Konten Stack Overflow diekstraksi dari \emph{Stack Exchange Data Dump} dan diproses melalui \emph{pipeline} konstruksi KG berbasis LLM
-\autocite{Zhou2026, Cong2026} untuk menghasilkan KG berarah. Sinyal kepercayaan komunitas (\emph{upvote}, \emph{accepted answer}, reputasi
-kontributor) diinkorporasi sebagai bobot eksplisit pada simpul dan sisi, menghasilkan representasi pengetahuan yang tidak hanya terstruktur
-secara relasional tetapi juga mencerminkan validasi komunitas praktisi.
+\textbf{Jalur 1 - Konstruksi pengetahuan.}
+Jalur pertama membangun fondasi pengetahuan terstruktur melalui tiga aktivitas berurutan. Pertama, data diekstraksi dari \textit{Stack Exchange Data Dump} (SORD) yang mencakup pertanyaan, jawaban, tag, dan metadata komunitas~\autocite{Xu2024}. Kedua, data tersebut diproses melalui pipeline konstruksi Knowledge Graph (KG) berbasis LLM yang meliputi proses Named Entity Recognition (NER) dan ekstraksi triple (subjek--predikat--objek). Pada tahap ini, bobot komunitas seperti upvote, accepted answer, dan reputasi kontributor diintegrasikan sebagai atribut eksplisit dalam graf~\autocite{Zhou2026, Cong2026}. Ketiga, seluruh triple yang dihasilkan disimpan ke dalam graph database Neo4j disertai vector embedding pada setiap simpul untuk mendukung mekanisme pencarian hibrida~\autocite{Kamalipour2026}. KG yang tersimpan kemudian berfungsi sebagai indeks pengetahuan terstruktur yang digunakan dalam seluruh proses pengambilan konteks pada jalur berikutnya.
 
-\textbf{Jalur 2 — Pengambilan Konteks.}
-Kueri pengguna digunakan sebagai titik masuk traversal graf. Mekanisme \emph{graph-guided retrieval} mengikuti jalur berbobot untuk mengekstraksi
-subgraf yang kaya secara semantik dan relasional, sebagaimana dibuktikan efektif oleh PRIME \autocite{Wang2026} dalam skenario \emph{multi-hop}
-dan oleh IC-HRAG \autocite{Zhou2026} dalam domain teknis \emph{knowledge-intensive}.
+\textbf{Jalur 2 - Pengambilan konteks.}
+Jalur kedua dimulai dari kueri pengguna yang diproses melalui \emph{Named Entity Recognition} (NER) dan \emph{entity linking} untuk memetakan entitas pada pertanyaan ke simpul yang relevan di dalam KG. Selanjutnya, mekanisme \emph{graph-guided retrieval} mengeksekusi traversal berbobot secara \textit{multi-hop} pada KG yang telah dibangun. Proses traversal ini mengikuti jalur relasi dari entitas awal hingga menghasilkan subgraf kontekstual yang kaya secara relasional maupun semantik~\autocite{Wang2026, Zhou2026}. Subgraf tersebut kemudian digunakan sebagai konteks utama pada tahap generasi jawaban di jalur berikutnya.
 
-\textbf{Jalur 3 — Generasi Berbasis Graf.}
-Subgraf hasil ekstraksi dikonversi menjadi \emph{structured prompt} yang dikirimkan ke LLM. \emph{Grounding} berbasis KG menghasilkan jawaban dengan akurasi faktual yang lebih tinggi dibandingkan generasi parametrik murni \autocite{Ali2026} maupun RAG konvensional berbasis vektor \autocite{Zhou2026}.
+\textbf{Jalur 3 -Generasi berbasis graf.}
+Subgraf yang dihasilkan pada Jalur 2 diproses melalui \textit{grounded generation}. Pada tahap ini, setiap \emph{triple} direpresentasikan dalam bentuk pasangan \texttt{(Entitas-Relasi-Entitas),+,segmen teks sumber} dan disertakan sebagai \emph{structured prompt} ke LLM. Mekanisme \emph{dual-constraint} diterapkan melalui dua lapisan kendali, yaitu kendala berbasis KG yang mengharuskan LLM menghasilkan penjelasan sesuai fakta yang direpresentasikan oleh graf, serta mekanisme \textit{RAG grounding} yang mengaitkan setiap penjelasan dengan sumber tekstual yang dapat diverifikasi~\autocite{BenKhalifa2026}. Pendekatan ini memungkinkan sistem menghasilkan jawaban dengan akurasi faktual yang lebih tinggi sekaligus menyediakan jalur \emph{provenance} yang dapat ditelusuri kembali ke simpul KG berbasis Stack Overflow~\autocite{Ali2026}.
 
-\textbf{Jalur 4 — Evaluasi dan Validasi.}
-Efektivitas reduksi halusinasi diukur pada tiga kondisi perbandingan (LLM murni, RAG konvensional, GraphRAG) menggunakan protokol evaluasi
-berbasis paradigma \emph{LLM-as-a-Judge} \autocite{Gu2026}, dengan metrik yang mencakup \emph{hallucination rate}, akurasi faktual, dan skor
-konsistensi \autocite{Ji2023, Huang2025}.
+\textbf{Jalur 4 - Evaluasi dan validasi.}
+Jawaban LLM yang dihasilkan pada Jalur 3 dievaluasi melalui tiga skenario perbandingan yang disusun secara bertingkat, yaitu: (1) LLM murni tanpa mekanisme \textit{grounding}, (2) RAG konvensional berbasis \emph{dense retrieval}, dan (3) \emph{GraphRAG Framework} yang diusulkan dengan KG berbobot dari Stack Overflow. Ketiga skenario tersebut dievaluasi menggunakan protokol berbasis paradigma \emph{LLM-as-a-Judge}~\autocite{Gu2026}. Evaluasi dilakukan menggunakan sejumlah metrik, meliputi \textit{hallucination rate} (H-Rate), \textit{faithfulness}, \textit{answer relevance} melalui kerangka RAGAS, serta \textit{agreement with human judgments} yang diukur menggunakan Cohen's~$\kappa$~\autocite{Kamalipour2026}.
 
-Konsistensi antara masalah yang diidentifikasi, teori yang mendasari, dan artefak yang dirancang merupakan prasyarat kualitas metodologis dalam
-penelitian desain \autocite{Peffers2007}.
+Keempat jalur tersebut membentuk suatu sistem yang terintegrasi secara kohesif. KG yang dibangun pada Jalur 1 berfungsi sebagai indeks pengetahuan bagi proses retrieval pada Jalur 2, subgraf hasil retrieval menjadi konteks bagi proses generasi pada Jalur 3, sedangkan jawaban yang dihasilkan LLM menjadi objek evaluasi pada Jalur 4. Konsistensi antara permasalahan penelitian, solusi yang diusulkan, dan artefak yang dirancang merupakan prasyarat penting dalam menjaga kualitas metodologis penelitian berbasis desain~\autocite{Peffers2007}.

@@ -1,0 +1,296 @@
+%============================================================
+% BAB III — ANALISIS DAN DESAIN
+%============================================================
+
+\chapter{Analisis dan Desain}
+\label{chap:analisis-desain}
+
+Bab ini merupakan kelanjutan langsung dari analisis \emph{research gap} yang diidentifikasi pada Bab~\ref{chap:studi-literatur}. Tiga kesenjangan yang ditemukan yaitu G1 (absennya mekanisme \emph{grounding} arsitektural berbasis komunitas Stack Overflow), G2 (RAG berbasis SO yang tidak memanfaatkan dimensi relasional dan sinyal kepercayaan komunitas), serta G3 (GraphRAG yang belum diaplikasikan pada \emph{knowledge graph} dari komunitas teknis bervalidasi sosial). kesenjangan tersebut diterjemahkan ke dalam keputusan analisis dan desain yang konkret. Secara garis besar, bab ini membahas hal-hal berikut:
+
+\begin{enumerate}[1.]
+    \item Deskripsi hasil analisis kondisi saat ini dan persoalan yang ditangani, merujuk pada bukti empiris dari studi-studi yang diidentifikasi pada Bab~\ref{chap:studi-literatur},
+
+    \item Analisis kebutuhan komponen \emph{GraphRAG Framework}, mencakup kebutuhan fungsional dan nonfungsional yang diturunkan dari rumusan masalah dan hipotesis penelitian yang ditetapkan di Bab~\ref{chap:pendahuluan}, dan
+
+    \item Analisis pemilihan solusi beserta desain konseptual \emph{GraphRAG Framework} yang merespons ketiga kesenjangan secara sistematis, termasuk rancangan \emph{knowledge graph} berbobot, mekanisme \emph{graph-guided retrieval}, dan protokol evaluasi komparatif.
+\end{enumerate}
+
+
+\section{Analisis Kondisi Saat Ini}
+\label{sec:kondisi-saat-ini}
+%============================================================
+
+\subsection{Model Konseptual Sistem yang Ada}
+\label{subsec:model-konseptual}
+
+Sistem tanya-jawab teknis berbasis \emph{Large Language Model} (LLM) yang umum digunakan saat ini masih bekerja menggunakan mekanisme satu arah. Pengguna memberikan pertanyaan terkait pemrograman, kemudian model menghasilkan jawaban berdasarkan pengetahuan internal yang telah dipelajari selama proses pra-pelatihan (\emph{pre-training}) \autocite{Huang2025}. Pengetahuan tersebut dikenal sebagai \emph{parametric knowledge}, yaitu informasi yang tersimpan dalam parameter atau bobot model. Dengan mekanisme ini, LLM menghasilkan respons berdasarkan apa yang telah dipelajari sebelumnya tanpa mengambil informasi tambahan dari sumber eksternal saat proses inferensi berlangsung.
+
+Konsekuensinya, sistem tidak memiliki mekanisme untuk melakukan \emph{grounding} terhadap sumber pengetahuan yang terverifikasi, seperti dokumentasi resmi, basis pengetahuan komunitas, maupun repositori teknis lainnya. Akibatnya, kualitas jawaban sangat bergantung pada cakupan dan representativitas data latih yang digunakan selama pelatihan model. Kondisi tersebut dapat menimbulkan beberapa permasalahan, seperti ketidakakuratan informasi, hilangnya konteks teknis tertentu, serta munculnya halusinasi ketika model menghadapi pertanyaan yang tidak tercakup dengan baik pada data pelatihan.
+
+Gambar~\ref{fig:model-konseptual-saat-ini} memperlihatkan model konseptual sistem yang digunakan saat ini beserta titik-titik potensi kegagalan yang menjadi fokus pada penelitian ini.
+
+%------ Gambar 3.1: Model Konseptual Sistem Saat Ini ------
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.85\textwidth]{images/bab3_model_konseptual_saat_ini}
+\caption{Model konseptual sistem tanya-jawab berbasis LLM generik tanpa mekanisme pengambilan konteks dari sumber terverifikasi.}
+\label{fig:model-konseptual-saat-ini}
+\end{figure}
+
+\subsection{Bukti Empiris Keterbatasan Sistem Saat Ini}
+\label{subsec:bukti-empiris}
+
+Studi \textcite{DaSilva2025} menyediakan bukti kuantitatif paling komprehensif tentang keterbatasan LLM ketika menangani pertanyaan komunitas Stack Overflow. Studi tersebut mengevaluasi ChatGPT-3.5 dan LLaMA-2-7b menggunakan pertanyaan dari Stack Overflow yang mencakup berbagai domain \emph{software engineering}. Temuan yang relevan dengan penelitian ini dirangkum pada
+Tabel~\ref{tab:bukti-empiris-baseline}.
+
+\input{tables/bab3_bukti_empiris_baseline.tex}
+
+Studi \textcite{Kabir2024} memperkuat temuan ini dengan melaporkan bahwa 52\% jawaban ChatGPT untuk pertanyaan SO bersifat tidak benar ketika dievaluasi secara manual, ngka yang jauh lebih tinggi dari yang diklaim dalam evaluasi berbasis metrik otomatis. Ketidakakuratan ini paling parah pada pertanyaan yang membutuhkan pengetahuan tentang versi \emph{library} atau \emph{framework}
+terkini, yang merupakan manifestasi konkret dari kesenjangan G2 dan G3.
+
+Selain itu, \textcite{Nashid2023} mendemonstrasikan bahwa augmentasi konteks dari Stack Overflow meningkatkan relevansi jawaban LLM pada tugas pemrograman, namun pendekatan berbasis \emph{dense retrieval} yang digunakan tidak mengeksploitasi struktur relasional dan sinyal kepercayaan yang tersedia dalam konten Stackoverflow. Inilah inti kesenjangan G2.
+
+\subsection{Identifikasi Masalah}
+\label{subsec:identifikasi-masalah-kondisi}
+
+Berdasarkan bukti empiris dari ketiga studi di atas dan sintesis di Bab~\ref{chap:studi-literatur}, masalah utama yang ditangani dalam penelitian ini dijabarkan sebagai berikut:
+
+\begin{enumerate}
+    \item Halusinasi Faktual pada Domain \emph{Framework} dan \emph{Library}.
+    LLM menghasilkan jawaban yang terdengar meyakinkan namun faktanya keliru, khususnya ketika pertanyaan menyentuh
+    \emph{library} atau \emph{framework} yang rilis atau diperbarui setelah batas pengetahuan (\emph{knowledge cutoff}) model. Ini adalah manifestasi dari absennya mekanisme \emph{grounding} eksternal (G1).
+
+    \item Kegagalan Memanfaatkan Sinyal Kepercayaan Komunitas Stackoverflow.
+    Informasi signal kepercayaan seperti \emph{upvote}, status \emph{accepted answer}, reputasi kontributor, hubungan rekomendasi yang tersedia di StackOverflow namun tidak dieksploitasi oleh LLM maupun sistem RAG konvensional. Ini adalah inti kesenjangan G2.
+
+    \item Ketidakterlacakan Sumber Jawaban.
+    Jawaban LLM tidak dapat dilacak ke diskusi komunitas yang menjadi dasarnya. Ketidakterlacakan ini menghalangi verifikasi independen dan mengurangi kepercayaan pengguna, terutama pada konteks profesional.
+
+    \item Pengetahuan yang Tidak Dapat Diperbarui Tanpa \emph{Re-training}. 
+    LLM tidak dapat mengadaptasi pengetahuannya secara dinamis ketika ekosistem \emph{library} berkembang, tanpa proses
+    \emph{fine-tuning} ulang yang mahal secara komputasi.
+\end{enumerate}
+
+
+%============================================================
+\section{Analisis Kebutuhan}
+\label{sec:analisis-kebutuhan}
+%============================================================
+
+\subsection{Identifikasi Kebutuhan Pengguna}
+\label{subsec:identifikasi-kebutuhan-pengguna}
+
+Pengguna utama \emph{GraphRAG Framework} adalah \emph{software developer}dan \emph{software engineer} yang menggunakan LLM untuk mendapatkan jawaban atas pertanyaan teknis di domain pemrograman, pertanyaan yang biasanya diajukan
+ke StackOverflow. Tabel~\ref{tab:kebutuhan-pengguna} memetakan masalah pengguna ke kebutuhan solusi yang harus dipenuhi artefak.
+
+\input{tables/bab3_kebutuhan_pengguna.tex}
+\subsection{Kebutuhan Fungsional}
+\label{subsec:kebutuhan-fungsional}
+
+Berdasarkan pemetaan masalah di atas, kebutuhan fungsional \emph{GraphRAG Framework} dirumuskan sebagai berikut:
+
+\begin{enumerate}[label=\textbf{F\arabic*.}]
+    \item Konstruksi \emph{Knowledge Graph} Berbobot dari SORD.
+    Sistem harus dapat memproses dataset SORD mencakup pertanyaan, jawaban diterima, komentar, tag, dan data rekomendasi untuk mengekstrak entitas dan relasi, lalu membangun KG berbobot di mana bobot pada simpul dan sisi merepresentasikan sinyal kepercayaan komunitas SO (skor \emph{upvote},status \emph{accepted answer}, reputasi kontributor, dan kekuatan rekomendasi antar-thread). Kebutuhan ini secara langsung menjawab G2 dan G3.
+
+    \item Pengindeksan Vektor Teks Konten SORD
+    Sistem harus mengindeks teks pertanyaan dan jawaban dari SORD ke dalam \emph{vector store} menggunakan model \emph{embedding} untuk mendukung pencarian semantik berbasis kemiripan kosinus sebagai jalur komplementer terhadap traversal graf.
+
+    \item Pemahaman dan Dekomposisi Kueri.
+    Sistem harus mampu mengekstrak entitas kunci dari kueri pengguna menggunakan \emph{named entity recognition} (NER) dan memetakan entitas tersebut ke simpul yang ada di KG SORD.
+
+    \item \emph{Graph-Guided Retrieval} Berbasis Sinyal Kepercayaan.
+    Mekanisme pengambilan konteks harus mempertimbangkan bobot kepercayaan saat melakukan traversal dan \emph{ranking} konteks yang diambil. Traversal multi-hop diperlukan untuk menjawab pertanyaan yang menghubungkan beberapa entitas teknis. Ini merupakan kebutuhan inti yang menjawab G2 dan G3.
+
+    \item \emph{Grounded Generation} dengan \emph{Citation}.
+    Berdasarkan konteks yang diambil melalui \emph{graph-guided retrieval}, sistem harus membangkitkan jawaban menggunakan LLM yang secara eksplisit dibatasi oleh konteks tersebut (\emph{context-faithful generation}), dilengkapi dengan kutipan ke SO thread sumber. Ini menjawab G1.
+
+    \item Protokol Evaluasi Komparatif Tiga Kondisi.
+    Sistem harus menyediakan \emph{pipeline} evaluasi yang dapat membandingkan tiga kondisi secara \emph{apple-to-apple}: (a) LLM murni
+    sebagai \emph{baseline} \autocite{DaSilva2025}, (b) RAG konvensional sebagai \emph{ablation}, dan (c) \emph{GraphRAG Framework} yang diusulkan menggunakan dataset evaluasi yang sama.
+
+    \item Pembaruan KG Inkremental.
+    Sistem harus mendukung penambahan konten SO baru ke dalam KG tanpa \emph{re-training} model LLM, sehingga pengetahuan dapat diperbarui secara efisien seiring perkembangan ekosistem \emph{library}.
+\end{enumerate}
+
+\subsection{Kebutuhan Nonfungsional}
+\label{subsec:kebutuhan-nonfungsional}
+\input{tables/bab3_kebutuhan_nonfungsional.tex}
+%============================================================
+\section{Analisis Pemilihan Solusi}
+\label{sec:analisis-solusi}
+%============================================================
+
+\subsection{Alternatif Solusi}
+\label{subsec:alternatif-solusi}
+
+Berdasarkan identifikasi masalah dan kebutuhan di atas, tiga kondisi dipertimbangkan sekaligus membentuk \emph{framework} evaluasi
+komparatif penelitian ini.
+
+\begin{enumerate}[label=\textbf{F\arabic*.}]
+    \item Kondisi A — LLM Murni (\emph{Baseline} \textcite{DaSilva2025}).
+    LLM menjawab kueri pengguna langsung dari \emph{parametric knowledge} tanpa augmentasi konteks eksternal. Ini adalah kondisi yang dievaluasi secara empiris oleh \textcite{DaSilva2025} dan \textcite{Kabir2024}, dan menjadi titik acuan pengukuran \emph{improvement}. Keterbatasan yang sudah terdokumentasi adalah halusinasi pada domain Framework \& Library, absennya \emph{citation}, kegagalan pada pertanyaan relasional kompleks, ketidakmampuan mengadaptasi pengetahuan tanpa \emph{re-training}.
+    \item Kondisi B — RAG Konvensional (\emph{Ablation Study}). 
+    Konten SO dari SORD diindeks sebagai \emph{flat chunks} ke dalam \emph{vector store}. Pada waktu inferensi, potongan teks paling mirip secara semantik diambil dan dimasukkan ke dalam \emph{prompt} LLM. Keterbatasan arsitektural adalah tidak mengeksploitasi struktur relasional KG, sinyal kepercayaan komunitas SO (G2) tidak dimanfaatkan, tidak mampu menjawab kueri multi-hop, rentan terhadap \emph{knowledge noise} dari \emph{chunk} yang kurang relevan \autocite{Zhou2026}. Studi \textcite{Nashid2023} menunjukkan
+    peningkatan yang menjanjikan tetapi terbatas karena ketiadaan struktur relasional.
+    \item Kondisi C — \emph{GraphRAG Framework} (Solusi yang Diusulkan).
+    Konten SO dari SORD direpresentasikan sebagai KG berbobot di mana sinyal kepercayaan dikodekan secara eksplisit. Mekanisme \emph{graph-guided retrieval} memanfaatkan struktur relasional dan bobot kepercayaan untuk mengambil konteks yang lebih relevan. Jawaban di-\emph{ground} pada konteks tersebut dan dilengkapi \emph{citation} ke SO thread. Keunggulan arsitektural yaitu menjawab G1 (grounding arsitektural berbasis SO), G2 (sinyal kepercayaan sebagai bobot KG), dan G3 (GraphRAG pada KG dari komunitas teknis bervalidasi sosial). Studi \textcite{Zhu2026}, \textcite{Wang2026}, dan \textcite{Zhou2026} mengkonfirmasi superioritas pendekatan berbasis KG berbobot dibandingkan RAG konvensional pada berbagai domain teknis.
+\end{enumerate}
+
+\subsection{Analisis Penentuan Solusi}
+\label{subsec:penentuan-solusi}
+
+Tabel~\ref{tab:komparasi-solusi} menyajikan matriks komparasi ketiga kondisi terhadap kebutuhan yang telah diidentifikasi. Matriks ini sekaligus mendefinisikan posisi \emph{improvement} yang diklaim penelitian ini terhadap kondisi A dan B.
+
+\input{tables/bab3_komparasi_solusi.tex}
+
+Berdasarkan matriks ini, \textbf{Kondisi C (\emph{GraphRAG Framework})} dipilih sebagai solusi yang dikembangkan. Kondisi A dan B tetap
+diimplementasikan sebagai pembanding dalam protokol evaluasi komparatif (kebutuhan F6), memungkinkan pengukuran \emph{improvement} yang terukur dan dapat direproduksi.
+
+
+%============================================================
+\section{Desain Konseptual \emph{GraphRAG Framework}}
+\label{sec:desain-graphrag}
+%============================================================
+
+\subsection{Gambaran Umum Arsitektur}
+\label{subsec:gambaran-umum-arsitektur}
+
+Arsitektur \emph{GraphRAG Framework} yang diusulkan diturunkan langsung dari kerangka konseptual empat jalur yang disusun pada Bab~\ref{chap:studi-literatur} (Gambar~\ref{fig:kerangka_konseptual}). Empat jalur tersebut diimplementasikan sebagai komponen sistem yang saling berinteraksi:
+
+\begin{enumerate}
+    \item Jalur 1 — Konstruksi KG Berbobot dari Stack Overflow, merespons G2 dan G3 dengan membangun representasi terstruktur konten SO yang mengkodekan sinyal kepercayaan komunitas sebagai bobot eksplisit.
+    \item Jalur 2 — \emph{Graph-Guided Retrieval}, merespons G3 dengan memanfaatkan struktur relasional KG untuk pengambilan
+    konteks yang sensitif terhadap bobot kepercayaan.
+    \item Jalur 3 — \emph{Grounded Generation}, merespons G1 dengan membatasi pembangkitan jawaban LLM pada konteks
+    terverifikasi dari KG SO, dilengkapi \emph{citation}.
+    \item Jalur 4 — Evaluasi dan Validasi, memastikan \emph{improvement} terhadap kondisi A dan B dapat diukur
+    secara kuantitatif.
+\end{enumerate}
+
+Gambar~\ref{fig:arsitektur-framework} mengilustrasikan hubungan antar
+komponen dalam arsitektur \emph{framework}.
+
+%------ Gambar 3.2: Arsitektur Framework ------
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.85\textwidth]{images/bab3_model_konseptual_saat_ini}
+\caption{Arsitektur \emph{GraphRAG Framework} berdasarkan kerangka konseptual
+empat jalur dari Bab~\ref{chap:studi-literatur}. Label G1--G3 menunjukkan
+kesenjangan yang dijawab oleh setiap komponen.}
+\label{fig:arsitektur-framework}
+\end{figure}
+
+\subsection{Desain \emph{Knowledge Graph} Berbobot dari SORD}
+\label{subsec:desain-kg-berbobot}
+
+KG berbobot merupakan komponen inti yang menjawab G2 (memanfaatkan sinyal kepercayaan komunitas) dan G3 (membangun GraphRAG pada KG dari komunitas
+teknis bervalidasi sosial). Desain KG mencakup tipe simpul, tipe sisi, dan skema pembobotan yang dijabarkan berikut.
+
+\paragraph{Tipe Simpul.}
+\begin{enumerate}[(a)]
+    \item \texttt{Question} — merepresentasikan pertanyaan SO; atribut:
+    \texttt{id}, \texttt{title}, \texttt{body}, \texttt{score},
+    \texttt{viewCount}, \texttt{creationDate}, \texttt{domainTag}.
+    \item \texttt{Answer} — merepresentasikan jawaban SO; atribut:
+    \texttt{id}, \texttt{body}, \texttt{score}, \texttt{isAccepted},
+    \texttt{authorReputation}.
+    \item \texttt{Tag} — merepresentasikan teknologi atau domain; atribut:
+    \texttt{name}, \texttt{questionCount}.
+    \item \texttt{Concept} — entitas teknis yang diekstrak dari teks
+    (nama \emph{library}, tipe \emph{error}, metode API); atribut:
+    \texttt{name}, \texttt{type}, \texttt{frequency}.
+\end{enumerate}
+
+\paragraph{Tipe Sisi dan Skema Bobot Kepercayaan.}
+Bobot pada sisi KG mengkodekan sinyal kepercayaan komunitas SO secara eksplisit. Tabel~\ref{tab:bobot-kepercayaan} merumuskan operasionalisasi
+sinyal-sinyal tersebut.
+\input{tables/bab3_bobot_kepercayaan.tex}
+
+Untuk memberikan gambaran konkret tentang struktur KG yang dihasilkan,
+Gambar~\ref{fig:contoh-subgraf-kg} menyajikan contoh subgraf KG berbobot
+dari domain Python. Subgraf ini mengilustrasikan bagaimana tipe simpul
+(\texttt{Question}, \texttt{Answer}, \texttt{Tag}, \texttt{Concept}) dan
+tipe sisi (\texttt{hasAcceptedAnswer}, \texttt{isRelatedTo}, \texttt{taggedWith},
+\texttt{mentions}) terhubung satu sama lain, beserta nilai bobot kepercayaan
+yang dikodekan secara eksplisit pada setiap sisi.
+ 
+%------ Gambar 3.5: Contoh Subgraf KG SORD ------
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{images/bab3_contoh_subgraf_kg.png}
+\caption{Contoh subgraf \emph{knowledge graph} berbobot dari dataset SORD
+pada domain Python. Setiap sisi graf dilengkapi dengan bobot kepercayaan
+komunitas Stack Overflow ($w$) yang dikodekan secara eksplisit, meliputi
+bobot \texttt{hasAcceptedAnswer} ($w = 1{,}0$), \texttt{hasAnswer}
+($w = \text{normalize}(\texttt{score})$), dan \texttt{isRelatedTo}
+($w = \text{similarity}(q_i, q_j)$) dari pasangan rekomendasi SORD.}
+\label{fig:contoh-subgraf-kg}
+\end{figure}
+
+
+\paragraph{Proses Konstruksi KG.}
+Gambar~\ref{fig:flowchart-konstruksi-kg} mengilustrasikan alur konstruksi KG
+berbobot dari dataset SORD.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.85\textwidth]{images/bab3_flowchart_konstruksi_kg}
+\caption{Flowchart konstruksi \emph{knowledge graph} berbobot dari dataset SORD.}
+\label{fig:flowchart-konstruksi-kg}
+\end{figure}
+
+\subsection{Desain Mekanisme \emph{Graph-Guided Retrieval}}
+\label{subsec:desain-retrieval}
+
+Mekanisme \emph{graph-guided retrieval} merupakan komponen yang menjawab G3 dengan mengeksploitasi struktur relasional KG berbobot. Terdapat dua moda
+pengambilan konteks yang dipilih berdasarkan karakteristik kueri:
+
+\begin{enumerate}
+    
+    \item Moda 1 — Traversal Berbasis Entitas (untuk Kueri Spesifik). 
+    Jika kueri mengandung entitas teknis yang dapat dipetakan ke simpul KG (misalnya nama \emph{library}, nama fungsi, atau tipe \emph{error}), sistem melakukan: (i) NER pada teks kueri, (ii) \emph{entity linking} ke simpul KG, (iii) traversal multi-hop (default $k = 2$) mengikuti sisi berbobot tertinggi, dan (iv) pengambilan jawaban diterima yang terhubung ke subgraf yang ditemukan. Bobot kepercayaan digunakan untuk \emph{ranking} konteks yang diambil.
+    \item Moda 2 — Pencarian Vektor Komplementer (untuk Kueri Konseptual).
+    Jika kueri tidak mengandung entitas yang dapat di-\emph{link} ke KG, sistem melakukan pencarian semantik berbasis kemiripan kosinus pada \emph{vector store} teks SORD. Hasil pencarian vektor juga digunakan sebagai \emph{fallback} ketika traversal graf menghasilkan subgraf yang terlalu kecil.
+\end{enumerate}
+Gambar~\ref{fig:flowchart-query} mengilustrasikan alur pemrosesan kueri secara lengkap.
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.85\textwidth]{images/bab3_flowchart_query.png}
+\caption{Flowchart alur pemrosesan kueri pada \emph{GraphRAG Framework}.
+Moda 1 digunakan ketika entitas kueri dapat dipetakan ke KG; Moda 2 digunakan sebagai \emph{fallback}.}
+\label{fig:flowchart-query}
+\end{figure}
+
+\subsection{Desain Evaluasi}
+\label{subsec:desain-evaluasi}
+
+Evaluasi dirancang untuk mengukur \emph{improvement} yang diklaim dalam hipotesis penelitian (Bab~\ref{chap:pendahuluan}) secara terukur dan dapat direproduksi. Desain protokol mengikuti prinsip \emph{apple-to-apple comparison}:
+
+\begin{enumerate}
+    \item Dataset Evaluasi.
+    Subset pertanyaan dari dataset \textcite{DaSilva2025} (repositori \texttt{chat-stack} / \texttt{zenodo.15086541}) digunakan sebagai
+    \emph{test set}. Jawaban diterima Stack Overflow dijadikan \emph{ground truth}. Ini memastikan komparabilitas langsung dengan angka-angka yang dilaporkan oleh \textcite{DaSilva2025} sebagai \emph{baseline}.
+
+    \item Kontrol Variabel LLM.
+    Ketiga kondisi menggunakan model LLM yang sama untuk mengeliminasi perbedaan model sebagai variabel perancu. Perbedaan satu-satunya antara kondisi A, B, dan C adalah mekanisme \emph{retrieval} dan \emph{grounding} yang digunakan.
+
+    \item Metrik Evaluasi.
+    Tabel~\ref{tab:metrik-evaluasi} merinci metrik yang digunakan beserta alasannya.
+\end{enumerate}
+
+\input{tables/bab3_metrik_evaluasi.tex}
+
+
+%============================================================
+\section{Ringkasan Desain}
+\label{sec:ringkasan-desain}
+%============================================================
+
+Tabel~\ref{tab:ringkasan-komponen} merangkum komponen teknis \emph{GraphRAG Framework} beserta kaitannya dengan kesenjangan yang dijawab dan kebutuhan yang dipenuhi.
+
+\input{tables/bab3_ringkasan_komponen.tex}
+
+Desain ini mengakomodasi seluruh kebutuhan fungsional F1--F7 dan kebutuhan nonfungsional NF1--NF6 yang telah diidentifikasi. Ia juga memastikan konsistensi antara argumen \emph{research gap} pada Bab~\ref{chap:studi-literatur}, hipotesis yang dirumuskan pada Bab~\ref{chap:pendahuluan}, dan keputusan rancangan yang dibuat di bab ini. Perancangan rinci komponen, implementasi, dan hasil evaluasi komparatif dibahas pada bab-bab selanjutnya.
