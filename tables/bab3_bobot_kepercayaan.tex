@@ -1,40 +1,43 @@
-
-% ============================================================
-% Tabel 3: Bobot Kepercayaan
-% ============================================================
 \begin{table}[h!]
 \centering
-\caption{Operasionalisasi sinyal kepercayaan Stack Overflow sebagai bobot sisi
-pada \emph{knowledge graph}.}
+\small
+\caption{Operasionalisasi sinyal kepercayaan Stack Overflow sebagai bobot sisi pada \emph{knowledge graph}.}
 \label{tab:bobot-kepercayaan}
-\begin{tabularx}{\textwidth}{|l|c|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+
+\begin{tabularx}{\textwidth}
+{|>{\ttfamily\raggedright\arraybackslash}p{3cm}
+ |c
+ |>{\raggedright\arraybackslash}X
+ |>{\raggedright\arraybackslash}p{3cm}|}
 \hline
-\textbf{Tipe Sisi} & \textbf{Arah} & \textbf{Makna Semantik} &
-\textbf{Bobot $w$} \\
+\textbf{Tipe Sisi} &
+\textbf{Arah} &
+\textbf{Makna Semantik} &
+\textbf{Bobot $w$}\\
 \hline
-\texttt{hasAcceptedAnswer} & Q $\to$ A &
-    Jawaban yang diterima sebagai solusi terbaik oleh penanya &
-    $w = 1{,}0$ (deterministic) \\
+hasAcceptedAnswer & Q $\to$ A &
+Jawaban yang diterima sebagai solusi terbaik oleh penanya &
+$w=1.0$\\
 \hline
-\texttt{hasAnswer} & Q $\to$ A &
-    Jawaban lain dengan skor tinggi &
-    $w = \text{normalize}(\texttt{score})$ \\
+hasAnswer & Q $\to$ A &
+Jawaban lain dengan skor tinggi &
+$w=\mathrm{normalize}(\mathrm{score})$\\
 \hline
-\texttt{taggedWith} & Q $\to$ Tag &
-    Pertanyaan dikategorikan dalam domain teknologi tertentu &
-    $w = 1{,}0$ \\
+taggedWith & Q $\to$ Tag &
+Pertanyaan dikategorikan dalam domain teknologi tertentu &
+$w=1.0$\\
 \hline
-\texttt{isRelatedTo} & Q $\leftrightarrow$ Q &
-    Pasangan rekomendasi dalam dataset SORD &
-    $w = \text{similarity}(q_i, q_j)$ \\
+isRelatedTo & Q $\leftrightarrow$ Q &
+Pasangan rekomendasi dalam dataset SORD &
+$w=\mathrm{similarity}(q_i,q_j)$\\
 \hline
-\texttt{mentions} & Q/A $\to$ Concept &
-    Pertanyaan atau jawaban menyebut entitas teknis tertentu &
-    $w = \text{TF-IDF}(\text{concept}, \text{doc})$ \\
+mentions & Q/A $\to$ Concept &
+Pertanyaan atau jawaban menyebut entitas teknis tertentu &
+$w=\mathrm{TF\mbox{-}IDF}(\mathrm{concept},\mathrm{doc})$\\
 \hline
-\texttt{authorTrust} & A $\to$ Author &
-    Kepercayaan terhadap kontributor jawaban &
-    $w = \text{normalize}(\texttt{reputation})$ \\
+authorTrust & A $\to$ Author &
+Kepercayaan terhadap kontributor jawaban &
+$w=\mathrm{normalize}(\mathrm{reputation})$\\
 \hline
 \end{tabularx}
 \end{table}

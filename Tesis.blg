@@ -1,5 +1,21 @@
 [0] Config.pm:328> INFO - This is Biber 2.21
-[0] Config.pm:331> INFO - Logfile is 'Tesis.blg'
-[53] biber-darwin:342> INFO - === Sat May 30, 2026, 03:18:58
-[216] Utils.pm:479> ERROR - Cannot find 'Tesis.bcf'!
-[216] Biber.pm:137> INFO - ERRORS: 1
+[0] Config.pm:331> INFO - Logfile is 'tesis.blg'
+[67] biber-darwin:342> INFO - === Sat May 30, 2026, 03:57:38
+[84] Biber.pm:421> INFO - Reading 'tesis.bcf'
+[233] Biber.pm:1002> INFO - Found 36 citekeys in bib section 0
+[245] Biber.pm:4487> INFO - Processing section 0
+[254] Biber.pm:4678> INFO - Looking for bibtex file 'daftar-pustaka.bib' for section 0
+[256] bibtex.pm:1713> INFO - LaTeX decoding ...
+[286] bibtex.pm:1519> INFO - Found BibTeX data source 'daftar-pustaka.bib'
+[593] UCollate.pm:68> INFO - Overriding locale 'indonesian' defaults 'variable = shifted' with 'variable = non-ignorable'
+[593] UCollate.pm:68> INFO - Overriding locale 'indonesian' defaults 'level = 4' with 'level = 2'
+[593] UCollate.pm:68> INFO - Overriding locale 'indonesian' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[593] Biber.pm:4307> INFO - Sorting list 'cms/global//global/global/global' of type 'entry' with template 'cms' and locale 'indonesian'
+[593] Biber.pm:4313> INFO - No sort tailoring available for locale 'indonesian'
+[643] bbl.pm:676> INFO - Writing 'tesis.bbl' with encoding 'UTF-8'
+[665] bbl.pm:779> INFO - Output to tesis.bbl
+[665] Biber.pm:132> WARN - Possible typo (case mismatch) between citation and datasource keys: 'kumar2024' and 'Kumar2024' in file 'daftar-pustaka.bib'
+[665] Biber.pm:132> WARN - Possible typo (case mismatch) between citation and datasource keys: 'qin2025' and 'Qin2025' in file 'daftar-pustaka.bib'
+[666] Biber.pm:132> WARN - I didn't find a database entry for 'kumar2024' (section 0)
+[666] Biber.pm:132> WARN - I didn't find a database entry for 'qin2025' (section 0)
+[666] Biber.pm:134> INFO - WARNINGS: 4

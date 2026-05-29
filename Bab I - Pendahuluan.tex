@@ -5,72 +5,17 @@
 \section{Latar Belakang}
 % =========================================================
  
-Perkembangan \emph{Large Language Model} (LLM) dalam beberapa tahun terakhir telah mendorong transformasi signifikan pada berbagai aplikasi kecerdasan buatan, termasuk natural language understanding, text generation, conversational agents, machine translation, serta code generation \autocite{kumar2024,qin2025}. Model-model seperti GPT-4 dan LLaMA~2 telah menunjukkan kemampuan luar biasa dalam memahami dan menghasilkan teks natural yang menyerupai tulisan manusia. \textcite{Haque2025} menegaskan bahwa LLM bukan hanya mengubah cara perangkat lunak dikembangkan, tetapi secara fundamental mendefinisikan ulang peran pengembang dalam siklus hidup rekayasa perangkat lunak (\emph{software engineering}). Adopsi LLM di industri perangkat lunak juga meningkat secara signifikan, sebagaimana dikonfirmasi oleh \textcite{Ronanki2026} yang melakukan studi multi-kasus pada tiga organisasi yang menggunakan LLM dalam aktivitas rekayasa perangkat lunak dan mengidentifikasi perlunya praktik terbaik yang dapat ditindaklanjuti untuk adopsi LLM yang efisien dan bertanggung jawab. Meskipun demikian, di balik kemampuan generatif tersebut, terdapat permasalahan mendasar yang belum sepenuhnya
-terpecahkan yaitu kecenderungan LLM untuk menghasilkan informasi yang tampak
-meyakinkan namun faktanya tidak akurat atau bahkan sepenuhnya merupakan
-fabrikasi \autocite{Ji2023}.
+Perkembangan \emph{Large Language Model} (LLM) dalam beberapa tahun terakhir telah mendorong transformasi signifikan pada berbagai aplikasi kecerdasan buatan, termasuk natural language understanding, text generation, conversational agents, machine translation, serta code generation \autocite{kumar2024,qin2025}. Model-model seperti GPT-4 dan LLaMA-2 telah menunjukkan kemampuan luar biasa dalam memahami dan menghasilkan teks natural yang menyerupai tulisan manusia. \textcite{Haque2025} menegaskan bahwa LLM bukan hanya mengubah cara perangkat lunak dikembangkan, tetapi secara fundamental mendefinisikan ulang peran pengembang dalam siklus hidup rekayasa perangkat lunak (\emph{software engineering}). Adopsi LLM di industri perangkat lunak juga meningkat secara signifikan, sebagaimana dikonfirmasi oleh \textcite{Ronanki2026} yang melakukan studi multi-kasus pada tiga organisasi yang menggunakan LLM dalam aktivitas rekayasa perangkat lunak dan mengidentifikasi perlunya praktik terbaik yang dapat ditindaklanjuti untuk adopsi LLM yang efisien dan bertanggung jawab. Meskipun demikian, di balik kemampuan generatif tersebut, terdapat permasalahan mendasar yang belum sepenuhnya terpecahkan yaitu kecenderungan LLM untuk menghasilkan informasi yang tampak meyakinkan namun faktanya tidak akurat atau bahkan sepenuhnya merupakan fabrikasi \autocite{Ji2023}.
  
-Fenomena ini dikenal sebagai \emph{hallucination} (halusinasi) dan menjadi
-salah satu hambatan paling kritis dalam penerapan LLM pada domain yang
-membutuhkan keakuratan tinggi. \textcite{Ji2023} mendefinisikan halusinasi
-sebagai kondisi di mana model menghasilkan keluaran yang tidak sesuai dengan
-fakta yang dapat diverifikasi, tidak konsisten dengan konteks yang diberikan,
-atau tidak memiliki dasar empiris yang dapat ditelusuri. \textcite{Huang2025}
-dalam survei komprehensifnya di \emph{ACM Transactions on Information Systems}
-mengidentifikasi tiga lapisan akar penyebab halusinasi yang saling terkait:
-(1) kualitas dan kelengkapan data pelatihan yang tidak merata, (2) keterbatasan
-proses penyelarasan (\emph{alignment}) model terhadap pengetahuan faktual, dan
-(3) mekanisme inferensi yang cenderung menghasilkan teks yang terdengar koheren
-tanpa jaminan akurasi faktual. \textcite{Chang2026} melengkapi analisis ini
-dengan mengidentifikasi tiga tantangan fundamental dalam generasi teks berbasis
-LLM yang memperkuat kecenderungan halusinasi: (1) pemahaman instruksi yang tidak
-memadai pada konteks panjang dan percakapan multi-gilir, (2) penalaran intensi
-yang tidak konsisten, khususnya ketika instruksi mengandung informasi ambigu,
-dan (3) generasi dialog yang tidak andal (\emph{unreliable dialogue generation})
-yang menghasilkan konten tidak stabil dari prompt yang serupa.
+Fenomena ini dikenal sebagai \emph{hallucination} (halusinasi) dan menjadi salah satu hambatan paling kritis dalam penerapan LLM pada domain yang membutuhkan keakuratan tinggi. \textcite{Ji2023} mendefinisikan halusinasi sebagai kondisi di mana model menghasilkan keluaran yang tidak sesuai dengan fakta yang dapat diverifikasi, tidak konsisten dengan konteks yang diberikan, atau tidak memiliki dasar empiris yang dapat ditelusuri. \textcite{Huang2025} dalam survei komprehensifnya di \emph{ACM Transactions on Information Systems} mengidentifikasi tiga lapisan akar penyebab halusinasi yang saling terkait: (1) kualitas dan kelengkapan data pelatihan yang tidak merata, (2) keterbatasan
+proses penyelarasan (\emph{alignment}) model terhadap pengetahuan faktual, dan (3) mekanisme inferensi yang cenderung menghasilkan teks yang terdengar koheren tanpa jaminan akurasi faktual. \textcite{Chang2026} melengkapi analisis ini
+dengan mengidentifikasi tiga tantangan fundamental dalam generasi teks berbasis LLM yang memperkuat kecenderungan halusinasi: (1) pemahaman instruksi yang tidak memadai pada konteks panjang dan percakapan multi-gilir, (2) penalaran intensi yang tidak konsisten, khususnya ketika instruksi mengandung informasi ambigu, dan (3) generasi dialog yang tidak andal (\emph{unreliable dialogue generation}) yang menghasilkan konten tidak stabil dari prompt yang serupa.
  
-Dalam konteks pemrograman dan rekayasa perangkat lunak, halusinasi LLM
-bermanifestasi dalam berbagai bentuk yang berpotensi menimbulkan dampak
-langsung terhadap kualitas sistem. \textcite{Alomari2026} dalam tinjauan
-literatur sistematis terhadap 49 studi penggunaan LLM untuk peningkatan
-kualitas kode menemukan bahwa kode yang dihasilkan atau direfaktorisasi oleh
-LLM tidak dapat diandalkan dan masih menghadapi tantangan besar dalam hal
-optimasi dan keandalan. Sebuah temuan yang mengonfirmasi bahwa pengetahuan
-parametrik LLM saja tidak cukup untuk menjamin keakuratan di domain teknis
-yang terus berkembang. \textcite{DaSilva2025} memperkuat bukti ini melalui
-studi empiris yang membandingkan jawaban ChatGPT dan LLaMA terhadap
-pertanyaan Stack Overflow. Hasil penelitian \textcite{DaSilva2025} menunjukkan bahwa meskipun LLM menantang keahlian manusia, LLM tidak melampaui keahlian komunitas
-manusia untuk sejumlah domain tertentu. Yang lebih signifikan, \textcite{DaSilva2025}
-mendokumentasikan penurunan nyata aktivitas \emph{posting} pengguna di Stack
-Overflow sejak hadirnya ChatGPT. Pengguna mulai
-mengandalkan LLM meskipun keandalannya belum terjamin penuh, sehingga
-berpotensi memperparah penyebaran informasi teknis yang tidak akurat.
+Dalam konteks pemrograman dan rekayasa perangkat lunak, halusinasi LLM bermanifestasi dalam berbagai bentuk yang berpotensi menimbulkan dampak langsung terhadap kualitas sistem. \textcite{Alomari2026} dalam tinjauan literatur sistematis terhadap 49 studi penggunaan LLM untuk peningkatan kualitas kode menemukan bahwa kode yang dihasilkan atau direfaktorisasi oleh LLM tidak dapat diandalkan dan masih menghadapi tantangan besar dalam hal optimasi dan keandalan. Sebuah temuan yang mengonfirmasi bahwa pengetahuan parametrik LLM saja tidak cukup untuk menjamin keakuratan di domain teknis yang terus berkembang. \textcite{DaSilva2025} memperkuat bukti ini melalui studi empiris yang membandingkan jawaban ChatGPT dan LLaMA terhadap pertanyaan Stack Overflow. Hasil penelitian \textcite{DaSilva2025} menunjukkan bahwa meskipun LLM menantang keahlian manusia, LLM tidak melampaui keahlian komunitas manusia untuk sejumlah domain tertentu. Yang lebih signifikan, \textcite{DaSilva2025} mendokumentasikan penurunan nyata aktivitas \emph{posting} pengguna di Stack Overflow sejak hadirnya ChatGPT. Pengguna mulai mengandalkan LLM meskipun keandalannya belum terjamin penuh, sehingga berpotensi memperparah penyebaran informasi teknis yang tidak akurat.
  
-Stack Overflow yang merupakan platform utama pengembang untuk pertanyaan
-seputar pemrograman dan pengembangan perangkat lunak, kini berada di
-persimpangan antara ancaman dan peluang akibat kehadiran LLM. Di satu sisi,
-aktivitas penggunanya menurun \autocite{DaSilva2025}. Di sisi lain, komunitas
-Stack Overflow menyimpan lebih dari 58 juta pasang pertanyaan dan jawaban yang
-telah melewati mekanisme kurasi ketat berupa sistem \emph{upvote/downvote},
-penanda jawaban yang diterima (\emph{accepted answer}), dan sistem reputasi
-kontributor \autocite{Kabir2024}. Sinyal kepercayaan komunitas ini menjadikan
-Stack Overflow bukan sekadar repositori teks, melainkan basis pengetahuan
-tervalidasi secara sosial yang potensial digunakan untuk memberikan landasan pengetahuan bagi jawaban LLM berdasarkan fakta yang telah diverifikasi oleh praktisi domain. \textcite{Nashid2023} menunjukkan bahwa pemanfaatan konten Stack Overflow sebagai sumber pengambilan konteks secara signifikan meningkatkan kualitas jawaban LLM pada tugas-tugas terkait kode, menggarisbawahi potensi besar repositori ini.
+Stack Overflow yang merupakan platform utama pengembang untuk pertanyaan seputar pemrograman dan pengembangan perangkat lunak, kini berada di persimpangan antara ancaman dan peluang akibat kehadiran LLM. Di satu sisi, aktivitas penggunanya menurun \autocite{DaSilva2025}. Di sisi lain, komunitas Stack Overflow menyimpan lebih dari 58 juta pasang pertanyaan dan jawaban yang telah melewati mekanisme kurasi ketat berupa sistem \emph{upvote/downvote}, penanda jawaban yang diterima (\emph{accepted answer}), dan sistem reputasi kontributor \autocite{Kabir2024}. Sinyal kepercayaan komunitas ini menjadikan Stack Overflow bukan sekadar repositori teks, melainkan basis pengetahuan tervalidasi secara sosial yang potensial digunakan untuk memberikan landasan pengetahuan bagi jawaban LLM berdasarkan fakta yang telah diverifikasi oleh praktisi domain. \textcite{Nashid2023} menunjukkan bahwa pemanfaatan konten Stack Overflow sebagai sumber pengambilan konteks secara signifikan meningkatkan kualitas jawaban LLM pada tugas-tugas terkait kode, menggarisbawahi potensi besar repositori ini.
  
-Salah satu pendekatan yang paling menjanjikan untuk memitigasi halusinasi
-adalah \emph{Retrieval-Augmented Generation} (RAG) \autocite{Lewis2020}.
-\textcite{YizhengHuang2026} dalam survei mereka di \emph{ACM Computing
-Surveys} menjelaskan bahwa RAG menggabungkan teknik pengambilan informasi
-(\emph{information retrieval}) dengan kemampuan generatif LLM untuk mengatasi
-keterbatasan pengetahuan statis model, sehingga memungkinkan integrasi
-informasi eksternal yang dinamis dan terkini pada saat inferensi.
-\textcite{DelaCruzCabello2025} melalui tinjauan literatur sistematis pada
-domain deteksi anomali \emph{log} sistem komputer menemukan bahwa RAG secara
-substansial meningkatkan akurasi dan interpretabilitas jawaban LLM tanpa
-memerlukan \emph{fine-tuning} yang ekstensif, dan bahwa integrasi RAG dengan
-LLM menunjukkan kemampuan adaptasi yang kuat terhadap lingkungan operasional
-yang berubah. Temuan ini mengkonfirmasi potensi RAG sebagai strategi mitigasi
-halusinasi yang praktis dan skalabel di berbagai domain teknis.
+Salah satu pendekatan yang paling menjanjikan untuk memitigasi halusinasi adalah \emph{Retrieval-Augmented Generation} (RAG) \autocite{Lewis2020}. \textcite{YizhengHuang2026} dalam survei mereka di \emph{ACM Computing Surveys} menjelaskan bahwa RAG menggabungkan teknik pengambilan informasi (\emph{information retrieval}) dengan kemampuan generatif LLM untuk mengatasi keterbatasan pengetahuan statis model, sehingga memungkinkan integrasi informasi eksternal yang dinamis dan terkini pada saat inferensi. \textcite{DelaCruzCabello2025} melalui tinjauan literatur sistematis pada domain deteksi anomali \emph{log} sistem komputer menemukan bahwa RAG secara substansial meningkatkan akurasi dan interpretabilitas jawaban LLM tanpa memerlukan \emph{fine-tuning} yang ekstensif, dan bahwa integrasi RAG dengan LLM menunjukkan kemampuan adaptasi yang kuat terhadap lingkungan operasional yang berubah. Temuan ini mengkonfirmasi potensi RAG sebagai strategi mitigasi halusinasi yang praktis dan skalabel di berbagai domain teknis.
  
 Meskipun demikian, implementasi RAG konvensional yang menggunakan pencarian
 berbasis kemiripan vektor (\emph{dense retrieval}) terhadap potongan-potongan

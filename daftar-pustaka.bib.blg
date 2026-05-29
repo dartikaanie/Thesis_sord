@@ -1,0 +1,6 @@
+[0] Config.pm:328> INFO - This is Biber 2.21 running in TOOL mode
+[0] Config.pm:331> INFO - Logfile is 'daftar-pustaka.bib.blg'
+[54] biber-darwin:342> INFO - === Sat May 30, 2026, 03:50:16
+[78] Biber.pm:4674> INFO - Looking for bibtex file 'daftar-pustaka.bib'
+[80] bibtex.pm:1713> INFO - LaTeX decoding ...
+[110] bibtex.pm:1519> INFO - Found BibTeX data source 'daftar-pustaka.bib'
