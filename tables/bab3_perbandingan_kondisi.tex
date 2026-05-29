@@ -1,0 +1,73 @@
+\begin{table}[H]
+\centering
+\caption{Perbandingan pemenuhan kebutuhan sistem pada tiga kondisi penelitian.}
+\label{tab:perbandingan-kondisi}
+
+\small
+\renewcommand{\arraystretch}{1.2}
+
+\begin{tabular}{|p{6.5cm}|c|c|c|}
+\hline
+\textbf{Kriteria Kebutuhan}
+&
+\textbf{Kondisi A}
+&
+\textbf{Kondisi B}
+&
+\textbf{Kondisi C}
+\\
+&
+\textbf{LLM Murni}
+&
+\textbf{RAG Konvensional}
+&
+\textbf{GraphRAG}
+\\
+\hline
+
+Grounding arsitektural berbasis Stack Overflow (G1)
+& $\times$ & $\sim$ & $\checkmark$
+\\ \hline
+
+Pengetahuan library/API terkini (G1)
+& $\times$ & $\checkmark$ & $\checkmark$
+\\ \hline
+
+Sinyal kepercayaan komunitas Stack Overflow (G2)
+& $\times$ & $\times$ & $\checkmark$
+\\ \hline
+
+Retrieval relasional dan multi-hop (G2, G3)
+& $\times$ & $\times$ & $\checkmark$
+\\ \hline
+
+\textit{Semantic retrieval} berbasis vektor
+& $\times$ & $\checkmark$ & $\checkmark$
+\\ \hline
+
+\textit{Grounded generation} dan sitasi (G1)
+& $\times$ & $\sim$ & $\checkmark$
+\\ \hline
+
+\textit{Provenance} dan keterlacakan sumber
+& $\times$ & $\sim$ & $\checkmark$
+\\ \hline
+
+Protokol evaluasi komparatif
+& $\checkmark$ & $\checkmark$ & $\checkmark$
+\\ \hline
+
+Pembaruan pengetahuan tanpa \textit{re-training}
+& $\times$ & $\sim$ & $\checkmark$
+\\ \hline
+
+\end{tabular}
+
+\vspace{0.2cm}
+
+\footnotesize
+$\checkmark$ = Terpenuhi \qquad
+$\sim$ = Sebagian terpenuhi \qquad
+$\times$ = Tidak terpenuhi
+
+\end{table}
