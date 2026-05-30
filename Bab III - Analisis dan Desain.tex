@@ -168,31 +168,23 @@ Gambar~\ref{fig:arsitektur-framework} menunjukkan hubungan antar komponen dalam 
 \subsection{Desain \emph{Knowledge Graph} Berbobot dari SORD}
 \label{subsec:desain-kg-berbobot}
 
-KG berbobot merupakan komponen inti yang menjawab G2 (memanfaatkan sinyal kepercayaan komunitas) dan G3 (membangun GraphRAG pada KG dari komunitas teknis bervalidasi sosial). Desain KG mencakup tipe simpul, tipe sisi, dan skema pembobotan yang dijabarkan berikut.
-Secara formal, KG berbobot ini merupakan perluasan dari definisi tripel standar pada Persamaan~\ref{eq:kg}  dengan penambahan dimensi bobot $w$ pada setiap sisi: $G_w = \{(e_x,\, r,\, e_y,\, w) \mid e_x, e_y \in \mathcal{E},\ r \in \mathcal{R},\ w \in [0,1]\}$.
+\emph{Knowledge graph} (KG) berbobot merupakan komponen utama dalam framework yang diusulkan. Komponen ini dirancang untuk menjawab G2, yaitu pemanfaatan sinyal kepercayaan komunitas, serta G3, yaitu penerapan pendekatan GraphRAG pada data komunitas teknis yang telah melalui validasi sosial. Desain KG mencakup jenis simpul (\emph{node}), jenis relasi (\emph{edge}), dan mekanisme pembobotan yang digunakan untuk merepresentasikan tingkat kepercayaan informasi.
 
 \subsubsection{Tipe Simpul.}
+Setiap simpul dalam KG merepresentasikan objek atau konsep yang terdapat pada data Stack Overflow. Terdapat empat tipe simpul yang digunakan, yaitu:
 \begin{enumerate}[(a)]
-    \item \texttt{Question} — merepresentasikan pertanyaan SO; atribut:
-    \texttt{id}, \texttt{title}, \texttt{body}, \texttt{score},
-    \texttt{viewCount}, \texttt{creationDate}, \texttt{domainTag}.
-    \item \texttt{Answer} — merepresentasikan jawaban SO; atribut:
-    \texttt{id}, \texttt{body}, \texttt{score}, \texttt{isAccepted},
-    \texttt{authorReputation}.
-    \item \texttt{Tag} — merepresentasikan teknologi atau domain; atribut:
-    \texttt{name}, \texttt{questionCount}.
-    \item \texttt{Concept} — entitas teknis yang diekstrak dari teks
-    (nama \emph{library}, tipe \emph{error}, metode API); atribut:
-    \texttt{name}, \texttt{type}, \texttt{frequency}.
+    \item \texttt{Question}, yaitu simpul yang merepresentasikan pertanyaan pada Stack Overflow. Simpul ini menyimpan informasi seperti \texttt{id}, \texttt{title}, \texttt{body}, \texttt{score}, \texttt{viewCount}, \texttt{creationDate}, dan \texttt{domainTag}.
+    \item \texttt{Answer}, yaitu simpul yang merepresentasikan jawaban terhadap suatu pertanyaan. Atribut yang disimpan meliputi \texttt{id}, \texttt{body}, \texttt{score}, \texttt{isAccepted}, dan \texttt{authorReputation}.
+    \item \texttt{Tag}, yaitu simpul yang merepresentasikan teknologi, bahasa pemrograman, atau domain tertentu yang digunakan pada Stack Overflow. Simpul ini memiliki atribut \texttt{name} dan \texttt{questionCount}.
+    \item \texttt{Concept}, yaitu simpul yang merepresentasikan konsep atau entitas teknis yang diekstraksi dari teks pertanyaan maupun jawaban, seperti nama \emph{library}, jenis \emph{error}, atau metode API. Simpul ini memiliki atribut \texttt{name}, \texttt{type}, dan \texttt{frequency}.
 \end{enumerate}
 Keempat tipe simpul di atas memungkinkan pembentukan tripel domain pemrograman, misalnya (\texttt{pandas.DataFrame}, \texttt{has\_method}, \texttt{groupby()}) atau (\texttt{MemoryError}, \texttt{caused\_by}, \texttt{large\_dataframe\_load}).
 
 \subsubsection{Tipe Sisi dan Skema Bobot Kepercayaan.}
-Bobot pada sisi KG mengkodekan sinyal kepercayaan komunitas Stack Overflow secara eksplisit, sebagaimana sinyal-sinyal tersebut diidentifikasi. Tabel~\ref{tab:bobot-kepercayaan} merumuskan operasionalisasi sinyal-sinyal tersebut menjadi bobot sisi yang terukur.
+Hubungan antar simpul direpresentasikan dalam bentuk sisi (\emph{edge}). Setiap sisi diberikan bobot yang mencerminkan tingkat kepercayaan berdasarkan sinyal yang tersedia pada Stack Overflow. Dengan demikian, kualitas informasi yang telah divalidasi oleh komunitas dapat direpresentasikan secara eksplisit di dalam KG. Sinyal kepercayaan yang digunakan meliputi status \emph{accepted answer}, jumlah \emph{upvote}, serta reputasi pengguna yang memberikan kontribusi. Operasionalisasi dari setiap sinyal tersebut menjadi bobot relasi dijelaskan pada Tabel~\ref{tab}.
 \input{tables/bab3_bobot_kepercayaan.tex}
  
-Untuk memberikan gambaran konkret tentang struktur KG yang dihasilkan, Gambar~\ref{fig:contoh-subgraf-kg} menyajikan contoh subgraf KG berbobot dari domain Python. Subgraf ini mengilustrasikan bagaimana tipe simpul (\texttt{Question}, \texttt{Answer}, \texttt{Tag}, \texttt{Concept}) dan tipe sisi (\texttt{hasAcceptedAnswer}, \texttt{isRelatedTo}, \texttt{taggedWith}, \texttt{mentions}) terhubung satu sama lain, beserta nilai bobot kepercayaan yang dikodekan secara eksplisit pada setiap sisi.
- 
+Untuk memberikan gambaran mengenai struktur KG yang dibangun, Gambar~\ref{fig:contoh-subgraf-kg} menampilkan contoh subgraf dari domain Python. Contoh tersebut menunjukkan hubungan antara berbagai tipe simpul, yaitu \texttt{Question}, \texttt{Answer}, \texttt{Tag}, dan \texttt{Concept}, melalui relasi seperti \texttt{hasAcceptedAnswer}, \texttt{isRelatedTo}, \texttt{taggedWith}, dan \texttt{mentions}. Selain itu, setiap relasi juga dilengkapi dengan bobot kepercayaan yang merepresentasikan hasil validasi komunitas Stack Overflow.
 %------ Gambar 3.5: Contoh Subgraf KG SORD ------
 \begin{figure}[H]
 \centering
@@ -202,10 +194,14 @@ pada domain Python. Setiap sisi graf dilengkapi dengan bobot kepercayaan
 komunitas Stack Overflow ($w$)}
 \label{fig:contoh-subgraf-kg}
 \end{figure}
-
-
 \subsubsection{Proses Konstruksi KG.}
-Gambar~\ref{fig:flowchart-konstruksi-kg} mengilustrasikan alur konstruksi KG berbobot dari dataset Stack Overflow.
+Gambar~\ref{fig:flowchart-konstruksi-kg} menunjukkan alur pembangunan \emph{knowledge graph} (KG) berbobot dari dataset SORD. Proses ini terdiri atas tiga tahapan yang dilakukan secara berurutan. Tahap pertama adalah \emph{ekstraksi entitas dan relasi}. Pada tahap ini, teks pertanyaan dan jawaban dalam dataset diproses menggunakan metode \emph{Named Entity Recognition} (NER) berbasis LLM untuk mengidentifikasi entitas teknis dan hubungan antarentitas. Hasil proses ini direpresentasikan dalam bentuk triple \mbox{(subjek-predikat-objek)}.
+
+Tahap kedua adalah pembangunan KG berbobot. Seluruh triple yang dihasilkan pada tahap sebelumnya digabungkan menjadi satu struktur graf yang merepresentasikan hubungan antar konsep dalam domain teknis. Selanjutnya, setiap relasi pada graf diberikan bobot berdasarkan sinyal kepercayaan komunitas Stack Overflow, seperti status \emph{accepted answer}, jumlah \emph{upvote}, dan reputasi kontributor. Dengan cara ini, kualitas informasi yang telah divalidasi oleh komunitas dapat direpresentasikan secara eksplisit di dalam KG.
+
+Tahap ketiga adalah \emph{pengindeksan vektor}. Seluruh \emph{post} pada dataset SORD diubah menjadi representasi vektor menggunakan model \emph{embedding} dan disimpan dalam basis data vektor, seperti FAISS atau ChromaDB. Indeks vektor ini digunakan pada tahap \emph{Semantic Expansion} untuk menemukan informasi yang relevan secara semantik meskipun tidak memiliki hubungan langsung dalam KG.
+
+Hasil akhir dari proses ini berupa KG berbobot yang disimpan di Neo4j dan indeks vektor yang disimpan pada basis data vektor. Kedua komponen tersebut digunakan pada tahap inferensi untuk mendukung proses pencarian informasi dan pembangkitan jawaban.
 
 \begin{figure}[H]
 \centering
@@ -214,49 +210,66 @@ Gambar~\ref{fig:flowchart-konstruksi-kg} mengilustrasikan alur konstruksi KG ber
 \label{fig:flowchart-konstruksi-kg}
 \end{figure}
 
-\subsection{Desain Mekanisme \emph{Graph-Guided Retrieval}}
+\subsection{Desain Mekanisme \emph{Hybrid Retrieval}}
 \label{subsec:desain-retrieval}
 
-Mekanisme \emph{graph-guided retrieval} merupakan komponen yang menjawab G3 dengan mengeksploitasi struktur relasional KG berbobot. Terdapat dua moda
-pengambilan konteks yang dipilih berdasarkan karakteristik kueri:
+Mekanisme \emph{hybrid retrieval} merupakan implementasi Blok 2 dalam \emph{GraphRAG Framework}. Komponen ini dirancang untuk menggabungkan keunggulan pencarian berbasis \emph{knowledge graph} dan pencarian berbasis representasi vektor. Pencarian berbasis graf memiliki kemampuan yang baik dalam menemukan hubungan antarentitas secara eksplisit, namun cakupannya terbatas pada informasi yang telah terhubung dalam graf. Sebaliknya, pencarian berbasis vektor mampu menemukan informasi yang relevan secara semantik, tetapi kurang efektif dalam menangani pertanyaan yang memerlukan hubungan relasional yang kompleks. Oleh karena itu, penelitian ini menggabungkan kedua pendekatan tersebut melalui tiga tahap yang dilakukan secara berurutan.
 
-\begin{enumerate}
+\subsubsection{\emph{Entity Anchoring}}
 
-    \item Moda 1 — Traversal Berbasis Entitas (untuk Kueri Spesifik). 
-    Jika kueri mengandung entitas teknis yang dapat dipetakan ke simpul KG (misalnya nama \emph{library}, nama fungsi, atau tipe \emph{error}), sistem melakukan: (i) NER pada teks kueri, (ii) \emph{entity linking} ke simpul KG, (iii) traversal multi-hop (default $k = 2$) mengikuti sisi berbobot tertinggi, dan (iv) pengambilan jawaban diterima yang terhubung ke subgraf yang ditemukan. Bobot kepercayaan digunakan untuk \emph{ranking} konteks yang diambil.
-    \item Moda 2 — Pencarian Vektor Komplementer (untuk Kueri Konseptual).
-    Jika kueri tidak mengandung entitas yang dapat di-\emph{link} ke KG, sistem melakukan pencarian semantik berbasis kemiripan kosinus pada \emph{vector store} teks SORD. Hasil pencarian vektor juga digunakan sebagai \emph{fallback} ketika traversal graf menghasilkan subgraf yang terlalu kecil.
-\end{enumerate}
-Gambar~\ref{fig:flowchart-query} mengilustrasikan alur pemrosesan kueri secara lengkap.
+Tahap pertama bertujuan untuk mengidentifikasi entitas teknis yang terdapat pada pertanyaan pengguna. Proses ini dilakukan menggunakan metode \emph{Named Entity Recognition} (NER) yang dilanjutkan dengan \emph{entity linking} untuk memetakan setiap entitas ke simpul yang sesuai pada \emph{knowledge graph} SORD. Tahap ini penting karena istilah teknis pada Stack Overflow sering kali memiliki makna yang bergantung pada konteks. Sebagai contoh, nama fungsi, metode, atau paket tertentu dapat digunakan pada berbagai teknologi yang berbeda. Hasil dari tahap ini berupa sekumpulan simpul awal (\emph{seed nodes}) yang akan digunakan sebagai titik awal pencarian pada tahap berikutnya.
 
+\subsubsection{\emph{Graph Traversal}}
+
+Setelah memperoleh \emph{seed nodes}, sistem melakukan penelusuran graf (\emph{graph traversal}) untuk menemukan informasi yang berkaitan dengan entitas tersebut. Penelusuran dilakukan secara multi-hop dengan mengikuti relasi yang memiliki bobot kepercayaan paling tinggi. Bobot relasi ditentukan berdasarkan sinyal kepercayaan komunitas Stack Overflow, seperti status \emph{accepted answer}, jumlah \emph{upvote}, dan reputasi kontributor. Melalui proses ini, sistem dapat menemukan rantai hubungan antar konsep yang relevan serta memperoleh subgraf yang berisi informasi yang telah divalidasi oleh komunitas.
+
+\subsubsection{\emph{Semantic Expansion}}
+
+Subgraf yang diperoleh dari tahap sebelumnya kemudian digunakan untuk memperluas pencarian secara semantik. Simpul-simpul pada subgraf diubah menjadi representasi vektor menggunakan model \emph{embedding} dan digunakan sebagai acuan pencarian pada \emph{vector store} yang disimpan di FAISS atau ChromaDB. Pendekatan ini memungkinkan sistem menemukan informasi yang relevan meskipun tidak memiliki hubungan langsung dalam \emph{knowledge graph}. Dengan demikian, cakupan informasi dapat diperluas tanpa menghilangkan konteks relasional yang telah diperoleh dari proses \emph{graph traversal}. Berbeda dengan pendekatan RAG konvensional yang melakukan pencarian langsung dari kueri pengguna, tahap ini memanfaatkan hasil penelusuran graf sebagai dasar pencarian semantik. Hasil dari tahap ini adalah kumpulan informasi yang relevan baik secara relasional maupun semantik, yang kemudian akan digabungkan pada tahap berikutnya untuk membentuk konteks yang akan digunakan dalam pembangkitan jawaban.
+
+\subsubsection{\emph{Fusi Konteks} Terverifikasi}
+
+Sebelum digunakan oleh LLM, seluruh informasi hasil pencarian digabungkan menjadi satu konteks terintegrasi. Proses ini terdiri atas tiga langkah, yaitu \emph{reranking}, deduplikasi, dan \emph{packing}.
+
+Tahap \emph{reranking} digunakan untuk mengurutkan kembali hasil pencarian berdasarkan tingkat kepercayaan. Selanjutnya, deduplikasi dilakukan untuk menghilangkan informasi yang berulang. Terakhir, proses \emph{packing} menyusun seluruh informasi ke dalam \emph{unified context window} sesuai dengan batas panjang \emph{prompt} yang dapat diproses oleh model.
+
+Konteks yang dihasilkan menggunakan format Entitas-Relasi-Entitas (E-R-E) dan dilengkapi dengan kutipan teks serta tautan ke \emph{thread} Stack Overflow asal. Informasi tersebut berfungsi sebagai jalur \emph{provenance} yang memungkinkan sumber informasi ditelusuri kembali pada tahap pembangkitan jawaban.
+
+Gambar~\ref{fig:flowchart-query} mengilustrasikan alur pemrosesan kueri secara lengkap, mencakup tiga tahap hybrid retrieval dan fusi konteks.
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.85\textwidth]{images/bab3_flowchart_query.png}
-\caption{Flowchart alur pemrosesan kueri pada \emph{GraphRAG Framework}.
-Moda 1 digunakan ketika entitas kueri dapat dipetakan ke KG; Moda 2 digunakan sebagai \emph{fallback}.}
+\caption{Flowchart alur pemrosesan kueri pada \emph{GraphRAG Framework}.}
 \label{fig:flowchart-query}
 \end{figure}
 
 \subsection{Desain Evaluasi}
 \label{subsec:desain-evaluasi}
+Evaluasi dilakukan untuk mengukur kinerja \emph{GraphRAG Framework} yang diusulkan serta menguji hipotesis penelitian yang telah dirumuskan pada Bab~\ref{chap:pendahuluan}. Untuk memastikan perbandingan yang adil, seluruh eksperimen menggunakan protokol yang sama dan hanya berbeda pada mekanisme pencarian informasi (\emph{retrieval}) dan \emph{grounding} yang digunakan. Dengan demikian, perbedaan hasil yang diperoleh dapat dikaitkan secara langsung dengan kontribusi metode yang diusulkan.
 
-Evaluasi dirancang untuk mengukur \emph{improvement} yang diklaim dalam hipotesis penelitian (Bab~\ref{chap:pendahuluan}) secara terukur dan dapat direproduksi. Desain protokol mengikuti prinsip \emph{apple-to-apple comparison}:
+Tiga kondisi pengujian digunakan dalam penelitian ini, yaitu:
+
+\begin{itemize}
+    \item \textbf{Kondisi A -- LLM Murni (\emph{Baseline})}
+    Pada kondisi ini, model LLM menjawab pertanyaan pengguna secara langsung berdasarkan pengetahuan yang telah dipelajari selama proses pelatihan (\emph{parametric knowledge}). Tidak digunakan sumber informasi eksternal maupun mekanisme \emph{retrieval}.
+    \item \textbf{Kondisi B -- RAG Konvensional}
+    Pada kondisi ini, sistem menggunakan pendekatan \emph{Retrieval-Augmented Generation} (RAG) berbasis \emph{dense retrieval}. Pencarian konteks dilakukan melalui basis data vektor tanpa memanfaatkan \emph{knowledge graph}, sinyal kepercayaan komunitas, maupun mekanisme \emph{dual-constraint}.
+    \item \textbf{Kondisi C -- \emph{GraphRAG Framework}}
+    Kondisi ini merupakan pendekatan yang diusulkan dalam penelitian. Sistem memanfaatkan \emph{knowledge graph} berbobot, mekanisme \emph{hybrid retrieval} yang menggabungkan penelusuran graf dan pencarian vektor, serta mekanisme \emph{dual-constraint} yang terdiri atas \emph{RAG Grounding} dan \emph{KG-Constraint}.
+\end{itemize}
+
+Untuk membandingkan ketiga kondisi tersebut, digunakan prosedur evaluasi sebagai berikut.
 
 \begin{enumerate}
-    \item Dataset Evaluasi.
-    Subset pertanyaan dari dataset \textcite{DaSilva2025} (repositori \texttt{chat-stack} / \texttt{zenodo.15086541}) digunakan sebagai
-    \emph{test set}. Jawaban diterima Stack Overflow dijadikan \emph{ground truth}. Ini memastikan komparabilitas langsung dengan angka-angka yang dilaporkan oleh \textcite{DaSilva2025} sebagai \emph{baseline}.
-
-    \item Kontrol Variabel LLM.
-    Ketiga kondisi menggunakan model LLM yang sama untuk mengeliminasi perbedaan model sebagai variabel perancu. Perbedaan satu-satunya antara kondisi A, B, dan C adalah mekanisme \emph{retrieval} dan \emph{grounding} yang digunakan.
-
-    \item Metrik Evaluasi.
-    Tabel~\ref{tab:metrik-evaluasi} merinci metrik yang digunakan beserta alasannya.
+    \item \textbf{Dataset Evaluasi}
+    Evaluasi menggunakan subset pertanyaan dari dataset yang diperkenalkan oleh \textcite{DaSilva2025}, yaitu repositori \texttt{chat-stack} yang tersedia melalui \texttt{zenodo.15086541}. Jawaban yang berstatus \emph{accepted answer} pada Stack Overflow digunakan sebagai \emph{ground truth}. Pemilihan dataset ini memungkinkan hasil penelitian dibandingkan secara langsung dengan penelitian sebelumnya yang menggunakan dataset yang sama.
+    \item \textbf{Kontrol Variabel LLM}
+    Ketiga kondisi menggunakan model LLM yang sama. Dengan demikian, pengaruh perbedaan kemampuan model dapat dieliminasi sehingga evaluasi berfokus pada efektivitas mekanisme \emph{retrieval}, \emph{grounding}, dan pemanfaatan \emph{knowledge graph}.
+    \item \textbf{Metrik Evaluasi}
+    Kinerja sistem dievaluasi menggunakan sejumlah metrik yang mengukur kualitas jawaban, kesesuaian dengan sumber referensi, serta tingkat kepercayaan hasil yang diberikan. Rincian metrik yang digunakan beserta alasan pemilihannya disajikan pada Tabel~\ref{tab:metrik-evaluasi}.
 \end{enumerate}
-
 \input{tables/bab3_metrik_evaluasi.tex}
-
 
 %============================================================
 \section{Ringkasan Desain}
@@ -267,4 +280,6 @@ Tabel~\ref{tab:ringkasan-komponen} merangkum komponen teknis \emph{GraphRAG Fram
 
 \input{tables/bab3_ringkasan_komponen.tex}
 
-Desain ini mengakomodasi seluruh kebutuhan fungsional F1--F7 dan kebutuhan nonfungsional NF1--NF6 yang telah diidentifikasi. Ia juga memastikan konsistensi antara argumen \emph{research gap} pada Bab~\ref{chap:studi-literatur}, hipotesis yang dirumuskan pada Bab~\ref{chap:pendahuluan}, dan keputusan rancangan yang dibuat di bab ini. Perancangan rinci komponen, implementasi, dan hasil evaluasi komparatif dibahas pada bab-bab selanjutnya.
+Secara keseluruhan, desain yang diusulkan telah dirancang untuk memenuhi seluruh kebutuhan fungsional (F1--F7) dan kebutuhan nonfungsional (NF1--NF6) yang telah diidentifikasi pada tahap analisis. Selain itu, rancangan ini juga menjaga keterkaitan antara kesenjangan penelitian yang dibahas pada Bab~\ref{chap:studi-literatur}, hipotesis penelitian yang dirumuskan pada Bab~\ref{chap:pendahuluan}, dan solusi teknis yang diusulkan dalam penelitian ini.
+
+Bab ini berfokus pada perancangan arsitektur dan komponen utama sistem. Implementasi dari setiap komponen, proses pengembangan sistem, serta hasil evaluasi terhadap pendekatan yang diusulkan akan dijelaskan pada bab-bab berikutnya.
