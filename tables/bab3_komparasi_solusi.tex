@@ -1,41 +1,102 @@
-
-% ============================================================
-% Tabel 4: Matriks Komparasi
-% ============================================================
 \begin{table}[H]
 \centering
 \caption{Matriks komparasi ketiga kondisi terhadap kebutuhan sistem.
-Kondisi C adalah solusi yang diusulkan.}
+Kondisi C merupakan solusi yang diusulkan.}
 \label{tab:komparasi-solusi}
-\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|
-    >{\centering\arraybackslash}p{2.8cm}|
-    >{\centering\arraybackslash}p{2.8cm}|
-    >{\centering\arraybackslash}p{2.8cm}|}
+
+\small
+\renewcommand{\arraystretch}{1.25}
+
+\begin{tabularx}{\textwidth}{|
+
+> {\raggedright\arraybackslash}X|
+> {\centering\arraybackslash}p{2.5cm}|
+> {\centering\arraybackslash}p{2.8cm}|
+> {\centering\arraybackslash}p{2.8cm}|}
+> \hline
+
+\textbf{Kebutuhan / Kriteria}
+&
+\textbf{Kondisi A} \newline
+\textbf{LLM Murni}
+&
+\textbf{Kondisi B} \newline
+\textbf{RAG Konvensional}
+&
+\textbf{Kondisi C} \newline
+\textbf{GraphRAG}
+\
 \hline
-\textbf{Kebutuhan / Kriteria} &
-\textbf{Kondisi A} \newline LLM Murni &
-\textbf{Kondisi B} \newline RAG Konvensional &
-\textbf{Kondisi C} \newline \textbf{GraphRAG} \\
+
+Reduksi halusinasi (M1)
+& Tidak
+& Sebagian
+& \textbf{Ya}
+\
 \hline
-Reduksi halusinasi (M1) & ✗ & Sebagian & \textbf{Ya} \\
+
+Bobot sinyal kepercayaan SO (M2, F1)
+& Tidak
+& Tidak
+& \textbf{Ya}
+\
 \hline
-Bobot sinyal kepercayaan SO (M2, F1) & ✗ & ✗ & \textbf{Ya} \\
+
+Keterlacakan sumber / \emph{citation} (M3, F5)
+& Tidak
+& Sebagian
+& \textbf{Ya (eksplisit)}
+\
 \hline
-Keterlacakan sumber / \emph{citation} (M3, F5) & ✗ & Sebagian & \textbf{Ya (eksplisit)} \\
+
+Penalaran relasional / \emph{multi-hop} (M4, F4)
+& Tidak
+& Tidak
+& \textbf{Ya}
+\
 \hline
-Penalaran relasional / multi-hop (M4, F4) & ✗ & ✗ & \textbf{Ya} \\
+
+Pembaruan tanpa \emph{re-training} (M5, F7)
+& Tidak
+& Ya
+& \textbf{Ya}
+\
 \hline
-Pembaruan tanpa \emph{re-training} (M5, F7) & ✗ & Ya & \textbf{Ya} \\
+
+Kinerja pada domain Framework & Library
+& Lemah
+& Sedang
+& \textbf{Target terbaik}
+\
 \hline
-Kinerja pada domain Framework \& Library & Lemah & Sedang & \textbf{Target terbaik} \\
+
+Konsistensi dengan temuan G1 (Bab II)
+& Tidak
+& Tidak
+& \textbf{Ya}
+\
 \hline
-Konsistensi dengan temuan G1 (Bab II) & Tidak & Tidak & \textbf{Ya} \\
+
+Konsistensi dengan temuan G2 (Bab II)
+& Tidak
+& Tidak
+& \textbf{Ya}
+\
 \hline
-Konsistensi dengan temuan G2 (Bab II) & Tidak & Tidak & \textbf{Ya} \\
+
+Konsistensi dengan temuan G3 (Bab II)
+& Tidak
+& Tidak
+& \textbf{Ya}
+\
 \hline
-Konsistensi dengan temuan G3 (Bab II) & Tidak & Tidak & \textbf{Ya} \\
+
+\textbf{Kesesuaian keseluruhan}
+& \textbf{Rendah}
+& \textbf{Sedang}
+& \textbf{Tinggi}
+\
 \hline
-\textbf{Kesesuaian keseluruhan} & \textbf{Rendah} & \textbf{Sedang} & \textbf{Tinggi} \\
-\hline
+
 \end{tabularx}
 \end{table}

@@ -64,9 +64,7 @@ Pengetahuan yang dipelajari selama proses pelatihan disimpan di dalam parameter 
 \subsection{Keterbatasan Pengetahuan Parametrik}
 
 Keterbatasan pertama adalah sifat pengetahuan parametrik yang statis. Setelah proses pelatihan selesai, model tidak dapat memperoleh informasi baru tanpa dilakukan pelatihan ulang \autocite{YizhengHuang2026}. Akibatnya, model berpotensi menghasilkan jawaban yang tidak sesuai dengan perkembangan terbaru, seperti perubahan versi pustaka, pembaruan API, maupun solusi baru yang berkembang di komunitas pengembang. Keterbatasan ini menjadi penting dalam domain pemrograman karena teknologi perangkat lunak berkembang dengan sangat cepat. \textcite{Moia2026} menunjukkan bahwa keterbatasan pembaruan pengetahuan merupakan salah satu kelemahan utama LLM pada penggunaan nyata.
-
 Keterbatasan kedua adalah tidak adanya mekanisme bawaan bagi LLM untuk mengetahui batas pengetahuannya sendiri. Model tidak dapat membedakan secara jelas antara informasi yang benar-benar didukung pengetahuan dan informasi yang hanya tampak masuk akal berdasarkan pola statistik data pelatihan \autocite{Ji2023}. Kondisi ini dikenal sebagai ketidakpastian epistemik dan menjadi salah satu penyebab utama munculnya halusinasi (\emph{hallucination}). Dalam konteks pengembangan perangkat lunak, \textcite{Malamas2025} menemukan bahwa LLM dapat menghasilkan kode yang terlihat meyakinkan dan benar secara struktur, tetapi sebenarnya mengandung kesalahan logika atau penggunaan komponen yang tidak valid.
-
 Berbagai keterbatasan tersebut menunjukkan bahwa peningkatan ukuran model saja belum cukup untuk meningkatkan keandalan LLM. Oleh karena itu, pendekatan berbasis penambahan pengetahuan eksternal pada saat proses inferensi, seperti \emph{Retrieval-Augmented Generation} (RAG), dipandang lebih menjanjikan untuk meningkatkan akurasi sekaligus mengurangi halusinasi \autocite{Lewis2020}.
 
 % =========================================================
@@ -85,8 +83,7 @@ Secara formal, mekanisme RAG dapat dituliskan sebagai berikut.
 \end{equation}
  
 \noindent
-dengan $\mathcal{R}$ sebagai komponen \emph{retriever}, $\mathcal{D}$ sebagai sumber pengetahuan, $\mathcal{G}$ sebagai komponen
-\emph{generator}, dan $a$ sebagai jawaban yang dihasilkan berdasarkan kueri $q$ serta konteks yang diperoleh dari proses pengambilan informasi.
+dengan $\mathcal{R}$ sebagai komponen \emph{retriever}, $\mathcal{D}$ sebagai sumber pengetahuan, $\mathcal{G}$ sebagai komponen \emph{generator}, dan $a$ sebagai jawaban yang dihasilkan berdasarkan kueri $q$ serta konteks yang diperoleh dari proses pengambilan informasi.
  
 Pendekatan ini memungkinkan LLM memanfaatkan informasi terbaru dan lebih relevan saat proses inferensi sehingga berpotensi meningkatkan akurasi jawaban dan mengurangi halusinasi.
  
