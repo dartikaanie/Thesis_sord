@@ -429,6 +429,54 @@
       \verb 10.1016/j.inffus.2026.104387
       \endverb
     \endentry
+    \entry{Fatima2026}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=c228b9e3ffdf1c6d0d127ae5ed58998f}{%
+           family={Fatima},
+           familyi={F\bibinitperiod},
+           given={Arjumand},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=32c30181bfe275a3825d4a879ffd176c}{%
+           family={Maqbool},
+           familyi={M\bibinitperiod},
+           given={Onaiza},
+           giveni={O\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{b4c9156e4b7c86db7b05bb545cf972b1}
+      \strng{fullhash}{b4c9156e4b7c86db7b05bb545cf972b1}
+      \strng{fullhashraw}{b4c9156e4b7c86db7b05bb545cf972b1}
+      \strng{bibnamehash}{b4c9156e4b7c86db7b05bb545cf972b1}
+      \strng{authorbibnamehash}{b4c9156e4b7c86db7b05bb545cf972b1}
+      \strng{authornamehash}{b4c9156e4b7c86db7b05bb545cf972b1}
+      \strng{authorfullhash}{b4c9156e4b7c86db7b05bb545cf972b1}
+      \strng{authorfullhashraw}{b4c9156e4b7c86db7b05bb545cf972b1}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{author}
+      \field{journaltitle}{Data in Brief}
+      \field{note}{In Press, Journal Pre-proof}
+      \field{title}{The {Stack Overflow Recommendations Dataset} ({SORD}) -- {A} Large-Scale Curated Dataset of Recommendations Related {Stack Overflow} Questions, Answers and Comments}
+      \field{year}{2026}
+      \field{pages}{112818}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.dib.2026.112818
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1016/j.dib.2026.112818
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1016/j.dib.2026.112818
+      \endverb
+    \endentry
     \entry{Gu2026}{article}{}{}
       \true{moreauthor}
       \true{morelabelname}

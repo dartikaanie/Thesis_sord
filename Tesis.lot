@@ -449,6 +449,14 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
 \contentsline {table}{\numberline {II.3}{\ignorespaces Metrik RAGAS dalam evaluasi GraphRAG berbasis Stack Overflow}}{43}{table.caption.20}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
@@ -458,7 +466,9 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {II.4}{\ignorespaces Posisi penelitian terkait terhadap tiga dimensi utama penelitian ini}}{45}{table.caption.22}%
+\contentsline {table}{\numberline {II.4}{\ignorespaces Posisi penelitian terkait terhadap tiga dimensi utama penelitian ini}}{46}{table.caption.22}%
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -572,7 +582,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {III.1}{\ignorespaces Temuan empiris \blx@tocontentsinit {0}\textcite {DaSilva2025} yang menjadi titik acuan pengukuran \emph {improvement} penelitian ini.}}{53}{table.caption.25}%
+\contentsline {table}{\numberline {III.1}{\ignorespaces Temuan empiris \blx@tocontentsinit {0}\textcite {DaSilva2025} yang menjadi titik acuan pengukuran \emph {improvement} penelitian ini.}}{55}{table.caption.25}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -593,22 +603,14 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {III.2}{\ignorespaces Pemetaan masalah pengguna ke kebutuhan solusi \emph {GraphRAG Framework}.}}{55}{table.caption.26}%
+\contentsline {table}{\numberline {III.2}{\ignorespaces Pemetaan masalah pengguna ke kebutuhan solusi \emph {GraphRAG Framework}.}}{57}{table.caption.26}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {III.3}{\ignorespaces Kebutuhan nonfungsional \emph {GraphRAG Framework}.}}{57}{table.caption.27}%
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
+\contentsline {table}{\numberline {III.3}{\ignorespaces Kebutuhan nonfungsional \emph {GraphRAG Framework}.}}{59}{table.caption.27}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -623,13 +625,6 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {III.4}{\ignorespaces Matriks komparasi ketiga kondisi terhadap kebutuhan sistem. Kondisi C adalah solusi yang diusulkan.}}{59}{table.caption.28}%
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {III.5}{\ignorespaces Perbandingan pemenuhan kebutuhan sistem pada tiga kondisi penelitian.}}{60}{table.caption.29}%
-\contentsline {table}{\numberline {III.6}{\ignorespaces Operasionalisasi sinyal kepercayaan Stack Overflow sebagai bobot sisi pada \emph {knowledge graph}.}}{62}{table.caption.31}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -638,14 +633,45 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {III.7}{\ignorespaces Metrik evaluasi komparatif \emph {GraphRAG Framework}.}}{65}{table.caption.35}%
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\contentsline {table}{\numberline {III.4}{\ignorespaces Perbandingan ketiga kondisi evaluasi terhadap kebutuhan sistem dan tujuan penelitian.}}{61}{table.caption.28}%
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\contentsline {table}{\numberline {III.5}{\ignorespaces Perbandingan pemenuhan kebutuhan sistem pada tiga kondisi penelitian.}}{62}{table.caption.29}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {III.8}{\ignorespaces Ringkasan komponen \emph {GraphRAG Framework} dan kaitannya dengan kesenjangan penelitian}}{66}{table.caption.36}%
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\contentsline {table}{\numberline {III.6}{\ignorespaces Operasionalisasi sinyal kepercayaan Stack Overflow sebagai bobot sisi pada \emph {knowledge graph}.}}{66}{table.caption.31}%
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\contentsline {table}{\numberline {III.7}{\ignorespaces Metrik evaluasi komparatif \emph {GraphRAG Framework}.}}{72}{table.caption.35}%
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\contentsline {table}{\numberline {III.8}{\ignorespaces Ringkasan komponen \emph {GraphRAG Framework} dan kaitannya dengan kesenjangan penelitian}}{73}{table.caption.36}%
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 

@@ -226,15 +226,15 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
 \contentsline {figure}{\numberline {II.2}{\ignorespaces \emph {Inference Pipeline} RAG modular berdasarkan taksonomi \blx@tocontentsinit {0}\autocite {Vizniuk2024}.}}{19}{figure.caption.12}%
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \contentsline {figure}{\numberline {II.3}{\ignorespaces Taksonomi RAG yang terdiri atas tahap \emph {Indexing}, \emph {Retrieval}, \emph {Fusion}, dan \emph {Generation} \blx@tocontentsinit {0}\autocite {Kamalipour2026}}}{20}{figure.caption.13}%
@@ -458,6 +458,12 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
 \contentsline {figure}{\numberline {II.8}{\ignorespaces Tahapan evaluasi \emph {LLM-as-a-Judge} yang meliputi pemberian konteks, inferensi model penilai, \emph {post-processing}, dan agregasi skor \blx@tocontentsinit {0}\autocite {Gu2026}.}}{44}{figure.caption.21}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
@@ -549,7 +555,11 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {II.9}{\ignorespaces Kerangka konseptual penelitian}}{48}{figure.caption.23}%
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\contentsline {figure}{\numberline {II.9}{\ignorespaces Kerangka konseptual penelitian}}{49}{figure.caption.23}%
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -569,7 +579,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {III.1}{\ignorespaces Model konseptual sistem tanya-jawab berbasis LLM generik tanpa mekanisme pengambilan konteks dari sumber terverifikasi.}}{52}{figure.caption.24}%
+\contentsline {figure}{\numberline {III.1}{\ignorespaces Model konseptual sistem tanya-jawab berbasis LLM generik tanpa mekanisme pengambilan konteks dari sumber terverifikasi.}}{54}{figure.caption.24}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -630,18 +640,34 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {III.2}{\ignorespaces Arsitektur \emph {GraphRAG Framework} berdasarkan kerangka konseptual empat jalur dari Bab~\ref {chap:studi-literatur}. Label G1--G3 menunjukkan kesenjangan yang dijawab oleh setiap komponen.}}{61}{figure.caption.30}%
-\contentsline {figure}{\numberline {III.3}{\ignorespaces Contoh subgraf \emph {knowledge graph} berbobot dari dataset SORD pada domain Python. Setiap sisi graf dilengkapi dengan bobot kepercayaan komunitas Stack Overflow ($w$) yang dikodekan secara eksplisit, meliputi bobot \texttt {hasAcceptedAnswer} ($w = 1{,}0$), \texttt {hasAnswer} ($w = \text {normalize}(\texttt {score})$), dan \texttt {isRelatedTo} ($w = \text {similarity}(q_i, q_j)$) dari pasangan rekomendasi SORD.}}{63}{figure.caption.32}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {III.4}{\ignorespaces Flowchart konstruksi \emph {knowledge graph} berbobot dari dataset SORD.}}{64}{figure.caption.33}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {III.5}{\ignorespaces Flowchart alur pemrosesan kueri pada \emph {GraphRAG Framework}. Moda 1 digunakan ketika entitas kueri dapat dipetakan ke KG; Moda 2 digunakan sebagai \emph {fallback}.}}{65}{figure.caption.34}%
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\contentsline {figure}{\numberline {III.2}{\ignorespaces Arsitektur \emph {GraphRAG Framework} yang terdiri atas tiga blok utama (Konstruksi KG Berbobot, \emph {Hybrid Retrieval}, dan \emph {Grounded Generation}) beserta blok evaluasi komparatif.}}{64}{figure.caption.30}%
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\contentsline {figure}{\numberline {III.3}{\ignorespaces Contoh subgraf \emph {knowledge graph} berbobot dari SORD pada domain autentikasi FastAPI}}{67}{figure.caption.32}%
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\contentsline {figure}{\numberline {III.4}{\ignorespaces Flowchart konstruksi \emph {knowledge graph} berbobot dari dataset SORD.}}{68}{figure.caption.33}%
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\contentsline {figure}{\numberline {III.5}{\ignorespaces Flowchart alur pemrosesan kueri pada \emph {GraphRAG Framework}.}}{71}{figure.caption.34}%
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 

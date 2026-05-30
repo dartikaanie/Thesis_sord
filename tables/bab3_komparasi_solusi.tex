@@ -1,19 +1,17 @@
 \begin{table}[H]
 \centering
-\caption{Matriks komparasi ketiga kondisi terhadap kebutuhan sistem.
-Kondisi C merupakan solusi yang diusulkan.}
+\caption{Perbandingan ketiga kondisi evaluasi terhadap kebutuhan sistem dan tujuan penelitian.}
 \label{tab:komparasi-solusi}
 
 \small
-\renewcommand{\arraystretch}{1.25}
+\renewcommand{\arraystretch}{1.3}
 
 \begin{tabularx}{\textwidth}{|
-
-> {\raggedright\arraybackslash}X|
-> {\centering\arraybackslash}p{2.5cm}|
-> {\centering\arraybackslash}p{2.8cm}|
-> {\centering\arraybackslash}p{2.8cm}|}
-> \hline
+>{\raggedright\arraybackslash}X|
+>{\centering\arraybackslash}p{2.5cm}|
+>{\centering\arraybackslash}p{2.8cm}|
+>{\centering\arraybackslash}p{2.8cm}|}
+\hline
 
 \textbf{Kebutuhan / Kriteria}
 &
@@ -24,78 +22,78 @@ Kondisi C merupakan solusi yang diusulkan.}
 \textbf{RAG Konvensional}
 &
 \textbf{Kondisi C} \newline
-\textbf{GraphRAG}
-\
+\textbf{GraphRAG Framework}
+\\
 \hline
 
 Reduksi halusinasi (M1)
 & Tidak
 & Sebagian
 & \textbf{Ya}
-\
+\\
 \hline
 
-Bobot sinyal kepercayaan SO (M2, F1)
+Pemanfaatan sinyal kepercayaan Stack Overflow (M2, F1)
 & Tidak
 & Tidak
 & \textbf{Ya}
-\
+\\
 \hline
 
-Keterlacakan sumber / \emph{citation} (M3, F5)
+Keterlacakan sumber (\emph{citation}) (M3, F5)
 & Tidak
 & Sebagian
-& \textbf{Ya (eksplisit)}
-\
+& \textbf{Ya}
+\\
 \hline
 
-Penalaran relasional / \emph{multi-hop} (M4, F4)
+Penalaran relasional dan \emph{multi-hop} (M4, F4)
 & Tidak
 & Tidak
 & \textbf{Ya}
-\
+\\
 \hline
 
-Pembaruan tanpa \emph{re-training} (M5, F7)
+Pembaruan pengetahuan tanpa \emph{re-training} (M5, F7)
 & Tidak
 & Ya
 & \textbf{Ya}
-\
+\\
 \hline
 
-Kinerja pada domain Framework & Library
-& Lemah
+Kinerja pada domain \emph{framework} dan \emph{library}
+& Rendah
 & Sedang
-& \textbf{Target terbaik}
-\
+& \textbf{Tinggi}
+\\
 \hline
 
-Konsistensi dengan temuan G1 (Bab II)
+Kesesuaian dengan temuan G1
 & Tidak
 & Tidak
 & \textbf{Ya}
-\
+\\
 \hline
 
-Konsistensi dengan temuan G2 (Bab II)
+Kesesuaian dengan temuan G2
 & Tidak
 & Tidak
 & \textbf{Ya}
-\
+\\
 \hline
 
-Konsistensi dengan temuan G3 (Bab II)
+Kesesuaian dengan temuan G3
 & Tidak
 & Tidak
 & \textbf{Ya}
-\
+\\
 \hline
 
 \textbf{Kesesuaian keseluruhan}
 & \textbf{Rendah}
 & \textbf{Sedang}
 & \textbf{Tinggi}
-\
+\\
 \hline
 
 \end{tabularx}

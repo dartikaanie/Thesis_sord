@@ -29,7 +29,7 @@ Lapisan ketiga berasal dari mekanisme inferensi pada LLM itu sendiri. Proses gen
 Gambar \ref{fig:chang_misinfo} menunjukkan contoh kegagalan yang disebabkan oleh ketidaksesuaian waktu informasi (\emph{temporal misalignment}) dan data yang mengandung informasi keliru. Kedua kondisi ini sangat relevan pada domain
 pemrograman karena teknologi, \emph{library}, dan dokumentasi terus berkembang.
  
-\begin{figure}[h!]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\textwidth]{images/chang2026_fig7_misinformation}
 \caption{Contoh kegagalan penalaran akibat ketidaksesuaian waktu informasi
@@ -92,7 +92,7 @@ Pendekatan ini memungkinkan LLM memanfaatkan informasi terbaru dan lebih relevan
 \textcite{Vizniuk2024} menjelaskan bahwa keterbatasan basis pengetahuan internal \emph{Large Language Model} (LLM) yang statis dan rentan terhadap informasi usang dapat diatasi secara dinamis melalui arsitektur \emph{Retrieval-Augmented Generation} (RAG). Kerangka kerja RAG secara garis besar terdiri atas tiga komponen utama, yaitu pengambilan informasi (\emph{retrieval}) dari sumber eksternal, menggabungkannya ke dalam
 prompt(\emph{augmentation}), kemudian menghasilkan respons berdasarkan konteks tambahan tersebut (\emph{generation}). Alur kerja atau \emph{inference pipeline} dari sistem RAG ini dimulai dari masukan kueri pengguna hingga dihasilkannya jawaban akhir oleh model seperti yang diilustrasikan pada Gambar~\ref{fig:vizniuk_rag_pipeline}.
  
-\begin{figure}[h!]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\textwidth]{images/vizniuk_rag_pipeline.png}
 \caption{\emph{Inference Pipeline} RAG modular berdasarkan taksonomi \autocite{Vizniuk2024}.}
@@ -102,7 +102,7 @@ prompt(\emph{augmentation}), kemudian menghasilkan respons berdasarkan konteks t
 Sementara itu, \textcite{Kamalipour2026} memformulasikan proses RAG ke dalam empat tahap utama, yaitu \emph{Indexing}, \emph{Retrieval},
 \emph{Fusion}, dan \emph{Generation}. Keempat tahap ini dapat dipandang sebagai pengembangan yang lebih rinci terhadap alur modular RAG yang dijelaskan oleh \textcite{Vizniuk2024}. Integrasi kedua pandangan tersebut menghasilkan alur RAG yang dimulai dari pembangunan basis pengetahuan, pengambilan informasi yang relevan, penggabungan konteks, hingga proses generasi jawaban. Semua tahapan ini saling berhubungan, sebagaimana ditunjukkan pada Gambar~\ref{fig:kamalipour_rag_taxonomy}.
  
-\begin{figure}[h!]
+\begin{figure}[!htbp]
     \centering
     \includegraphics[width=\textwidth]{images/kamalipour_rag_taxonomy}
     \caption{Taksonomi RAG yang terdiri atas tahap \emph{Indexing}, \emph{Retrieval}, \emph{Fusion}, dan \emph{Generation} \autocite{Kamalipour2026}}.
@@ -112,7 +112,7 @@ Sementara itu, \textcite{Kamalipour2026} memformulasikan proses RAG ke dalam emp
 \subsubsection{Pengindeksan Basis Pengetahuan (\emph{Indexing}).}
 Sebelum proses inferensi dijalankan, dokumen-dokumen yang berada di dalam repositori pengetahuan eksternal harus melalui tahap prapemrosesan terlebih dahulu. Tahap pertama adalah \emph{Indexing}, yaitu proses persiapan repositori pengetahuan sebelum inferensi dilakukan. Dokumen eksternal terlebih dahulu dipraproses dengan memecah teks menjadi unit-unit kecil (\emph{chunks}), kemudian setiap \emph{chunk} dikonversi menjadi representasi vektor menggunakan model \emph{embedding} dan disimpan pada \emph{vector database}. Tahap ini membentuk fondasi bagi proses pencarian semantik. Proses \emph{Indexing} direpresntasikan pada pada Gambar~\ref{fig:indexing_process_in_a_RAG}. 
 
-\begin{figure}[h!]
+\begin{figure}[!htbp]
     \centering
     \includegraphics[width=\textwidth]{images/The_indexing_ process_in_a_RAG_pipeline}
     \caption{Proses pengindeksan pada pipeline RAG: mulai dari pemuatan data (\emph{data loading}), pemotongan teks (\emph{chunking}), pembentukan embedding, hingga penyimpanan dalam basis data vektor (\emph{vector database}). \autocite{Kamalipour2026}}.
@@ -303,7 +303,7 @@ penalaran berbasis pengetahuan sekaligus membantu mengurangi halusinasi faktual.
  
 \textcite{Kamalipour2026} mendeskripsikan GraphRAG sebagai serangkaian proses yang dimulai dari pembangunan \emph{knowledge graph}, pengambilan informasi berbasis graf, hingga generasi jawaban menggunakan LLM. Alur umum tersebut ditunjukkan pada Gambar~\ref{fig:graphrag_pipeline}.
  
-\begin{figure}[h!]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\textwidth]{images/Graph_RAG_pipeline}
 \caption{Gambaran umum \emph{pipeline} Graph-RAG: ekstraksi triple, penelusuran subgraf (\emph{sub-graph traversal}), serta integrasi hibrida antara representasi vektor dan simbolik.\autocite{Kamalipour2026}}
@@ -457,7 +457,7 @@ Stack Overflow adalah platform \emph{question and answer} (Q\&A) yang berfokus p
  
 \textcite{DaSilva2025} merancang studi empiris yang secara eksplisit memanfaatkan tiga mekanisme ini sebagai proksi kualitas jawaban (Gambar~\ref{fig:dasilva_setup}). Studi tersebut mengonfirmasi bahwa jawaban dengan skor tinggi dan status \emph{accepted} memiliki korelasi positif dengan akurasi teknis yang terverifikasi. Hal ini menjadikan Stack Overflow sebagai basis pengetahuan tervalidasi secara sosial (\emph{socially-validated knowledge base}).
 
-\begin{figure}[h!]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\textwidth]{images/bab2_rancangan_empiris}
 \caption{Gambaran umum rancangan empiris yang digunakan untuk menguji korelasi antara sinyal kepercayaan komunitas Stack Overflow dengan akurasi jawaban LLM. \autocite{DaSilva2025}}
@@ -469,15 +469,16 @@ Stack Overflow adalah platform \emph{question and answer} (Q\&A) yang berfokus p
 Dalam konteks \emph{knowledge graph} berbobot, sinyal kepercayaan yang tersedia pada Stack Overflow dapat dimanfaatkan sebagai bobot pada simpul dan relasi graf. Dengan demikian, kualitas informasi tidak hanya ditentukan oleh keberadaan entitas dan hubungan, tetapi juga oleh tingkat kepercayaan komunitas terhadap informasi tersebut. Tabel~\ref{tab:so_signals} menunjukkan sinyal kepercayaan yang digunakan beserta interpretasinya pada KG berbobot.
 
 \input{tables/so_signals.tex}
- 
+ % =========================================================
 \subsection{Pemanfaatan Konten Stack Overflow dalam Sistem AI}
- 
+ % =========================================================
+
 Beberapa penelitian telah memanfaatkan Stack Overflow sebagai sumber pengetahuan untuk meningkatkan kualitas keluaran model AI. \textcite{Nashid2023} menunjukkan bahwa penggunaan konten Stack Overflow sebagai sumber konteks dapat meningkatkan kualitas jawaban LLM pada tugas pemrograman. Namun, pendekatan tersebut masih menggunakan RAG konvensional berbasis kemiripan vektor sehingga belum memanfaatkan struktur relasional maupun sinyal kepercayaan komunitas.
 
 Selain itu, \textcite{DaSilva2025} menunjukkan bahwa tingkat kesesuaian antara jawaban LLM dan jawaban komunitas tidak sama pada semua domain pemrograman (Gambar~\ref{fig:dasilva_domain}). Beberapa domain menghasilkan kemiripan tinggi, sementara domain lain menunjukkan perbedaan yang cukup besar. Temuan ini mengindikasikan bahwa halusinasi LLM bersifat tidak merata antar domain dan perlu dipertimbangkan pada proses evaluasi.
 
  
-\begin{figure}[h!]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\textwidth]{images/dasilva_domain}
 \caption{Distribusi domain pertanyaan untuk jawaban LLM dengan kemiripan tinggi dan rendah terhadap komunitas Stack Overflow. \autocite{DaSilva2025}}
@@ -485,6 +486,16 @@ Selain itu, \textcite{DaSilva2025} menunjukkan bahwa tingkat kesesuaian antara j
 \end{figure}
 
 Temuan tersebut diperkuat oleh \textcite{Kabir2024}, yang melakukan studi terhadap jawaban ChatGPT pada pertanyaan Stack Overflow. Penelitian ini menunjukkan bahwa keluaran LLM masih mengandung ketidakakuratan faktual yang cukup signifikan sehingga aspek keandalan perlu menjadi perhatian utama pada penerapan sistem berbasis LLM.
+% =========================================================
+\subsection{\emph{Stack Overflow Recommendations Dataset} (SORD) sebagai Sumber Data Penelitian}
+\label{subsec:sord}
+% =========================================================
+ 
+Penelitian ini menggunakan \emph{Stack Overflow Recommendations Dataset} (SORD) \autocite{Fatima2026}, yaitu dataset berskala besar yang dikurasi secara empiris dari diskusi Stack Overflow dengan penekanan pada penambangan wawasan terkait rekomendasi perangkat lunak antar-pengembang. Dataset ini dipublikasikan secara terbuka (\emph{open access}) pada jurnal \emph{Data in Brief} dan mencakup empat jenis entitas utama: (1)pertanyaan (\emph{question}) beserta judul, isi, skor, jumlah tampilan, dan tanggal pembuatan; (2)jawaban (\emph{answer}) beserta isi, skor, status \emph{accepted answer}, dan reputasi kontributor; (3)tag teknologi yang merepresentasikan domain atau pustaka yang dirujuk; serta (4)komentar yang mengandung konteks diskusi tambahan antar pengembang.
+ 
+Pemilihan SORD sebagai sumber data penelitian ini didasarkan pada tiga pertimbangan utama. Pertama, SORD dibangun dari \emph{Stack Exchange Data Dump} publik sehingga seluruh metadata sinyal kepercayaan komunitas, skor \emph{upvote}, status \emph{accepted answer}, dan reputasi kontributor tersedia sebagai atribut terstruktur yang melekat pada setiap entitas. Berbeda dengan pendekatan \textcite{Nashid2023} yang mengindeks konten Stack Overflow sebagai potongan teks datar (\emph{flat chunks}) ke dalam \emph{vector store}, SORD memungkinkan hubungan antar entitas direpresentasikan secara eksplisit sebagai sisi berbobot pada \emph{knowledge graph}. Kedua, SORD bersifat publik dan tersedia secara terbuka, sehingga mendukung reprodusibilitas hasil evaluasi dan perbandingan langsung dengan studi-studi sebelumnya yang menggunakan sumber data serupa \autocite{DaSilva2025}. Ketiga, cakupan SORD yang mencakup pertanyaan, jawaban, komentar, dan tag secara relasional menjadikannya cocok sebagai fondasi pembangunan \emph{knowledge graph} domain pemrograman yang kaya secara struktural.
+ 
+Karakteristik pembeda utama SORD terhadap dataset Stack Overflow pada penelitian sebelumnya terletak pada ketersediaan sinyal kepercayaan komunitas sebagai metadata terstruktur. Sinyal-sinyal tersebut tidak dibuang sebagai \emph{noise}, melainkan dipertahankan dan dioperasionalisasikan sebagai bobot eksplisit pada simpul dan sisi \emph{knowledge graph} sebagaimana diuraikan pada Tabel~\ref{tab:so_signals}. Dengan demikian, SORD menjadi fondasi empiris yang memungkinkan penelitian ini menjawab kesenjangan G2 (pemanfaatan sinyal kepercayaan komunitas) dan G3 (penerapan GraphRAG pada sumber pengetahuan komunitas teknis bervalidasi sosial) yang akan diidentifikasi pada Seksi~\ref{sec:gap}.
  
 % =========================================================
 \section{\emph{Grounded Generation} dan \emph{Faithfulness} pada LLM}
@@ -564,7 +575,7 @@ Nilai RAGAS yang mendekati 1,0 menunjukkan bahwa sistem mampu mengambil konteks 
 \subsection{Paradigma \emph{LLM-as-a-Judge}}
 Evaluasi manual terhadap ratusan jawaban pemrograman memerlukan sumber daya yang besar. Oleh karena itu, penelitian ini memanfaatkan paradigma \emph{LLM-as-a-Judge}, yaitu pendekatan yang menggunakan LLM sebagai penilai otomatis terhadap keluaran model lain \autocite{Gu2026}. Pendekatan ini memungkinkan evaluasi dilakukan secara lebih cepat dan skalabel, khususnya untuk menilai kualitas seperti \emph{faithfulness}, relevansi jawaban, dan kegunaan solusi yang dihasilkan.
 
-\begin{figure}[h!]
+\begin{figure}[!htbp]]
 \centering
 \includegraphics[width=\textwidth]{images/gu2026_fig2_judge_pipeline}
 \caption{Tahapan evaluasi \emph{LLM-as-a-Judge} yang meliputi pemberian konteks, inferensi model penilai, \emph{post-processing}, dan agregasi skor \autocite{Gu2026}.}
@@ -622,7 +633,7 @@ Berdasarkan analisis kesenjangan di atas, kontribusi utama penelitian ini dapat 
 
 Berdasarkan studi literatur, kerangka konseptual penelitian ini (Gambar~\ref{fig:kerangka_konseptual}) mengorganisasi komponen-komponen teoritis ke dalam empat jalur yang saling terhubung secara sekuensial, yaitu (1) konstruksi pengetahuan, (2) pengambilan konteks, (3) generasi berbasis graf, dan (4) evaluasi.
 
-\begin{figure}[h!]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\textwidth]{images/bab2_kerangka_konseptual.png}
 \caption{Kerangka konseptual penelitian}
@@ -630,8 +641,7 @@ Berdasarkan studi literatur, kerangka konseptual penelitian ini (Gambar~\ref{fig
 \end{figure}
 
 \textbf{Jalur 1 - Konstruksi pengetahuan.}
-Jalur pertama membangun fondasi pengetahuan terstruktur melalui tiga aktivitas berurutan. Pertama, data diekstraksi dari \textit{Stack Exchange Data Dump} yang mencakup pertanyaan, jawaban, tag, dan metadata komunitas. Kedua, data tersebut diproses melalui \emph{pipeline} konstruksi KG berbasis LLM menggunakan pendekatan \emph{schema-based}. Proses ini meliputi NER, \emph{entity linking}, dan ekstraksi tripel (subjek-predikat-objek). Pada tahap ini, bobot komunitas seperti \emph{upvote}, \emph{accepted answer}, dan reputasi kontributor diintegrasikan sebagai atribut eksplisit dalam graf. Ketiga, seluruh tripel yang dihasilkan disimpan ke dalam \emph{graph database} Neo4j disertai \emph{vector embedding} pada setiap simpul untuk mendukung mekanisme pencarian hibrid. KG berbobot yang tersimpan kemudian menjadi indeks pengetahuan tunggal bagi seluruh jalur berikutnya.
-
+Jalur pertama membangun fondasi pengetahuan terstruktur melalui tiga aktivitas berurutan. Pertama, data diekstraksi dari SORD \autocite{Fatima2026} yang bersumber dari \textit{Stack Exchange Data Dump} dan mencakup pertanyaan, jawaban, komentar, tag, serta metadata sinyal kepercayaan komunitas. Kedua, data tersebut diproses melalui \emph{pipeline} konstruksi KG berbasis LLM menggunakan pendekatan \emph{schema-based}. Proses ini meliputi NER, \emph{entity linking}, dan ekstraksi tripel (subjek-predikat-objek). Pada tahap ini, bobot komunitas seperti \emph{upvote}, \emph{accepted answer}, dan reputasi kontributor diintegrasikan sebagai atribut eksplisit dalam graf. Ketiga, seluruh tripel yang dihasilkan disimpan ke dalam \emph{graph database} Neo4j disertai \emph{vector embedding} pada setiap simpul untuk mendukung mekanisme pencarian hibrid. KG berbobot yang tersimpan kemudian menjadi indeks pengetahuan tunggal bagi seluruh jalur berikutnya.
 
 \textbf{Jalur 2 - Pengambilan konteks.}
 Jalur kedua merupakan inti teknis yang membedakan sistem ini dari GraphRAG konvensional, dan secara langsung mengoperasionalkan mekanisme \emph{hybrid retrieval}. Proses dimulai dari kueri pengguna yang diproses melalui NER dan \emph{entity linking} untuk memetakan entitas teknis ke simpul yang relevan di dalam KG. Tahap ini merupakan tahap yang krusial karena sifat ambigu terminologi teknis pada Stack Overflow. Selanjutnya, dua mekanisme retrieval dijalankan secara terintegrasi: 

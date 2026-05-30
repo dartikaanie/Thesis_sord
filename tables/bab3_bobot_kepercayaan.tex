@@ -1,43 +1,66 @@
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
-\small
+\footnotesize
 \caption{Operasionalisasi sinyal kepercayaan Stack Overflow sebagai bobot sisi pada \emph{knowledge graph}.}
 \label{tab:bobot-kepercayaan}
 
+\renewcommand{\arraystretch}{1.2}
+
 \begin{tabularx}{\textwidth}
-{|>{\ttfamily\raggedright\arraybackslash}p{3cm}
- |c
+{|>{\ttfamily\raggedright\arraybackslash}p{2.8cm}
+ |>{\centering\arraybackslash}p{1.8cm}
  |>{\raggedright\arraybackslash}X
- |>{\raggedright\arraybackslash}p{3cm}|}
+ |>{\raggedright\arraybackslash}X|}
 \hline
+
 \textbf{Tipe Sisi} &
 \textbf{Arah} &
 \textbf{Makna Semantik} &
-\textbf{Bobot $w$}\\
+\textbf{Bobot $w$}
+\\
 \hline
-hasAcceptedAnswer & Q $\to$ A &
+
+hasAcceptedAnswer &
+Q $\rightarrow$ A &
 Jawaban yang diterima sebagai solusi terbaik oleh penanya &
-$w=1.0$\\
+$w = 1.0$
+\\
 \hline
-hasAnswer & Q $\to$ A &
+
+hasAnswer &
+Q $\rightarrow$ A &
 Jawaban lain dengan skor tinggi &
-$w=\mathrm{normalize}(\mathrm{score})$\\
+$w = \mathrm{normalize}(\mathrm{score})$
+\\
 \hline
-taggedWith & Q $\to$ Tag &
+
+taggedWith &
+Q $\rightarrow$ Tag &
 Pertanyaan dikategorikan dalam domain teknologi tertentu &
-$w=1.0$\\
+$w = 1.0$
+\\
 \hline
-isRelatedTo & Q $\leftrightarrow$ Q &
+
+isRelatedTo &
+Q $\leftrightarrow$ Q &
 Pasangan rekomendasi dalam dataset SORD &
-$w=\mathrm{similarity}(q_i,q_j)$\\
+$w = \mathrm{similarity}(q_i,q_j)$
+\\
 \hline
-mentions & Q/A $\to$ Concept &
+
+mentions &
+Q/A $\rightarrow$ Concept &
 Pertanyaan atau jawaban menyebut entitas teknis tertentu &
-$w=\mathrm{TF\mbox{-}IDF}(\mathrm{concept},\mathrm{doc})$\\
+$w = \mathrm{TF\mbox{-}IDF}(\mathrm{concept},\mathrm{doc})$
+\\
 \hline
-authorTrust & A $\to$ Author &
+
+authorTrust &
+A $\rightarrow$ Author &
 Kepercayaan terhadap kontributor jawaban &
-$w=\mathrm{normalize}(\mathrm{reputation})$\\
+$w = \mathrm{normalize}(\mathrm{reputation})$
+\\
 \hline
+
 \end{tabularx}
 \end{table}
