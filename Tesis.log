@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.3.4)  31 MAY 2026 01:19
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.3.4)  31 MAY 2026 02:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -727,6 +727,9 @@ LaTeX Font Info:    Trying to load font information for U+psy on input line 64.
 (/usr/local/texlive/2026/texmf-dist/tex/latex/psnfss/upsy.fd
 File: upsy.fd 2001/06/04 font definitions for U/psy.
 ))
+(/usr/local/texlive/2026/texmf-dist/tex/latex/placeins/placeins.sty
+Package: placeins 2005/04/18  v 2.2
+)
 
 Package fontspec Info: 
 (fontspec)             Font family 'TimesNewRoman(0)' created for font 'Times
@@ -1003,7 +1006,7 @@ Package biblatex Info: ... and expl3
 (/usr/local/texlive/2026/texmf-dist/tex/latex/biblatex/blx-case-expl3.sty
 Package: blx-case-expl3 2025/07/10 v3.21 expl3 case changing code for biblatex
 )))
-Package hyperref Info: Option `colorlinks' set `true' on input line 154.
+Package hyperref Info: Option `colorlinks' set `true' on input line 155.
 \c@myequations=\count513
 \cftbeforemyequationsskip=\skip139
 \cftmyequationsindent=\skip140
@@ -1021,7 +1024,7 @@ Package csquotes Info: Adjusting default style.
 
 
 Package csquotes Warning: No style for language 'indonesian'.
-(csquotes)                Using fallback style on input line 337.
+(csquotes)                Using fallback style on input line 338.
 
 Package csquotes Info: Redefining alias 'default' -> 'fallback'.
 (./Tesis.aux
@@ -1032,26 +1035,26 @@ Package babel Info: Importing data for english
 )
 \openout1 = `Tesis.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 337.
-LaTeX Font Info:    ... okay on input line 337.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 337.
-LaTeX Font Info:    ... okay on input line 337.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 337.
-LaTeX Font Info:    ... okay on input line 337.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 337.
-LaTeX Font Info:    ... okay on input line 337.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 337.
-LaTeX Font Info:    ... okay on input line 337.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 337.
-LaTeX Font Info:    ... okay on input line 337.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 337.
-LaTeX Font Info:    ... okay on input line 337.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 337.
-LaTeX Font Info:    ... okay on input line 337.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 337.
-LaTeX Font Info:    ... okay on input line 337.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 337.
-LaTeX Font Info:    ... okay on input line 337.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 338.
+LaTeX Font Info:    ... okay on input line 338.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 338.
+LaTeX Font Info:    ... okay on input line 338.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 338.
+LaTeX Font Info:    ... okay on input line 338.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 338.
+LaTeX Font Info:    ... okay on input line 338.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 338.
+LaTeX Font Info:    ... okay on input line 338.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 338.
+LaTeX Font Info:    ... okay on input line 338.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 338.
+LaTeX Font Info:    ... okay on input line 338.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 338.
+LaTeX Font Info:    ... okay on input line 338.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 338.
+LaTeX Font Info:    ... okay on input line 338.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 338.
+LaTeX Font Info:    ... okay on input line 338.
 
 Package fontspec Info: 
 (fontspec)             Adjusting the maths setup (use [no-math] to avoid
@@ -1059,64 +1062,64 @@ Package fontspec Info:
 
 \symlegacymaths=\mathgroup6
 LaTeX Font Info:    Overwriting symbol font `legacymaths' in version `bold'
-(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 337.
-LaTeX Font Info:    Redeclaring math accent \acute on input line 337.
-LaTeX Font Info:    Redeclaring math accent \grave on input line 337.
-LaTeX Font Info:    Redeclaring math accent \ddot on input line 337.
-LaTeX Font Info:    Redeclaring math accent \tilde on input line 337.
-LaTeX Font Info:    Redeclaring math accent \bar on input line 337.
-LaTeX Font Info:    Redeclaring math accent \breve on input line 337.
-LaTeX Font Info:    Redeclaring math accent \check on input line 337.
-LaTeX Font Info:    Redeclaring math accent \hat on input line 337.
-LaTeX Font Info:    Redeclaring math accent \dot on input line 337.
-LaTeX Font Info:    Redeclaring math accent \mathring on input line 337.
-LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 337.
-LaTeX Font Info:    Redeclaring math symbol \Delta on input line 337.
-LaTeX Font Info:    Redeclaring math symbol \Theta on input line 337.
-LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 337.
-LaTeX Font Info:    Redeclaring math symbol \Xi on input line 337.
-LaTeX Font Info:    Redeclaring math symbol \Pi on input line 337.
-LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 337.
-LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 337.
-LaTeX Font Info:    Redeclaring math symbol \Phi on input line 337.
-LaTeX Font Info:    Redeclaring math symbol \Psi on input line 337.
-LaTeX Font Info:    Redeclaring math symbol \Omega on input line 337.
-LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 337.
-LaTeX Font Info:    Redeclaring symbol font `operators' on input line 337.
+(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 338.
+LaTeX Font Info:    Redeclaring math accent \acute on input line 338.
+LaTeX Font Info:    Redeclaring math accent \grave on input line 338.
+LaTeX Font Info:    Redeclaring math accent \ddot on input line 338.
+LaTeX Font Info:    Redeclaring math accent \tilde on input line 338.
+LaTeX Font Info:    Redeclaring math accent \bar on input line 338.
+LaTeX Font Info:    Redeclaring math accent \breve on input line 338.
+LaTeX Font Info:    Redeclaring math accent \check on input line 338.
+LaTeX Font Info:    Redeclaring math accent \hat on input line 338.
+LaTeX Font Info:    Redeclaring math accent \dot on input line 338.
+LaTeX Font Info:    Redeclaring math accent \mathring on input line 338.
+LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 338.
+LaTeX Font Info:    Redeclaring math symbol \Delta on input line 338.
+LaTeX Font Info:    Redeclaring math symbol \Theta on input line 338.
+LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 338.
+LaTeX Font Info:    Redeclaring math symbol \Xi on input line 338.
+LaTeX Font Info:    Redeclaring math symbol \Pi on input line 338.
+LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 338.
+LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 338.
+LaTeX Font Info:    Redeclaring math symbol \Phi on input line 338.
+LaTeX Font Info:    Redeclaring math symbol \Psi on input line 338.
+LaTeX Font Info:    Redeclaring math symbol \Omega on input line 338.
+LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 338.
+LaTeX Font Info:    Redeclaring symbol font `operators' on input line 338.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `normal' on input line 337.
+(Font)              `operators' in the math version `normal' on input line 338.
 
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  OT1/cmr/m/n --> TU/TimesNewRoman(0)/m/n on input line 3
-37.
+38.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `bold' on input line 337.
+(Font)              `operators' in the math version `bold' on input line 338.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
 (Font)                  OT1/cmr/bx/n --> TU/TimesNewRoman(0)/m/n on input line 
-337.
+338.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  TU/TimesNewRoman(0)/m/n --> TU/TimesNewRoman(0)/m/n on 
-input line 337.
+input line 338.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
 (Font)                  OT1/cmr/m/it --> TU/TimesNewRoman(0)/m/it on input line
- 337.
+ 338.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
 (Font)                  OT1/cmr/bx/n --> TU/TimesNewRoman(0)/b/n on input line 
-337.
+338.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> TU/lmss/m/n on input line 337.
+(Font)                  OT1/cmss/m/n --> TU/lmss/m/n on input line 338.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> TU/lmtt/m/n on input line 337.
+(Font)                  OT1/cmtt/m/n --> TU/lmtt/m/n on input line 338.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
 (Font)                  TU/TimesNewRoman(0)/m/n --> TU/TimesNewRoman(0)/b/n on 
-input line 337.
+input line 338.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
 (Font)                  OT1/cmr/bx/it --> TU/TimesNewRoman(0)/b/it on input lin
-e 337.
+e 338.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> TU/lmss/b/n on input line 337.
+(Font)                  OT1/cmss/bx/n --> TU/lmss/b/n on input line 338.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> TU/lmtt/b/n on input line 337.
+(Font)                  OT1/cmtt/m/n --> TU/lmtt/b/n on input line 338.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: floatrow package is loaded.
@@ -1174,13 +1177,13 @@ Package: fr-longtable 2007/11/28 v0.1b (beta) floatrow: additions for longtable
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Info: Redefining \microtypecontext on input line 337.
-Package microtype Info: Applying patch `item' on input line 337.
-Package microtype Info: Applying patch `toc' on input line 337.
-Package microtype Info: Applying patch `eqnum' on input line 337.
-Package microtype Info: Applying patch `footnote' on input line 337.
-Package microtype Info: Applying patch `verbatim' on input line 337.
-LaTeX Info: Redefining \microtypesetup on input line 337.
+LaTeX Info: Redefining \microtypecontext on input line 338.
+Package microtype Info: Applying patch `item' on input line 338.
+Package microtype Info: Applying patch `toc' on input line 338.
+Package microtype Info: Applying patch `eqnum' on input line 338.
+Package microtype Info: Applying patch `footnote' on input line 338.
+Package microtype Info: Applying patch `verbatim' on input line 338.
+LaTeX Info: Redefining \microtypesetup on input line 338.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: No adjustment of tracking.
@@ -1190,7 +1193,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `TimesNewRoman' (encoding: TU).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-Package hyperref Info: Link coloring ON on input line 337.
+Package hyperref Info: Link coloring ON on input line 338.
 (./Tesis.out) (./Tesis.out)
 \@outlinefile=\write4
 \openout4 = `Tesis.out'.
@@ -1200,7 +1203,7 @@ Package biblatex Info: ... file 'indonesian.lbx' not found.
 
 
 Package biblatex Warning: Language 'indonesian' not supported.
-(biblatex)                Using dummy definitions on input line 337.
+(biblatex)                Using dummy definitions on input line 338.
 
 Package biblatex Info: Trying to load language 'english'...
 Package biblatex Info: ... file 'english.lbx' found.
@@ -1232,8 +1235,8 @@ Package biblatex Warning: The following entry could not be found
 (biblatex)                LaTeX afterwards.
 
 )
-Package biblatex Info: Reference section=0 on input line 337.
-Package biblatex Info: Reference segment=0 on input line 337.
+Package biblatex Info: Reference section=0 on input line 338.
+Package biblatex Info: Reference segment=0 on input line 338.
  (./1 Halaman Judul.tex
 File: images/ganesha.jpg Graphic file (type bmp)
 <images/ganesha.jpg>
@@ -1370,19 +1373,19 @@ Package geometry Warning: `a4paper': not available in `\newgeometry'; skipped.
 
 
 ] (./Tesis.toc
-Overfull \hbox (11.35907pt too wide) in paragraph at lines 278--278
+Overfull \hbox (11.35907pt too wide) in paragraph at lines 286--286
  [][] [][][]\TU/TimesNewRoman(0)/m/n/12 Augmentasi Konteks dan Generasi respons
  (\TU/TimesNewRoman(0)/m/it/12 Augmen- 
  []
 
 
-Overfull \hbox (15.79594pt too wide) in paragraph at lines 294--294
+Overfull \hbox (15.79594pt too wide) in paragraph at lines 302--302
  [][] [][][]\TU/TimesNewRoman(0)/m/n/12 Pembuatan kode SQL dan integrasi basis 
 data domain- 
  []
 
 
-Overfull \hbox (0.3941pt too wide) in paragraph at lines 299--299
+Overfull \hbox (0.3941pt too wide) in paragraph at lines 307--307
  [][] [][][]\TU/TimesNewRoman(0)/m/n/12 Adopsi RAG pada pengembangan perangkat 
 lunak 
  []
@@ -1391,25 +1394,25 @@ lunak
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [13]
-Overfull \hbox (3.39297pt too wide) in paragraph at lines 422--422
+Overfull \hbox (3.39297pt too wide) in paragraph at lines 430--430
  [][] [][][]\TU/TimesNewRoman(0)/m/n/12 Hybrid Retrieval pada GraphRAG: Penalar
 an Simbolik dan 
  []
 
 
-Overfull \hbox (6.75111pt too wide) in paragraph at lines 430--430
+Overfull \hbox (6.75111pt too wide) in paragraph at lines 438--438
  [][] [][][]\TU/TimesNewRoman(0)/m/n/12 Trade-off antara Presisi Retrieval dan 
 Cakupan Kon- 
  []
 
 
-Overfull \hbox (1.19305pt too wide) in paragraph at lines 454--454
+Overfull \hbox (1.19305pt too wide) in paragraph at lines 462--462
  [][] [][][]\TU/TimesNewRoman(0)/m/n/12 Analisis Lisensi sebagai Representasi D
 omain Tek- 
  []
 
 
-Overfull \hbox (0.21295pt too wide) in paragraph at lines 457--457
+Overfull \hbox (0.21295pt too wide) in paragraph at lines 465--465
  [][] [][][]\TU/TimesNewRoman(0)/m/n/12 Implikasi terhadap Penelitian Berbasis 
 Stack Over- 
  []
@@ -1418,37 +1421,37 @@ Stack Over-
 Underfull \vbox (badness 6032) has occurred while \output is active []
 
  [14]
-Overfull \hbox (0.58832pt too wide) detected at line 738
+Overfull \hbox (0.58832pt too wide) detected at line 746
 \TU/TimesNewRoman(0)/m/n/12 III.4.2.1 
  []
 
 
-Overfull \hbox (0.58832pt too wide) detected at line 739
+Overfull \hbox (0.58832pt too wide) detected at line 747
 \TU/TimesNewRoman(0)/m/n/12 III.4.2.2 
  []
 
 
-Overfull \hbox (0.58832pt too wide) detected at line 740
+Overfull \hbox (0.58832pt too wide) detected at line 748
 \TU/TimesNewRoman(0)/m/n/12 III.4.2.3 
  []
 
 
-Overfull \hbox (0.58832pt too wide) detected at line 744
+Overfull \hbox (0.58832pt too wide) detected at line 752
 \TU/TimesNewRoman(0)/m/n/12 III.4.3.1 
  []
 
 
-Overfull \hbox (0.58832pt too wide) detected at line 747
+Overfull \hbox (0.58832pt too wide) detected at line 755
 \TU/TimesNewRoman(0)/m/n/12 III.4.3.2 
  []
 
 
-Overfull \hbox (0.58832pt too wide) detected at line 748
+Overfull \hbox (0.58832pt too wide) detected at line 756
 \TU/TimesNewRoman(0)/m/n/12 III.4.3.3 
  []
 
 
-Overfull \hbox (0.58832pt too wide) detected at line 749
+Overfull \hbox (0.58832pt too wide) detected at line 757
 \TU/TimesNewRoman(0)/m/n/12 III.4.3.4 
  []
 
@@ -1459,7 +1462,7 @@ Overfull \hbox (0.58832pt too wide) detected at line 749
 ) (./7 Daftar Gambar.tex [15] [16
 
 ] (./Tesis.lof
-Overfull \hbox (1.10605pt too wide) in paragraph at lines 459--459
+Overfull \hbox (1.10605pt too wide) in paragraph at lines 467--467
  \TU/TimesNewRoman(0)/m/n/12 teks, inferensi model penilai, \TU/TimesNewRoman(0
 )/m/it/12 post-processing\TU/TimesNewRoman(0)/m/n/12 , dan agregasi skor ([][]G
 u, 
@@ -1474,19 +1477,19 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 )
 (./8 Daftar Tabel.tex [18] (./Tesis.lot
-Overfull \hbox (1.34546pt too wide) in paragraph at lines 364--364
+Overfull \hbox (1.34546pt too wide) in paragraph at lines 372--372
  \TU/TimesNewRoman(0)/m/n/12 sarkan dimensi teknis yang relevan untuk pengemban
 gan \TU/TimesNewRoman(0)/m/it/12 framework\TU/TimesNewRoman(0)/m/n/12 . 
  []
 
 
-Overfull \hbox (1.10757pt too wide) in paragraph at lines 632--632
+Overfull \hbox (1.10757pt too wide) in paragraph at lines 644--644
  [][] [][][]\TU/TimesNewRoman(0)/m/n/12 Perbandingan ketiga kondisi evaluasi te
 rhadap kebutuhan sistem dan 
  []
 
 
-Overfull \hbox (0.98744pt too wide) in paragraph at lines 664--664
+Overfull \hbox (0.98744pt too wide) in paragraph at lines 672--672
  [][] [][][]\TU/TimesNewRoman(0)/m/n/12 Ringkasan komponen \TU/TimesNewRoman(0)
 /m/it/12 GraphRAG Framework \TU/TimesNewRoman(0)/m/n/12 dan kaitannya dengan 
  []
@@ -1605,9 +1608,6 @@ File: images/kamalipour_rag_taxonomy.png Graphic file (type bmp)
 <images/kamalipour_rag_taxonomy.png>
 
 
-Package biblatex-chicago Warning: Empty Ibidem citation on input line 108.
-
-
 LaTeX Warning: Reference `fig:indexing_process_in_a_RAG' on page 20 undefined o
 n input line 113.
 
@@ -1664,60 +1664,63 @@ OpenIE) digunakan untuk mengekstraksi tripel \TU/TimesNewRoman(0)/m/it/12 subje
 ct-predicate-
  []
 
+
+Package biblatex-chicago Warning: Empty Ibidem citation on input line 319.
+
 [28] (./tables/rag_vs_graphrag.tex
-Underfull \hbox (badness 3815) in paragraph at lines 15--17
+Underfull \hbox (badness 3815) in paragraph at lines 16--18
 []|\TU/TimesNewRoman(0)/m/n/10.95 Lebih ringan: simpul + si-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 19--19
+Underfull \hbox (badness 10000) in paragraph at lines 20--20
 []|\TU/TimesNewRoman(0)/m/n/10.95 ANN berbasis kemiripan
  []
 
 
-Underfull \hbox (badness 7981) in paragraph at lines 23--24
+Underfull \hbox (badness 7981) in paragraph at lines 24--25
 \TU/TimesNewRoman(0)/m/n/10.95 dah; memerlukan \TU/TimesNewRoman(0)/m/it/10.95 
 reranking
  []
 
 
-Underfull \hbox (badness 1783) in paragraph at lines 29--29
+Underfull \hbox (badness 1783) in paragraph at lines 30--30
 []|\TU/TimesNewRoman(0)/m/n/10.95 Sulit: hanya skor kemiripan
  []
 
 
-Underfull \hbox (badness 1231) in paragraph at lines 34--34
+Underfull \hbox (badness 1231) in paragraph at lines 35--35
 []|\TU/TimesNewRoman(0)/m/n/10.95 Datar terhadap panjang jalur;
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 38--38
+Underfull \hbox (badness 10000) in paragraph at lines 39--39
 []|\TU/TimesNewRoman(0)/m/it/10.95 Benchmark \TU/TimesNewRoman(0)/m/n/10.95 ung
 -
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 39--39
+Underfull \hbox (badness 10000) in paragraph at lines 40--40
 []|\TU/TimesNewRoman(0)/m/n/10.95 BEIR, NaturalQuestions
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 40--42
+Underfull \hbox (badness 10000) in paragraph at lines 41--43
 []|\TU/TimesNewRoman(0)/m/n/10.95 HotpotQA, MultiHop-RAG,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 40--42
+Underfull \hbox (badness 10000) in paragraph at lines 41--43
 \TU/TimesNewRoman(0)/m/n/10.95 RobustQA (kueri kompleks
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 48--48
+Underfull \hbox (badness 10000) in paragraph at lines 49--49
 []|\TU/TimesNewRoman(0)/m/n/10.95 Tepat digunakan
  []
 
 
-Underfull \hbox (badness 2134) in paragraph at lines 49--49
+Underfull \hbox (badness 2134) in paragraph at lines 50--50
 []|\TU/TimesNewRoman(0)/m/n/10.95 Throughput tinggi, pencarian
  []
 
@@ -1734,14 +1737,24 @@ Overfull \hbox (75.6187pt too wide) detected at line 373
 [] [] [] [] [] [] []
  []
 
-[32]
+
+Underfull \vbox (badness 2359) has occurred while \output is active []
+
+ [32]
 Overfull \hbox (2.97153pt too wide) in paragraph at lines 400--401
 []\TU/TimesNewRoman(0)/m/n/12 Studi Pythia-RAG ([][][]Ali dkk. [][]2026[][][][]
 ) membangun \TU/TimesNewRoman(0)/m/it/12 Multimodal Knowledge Graph \TU/TimesNe
 wRoman(0)/m/n/12 (MM-
  []
 
-[33] [34] [35]
+
+Underfull \vbox (badness 4205) has occurred while \output is active []
+
+ [33]
+[34]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [35]
 Overfull \hbox (0.23367pt too wide) in paragraph at lines 446--449
 []\TU/TimesNewRoman(0)/m/n/12 Penelitian ini memposisikan diri sebagai pengemba
 ngan lebih lanjut dari GraphRAG
@@ -1752,28 +1765,35 @@ File: images/bab2_rancangan_empiris.png Graphic file (type bmp)
 
 Package biblatex-chicago Warning: Empty Ibidem citation on input line 463.
 
-[36] (./tables/so_signals.tex
-Underfull \hbox (badness 7221) in paragraph at lines 16--16
+
+Package biblatex-chicago Warning: Empty Ibidem citation on input line 463.
+
+(./tables/so_signals.tex
+Underfull \hbox (badness 7221) in paragraph at lines 17--17
 []|\TU/TimesNewRoman(0)/m/n/10.95 Status \TU/TimesNewRoman(0)/m/it/10.95 accept
 ed ans-
  []
 
 
-Underfull \hbox (badness 1817) in paragraph at lines 26--27
+Underfull \hbox (badness 1817) in paragraph at lines 27--28
 []|\TU/TimesNewRoman(0)/m/n/10.95 Bobot simpul pertanyaan: relevansi
  []
 
 
-Underfull \hbox (badness 1817) in paragraph at lines 30--31
+Underfull \hbox (badness 1817) in paragraph at lines 31--32
 []|\TU/TimesNewRoman(0)/m/n/10.95 Bobot popularitas: relevansi jangka
  []
 
 
-Overfull \hbox (37.59995pt too wide) in paragraph at lines 8--33
+Overfull \hbox (37.59995pt too wide) in paragraph at lines 9--34
  [][] 
  []
 
-) [37]
+
+Underfull \vbox (badness 1242) has occurred while \output is active []
+
+ [36])
+[37]
 File: images/dasilva_domain.png Graphic file (type bmp)
 <images/dasilva_domain.png>
 
@@ -1793,7 +1813,14 @@ Overfull \hbox (4.83784pt too wide) in paragraph at lines 508--509
  tidak dapat diverifikasi. [][][][][]Huang
  []
 
-[40] [41]
+
+Underfull \vbox (badness 3989) has occurred while \output is active []
+
+ [40]
+[41]
+
+Package biblatex-chicago Warning: Empty Ibidem citation on input line 547.
+
 
 Package biblatex-chicago Warning: Empty Ibidem citation on input line 551.
 
@@ -1808,12 +1835,12 @@ Underfull \hbox (badness 3601) in paragraph at lines 12--13
 []|\TU/TimesNewRoman(0)/m/n/10.95 Tingkat keterlacakan jawaban terhadap
  []
 
-)
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [43]
+) [43]
 File: images/gu2026_fig2_judge_pipeline.png Graphic file (type bmp)
 <images/gu2026_fig2_judge_pipeline.png>
+
+
+Package biblatex-chicago Warning: Empty Ibidem citation on input line 581.
 
 
 Package biblatex-chicago Warning: Empty Ibidem citation on input line 581.
@@ -1892,19 +1919,16 @@ Overfull \hbox (14.16348pt too wide) in paragraph at lines 8--73
  []
 
 )
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [45]
-[46]
 Overfull \hbox (3.35406pt too wide) in paragraph at lines 603--605
 []\TU/TimesNewRoman(0)/b/n/12 RAG Berbasis Konten Stack Overflow\TU/TimesNewRom
 an(0)/m/n/12 . [][][][][]Nashid, Sintaha, dan Mesbah ([][]2023[][])[]
  []
 
-[47] [48]
+[45] [46] [47] [48]
 File: images/bab2_kerangka_konseptual.png Graphic file (type bmp)
 <images/bab2_kerangka_konseptual.png>
- [49] [50]) (./Bab III - Analisis dan Desain.tex [51] [52
+ [49] [50]) (./Bab III - Analisis dan Desain.tex [51]
+[52
 
 ]
 Bab III.
@@ -2000,57 +2024,38 @@ Underfull \hbox (badness 1571) in paragraph at lines 31--31
 \TU/TimesNewRoman(0)/m/n/12 SO belum dapat digan-
  []
 
-)
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [54]
-[55] (./tables/bab3_kebutuhan_pengguna.tex)
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [56]
-[57]
+) [54] [55] (./tables/bab3_kebutuhan_pengguna.tex [56]) [57]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [58]
-(./tables/bab3_kebutuhan_nonfungsional.tex)
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [59]
-(./tables/bab3_komparasi_solusi.tex
-Underfull \vbox (badness 2600) has occurred while \output is active []
-
- [60])
-(./tables/bab3_perbandingan_kondisi.tex
-Underfull \hbox (badness 10000) in paragraph at lines 28--29
+(./tables/bab3_kebutuhan_nonfungsional.tex) [59]
+(./tables/bab3_komparasi_solusi.tex) (./tables/bab3_perbandingan_kondisi.tex
+Underfull \hbox (badness 10000) in paragraph at lines 29--30
 []|\TU/TimesNewRoman(0)/m/n/10.95 Grounding arsitektural berbasis Stack
  []
 
 
-Underfull \hbox (badness 1629) in paragraph at lines 40--41
+Underfull \hbox (badness 1629) in paragraph at lines 41--42
 []|\TU/TimesNewRoman(0)/m/n/10.95 Retrieval relasional dan multi-hop (G2,
  []
 
 
-Overfull \hbox (41.02924pt too wide) in paragraph at lines 9--65
+Overfull \hbox (41.02924pt too wide) in paragraph at lines 10--66
  [][] 
  []
 
 )
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 7722) has occurred while \output is active []
 
- [61]
-[62]
+ [60]
+[61]
+File: images/bab3_arsitektur_framework.png Graphic file (type bmp)
+<images/bab3_arsitektur_framework.png>
+ [62]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [63]
-File: images/bab3_arsitektur_framework.png Graphic file (type bmp)
-<images/bab3_arsitektur_framework.png>
-
-
-Package biblatex-chicago Warning: Empty Ibidem citation on input line 178.
-
-[64]
-Overfull \hbox (28.31952pt too wide) in paragraph at lines 182--183
+Overfull \hbox (28.31952pt too wide) in paragraph at lines 183--184
 \TU/TimesNewRoman(0)/m/n/12 flow. Simpul ini menyimpan informasi seperti \TU/lm
 tt/m/n/12 id\TU/TimesNewRoman(0)/m/n/12 , \TU/lmtt/m/n/12 title\TU/TimesNewRoma
 n(0)/m/n/12 , \TU/lmtt/m/n/12 body\TU/TimesNewRoman(0)/m/n/12 , \TU/lmtt/m/n/12
@@ -2058,237 +2063,213 @@ n(0)/m/n/12 , \TU/lmtt/m/n/12 body\TU/TimesNewRoman(0)/m/n/12 , \TU/lmtt/m/n/12
 0)/m/n/12 ,
  []
 
-(./tables/bab3_bobot_kepercayaan.tex
+[64] (./tables/bab3_bobot_kepercayaan.tex
 Overfull \hbox (9.5822pt too wide) in paragraph at lines 65--65
 []|\TU/lmtt/m/n/10 hasAcceptedAnswer|  
  []
 
-) [65]
+)
 File: images/bab3_contoh_subgraf_kg.png Graphic file (type bmp)
 <images/bab3_contoh_subgraf_kg.png>
 
-Overfull \hbox (14.37387pt too wide) in paragraph at lines 194--202
+Overfull \hbox (14.37387pt too wide) in paragraph at lines 203--204
 []\TU/TimesNewRoman(0)/m/n/12 Masing-masing pertanyaan memiliki simpul \TU/lmtt
 /m/n/12 Answer \TU/TimesNewRoman(0)/m/n/12 yang diterima (\TU/TimesNewRoman(0)/
 m/it/12 accepted\TU/TimesNewRoman(0)/m/n/12 ): \TU/lmtt/m/n/12 A#9823
  []
 
 
-Overfull \hbox (2.12184pt too wide) in paragraph at lines 194--202
+Overfull \hbox (2.12184pt too wide) in paragraph at lines 203--204
 \TU/TimesNewRoman(0)/m/n/12 menjawab Q#1234 dengan solusi \TU/lmtt/m/n/12 Depen
 ds(oauth2_scheme) + decode \TU/TimesNewRoman(0)/m/n/12 ($\OML/cmm/m/it/12 w[]\O
 T1/cmr/m/n/12 0[]93$\TU/TimesNewRoman(0)/m/n/12 ),
  []
 
 
-Overfull \hbox (19.97047pt too wide) in paragraph at lines 194--202
+Overfull \hbox (19.97047pt too wide) in paragraph at lines 203--204
 \TU/TimesNewRoman(0)/m/n/12 sedangkan \TU/lmtt/m/n/12 A#9412 \TU/TimesNewRoman(
 0)/m/n/12 menjawab Q#2567 dengan \TU/lmtt/m/n/12 raise HTTPException(401) \TU/T
 imesNewRoman(0)/m/n/12 ($\OML/cmm/m/it/12 w[]\OT1/cmr/m/n/12 0[]89$\TU/TimesNew
 Roman(0)/m/n/12 ).
  []
 
-
-Package biblatex-chicago Warning: Empty Ibidem citation on input line 204.
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [66]
-Overfull \hbox (64.47456pt too wide) in paragraph at lines 206--207
+[65]
+Overfull \hbox (64.47456pt too wide) in paragraph at lines 208--209
 \TU/TimesNewRoman(0)/m/n/12 flow. Keluaran dari \TU/TimesNewRoman(0)/m/it/12 en
 tity linking \TU/TimesNewRoman(0)/m/n/12 berupa himpunan triple dalam format []
 ,
  []
 
-[67]
+[66]
 File: images/bab3_flowchart_konstruksi_kg.png Graphic file (type bmp)
 <images/bab3_flowchart_konstruksi_kg.png>
- [68]
-
-Package biblatex-chicago Warning: Empty Ibidem citation on input line 226.
-
+ [67] [68]
+File: images/bab3_flowchart_query.png Graphic file (type bmp)
+<images/bab3_flowchart_query.png>
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [69]
-File: images/bab3_flowchart_query.png Graphic file (type bmp)
-<images/bab3_flowchart_query.png>
-
-[70]
-Overfull \hbox (5.09457pt too wide) in paragraph at lines 262--264
-\TU/TimesNewRoman(0)/m/n/12 dekatan \TU/TimesNewRoman(0)/m/it/12 Retrieval-Augm
-ented Generation \TU/TimesNewRoman(0)/m/n/12 (RAG) berbasis \TU/TimesNewRoman(0
-)/m/it/12 dense retrieval\TU/TimesNewRoman(0)/m/n/12 . Pen-
- []
-
-
-Overfull \hbox (21.14941pt too wide) in paragraph at lines 262--264
+Overfull \hbox (21.14941pt too wide) in paragraph at lines 264--266
 \TU/TimesNewRoman(0)/m/it/12 wledge graph\TU/TimesNewRoman(0)/m/n/12 , sinyal k
 epercayaan komunitas, maupun mekanisme \TU/TimesNewRoman(0)/m/it/12 dual-constr
 aint\TU/TimesNewRoman(0)/m/n/12 . 
  []
 
-
-Overfull \hbox (1.1399pt too wide) in paragraph at lines 264--266
-[]\TU/TimesNewRoman(0)/b/n/12 Kondisi C – \TU/TimesNewRoman(0)/b/it/12 GraphRAG
- Framework \TU/TimesNewRoman(0)/m/n/12 Kondisi ini merupakan pendekatan yang
- []
-
-[71] (./tables/bab3_metrik_evaluasi.tex) (./tables/bab3_ringkasan_komponen.tex
-Underfull \hbox (badness 10000) in paragraph at lines 88--88
+[70] (./tables/bab3_metrik_evaluasi.tex) [71]
+(./tables/bab3_ringkasan_komponen.tex
+Underfull \hbox (badness 10000) in paragraph at lines 89--89
 []|\TU/TimesNewRoman(0)/b/n/10.95 Teknologi Kandi-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 88--88
+Underfull \hbox (badness 10000) in paragraph at lines 89--89
 []|\TU/TimesNewRoman(0)/m/n/10.95 Python \TU/lmtt/m/n/10.95 pandas \TU/TimesNew
 Roman(0)/m/n/10.95 /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 88--88
+Underfull \hbox (badness 10000) in paragraph at lines 89--89
 []|\TU/TimesNewRoman(0)/m/n/10.95 Pembersihan, \TU/TimesNewRoman(0)/m/it/10.95 
 deduplica-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 88--88
+Underfull \hbox (badness 10000) in paragraph at lines 89--89
 []|\TU/TimesNewRoman(0)/m/n/10.95 KG Builder
  []
 
 
-Underfull \hbox (badness 6893) in paragraph at lines 88--88
+Underfull \hbox (badness 6893) in paragraph at lines 89--89
 []|\TU/TimesNewRoman(0)/m/n/10.95 GPT-4 API + La-
  []
 
 
-Underfull \hbox (badness 1215) in paragraph at lines 88--88
+Underfull \hbox (badness 1215) in paragraph at lines 89--89
 []|\TU/TimesNewRoman(0)/m/n/10.95 Python (normalisasi
  []
 
 
-Underfull \hbox (badness 2486) in paragraph at lines 88--88
+Underfull \hbox (badness 2486) in paragraph at lines 89--89
 []|\TU/TimesNewRoman(0)/m/n/10.95 Penyimpanan dan proses
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 88--88
+Underfull \hbox (badness 10000) in paragraph at lines 89--89
 []|\TU/TimesNewRoman(0)/m/n/10.95 Embedding Mo-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 88--88
+Underfull \hbox (badness 10000) in paragraph at lines 89--89
 []|\TU/TimesNewRoman(0)/m/n/10.95 Pengkodean teks untuk
  []
 
 
-Overfull \hbox (35.42374pt too wide) in paragraph at lines 88--88
+Overfull \hbox (35.42374pt too wide) in paragraph at lines 89--89
 []|\TU/lmtt/m/n/10.95 text-embedding-3-small| 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 88--88
+Underfull \hbox (badness 10000) in paragraph at lines 89--89
 []|\TU/TimesNewRoman(0)/m/it/10.95 Graph-guided retrieval
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 88--88
+Underfull \hbox (badness 10000) in paragraph at lines 89--89
 \TU/TimesNewRoman(0)/m/n/10.95 dan pencarian berbasis
  []
 
 
-Underfull \hbox (badness 4792) in paragraph at lines 88--88
+Underfull \hbox (badness 4792) in paragraph at lines 89--89
 []|\TU/TimesNewRoman(0)/m/n/10.95 GPT-4o (API Ope-
  []
 
-) [72]) [73] [74
-
-]
-Overfull \hbox (2.70285pt too wide) in paragraph at lines 413--413
+)) [72]
+Overfull \hbox (2.70285pt too wide) in paragraph at lines 414--414
 \TU/TimesNewRoman(0)/m/n/12 dan Pavlos Kefalas. 2026. “  Pythia-RAG: Retrieval-
 Augmented Generation over
  []
 
 
-Overfull \hbox (11.14148pt too wide) in paragraph at lines 413--413
+Overfull \hbox (11.14148pt too wide) in paragraph at lines 414--414
 \TU/TimesNewRoman(0)/m/n/12 Hybrid Framework Combining Knowledge Graphs and Ret
 rieval-Augmentation”.
  []
 
-[75
+[73
+
 
 ]
-Overfull \hbox (7.21263pt too wide) in paragraph at lines 413--413
+Overfull \hbox (7.21263pt too wide) in paragraph at lines 414--414
 [][]\TU/TimesNewRoman(0)/m/n/12 Haque, Md Asraful. 2025. “  LLMs: A Game-Change
 r for Software Engineers?” \TU/TimesNewRoman(0)/m/it/12 Bench-
  []
 
 
-Overfull \hbox (1.78033pt too wide) in paragraph at lines 413--413
+Overfull \hbox (1.78033pt too wide) in paragraph at lines 414--414
 \TU/TimesNewRoman(0)/m/it/12 Council Transactions on Benchmarks, Standards and 
 Evaluations \TU/TimesNewRoman(0)/m/n/12 5 (1): 100204.
  []
 
 
-Overfull \hbox (11.59732pt too wide) in paragraph at lines 413--413
+Overfull \hbox (11.59732pt too wide) in paragraph at lines 414--414
 [][]\TU/TimesNewRoman(0)/m/n/12 Huang, Yizheng, dan Jimmy Xiangji Huang. 2026. 
 “  A Survey on Retrieval-Augmented
  []
 
-[76]
-Overfull \hbox (0.76913pt too wide) in paragraph at lines 413--413
+[74]
+Overfull \hbox (0.76913pt too wide) in paragraph at lines 414--414
 [][]\TU/TimesNewRoman(0)/m/n/12 Malamas, Nikolaos, Emmanouil Tsardoulias, Konst
 antinos Panayiotou, dan Andreas
  []
 
 
-Overfull \hbox (22.8408pt too wide) in paragraph at lines 413--413
+Overfull \hbox (22.8408pt too wide) in paragraph at lines 414--414
 \TU/TimesNewRoman(0)/m/n/12 for Low-Code Software Development”. \TU/TimesNewRom
 an(0)/m/it/12 Journal of Computer Languages \TU/TimesNewRoman(0)/m/n/12 85:1013
 67.
  []
 
-[77]
-Overfull \hbox (1.91806pt too wide) in paragraph at lines 413--413
+[75]
+Overfull \hbox (1.91806pt too wide) in paragraph at lines 414--414
 \TU/TimesNewRoman(0)/m/n/12 2024. “  Unifying Large Language Models and Knowled
 ge Graphs: A Roadmap”.
  []
 
 
-Overfull \hbox (17.47676pt too wide) in paragraph at lines 413--413
+Overfull \hbox (17.47676pt too wide) in paragraph at lines 414--414
 \TU/TimesNewRoman(0)/m/n/12 Xiao, dan Jacek Smoląg. 2024. “  A Comprehensive Su
 rvey of Retrieval-Augmented
  []
 
-[78]
-Overfull \hbox (3.08037pt too wide) in paragraph at lines 413--413
+[76]
+Overfull \hbox (3.08037pt too wide) in paragraph at lines 414--414
 \TU/TimesNewRoman(0)/m/n/12 Graph-RAG via Structure-Aware Intermediate Represen
 tation: Incremental Col-
  []
 
 
-Overfull \hbox (33.0283pt too wide) in paragraph at lines 413--413
+Overfull \hbox (33.0283pt too wide) in paragraph at lines 414--414
 \TU/TimesNewRoman(0)/m/n/12 laborative Exploration on Knowledge Graph”. \TU/Tim
 esNewRoman(0)/m/it/12 Knowledge-Based Systems \TU/TimesNewRoman(0)/m/n/12 342:1
 15884.
  []
 
 
-Overfull \hbox (0.92139pt too wide) in paragraph at lines 413--413
+Overfull \hbox (0.92139pt too wide) in paragraph at lines 414--414
 \TU/TimesNewRoman(0)/m/n/12 Hou. 2026. “  LLM-Based Domain-Specific Knowledge G
 raph Construction and
  []
 
-[79] [80
+[77] [78
 
 ]
 
-Package caption Warning: Unused \captionsetup[lstlisting] on input line 307.
+Package caption Warning: Unused \captionsetup[lstlisting] on input line 308.
 See the caption package documentation for explanation.
 
 
-Package caption Warning: Unused \captionsetup[algorithm] on input line 317.
+Package caption Warning: Unused \captionsetup[algorithm] on input line 318.
 See the caption package documentation for explanation.
 
 (./Tesis.aux)
@@ -2302,21 +2283,17 @@ LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `Tesis.out' has not changed.
 (rerunfilecheck)             Checksum: 6337505BC88464CD03F3AAE3ED8D7132;25798.
-
-Package biblatex Warning: Please rerun LaTeX.
-(biblatex)                Page breaks have changed.
-
 Package logreq Info: Writing requests to 'Tesis.run.xml'.
 \openout1 = `Tesis.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 35396 strings out of 468168
- 698479 string characters out of 5432816
- 2104340 words of memory out of 5000000
- 63603 multiletter control sequences out of 15000+600000
+ 35419 strings out of 468168
+ 699090 string characters out of 5432816
+ 2104483 words of memory out of 5000000
+ 63622 multiletter control sequences out of 15000+600000
  637047 words of font info for 123 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  73i,16n,95p,1548b,8603s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on Tesis.pdf (102 pages).
+Output written on Tesis.pdf (100 pages).
