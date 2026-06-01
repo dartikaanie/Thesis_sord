@@ -41,7 +41,6 @@ Selain itu, \textcite{Nashid2023} mendemonstrasikan bahwa augmentasi konteks dar
 
 \input{tables/bab3_analisis_keterbatasan_baseline.tex}
 
-\FloatBarrier
 \subsection{Identifikasi Masalah}
 \label{subsec:identifikasi-masalah-kondisi}
 
@@ -227,32 +226,70 @@ Mekanisme \emph{hybrid retrieval} merupakan implementasi Blok 2 dalam \emph{Grap
 
 \subsubsection{\emph{Entity Anchoring}}
 
-Tahap pertama bertujuan untuk mengidentifikasi entitas teknis yang terdapat pada pertanyaan pengguna. Proses ini dilakukan menggunakan metode \emph{Named Entity Recognition} (NER) yang dilanjutkan dengan \emph{entity linking} untuk memetakan setiap entitas ke simpul yang sesuai pada \emph{knowledge graph} SORD \autocite{Fatima2026}. Tahap ini penting karena istilah teknis pada Stack Overflow sering kali memiliki makna yang bergantung pada konteks. Sebagai contoh, nama fungsi, metode, atau paket tertentu dapat digunakan pada berbagai teknologi yang berbeda. Hasil dari tahap ini berupa sekumpulan simpul awal (\emph{seed nodes}) yang akan digunakan sebagai titik awal pencarian pada tahap berikutnya.
+Tahap pertama bertujuan untuk mengidentifikasi entitas teknis yang terdapat pada pertanyaan pengguna. Proses ini dilakukan menggunakan metode \emph{Named Entity Recognition} (NER) yang dilanjutkan dengan \emph{entity linking} untuk memetakan setiap entitas ke simpul yang sesuai pada \emph{knowledge graph} SORD \autocite{Fatima2026}. Sebagai contoh, pada kueri \textit{"How to implement OAuth2 login with FastAPI?"}, NER mengekstraksi entitas teknis \texttt{FastAPI}, \texttt{OAuth2}, dan \texttt{login}, kemudian \emph{entity linking} memetakan entitas-entitas tersebut ke simpul \texttt{Q\#1234}, \texttt{Q\#2567}, dan \texttt{OAuth2PasswordBearer} di dalam KG SORD. Tahap ini penting karena istilah teknis pada Stack Overflow sering kali memiliki makna yang bergantung pada konteks (nama fungsi, metode, atau paket tertentu) dapat digunakan pada berbagai teknologi yang berbeda. Hasil dari tahap ini berupa sekumpulan simpul awal (\emph{seed nodes}) yang akan digunakan sebagai titik awal pencarian pada tahap berikutnya.
 
 \subsubsection{\emph{Graph Traversal}}
 
-Setelah memperoleh \emph{seed nodes}, sistem melakukan penelusuran graf (\emph{graph traversal}) untuk menemukan informasi yang berkaitan dengan entitas tersebut. Penelusuran dilakukan secara multi-hop dengan mengikuti relasi yang memiliki bobot kepercayaan paling tinggi. Bobot relasi ditentukan berdasarkan sinyal kepercayaan komunitas Stack Overflow, seperti status \emph{accepted answer}, jumlah \emph{upvote}, dan reputasi kontributor. Melalui proses ini, sistem dapat menemukan rantai hubungan antar konsep yang relevan serta memperoleh subgraf yang berisi informasi yang telah divalidasi oleh komunitas.
+Setelah memperoleh \emph{seed nodes}, sistem melakukan penelusuran graf (\emph{graph traversal}) untuk menemukan informasi yang berkaitan dengan entitas tersebut. Penelusuran dilakukan secara \emph{multi-hop} dengan mengikuti relasi yang memiliki bobot kepercayaan paling tinggi. Bobot relasi ditentukan berdasarkan sinyal kepercayaan komunitas Stack Overflow, sepertistatus \emph{accepted answer}, jumlah \emph{upvote}, dan reputasi kontributor. Sebagai ilustrasi, dari simpul \texttt{Q\#1234} sistem mengikuti relasi \texttt{hasAcceptedAnswer} dengan bobot $w{=}1{,}0$ menuju \texttt{A\#9823}, kemudian dari \texttt{A\#9823} mengikuti relasi \texttt{mentions} menuju \texttt{OAuth2PasswordBearer}. Secara paralel, sistem juga menelusuri relasi \texttt{isRelatedTo} dari \texttt{Q\#1234} menuju \texttt{Q\#2567}. Melalui proses ini, sistem dapat menemukan rantai hubungan antar konsep yang relevan serta memperoleh subgraf yang berisi informasi yang telah divalidasi oleh komunitas.
 
 \subsubsection{\emph{Semantic Expansion}}
 
-Subgraf yang diperoleh dari tahap sebelumnya kemudian digunakan untuk memperluas pencarian secara semantik. Simpul-simpul pada subgraf diubah menjadi representasi vektor menggunakan model \emph{embedding} dan digunakan sebagai acuan pencarian pada \emph{vector store} yang disimpan di FAISS atau ChromaDB. Pendekatan ini memungkinkan sistem menemukan informasi yang relevan meskipun tidak memiliki hubungan langsung dalam \emph{knowledge graph}. Dengan demikian, cakupan informasi dapat diperluas tanpa menghilangkan konteks relasional yang telah diperoleh dari proses \emph{graph traversal}. Berbeda dengan pendekatan RAG konvensional yang melakukan pencarian langsung dari kueri pengguna, tahap ini memanfaatkan hasil penelusuran graf sebagai dasar pencarian semantik. Hasil dari tahap ini adalah kumpulan informasi yang relevan baik secara relasional maupun semantik, yang kemudian akan digabungkan pada tahap berikutnya untuk membentuk konteks yang akan digunakan dalam pembangkitan jawaban.
+Subgraf yang diperoleh dari tahap sebelumnya kemudian digunakan untuk memperluas pencarian secara semantik. Simpul-simpul pada subgraf diubah menjadi representasi vektor menggunakan model \emph{embedding} dan digunakan
+sebagai acuan pencarian pada \emph{vector store} yang disimpan di FAISS. Pendekatan ini memungkinkan sistem menemukan informasi yang relevan meskipun tidak memiliki hubungan langsung dalam \emph{knowledge graph}. Dengan demikian, cakupan informasi dapat diperluas tanpa menghilangkan konteks relasional yang telah diperoleh dari proses \emph{graph traversal}. Berbeda dengan pendekatan RAG konvensional yang melakukan pencarian langsung dari kueri pengguna, tahap ini memanfaatkan simpul-simpul hasil penelusuran graf sebagai dasar pencarian semantik. Hasil dari tahap ini adalah kumpulan informasi yang relevan baik secara relasional maupun semantik, yang kemudian akan digabungkan pada tahap berikutnya untuk membentuk konteks yang akan digunakan dalam pembangkitan jawaban.
 
 \subsubsection{\emph{Fusi Konteks} Terverifikasi}
 
-Sebelum digunakan oleh LLM, seluruh informasi hasil pencarian digabungkan menjadi satu konteks terintegrasi. Proses ini terdiri atas tiga langkah, yaitu \emph{reranking}, deduplikasi, dan \emph{packing}.
-
-Tahap \emph{reranking} digunakan untuk mengurutkan kembali hasil pencarian berdasarkan tingkat kepercayaan. Selanjutnya, deduplikasi dilakukan untuk menghilangkan informasi yang berulang. Terakhir, proses \emph{packing} menyusun seluruh informasi ke dalam \emph{unified context window} sesuai dengan batas panjang \emph{prompt} yang dapat diproses oleh model.
+Sebelum digunakan oleh LLM, seluruh informasi hasil pencarian digabungkan menjadi satu konteks terintegrasi. Proses ini terdiri atas tiga langkah berurutan, yaitu \emph{reranking}, deduplikasi, dan \emph{packing}. Tahap \emph{reranking} mengurutkan kembali seluruh hasil pencarian berdasarkan tingkat kepercayaan yang diperoleh dari sinyal komunitas Stack Overflow. Selanjutnya, deduplikasi dilakukan untuk menghilangkan informasi yang berulang dari kedua jalur pencarian. Terakhir, proses \emph{packing} menyusun seluruh informasi ke dalam \emph{unified context window} sesuai dengan batas panjang \emph{prompt} yang dapat diproses oleh model.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.9\textwidth]{images/bab3_flowchart_query.png}
-\caption{Flowchart alur pemrosesan kueri pada \emph{GraphRAG Framework}.}
-\label{fig:flowchart-query}
+\includegraphics[width=0.9\textwidth]{images/bab3_hybrid_retrieval.png}
+\caption{Alur mekanisme \emph{hybrid retrieval} pada \emph{GraphRAG Framework}.}
+\label{fig:bab3_hybrid_retrieval}
 \end{figure}
 
 Konteks yang dihasilkan menggunakan format Entitas-Relasi-Entitas (E-R-E) dan dilengkapi dengan kutipan teks serta tautan ke \emph{thread} Stack Overflow asal. Informasi tersebut berfungsi sebagai jalur \emph{provenance} yang memungkinkan sumber informasi ditelusuri kembali pada tahap pembangkitan jawaban.
+ 
+Gambar~\ref{fig:bab3_hybrid_retrieval} mengilustrasikan alur pemrosesan kueri secara lengkap, mencakup tiga tahap \emph{hybrid retrieval} dan \emph{fusi konteks} terverifikasi yang menghasilkan \emph{unified context window} untuk tahap \emph{Grounded Generation}.
 
-Gambar~\ref{fig:flowchart-query} mengilustrasikan alur pemrosesan kueri secara lengkap, mencakup tiga tahap hybrid retrieval dan fusi konteks.
+
+\subsection{Desain \emph{Grounded Generation}}
+\label{subsec:desain-grounded-generation}
+
+\emph{Grounded generation} merupakan implementasi Blok 3 dalam \emph{GraphRAG Framework}. Tahap ini bertujuan menghasilkan jawaban yang berlandaskan pada pengetahuan yang telah diperoleh melalui proses \emph{hybrid retrieval}. Oleh karena itu, LLM tidak hanya mengandalkan \emph{parametric knowledge} yang tersimpan dalam model, tetapi juga menggunakan konteks yang berasal dari komunitas Stack Overflow dan telah direpresentasikan dalam KG SORD. Masukan utama pada tahap ini adalah \emph{unified context window}, yaitu kumpulan konteks yang menggabungkan hasil \emph{text retrieval} dan \emph{graph retrieval}. Seluruh informasi tersebut diberikan kepada LLM sebagai dasar untuk menyusun jawaban.
+
+\subsubsection{Mekanisme \emph{Dual-Constraint}}
+
+Untuk memastikan jawaban yang dihasilkan tetap \emph{grounded}, penelitian ini menerapkan mekanisme \emph{dual-constraint} \autocite{BenKhalifa2026}. Mekanisme ini terdiri atas dua lapisan kendali yang saling melengkapi. Lapisan pertama membatasi jawaban agar tetap sesuai dengan konteks yang diberikan, sedangkan lapisan kedua membatasi jawaban agar tetap konsisten dengan fakta yang tersimpan dalam \emph{knowledge graph}.
+
+Lapisan pertama adalah \emph{RAG Grounding}. Pada lapisan ini, LLM diarahkan untuk melakukan \emph{context-faithful generation}, yaitu menghasilkan jawaban yang berlandaskan pada informasi yang tersedia di dalam \emph{unified context window}. Dengan pendekatan ini, setiap klaim dalam jawaban diharapkan memiliki dukungan dari konteks yang
+diberikan. Lapisan ini membantu mengurangi \emph{faithfulness hallucination}, yaitu kondisi ketika model menghasilkan informasi yang tidak sesuai dengan konteks yang digunakan \autocite{Huang2025}.
+
+Lapisan kedua adalah \emph{KG-Constraint}. Pada lapisan ini, LLM diarahkan untuk mematuhi fakta-fakta yang direpresentasikan dalam \emph{knowledge graph}. Informasi hasil \emph{graph retrieval} direpresentasikan dalam bentuk tripel \texttt{(Entitas-Relasi-Entitas)} beserta segmen teks pendukungnya, kemudian dimasukkan ke dalam \emph{prompt}. Kehadiran fakta terstruktur tersebut membantu mengurangi \emph{factual hallucination}, yaitu munculnya fakta yang tidak didukung oleh sumber pengetahuan yang digunakan \autocite{Huang2025}.
+
+Sebagai contoh, pada domain autentikasi FastAPI, relasi \texttt{(A\#9823, mentions, OAuth2PasswordBearer)} yang diperoleh dari KG digunakan sebagai batasan faktual dalam proses generasi jawaban. Dengan demikian, model tetap mengacu pada solusi yang telah divalidasi oleh komunitas Stack Overflow.
+
+Kombinasi \emph{RAG Grounding} dan \emph{KG-Constraint} memungkinkan sistem menghasilkan jawaban yang relevan terhadap pertanyaan, didukung oleh konteks yang tersedia, serta konsisten dengan pengetahuan terstruktur yang terdapat dalam KG tanpa memerlukan pelatihan ulang model \autocite{BenKhalifa2026}.
+
+\subsubsection{\emph{Provenance} sebagai Mekanisme Keterlacakan}
+
+Selain menghasilkan jawaban, sistem juga menyediakan informasi \emph{provenance} untuk menunjukkan asal-usul pengetahuan yang digunakan dalam proses generasi. Melalui mekanisme ini, setiap jawaban dapat ditelusuri kembali ke simpul dan relasi pada \emph{knowledge graph} yang menjadi sumber konteksnya \autocite{Ali2026}.
+
+Pada penelitian ini, \emph{provenance} mencakup dua jenis informasi. Pertama, asal informasi berupa \emph{thread} Stack Overflow yang digunakan sebagai referensi. Kedua, tingkat kepercayaan sumber yang diperoleh dari sinyal komunitas, seperti skor \emph{upvote}, status \emph{accepted answer}, dan reputasi kontributor. Dengan adanya \emph{provenance}, pengguna tidak hanya mengetahui dari mana jawaban berasal, tetapi juga dapat menilai tingkat kepercayaan sumber yang mendasarinya.
+
+\subsubsection{Output Sistem}
+
+Output akhir \emph{GraphRAG Framework} terdiri atas tiga komponen utama.
+
+\begin{enumerate}
+    \item Jawaban yang dihasilkan LLM berdasarkan konteks hasil \emph{hybrid retrieval}.
+    
+    \item Referensi ke \emph{thread} Stack Overflow yang menjadi sumber informasi sehingga pengguna dapat melakukan verifikasi secara langsung.
+    
+    \item Informasi \emph{provenance} yang menunjukkan simpul dan relasi pada \emph{knowledge graph} yang berkontribusi terhadap pembentukan jawaban beserta bobot kepercayaannya.
+\end{enumerate}
+
+Sebagai ilustrasi, untuk kueri \textit{``How to implement OAuth2 login with FastAPI?''}, sistem menghasilkan jawaban mengenai penggunaan \texttt{OAuth2PasswordBearer} dan \texttt{Depends()}. Jawaban tersebut disertai referensi ke \texttt{A\#9823} serta jalur \emph{provenance} $\texttt{Q\#1234} \rightarrow \texttt{A\#9823} \rightarrow \texttt{OAuth2PasswordBearer}$. Melalui informasi tersebut, pengguna dapat menelusuri sumber pengetahuan yang digunakan sekaligus memahami tingkat kepercayaan yang dimiliki sumber tersebut berdasarkan validasi komunitas.
 
 \subsection{Desain Evaluasi}
 \label{subsec:desain-evaluasi}
