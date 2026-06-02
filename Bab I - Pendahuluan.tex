@@ -5,82 +5,50 @@
 \section{Latar Belakang}
 % =========================================================
  
-Perkembangan \emph{Large Language Model} (LLM) dalam beberapa tahun terakhir telah mendorong transformasi signifikan pada berbagai aplikasi kecerdasan buatan, termasuk natural language understanding, text generation, conversational agents, machine translation, serta code generation \autocite{kumar2024,qin2025}. Model-model seperti GPT-4 dan LLaMA-2 telah menunjukkan kemampuan luar biasa dalam memahami dan menghasilkan teks natural yang menyerupai tulisan manusia. \textcite{Haque2025} menegaskan bahwa LLM bukan hanya mengubah cara perangkat lunak dikembangkan, tetapi secara fundamental mendefinisikan ulang peran pengembang dalam siklus hidup rekayasa perangkat lunak (\emph{software engineering}). Adopsi LLM di industri perangkat lunak juga meningkat secara signifikan, sebagaimana dikonfirmasi oleh \textcite{Ronanki2026} yang melakukan studi multi-kasus pada tiga organisasi yang menggunakan LLM dalam aktivitas rekayasa perangkat lunak dan mengidentifikasi perlunya praktik terbaik yang dapat ditindaklanjuti untuk adopsi LLM yang efisien dan bertanggung jawab. Meskipun demikian, di balik kemampuan generatif tersebut, terdapat permasalahan mendasar yang belum sepenuhnya terpecahkan yaitu kecenderungan LLM untuk menghasilkan informasi yang tampak meyakinkan namun faktanya tidak akurat atau bahkan sepenuhnya merupakan fabrikasi \autocite{Ji2023}.
+Transformasi digital yang dipercepat oleh perkembangan kecerdasan buatan telah menjadikan Large Language Model (LLM) sebagai salah satu teknologi paling berpengaruh dalam ekosistem perangkat lunak modern. LLM merupakan model bahasa berskala besar yang dibangun menggunakan arsitektur \emph{Transformer} dan dilatih pada korpus teks dalam jumlah masif. Melalui proses tersebut, LLM mampu menjalankan berbagai tugas pemrosesan bahasa alami secara generatif \autocite{Kumar2024}. Kemampuan ini mencakup \emph{natural language understanding}, \emph{text generation}, \emph{conversational agents}, \emph{machine translation}, hingga \emph{code generation} \autocite{Qin2025}. Model seperti GPT-4 dan LLaMA-2 telah menunjukkan kemampuan yang sangat baik dalam memahami dan menghasilkan teks yang menyerupai tulisan manusia, termasuk pada domain teknis yang kompleks seperti rekayasa perangkat lunak.
+
+Dampak LLM terhadap industri perangkat lunak bersifat mendasar. Menurut \textcite{Haque2025}, LLM tidak hanya mengubah cara perangkat lunak dikembangkan, tetapi juga mengubah peran pengembang dalam berbagai tahapan siklus hidup rekayasa perangkat lunak. Temuan ini diperkuat oleh \textcite{Ronanki2026} melalui studi multi-kasus pada tiga organisasi yang mengintegrasikan LLM ke dalam aktivitas pengembangan perangkat lunak. Hasil penelitian tersebut menunjukkan bahwa LLM mampu meningkatkan produktivitas secara signifikan, namun pada saat yang sama memunculkan kebutuhan akan praktik terbaik agar penggunaannya tetap efektif dan bertanggung jawab. Selain itu, \textcite{Malamas2025} mencatat munculnya paradigma \emph{vibe coding}, yaitu pendekatan pengembangan perangkat lunak yang mengandalkan interaksi percakapan dengan LLM. Paradigma ini telah mengubah cara pengembang dari berbagai tingkat keahlian berinteraksi dengan alat bantu berbasis AI. 
+
+Meskipun memiliki kemampuan generatif yang mengesankan, LLM masih menghadapi permasalahan mendasar berupa kecenderungan menghasilkan informasi yang tampak meyakinkan tetapi tidak sesuai dengan fakta. Fenomena ini dikenal sebagai halusinasi \emph{hallucination} \autocite{Ji2023}. \textcite{Ji2023} mendefinisikan halusinasi sebagai kondisi ketika model menghasilkan keluaran yang tidak dapat diverifikasi secara faktual, tidak konsisten dengan konteks yang diberikan, atau tidak memiliki dasar empiris yang jelas. Dalam survei komprehensif yang dilakukan oleh \textcite{Huang2025}, penyebab halusinasi dikelompokkan ke dalam tiga aspek utama, yaitu: (1) kualitas dan kelengkapan data pelatihan yang tidak merata, (2) keterbatasan proses alignment model terhadap pengetahuan faktual, dan (3) mekanisme inferensi yang lebih berorientasi pada koherensi bahasa dibandingkan akurasi fakta. Sementara itu, \textcite{Chang2026} mengidentifikasi tiga tantangan tambahan yang memperkuat kecenderungan halusinasi, yaitu keterbatasan pemahaman instruksi pada konteks panjang, penalaran intensi yang tidak konsisten pada instruksi ambigu, serta proses generasi dialog yang tidak stabil yang menghasilkan konten tidak stabil dari prompt yang serupa.
+
+Permasalahan halusinasi menjadi sangat krusial pada domain pemrograman karena domain ini menuntut tingkat akurasi yang tinggi dan hasil yang dapat diverifikasi secara objektif. Melalui tinjauan literatur sistematis terhadap 49 penelitian, \textcite{Alomari2026} menemukan bahwa 76,3\% rekomendasi refaktorisasi yang dihasilkan LLM mengandung halusinasi, dan 57,4\% di antaranya bahkan tidak valid secara sintaksis. Temuan ini menunjukkan bahwa pengetahuan parametrik yang tersimpan dalam model belum cukup untuk menjamin keakuratan pada domain teknis yang terus berkembang. Hasil serupa dilaporkan oleh \textcite{Aldosari2026}, yang menemukan adanya kerentanan keamanan pada kode yang dihasilkan berbagai LLM dengan tingkat variasi yang signifikan antar model. Selain itu, \textcite{DaSilva2025} menunjukkan bahwa meskipun ChatGPT dan LLaMA mampu memberikan jawaban teknis yang kompetitif, LLM tidak melampaui keahlian komunitas manusia untuk sejumlah domain tertentu, terutama \emph{Frameworks and Libraries}. Dari perspektif industri, \textcite{Ronanki2026} juga mengidentifikasi \emph{extrinsic hallucination} sebagai salah satu hambatan utama dalam adopsi LLM pada lingkungan produksi.
+
+Meskipun keandalan LLM masih sering dipertanyakan, tingkat penggunaan oleh pengembang terus meningkat. \textcite{DaSilva2025} melaporkan adanya penurunan aktivitas \emph{posting} di Stack Overflow sejak kemunculan ChatGPT. Stack Overflow merupakan salah satu platform pengembang untuk pertanyaan seputar pemrograman dan pengembangan perangkat lunak, kini berada terancaman akibat kehadiran LLM. Hal ini mengindikasikan bahwa banyak pengguna mulai menjadikan LLM sebagai sumber utama untuk memperoleh jawaban teknis. \textcite{DaSilva2025} melaporkan adanya penurunan aktivitas posting di Stack Overflow sejak kemunculan ChatGPT. Kecenderungan ini menimbulkan risiko tersendiri. \textcite{Kabir2024} menemukan bahwa 52\% jawaban ChatGPT terhadap pertanyaan pemrograman di Stack Overflow mengandung informasi yang tidak benar, tetapi peserta studi tetap memilih jawaban tersebut pada 35\% kasus dan mengabaikan kesalahan yang ada hingga 39\% kasus. Di sisi lain, komunitas Stack Overflow menyimpan lebih dari 58 juta pasang pertanyaan dan jawaban yang telah melewati mekanisme kurasi berupa sistem \emph{upvote/downvote}, penanda jawaban yang diterima (\emph{accepted answer}), dan sistem reputasi kontributor \autocite{Kabir2024}. Mekanisme tersebut menjadikan Stack Overflow tidak hanya sebagai repositori diskusi teknis, tetapi juga sebagai sumber pengetahuan yang telah tervalidasi oleh komunitas pengembang. \textcite{Nashid2023} menunjukkan bahwa pemanfaatan konten Stack Overflow sebagai sumber pengambilan konteks secara signifikan meningkatkan kualitas jawaban LLM pada tugas-tugas terkait kode, menggarisbawahi potensi besar repositori ini.
+
+Salah satu pendekatan yang banyak digunakan untuk mengurangi halusinasi pada LLM adalah \emph{Retrieval-Augmented Generation} (RAG) \autocite{Lewis2020}. RAG menggabungkan teknik \emph{information retrieval} dengan kemampuan generatif LLM untuk mengatasi keterbatasan pengetahuan statis model, sehingga model dapat mengakses informasi eksternal pada saat inferensi, tanpa bergantung sepenuhnya pada pengetahuan parametrik yang tersimpan selama proses pelatihan \autocite{YizhengHuang2026}. Berbagai penelitian menunjukkan efektivitas pendekatan ini. \textcite{DelaCruzCabello2025} menemukan bahwa RAG mampu meningkatkan akurasi dan interpretabilitas jawaban LLM tanpa memerlukan proses \emph{fine-tuning} yang kompleks. Dalam konteks industri, \textcite{Ronanki2026} melaporkan bahwa RAG telah menjadi strategi utama untuk mengurangi halusinasi pada tugas rekayasa kebutuhan yang membutuhkan pengetahuan spesifik organisasi. Temuan ini mengkonfirmasi potensi RAG sebagai strategi mitigasi halusinasi yang praktis dan skalabel di berbagai domain.
+
+Meskipun efektif, RAG konvensional masih memiliki keterbatasan. Sebagian besar implementasi RAG menggunakan \emph{dense retrieval} untuk mencari potongan teks yang memiliki kemiripan semantik dengan kueri pengguna. Pendekatan ini mampu menemukan informasi yang relevan secara tekstual, tetapi belum mampu merepresentasikan hubungan kompleks antar konsep \autocite{YizhengHuang2026}. Pada domain pemrograman, pemahaman terhadap relasi antar entitas sering kali lebih penting daripada kemiripan teks semata. Sebagai contoh, penyelesaian masalah \texttt{AttributeError} pada operasi \emph{dataframe Pandas} tidak hanya membutuhkan dokumentasi yang serupa, tetapi juga pemahaman mengenai objek yang digunakan, metode yang dipanggil, penyebab terjadinya exception, serta solusi yang telah divalidasi oleh komunitas. Relasi-relasi tersebut sulit direpresentasikan secara eksplisit melalui pendekatan berbasis vektor.
+
+Untuk mengatasi keterbatasan tersebut, dikembangkan pendekatan \emph{Graph-based Retrieval-Augmented Generation} (GraphRAG) yang mengintegrasikan struktur \emph{knowledge graph} ke dalam proses pengambilan konteks. Menurut \textcite{Zhu2026}, GraphRAG memiliki tiga karakteristik utama dibandingkan RAG konvensional. Pertama, pengetahuan direpresentasikan dalam bentuk graf yang secara eksplisit memodelkan entitas dan relasi antar entitas. Kedua, proses pengambilan konteks dilakukan melalui penelusuran graf sehingga memungkinkan penalaran \emph{multi-hop}. Ketiga, informasi yang diperoleh dari graf diintegrasikan dengan mempertimbangkan struktur relasionalnya sehingga menghasilkan konteks yang lebih kaya dan koheren. 
+
+Integrasi LLM dengan \emph{knowledge graph} membentuk paradigma baru yang secara signifikan meningkatkan kemampuan penalaran berbasis pengetahuan dan mengurangi fabrikasi faktual\emph{(factual hallucination)} \autocite{Pan2024}. Berbagai studi empiris telah menunjukkan keunggulan GraphRAG dibandingkan RAG konvensional pada beragam domain teknis. Peningkatan performa tersebut dilaporkan pada domain manufaktur \autocite{Zhou2026}, \emph{multimodal question answering} \autocite{Ali2026}, serta analisis lisensi perangkat lunak \autocite{BenKhalifa2026}. Temuan-temuan tersebut menunjukkan bahwa pemanfaatan \emph{knowledge graph} dalam proses \emph{retrieval} mampu menghasilkan jawaban yang lebih akurat dibandingkan pendekatan berbasis vektor semata. 
+
+Dari perspektif evaluasi, \textcite{Gu2026} menegaskan bahwa pengukuran keandalan LLM masih menjadi tantangan penting yang memerlukan metodologi dan standar evaluasi yang jelas. Tanpa kerangka evaluasi yang terstandarisasi, klaim mengenai kemampuan suatu sistem dalam mengurangi halusinasi sulit diverifikasi dan dibandingkan secara objektif dengan pendekatan lain. Oleh karena itu, penyusunan protokol evaluasi yang sistematis menjadi aspek penting dalam penelitian yang bertujuan mengukur efektivitas suatu \emph{framework} mitigasi halusinasi.
  
-Fenomena ini dikenal sebagai \emph{hallucination} (halusinasi) dan menjadi salah satu hambatan paling kritis dalam penerapan LLM pada domain yang membutuhkan keakuratan tinggi. \textcite{Ji2023} mendefinisikan halusinasi sebagai kondisi di mana model menghasilkan keluaran yang tidak sesuai dengan fakta yang dapat diverifikasi, tidak konsisten dengan konteks yang diberikan, atau tidak memiliki dasar empiris yang dapat ditelusuri. \textcite{Huang2025} dalam survei komprehensifnya di \emph{ACM Transactions on Information Systems} mengidentifikasi tiga lapisan akar penyebab halusinasi yang saling terkait: (1) kualitas dan kelengkapan data pelatihan yang tidak merata, (2) keterbatasan
-proses penyelarasan (\emph{alignment}) model terhadap pengetahuan faktual, dan (3) mekanisme inferensi yang cenderung menghasilkan teks yang terdengar koheren tanpa jaminan akurasi faktual. \textcite{Chang2026} melengkapi analisis ini
-dengan mengidentifikasi tiga tantangan fundamental dalam generasi teks berbasis LLM yang memperkuat kecenderungan halusinasi: (1) pemahaman instruksi yang tidak memadai pada konteks panjang dan percakapan multi-gilir, (2) penalaran intensi yang tidak konsisten, khususnya ketika instruksi mengandung informasi ambigu, dan (3) generasi dialog yang tidak andal (\emph{unreliable dialogue generation}) yang menghasilkan konten tidak stabil dari prompt yang serupa.
- 
-Dalam konteks pemrograman dan rekayasa perangkat lunak, halusinasi LLM bermanifestasi dalam berbagai bentuk yang berpotensi menimbulkan dampak langsung terhadap kualitas sistem. \textcite{Alomari2026} dalam tinjauan literatur sistematis terhadap 49 studi penggunaan LLM untuk peningkatan kualitas kode menemukan bahwa kode yang dihasilkan atau direfaktorisasi oleh LLM tidak dapat diandalkan dan masih menghadapi tantangan besar dalam hal optimasi dan keandalan. Sebuah temuan yang mengonfirmasi bahwa pengetahuan parametrik LLM saja tidak cukup untuk menjamin keakuratan di domain teknis yang terus berkembang. \textcite{DaSilva2025} memperkuat bukti ini melalui studi empiris yang membandingkan jawaban ChatGPT dan LLaMA terhadap pertanyaan Stack Overflow. Hasil penelitian \textcite{DaSilva2025} menunjukkan bahwa meskipun LLM menantang keahlian manusia, LLM tidak melampaui keahlian komunitas manusia untuk sejumlah domain tertentu. Yang lebih signifikan, \textcite{DaSilva2025} mendokumentasikan penurunan nyata aktivitas \emph{posting} pengguna di Stack Overflow sejak hadirnya ChatGPT. Pengguna mulai mengandalkan LLM meskipun keandalannya belum terjamin penuh, sehingga berpotensi memperparah penyebaran informasi teknis yang tidak akurat.
- 
-Stack Overflow yang merupakan platform utama pengembang untuk pertanyaan seputar pemrograman dan pengembangan perangkat lunak, kini berada di persimpangan antara ancaman dan peluang akibat kehadiran LLM. Di satu sisi, aktivitas penggunanya menurun \autocite{DaSilva2025}. Di sisi lain, komunitas Stack Overflow menyimpan lebih dari 58 juta pasang pertanyaan dan jawaban yang telah melewati mekanisme kurasi ketat berupa sistem \emph{upvote/downvote}, penanda jawaban yang diterima (\emph{accepted answer}), dan sistem reputasi kontributor \autocite{Kabir2024}. Sinyal kepercayaan komunitas ini menjadikan Stack Overflow bukan sekadar repositori teks, melainkan basis pengetahuan tervalidasi secara sosial yang potensial digunakan untuk memberikan landasan pengetahuan bagi jawaban LLM berdasarkan fakta yang telah diverifikasi oleh praktisi domain. \textcite{Nashid2023} menunjukkan bahwa pemanfaatan konten Stack Overflow sebagai sumber pengambilan konteks secara signifikan meningkatkan kualitas jawaban LLM pada tugas-tugas terkait kode, menggarisbawahi potensi besar repositori ini.
- 
-Salah satu pendekatan yang paling menjanjikan untuk memitigasi halusinasi adalah \emph{Retrieval-Augmented Generation} (RAG) \autocite{Lewis2020}. \textcite{YizhengHuang2026} dalam survei mereka di \emph{ACM Computing Surveys} menjelaskan bahwa RAG menggabungkan teknik pengambilan informasi (\emph{information retrieval}) dengan kemampuan generatif LLM untuk mengatasi keterbatasan pengetahuan statis model, sehingga memungkinkan integrasi informasi eksternal yang dinamis dan terkini pada saat inferensi. \textcite{DelaCruzCabello2025} melalui tinjauan literatur sistematis pada domain deteksi anomali \emph{log} sistem komputer menemukan bahwa RAG secara substansial meningkatkan akurasi dan interpretabilitas jawaban LLM tanpa memerlukan \emph{fine-tuning} yang ekstensif, dan bahwa integrasi RAG dengan LLM menunjukkan kemampuan adaptasi yang kuat terhadap lingkungan operasional yang berubah. Temuan ini mengkonfirmasi potensi RAG sebagai strategi mitigasi halusinasi yang praktis dan skalabel di berbagai domain teknis.
- 
-Meskipun demikian, implementasi RAG konvensional yang menggunakan pencarian
-berbasis kemiripan vektor (\emph{dense retrieval}) terhadap potongan-potongan
-teks yang tidak terstruktur memiliki keterbatasan mendasar yaitu pendekatan ini
-gagal memanfaatkan relasi semantik kompleks dan hubungan kontekstual antar
-konsep yang justru sangat penting dalam domain pemrograman \autocite{YizhengHuang2026}. Sebagai respons atas keterbatasan ini, pendekatan
-\emph{Graph-based Retrieval-Augmented Generation} (GraphRAG) diusulkan untuk
-mengintegrasikan struktur \emph{knowledge graph} ke dalam proses pengambilan
-konteks. \textcite{Zhu2026} dalam survei komprehensif mereka di \emph{ACM
-Computing Surveys} mengidentifikasi tiga inovasi kunci GraphRAG dibandingkan
-RAG konvensional: (1) representasi pengetahuan berbasis graf yang secara
-eksplisit mengkodekan relasi antar entitas dan hierarki domain, (2) teknik
-pengambilan berbasis graf yang memungkinkan pengambilan konteks dengan
-kemampuan penalaran multi-hop, dan (3) algoritma integrasi pengetahuan yang
-sadar-struktur untuk menghasilkan teks yang lebih akurat dan koheren.
-\textcite{Pan2024} dalam menegaskan bahwa penggabungan LLM dengan \emph{knowledge graph} membentuk paradigma baru yang secara signifikan meningkatkan kemampuan penalaran berbasis pengetahuan dan mengurangi fabrikasi faktual\emph{(factual hallucination)}.
- 
-Dari sisi evaluasi, \textcite{Gu2026} dalam survei komprehensif mereka
-tentang \emph{LLM-as-a-Judge} menegaskan bahwa mengukur keandalan LLM merupakan tantangan signifikan yang membutuhkan desain dan standardisasi yang cermat. Mereka mengusulkan strategi untuk meningkatkan konsistensi evaluasi dan memitigasi bias, sebuah kerangka yang relevan untuk mengukur efektivitas reduksi halusinasi pada sistem berbasis GraphRAG dan menjadi prasyarat agar kontribusi sebuah \emph{framework} mitigasi halusinasi dapat diklaim secara akademis.
- 
-Meskipun kemajuan di masing-masing bidang LLM, RAG, GraphRAG, dan penambangan pengetahuan komunitas cukup pesat, terdapat kesenjangan metodologis yang signifikan ketika keempat komponen ini dipertimbangkan secara terpadu. Pertama, penelitian yang secara langsung membandingkan
-LLM dengan Stack Overflow seperti \textcite{DaSilva2025} dan \textcite{Kabir2024}, bersifat evaluatif. Mereka mengukur dan mendokumentasikan kesenjangan kualitas antara LLM dan keahlian komunitas, tetapi tidak mengusulkan mekanisme arsitektural untuk menjembatani kesenjangan tersebut. \textit{Kedua}, penelitian yang menggunakan konten Stack Overflow sebagai sumber konteks untuk LLM, seperti \textcite{Nashid2023} hanya menerapkan RAG konvensional berbasis kemiripan vektor dan tidak memanfaatkan struktur relasional pengetahuan komunitas maupun sinyal kepercayaan komunitas (\emph{upvote}, \emph{accepted answer}) sebagai bobot kepercayaan dalam proses pengambilan konteks. \textit{Ketiga}, meskipun pendekatan GraphRAG terbukti superior dibandingkan RAG konvensional pada berbagai domain \autocite{Zhu2026}, serta integrasi \emph{knowledge graph} dengan LLM diyakini sebagai paradigma yang menjanjikan \autocite{Pan2024}, belum ada penelitian yang secara khusus membangun \emph{knowledge graph} dari konten Stack Overflow yang mengkodekan sinyal kepercayaan komunitas untuk digunakan sebagai fondasi GraphRAG pada domain pemrograman. Sementara itu, tantangan halusinasi akibat keterbatasan pemahaman instruksi dan generasi dialog yang tidak andal \autocite{Chang2026, Huang2025} tetap menjadi masalah terbuka yang membutuhkan pendekatan grounding berbasis pengetahuan terverifikasi.
- 
-Kesenjangan-kesenjangan ini secara kolektif membuka peluang kontribusi yang signifikan: pengembangan sebuah \emph{GraphRAG Framework} yang secara
-sistematis (1) membangun \emph{knowledge graph} dari konten Stack Overflow yang mengkodekan entitas teknis, relasi semantik, \emph{dan} sinyal
-kepercayaan komunitas sebagai bobot kepercayaan eksplisit; (2) merancang mekanisme \emph{graph-guided retrieval} yang memanfaatkan struktur relasional tersebut untuk mengidentifikasi konteks yang lebih relevan dibandingkan RAG konvensional; (3) mengintegrasikan konteks hasil traversal ke dalam proses inferensi LLM; dan (4) mengukur efektivitas reduksi halusinasi secara kuantitatif menggunakan protokol evaluasi yang terstandarisasi.
- 
+Meskipun penelitian mengenai LLM, RAG, GraphRAG, dan pemanfaatan pengetahuan komunitas berkembang pesat, masih terdapat sejumlah kesenjangan ketika keempat bidang tersebut dipadukan. Pertama (G1), penelitian yang membandingkan kualitas jawaban LLM dengan jawaban komunitas Stack Overflow, seperti \textcite{DaSilva2025} dan \textcite{Kabir2024}, umumnya berfokus pada evaluasi performa dan identifikasi kelemahan LLM. Namun, penelitian-penelitian tersebut belum menawarkan mekanisme arsitektural yang dapat memanfaatkan keunggulan pengetahuan komunitas untuk meningkatkan kualitas jawaban LLM. Kedua (G2), penelitian yang memanfaatkan konten Stack Overflow sebagai sumber konteks bagi LLM, seperti \textcite{Nashid2023}, masih menggunakan pendekatan RAG konvensional berbasis kemiripan vektor. Pendekatan tersebut belum memanfaatkan struktur relasional pengetahuan maupun sinyal kepercayaan komunitas, seperti \emph{upvote} dan \emph{accepted answer}, sebagai bagian dari proses pengambilan konteks. Ketiga (G3), meskipun berbagai studi menunjukkan keunggulan GraphRAG dibandingkan RAG konvensional \autocite{Zhu2026} dan integrasi \emph{knowledge graph} dengan LLM dinilai menjanjikan \autocite{Pan2024}, belum ditemukan penelitian yang secara khusus membangun \emph{knowledge graph} dari konten Stack Overflow dengan mengintegrasikan sinyal kepercayaan komunitas sebagai bobot pengetahuan untuk mendukung proses GraphRAG pada domain pemrograman.
+
+Ketiga kesenjangan penelitian tersebut (G1, G2, dan G3) menunjukkan adanya peluang untuk mengembangkan sebuah \emph{GraphRAG Framework} yang memanfaatkan pengetahuan komunitas Stack Overflow guna meningkatkan keandalan jawaban LLM pada domain pemrograman. Framework yang diusulkan mencakup empat komponen utama. Pertama, membangun \emph{knowledge graph} berbobot dari konten Stack Overflow yang merepresentasikan entitas teknis, relasi semantik, serta sinyal kepercayaan komunitas sebagai bobot pengetahuan. Kedua, merancang mekanisme \emph{hybrid retrieval} berbasis \emph{graph-guided retrieval} untuk memanfaatkan struktur relasional graf dalam proses pengambilan konteks. Ketiga, mengintegrasikan konteks hasil retrieval ke dalam proses inferensi LLM melalui mekanisme \emph{grounded generation} berbasis \emph{dual-constraint}. Keempat, mengevaluasi efektivitas framework dalam mengurangi halusinasi menggunakan protokol evaluasi komparatif yang terstandarisasi. Melalui pendekatan tersebut, penelitian ini diharapkan dapat menjembatani kesenjangan antara pengetahuan komunitas yang tervalidasi dan kemampuan generatif LLM dalam menghasilkan jawaban teknis yang lebih akurat dan dapat dipercaya. 
  
 % =========================================================
 \section{Rumusan Masalah}
 % =========================================================
- 
-Berdasarkan latar belakang yang telah diuraikan, kondisi ideal yang diharapkan adalah tersedianya mekanisme \emph{grounding} berbasis pengetahuan komunitas yang tervalidasi secara sosial sehingga LLM dapat menghasilkan jawaban teknis yang akurat dan dapat dipertanggungjawabkan. Namun, kondisi aktual yang dijumpai menunjukkan kesenjangan metodologis yang signifikan: penelitian yang menggunakan konten Stack Overflow sebagai konteks LLM masih menggunakan RAG konvensional dan tidak memanfaatkan struktur relasional pengetahuan komunitas \autocite{Nashid2023}; pendekatan GraphRAG yang ada belum mengeksploitasi sumber pengetahuan bervalidasi sosial maupun domain pemrograman secara spesifik \autocite{Zhu2026, Pan2024}; sementara itu, tantangan halusinasi dalam generasi teks LLM pada instruksi yang ambigu dan konteks panjang masih belum terpecahkan \autocite{Chang2026, Huang2025}. Kesenjangan antara kondisi ideal dan kondisi aktual tersebut menjadi landasan permasalahan utama dalam penelitian ini, yang dirumuskan sebagai berikut.
- 
+
+Berdasarkan latar belakang yang telah diuraikan, kondisi ideal yang diharapkan adalah tersedianya mekanisme \emph{grounding} berbasis pengetahuan komunitas Stack Overflow yang tervalidasi secara sosial, sehingga LLM dapat menghasilkan jawaban teknis yang akurat, konsisten, dan dapat dipertanggungjawabkan sumbernya. Namun, kondisi aktual menunjukkan tiga kesenjangan metodologis yang saling berkaitan: (G1) belum adanya mekanisme arsitektural untuk menjembatani kesenjangan kualitas antara LLM dan keahlian komunitas Stack Overflow \autocite{DaSilva2025, Kabir2024}; (G2) penelitian yang menggunakan konten Stack Overflow sebagai konteks LLM masih menggunakan RAG konvensional dan tidak memanfaatkan struktur relasional maupun sinyal kepercayaan komunitas \autocite{Nashid2023}; dan (G3) pendekatan GraphRAG yang ada belum diaplikasikan pada \emph{knowledge graph} berbasis komunitas teknis bervalidasi sosial di domain pemrograman \autocite{Zhu2026, Pan2024}. Sementara itu, tantangan halusinasi akibat keterbatasan pemahaman instruksi dan generasi dialog yang tidak andal \autocite{Chang2026, Huang2025} tetap menjadi masalah terbuka. Kesenjangan antara kondisi ideal dan kondisi aktual tersebut menjadi landasan permasalahan utama penelitian ini, yang dirumuskan sebagai berikut.
+
 \begin{quote}
-\textbf{Bagaimana merancang dan mengembangkan GraphRAG \emph{Framework} berbasis pengetahuan komunitas Stack Overflow yang secara terukur mampu
-mereduksi halusinasi pada \emph{Large Language Model} di domain pemrograman?}
+\textbf{Bagaimana merancang dan mengembangkan \emph{GraphRAG Framework} berbasis pengetahuan komunitas Stack Overflow yang secara terukur mampu mereduksi halusinasi pada \emph{Large Language Model} di domain pemrograman?}
 \end{quote}
  
-Untuk menjawab pertanyaan utama tersebut, penelitian ini mengajukan pertanyaan turunan sebagai berikut.
- 
+Untuk menjawab pertanyaan penelitian utama tersebut, penelitian ini merumuskan empat pertanyaan penelitian. Masing-masing pertanyaan merepresentasikan aspek penting dalam perancangan, pengembangan, dan evaluasi \emph{framework} yang diusulkan.
+
 \begin{enumerate}
-    \item Bagaimana membangun \emph{knowledge graph} yang merepresentasikan
-    pengetahuan teknis komunitas Stack Overflow secara terstruktur, termasuk
-    entitas (konsep, fungsi, pustaka, \emph{error}), relasi antar entitas,
-    serta sinyal kepercayaan komunitas (\emph{upvote}, \emph{accepted answer},
-    skor reputasi) sebagai bobot kepercayaan eksplisit pada simpul dan sisi
-    graf?
+    \item Bagaimana membangun \emph{knowledge graph} berbobot yang merepresentasikan pengetahuan teknis komunitas Stack Overflow secara terstruktur, mencakup entitas teknis (konsep, fungsi, pustaka, \emph{error}), relasi antar entitas, serta sinyal kepercayaan komunitas (\emph{upvote}, \emph{accepted answer}, skor reputasi) sebagai bobot kepercayaan eksplisit pada simpul dan sisi graf?
+
+    \item Bagaimana merancang mekanisme \emph{hybrid retrieval} berbasis \emph{graph-guided retrieval} yang mampu mengidentifikasi subgraf relevan melalui traversal berbobot, sehingga konteks yang diekstraksi lebih kaya secara semantik dan relasional dibandingkan pengambilan berbasis kemiripan vektor pada RAG konvensional?
  
-    \item Bagaimana merancang mekanisme \emph{graph-guided retrieval} yang
-    mampu mengidentifikasi subgraf relevan berdasarkan kueri pengguna,
-    sedemikian sehingga konteks yang diekstraksi lebih kaya secara semantik
-    dan relasional dibandingkan pengambilan berbasis kemiripan vektor pada
-    RAG konvensional?
+    \item Bagaimana mengintegrasikan konteks hasil traversal \emph{knowledge graph} Stack Overflow ke dalam proses inferensi LLM melalui mekanisme \emph{grounded generation} dengan \emph{dual-constraint}, sehingga jawaban yang dihasilkan memiliki akurasi faktual yang lebih tinggi dan dapat ditelusuri sumbernya dibandingkan LLM tanpa mekanisme \emph{grounding}?
  
-    \item Bagaimana mengintegrasikan konteks hasil traversal \emph{knowledge
-    graph} Stack Overflow ke dalam proses inferensi LLM sehingga jawaban yang
-    dihasilkan memiliki tingkat akurasi faktual yang lebih tinggi dibandingkan
-    LLM tanpa mekanisme \emph{grounding}?
- 
-    \item Bagaimana merancang protokol evaluasi yang mampu mengukur dan
-    memvalidasi efektivitas \emph{framework} yang diusulkan dalam mereduksi
-    halusinasi LLM menggunakan metrik kuantitatif yang terstandarisasi,
-    serta membandingkan kinerja \emph{framework} terhadap dua kondisi
-    \emph{baseline}: LLM murni dan RAG konvensional?
+    \item Bagaimana merancang protokol evaluasi komparatif dengan tiga kondisi yaitu LLM murni, RAG konvensional, dan \emph{GraphRAG Framework} yang mampu mengukur dan memvalidasi efektivitas reduksi halusinasi?
 \end{enumerate}
  
  
@@ -88,32 +56,13 @@ Untuk menjawab pertanyaan utama tersebut, penelitian ini mengajukan pertanyaan t
 \section{Tujuan}
 % =========================================================
  
-Tujuan penelitian ini dibagi menjadi tujuan umum dan tujuan khusus. Tujuan umum penelitian ini adalah mengembangkan \emph{GraphRAG Framework}
-berbasis pengetahuan komunitas Stack Overflow sebagai artefak penelitian desain yang mampu mereduksi halusinasi LLM pada domain pemrograman secara terukur, sekaligus menghasilkan kontribusi pengetahuan berupa prinsip-prinsip desain yang dapat digunakan kembali oleh penelitian serupa di domain teknis lainnya.
- 
-Adapun tujuan khusus dari penelitian ini adalah sebagai berikut.
+Tujuan penelitian ini dibagi menjadi tujuan umum dan tujuan khusus. Tujuan umum penelitian ini adalah mengembangkan \emph{GraphRAG Framework} berbasis pengetahuan komunitas Stack Overflow sebagai artefak penelitian desain yang mampu mereduksi halusinasi LLM pada domain pemrograman secara terukur. Adapun tujuan khusus dari penelitian ini adalah sebagai berikut.
  
 \begin{enumerate}
-    \item Membangun \emph{knowledge graph} dari data Stack Overflow yang
-    merepresentasikan entitas teknis, relasi semantik antar entitas, dan
-    sinyal kepercayaan komunitas sebagai bobot pada simpul dan sisi graf.
- 
-    \item Merancang dan mengimplementasikan modul \emph{graph-guided
-    retrieval} yang memanfaatkan traversal \emph{knowledge graph} untuk
-    mengekstraksi konteks yang relevan secara semantik dan relasional
-    berdasarkan kueri pengguna, melampaui keterbatasan RAG konvensional
-    berbasis kemiripan vektor.
- 
-    \item Mengembangkan modul \emph{grounded generation} yang mengintegrasikan
-    konteks hasil traversal graf ke dalam mekanisme \emph{prompting} LLM
-    untuk menghasilkan jawaban teknis yang memiliki \emph{grounding} faktual
-    lebih kuat dibandingkan LLM tanpa mekanisme pengambilan konteks eksternal.
- 
-    \item Melakukan evaluasi untuk mengukur tingkat
-    reduksi halusinasi \emph{framework} yang diusulkan menggunakan metrik
-    kuantitatif, serta membandingkan hasilnya terhadap
-    dua \emph{baseline} yaitu LLM murni dan RAG konvensional.
- 
+    \item Membangun \emph{knowledge graph} berbobot dari dataset Stack Overflow (SORD) yang merepresentasikan entitas teknis, relasi semantik antar entitas, dan sinyal kepercayaan komunitas (\emph{upvote}, \emph{accepted answer}, reputasi kontributor) sebagai bobot  pada simpul dan sisi graf, yang kemudian disimpan pada basis data graf.
+    \item Merancang dan mengimplementasikan mekanisme \emph{hybrid retrieval} yang mengintegrasikan tiga tahap sekuensial yaitu \emph{entity anchoring}, \emph{graph traversal} multi-hop berbobot, dan \emph{semantic expansion} untuk mengekstraksi konteks yang lebih relevan secara semantik dan relasional dibandingkan RAG konvensional berbasis \emph{dense retrieval}.
+    \item Mengembangkan modul \emph{grounded generation} dengan mekanisme \emph{dual-constraint} (\emph{RAG Grounding} dan \emph{KG-Constraint}) yang mengintegrasikan konteks hasil traversal graf ke dalam proses inferensi LLM, menghasilkan jawaban teknis dengan \emph{grounding} faktual yang lebih kuat disertai jalur \emph{provenance} yang dapat ditelusuri ke sumber Stack Overflow.
+    \item Merancang dan melaksanakan protokol evaluasi dengan tiga kondisi (LLM murni, RAG konvensional, \emph{GraphRAG Framework}) untuk mengukur dan memvalidasi efektivitas reduksi halusinasi.
 \end{enumerate}
  
  
@@ -126,39 +75,27 @@ Penelitian ini diharapkan memberikan manfaat pada dua dimensi yang saling meleng
 \subsection*{Manfaat Teoritis}
  
 \begin{enumerate}
-
-    \item \textbf{Model arsitektur GraphRAG untuk domain \emph{question answering}.}
-    \emph{Framework} yang diusulkan memberikan kontribusi berupa model arsitektur
-    GraphRAG yang secara eksplisit mempertimbangkan validasi sosial komunitas
-    sebagai dimensi kepercayaan dalam proses pengambilan konteks. Model ini
-    memperkaya literatur akademik pada persimpangan antara \emph{information
-    retrieval}, \emph{knowledge graph}, dan \emph{large language model}.
-
-    \item \textbf{Kerangka evaluasi halusinasi yang terstandarisasi.}
-    Protokol evaluasi yang dirancang dalam penelitian ini mencakup metrik akurasi faktual, konsistensi, dan tingkat halusinasi dalam tiga kondisi perbandingan, dapat menjadi referensi metodologis bagi penelitian mitigasi halusinasi LLM di berbagai domain aplikasi.
+    \item \textbf{Model arsitektur GraphRAG dengan dimensi kepercayaan sosial.}
+    \emph{Framework} yang diusulkan memberikan kontribusi berupa model arsitektur GraphRAG yang secara eksplisit mempertimbangkan sinyal validasi sosial komunitas (\emph{upvote}, \emph{accepted answer}, reputasi kontributor) sebagai dimensi kepercayaan dalam representasi \emph{knowledge graph} dan proses pengambilan konteks. Model ini memperkaya literatur akademik pada persimpangan antara \emph{information retrieval}, \emph{knowledge graph}, dan \emph{large language model}, khususnya untuk domain teknis yang mengandalkan pengetahuan komunitas.
+    
+   \item \textbf{Prinsip-prinsip desain (\emph{design principles}) yang dapat digunakan kembali.}
+    Penelitian ini menghasilkan prinsip-prinsip desain yang dirumuskan dari proses pengembangan dan evaluasi \emph{framework}. Prinsip-prinsip ini dapat menjadi panduan bagi penelitian serupa yang ingin mengadaptasi GraphRAG untuk domain teknis lain yang memiliki basis pengetahuan komunitas tervalidasi.
+ 
+    \item \textbf{Kerangka evaluasi halusinasi komparatif yang terstandarisasi.}
+    Protokol evaluasi tiga kondisi (LLM murni, RAG konvensional, GraphRAG) yang dirancang dalam penelitian ini dapat menjadi referensi metodologis bagi penelitian mitigasi halusinasi LLM di berbagai domain aplikasi.
 \end{enumerate}
  
 \subsection*{Manfaat Praktis}
  
 \begin{enumerate}
     \item \textbf{Peningkatan keandalan bantuan pemrograman berbasis LLM.}
-    \emph{GraphRAG Framework} yang dihasilkan dapat diintegrasikan ke dalam
-    alat bantu pengembang (\emph{developer tools}) berbasis LLM, seperti
-    \emph{AI coding assistant}, untuk menghasilkan saran kode dan penjelasan
-    teknis yang lebih akurat dan dapat ditelusuri sumbernya.
-
+    \emph{GraphRAG Framework} yang dihasilkan dapat diintegrasikan ke dalam alat bantu pengembang (\emph{developer tools}) berbasis LLM, seperti \emph{AI coding assistant}, untuk menghasilkan saran kode dan penjelasan teknis yang lebih akurat, konsisten, dan dapat ditelusuri sumbernya.
+ 
     \item \textbf{Panduan adopsi LLM yang bertanggung jawab di industri perangkat lunak.}
-    Temuan penelitian ini memberikan bukti empiris dan panduan arsitektural bagi
-    organisasi perangkat lunak yang ingin mengadopsi LLM secara efisien dan
-    bertanggung jawab, khususnya dalam mengelola risiko penyebaran informasi
-    teknis yang tidak akurat.
-
+    Temuan penelitian ini memberikan bukti empiris dan panduan arsitektural bagi organisasi perangkat lunak yang ingin mengadopsi LLM secara efisien dan bertanggung jawab, khususnya dalam mengelola risiko \emph{extrinsic hallucination} yang diidentifikasi sebagai hambatan utama adopsi LLM di industri.
+ 
     \item \textbf{Pemanfaatan kembali aset pengetahuan komunitas Stack Overflow.}
-    Penelitian ini menunjukkan cara memanfaatkan lebih dari 58 juta pasang
-    pertanyaan dan jawaban Stack Overflow yang telah tervalidasi secara sosial
-    sebagai fondasi pengetahuan yang terstruktur, sehingga aset komunitas ini
-    tidak hanya menjadi repositori pasif tetapi juga menjadi infrastruktur
-    \emph{grounding} aktif untuk sistem AI generatif.
+    Penelitian ini menunjukkan cara memanfaatkan lebih dari 58 juta pasang pertanyaan dan jawaban Stack Overflow yang telah tervalidasi secara sosial sebagai fondasi pengetahuan yang terstruktur. Dengan demikian, aset komunitas ini tidak hanya menjadi repositori pasif tetapi juga menjadi infrastruktur \emph{grounding} aktif untuk sistem AI generatif.
 \end{enumerate}
  
  
@@ -166,26 +103,20 @@ Penelitian ini diharapkan memberikan manfaat pada dua dimensi yang saling meleng
 \section{Ruang Lingkup dan Batasan Masalah}
 % =========================================================
  
-Penelitian ini berfokus pada perancangan dan pengembangan \emph{GraphRAG Framework} untuk domain pemrograman dengan menggunakan data dari komunitas Stack Overflow sebagai sumber pengetahuan utama. Evaluasi dilakukan pada pertanyaan dan jawaban teknis yang mencakup topik-topik pemrograman umum (\emph{general programming}) seperti Python, JavaScript, dan Java, yang merupakan \emph{tag} dengan volume konten tertinggi di Stack Overflow.
+Penelitian ini berfokus pada perancangan, pengembangan, dan evaluasi \emph{GraphRAG Framework} untuk domain pemrograman dengan menggunakan dataset SORD \autocite{Fatima2026} yang bersumber dari komunitas Stack Overflow sebagai sumber pengetahuan utama. Evaluasi dilakukan pada pertanyaan dan jawaban teknis yang mencakup topik-topik pemrograman umum (\emph{general programming}) seperti Python, JavaScript, dan Java, yang merupakan \emph{tag} dengan volume konten tertinggi di Stack Overflow. Ruang lingkup penelitian ini mencakup: (1) konstruksi \emph{knowledge graph} berbobot dari data Stack Overflow, (2) perancangan dan implementasi mekanisme \emph{hybrid retrieval} berbasis traversal graf, (3) pengembangan modul \emph{grounded generation}, dan (4) evaluasi komparatif kuantitatif pada tiga kondisi pengujian menggunakan \emph{benchmark dataset} yang dikonstruksi dari SORD.
+ 
  
 \textbf{Batasan masalah:}
 \begin{enumerate}
-    \item \emph{Framework} yang dikembangkan difokuskan pada domain
-    pemrograman dan tidak dimaksudkan untuk langsung digeneralisasi ke domain
-    non-teknis tanpa adaptasi pada skema \emph{knowledge graph} dan protokol
-    evaluasinya.
-    \item Pembangunan \emph{knowledge graph} dibatasi pada ekstraksi entitas
-    dan relasi dari teks pertanyaan, jawaban, dan komentar Stack Overflow,
-    tanpa menyertakan eksekusi atau validasi kode secara dinamis.
-    \item Penelitian ini tidak membahas aspek \emph{fine-tuning} LLM.
-    Seluruh eksperimen menggunakan LLM dalam mode \emph{inference} tanpa
-    modifikasi parameter model.
-    \item Pengukuran halusinasi dibatasi pada dimensi akurasi faktual dan
-    konsistensi informasi, tidak mencakup dimensi bias, toksisitas, atau
-    kesesuaian gaya bahasa.
-    \item Penelitian ini tidak mencakup aspek skalabilitas dan
-    \emph{deployment framework} ke lingkungan produksi. Seluruh eksperimen
-    dilakukan dalam lingkungan penelitian yang terkontrol.
+    \item \emph{Framework} yang dikembangkan difokuskan pada domain pemrograman dan tidak dimaksudkan untuk langsung digeneralisasi ke domain non-teknis tanpa adaptasi pada skema \emph{knowledge graph}, ontologi domain, dan protokol evaluasinya.
+ 
+    \item Pembangunan \emph{knowledge graph} dibatasi pada ekstraksi entitas dan relasi dari teks pertanyaan, jawaban, dan komentar Stack Overflow yang tersedia dalam dataset SORD \autocite{Fatima2026}, tanpa menyertakan eksekusi atau validasi kode secara dinamis.
+ 
+    \item Penelitian ini tidak membahas aspek \emph{fine-tuning} LLM. Seluruh eksperimen menggunakan LLM dalam mode \emph{inference} tanpa modifikasi parameter model, sehingga peningkatan kinerja yang diamati sepenuhnya berasal dari mekanisme \emph{retrieval} dan \emph{grounding}.
+ 
+    \item Pengukuran halusinasi dibatasi pada dimensi akurasi faktual (\emph{faithfulness}) dan konsistensi informasi (\emph{hallucination rate} dan \emph{context relevance}), tidak mencakup dimensi bias, toksisitas, atau kesesuaian gaya bahasa.
+ 
+    \item Penelitian ini tidak mencakup aspek skalabilitas infrastruktur dan \emph{deployment framework} ke lingkungan produksi. Seluruh eksperimen dilakukan dalam lingkungan penelitian yang terkontrol menggunakan subset data SORD yang representatif.
 \end{enumerate}
  
  
@@ -193,100 +124,46 @@ Penelitian ini berfokus pada perancangan dan pengembangan \emph{GraphRAG Framewo
 \section{Hipotesis}
 % =========================================================
  
-Hipotesis penelitian ini diturunkan dari dua premis yang diidentifikasi pada latar belakang dan rumusan masalah.
+Hipotesis penelitian ini diturunkan dari dua premis yang diidentifikasi pada latar belakang dan rumusan masalah, dan dioperasionalkan terhadap tiga kesenjangan (G1, G2, G3) yang menjadi motivasi penelitian.
+ 
  
 \begin{enumerate}
-    \item \textbf{Premis 1.} LLM yang beroperasi hanya mengandalkan
-    pengetahuan parametrik menghasilkan tingkat halusinasi yang signifikan
-    pada pertanyaan teknis domain pemrograman, karena pengetahuan yang
-    dikodekan selama pelatihan bersifat statis dan tidak mencerminkan
-    perkembangan teknologi, perubahan API, maupun solusi terkini yang
-    didokumentasikan oleh komunitas praktisi \autocite{Ji2023, Huang2025}.
-    Hal ini dikonfirmasi oleh \textcite{DaSilva2025} secara empiris dan oleh
-    \textcite{Chang2026} yang mengidentifikasi defisiensi fundamental LLM
-    dalam menghasilkan dialog yang andal. RAG konvensional mengurangi
-    sebagian halusinasi ini, namun masih terbatas karena pengambilan berbasis
-    kemiripan vektor gagal memanfaatkan relasi semantik kompleks antar konsep
-    teknis \autocite{YizhengHuang2026}.
+    \item \textbf{Premis 1 : Keterbatasan LLM dan RAG Konvensional.}
+    LLM yang beroperasi hanya mengandalkan pengetahuan parametrik menghasilkan tingkat halusinasi yang signifikan pada pertanyaan teknis domain pemrograman, karena pengetahuan yang dikodekan selama pelatihan bersifat statis dan tidak mencerminkan perkembangan teknologi, perubahan API, maupun solusi terkini yang didokumentasikan oleh komunitas praktisi \autocite{Ji2023, Huang2025}. Hal ini dikonfirmasi secara empiris oleh \textcite{DaSilva2025} yang mendokumentasikan kegagalan LLM khususnya pada domain \emph{Frameworks and Libraries}, oleh \textcite{Kabir2024} yang menemukan bahwa 52\% jawaban ChatGPT mengandung informasi tidak benar, serta oleh \textcite{Chang2026} yang mengidentifikasi defisiensi fundamental LLM dalam menghasilkan dialog yang andal (G1). RAG konvensional mengurangi sebagian halusinasi ini, namun masih terbatas karena pengambilan berbasis kemiripan vektor gagal memanfaatkan relasi semantik kompleks antar konsep teknis serta tidak mengeksploitasi sinyal kepercayaan komunitas \autocite{YizhengHuang2026} (G2).
  
-    \item \textbf{Premis 2.} \emph{Knowledge graph} yang dibangun dari
-    konten Stack Overflow merepresentasikan pengetahuan teknis dalam struktur
-    relasional yang kaya, dan sinyal kepercayaan komunitas (skor \emph{upvote},
-    status \emph{accepted answer}) merupakan proksi yang valid untuk kualitas
-    dan kebenaran informasi \autocite{DaSilva2025, Kabir2024}. Mekanisme
-    \emph{graph-guided retrieval} yang memanfaatkan struktur relasional ini
-    mampu mengidentifikasi konteks yang lebih relevan dan terverifikasi
-    dibandingkan pencarian vektor sederhana, sebagaimana diindikasikan oleh
-    superioritas pendekatan GraphRAG yang dikonfirmasi oleh \textcite{Zhu2026}
-    dan paradigma integrasi LLM-\emph{knowledge graph} yang diuraikan oleh
-    \textcite{Pan2024}.
+    \item \textbf{Premis 2 : Potensi \emph{Knowledge Graph} Berbobot dari Stack Overflow.}
+    \emph{Knowledge graph} yang dibangun dari konten Stack Overflow merepresentasikan pengetahuan teknis dalam struktur relasional yang kaya, dan sinyal kepercayaan komunitas (skor \emph{upvote}, status \emph{accepted answer}, reputasi kontributor) sebagai validitas untuk kualitas dan kebenaran informasi \autocite{DaSilva2025, Kabir2024}. Mekanisme \emph{hybrid retrieval} yang memanfaatkan struktur relasional dan bobot kepercayaan ini mampu mengidentifikasi konteks yang lebih relevan dan terverifikasi dibandingkan pencarian vektor sederhana, sebagaimana diindikasikan oleh pendekatan GraphRAG yang dikonfirmasi oleh \textcite{Zhu2026} di berbagai domain teknis (G3) dan integrasi LLM-\emph{knowledge graph} yang diuraikan oleh \textcite{Pan2024}.
 \end{enumerate}
- 
-Berdasarkan kedua premis tersebut, hipotesis penelitian ini dirumuskan
-sebagai berikut: \emph{GraphRAG Framework} yang mengintegrasikan
-\emph{knowledge graph} berbasis pengetahuan komunitas Stack Overflow dengan
-mekanisme \emph{graph-guided retrieval} dan sinyal kepercayaan komunitas
-sebagai bobot menghasilkan reduksi halusinasi LLM yang secara statistik
-signifikan dibandingkan dua kondisi \emph{baseline} yaitu LLM murni tanpa
-mekanisme pengambilan konteks dan LLM dengan RAG konvensional berbasis
-\emph{dense retrieval} yang diukur menggunakan metrik akurasi faktual dan
-skor konsistensi pada \emph{benchmark} pertanyaan teknis domain pemrograman.
- 
+
+Berdasarkan kedua premis tersebut, hipotesis penelitian dirumuskan sebagai berikut : \emph{GraphRAG Framework} yang mengintegrasikan \emph{knowledge graph} berbasis pengetahuan komunitas Stack Overflow dengan mekanisme \emph{graph-guided retrieval} dan sinyal kepercayaan komunitas sebagai bobot menghasilkan reduksi halusinasi LLM yang secara statistik dibandingkan dua kondisi \emph{baseline} yaitu LLM murni tanpa mekanisme pengambilan konteks dan LLM dengan RAG konvensional berbasis \emph{dense retrieval} yang diukur menggunakan metrik akurasi faktual dan skor konsistensi pada \emph{benchmark} pertanyaan teknis domain pemrograman.
  
 % =========================================================
 \section{Metodologi Penelitian}
 % =========================================================
- 
-Penelitian ini menggunakan kerangka \emph{Design Science Research Methodology} (DSRM) sebagai pendekatan sistematis untuk merancang, mengembangkan, dan mengevaluasi artefak berbasis teknologi \autocite{Peffers2007}. DSRM dipilih karena penelitian ini tidak hanya bertujuan melakukan analisis terhadap fenomena yang ada, tetapi juga menghasilkan artefak nyata berupa \emph{GraphRAG Framework} yang dapat digunakan sebagai solusi terhadap permasalahan halusinasi LLM. Penelitian ini dilaksanakan melalui enam tahapan berikut.
+
+Penelitian ini menggunakan kerangka \emph{Design Science Research Methodology} (DSRM) sebagai pendekatan sistematis untuk merancang, mengembangkan, dan mengevaluasi artefak berbasis teknologi. DSRM dipilih karena penelitian ini tidak hanya bertujuan menganalisis fenomena yang ada, tetapi juga menghasilkan artefak nyata berupa \emph{GraphRAG Framework} yang dapat digunakan sebagai solusi terhadap permasalahan halusinasi LLM di domain pemrograman. Penelitian ini dilaksanakan melalui enam tahapan berikut.
  
 \begin{enumerate}
- 
-\item \textbf{Identifikasi Masalah dan Motivasi.}
-Tahap ini dilaksanakan melalui studi literatur sistematis dan analisis
-\emph{research gap} untuk memetakan keterbatasan pendekatan yang ada serta
-mengidentifikasi peluang integrasi pengetahuan komunitas tervalidasi ke dalam
-arsitektur GraphRAG. Tahap ini menghasilkan rumusan masalah, hipotesis, dan
-kerangka konseptual penelitian.
- 
-\item \textbf{Pendefinisian Tujuan Solusi.}
-Berdasarkan identifikasi masalah, ditetapkan tujuan solusi berupa spesifikasi
-fungsional dan non-fungsional \emph{GraphRAG Framework}: skema \emph{knowledge
-graph}, mekanisme \emph{retrieval} berbasis graf, modul \emph{grounded
-generation}, dan protokol evaluasi halusinasi yang terstandarisasi.
- 
-\item \textbf{Perancangan dan Pengembangan Artefak.}
-Artefak dirancang sebagai \emph{GraphRAG Framework} dengan empat modul
-terintegrasi: (1) modul konstruksi \emph{knowledge graph} dari
-\emph{Stack Exchange Data Dump} yang mengkodekan entitas teknis, relasi
-semantik, dan sinyal kepercayaan komunitas sebagai bobot; (2) modul
-\emph{graph-guided retrieval} berbasis traversal berbobot; (3) modul
-\emph{grounded generation} yang menyusun \emph{structured prompt} dari
-subgraf hasil ekstraksi; serta (4) modul evaluasi. Seluruh komponen
-didokumentasikan menggunakan diagram arsitektur dan spesifikasi antarmuka
-antar modul.
- 
-\item \textbf{Implementasi.}
-Implementasi dilakukan pada tumpukan teknologi yang dipilih berdasarkan
-kesesuaian dengan kebutuhan pembangunan \emph{knowledge graph} dan integrasi
-LLM. Data primer yang digunakan adalah \emph{Stack Exchange Data Dump}
-yang difilter berdasarkan rentang waktu 2020--2024 dan \emph{tag} pemrograman
-yang relevan.
- 
-\item \textbf{Evaluasi.}
-Evaluasi artefak dilakukan pada dua level: evaluasi kualitas
-\emph{knowledge graph} dan evaluasi efektivitas reduksi halusinasi pada
-tiga kondisi perbandingan (LLM murni, RAG konvensional, dan \emph{GraphRAG
-Framework} yang diusulkan). Pengujian hipotesis dilakukan menggunakan uji
-statistik yang sesuai untuk menilai signifikansi perbedaan antar kondisi.
- 
-\item \textbf{Penarikan Kesimpulan dan Komunikasi Hasil.}
-Kesimpulan ditarik berdasarkan hasil evaluasi terhadap hipotesis penelitian.
-Hasil penelitian dikomunikasikan dalam bentuk laporan tesis, dokumentasi
-teknis \emph{framework}, serta artikel ilmiah yang direncanakan
-untuk dipublikasikan pada konferensi atau jurnal bereputasi di bidang
-\emph{Natural Language Processing}, \emph{Information Retrieval}, atau
-\emph{Software Engineering}.
- 
+    \item \textbf{Identifikasi Masalah dan Motivasi.}
+    
+    Tahap ini dilaksanakan melalui studi literatur sistematis untuk memetakan keterbatasan pendekatan yang ada dan mengidentifikasi tiga kesenjangan penelitian (G1, G2, G3). Sumber data yang dikaji mencakup jurnal dan konferensi bereputasi di bidang \emph{Natural Language Processing}, \emph{Information Retrieval}, dan \emph{Software Engineering} dalam rentang tahun 2020--2026. Luaran dari tahapan ini adalah rumusan masalah, hipotesis, dan peta kesenjangan penelitian.
+    
+    \item \textbf{Pendefinisian Tujuan Solusi.}
+    
+    Berdasarkan identifikasi masalah, ditetapkan tujuan solusi berupa spesifikasi fungsional dan nonfungsional \emph{GraphRAG Framework}. Spesifikasi ini mencakup skema \emph{knowledge graph} berbobot, arsitektur mekanisme \emph{hybrid retrieval}, desain modul \emph{grounded generation}, dan protokol evaluasi halusinasi komparatif tiga kondisi yang terstandarisasi. Luaran dari tahapan ini adalah dokumen spesifikasi kebutuhan artefak.
+    
+    \item \textbf{Perancangan dan Pengembangan Artefak.}
+    
+    Artefak dirancang sebagai \emph{GraphRAG Framework} dengan empat modul terintegrasi yaitu: (1) modul konstruksi \emph{knowledge graph} berbobot dari dataset SORD \autocite{Fatima2026} yang mengkodekan entitas teknis, relasi semantik, dan sinyal kepercayaan komunitas sebagai bobot; (2) modul \emph{hybrid retrieval}; (3) modul \emph{grounded generation}; serta (4) modul evaluasi. Seluruh komponen didokumentasikan menggunakan diagram arsitektur dan spesifikasi antarmuka antar modul. Luaran dari tahapan ini adalah desain arsitektur \emph{framework} dan skema \emph{knowledge graph}.
+    
+    \item \textbf{Implementasi.}
+    Implementasi dilakukan menggunakan tumpukan teknologi yang dipilih berdasarkan kesesuaian kebutuhan, yaitu: Neo4j untuk basis data graf, FAISS untuk indeks vektor, dan LLM dalam mode \emph{inference}. Data primer yang digunakan adalah dataset SORD \autocite{Fatima2026} yang difilter pada topik pemrograman Python, JavaScript, dan Java. Luaran dari tahapan ini adalah implementasi \emph{GraphRAG Framework} yang dapat dijalankan dan didokumentasikan.
+    
+    \item \textbf{Evaluasi.}
+    Evaluasi artefak dilakukan adalah evaluasi efektivitas reduksi halusinasi pada tiga kondisi perbandingan. Pengujian hipotesis dilakukan menggunakan uji statistik yang sesuai untuk menilai signifikansi perbedaan antar kondisi. Luaran dari tahapan ini adalah hasil eksperimen, analisis statistik, dan konfirmasi hipotesis.
+    
+    \item \textbf{Penarikan Kesimpulan dan Komunikasi Hasil.}
+    Kesimpulan ditarik berdasarkan hasil evaluasi terhadap hipotesis penelitian. Prinsip-prinsip desain (\emph{design principles}) dirumuskan dari pengalaman pengembangan dan temuan evaluasi. Hasil penelitian dikomunikasikan dalam bentuk laporan tesis, dokumentasi teknis \emph{framework}, serta artikel ilmiah yang direncanakan untuk dipublikasikan di bidang \emph{Natural Language Processing}, \emph{Information Retrieval}, atau \emph{Software Engineering}. Luaran dari tahapan ini adalah laporan tesis, \emph{design principles}, dan artikel ilmiah.
 \end{enumerate}
  
  
@@ -294,63 +171,31 @@ untuk dipublikasikan pada konferensi atau jurnal bereputasi di bidang
 \section{Sistematika Penulisan}
 % =========================================================
  
-Bagian ini menjelaskan gambaran umum isi dari setiap bab dalam laporan
-tesis. Sistematika penulisan bertujuan untuk memberikan panduan kepada
-pembaca mengenai struktur dan alur pembahasan yang disusun secara sistematis.
-Adapun sistematika penulisan dalam laporan tesis ini adalah sebagai berikut.
+Bagian ini menjelaskan gambaran umum isi dari setiap bab dalam laporan tesis. Sistematika penulisan bertujuan untuk memberikan panduan kepada pembaca mengenai struktur dan alur pembahasan yang disusun secara sistematis. Adapun sistematika penulisan dalam laporan tesis ini adalah sebagai berikut.
  
 \begin{enumerate}
- 
-\item \textbf{Bab I Pendahuluan}\\
-Berisi latar belakang penelitian, rumusan masalah, tujuan penelitian,
-manfaat penelitian, ruang lingkup dan batasan masalah, hipotesis, metodologi
-penelitian, serta sistematika penulisan laporan tesis.
- 
-\item \textbf{Bab II Studi Literatur}\\
-Berisi kajian pustaka yang relevan dengan topik tesis, meliputi konsep
-dasar LLM dan permasalahan halusinasi, pendekatan RAG dan GraphRAG,
-integrasi \emph{knowledge graph} dengan LLM, pemanfaatan pengetahuan
-komunitas Stack Overflow dalam sistem AI, serta metodologi evaluasi
-keandalan LLM. Kajian ini juga menyajikan analisis \emph{research gap}
-yang menjadi landasan \emph{novelty} penelitian.
- 
-\item \textbf{Bab III Analisis dan Desain}\\
-Berisi analisis permasalahan halusinasi LLM secara mendalam, identifikasi
-kebutuhan komponen \emph{framework}, pemetaan sumber data Stack Overflow,
-analisis karakteristik \emph{knowledge graph} yang dibutuhkan, serta
-perbandingan alternatif solusi yang menjadi dasar perancangan
-\emph{GraphRAG Framework}.
- 
-\item \textbf{Bab IV Perancangan}\\
-Berisi perancangan solusi yang diusulkan secara rinci, meliputi arsitektur
-keseluruhan \emph{GraphRAG Framework}, skema \emph{knowledge graph}
-(definisi entitas, relasi, dan atribut bobot kepercayaan), desain
-mekanisme \emph{graph-guided retrieval}, desain modul \emph{grounded
-generation}, serta protokol evaluasi halusinasi.
- 
-\item \textbf{Bab V Implementasi}\\
-Berisi proses implementasi \emph{GraphRAG Framework} yang telah dirancang,
-termasuk pembangunan \emph{knowledge graph} dari \emph{Stack Exchange Data
-Dump}, implementasi modul \emph{retrieval} dan \emph{generation}, teknologi
-dan pustaka yang digunakan, serta hasil implementasi per modul.
- 
-\item \textbf{Bab VI Evaluasi}\\
-Berisi proses pengujian dan evaluasi terhadap \emph{framework} yang
-diimplementasikan, meliputi desain eksperimen, konstruksi \emph{benchmark
-dataset}, skenario pengujian tiga kondisi (LLM murni, RAG konvensional,
-GraphRAG), hasil pengujian kuantitatif, analisis statistik, serta diskusi
-temuan terhadap hipotesis penelitian.
- 
-\item \textbf{Bab VII Kesimpulan dan Saran}\\
-Berisi kesimpulan dari hasil penelitian yang telah dilakukan, prinsip-prinsip
-desain (\emph{design principles}) yang dirumuskan, keterbatasan penelitian,
-serta saran untuk pengembangan penelitian selanjutnya.
- 
-\item \textbf{Daftar Pustaka}\\
-Berisi seluruh referensi yang digunakan dalam penyusunan laporan tesis.
- 
-\item \textbf{Lampiran}\\
-Berisi dokumen pendukung seperti kode program, skema lengkap \emph{knowledge
-graph}, data hasil pengujian secara lengkap, serta dokumen lain yang relevan.
+    \item \textbf{Bab I - Pendahuluan}\\
+    Bab ini menyajikan latar belakang yang membangun argumentasi urgensi penelitian melalui tiga kesenjangan metodologis (G1, G2, G3) yang diidentifikasi dari literatur terkini. Selanjutnya dirumuskan pertanyaan penelitian utama dan empat pertanyaan turunan, tujuan umum dan khusus, manfaat teoritis dan praktis, ruang lingkup beserta batasan masalah, hipotesis dengan dua premis pendukung, gambaran metodologi DSRM enam tahap, dan sistematika penulisan.
+    
+    \item \textbf{Bab II - Studi Literatur}\\
+    Bab ini menyajikan landasan teori dan analisis penelitian terdahulu yang menjadi basis ilmiah \emph{GraphRAG Framework}. Topik yang dikaji meliputi: halusinasi pada LLM beserta taksonomi dan akar penyebabnya, keterbatasan pengetahuan parametrik LLM, paradigma RAG dan keterbatasan RAG konvensional pada domain pemrograman, \emph{knowledge graph} sebagai representasi pengetahuan relasional, arsitektur GraphRAG dan mekanisme \emph{hybrid retrieval}, karakteristik Stack Overflow sebagai basis pengetahuan tervalidasi sosial, konsep \emph{grounded generation}, serta metodologi evaluasi keandalan LLM. Bab ini diakhiri dengan analisis kesenjangan penelitian (G1, G2, G3) dan kerangka konseptual penelitian.
+    
+    \item \textbf{Bab III - Analisis dan Desain}\\
+    Bab ini menerjemahkan tiga kesenjangan penelitian ke dalam keputusan analisis dan desain yang konkret. Bagian ini mencakup: analisis kondisi saat ini dan keterbatasan sistem LLM generik, analisis kebutuhan fungsional dan nonfungsional \emph{framework}, analisis komparatif tiga kondisi solusi (LLM murni, RAG konvensional, GraphRAG), serta desain konseptual \emph{GraphRAG Framework} meliputi skema \emph{knowledge graph} berbobot, mekanisme \emph{hybrid retrieval}, modul \emph{grounded generation}, dan protokol evaluasi komparatif.
+    
+    \item \textbf{Bab IV - Implementasi}\\
+    Bab ini memaparkan proses implementasi \emph{GraphRAG Framework}, mencakup: implementasi kontruksi \emph{knowledge graph}, implementasi modul \emph{hybrid retrieval}, implementasi modul \emph{grounded generation}, teknologi dan pustaka yang digunakan beserta alasan pemilihannya, serta hasil implementasi per modul.
+    
+    \item \textbf{Bab V - Evaluasi}\\
+    Bab ini menyajikan hasil pengujian dan evaluasi \emph{framework}, mencakup hasil pengujian kuantitatif tiga kondisi (LLM murni, RAG konvensional, GraphRAG), analisis statistik untuk pengujian hipotesis, evaluasi kualitas \emph{knowledge graph}, serta diskusi temuan terhadap hipotesis dan keterkaitannya dengan kesenjangan G1, G2, dan G3.
+    
+    \item \textbf{Bab VI -Kesimpulan dan Saran}\\
+    Bab ini menyajikan kesimpulan yang ditarik dari hasil evaluasi terhadap hipotesis, prinsip-prinsip desain (\emph{design principles}) yang dirumuskan sebagai kontribusi pengetahuan, keterbatasan penelitian, serta saran untuk pengembangan penelitian selanjutnya.
+    
+    \item \textbf{Daftar Pustaka}\\
+    Memuat seluruh referensi ilmiah yang dikutip dalam laporan tesis, disusun menggunakan gaya sitasi yang konsisten.
+    
+    \item \textbf{Lampiran}\\
+    Memuat dokumen pendukung termasuk: kode implementasi \emph{GraphRAG Framework}, skema lengkap \emph{knowledge graph}, \emph{benchmark dataset} yang dikonstruksi, data hasil pengujian secara lengkap, dan dokumen teknis pendukung lainnya.
  
 \end{enumerate}
