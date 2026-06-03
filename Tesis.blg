@@ -1,21 +1,16 @@
 [0] Config.pm:328> INFO - This is Biber 2.21
 [0] Config.pm:331> INFO - Logfile is 'tesis.blg'
-[63] biber-darwin:342> INFO - === Mon Jun  1, 2026, 15:11:02
-[82] Biber.pm:421> INFO - Reading 'tesis.bcf'
-[262] Biber.pm:1002> INFO - Found 37 citekeys in bib section 0
-[274] Biber.pm:4487> INFO - Processing section 0
-[283] Biber.pm:4678> INFO - Looking for bibtex file 'daftar-pustaka.bib' for section 0
-[286] bibtex.pm:1713> INFO - LaTeX decoding ...
-[323] bibtex.pm:1519> INFO - Found BibTeX data source 'daftar-pustaka.bib'
-[653] UCollate.pm:68> INFO - Overriding locale 'indonesian' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[653] UCollate.pm:68> INFO - Overriding locale 'indonesian' defaults 'level = 4' with 'level = 2'
-[653] UCollate.pm:68> INFO - Overriding locale 'indonesian' defaults 'variable = shifted' with 'variable = non-ignorable'
-[653] Biber.pm:4307> INFO - Sorting list 'cms/global//global/global/global' of type 'entry' with template 'cms' and locale 'indonesian'
-[653] Biber.pm:4313> INFO - No sort tailoring available for locale 'indonesian'
-[704] bbl.pm:676> INFO - Writing 'tesis.bbl' with encoding 'UTF-8'
-[733] bbl.pm:779> INFO - Output to tesis.bbl
-[734] Biber.pm:132> WARN - Possible typo (case mismatch) between citation and datasource keys: 'kumar2024' and 'Kumar2024' in file 'daftar-pustaka.bib'
-[734] Biber.pm:132> WARN - Possible typo (case mismatch) between citation and datasource keys: 'qin2025' and 'Qin2025' in file 'daftar-pustaka.bib'
-[734] Biber.pm:132> WARN - I didn't find a database entry for 'kumar2024' (section 0)
-[734] Biber.pm:132> WARN - I didn't find a database entry for 'qin2025' (section 0)
-[734] Biber.pm:134> INFO - WARNINGS: 4
+[51] biber-darwin:342> INFO - === Tue Jun  2, 2026, 14:42:11
+[68] Biber.pm:421> INFO - Reading 'tesis.bcf'
+[188] Biber.pm:1002> INFO - Found 37 citekeys in bib section 0
+[197] Biber.pm:4487> INFO - Processing section 0
+[205] Biber.pm:4678> INFO - Looking for bibtex file 'daftar-pustaka.bib' for section 0
+[207] bibtex.pm:1713> INFO - LaTeX decoding ...
+[231] bibtex.pm:1519> INFO - Found BibTeX data source 'daftar-pustaka.bib'
+[446] UCollate.pm:68> INFO - Overriding locale 'indonesian' defaults 'level = 4' with 'level = 2'
+[446] UCollate.pm:68> INFO - Overriding locale 'indonesian' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[446] UCollate.pm:68> INFO - Overriding locale 'indonesian' defaults 'variable = shifted' with 'variable = non-ignorable'
+[446] Biber.pm:4307> INFO - Sorting list 'cms/global//global/global/global' of type 'entry' with template 'cms' and locale 'indonesian'
+[446] Biber.pm:4313> INFO - No sort tailoring available for locale 'indonesian'
+[524] bbl.pm:676> INFO - Writing 'tesis.bbl' with encoding 'UTF-8'
+[569] bbl.pm:779> INFO - Output to tesis.bbl

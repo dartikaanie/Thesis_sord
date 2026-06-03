@@ -19,6 +19,48 @@
 
 \refsection{0}
   \datalist[entry]{cms/global//global/global/global}
+    \entry{Aldosari2026}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=6e4c18ae245a07227db0ecc1f325170a}{%
+           family={Aldosari},
+           familyi={A\bibinitperiod},
+           given={Shaykhah\bibnamedelima S.},
+           giveni={S\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c17c588b40b5ccf967327f4974e6a26c}{%
+           family={Aldawsari},
+           familyi={A\bibinitperiod},
+           given={Layla\bibnamedelima S.},
+           giveni={L\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{7c4ddfbe9459d35cdeabd8e066783e1c}
+      \strng{fullhash}{7c4ddfbe9459d35cdeabd8e066783e1c}
+      \strng{fullhashraw}{7c4ddfbe9459d35cdeabd8e066783e1c}
+      \strng{bibnamehash}{7c4ddfbe9459d35cdeabd8e066783e1c}
+      \strng{authorbibnamehash}{7c4ddfbe9459d35cdeabd8e066783e1c}
+      \strng{authornamehash}{7c4ddfbe9459d35cdeabd8e066783e1c}
+      \strng{authorfullhash}{7c4ddfbe9459d35cdeabd8e066783e1c}
+      \strng{authorfullhashraw}{7c4ddfbe9459d35cdeabd8e066783e1c}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{author}
+      \field{journaltitle}{Science of Computer Programming}
+      \field{title}{Securing {LLM} Code Generation: Leveraging Prompt Engineering to Mitigate Vulnerabilities Across Models and Languages}
+      \field{volume}{251}
+      \field{year}{2026}
+      \field{pages}{103446}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.scico.2026.103446
+      \endverb
+    \endentry
     \entry{Ali2026}{article}{}{}
       \name{author}{8}{}{%
         {{un=0,uniquepart=base,hash=22ed7b7b1ff652c40f3a86bbe4a78e50}{%
@@ -1627,6 +1669,62 @@
       \verb 10.2753/MIS0742-1222240302
       \endverb
     \endentry
+    \entry{Qin2025}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=4c1ea2af4586eaa30c386130a83ba93c}{%
+           family={Qin},
+           familyi={Q\bibinitperiod},
+           given={Libo},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=41d259c323d4a47c956574ede250c0f5}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Qiguang},
+           giveni={Q\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=644e058dbb523a750d614dde780ce18c}{%
+           family={Feng},
+           familyi={F\bibinitperiod},
+           given={Xiachong},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=fba592628541fb8e22f9195ccaca6459}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Yang},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=652294edaa0e195851cfc9571b3bf406}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Yongheng},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{dca995789ae5000a8fc162a5741194fe}
+      \strng{fullhash}{c4d7fd8d7cd1cacf764389e9aa2b5e54}
+      \strng{fullhashraw}{c4d7fd8d7cd1cacf764389e9aa2b5e54}
+      \strng{bibnamehash}{c4d7fd8d7cd1cacf764389e9aa2b5e54}
+      \strng{authorbibnamehash}{c4d7fd8d7cd1cacf764389e9aa2b5e54}
+      \strng{authornamehash}{dca995789ae5000a8fc162a5741194fe}
+      \strng{authorfullhash}{c4d7fd8d7cd1cacf764389e9aa2b5e54}
+      \strng{authorfullhashraw}{c4d7fd8d7cd1cacf764389e9aa2b5e54}
+      \field{sortinit}{Q}
+      \field{sortinithash}{ce69a400a872ddd02ee7fdb3b38c6abd}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{author}
+      \field{journaltitle}{Frontiers of Computer Science}
+      \field{title}{Large Language Models Meet NLP: A Survey}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.1007/s11704-025-50472-3
+      \endverb
+    \endentry
     \entry{Ronanki2026}{article}{}{}
       \name{author}{6}{}{%
         {{un=0,uniquepart=base,hash=d16a7ffc907e8820865eaa5ae38cae8a}{%
@@ -2055,8 +2153,6 @@
       \endverb
     \endentry
   \enddatalist
-  \missing{kumar2024}
-  \missing{qin2025}
 \endrefsection
 \endinput
 

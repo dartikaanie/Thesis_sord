@@ -152,6 +152,40 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
 \addvspace {10\p@ }
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
@@ -175,7 +209,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {II.1}{\ignorespaces Contoh kegagalan penalaran akibat ketidaksesuaian waktu informasi dan penggunaan data yang mengandung informasi keliru \blx@tocontentsinit {0}\autocite {Chang2026}}}{15}{figure.caption.11}%
+\contentsline {figure}{\numberline {II.1}{\ignorespaces Contoh kegagalan penalaran akibat ketidaksesuaian waktu informasi dan penggunaan data yang mengandung informasi keliru \blx@tocontentsinit {0}\autocite {Chang2026}}}{17}{figure.caption.11}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -234,17 +268,17 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {II.2}{\ignorespaces \emph {Inference Pipeline} RAG modular berdasarkan taksonomi \blx@tocontentsinit {0}\autocite {Vizniuk2024}.}}{19}{figure.caption.12}%
+\contentsline {figure}{\numberline {II.2}{\ignorespaces \emph {Inference Pipeline} RAG modular berdasarkan taksonomi \blx@tocontentsinit {0}\autocite {Vizniuk2024}.}}{21}{figure.caption.12}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {II.3}{\ignorespaces Taksonomi RAG yang terdiri atas tahap \emph {Indexing}, \emph {Retrieval}, \emph {Fusion}, dan \emph {Generation} \blx@tocontentsinit {0}\autocite {Kamalipour2026}}}{20}{figure.caption.13}%
+\contentsline {figure}{\numberline {II.3}{\ignorespaces Taksonomi RAG yang terdiri atas tahap \emph {Indexing}, \emph {Retrieval}, \emph {Fusion}, dan \emph {Generation} \blx@tocontentsinit {0}\autocite {Kamalipour2026}}}{22}{figure.caption.13}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {II.4}{\ignorespaces Proses pengindeksan pada pipeline RAG: mulai dari pemuatan data (\emph {data loading}), pemotongan teks (\emph {chunking}), pembentukan embedding, hingga penyimpanan dalam basis data vektor (\emph {vector database}). \blx@tocontentsinit {0}\autocite {Kamalipour2026}}}{21}{figure.caption.14}%
+\contentsline {figure}{\numberline {II.4}{\ignorespaces Proses pengindeksan pada pipeline RAG: mulai dari pemuatan data (\emph {data loading}), pemotongan teks (\emph {chunking}), pembentukan embedding, hingga penyimpanan dalam basis data vektor (\emph {vector database}). \blx@tocontentsinit {0}\autocite {Kamalipour2026}}}{23}{figure.caption.14}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -367,7 +401,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {II.5}{\ignorespaces Gambaran umum \emph {pipeline} Graph-RAG: ekstraksi triple, penelusuran subgraf (\emph {sub-graph traversal}), serta integrasi hibrida antara representasi vektor dan simbolik.\blx@tocontentsinit {0}\autocite {Kamalipour2026}}}{29}{figure.caption.15}%
+\contentsline {figure}{\numberline {II.5}{\ignorespaces Gambaran umum \emph {pipeline} Graph-RAG: ekstraksi triple, penelusuran subgraf (\emph {sub-graph traversal}), serta integrasi hibrida antara representasi vektor dan simbolik.\blx@tocontentsinit {0}\autocite {Kamalipour2026}}}{31}{figure.caption.15}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -406,7 +440,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {II.6}{\ignorespaces Gambaran umum rancangan empiris yang digunakan untuk menguji korelasi antara sinyal kepercayaan komunitas Stack Overflow dengan akurasi jawaban LLM. \blx@tocontentsinit {0}\autocite {DaSilva2025}}}{37}{figure.caption.17}%
+\contentsline {figure}{\numberline {II.6}{\ignorespaces Gambaran umum rancangan empiris yang digunakan untuk menguji korelasi antara sinyal kepercayaan komunitas Stack Overflow dengan akurasi jawaban LLM. \blx@tocontentsinit {0}\autocite {DaSilva2025}}}{39}{figure.caption.17}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -417,7 +451,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {II.7}{\ignorespaces Distribusi domain pertanyaan untuk jawaban LLM dengan kemiripan tinggi dan rendah terhadap komunitas Stack Overflow. \blx@tocontentsinit {0}\autocite {DaSilva2025}}}{38}{figure.caption.19}%
+\contentsline {figure}{\numberline {II.7}{\ignorespaces Distribusi domain pertanyaan untuk jawaban LLM dengan kemiripan tinggi dan rendah terhadap komunitas Stack Overflow. \blx@tocontentsinit {0}\autocite {DaSilva2025}}}{40}{figure.caption.19}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -464,7 +498,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {II.8}{\ignorespaces Tahapan evaluasi \emph {LLM-as-a-Judge} yang meliputi pemberian konteks, inferensi model penilai, \emph {post-processing}, dan agregasi skor \blx@tocontentsinit {0}\autocite {Gu2026}.}}{44}{figure.caption.21}%
+\contentsline {figure}{\numberline {II.8}{\ignorespaces Tahapan evaluasi \emph {LLM-as-a-Judge} yang meliputi pemberian konteks, inferensi model penilai, \emph {post-processing}, dan agregasi skor \blx@tocontentsinit {0}\autocite {Gu2026}.}}{46}{figure.caption.21}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -557,7 +591,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {II.9}{\ignorespaces Kerangka konseptual penelitian}}{49}{figure.caption.23}%
+\contentsline {figure}{\numberline {II.9}{\ignorespaces Kerangka konseptual penelitian}}{51}{figure.caption.23}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -579,7 +613,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {III.1}{\ignorespaces Model konseptual sistem tanya-jawab berbasis LLM generik tanpa mekanisme pengambilan konteks dari sumber terverifikasi.}}{54}{figure.caption.24}%
+\contentsline {figure}{\numberline {III.1}{\ignorespaces Model konseptual sistem tanya-jawab berbasis LLM generik tanpa mekanisme pengambilan konteks dari sumber terverifikasi.}}{56}{figure.caption.24}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -648,18 +682,22 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {III.2}{\ignorespaces Arsitektur \emph {GraphRAG Framework} yang terdiri atas tiga blok utama (Konstruksi KG Berbobot, \emph {Hybrid Retrieval}, dan \emph {Grounded Generation}) beserta blok evaluasi komparatif.}}{63}{figure.caption.30}%
+\contentsline {figure}{\numberline {III.2}{\ignorespaces Arsitektur \emph {GraphRAG Framework} yang terdiri atas tiga blok utama (Konstruksi KG Berbobot, \emph {Hybrid Retrieval}, dan \emph {Grounded Generation}) beserta blok evaluasi komparatif.}}{65}{figure.caption.30}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {III.3}{\ignorespaces Contoh subgraf \emph {knowledge graph} berbobot dari SORD pada domain autentikasi FastAPI}}{67}{figure.caption.32}%
+\contentsline {figure}{\numberline {III.3}{\ignorespaces Contoh subgraf \emph {knowledge graph} berbobot dari SORD pada domain autentikasi FastAPI}}{69}{figure.caption.32}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {III.4}{\ignorespaces Flowchart konstruksi \emph {knowledge graph} berbobot dari dataset SORD.}}{68}{figure.caption.33}%
+\contentsline {figure}{\numberline {III.4}{\ignorespaces Flowchart konstruksi \emph {knowledge graph} berbobot dari dataset SORD.}}{70}{figure.caption.33}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {III.5}{\ignorespaces Alur mekanisme \emph {hybrid retrieval} pada \emph {GraphRAG Framework}.}}{71}{figure.caption.34}%
+\contentsline {figure}{\numberline {III.5}{\ignorespaces Alur mekanisme \emph {hybrid retrieval} pada \emph {GraphRAG Framework}.}}{73}{figure.caption.34}%
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 

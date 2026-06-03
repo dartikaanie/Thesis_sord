@@ -130,6 +130,26 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
 \contentsline {section}{\numberline {I.2}Rumusan Masalah}{5}{section.1.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
@@ -141,18 +161,18 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {section}{\numberline {I.3}Tujuan}{6}{section.1.3}%
-\contentsline {section}{\numberline {I.4}Manfaat Penelitian}{6}{section.1.4}%
-\contentsline {section}{\numberline {I.5}Ruang Lingkup dan Batasan Masalah}{7}{section.1.5}%
-\contentsline {section}{\numberline {I.6}Hipotesis}{8}{section.1.6}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {section}{\numberline {I.3}Tujuan}{7}{section.1.3}%
+\contentsline {section}{\numberline {I.4}Manfaat Penelitian}{7}{section.1.4}%
+\contentsline {section}{\numberline {I.5}Ruang Lingkup dan Batasan Masalah}{8}{section.1.5}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {section}{\numberline {I.6}Hipotesis}{9}{section.1.6}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -171,13 +191,8 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {section}{\numberline {I.7}Metodologi Penelitian}{9}{section.1.7}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {section}{\numberline {I.8}Sistematika Penulisan}{10}{section.1.8}%
-\contentsline {chapter}{\numberline {II}STUDI LITERATUR}{13}{chapter.2}%
-\contentsline {section}{\numberline {II.1}Halusinasi pada \emph {Large Language Model}}{13}{section.2.1}%
-\contentsline {subsection}{\numberline {II.1.1}Definisi dan Taksonomi Halusinasi}{13}{subsection.2.1.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -188,11 +203,15 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {section}{\numberline {I.7}Metodologi Penelitian}{10}{section.1.7}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsection}{\numberline {II.1.2}Akar Penyebab Halusinasi}{14}{subsection.2.1.2}%
+\contentsline {section}{\numberline {I.8}Sistematika Penulisan}{12}{section.1.8}%
+\contentsline {chapter}{\numberline {II}STUDI LITERATUR}{15}{chapter.2}%
+\contentsline {section}{\numberline {II.1}Halusinasi pada \emph {Large Language Model}}{15}{section.2.1}%
+\contentsline {subsection}{\numberline {II.1.1}Definisi dan Taksonomi Halusinasi}{15}{subsection.2.1.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -203,11 +222,11 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsection}{\numberline {II.1.3}Dampak Halusinasi pada Domain Pemrograman}{15}{subsection.2.1.3}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsection}{\numberline {II.1.2}Akar Penyebab Halusinasi}{16}{subsection.2.1.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -218,17 +237,15 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsection}{\numberline {II.1.3}Dampak Halusinasi pada Domain Pemrograman}{17}{subsection.2.1.3}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {section}{\numberline {II.2}\emph {Large Language Model}: Pengetahuan Parametrik dan Keterbatasannya}{16}{section.2.2}%
-\contentsline {subsection}{\numberline {II.2.1}Sifat Parametrik LLM dan Mekanisme Generasi}{16}{subsection.2.2.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsection}{\numberline {II.2.2}Keterbatasan Pengetahuan Parametrik}{17}{subsection.2.2.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -239,12 +256,13 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {section}{\numberline {II.2}\emph {Large Language Model}: Pengetahuan Parametrik dan Keterbatasannya}{18}{section.2.2}%
+\contentsline {subsection}{\numberline {II.2.1}Sifat Parametrik LLM dan Mekanisme Generasi}{18}{subsection.2.2.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {section}{\numberline {II.3}\emph {Retrieval-Augmented Generation} (RAG)}{17}{section.2.3}%
-\contentsline {subsection}{\numberline {II.3.1}Konsep Dasar dan Motivasi}{17}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {II.2.2}Keterbatasan Pengetahuan Parametrik}{19}{subsection.2.2.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -253,13 +271,14 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsection}{\numberline {II.3.2}Komponen Utama RAG}{18}{subsection.2.3.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {section}{\numberline {II.3}\emph {Retrieval-Augmented Generation} (RAG)}{19}{section.2.3}%
+\contentsline {subsection}{\numberline {II.3.1}Konsep Dasar dan Motivasi}{19}{subsection.2.3.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -268,10 +287,9 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsection}{\numberline {II.3.2}Komponen Utama RAG}{20}{subsection.2.3.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsubsection}{\numberline {II.3.2.1}Pengindeksan Basis Pengetahuan (\emph {Indexing}).}{20}{subsubsection.2.3.2.1}%
-\contentsline {subsubsection}{\numberline {II.3.2.2}Pengambilan Informasi (\emph {Retrieval}).}{20}{subsubsection.2.3.2.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -282,50 +300,50 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsubsection}{\numberline {II.3.2.3}\emph {Fusion}(\emph {Pre-filtering \& Reranking}).}{21}{subsubsection.2.3.2.3}%
-\contentsline {subsubsection}{\numberline {II.3.2.4}Augmentasi Konteks dan Generasi respons (\emph {Augmentation \& Generation}).}{22}{subsubsection.2.3.2.4}%
-\contentsline {subsection}{\numberline {II.3.3}Penerapan RAG pada Domain Pemrograman}{22}{subsection.2.3.3}%
-\contentsline {subsubsection}{\numberline {II.3.3.1}Peningkatan kualitas kode (\emph {code generation} dan \emph {refactoring}).}{22}{subsubsection.2.3.3.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsubsection}{\numberline {II.3.2.1}Pengindeksan Basis Pengetahuan (\emph {Indexing}).}{22}{subsubsection.2.3.2.1}%
+\contentsline {subsubsection}{\numberline {II.3.2.2}Pengambilan Informasi (\emph {Retrieval}).}{22}{subsubsection.2.3.2.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsubsection}{\numberline {II.3.3.2}Deteksi anomali \emph {log} sistem (\emph {AIOps}).}{23}{subsubsection.2.3.3.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsubsection}{\numberline {II.3.3.3}Pembuatan kode SQL dan integrasi basis data domain-spesifik.}{23}{subsubsection.2.3.3.3}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsubsection}{\numberline {II.3.2.3}\emph {Fusion}(\emph {Pre-filtering \& Reranking}).}{23}{subsubsection.2.3.2.3}%
+\contentsline {subsubsection}{\numberline {II.3.2.4}Augmentasi Konteks dan Generasi respons (\emph {Augmentation \& Generation}).}{24}{subsubsection.2.3.2.4}%
+\contentsline {subsection}{\numberline {II.3.3}Penerapan RAG pada Domain Pemrograman}{24}{subsection.2.3.3}%
+\contentsline {subsubsection}{\numberline {II.3.3.1}Peningkatan kualitas kode (\emph {code generation} dan \emph {refactoring}).}{24}{subsubsection.2.3.3.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsubsection}{\numberline {II.3.3.4}Adopsi RAG pada pengembangan perangkat lunak industri.}{23}{subsubsection.2.3.3.4}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsection}{\numberline {II.3.4}Keterbatasan RAG Konvensional dalam Domain Pemrograman}{23}{subsection.2.3.4}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsubsection}{\numberline {II.3.3.2}Deteksi anomali \emph {log} sistem (\emph {AIOps}).}{25}{subsubsection.2.3.3.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsubsection}{\numberline {II.3.3.3}Pembuatan kode SQL dan integrasi basis data domain-spesifik.}{25}{subsubsection.2.3.3.3}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {section}{\numberline {II.4}\emph {Knowledge Graph}}{24}{section.2.4}%
-\contentsline {subsection}{\numberline {II.4.1}Definisi dan Representasi Formal}{24}{subsection.2.4.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsubsection}{\numberline {II.3.3.4}Adopsi RAG pada pengembangan perangkat lunak industri.}{25}{subsubsection.2.3.3.4}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsection}{\numberline {II.3.4}Keterbatasan RAG Konvensional dalam Domain Pemrograman}{25}{subsection.2.3.4}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -334,6 +352,8 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {section}{\numberline {II.4}\emph {Knowledge Graph}}{26}{section.2.4}%
+\contentsline {subsection}{\numberline {II.4.1}Definisi dan Representasi Formal}{26}{subsection.2.4.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -348,7 +368,6 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsection}{\numberline {II.4.2}Konstruksi \emph {Knowledge Graph} dari Teks Tidak Terstruktur}{25}{subsection.2.4.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -363,6 +382,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsection}{\numberline {II.4.2}Konstruksi \emph {Knowledge Graph} dari Teks Tidak Terstruktur}{27}{subsection.2.4.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -381,7 +401,6 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsection}{\numberline {II.4.3}Keunggulan Representasi Berbasis Graf dan Integrasi dengan LLM}{27}{subsection.2.4.3}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -390,107 +409,107 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {section}{\numberline {II.5}\emph {Graph-based Retrieval-Augmented Generation}}{27}{section.2.5}%
-\contentsline {subsection}{\numberline {II.5.1}Motivasi dan Definisi}{27}{subsection.2.5.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsection}{\numberline {II.4.3}Keunggulan Representasi Berbasis Graf dan Integrasi dengan LLM}{29}{subsection.2.4.3}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsection}{\numberline {II.5.2}Arsitektur \emph {Pipeline} GraphRAG}{28}{subsection.2.5.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {section}{\numberline {II.5}\emph {Graph-based Retrieval-Augmented Generation}}{29}{section.2.5}%
+\contentsline {subsection}{\numberline {II.5.1}Motivasi dan Definisi}{29}{subsection.2.5.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsubsection}{\numberline {II.5.2.1}Konstruksi \emph {Knowledge Graph}.}{28}{subsubsection.2.5.2.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsubsection}{\numberline {II.5.2.2}\emph {Retrieval} dan Penalaran Berbasis Graf.}{28}{subsubsection.2.5.2.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsubsection}{\numberline {II.5.2.3}Integrasi Konteks Berbasis Struktur.}{29}{subsubsection.2.5.2.3}%
-\contentsline {subsubsection}{\numberline {II.5.2.4}Perbandingan Kuantitatif: Vector RAG dan GraphRAG}{29}{subsubsection.2.5.2.4}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsection}{\numberline {II.5.2}Arsitektur \emph {Pipeline} GraphRAG}{30}{subsection.2.5.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsection}{\numberline {II.5.3}Hybrid Retrieval pada GraphRAG: Penalaran Simbolik dan Semantik}{30}{subsection.2.5.3}%
-\contentsline {subsubsection}{\numberline {II.5.3.1}Semantic Retrieval: Keunggulan dan Keterbatasan}{31}{subsubsection.2.5.3.1}%
+\contentsline {subsubsection}{\numberline {II.5.2.1}Konstruksi \emph {Knowledge Graph}.}{30}{subsubsection.2.5.2.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsubsection}{\numberline {II.5.3.2}Symbolic Retrieval: Keunggulan dan Keterbatasan}{31}{subsubsection.2.5.3.2}%
+\contentsline {subsubsection}{\numberline {II.5.2.2}\emph {Retrieval} dan Penalaran Berbasis Graf.}{30}{subsubsection.2.5.2.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsubsection}{\numberline {II.5.3.3}Multi-hop Reasoning sebagai Justifikasi Pendekatan Hibrid}{31}{subsubsection.2.5.3.3}%
-\contentsline {subsubsection}{\numberline {II.5.3.4}Trade-off antara Presisi Retrieval dan Cakupan Kontekstual}{32}{subsubsection.2.5.3.4}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsubsection}{\numberline {II.5.2.3}Integrasi Konteks Berbasis Struktur.}{31}{subsubsection.2.5.2.3}%
+\contentsline {subsubsection}{\numberline {II.5.2.4}Perbandingan Kuantitatif: Vector RAG dan GraphRAG}{31}{subsubsection.2.5.2.4}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsection}{\numberline {II.5.4}Hasil Penelitian tentang Efektivitas GraphRAG}{33}{subsection.2.5.4}%
-\contentsline {subsubsection}{\numberline {II.5.4.1}Pengurangan Halusinasi melalui Grounded Generation}{33}{subsubsection.2.5.4.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsubsection}{\numberline {II.5.4.2}Kemampuan \emph {Multi-hop Reasoning} pada Pertanyaan Relasional}{33}{subsubsection.2.5.4.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsubsection}{\numberline {II.5.4.3}Knowledge Graph sebagai Sumber Pengetahuan Otoritatif}{34}{subsubsection.2.5.4.3}%
+\contentsline {subsection}{\numberline {II.5.3}Hybrid Retrieval pada GraphRAG: Penalaran Simbolik dan Semantik}{32}{subsection.2.5.3}%
+\contentsline {subsubsection}{\numberline {II.5.3.1}Semantic Retrieval: Keunggulan dan Keterbatasan}{33}{subsubsection.2.5.3.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsection}{\numberline {II.5.5}Aplikasi GraphRAG pada Domain Pemrograman dan Rekayasa Perangkat Lunak}{34}{subsection.2.5.5}%
-\contentsline {subsubsection}{\numberline {II.5.5.1}Penyelesaian Kode Berbasis Graf Dependensi}{34}{subsubsection.2.5.5.1}%
+\contentsline {subsubsection}{\numberline {II.5.3.2}Symbolic Retrieval: Keunggulan dan Keterbatasan}{33}{subsubsection.2.5.3.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsubsection}{\numberline {II.5.5.2}Generasi SQL dan Penalaran Relasional}{35}{subsubsection.2.5.5.2}%
+\contentsline {subsubsection}{\numberline {II.5.3.3}Multi-hop Reasoning sebagai Justifikasi Pendekatan Hibrid}{33}{subsubsection.2.5.3.3}%
+\contentsline {subsubsection}{\numberline {II.5.3.4}Trade-off antara Presisi Retrieval dan Cakupan Kontekstual}{34}{subsubsection.2.5.3.4}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsubsection}{\numberline {II.5.5.3}Analisis Lisensi sebagai Representasi Domain Teknis}{35}{subsubsection.2.5.5.3}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsubsection}{\numberline {II.5.5.4}Implikasi terhadap Penelitian Berbasis Stack Overflow}{35}{subsubsection.2.5.5.4}%
-\contentsline {subsection}{\numberline {II.5.6}Sintesis dan Posisi Penelitian}{36}{subsection.2.5.6}%
-\contentsline {section}{\numberline {II.6}Stack Overflow sebagai Basis Pengetahuan Tervalidasi Sosial}{36}{section.2.6}%
-\contentsline {subsection}{\numberline {II.6.1}Struktur dan Mekanisme Kurasi Komunitas}{36}{subsection.2.6.1}%
+\contentsline {subsection}{\numberline {II.5.4}Hasil Penelitian tentang Efektivitas GraphRAG}{35}{subsection.2.5.4}%
+\contentsline {subsubsection}{\numberline {II.5.4.1}Pengurangan Halusinasi melalui Grounded Generation}{35}{subsubsection.2.5.4.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsubsection}{\numberline {II.5.4.2}Kemampuan \emph {Multi-hop Reasoning} pada Pertanyaan Relasional}{35}{subsubsection.2.5.4.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsection}{\numberline {II.6.2}Sinyal Kepercayaan sebagai Proksi Kualitas}{36}{subsection.2.6.2}%
+\contentsline {subsubsection}{\numberline {II.5.4.3}Knowledge Graph sebagai Sumber Pengetahuan Otoritatif}{36}{subsubsection.2.5.4.3}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsection}{\numberline {II.6.3}Pemanfaatan Konten Stack Overflow dalam Sistem AI}{37}{subsection.2.6.3}%
+\contentsline {subsection}{\numberline {II.5.5}Aplikasi GraphRAG pada Domain Pemrograman dan Rekayasa Perangkat Lunak}{36}{subsection.2.5.5}%
+\contentsline {subsubsection}{\numberline {II.5.5.1}Penyelesaian Kode Berbasis Graf Dependensi}{36}{subsubsection.2.5.5.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsubsection}{\numberline {II.5.5.2}Generasi SQL dan Penalaran Relasional}{37}{subsubsection.2.5.5.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsubsection}{\numberline {II.5.5.3}Analisis Lisensi sebagai Representasi Domain Teknis}{37}{subsubsection.2.5.5.3}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsubsection}{\numberline {II.5.5.4}Implikasi terhadap Penelitian Berbasis Stack Overflow}{37}{subsubsection.2.5.5.4}%
+\contentsline {subsection}{\numberline {II.5.6}Sintesis dan Posisi Penelitian}{38}{subsection.2.5.6}%
+\contentsline {section}{\numberline {II.6}Stack Overflow sebagai Basis Pengetahuan Tervalidasi Sosial}{38}{section.2.6}%
+\contentsline {subsection}{\numberline {II.6.1}Struktur dan Mekanisme Kurasi Komunitas}{38}{subsection.2.6.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsection}{\numberline {II.6.2}Sinyal Kepercayaan sebagai Proksi Kualitas}{38}{subsection.2.6.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsection}{\numberline {II.6.4}\emph {Stack Overflow Recommendations Dataset} (SORD) sebagai Sumber Data Penelitian}{38}{subsection.2.6.4}%
+\contentsline {subsection}{\numberline {II.6.3}Pemanfaatan Konten Stack Overflow dalam Sistem AI}{39}{subsection.2.6.3}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -499,61 +518,60 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {section}{\numberline {II.7}\emph {Grounded Generation} dan \emph {Faithfulness} pada LLM}{39}{section.2.7}%
-\contentsline {subsection}{\numberline {II.7.1}Definisi dan Motivasi}{39}{subsection.2.7.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsection}{\numberline {II.6.4}\emph {Stack Overflow Recommendations Dataset} (SORD) sebagai Sumber Data Penelitian}{40}{subsection.2.6.4}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsection}{\numberline {II.7.2}\emph {Provenance} sebagai Mekanisme Keterlacakan}{40}{subsection.2.7.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsection}{\numberline {II.7.3}\emph {Dual-Constraint} sebagai Mekanisme \emph {Grounded Generation}}{41}{subsection.2.7.3}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {section}{\numberline {II.8}Evaluasi Keandalan \emph {Large Language Model}}{41}{section.2.8}%
-\contentsline {subsection}{\numberline {II.8.1}Tantangan Evaluasi pada Sistem GraphRAG}{41}{subsection.2.8.1}%
+\contentsline {section}{\numberline {II.7}\emph {Grounded Generation} dan \emph {Faithfulness} pada LLM}{41}{section.2.7}%
+\contentsline {subsection}{\numberline {II.7.1}Definisi dan Motivasi}{41}{subsection.2.7.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsection}{\numberline {II.8.2}Dimensi Evaluasi pada Sistem GraphRAG}{42}{subsection.2.8.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsection}{\numberline {II.7.2}\emph {Provenance} sebagai Mekanisme Keterlacakan}{42}{subsection.2.7.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsection}{\numberline {II.7.3}\emph {Dual-Constraint} sebagai Mekanisme \emph {Grounded Generation}}{43}{subsection.2.7.3}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsection}{\numberline {II.8.3}Kerangka RAGAS sebagai Protokol Evaluasi}{43}{subsection.2.8.3}%
+\contentsline {section}{\numberline {II.8}Evaluasi Keandalan \emph {Large Language Model}}{43}{section.2.8}%
+\contentsline {subsection}{\numberline {II.8.1}Tantangan Evaluasi pada Sistem GraphRAG}{43}{subsection.2.8.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsection}{\numberline {II.8.4}Paradigma \emph {LLM-as-a-Judge}}{44}{subsection.2.8.4}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsection}{\numberline {II.8.2}Dimensi Evaluasi pada Sistem GraphRAG}{44}{subsection.2.8.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {section}{\numberline {II.9}Sintesis Penelitian Terkait dan \emph {Research Gap}}{45}{section.2.9}%
-\contentsline {subsection}{\numberline {II.9.1}Analisis Penelitian Terkait}{45}{subsection.2.9.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsection}{\numberline {II.8.3}Kerangka RAGAS sebagai Protokol Evaluasi}{45}{subsection.2.8.3}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsection}{\numberline {II.8.4}Paradigma \emph {LLM-as-a-Judge}}{46}{subsection.2.8.4}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -562,6 +580,8 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {section}{\numberline {II.9}Sintesis Penelitian Terkait dan \emph {Research Gap}}{47}{section.2.9}%
+\contentsline {subsection}{\numberline {II.9.1}Analisis Penelitian Terkait}{47}{subsection.2.9.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -606,7 +626,6 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsection}{\numberline {II.9.2}Identifikasi Kesenjangan}{47}{subsection.2.9.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -621,6 +640,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsection}{\numberline {II.9.2}Identifikasi Kesenjangan}{49}{subsection.2.9.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -635,7 +655,6 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsection}{\numberline {II.9.3}Kerangka Konseptual Penelitian}{48}{subsection.2.9.3}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -650,16 +669,13 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsection}{\numberline {II.9.3}Kerangka Konseptual Penelitian}{50}{subsection.2.9.3}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {chapter}{\numberline {III}Analisis dan Desain}{53}{chapter.3}%
-\contentsline {section}{\numberline {III.1}Analisis Kondisi Saat Ini}{53}{section.3.1}%
-\contentsline {subsection}{\numberline {III.1.1}Model Konseptual Sistem yang Ada}{53}{subsection.3.1.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsection}{\numberline {III.1.2}Analisis Keterbatasan Sistem Saat Ini}{54}{subsection.3.1.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -670,13 +686,16 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {chapter}{\numberline {III}Analisis dan Desain}{55}{chapter.3}%
+\contentsline {section}{\numberline {III.1}Analisis Kondisi Saat Ini}{55}{section.3.1}%
+\contentsline {subsection}{\numberline {III.1.1}Model Konseptual Sistem yang Ada}{55}{subsection.3.1.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsection}{\numberline {III.1.2}Analisis Keterbatasan Sistem Saat Ini}{56}{subsection.3.1.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsection}{\numberline {III.1.3}Identifikasi Masalah}{55}{subsection.3.1.3}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -689,36 +708,37 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {section}{\numberline {III.2}Analisis Kebutuhan}{56}{section.3.2}%
-\contentsline {subsection}{\numberline {III.2.1}Identifikasi Kebutuhan Pengguna}{56}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {III.2.2}Kebutuhan Fungsional}{58}{subsection.3.2.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsection}{\numberline {III.1.3}Identifikasi Masalah}{57}{subsection.3.1.3}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsection}{\numberline {III.2.3}Kebutuhan Nonfungsional}{59}{subsection.3.2.3}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {section}{\numberline {III.3}Analisis Pemilihan Solusi}{60}{section.3.3}%
-\contentsline {subsection}{\numberline {III.3.1}Alternatif Solusi}{60}{subsection.3.3.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {section}{\numberline {III.2}Analisis Kebutuhan}{58}{section.3.2}%
+\contentsline {subsection}{\numberline {III.2.1}Identifikasi Kebutuhan Pengguna}{58}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {III.2.2}Kebutuhan Fungsional}{60}{subsection.3.2.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsection}{\numberline {III.2.3}Kebutuhan Nonfungsional}{61}{subsection.3.2.3}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {section}{\numberline {III.3}Analisis Pemilihan Solusi}{62}{section.3.3}%
+\contentsline {subsection}{\numberline {III.3.1}Alternatif Solusi}{62}{subsection.3.3.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -727,7 +747,6 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsection}{\numberline {III.3.2}Analisis Penentuan Solusi}{61}{subsection.3.3.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -736,44 +755,42 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {section}{\numberline {III.4}Desain Konseptual \emph {GraphRAG Framework}}{61}{section.3.4}%
-\contentsline {subsection}{\numberline {III.4.1}Gambaran Umum Arsitektur}{61}{subsection.3.4.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsection}{\numberline {III.4.2}Desain \emph {Knowledge Graph} Berbobot dari SORD}{64}{subsection.3.4.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsubsection}{\numberline {III.4.2.1}Tipe Simpul}{65}{subsubsection.3.4.2.1}%
-\contentsline {subsubsection}{\numberline {III.4.2.2}Tipe Sisi dan Skema Bobot Kepercayaan}{65}{subsubsection.3.4.2.2}%
-\contentsline {subsubsection}{\numberline {III.4.2.3}Proses Konstruksi KG}{67}{subsubsection.3.4.2.3}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsection}{\numberline {III.4.3}Desain Mekanisme \emph {Hybrid Retrieval}}{69}{subsection.3.4.3}%
-\contentsline {subsubsection}{\numberline {III.4.3.1}\emph {Entity Anchoring}}{69}{subsubsection.3.4.3.1}%
+\contentsline {subsection}{\numberline {III.3.2}Analisis Penentuan Solusi}{63}{subsection.3.3.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsubsection}{\numberline {III.4.3.2}\emph {Graph Traversal}}{69}{subsubsection.3.4.3.2}%
-\contentsline {subsubsection}{\numberline {III.4.3.3}\emph {Semantic Expansion}}{70}{subsubsection.3.4.3.3}%
-\contentsline {subsubsection}{\numberline {III.4.3.4}\emph {Fusi Konteks} Terverifikasi}{70}{subsubsection.3.4.3.4}%
-\contentsline {subsection}{\numberline {III.4.4}Desain \emph {Grounded Generation}}{72}{subsection.3.4.4}%
-\contentsline {subsubsection}{\numberline {III.4.4.1}Mekanisme \emph {Dual-Constraint}}{72}{subsubsection.3.4.4.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {section}{\numberline {III.4}Desain Konseptual \emph {GraphRAG Framework}}{63}{section.3.4}%
+\contentsline {subsection}{\numberline {III.4.1}Gambaran Umum Arsitektur}{63}{subsection.3.4.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsubsection}{\numberline {III.4.4.2}\emph {Provenance} sebagai Mekanisme Keterlacakan}{73}{subsubsection.3.4.4.2}%
+\contentsline {subsection}{\numberline {III.4.2}Desain \emph {Knowledge Graph} Berbobot dari SORD}{66}{subsection.3.4.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsubsection}{\numberline {III.4.4.3}Output Sistem}{73}{subsubsection.3.4.4.3}%
-\contentsline {subsection}{\numberline {III.4.5}Desain Evaluasi}{73}{subsection.3.4.5}%
+\contentsline {subsubsection}{\numberline {III.4.2.1}Tipe Simpul}{67}{subsubsection.3.4.2.1}%
+\contentsline {subsubsection}{\numberline {III.4.2.2}Tipe Sisi dan Skema Bobot Kepercayaan}{67}{subsubsection.3.4.2.2}%
+\contentsline {subsubsection}{\numberline {III.4.2.3}Proses Konstruksi KG}{69}{subsubsection.3.4.2.3}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsection}{\numberline {III.4.3}Desain Mekanisme \emph {Hybrid Retrieval}}{71}{subsection.3.4.3}%
+\contentsline {subsubsection}{\numberline {III.4.3.1}\emph {Entity Anchoring}}{71}{subsubsection.3.4.3.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsubsection}{\numberline {III.4.3.2}\emph {Graph Traversal}}{71}{subsubsection.3.4.3.2}%
+\contentsline {subsubsection}{\numberline {III.4.3.3}\emph {Semantic Expansion}}{72}{subsubsection.3.4.3.3}%
+\contentsline {subsubsection}{\numberline {III.4.3.4}\emph {Fusi Konteks} Terverifikasi}{72}{subsubsection.3.4.3.4}%
+\contentsline {subsection}{\numberline {III.4.4}Desain \emph {Grounded Generation}}{74}{subsection.3.4.4}%
+\contentsline {subsubsection}{\numberline {III.4.4.1}Mekanisme \emph {Dual-Constraint}}{74}{subsubsection.3.4.4.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -782,7 +799,28 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {section}{\numberline {III.5}Ringkasan Desain}{75}{section.3.5}%
+\contentsline {subsubsection}{\numberline {III.4.4.2}\emph {Provenance} sebagai Mekanisme Keterlacakan}{75}{subsubsection.3.4.4.2}%
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\contentsline {subsubsection}{\numberline {III.4.4.3}Output Sistem}{75}{subsubsection.3.4.4.3}%
+\contentsline {subsection}{\numberline {III.4.5}Desain Evaluasi}{75}{subsection.3.4.5}%
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\contentsline {section}{\numberline {III.5}Ringkasan Desain}{77}{section.3.5}%
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
