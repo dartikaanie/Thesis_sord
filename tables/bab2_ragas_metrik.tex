@@ -3,15 +3,29 @@
 \caption{Metrik RAGAS dalam evaluasi GraphRAG berbasis Stack Overflow}
 \label{tab:ragas_metrics}
 \small
-\begin{tabular}{llp{6.5cm}}
+\begin{tabular}{|p{2.8cm}|p{3.5cm}|p{7.2cm}|}
 \hline
 \textbf{Kategori} & \textbf{Metrik} & \textbf{Interpretasi} \\
 \hline
-Retrieval & \emph{context\_relevancy} & Relevansi subgraf terhadap kueri pemrograman \\
-Retrieval & \emph{context\_recall} & Kelengkapan informasi yang berhasil diambil \\
-Generation & \emph{faithfulness} & Tingkat keterlacakan jawaban terhadap KG \\
-Generation & \emph{answer\_relevance} & Kesesuaian jawaban terhadap kebutuhan pengguna \\
-Overall & \texttt{ragas\_score} & Nilai keseluruhan kualitas sistem \\
+Retrieval &
+\emph{context\_relevancy} &
+Relevansi subgraf yang diambil terhadap kueri pemrograman yang diajukan pengguna \\
+\hline
+Retrieval &
+\emph{context\_recall} &
+Tingkat kelengkapan informasi yang berhasil diambil dari \emph{knowledge graph} untuk menjawab kueri \\
+\hline
+Generation &
+\emph{faithfulness} &
+Derajat keterlacakan dan konsistensi jawaban terhadap fakta yang terdapat pada \emph{knowledge graph} \\
+\hline
+Generation &
+\emph{answer\_relevance} &
+Kesesuaian jawaban yang dihasilkan dengan kebutuhan informasi pengguna \\
+\hline
+Overall &
+\texttt{ragas\_score} &
+Skor agregat yang merepresentasikan kualitas keseluruhan sistem GraphRAG \\
 \hline
 \end{tabular}
 \end{table}

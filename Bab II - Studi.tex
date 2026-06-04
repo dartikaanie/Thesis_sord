@@ -94,7 +94,7 @@ prompt(\emph{augmentation}), kemudian menghasilkan respons berdasarkan konteks t
  
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=\textwidth]{images/vizniuk_rag_pipeline.png}
+\includegraphics[width=0.5\textwidth]{images/vizniuk_rag_pipeline.png}
 \caption{\emph{Inference Pipeline} RAG modular berdasarkan taksonomi \autocite{Vizniuk2024}.}
 \label{fig:vizniuk_rag_pipeline}
 \end{figure}
@@ -115,7 +115,7 @@ Sebelum proses inferensi dijalankan, dokumen-dokumen yang berada di dalam reposi
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=\textwidth]{images/The_indexing_ process_in_a_RAG_pipeline}
-    \caption{Proses pengindeksan pada pipeline RAG: mulai dari pemuatan data (\emph{data loading}), pemotongan teks (\emph{chunking}), pembentukan embedding, hingga penyimpanan dalam basis data vektor (\emph{vector database}). \autocite{Kamalipour2026}}.
+    \caption{Proses pengindeksan pada pipeline RAG \autocite{Kamalipour2026}}.
     \label{fig: indexing_process_in_a_RAG}
 \end{figure}
  
@@ -306,7 +306,7 @@ penalaran berbasis pengetahuan sekaligus membantu mengurangi halusinasi faktual.
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\textwidth]{images/Graph_RAG_pipeline}
-\caption{Gambaran umum \emph{pipeline} Graph-RAG: ekstraksi triple, penelusuran subgraf (\emph{sub-graph traversal}), serta integrasi hibrida antara representasi vektor dan simbolik.\autocite{Kamalipour2026}}
+\caption{Gambaran umum \emph{pipeline} Graph-RAG \autocite{Kamalipour2026}}
 \label{fig:graphrag_pipeline}
 \end{figure}
  
@@ -575,7 +575,7 @@ Nilai RAGAS yang mendekati 1,0 menunjukkan bahwa sistem mampu mengambil konteks 
 \subsection{Paradigma \emph{LLM-as-a-Judge}}
 Evaluasi manual terhadap ratusan jawaban pemrograman memerlukan sumber daya yang besar. Oleh karena itu, penelitian ini memanfaatkan paradigma \emph{LLM-as-a-Judge}, yaitu pendekatan yang menggunakan LLM sebagai penilai otomatis terhadap keluaran model lain \autocite{Gu2026}. Pendekatan ini memungkinkan evaluasi dilakukan secara lebih cepat dan skalabel, khususnya untuk menilai kualitas seperti \emph{faithfulness}, relevansi jawaban, dan kegunaan solusi yang dihasilkan.
 
-\begin{figure}[!htbp]]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\textwidth]{images/gu2026_fig2_judge_pipeline}
 \caption{Tahapan evaluasi \emph{LLM-as-a-Judge} yang meliputi pemberian konteks, inferensi model penilai, \emph{post-processing}, dan agregasi skor \autocite{Gu2026}.}
@@ -596,14 +596,21 @@ Dalam konteks penelitian ini, paradigma \emph{LLM-as-a-Judge} menjadi relevan ka
 Tinjauan terhadap penelitian terdahulu menunjukkan bahwa penelitian terkait dapat dikelompokkan ke dalam empat area utama, yaitu evaluasi kemampuan LLM pada domain pemrograman, pemanfaatan LLM untuk kualitas kode, penggunaan Stack Overflow sebagai sumber konteks, dan penerapan GraphRAG pada domain teknis. Tabel~\ref{tab:penelitian_terkait} merangkum posisi masing-masing penelitian terhadap tiga dimensi utama dalam penelitian ini.
 \input{tables/bab2_penelitian_terkait.tex}
 \begin{enumerate}
-    \item \textbf{Evaluasi Komparatif LLM dan Stack Overflow}.
+    \item Evaluasi Komparatif LLM dan Stack Overflow
+    
     \textcite{DaSilva2025} dan \textcite{Kabir2024} menunjukkan bahwa LLM masih memiliki keterbatasan pada domain pemrograman jika dibandingkan dengan pengetahuan komunitas Stack Overflow. Hasil penelitian menunjukkan bahwa jawaban LLM masih sering mengandung ketidakakuratan teknis dan belum mampu melampaui kualitas solusi yang divalidasi komunitas. Meskipun demikian, kedua penelitian tersebut hanya berfokus pada evaluasi performa dan belum menawarkan mekanisme integrasi pengetahuan komunitas ke dalam sistem LLM.
-    \item \textbf{LLM untuk Kualitas Kode}.
+    
+    \item LLM untuk Kualitas Kode
+    
     Penelitian oleh \textcite{Alomari2026} dan \textcite{Jiang2026} menunjukkan bahwa LLM rentan menghasilkan halusinasi dan jawaban yang tidak konsisten pada tugas rekayasa perangkat lunak, seperti refaktorisasi dan deteksi duplikasi kode. Strategi yang digunakan masih berfokus pada \emph{prompting} dan \emph{fine-tuning}. Hingga saat ini, belum banyak penelitian yang memanfaatkan GraphRAG maupun pengetahuan komunitas tervalidasi sebagai mekanisme \emph{grounding} untuk mengurangi halusinasi pada domain pemrograman.
-    \item \textbf{RAG Berbasis Konten Stack Overflow}.
+
+    \item RAG Berbasis Konten Stack Overflow
+    
     \textcite{Nashid2023} menunjukkan bahwa penggunaan konteks dari Stack Overflow dapat meningkatkan kualitas jawaban LLM pada tugas pemrograman. Namun, pendekatan tersebut masih menggunakan \emph{dense retrieval} berbasis kemiripan vektor tanpa memanfaatkan struktur relasional maupun sinyal kepercayaan komunitas seperti \emph{upvote} dan \emph{accepted answer}. Akibatnya, seluruh informasi diperlakukan dengan bobot yang sama meskipun tingkat validasinya berbeda.
-    \item \textbf{GraphRAG pada Domain Teknis}.
+    
+    \item GraphRAG pada Domain Teknis
     Penelitian seperti PRIME \autocite{Wang2026}, PythiaRAG \autocite{Ali2026}, dan IC-HRAG \autocite{Zhou2026} membuktikan bahwa GraphRAG mampu meningkatkan akurasi retrieval sekaligus menurunkan halusinasi pada berbagai domain teknis. Namun, \emph{knowledge graph} yang digunakan umumnya dibangun dari dokumen teknis biasa dan belum memanfaatkan sumber pengetahuan komunitas dengan validasi sosial yang kuat seperti Stack Overflow.
+
 \end{enumerate}
 
 \subsection{Identifikasi Kesenjangan}
