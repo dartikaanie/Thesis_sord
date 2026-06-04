@@ -78,26 +78,32 @@ Penelitian ini diharapkan memberikan manfaat pada dua dimensi yang saling meleng
 \subsection*{Manfaat Teoritis}
  
 \begin{enumerate}
-    \item \textbf{Model arsitektur GraphRAG dengan dimensi kepercayaan sosial.}
+    \item Model arsitektur GraphRAG dengan dimensi kepercayaan sosial.
+     
     \emph{Framework} yang diusulkan memberikan kontribusi berupa model arsitektur GraphRAG yang secara eksplisit mempertimbangkan sinyal validasi sosial komunitas (\emph{upvote}, \emph{accepted answer}, reputasi kontributor) sebagai dimensi kepercayaan dalam representasi \emph{knowledge graph} dan proses pengambilan konteks. Model ini memperkaya literatur akademik pada persimpangan antara \emph{information retrieval}, \emph{knowledge graph}, dan \emph{large language model}, khususnya untuk domain teknis yang mengandalkan pengetahuan komunitas.
     
-   \item \textbf{Prinsip-prinsip desain (\emph{design principles}) yang dapat digunakan kembali.}
+   \item Prinsip-prinsip desain (\emph{design principles}) yang dapat digunakan kembali.
+    
     Penelitian ini menghasilkan prinsip-prinsip desain yang dirumuskan dari proses pengembangan dan evaluasi \emph{framework}. Prinsip-prinsip ini dapat menjadi panduan bagi penelitian serupa yang ingin mengadaptasi GraphRAG untuk domain teknis lain yang memiliki basis pengetahuan komunitas tervalidasi.
  
-    \item \textbf{Kerangka evaluasi halusinasi komparatif yang terstandarisasi.}
+    \item Kerangka evaluasi halusinasi komparatif yang terstandarisasi.
+     
     Protokol evaluasi tiga kondisi (LLM murni, RAG konvensional, GraphRAG) yang dirancang dalam penelitian ini dapat menjadi referensi metodologis bagi penelitian mitigasi halusinasi LLM di berbagai domain aplikasi.
 \end{enumerate}
  
 \subsection*{Manfaat Praktis}
  
 \begin{enumerate}
-    \item \textbf{Peningkatan keandalan bantuan pemrograman berbasis LLM.}
+    \item Peningkatan keandalan bantuan pemrograman berbasis LLM.
+    
     \emph{GraphRAG Framework} yang dihasilkan dapat diintegrasikan ke dalam alat bantu pengembang (\emph{developer tools}) berbasis LLM, seperti \emph{AI coding assistant}, untuk menghasilkan saran kode dan penjelasan teknis yang lebih akurat, konsisten, dan dapat ditelusuri sumbernya.
  
-    \item \textbf{Panduan adopsi LLM yang bertanggung jawab di industri perangkat lunak.}
+    \item Panduan adopsi LLM yang bertanggung jawab di industri perangkat lunak.
+    
     Temuan penelitian ini memberikan bukti empiris dan panduan arsitektural bagi organisasi perangkat lunak yang ingin mengadopsi LLM secara efisien dan bertanggung jawab, khususnya dalam mengelola risiko \emph{extrinsic hallucination} yang diidentifikasi sebagai hambatan utama adopsi LLM di industri.
  
-    \item \textbf{Pemanfaatan kembali aset pengetahuan komunitas Stack Overflow.}
+    \item Pemanfaatan kembali aset pengetahuan komunitas Stack Overflow.
+    
     Penelitian ini menunjukkan cara memanfaatkan lebih dari 58 juta pasang pertanyaan dan jawaban Stack Overflow yang telah tervalidasi secara sosial sebagai fondasi pengetahuan yang terstruktur. Dengan demikian, aset komunitas ini tidak hanya menjadi repositori pasif tetapi juga menjadi infrastruktur \emph{grounding} aktif untuk sistem AI generatif.
 \end{enumerate}
  
@@ -119,7 +125,7 @@ Penelitian ini berfokus pada perancangan, pengembangan, dan evaluasi \emph{Graph
  
     \item Pengukuran halusinasi dibatasi pada dimensi akurasi faktual (\emph{faithfulness}) dan konsistensi informasi (\emph{hallucination rate} dan \emph{context relevance}), tidak mencakup dimensi bias, toksisitas, atau kesesuaian gaya bahasa.
  
-    \item Penelitian ini tidak mencakup aspek skalabilitas infrastruktur dan \emph{deployment framework} ke lingkungan produksi. Seluruh eksperimen dilakukan dalam lingkungan penelitian yang terkontrol menggunakan subset data SORD yang representatif. Subset yang digunakan dibatasi pada domain Python \emph{Framework \& Library} dengan perkiraan ukuran \textbf{±5.000 pasang Q\&A} untuk konstruksi \emph{knowledge graph} (fase \emph{offline}) dan \textbf{±200 pasang Q\&A} sebagai sampel \emph{benchmark} evaluasi (fase pengujian), terdistribusi secara proporsional ke minimal 5 subtopik utama. Pembatasan ini dapat diverifikasi pada tahap implementasi dan memastikan beban komputasi tetap dapat dikelola dalam kerangka penelitian S2.
+    \item Penelitian ini tidak mencakup aspek skalabilitas infrastruktur dan \emph{deployment framework} ke lingkungan produksi. Seluruh eksperimen dilakukan dalam lingkungan penelitian yang terkontrol menggunakan subset data SORD yang representatif. Subset yang digunakan dibatasi pada domain Python \emph{Framework \& Library} dengan perkiraan ukuran ±5.000 pasang Q\&A untuk konstruksi \emph{knowledge graph} (fase \emph{offline}) dan \textbf{±200 pasang Q\&A} sebagai sampel \emph{benchmark} evaluasi (fase pengujian), terdistribusi secara proporsional ke minimal 5 subtopik utama. Pembatasan ini dapat diverifikasi pada tahap implementasi dan memastikan beban komputasi tetap dapat dikelola dalam kerangka penelitian S2.
 \end{enumerate}
  
  
@@ -138,7 +144,7 @@ Hipotesis penelitian ini diturunkan dari dua premis yang diidentifikasi pada lat
     \emph{Knowledge graph} yang dibangun dari konten Stack Overflow merepresentasikan pengetahuan teknis dalam struktur relasional yang kaya, dan sinyal kepercayaan komunitas (skor \emph{upvote}, status \emph{accepted answer}, reputasi kontributor) sebagai validitas untuk kualitas dan kebenaran informasi \autocite{DaSilva2025, Kabir2024}. Mekanisme \emph{hybrid retrieval} yang memanfaatkan struktur relasional dan bobot kepercayaan ini mampu mengidentifikasi konteks yang lebih relevan dan terverifikasi dibandingkan pencarian vektor sederhana, sebagaimana diindikasikan oleh pendekatan GraphRAG yang dikonfirmasi oleh \textcite{Zhu2026} di berbagai domain teknis (G3) dan integrasi LLM-\emph{knowledge graph} yang diuraikan oleh \textcite{Pan2024}.
 \end{enumerate}
 
-Berdasarkan kedua premis tersebut, hipotesis penelitian dirumuskan sebagai berikut : \emph{GraphRAG Framework} yang mengintegrasikan \emph{knowledge graph} berbasis pengetahuan komunitas Stack Overflow dengan mekanisme \emph{graph-guided retrieval} dan sinyal kepercayaan komunitas sebagai bobot menghasilkan reduksi halusinasi LLM yang secara statistik lebih rendah dibandingkan dua kondisi \emph{baseline} yaitu LLM murni tanpa mekanisme pengambilan konteks dan LLM dengan RAG konvensional berbasis \emph{dense retrieval} yang diukur menggunakan metrik akurasi faktual dan skor konsistensi pada \emph{benchmark} pertanyaan teknis domain pemrograman.
+Berdasarkan kedua premis tersebut, hipotesis penelitian dirumuskan sebagai berikut. \emph{GraphRAG Framework} yang mengintegrasikan \emph{knowledge graph} berbasis pengetahuan komunitas Stack Overflow dengan mekanisme \emph{graph-guided retrieval} dan sinyal kepercayaan komunitas sebagai bobot menghasilkan reduksi halusinasi LLM yang secara statistik lebih rendah dibandingkan dua kondisi \emph{baseline} yaitu LLM murni tanpa mekanisme pengambilan konteks dan LLM dengan RAG konvensional berbasis \emph{dense retrieval} yang diukur menggunakan metrik akurasi faktual dan konsistensi informasi pada benchmark pertanyaan teknis domain pemrograman. Signifikansi perbedaan antar pendekatan kemudian diuji menggunakan uji Wilcoxon Signed-Rank Test.
  
 % =========================================================
 \section{Metodologi Penelitian}

@@ -15,15 +15,15 @@
     Metrik utama \textcite{DaSilva2025}; memastikan komparabilitas
     \emph{apple-to-apple} &
     Semua \\
-\hline
-ROUGE-1/2/L &
-    Kemiripan berbasis \emph{n-gram} dengan jawaban \emph{ground truth} &
-    Semua \\
-\hline
-BERTScore &
-    Kemiripan semantik berbasis \emph{embedding} kontekstual &
-    Semua \\
-\hline
+% \hline
+% ROUGE-1/2/L &
+%     Kemiripan berbasis \emph{n-gram} dengan jawaban \emph{ground truth} &
+%     Semua \\
+% \hline
+% BERTScore &
+%     Kemiripan semantik berbasis \emph{embedding} kontekstual &
+%     Semua \\
+% \hline
 \emph{Hallucination Rate} &
     Persentase klaim yang tidak terdukung dalam jawaban
     (dinilai LLM-as-Judge \autocite{Gu2026}) &
@@ -39,9 +39,7 @@ BERTScore &
     Semua \\
 \hline
 Uji Statistik &
-    \emph{Paired t-test} ($\alpha = 0{,}05$) untuk signifikansi
-    perbedaan antar kondisi &
-    A vs C, B vs C \\
+    UJI \emph{Wilcoxon Signed-Rank} (dua sisi, $\alpha = 0{,}05$); dipilih karena distribusi skor \textit{faithfulness} dan \textit{hallucination rate} tidak dapat diasumsikan normal pada skala terbatas $[0, 1]$ \autocite{Kamalipour2026} & A vs C, B vs C \\
 \hline
 \end{tabularx}
 \end{table}

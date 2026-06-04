@@ -5,77 +5,57 @@
 \small
 \renewcommand{\arraystretch}{1.2}
 
-\begin{tabular}{|p{3cm}|p{5cm}|c|c|c|}
+\begin{tabularx}{\textwidth}{|>{\hsize=0.7\hsize}X|>{\hsize=1.3\hsize}X|c|c|c|}
 \hline
 \textbf{Penelitian} &
 \textbf{Fokus} &
-\makecell{\textbf{SO} \\ \textbf{sebagai sumber}} &
-\makecell{\textbf{Sinyal} \\ \textbf{kepercayaan}} &
-\textbf{GraphRAG} \\
+\textbf{SO} &
+\textbf{Sinyal} &
+\textbf{KG} \\
 \hline
 
 \textcite{DaSilva2025} &
 Evaluasi komparatif LLM vs Stack Overflow &
-$\checkmark$ &
-$\times$ &
-$\times$ \\
-\hline
+$\checkmark$ & $\times$ & $\times$ \\ \hline
 
 \textcite{Kabir2024} &
 Karakteristik jawaban ChatGPT &
-$\checkmark$ &
-$\times$ &
-$\times$ \\
-\hline
+$\checkmark$ & $\times$ & $\times$ \\ \hline
 
 \textcite{Alomari2026} &
 LLM untuk kualitas kode &
-$\times$ &
-$\times$ &
-$\times$ \\
-\hline
+$\times$ & $\times$ & $\times$ \\ \hline
 
 \textcite{Jiang2026} &
 Deteksi duplikasi kode &
-$\times$ &
-$\times$ &
-$\times$ \\
-\hline
+$\times$ & $\times$ & $\times$ \\ \hline
 
 \textcite{Nashid2023} &
 RAG berbasis konten Stack Overflow &
-$\checkmark$ &
-$\times$ &
-$\times$ \\
-\hline
+$\checkmark$ & $\times$ & $\times$ \\ \hline
 
 \textcite{Wang2026} &
 GraphRAG (PRIME) &
-$\times$ &
-$\times$ &
-$\checkmark$ \\
-\hline
+$\times$ & $\times$ & $\checkmark$ \\ \hline
 
 \textcite{Ali2026} &
 GraphRAG multimodal &
-$\times$ &
-$\times$ &
-$\checkmark$ \\
-\hline
+$\times$ & $\times$ & $\checkmark$ \\ \hline
 
 \textcite{Zhou2026} &
 KG domain-spesifik + RAG &
-$\times$ &
-$\times$ &
-$\checkmark$ \\
-\hline
+$\times$ & $\times$ & $\checkmark$ \\ \hline
 
 \textbf{Penelitian ini} &
 \textbf{GraphRAG berbasis Stack Overflow} &
-$\checkmark$ &
-$\checkmark$ &
-$\checkmark$ \\
-\hline
+$\checkmark$ & $\checkmark$ & $\checkmark$ \\ \hline
 
-\end{tabular}
+\end{tabularx}
+
+\vspace{0.2cm}
+\footnotesize
+SO = Stack Overflow sebagai sumber \quad
+Sinyal = Sinyal kepercayaan komunitas \quad
+KG = GraphRAG
+
 \end{table}

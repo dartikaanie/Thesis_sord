@@ -1,0 +1,51 @@
+\begin{table}[!htbp]
+\centering
+\caption{\emph{Checklist} pemenuhan kebutuhan fungsional F1--F7}
+\label{tab:checklist-f1-f7}
+\small
+\renewcommand{\arraystretch}{1.2}
+
+\begin{tabular}{|p{1cm}|p{5.5cm}|p{7cm}|}
+\hline
+\textbf{Req.} &
+\textbf{Komponen Implementasi} &
+\textbf{Kriteria Verifikasi} \\
+\hline
+
+F1 &
+Pipeline konstruksi KG berbobot dari SORD &
+KG dapat dibangun dan bobot relasi terisi dari sinyal komunitas \\
+\hline
+
+F2 &
+Pengindeksan vektor FAISS/ChromaDB &
+\emph{Vector store} dapat di-\emph{query} dan mengembalikan hasil yang relevan \\
+\hline
+
+F3 &
+NER dan \emph{entity linking} pada kueri &
+Entitas berhasil dipetakan ke simpul KG dengan benar \\
+\hline
+
+F4 &
+\emph{Hybrid retrieval} (tiga tahap sekuensial) &
+Subgraf dan \emph{semantic expansion} menghasilkan \emph{unified context window} \\
+\hline
+
+F5 &
+\emph{Grounded generation} dan \emph{dual-constraint} &
+Output menyertakan jawaban, sitasi Stack Overflow, dan jalur \emph{provenance} \\
+\hline
+
+F6 &
+Pipeline evaluasi tiga kondisi &
+Ketiga kondisi eksperimen dapat dijalankan pada dataset yang sama \\
+\hline
+
+F7 &
+Pembaruan KG inkremental &
+Entitas baru dapat ditambahkan tanpa perlu \emph{re-training} LLM \\
+\hline
+
+\end{tabular}
+\end{table}

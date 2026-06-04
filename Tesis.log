@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.3.4)  4 JUN 2026 13:26
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.3.4)  4 JUN 2026 15:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1316,9 +1316,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 33--35
 
 ) (./4 Abstrak.tex [7] [8
 
-] [9]) (./5 Kata Pengantar.tex [10]) [11
+]) (./5 Kata Pengantar.tex [9] [10
 
-]
+]) [11]
 
 Package geometry Warning: `a4paper': not available in `\newgeometry'; skipped.
 
@@ -1358,7 +1358,7 @@ Package geometry Warning: `a4paper': not available in `\newgeometry'; skipped.
 
 
 ] (./Tesis.toc
-Overfull \hbox (19.39598pt too wide) in paragraph at lines 332--332
+Overfull \hbox (19.39598pt too wide) in paragraph at lines 330--330
  [][] [][][]\TU/TimesNewRoman(0)/m/n/12 Pembuatan kode SQL dan integrasi basis 
 data domain- 
  []
@@ -1373,25 +1373,25 @@ an Simbolik dan
  []
 
 
-Overfull \hbox (2.99658pt too wide) in paragraph at lines 465--465
+Overfull \hbox (2.99658pt too wide) in paragraph at lines 463--463
  [][] [][][]\TU/TimesNewRoman(0)/m/it/12 Multi-hop Reasoning \TU/TimesNewRoman(
 0)/m/n/12 sebagai Justifikasi Pendekat- 
  []
 
 
-Overfull \hbox (0.30713pt too wide) in paragraph at lines 477--477
+Overfull \hbox (0.30713pt too wide) in paragraph at lines 475--475
  [][] [][][]\TU/TimesNewRoman(0)/m/n/12 Kemampuan \TU/TimesNewRoman(0)/m/it/12 
 Multi-hop Reasoning \TU/TimesNewRoman(0)/m/n/12 pada Pertanya- 
  []
 
 
-Overfull \hbox (4.79309pt too wide) in paragraph at lines 490--490
+Overfull \hbox (4.79309pt too wide) in paragraph at lines 488--488
  [][] [][][]\TU/TimesNewRoman(0)/m/n/12 Analisis Lisensi sebagai Representasi D
 omain Tek- 
  []
 
 
-Overfull \hbox (3.81299pt too wide) in paragraph at lines 493--493
+Overfull \hbox (3.81299pt too wide) in paragraph at lines 491--491
  [][] [][][]\TU/TimesNewRoman(0)/m/n/12 Implikasi terhadap Penelitian Berbasis 
 Stack Over- 
  []
@@ -1401,33 +1401,30 @@ Stack Over-
 \openout5 = `Tesis.toc'.
 
 ) (./7 Daftar Gambar.tex [16] (./Tesis.lof
-Overfull \hbox (21.03004pt too wide) in paragraph at lines 396--396
+Overfull \hbox (21.03004pt too wide) in paragraph at lines 394--394
  [][] [][][]\TU/TimesNewRoman(0)/m/n/12 Gambaran umum \TU/TimesNewRoman(0)/m/it
 /12 pipeline \TU/TimesNewRoman(0)/m/n/12 Graph-RAG ([][]Kamalipour, Asadi, dan 
 Chimeh 
  []
 
-
-Overfull \hbox (1.10605pt too wide) in paragraph at lines 495--495
- \TU/TimesNewRoman(0)/m/n/12 teks, inferensi model penilai, \TU/TimesNewRoman(0
-)/m/it/12 post-processing\TU/TimesNewRoman(0)/m/n/12 , dan agregasi skor ([][]G
-u, 
- []
-
-[17
-
-])
+)
 \tf@lof=\write6
 \openout6 = `Tesis.lof'.
 
-) (./8 Daftar Tabel.tex [18] (./Tesis.lot
-Overfull \hbox (1.10757pt too wide) in paragraph at lines 682--682
+) (./8 Daftar Tabel.tex
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [17
+
+]
+[18] (./Tesis.lot
+Overfull \hbox (1.10757pt too wide) in paragraph at lines 670--670
  [][] [][][]\TU/TimesNewRoman(0)/m/n/12 Perbandingan ketiga kondisi evaluasi te
 rhadap kebutuhan sistem dan 
  []
 
 
-Overfull \hbox (0.98744pt too wide) in paragraph at lines 733--733
+Overfull \hbox (0.98744pt too wide) in paragraph at lines 731--731
  [][] [][][]\TU/TimesNewRoman(0)/m/n/12 Ringkasan komponen \TU/TimesNewRoman(0)
 /m/it/12 GraphRAG Framework \TU/TimesNewRoman(0)/m/n/12 dan kaitannya dengan 
  []
@@ -1509,20 +1506,14 @@ man(0)/m/it/12 dual-constraint
  []
 
 [7]
-Overfull \hbox (5.1614pt too wide) in paragraph at lines 94--96
-[]\TU/TimesNewRoman(0)/b/n/12 Peningkatan keandalan bantuan pemrograman berbasi
-s LLM. \TU/TimesNewRoman(0)/m/it/12 GraphRAG
- []
-
-
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [8]
 
-Package biblatex-chicago Warning: Empty Ibidem citation on input line 116.
+Package biblatex-chicago Warning: Empty Ibidem citation on input line 122.
 
 [9]
-Overfull \hbox (8.96092pt too wide) in paragraph at lines 147--148
+Overfull \hbox (8.96092pt too wide) in paragraph at lines 153--154
 []\TU/TimesNewRoman(0)/m/n/12 Penelitian ini menggunakan kerangka \TU/TimesNewR
 oman(0)/m/it/12 Design Science Research Methodology \TU/TimesNewRoman(0)/m/n/12
  (DSRM)
@@ -1530,7 +1521,7 @@ oman(0)/m/it/12 Design Science Research Methodology \TU/TimesNewRoman(0)/m/n/12
 
 [10]
 
-Package biblatex-chicago Warning: Empty Ibidem citation on input line 163.
+Package biblatex-chicago Warning: Empty Ibidem citation on input line 169.
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -1580,21 +1571,20 @@ File: images/kamalipour_rag_taxonomy.png Graphic file (type bmp)
 
 Package biblatex-chicago Warning: Empty Ibidem citation on input line 108.
 
+File: images/The_indexing_ process_in_a_RAG_pipeline.png Graphic file (type bmp
+)
+<images/The_indexing_ process_in_a_RAG_pipeline.png>
+
+Package biblatex-chicago Warning: Empty Ibidem citation on input line 117.
+
 
 LaTeX Warning: Reference `fig:indexing_process_in_a_RAG' on page 21 undefined o
-n input line 113.
+n input line 120.
 
 
 Underfull \vbox (badness 2393) has occurred while \output is active []
 
  [21]
-File: images/The_indexing_ process_in_a_RAG_pipeline.png Graphic file (type bmp
-)
-<images/The_indexing_ process_in_a_RAG_pipeline.png>
-
-
-Package biblatex-chicago Warning: Empty Ibidem citation on input line 118.
-
 [22]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
@@ -1604,35 +1594,39 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
  [24]
 [25]
 
-Package biblatex-chicago Warning: Empty Ibidem citation on input line 207.
+Package biblatex-chicago Warning: Empty Ibidem citation on input line 198.
 
 [26]
 
-Package biblatex-chicago Warning: Empty Ibidem citation on input line 239.
+Package biblatex-chicago Warning: Empty Ibidem citation on input line 230.
 
 [27]
-Overfull \hbox (88.50342pt too wide) detected at line 262
-[] \OMS/cmsy/m/n/12 ! [] ! [] ! []
+Overfull \hbox (20.28143pt too wide) in paragraph at lines 245--246
+[]\TU/lmtt/m/n/12 DataFrame.apply() $\OMS/cmsy/m/n/12 !$ \TU/lmtt/m/n/12 row_by
+_row_processing $\OMS/cmsy/m/n/12 !$ \TU/lmtt/m/n/12 high_memory_usage
  []
 
-[28]
+
+Underfull \vbox (badness 1394) has occurred while \output is active []
+
+ [28]
 File: images/Graph_RAG_pipeline.png Graphic file (type bmp)
 <images/Graph_RAG_pipeline.png>
 
 
-Package biblatex-chicago Warning: Empty Ibidem citation on input line 309.
+Package biblatex-chicago Warning: Empty Ibidem citation on input line 292.
 
 
-Underfull \hbox (badness 2343) in paragraph at lines 309--309
+Underfull \hbox (badness 2343) in paragraph at lines 292--292
 [][]|\TU/TimesNewRoman(0)/m/n/12 Gambaran umum \TU/TimesNewRoman(0)/m/it/12 pip
 eline \TU/TimesNewRoman(0)/m/n/12 Graph-RAG ([][][]Kamalipour, Asadi, dan
  []
 
 
-Package biblatex-chicago Warning: Empty Ibidem citation on input line 315.
+Package biblatex-chicago Warning: Empty Ibidem citation on input line 297.
 
 
-Overfull \hbox (15.7736pt too wide) in paragraph at lines 314--316
+Overfull \hbox (15.7736pt too wide) in paragraph at lines 297--298
 \TU/TimesNewRoman(0)/m/it/12 formation Extraction \TU/TimesNewRoman(0)/m/n/12 (
 OpenIE) digunakan untuk mengekstraksi tripel \TU/TimesNewRoman(0)/m/it/12 subje
 ct-predicate-
@@ -1640,13 +1634,12 @@ ct-predicate-
 
 [29]
 
-Package biblatex-chicago Warning: Empty Ibidem citation on input line 319.
+Package biblatex-chicago Warning: Empty Ibidem citation on input line 300.
 
+[30] (./tables/rag_vs_graphrag.tex
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Package biblatex-chicago Warning: Empty Ibidem citation on input line 5.
 
- [30]
-(./tables/rag_vs_graphrag.tex
 
 Package biblatex-chicago Warning: Empty Ibidem citation on input line 5.
 
@@ -1707,13 +1700,17 @@ Underfull \hbox (badness 2134) in paragraph at lines 49--49
 []|\TU/TimesNewRoman(0)/m/n/10.95 Throughput tinggi, pencarian
  []
 
-) [31] [32]
-Overfull \hbox (75.6187pt too wide) detected at line 372
+) [31]
+
+Package biblatex-chicago Warning: Empty Ibidem citation on input line 329.
+
+[32]
+Overfull \hbox (75.6187pt too wide) detected at line 349
 [] [] [] [] [] [] []
  []
 
 [33]
-Overfull \hbox (2.97153pt too wide) in paragraph at lines 399--400
+Overfull \hbox (2.97153pt too wide) in paragraph at lines 374--375
 []\TU/TimesNewRoman(0)/m/n/12 Studi Pythia-RAG ([][][]Ali dkk. [][]2026[][][][]
 ) membangun \TU/TimesNewRoman(0)/m/it/12 Multimodal Knowledge Graph \TU/TimesNe
 wRoman(0)/m/n/12 (MM-
@@ -1724,22 +1721,17 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [35]
 [36]
-Overfull \hbox (0.23367pt too wide) in paragraph at lines 445--448
+Overfull \hbox (0.23367pt too wide) in paragraph at lines 416--417
 []\TU/TimesNewRoman(0)/m/n/12 Penelitian ini memposisikan diri sebagai pengemba
 ngan lebih lanjut dari GraphRAG
  []
 
-[37]
 File: images/bab2_rancangan_empiris.png Graphic file (type bmp)
 <images/bab2_rancangan_empiris.png>
 
+Package biblatex-chicago Warning: Empty Ibidem citation on input line 431.
 
-Package biblatex-chicago Warning: Empty Ibidem citation on input line 462.
-
-
-Package biblatex-chicago Warning: Empty Ibidem citation on input line 462.
-
-(./tables/so_signals.tex
+[37] (./tables/so_signals.tex
 Underfull \hbox (badness 7221) in paragraph at lines 17--17
 []|\TU/TimesNewRoman(0)/m/n/10.95 Status \TU/TimesNewRoman(0)/m/it/10.95 accept
 ed ans-
@@ -1765,104 +1757,59 @@ File: images/dasilva_domain.png Graphic file (type bmp)
 <images/dasilva_domain.png>
 
 
-Package biblatex-chicago Warning: Empty Ibidem citation on input line 483.
+Package biblatex-chicago Warning: Empty Ibidem citation on input line 452.
 
 
-Package biblatex-chicago Warning: Empty Ibidem citation on input line 483.
+Package biblatex-chicago Warning: Empty Ibidem citation on input line 452.
 
-[39]
-
-LaTeX Warning: Reference `sec:gap' on page 40 undefined on input line 497.
-
-
-Underfull \vbox (badness 4779) has occurred while \output is active []
-
- [40]
-Overfull \hbox (4.83784pt too wide) in paragraph at lines 507--508
+[39] [40]
+Overfull \hbox (4.83784pt too wide) in paragraph at lines 476--477
 \TU/TimesNewRoman(0)/m/n/12 mata berasal dari pengetahuan parametrik model yang
  tidak dapat diverifikasi. [][][][][]Huang
  []
 
-[41] [42]
 
-Package biblatex-chicago Warning: Empty Ibidem citation on input line 546.
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [41]
+[42]
+
+Package biblatex-chicago Warning: Empty Ibidem citation on input line 515.
 
 
-Package biblatex-chicago Warning: Empty Ibidem citation on input line 550.
+Package biblatex-chicago Warning: Empty Ibidem citation on input line 519.
 
-[43]
-Overfull \hbox (4.21014pt too wide) in paragraph at lines 556--557
+
+Overfull \hbox (4.21014pt too wide) in paragraph at lines 525--526
 []\TU/TimesNewRoman(0)/m/n/12 Dimensi ini mengukur kesesuaian jawaban terhadap 
 kebutuhan informasi peng-
  []
 
-(./tables/bab2_ragas_metrik.tex
+[43] (./tables/bab2_ragas_metrik.tex
 Overfull \hbox (23.37357pt too wide) in paragraph at lines 6--31
  [][] 
  []
 
-)
-Underfull \vbox (badness 10000) has occurred while \output is active []
+) [44]
 
- [44]
-File: images/gu2026_fig2_judge_pipeline.png Graphic file (type bmp)
-<images/gu2026_fig2_judge_pipeline.png>
-
-
-Package biblatex-chicago Warning: Empty Ibidem citation on input line 580.
-
-
-Package biblatex-chicago Warning: Empty Ibidem citation on input line 580.
-
-
-Package biblatex-chicago Warning: Empty Ibidem citation on input line 584.
+Package biblatex-chicago Warning: Empty Ibidem citation on input line 553.
 
 (./tables/bab2_penelitian_terkait.tex
-Underfull \hbox (badness 1325) in paragraph at lines 17--17
+Underfull \hbox (badness 10000) in paragraph at lines 53--53
 []|[][][][][]\TU/TimesNewRoman(0)/m/n/10.95 Silva, Samhi, dan
  []
 
-
-Underfull \hbox (badness 5331) in paragraph at lines 18--18
-[]|\TU/TimesNewRoman(0)/m/n/10.95 Evaluasi komparatif LLM vs
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 31--31
-[]|[][][][][]\TU/TimesNewRoman(0)/m/n/10.95 Alomari dkk.
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 45--45
-[]|[][][][][]\TU/TimesNewRoman(0)/m/n/10.95 Nashid, Sintaha,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 46--46
-[]|\TU/TimesNewRoman(0)/m/n/10.95 RAG berbasis konten Stack
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 74--74
-[]|\TU/TimesNewRoman(0)/b/n/10.95 GraphRAG berbasis Stack
- []
-
-
-Overfull \hbox (79.15942pt too wide) in paragraph at lines 8--81
- [][] 
- []
-
-) [45] [46] [47] [48] [49]
+) [45] [46] [47]
 File: images/bab2_kerangka_konseptual.png Graphic file (type bmp)
 <images/bab2_kerangka_konseptual.png>
- [50] [51]) (./Bab III - Analisis dan Desain.tex
-[52]
+ [48] [49] [50]) (./Bab III - Analisis dan Desain.tex [51]
+[52
+
+]
 Bab III.
 File: images/bab3_model_konseptual_saat_ini.png Graphic file (type bmp)
 <images/bab3_model_konseptual_saat_ini.png>
-[53
-
-]
+[53]
 File: images/bab3_arsitektur_rag_konvensional.png Graphic file (type bmp)
 <images/bab3_arsitektur_rag_konvensional.png>
 
@@ -1963,34 +1910,42 @@ Underfull \hbox (badness 1571) in paragraph at lines 30--30
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [58]
-(./tables/bab3_kebutuhan_nonfungsional.tex) [59] [60]
+(./tables/bab3_kebutuhan_nonfungsional.tex) [59]
 (./tables/bab3_komparasi_solusi.tex) (./tables/bab3_perbandingan_kondisi.tex
-Underfull \hbox (badness 10000) in paragraph at lines 29--30
-[]|\TU/TimesNewRoman(0)/m/n/10.95 Grounding arsitektural berbasis Stack
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [60]
+[61]
+Underfull \hbox (badness 5050) in paragraph at lines 36--36
+[]|\TU/TimesNewRoman(0)/m/n/10.95 Sinyal kepercayaan komunitas
  []
 
 
-Underfull \hbox (badness 1629) in paragraph at lines 41--42
-[]|\TU/TimesNewRoman(0)/m/n/10.95 Retrieval relasional dan multi-hop (G2,
+Underfull \hbox (badness 2521) in paragraph at lines 36--36
+[]|\TU/TimesNewRoman(0)/m/it/10.95 Retrieval \TU/TimesNewRoman(0)/m/n/10.95 rel
+asional dan multi-
  []
 
 
-Overfull \hbox (41.02924pt too wide) in paragraph at lines 10--66
- [][] 
+Underfull \hbox (badness 10000) in paragraph at lines 36--36
+[]|\TU/TimesNewRoman(0)/m/it/10.95 Provenance \TU/TimesNewRoman(0)/m/n/10.95 da
+n keterlacakan
  []
 
-)
+
+Underfull \hbox (badness 5064) in paragraph at lines 36--36
+[]|\TU/TimesNewRoman(0)/m/n/10.95 Pembaruan pengetahuan tanpa
+ []
+
+) [62]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [63]
 File: images/bab3_arsitektur_framework.png Graphic file (type bmp)
 <images/bab3_arsitektur_framework.png>
 
-Underfull \vbox (badness 7722) has occurred while \output is active []
-
- [61]
-[62] [63]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [64]
-Overfull \hbox (28.31952pt too wide) in paragraph at lines 197--198
+[64] [65]
+Overfull \hbox (28.31952pt too wide) in paragraph at lines 195--196
 \TU/TimesNewRoman(0)/m/n/12 flow. Simpul ini menyimpan informasi seperti \TU/lm
 tt/m/n/12 id\TU/TimesNewRoman(0)/m/n/12 , \TU/lmtt/m/n/12 title\TU/TimesNewRoma
 n(0)/m/n/12 , \TU/lmtt/m/n/12 body\TU/TimesNewRoman(0)/m/n/12 , \TU/lmtt/m/n/12
@@ -1998,7 +1953,7 @@ n(0)/m/n/12 , \TU/lmtt/m/n/12 body\TU/TimesNewRoman(0)/m/n/12 , \TU/lmtt/m/n/12
 0)/m/n/12 ,
  []
 
-[65] (./tables/bab3_bobot_kepercayaan.tex
+(./tables/bab3_bobot_kepercayaan.tex
 Overfull \hbox (9.5822pt too wide) in paragraph at lines 65--65
 []|\TU/lmtt/m/n/10 hasAcceptedAnswer|  
  []
@@ -2007,21 +1962,21 @@ Overfull \hbox (9.5822pt too wide) in paragraph at lines 65--65
 File: images/bab3_contoh_subgraf_kg.png Graphic file (type bmp)
 <images/bab3_contoh_subgraf_kg.png>
 
-Overfull \hbox (14.37387pt too wide) in paragraph at lines 217--218
+Overfull \hbox (14.37387pt too wide) in paragraph at lines 215--216
 []\TU/TimesNewRoman(0)/m/n/12 Masing-masing pertanyaan memiliki simpul \TU/lmtt
 /m/n/12 Answer \TU/TimesNewRoman(0)/m/n/12 yang diterima (\TU/TimesNewRoman(0)/
 m/it/12 accepted\TU/TimesNewRoman(0)/m/n/12 ): \TU/lmtt/m/n/12 A#9823
  []
 
 
-Overfull \hbox (2.12184pt too wide) in paragraph at lines 217--218
+Overfull \hbox (2.12184pt too wide) in paragraph at lines 215--216
 \TU/TimesNewRoman(0)/m/n/12 menjawab Q#1234 dengan solusi \TU/lmtt/m/n/12 Depen
 ds(oauth2_scheme) + decode \TU/TimesNewRoman(0)/m/n/12 ($\OML/cmm/m/it/12 w[]\O
 T1/cmr/m/n/12 0[]93$\TU/TimesNewRoman(0)/m/n/12 ),
  []
 
 
-Overfull \hbox (19.97047pt too wide) in paragraph at lines 217--218
+Overfull \hbox (19.97047pt too wide) in paragraph at lines 215--216
 \TU/TimesNewRoman(0)/m/n/12 sedangkan \TU/lmtt/m/n/12 A#9412 \TU/TimesNewRoman(
 0)/m/n/12 menjawab Q#2567 dengan \TU/lmtt/m/n/12 raise HTTPException(401) \TU/T
 imesNewRoman(0)/m/n/12 ($\OML/cmm/m/it/12 w[]\OT1/cmr/m/n/12 0[]89$\TU/TimesNew
@@ -2029,46 +1984,33 @@ Roman(0)/m/n/12 ).
  []
 
 [67]
-Overfull \hbox (64.47456pt too wide) in paragraph at lines 222--223
-\TU/TimesNewRoman(0)/m/n/12 flow. Keluaran dari \TU/TimesNewRoman(0)/m/it/12 en
-tity linking \TU/TimesNewRoman(0)/m/n/12 berupa himpunan triple dalam format []
-,
- []
-
 File: images/bab3_flowchart_konstruksi_kg.png Graphic file (type bmp)
 <images/bab3_flowchart_konstruksi_kg.png>
-[68] [69]
+ [68]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [69]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [70]
 File: images/bab3_hybrid_retrieval.png Graphic file (type bmp)
 <images/bab3_hybrid_retrieval.png>
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 4205) has occurred while \output is active []
 
  [71]
 [72]
 
-Package biblatex-chicago Warning: Empty Ibidem citation on input line 281.
+Package biblatex-chicago Warning: Empty Ibidem citation on input line 277.
 
 
-Overfull \hbox (1.79425pt too wide) in paragraph at lines 281--282
+Overfull \hbox (1.79425pt too wide) in paragraph at lines 277--278
 \TU/TimesNewRoman(0)/m/it/12 graph retrieval \TU/TimesNewRoman(0)/m/n/12 direpr
 esentasikan dalam bentuk tripel \TU/lmtt/m/n/12 (Entitas-Relasi-Entitas)
  []
 
-
-Overfull \hbox (114.41693pt too wide) in paragraph at lines 283--284
-[]\TU/TimesNewRoman(0)/m/n/12 Sebagai contoh, pada domain autentikasi FastAPI, 
-relasi \TU/lmtt/m/n/12 (A#9823, mentions, OAuth2PasswordBearer)
- []
-
-
-Underfull \vbox (badness 1242) has occurred while \output is active []
-
- [73]
-[74]
-Overfull \hbox (21.14941pt too wide) in paragraph at lines 316--318
+[73] [74]
+Overfull \hbox (21.14941pt too wide) in paragraph at lines 312--314
 \TU/TimesNewRoman(0)/m/it/12 wledge graph\TU/TimesNewRoman(0)/m/n/12 , sinyal k
 epercayaan komunitas, maupun mekanisme \TU/TimesNewRoman(0)/m/it/12 dual-constr
 aint\TU/TimesNewRoman(0)/m/n/12 . 
@@ -2078,73 +2020,37 @@ File: images/bab3_perbandingan_tiga_kondisi_evaluasi.png Graphic file (type bmp
 )
 <images/bab3_perbandingan_tiga_kondisi_evaluasi.png>
 
-Overfull \hbox (3.55591pt too wide) in paragraph at lines 333--334
-[]\TU/TimesNewRoman(0)/m/n/12 Pendekatan GraphRAG (Kondisi C) memperkenalkan ko
-mpleksitas arsitektural yang
- []
-
-
-Overfull \hbox (1.60347pt too wide) in paragraph at lines 338--339
+Overfull \hbox (1.60347pt too wide) in paragraph at lines 330--331
 \TU/TimesNewRoman(0)/m/n/12 tima dan Maqbool [][]2026[][][][]). Subset yang dig
 unakan dibatasi pada domain Python
  []
 
-[75] [76] (./tables/bab3_metrik_evaluasi.tex) [77]
-Underfull \hbox (badness 10000) in paragraph at lines 365--365
-[]|\TU/TimesNewRoman(0)/m/n/12 Pengindeksan vektor FA-
+
+Underfull \vbox (badness 1817) has occurred while \output is active []
+
+ [75]
+[76] (./tables/bab3_metrik_evaluasi.tex) (./tables/bab3_checklist_f1_f7.tex
+Underfull \hbox (badness 10000) in paragraph at lines 21--21
+[]|\TU/TimesNewRoman(0)/m/n/10.95 Pengindeksan vektor FA-
  []
 
 
-Underfull \hbox (badness 2326) in paragraph at lines 365--366
-[]|\TU/TimesNewRoman(0)/m/n/12 Vector store dapat di-
+Underfull \hbox (badness 10000) in paragraph at lines 36--36
+[]|\TU/TimesNewRoman(0)/m/it/10.95 Grounded generation \TU/TimesNewRoman(0)/m/n
+/10.95 dan \TU/TimesNewRoman(0)/m/it/10.95 dual-
  []
 
 
-Underfull \hbox (badness 2285) in paragraph at lines 365--366
-\TU/TimesNewRoman(0)/m/n/12 query dan mengemba-
+Underfull \hbox (badness 1881) in paragraph at lines 37--38
+[]|\TU/TimesNewRoman(0)/m/n/10.95 Output menyertakan jawaban, sitasi Stack
  []
 
 
-Underfull \hbox (badness 1838) in paragraph at lines 366--367
-\TU/TimesNewRoman(0)/m/n/12 an ke simpul KG de-
+Overfull \hbox (23.37355pt too wide) in paragraph at lines 8--51
+ [][] 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 367--368
-[]|\TU/TimesNewRoman(0)/m/n/12 Subgraf + semantic
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 367--368
-\TU/TimesNewRoman(0)/m/n/12 expansion mengha-
- []
-
-
-Underfull \hbox (badness 3514) in paragraph at lines 367--368
-\TU/TimesNewRoman(0)/m/n/12 silkan unified context
- []
-
-
-Underfull \hbox (badness 8056) in paragraph at lines 368--368
-[]|\TU/TimesNewRoman(0)/m/n/12 Grounded generation + dual-
- []
-
-
-Underfull \hbox (badness 5189) in paragraph at lines 369--370
-\TU/TimesNewRoman(0)/m/n/12 jalankan pada dataset
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 370--371
-[]|\TU/TimesNewRoman(0)/m/n/12 Entitas baru dapat
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 370--371
-\TU/TimesNewRoman(0)/m/n/12 ditambahkan tanpa
- []
-
-
+) [77]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [78]
@@ -2196,8 +2102,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 89--89
  []
 
 
-Overfull \hbox (35.42374pt too wide) in paragraph at lines 89--89
-[]|\TU/lmtt/m/n/10.95 text-embedding-3-small| 
+Underfull \hbox (badness 10000) in paragraph at lines 89--89
+[]|\TU/lmtt/m/n/10.95 text-embedding-
  []
 
 
@@ -2215,13 +2121,7 @@ Underfull \hbox (badness 4792) in paragraph at lines 89--89
 []|\TU/TimesNewRoman(0)/m/n/10.95 GPT-4o (API Ope-
  []
 
-))
-Underfull \vbox (badness 4205) has occurred while \output is active []
-
- [79]
-[80] [81] [82
-
-]
+)) [79] [80]
 Overfull \hbox (2.70285pt too wide) in paragraph at lines 414--414
 \TU/TimesNewRoman(0)/m/n/12 dan Pavlos Kefalas. 2026. “  Pythia-RAG: Retrieval-
 Augmented Generation over
@@ -2233,7 +2133,8 @@ Overfull \hbox (11.14148pt too wide) in paragraph at lines 414--414
 rieval-Augmentation”.
  []
 
-[83
+[81
+
 
 ]
 Overfull \hbox (7.21263pt too wide) in paragraph at lines 414--414
@@ -2253,7 +2154,7 @@ Overfull \hbox (11.59732pt too wide) in paragraph at lines 414--414
 “  A Survey on Retrieval-Augmented
  []
 
-[84]
+[82]
 Overfull \hbox (0.76913pt too wide) in paragraph at lines 414--414
 [][]\TU/TimesNewRoman(0)/m/n/12 Malamas, Nikolaos, Emmanouil Tsardoulias, Konst
 antinos Panayiotou, dan Andreas
@@ -2266,13 +2167,13 @@ an(0)/m/it/12 Journal of Computer Languages \TU/TimesNewRoman(0)/m/n/12 85:1013
 67.
  []
 
-[85]
+[83]
 Overfull \hbox (1.91806pt too wide) in paragraph at lines 414--414
 \TU/TimesNewRoman(0)/m/n/12 2024. “  Unifying Large Language Models and Knowled
 ge Graphs: A Roadmap”.
  []
 
-[86]
+[84]
 Overfull \hbox (17.47676pt too wide) in paragraph at lines 414--414
 \TU/TimesNewRoman(0)/m/n/12 Xiao, dan Jacek Smoląg. 2024. “  A Comprehensive Su
 rvey of Retrieval-Augmented
@@ -2297,7 +2198,7 @@ Overfull \hbox (0.92139pt too wide) in paragraph at lines 414--414
 raph Construction and
  []
 
-[87] [88
+[85] [86
 
 ]
 
@@ -2331,12 +2232,12 @@ Package logreq Info: Writing requests to 'Tesis.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 35481 strings out of 468168
- 701041 string characters out of 5432816
- 2107539 words of memory out of 5000000
- 63680 multiletter control sequences out of 15000+600000
+ 35456 strings out of 468168
+ 699870 string characters out of 5432816
+ 2107195 words of memory out of 5000000
+ 63653 multiletter control sequences out of 15000+600000
  637063 words of font info for 125 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 73i,16n,95p,2924b,8601s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 73i,16n,95p,2293b,8601s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on Tesis.pdf (110 pages).
+Output written on Tesis.pdf (108 pages).
