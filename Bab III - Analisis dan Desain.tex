@@ -43,12 +43,11 @@ Pendekatan RAG konvensional telah diusulkan dalam literatur sebagai mekanisme \e
 
 Studi \textcite{DaSilva2025} menyediakan bukti kuantitatif paling komprehensif tentang keterbatasan LLM ketika menangani pertanyaan komunitas Stack Overflow. Studi tersebut mengevaluasi ChatGPT-3.5 dan LLaMA-2-7b menggunakan pertanyaan dari Stack Overflow yang mencakup berbagai domain \emph{software engineering}. Temuan yang relevan dengan penelitian ini dirangkum pada Tabel~\ref{tab:analisis-keterbatasan-baseline}.
 
+\input{tables/bab3_analisis_keterbatasan_baseline.tex}
+
 Studi \textcite{Kabir2024} memperkuat temuan ini dengan melaporkan bahwa 52\% jawaban ChatGPT untuk pertanyaan SO bersifat tidak benar ketika dievaluasi secara manual, Angka yang jauh lebih tinggi dari yang diklaim dalam evaluasi berbasis metrik otomatis. Ketidakakuratan ini paling parah pada pertanyaan yang membutuhkan pengetahuan tentang versi \emph{library} atau \emph{framework} terkini, yang merupakan manifestasi konkret dari kesenjangan G2 dan G3.
 
 Selain itu, \textcite{Nashid2023} mendemonstrasikan bahwa augmentasi konteks dari Stack Overflow meningkatkan relevansi jawaban LLM pada tugas pemrograman, namun pendekatan berbasis \emph{dense retrieval} yang digunakan tidak mengeksplorasi struktur relasional dan sinyal kepercayaan yang tersedia dalam konten Stackoverflow dan sinyal kepercayaan yang tersedia dalam konten Stack Overflow. Studi ini menunjukkan peningkatan yang menjanjikan tetapi terbatas, mengkonfirmasi bahwa mekanisme RAG konvensional belum sepenuhnya memanfaatkan potensi sumber daya komunitas teknis seperti Stack Overflow, yang menjadi inti dari kesenjangan G2 dan G3.
-
-
-\input{tables/bab3_analisis_keterbatasan_baseline.tex}
 
 \subsection{Identifikasi Masalah}
 \label{subsec:identifikasi-masalah-kondisi}
@@ -77,9 +76,8 @@ Berdasarkan ketiga studi di atas, masalah utama yang ditangani dalam penelitian 
 \subsection{Identifikasi Kebutuhan Pengguna}
 \label{subsec:identifikasi-kebutuhan-pengguna}
 
-Pengguna utama \emph{GraphRAG Framework} adalah \emph{software developer}dan \emph{software engineer} yang menggunakan LLM untuk mendapatkan jawaban atas pertanyaan teknis di domain pemrograman, pertanyaan yang biasanya diajukan
-ke Stack Overflow. Tabel~\ref{tab:kebutuhan-pengguna} memetakan masalah pengguna ke kebutuhan solusi yang harus dipenuhi artefak.
-\input{tables/bab3_kebutuhan_pengguna.tex}
+Pengguna utama \emph{GraphRAG Framework} adalah \emph{software developer}dan \emph{software engineer} yang menggunakan LLM untuk mendapatkan jawaban atas pertanyaan teknis di domain pemrograman, pertanyaan yang biasanya diajukan ke Stack Overflow. Tabel~\ref{tab:kebutuhan-pengguna} memetakan masalah pengguna ke kebutuhan solusi yang harus dipenuhi artefak. \input{tables/bab3_kebutuhan_pengguna.tex}
+
 \FloatBarrier
 \subsection{Kebutuhan Fungsional}
 \label{subsec:kebutuhan-fungsional}
@@ -292,7 +290,7 @@ Selain menghasilkan jawaban, sistem juga menyediakan informasi \emph{provenance}
 
 Pada penelitian ini, \emph{provenance} mencakup dua jenis informasi. Pertama, asal informasi berupa \emph{thread} Stack Overflow yang digunakan sebagai referensi. Kedua, tingkat kepercayaan sumber yang diperoleh dari sinyal komunitas, seperti skor \emph{upvote}, status \emph{accepted answer}, dan reputasi kontributor. Dengan adanya \emph{provenance}, pengguna tidak hanya mengetahui dari mana jawaban berasal, tetapi juga dapat menilai tingkat kepercayaan sumber yang mendasarinya.
 
-\subsubsection{Output Sistem}
+\subsubsection{\emph{Output} Sistem}
 
 Output akhir \emph{GraphRAG Framework} terdiri atas tiga komponen utama.
 
@@ -351,13 +349,13 @@ Pendekatan GraphRAG (Kondisi C) memperkenalkan kompleksitas arsitektural yang le
 
 \input{tables/bab3_metrik_evaluasi.tex}
 
-\subsubsection{Checklist Pemenuhan Kebutuhan Fungsional F1--F7}
+\subsubsection{\emph{Checklist} Pemenuhan Kebutuhan Fungsional F1--F7}
  
 Selain evaluasi berbasis metrik kuantitatif, penelitian ini menyertakan verifikasi pemenuhan kebutuhan fungsional sebagai bagian dari protokol evaluasi artefak sesuai DSRM. Tabel~\ref{tab:checklist-f1-f7} memetakan setiap kebutuhan fungsional ke komponen sistem yang mengimplementasikannya dan kriteria verifikasi yang digunakan.
  
 \begin{table}[htbp]
 \centering
-\caption{Checklist pemenuhan kebutuhan fungsional F1-F7}
+\caption{\emph{Checklist} pemenuhan kebutuhan fungsional F1-F7}
 \label{tab:checklist-f1-f7}
 \begin{tabular}{lp{5.5cm}p{4cm}}
 \toprule
@@ -378,11 +376,11 @@ F7 & Pembaruan KG inkremental & Entitas baru dapat ditambahkan tanpa re-training
  
 Untuk menguji signifikansi perbedaan kinerja antar kondisi, penelitian ini menggunakan \textbf{uji Wilcoxon Signed-Rank} (dua sisi, $\alpha = 0{,}05$) sebagai uji utama. Uji Wilcoxon dipilih karena distribusi skor \emph{faithfulness} dan \emph{hallucination rate} tidak dapat diasumsikan normal pada skala terbatas $[0,1]$, sehingga uji parametrik seperti \emph{t-test} tidak tepat digunakan \autocite{Kamalipour2026}. Selain signifikansi statistik, ukuran efek diukur menggunakan \textbf{Cliff's Delta} ($\delta$) untuk mengkuantifikasi besaran praktis perbedaan antar kondisi, dengan interpretasi: $|\delta| < 0{,}147$ (kecil), $0{,}147 \leq |\delta| < 0{,}330$ (sedang), $|\delta| \geq 0{,}474$ (besar). Kombinasi kedua ukuran ini memastikan bahwa klaim peningkatan kinerja memiliki landasan statistik dan praktis yang dapat direproduksi.
  
-\subsubsection{(c) Studi Kasus Kualitatif untuk Provenance dan Keterlacakan}
+\subsubsection{Studi Kasus Kualitatif untuk Provenance dan Keterlacakan}
  
 Minimal satu \emph{case study} kualitatif akan dilakukan untuk mendemonstrasikan mekanisme \emph{provenance} dan keterlacakan sumber secara naratif. Studi kasus dipilih dari pertanyaan bertipe \emph{multi-hop} pada domain autentikasi FastAPI atau penanganan \emph{exception} Pandas, karena kedua topik tersebut memiliki rantai relasi antar entitas yang kaya di dalam KG SORD. Narasi studi kasus akan menelusuri jalur lengkap dari kueri pengguna hingga jawaban akhir, yaitu: (1) entitas apa yang diidentifikasi oleh NER, (2) simpul mana yang ditemukan melalui \emph{entity linking}, (3) jalur traversal mana yang diikuti beserta bobot masing-masing sisi, (4) simpul tambahan apa yang ditemukan melalui \emph{semantic expansion}, (5) bagaimana unified context window disusun, dan (6) bagaimana mekanisme \emph{dual-constraint} membentuk jawaban akhir. Studi kasus ini bertujuan menunjukkan bahwa setiap klaim dalam jawaban dapat ditelusuri kembali ke sumber komunitas yang spesifik, sehingga \emph{explainability} sistem dapat didemonstrasikan secara konkret \autocite{Ali2026}.
  
-\subsubsection{(d) Strategi Sampling Benchmark}
+\subsubsection{Strategi \emph{Sampling Benchmark}}
  
 Dataset evaluasi akan menggunakan strategi \emph{stratified random sampling} berdasarkan topik Python Framework \& Library. Target jumlah sampel adalah \textbf{±200 pasang Q\&A} yang didistribusikan secara proporsional ke dalam minimal 5 subtopik utama (misalnya: FastAPI, Pandas, Django, SQLAlchemy, dan Scikit-learn), sehingga setiap subtopik diwakili oleh minimal 30 pasang Q\&A. Pemilihan 200 sampel didasarkan pada pertimbangan bahwa ukuran tersebut cukup untuk mendeteksi efek sedang ($|\delta| \geq 0{,}3$) dengan kekuatan statistik $\geq 0{,}8$ pada uji Wilcoxon dua sisi ($\alpha = 0{,}05$). Stratifikasi per topik memastikan evaluasi tidak didominasi oleh satu domain tertentu dan memungkinkan analisis sub-kelompok untuk mengidentifikasi topik di mana GraphRAG memberikan manfaat paling signifikan.
 %============================================================

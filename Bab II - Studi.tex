@@ -327,13 +327,12 @@ Representasi tersebut disusun menjadi \emph{structured prompt} sebelum dikirimka
  
 Dengan mempertahankan struktur relasional, LLM memperoleh konteks yang lebih kaya dibandingkan ketika hanya menerima potongan teks tidak terstruktur. Akibatnya, jawaban yang dihasilkan menjadi lebih konsisten, dapat ditelusuri, dan berpotensi mengurangi halusinasi.
  
-\subsubsection{Perbandingan Kuantitatif: Vector RAG dan GraphRAG}
+\subsubsection{Perbandingan \emph{Vector RAG} dan \emph{GraphRAG}}
  
 Perbedaan utama antara Vector RAG dan GraphRAG terletak pada mekanisme pengambilan informasi. Vector RAG mengandalkan pencarian berbasis kemiripan vektor, sedangkan GraphRAG memanfaatkan struktur relasional melalui traversal graf. Ringkasan perbandingan keduanya disajikan pada
 Tabel~\ref{tab:rag_vs_graphrag}.
 
 \input tables/rag_vs_graphrag.tex
-% tabel dipertahankan
  
 \textcite{Kamalipour2026} menunjukkan bahwa GraphRAG memberikan keunggulan yang lebih nyata pada pertanyaan kompleks yang memerlukan penalaran multi-hop. Pada beberapa eksperimen di domain keuangan, kesehatan, dan hukum, penambahan \emph{knowledge graph} meningkatkan proporsi jawaban benar sekitar 30\% dibandingkan pendekatan berbasis pengambilan vektor saja.
  
@@ -346,19 +345,19 @@ Meskipun demikian, GraphRAG juga memiliki keterbatasan. Kualitas hasil sangat be
 
 Salah satu komponen utama dalam GraphRAG adalah mekanisme \emph{hybrid retrieval}, yaitu pendekatan pengambilan informasi yang mengombinasikan dua paradigma berbeda, yakni \emph{semantic retrieval} berbasis vektor dan \emph{symbolic retrieval} berbasis traversal graf. Kombinasi kedua pendekatan tersebut menjadi penting karena masing-masing memiliki karakteristik, kelebihan, dan keterbatasan yang saling melengkapi. Pemahaman terhadap hubungan keduanya menjadi landasan konseptual utama dalam pendekatan yang diusulkan pada penelitian ini.
 
-\subsubsection{Semantic Retrieval: Keunggulan dan Keterbatasan}
+\subsubsection{\emph{Semantic Retrieval}}
 
 \emph{Semantic retrieval} atau \emph{dense retrieval} bekerja dengan mengukur kemiripan semantik antara kueri dan dokumen menggunakan representasi \emph{embedding} dalam ruang vektor kontinu. Pendekatan ini unggul dalam menemukan informasi yang relevan secara makna meskipun menggunakan istilah atau struktur kalimat yang berbeda. Selain itu, metode ini memiliki skalabilitas yang baik untuk korpus data berukuran besar.
 
 Meskipun demikian, pendekatan berbasis vektor tidak merepresentasikan hubungan eksplisit antar entitas. Akibatnya, metode ini kurang efektif untuk menjawab pertanyaan yang memerlukan penalaran relasional atau hubungan bertahap antar konsep \autocite{Kamalipour2026}. Sebagai contoh, kueri seperti ``\emph{mengapa} \texttt{pandas.merge()} \emph{menghasilkan} \texttt{NaN}'' tidak hanya memerlukan kemiripan teks, tetapi juga pemahaman terhadap hubungan kausal antar operasi dan struktur data.
 
-\subsubsection{Symbolic Retrieval: Keunggulan dan Keterbatasan}
+\subsubsection{\emph{Symbolic Retrieval}}
 
 Berbeda dengan \emph{semantic retrieval}, \emph{symbolic retrieval} bekerja menggunakan representasi pengetahuan yang eksplisit dalam bentuk graf. Pendekatan ini memanfaatkan proses \emph{graph traversal} untuk mengikuti hubungan antar entitas secara terstruktur. Keunggulan utama pendekatan ini adalah kemampuannya dalam melakukan penalaran \emph{multi-hop}, yaitu menelusuri hubungan bertingkat dari satu entitas ke entitas lain \autocite{Wang2026}.
 
 Traversal berbobot juga memungkinkan sistem memprioritaskan jalur tertentu berdasarkan atribut pada simpul maupun sisi graf, misalnya tingkat kepercayaan, reputasi komunitas, atau frekuensi kemunculan relasi. Namun, pendekatan ini memiliki keterbatasan karena hanya dapat menjangkau entitas yang memang terhubung secara eksplisit di dalam graf. Informasi yang relevan tetapi tidak memiliki hubungan struktural langsung berpotensi tidak ditemukan.
 
-\subsubsection{Multi-hop Reasoning sebagai Justifikasi Pendekatan Hibrid}
+\subsubsection{\emph{Multi-hop Reasoning} sebagai Justifikasi Pendekatan Hibrid}
 
 Permasalahan teknis dalam domain pemrograman umumnya memerlukan penalaran bertahap yang tidak dapat diselesaikan hanya dengan satu mekanisme retrieval. Sebagai contoh:
 
@@ -375,7 +374,7 @@ Permasalahan teknis dalam domain pemrograman umumnya memerlukan penalaran bertah
 
 Rantai penalaran tersebut menunjukkan bahwa sistem perlu mengikuti hubungan eksplisit antar entitas melalui \emph{graph traversal}, sekaligus menemukan konsep lain yang serupa secara semantik meskipun tidak terhubung langsung di dalam graf. Dalam contoh tersebut, relasi antara \texttt{dict.\_\_getitem\_\_} dan \texttt{DataFrame.loc} lebih mudah ditemukan melalui pencarian semantik dibandingkan hubungan struktural eksplisit.
 
-\subsubsection{Trade-off antara Presisi Retrieval dan Cakupan Kontekstual}
+\subsubsection{\emph{Trade-off} antara Presisi Retrieval dan Cakupan Kontekstual}
 
 \textcite{Kamalipour2026} menjelaskan bahwa terdapat trade-off mendasar antara pendekatan simbolik dan semantik. \emph{Symbolic retrieval} cenderung memberikan presisi yang lebih tinggi karena hubungan antar entitas bersifat eksplisit dan dapat ditelusuri. Namun, cakupan konteksnya relatif terbatas. Sebaliknya, \emph{semantic retrieval} memiliki cakupan informasi yang lebih luas, tetapi presisinya dapat menurun pada pertanyaan yang memerlukan hubungan relasional yang kompleks.
 
@@ -395,7 +394,7 @@ Kombinasi tersebut memungkinkan sistem mempertahankan keterlacakan (\emph{tracea
 
 Berbagai penelitian menunjukkan bahwa integrasi \emph{knowledge graph} (KG) ke dalam sistem \emph{Retrieval-Augmented Generation} (RAG) mampu meningkatkan akurasi jawaban sekaligus mengurangi tingkat halusinasi pada LLM. Secara umum, studi-studi tersebut memperlihatkan bahwa KG tidak hanya membantu proses retrieval menjadi lebih relevan, tetapi juga menjaga agar proses generasi tetap terikat pada fakta yang dapat diverifikasi. Temuan ini menjadi penting untuk domain pemrograman yang menuntut ketepatan informasi dan kejelasan hubungan antar konsep teknis.
 
-\subsubsection{Pengurangan Halusinasi melalui Grounded Generation}
+\subsubsection{Pengurangan Halusinasi melalui \emph{Grounded Generation}}
 
 Studi Pythia-RAG \autocite{Ali2026} membangun \emph{Multimodal Knowledge Graph} (MMKG) dari sumber tekstual dan visual, kemudian mengambil subgraf yang relevan menggunakan algoritma \emph{Prize-Collecting Steiner Tree}. Evaluasi pada dataset ScienceQA dan MultiModalQA menunjukkan peningkatan akurasi masing-masing sebesar 5,4\% dan 4,8\%.
 
@@ -407,7 +406,7 @@ Hasil serupa juga ditemukan pada sistem IC-HRAG \autocite{Zhou2026}. Sistem ters
 
 Studi PRIME \autocite{Wang2026} mengembangkan mekanisme penalaran bertahap berbasis subgraf yang memungkinkan sistem menelusuri hubungan antar entitas secara progresif. Metode tersebut memperoleh performa 91,6\% Hit@1 pada WebQSP dan 78,3\% F1 pada CWQ tanpa memerlukan pelatihan tambahan. Temuan ini menunjukkan bahwa traversal pada KG dapat digunakan untuk melakukan \emph{multi-hop reasoning} secara efisien. Dalam domain pemrograman, kemampuan tersebut penting karena pertanyaan teknis sering kali memerlukan beberapa tahap penalaran, misalnya mulai dari identifikasi kesalahan, penelusuran penyebab, hingga penemuan solusi yang sesuai.
 
-\subsubsection{Knowledge Graph sebagai Sumber Pengetahuan Otoritatif}
+\subsubsection{\emph{Knowledge Graph} sebagai Sumber Pengetahuan Otoritatif}
 
 Studi LARK \autocite{BenKhalifa2026} menerapkan GraphRAG dengan mekanisme \emph{dual-constraint} pada analisis lisensi perangkat lunak. Domain tersebut memiliki karakteristik yang mirip dengan domain pemrograman karena pengetahuan bersifat eksplisit, terstruktur, dan dapat diverifikasi secara objektif. Evaluasi terhadap sekitar 4.000 proyek Python sumber terbuka menunjukkan akurasi deteksi lisensi sebesar 98,1\% dan nilai F1 kompatibilitas sebesar 96,2\%, dengan tingkat halusinasi hanya 2,1\%. Rendahnya halusinasi dicapai karena KG digunakan sebagai sumber pengetahuan utama, sementara LLM hanya berperan dalam memahami kueri dan menyusun penjelasan. Pendekatan tersebut relevan dengan penelitian ini karena menunjukkan bahwa pemisahan peran antara KG dan LLM dapat meningkatkan keandalan jawaban. Dalam penelitian ini, Stack Overflow diposisikan sebagai sumber pengetahuan utama yang telah melalui proses validasi komunitas.
 
