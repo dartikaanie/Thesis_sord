@@ -358,9 +358,29 @@ Dataset evaluasi akan menggunakan strategi \emph{stratified random sampling} ber
 \label{sec:ringkasan-desain}
 %============================================================
 
+\input{tables/bab3_ringkasan_komponen.tex}
+
 Tabel~\ref{tab:ringkasan-komponen} merangkum komponen teknis \emph{GraphRAG Framework} beserta kaitannya dengan kesenjangan yang dijawab dan kebutuhan yang dipenuhi.
 
 Secara keseluruhan, desain yang diusulkan telah dirancang untuk memenuhi seluruh kebutuhan fungsional (F1--F7) dan kebutuhan nonfungsional (NF1--NF6) yang telah diidentifikasi pada tahap analisis. Selain itu, rancangan ini juga menjaga keterkaitan antara kesenjangan penelitian yang dibahas pada Bab~\ref{chap:studi-literatur}, hipotesis penelitian yang dirumuskan pada Bab~\ref{chap:pendahuluan}, dan solusi teknis yang diusulkan dalam penelitian ini.
 
 Bab ini berfokus pada perancangan arsitektur dan komponen utama sistem. Implementasi dari setiap komponen, proses pengembangan sistem, serta hasil evaluasi terhadap pendekatan yang diusulkan akan dijelaskan pada bab-bab berikutnya.
-\input{tables/bab3_ringkasan_komponen.tex}
+
+
+
+%============================================================
+\section{Hasil yang Diharapkan}
+\label{sec:hasil-yang-diharapkan}
+%============================================================
+ 
+Berdasarkan desain evaluasi tiga kondisi dan metrik yang telah dirumuskan pada bab ini, penelitian ini diharapkan menghasilkan temuan sebagai berikut.
+ 
+\begin{enumerate}
+    \item \emph{GraphRAG Framework} (Kondisi C) diharapkan menunjukkan keunggulan yang signifikan secara statistik (uji Wilcoxon Signed-Rank dan Cliff's Delta) atas Kondisi A (LLM murni) dan Kondisi B (RAG konvensional) pada metrik Cosine Similarity, ROUGE-1/2/L, BERTScore, dan \emph{Hallucination Rate}.
+ 
+    \item Pembobotan konteks berdasarkan sinyal kepercayaan komunitas Stack Overflow (skor \emph{upvote}, status \emph{accepted answer}, dan reputasi kontributor) yang dioperasionalkan pada mekanisme \emph{Graph Traversal} diharapkan meningkatkan relevansi konteks yang diambil dibandingkan \emph{retrieval} berbasis kemiripan vektor pada Kondisi B.
+ 
+    \item Mekanisme \emph{grounded generation} dengan \emph{dual-constraint} (\emph{RAG Grounding} dan \emph{KG-Constraint}) diharapkan menghasilkan jawaban dengan \emph{provenance} yang dapat ditelusuri kembali ke \emph{thread} Stack Overflow asal, sehingga memenuhi kebutuhan fungsional terkait keterlacakan jawaban (F5) sebagaimana didefinisikan pada Tabel~\ref{tab:checklist-f1-f7}.
+ 
+    \item Secara keseluruhan, hasil ini diharapkan menunjukkan bahwa \emph{GraphRAG Framework} yang diusulkan dapat menjadi dasar arsitektural bagi pengembangan \emph{AI coding assistant} yang lebih bertanggung jawab, dengan menggabungkan validasi sosial komunitas sebagai dimensi kepercayaan pengetahuan dalam sistem berbasis LLM.
+\end{enumerate}

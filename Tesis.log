@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.3.4)  4 JUN 2026 15:12
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.3.4)  13 JUN 2026 21:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1418,13 +1418,13 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 ]
 [18] (./Tesis.lot
-Overfull \hbox (1.10757pt too wide) in paragraph at lines 670--670
+Overfull \hbox (1.10757pt too wide) in paragraph at lines 672--672
  [][] [][][]\TU/TimesNewRoman(0)/m/n/12 Perbandingan ketiga kondisi evaluasi te
 rhadap kebutuhan sistem dan 
  []
 
 
-Overfull \hbox (0.98744pt too wide) in paragraph at lines 731--731
+Overfull \hbox (0.98744pt too wide) in paragraph at lines 733--733
  [][] [][][]\TU/TimesNewRoman(0)/m/n/12 Ringkasan komponen \TU/TimesNewRoman(0)
 /m/it/12 GraphRAG Framework \TU/TimesNewRoman(0)/m/n/12 dan kaitannya dengan 
  []
@@ -1575,11 +1575,7 @@ File: images/The_indexing_ process_in_a_RAG_pipeline.png Graphic file (type bmp
 )
 <images/The_indexing_ process_in_a_RAG_pipeline.png>
 
-Package biblatex-chicago Warning: Empty Ibidem citation on input line 117.
-
-
-LaTeX Warning: Reference `fig:indexing_process_in_a_RAG' on page 21 undefined o
-n input line 120.
+Package biblatex-chicago Warning: Empty Ibidem citation on input line 118.
 
 
 Underfull \vbox (badness 2393) has occurred while \output is active []
@@ -1794,16 +1790,15 @@ Overfull \hbox (23.37357pt too wide) in paragraph at lines 6--31
 
 Package biblatex-chicago Warning: Empty Ibidem citation on input line 553.
 
-(./tables/bab2_penelitian_terkait.tex
+[45] (./tables/bab2_penelitian_terkait.tex
 Underfull \hbox (badness 10000) in paragraph at lines 53--53
 []|[][][][][]\TU/TimesNewRoman(0)/m/n/10.95 Silva, Samhi, dan
  []
 
-) [45] [46] [47]
+) [46] [47] [48]
 File: images/bab2_kerangka_konseptual.png Graphic file (type bmp)
 <images/bab2_kerangka_konseptual.png>
- [48] [49] [50]) (./Bab III - Analisis dan Desain.tex [51]
-[52
+ [49] [50]) (./Bab III - Analisis dan Desain.tex [51] [52
 
 ]
 Bab III.
@@ -2055,73 +2050,79 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [78]
 (./tables/bab3_ringkasan_komponen.tex
-Underfull \hbox (badness 10000) in paragraph at lines 89--89
+Underfull \hbox (badness 10000) in paragraph at lines 88--88
 []|\TU/TimesNewRoman(0)/b/n/10.95 Teknologi Kandi-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 89--89
+Underfull \hbox (badness 10000) in paragraph at lines 88--88
 []|\TU/TimesNewRoman(0)/m/n/10.95 Python \TU/lmtt/m/n/10.95 pandas \TU/TimesNew
 Roman(0)/m/n/10.95 /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 89--89
+Underfull \hbox (badness 10000) in paragraph at lines 88--88
 []|\TU/TimesNewRoman(0)/m/n/10.95 Pembersihan, \TU/TimesNewRoman(0)/m/it/10.95 
 deduplica-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 89--89
+Underfull \hbox (badness 10000) in paragraph at lines 88--88
 []|\TU/TimesNewRoman(0)/m/n/10.95 KG Builder
  []
 
 
-Underfull \hbox (badness 6893) in paragraph at lines 89--89
+Underfull \hbox (badness 6893) in paragraph at lines 88--88
 []|\TU/TimesNewRoman(0)/m/n/10.95 GPT-4 API + La-
  []
 
 
-Underfull \hbox (badness 1215) in paragraph at lines 89--89
+Underfull \hbox (badness 1215) in paragraph at lines 88--88
 []|\TU/TimesNewRoman(0)/m/n/10.95 Python (normalisasi
  []
 
 
-Underfull \hbox (badness 2486) in paragraph at lines 89--89
+Underfull \hbox (badness 2486) in paragraph at lines 88--88
 []|\TU/TimesNewRoman(0)/m/n/10.95 Penyimpanan dan proses
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 89--89
+Underfull \hbox (badness 10000) in paragraph at lines 88--88
 []|\TU/TimesNewRoman(0)/m/n/10.95 Embedding Mo-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 89--89
+Underfull \hbox (badness 10000) in paragraph at lines 88--88
 []|\TU/TimesNewRoman(0)/m/n/10.95 Pengkodean teks untuk
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 89--89
+Underfull \hbox (badness 10000) in paragraph at lines 88--88
 []|\TU/lmtt/m/n/10.95 text-embedding-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 89--89
+Underfull \hbox (badness 10000) in paragraph at lines 88--88
 []|\TU/TimesNewRoman(0)/m/it/10.95 Graph-guided retrieval
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 89--89
+Underfull \hbox (badness 10000) in paragraph at lines 88--88
 \TU/TimesNewRoman(0)/m/n/10.95 dan pencarian berbasis
  []
 
 
-Underfull \hbox (badness 4792) in paragraph at lines 89--89
+Underfull \hbox (badness 4792) in paragraph at lines 88--88
 []|\TU/TimesNewRoman(0)/m/n/10.95 GPT-4o (API Ope-
  []
 
-)) [79] [80]
+) [79]
+Overfull \hbox (0.74706pt too wide) in paragraph at lines 385--386
+[]\TU/TimesNewRoman(0)/m/n/12 Secara keseluruhan, hasil ini diharapkan menunjuk
+kan bahwa \TU/TimesNewRoman(0)/m/it/12 GraphRAG Fra-
+ []
+
+) [80]
 Overfull \hbox (2.70285pt too wide) in paragraph at lines 414--414
 \TU/TimesNewRoman(0)/m/n/12 dan Pavlos Kefalas. 2026. “  Pythia-RAG: Retrieval-
 Augmented Generation over
@@ -2216,13 +2217,10 @@ L3 programming layer <2026-01-19>
  ***********
 
 
-LaTeX Warning: There were undefined references.
-
-
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
 Package rerunfilecheck Info: File `Tesis.out' has not changed.
-(rerunfilecheck)             Checksum: ECC93B2F19EDC9610F828EC308844004;27370.
+(rerunfilecheck)             Checksum: 105E5CBA45CB73FD47A87AA5983311CE;27537.
 
 Package biblatex Warning: Please rerun LaTeX.
 (biblatex)                Page breaks have changed.
@@ -2232,12 +2230,12 @@ Package logreq Info: Writing requests to 'Tesis.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 35456 strings out of 468168
- 699870 string characters out of 5432816
- 2107195 words of memory out of 5000000
- 63653 multiletter control sequences out of 15000+600000
+ 35457 strings out of 468168
+ 699877 string characters out of 5432816
+ 2107429 words of memory out of 5000000
+ 63654 multiletter control sequences out of 15000+600000
  637063 words of font info for 125 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 73i,16n,95p,2293b,8601s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 73i,16n,95p,1917b,8601s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 Output written on Tesis.pdf (108 pages).

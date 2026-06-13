@@ -111,14 +111,13 @@ Sementara itu, \textcite{Kamalipour2026} memformulasikan proses RAG ke dalam emp
  
 \subsubsection{Pengindeksan Basis Pengetahuan (\emph{Indexing}).}
 
+Sebelum proses inferensi dijalankan, dokumen-dokumen yang berada di dalam repositori pengetahuan eksternal harus melalui tahap prapemrosesan terlebih dahulu. Tahap pertama adalah \emph{Indexing}, yaitu proses persiapan repositori pengetahuan sebelum inferensi dilakukan. Dokumen eksternal terlebih dahulu dipraproses dengan memecah teks menjadi unit-unit kecil (\emph{chunks}), kemudian setiap \emph{chunk} dikonversi menjadi representasi vektor menggunakan model \emph{embedding} dan disimpan pada \emph{vector database}. Tahap ini membentuk fondasi bagi proses pencarian semantik. Proses \emph{Indexing} direpresntasikan pada pada Gambar~\ref{fig:indexing_process_in_a_RAG}.
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=\textwidth]{images/The_indexing_ process_in_a_RAG_pipeline.png}
     \caption{Proses pengindeksan pada pipeline RAG \autocite{Kamalipour2026}.}
-    \label{fig: indexing_process_in_a_RAG}
+    \label{fig:indexing_process_in_a_RAG}
 \end{figure}
-
-Sebelum proses inferensi dijalankan, dokumen-dokumen yang berada di dalam repositori pengetahuan eksternal harus melalui tahap prapemrosesan terlebih dahulu. Tahap pertama adalah \emph{Indexing}, yaitu proses persiapan repositori pengetahuan sebelum inferensi dilakukan. Dokumen eksternal terlebih dahulu dipraproses dengan memecah teks menjadi unit-unit kecil (\emph{chunks}), kemudian setiap \emph{chunk} dikonversi menjadi representasi vektor menggunakan model \emph{embedding} dan disimpan pada \emph{vector database}. Tahap ini membentuk fondasi bagi proses pencarian semantik. Proses \emph{Indexing} direpresntasikan pada pada Gambar~\ref{fig:indexing_process_in_a_RAG}.
 
 \subsubsection{Pengambilan Informasi (\emph{Retrieval}).}
 
@@ -556,6 +555,8 @@ Secara umum, proses evaluasi \emph{LLM-as-a-Judge} terdiri atas empat tahap, yai
 Keandalan sistem penilai otomatis perlu dibandingkan dengan penilaian manusia menggunakan metrik seperti Cohen’s $\kappa$ dan korelasi Spearman. Nilai Cohen’s $\kappa \geq 0{,}6$ umumnya dianggap menunjukkan tingkat kesepakatan yang baik antara penilai otomatis dan penilai manusia.
 
 Dalam konteks penelitian ini, paradigma \emph{LLM-as-a-Judge} menjadi relevan karena memungkinkan evaluasi \emph{faithfulness} dilakukan pada skala besar. Selain itu, rubrik penilaian dapat disesuaikan dengan karakteristik domain pemrograman, misalnya dengan mengevaluasi ketepatan penggunaan API, kesesuaian versi pustaka, dan penanganan \emph{exception}, yang merupakan sumber umum terjadinya halusinasi pada LLM \autocite{Alomari2026}.
+
+Meskipun demikian, paradigma LLM-as-a-Judge memiliki keterbatasan yang perlu diperhatikan. Model penilai dapat menunjukkan bias sistematis, misalnya kecenderungan memberikan skor lebih tinggi pada jawaban yang lebih panjang atau yang ditulis dengan gaya bahasa tertentu, serta inkonsistensi penilaian antar pengulangan (run-to-run variance) \autocite{Gu2026}. Pada domain pemrograman, model penilai juga berpotensi tidak mendeteksi kesalahan teknis yang halus, seperti penggunaan parameter API yang sudah deprecated atau kesalahan logika yang secara sintaksis tetap valid. Oleh karena itu, penelitian ini tidak menggunakan LLM-as-a-Judge sebagai satu-satunya sumber penilaian, melainkan melengkapinya dengan validasi manual oleh evaluator berlatar belakang pemrograman terhadap subset jawaban yang dipilih secara acak, sebagai bentuk pemeriksaan reliabilitas (Cohen's κ) terhadap skor yang dihasilkan model penilai.
 
 % =========================================================
 \section{Sintesis Penelitian Terkait dan \emph{Research Gap}}

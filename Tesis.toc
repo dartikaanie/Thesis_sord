@@ -298,9 +298,9 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {subsubsection}{\numberline {II.3.2.1}Pengindeksan Basis Pengetahuan (\emph {Indexing}).}{22}{subsubsection.2.3.2.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsubsection}{\numberline {II.3.2.1}Pengindeksan Basis Pengetahuan (\emph {Indexing}).}{22}{subsubsection.2.3.2.1}%
 \contentsline {subsubsection}{\numberline {II.3.2.2}Pengambilan Informasi (\emph {Retrieval}).}{22}{subsubsection.2.3.2.2}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
@@ -570,8 +570,10 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {section}{\numberline {II.9}Sintesis Penelitian Terkait dan \emph {Research Gap}}{45}{section.2.9}%
-\contentsline {subsection}{\numberline {II.9.1}Analisis Penelitian Terkait}{45}{subsection.2.9.1}%
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\contentsline {section}{\numberline {II.9}Sintesis Penelitian Terkait dan \emph {Research Gap}}{46}{section.2.9}%
+\contentsline {subsection}{\numberline {II.9.1}Analisis Penelitian Terkait}{46}{subsection.2.9.1}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -659,7 +661,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {subsection}{\numberline {II.9.3}Kerangka Konseptual Penelitian}{48}{subsection.2.9.3}%
+\contentsline {subsection}{\numberline {II.9.3}Kerangka Konseptual Penelitian}{49}{subsection.2.9.3}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -835,6 +837,7 @@
 \babel@toc {indonesian}{}\relax 
 \contentsline {subsubsection}{\numberline {III.4.5.4}Strategi \emph {Sampling Benchmark}}{79}{subsubsection.3.4.5.4}%
 \contentsline {section}{\numberline {III.5}Ringkasan Desain}{79}{section.3.5}%
+\contentsline {section}{\numberline {III.6}Hasil yang Diharapkan}{80}{section.3.6}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
