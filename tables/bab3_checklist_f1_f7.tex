@@ -5,7 +5,7 @@
 \small
 \renewcommand{\arraystretch}{1.2}
 
-\begin{tabular}{|p{1cm}|p{5.5cm}|p{7cm}|}
+\begin{tabular}{|p{0.9cm}|>{\raggedright\arraybackslash}p{5.0cm}|>{\raggedright\arraybackslash}p{6.9cm}|}
 \hline
 \textbf{Req.} &
 \textbf{Komponen Implementasi} &
@@ -13,38 +13,38 @@
 \hline
 
 F1 &
-Pipeline konstruksi KG berbobot dari SORD &
-KG dapat dibangun dan bobot relasi terisi dari sinyal komunitas \\
+\emph{Pipeline} konstruksi dan densifikasi KG berbobot dari SORD &
+KG terbangun dari seluruh populasi SORD, bobot simpul dan sisi terisi dari sinyal komunitas, dan proporsi simpul terisolasi $\leq 30\%$ setelah densifikasi \\
 \hline
 
 F2 &
-Pengindeksan vektor FAISS/ChromaDB &
-\emph{Vector store} dapat di-\emph{query} dan mengembalikan hasil yang relevan \\
+Indeks vektor FAISS (\texttt{all-MiniLM-L6-v2}) &
+Indeks dapat di-\emph{query} dan mengembalikan pertanyaan atau \emph{chunk} paling mirip \\
 \hline
 
 F3 &
-NER dan \emph{entity linking} pada kueri &
-Entitas berhasil dipetakan ke simpul KG dengan benar \\
+\emph{Entity anchoring} berbasis pencarian vektor &
+Setiap kueri memperoleh \emph{seed nodes} di KG, dengan pertanyaan evaluasi itu sendiri dikecualikan \\
 \hline
 
 F4 &
-\emph{Hybrid retrieval} (tiga tahap sekuensial) &
-Subgraf dan \emph{semantic expansion} menghasilkan \emph{unified context window} \\
+\emph{Hybrid retrieval} (tiga tahap sekuensial) dan fusi &
+Traversal dan \emph{semantic expansion} menghasilkan \emph{unified context window} top-$k$ yang deterministik pada eksekusi berulang \\
 \hline
 
 F5 &
-\emph{Grounded generation} dan \emph{dual-constraint} &
-Output menyertakan jawaban, sitasi Stack Overflow, dan jalur \emph{provenance} \\
+\emph{Grounded generation} dengan \emph{dual-constraint} &
+Output menyertakan jawaban, kutipan \texttt{[SO-<id>]} yang tervalidasi terhadap konteks, dan catatan \emph{provenance} per item konteks \\
 \hline
 
 F6 &
-Pipeline evaluasi tiga kondisi &
-Ketiga kondisi eksperimen dapat dijalankan pada dataset yang sama \\
+\emph{Pipeline} evaluasi empat kondisi dan saklar ablasi &
+Kondisi A--D dapat dijalankan pada sampel yang sama, dan setiap saklar ablasi hanya mengubah satu komponen \\
 \hline
 
 F7 &
-Pembaruan KG inkremental &
-Entitas baru dapat ditambahkan tanpa perlu \emph{re-training} LLM \\
+Pembaruan KG inkremental \todo{F7} &
+Konten baru dapat ditambahkan dan langsung dapat diambil tanpa \emph{re-training} LLM \\
 \hline
 
 \end{tabular}

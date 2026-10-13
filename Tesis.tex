@@ -99,6 +99,12 @@
 \usepackage{threeparttable} % for tables with notes
 \usepackage{tabularx} % for tables with adjustable-width columns
 \usepackage{xcolor} % for color definitions
+% Catatan TODO berwarna merah untuk keputusan yang belum final.
+% Hapus definisi ini (atau buat kosong) saat finalisasi naskah.
+\newcommand{\todo}[1]{\textcolor{red}{\textbf{[TODO: #1]}}}
+% Memberi ruang peregangan spasi agar identifier panjang bertipe
+% \texttt{} (mis. HAS_ACCEPTED_ANSWER) tidak keluar dari margin.
+\setlength{\emergencystretch}{3em}
 \usepackage[title,titletoc]{appendix} % for appendix management
 \usepackage{csquotes} % for context-sensitive quotation facilities
 \usepackage{etoolbox}
@@ -400,7 +406,7 @@
 \input{Bab III - Analisis dan Desain.tex}
 
 
-% \input{Bab IV - Implementasi.tex}
+\input{Bab IV - Implementasi.tex}
 
 % \input{Bab VI - Evaluasi.tex}
 

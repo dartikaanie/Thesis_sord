@@ -1,37 +1,38 @@
 
 \begin{table}[!htbp]
 \centering
-\caption{Perbandingan pemenuhan kebutuhan sistem pada tiga kondisi penelitian.}
+\caption{Perbandingan pemenuhan kebutuhan sistem pada empat kondisi penelitian.}
 \label{tab:perbandingan-kondisi}
 \small
 \renewcommand{\arraystretch}{1.2}
 
-\begin{tabularx}{\textwidth}{|X|c|c|c|}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|c|c|c|c|}
 \hline
 \textbf{Kriteria Kebutuhan}
   & \textbf{\makecell{Kondisi A\\LLM Murni}}
-  & \textbf{\makecell{Kondisi B\\RAG Konvensional}}
-  & \textbf{\makecell{Kondisi C\\GraphRAG}}
+  & \textbf{\makecell{Kondisi B\\RAG\\Konvensional}}
+  & \textbf{\makecell{Kondisi C\\GraphRAG\\Berbobot}}
+  & \textbf{\makecell{Kondisi D\\GraphRAG\\\emph{Dual-Level}}}
 \\ \hline
 
 \emph{Grounding} arsitektural berbasis Stack Overflow (G1)
-  & $\times$ & $\sim$ & $\checkmark$ \\ \hline
+  & $\times$ & $\sim$ & $\checkmark$ & $\checkmark$ \\ \hline
 Pengetahuan \emph{library}/API terkini (G1)
-  & $\times$ & $\checkmark$ & $\checkmark$ \\ \hline
+  & $\times$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\ \hline
 Sinyal kepercayaan komunitas Stack Overflow (G2)
-  & $\times$ & $\times$ & $\checkmark$ \\ \hline
+  & $\times$ & $\times$ & $\checkmark$ & $\times$ \\ \hline
 \emph{Retrieval} relasional dan multi-hop (G2, G3)
-  & $\times$ & $\times$ & $\checkmark$ \\ \hline
+  & $\times$ & $\times$ & $\checkmark$ & $\checkmark$ \\ \hline
 \emph{Semantic retrieval} berbasis vektor
-  & $\times$ & $\checkmark$ & $\checkmark$ \\ \hline
+  & $\times$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\ \hline
 \emph{Grounded generation} dan sitasi (G1)
-  & $\times$ & $\sim$ & $\checkmark$ \\ \hline
+  & $\times$ & $\sim$ & $\checkmark$ & $\checkmark$ \\ \hline
 \emph{Provenance} dan keterlacakan sumber
-  & $\times$ & $\sim$ & $\checkmark$ \\ \hline
+  & $\times$ & $\sim$ & $\checkmark$ & $\sim$ \\ \hline
 Protokol evaluasi komparatif
-  & $\checkmark$ & $\checkmark$ & $\checkmark$ \\ \hline
-Pembaruan pengetahuan tanpa \emph{re-training}
-  & $\times$ & $\sim$ & $\checkmark$ \\ \hline
+  & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\ \hline
+Pembaruan pengetahuan tanpa \emph{re-training}\textsuperscript{\dag}
+  & $\times$ & $\sim$ & $\checkmark$ & $\checkmark$ \\ \hline
 
 \end{tabularx}
 
@@ -39,6 +40,8 @@ Pembaruan pengetahuan tanpa \emph{re-training}
 \footnotesize
 $\checkmark$ = Terpenuhi \qquad
 $\sim$ = Sebagian terpenuhi \qquad
-$\times$ = Tidak terpenuhi
+$\times$ = Tidak terpenuhi \\
+Kondisi B memperoleh $\sim$ pada \emph{grounding} dan sitasi karena instruksi tersebut bersifat opsional. Kondisi D memperoleh $\sim$ pada \emph{provenance} karena konteksnya tidak membawa bobot kepercayaan. \\
+\textsuperscript{\dag}\todo{Baris ini bergantung pada keputusan F7.}
 
 \end{table}

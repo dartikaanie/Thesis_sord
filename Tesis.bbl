@@ -566,6 +566,68 @@
       \verb 10.1016/j.xinn.2025.101253
       \endverb
     \endentry
+    \entry{Guo2025}{inproceedings}{}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=7a41443fa867e2204d99c529724a5ae4}{%
+           family={Guo},
+           familyi={G\bibinitperiod},
+           given={Zirui},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ede8d3ecc3ccb0f363d631d25535a170}{%
+           family={Xia},
+           familyi={X\bibinitperiod},
+           given={Lianghao},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d319f32ed1dd6a23ec76ca8ed327c510}{%
+           family={Yu},
+           familyi={Y\bibinitperiod},
+           given={Yanhua},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=658684f0954f98b66fb62e9ba66ce49b}{%
+           family={Ao},
+           familyi={A\bibinitperiod},
+           given={Tu},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=085ba9203d469ee85e0630e569da3d12}{%
+           family={Huang},
+           familyi={H\bibinitperiod},
+           given={Chao},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{location}{1}{%
+        {Suzhou, China}%
+      }
+      \list{publisher}{1}{%
+        {Association for Computational Linguistics}%
+      }
+      \strng{namehash}{3ee2c310c1fa639dfab43a74b38df27f}
+      \strng{fullhash}{ac7f9ebdfb747419eda519161b4635d2}
+      \strng{fullhashraw}{ac7f9ebdfb747419eda519161b4635d2}
+      \strng{bibnamehash}{ac7f9ebdfb747419eda519161b4635d2}
+      \strng{authorbibnamehash}{ac7f9ebdfb747419eda519161b4635d2}
+      \strng{authornamehash}{3ee2c310c1fa639dfab43a74b38df27f}
+      \strng{authorfullhash}{ac7f9ebdfb747419eda519161b4635d2}
+      \strng{authorfullhashraw}{ac7f9ebdfb747419eda519161b4635d2}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Findings of the Association for Computational Linguistics: EMNLP 2025}
+      \field{title}{{LightRAG}: Simple and Fast Retrieval-Augmented Generation}
+      \field{year}{2025}
+      \field{pages}{10746\bibrangedash 10761}
+      \range{pages}{16}
+      \verb{doi}
+      \verb 10.18653/v1/2025.findings-emnlp.568
+      \endverb
+    \endentry
     \entry{Haque2025}{article}{}{}
       \name{author}{1}{}{%
         {{un=0,uniquepart=base,hash=66bd240b87449f48181d1c2d5e9100a4}{%

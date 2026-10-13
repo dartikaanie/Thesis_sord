@@ -1,6 +1,6 @@
 \begin{table}[!htbp]
 \centering
-\caption{Perbandingan ketiga kondisi evaluasi terhadap kebutuhan sistem dan tujuan penelitian.}
+\caption{Perbandingan keempat alternatif terhadap kebutuhan sistem dan tujuan penelitian berdasarkan analisis desain.}
 \label{tab:komparasi-solusi}
 
 \small
@@ -8,9 +8,10 @@
 
 \begin{tabularx}{\textwidth}{|
 >{\raggedright\arraybackslash}X|
->{\centering\arraybackslash}p{2.5cm}|
->{\centering\arraybackslash}p{2.8cm}|
->{\centering\arraybackslash}p{2.8cm}|}
+>{\centering\arraybackslash}p{1.9cm}|
+>{\centering\arraybackslash}p{2.1cm}|
+>{\centering\arraybackslash}p{2.1cm}|
+>{\centering\arraybackslash}p{2.1cm}|}
 \hline
 
 \textbf{Kebutuhan / Kriteria}
@@ -22,7 +23,10 @@
 \textbf{RAG Konvensional}
 &
 \textbf{Kondisi C} \newline
-\textbf{GraphRAG Framework}
+\textbf{GraphRAG Berbobot}
+&
+\textbf{Kondisi D} \newline
+\textbf{GraphRAG \emph{Dual-Level}}
 \\
 \hline
 
@@ -30,6 +34,7 @@ Reduksi halusinasi (M1)
 & Tidak
 & Sebagian
 & \textbf{Ya}
+& Sebagian
 \\
 \hline
 
@@ -37,6 +42,7 @@ Pemanfaatan sinyal kepercayaan Stack Overflow (M2, F1)
 & Tidak
 & Tidak
 & \textbf{Ya}
+& Tidak
 \\
 \hline
 
@@ -44,6 +50,7 @@ Keterlacakan sumber (\emph{citation}) (M3, F5)
 & Tidak
 & Sebagian
 & \textbf{Ya}
+& Ya
 \\
 \hline
 
@@ -51,27 +58,23 @@ Penalaran relasional dan \emph{multi-hop} (M4, F4)
 & Tidak
 & Tidak
 & \textbf{Ya}
+& Ya
 \\
 \hline
 
-Pembaruan pengetahuan tanpa \emph{re-training} (M5, F7)
+Pembaruan pengetahuan tanpa \emph{re-training} (M5, F7)\textsuperscript{\dag}
 & Tidak
 & Ya
 & \textbf{Ya}
-\\
-\hline
-
-Kinerja pada domain \emph{framework} dan \emph{library}
-& Rendah
-& Sedang
-& \textbf{Tinggi}
+& Ya
 \\
 \hline
 
 Kesesuaian dengan temuan G1
 & Tidak
-& Tidak
+& Sebagian
 & \textbf{Ya}
+& Ya
 \\
 \hline
 
@@ -79,6 +82,7 @@ Kesesuaian dengan temuan G2
 & Tidak
 & Tidak
 & \textbf{Ya}
+& Tidak
 \\
 \hline
 
@@ -86,6 +90,7 @@ Kesesuaian dengan temuan G3
 & Tidak
 & Tidak
 & \textbf{Ya}
+& Sebagian
 \\
 \hline
 
@@ -93,8 +98,14 @@ Kesesuaian dengan temuan G3
 & \textbf{Rendah}
 & \textbf{Sedang}
 & \textbf{Tinggi}
+& \textbf{Sedang}
 \\
 \hline
 
 \end{tabularx}
+
+\vspace{0.1cm}
+\raggedright\footnotesize
+Kondisi D dinilai ``Sebagian'' pada G3 karena memanfaatkan struktur graf komunitas, tetapi tidak memanfaatkan validasi sosialnya sebagai sinyal pemeringkatan. \\
+\textsuperscript{\dag}\todo{Baris ini bergantung pada keputusan F7.}
 \end{table}

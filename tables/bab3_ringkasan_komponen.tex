@@ -6,83 +6,90 @@ kesenjangan penelitian}
 \label{tab:ringkasan-komponen}
 
 \begin{tabularx}{\textwidth}
-{|c|p{2.8cm}|X|c|p{3.2cm}|}
-\hline  
+{|c|>{\raggedright\arraybackslash}p{2.5cm}|>{\raggedright\arraybackslash}X|c|>{\raggedright\arraybackslash}p{3.0cm}|}
+\hline
 \textbf{No.} &
 \textbf{Komponen} &
 \textbf{Fungsi} &
 \textbf{Gap} &
-\textbf{Teknologi Kandidat} \\
+\textbf{Teknologi} \\
 \hline
 
 1 &
 Data Loader &
-Memuat dan memparsing dataset SORD &
+Validasi integritas, penggabungan, dan deduplikasi dataset SORD &
 G2, G3 &
-Python \texttt{pandas} / JSON \\
+Python, DuckDB, Parquet \\
 \hline
 
 2 &
-Preprocessor &
-Pembersihan, \emph{deduplication}, dan tokenisasi &
-G2 &
-spaCy / NLTK \\
+KG Builder &
+Pembangunan simpul dan sisi dari metadata struktural serta pengayaan tautan antar-\emph{thread} &
+G3 &
+Python, DuckDB, Neo4j \\
 \hline
 
 3 &
-KG Builder (NER) &
-Ekstraksi triple $(s,p,o)$ dari teks &
-G3 &
-GPT-4 API + LangChain \\
-\hline
-
-4 &
 Weight Calculator &
-Komputasi bobot kepercayaan SO pada setiap sisi graf &
+Perhitungan \texttt{trustScore} simpul dan bobot kepercayaan setiap sisi &
 G2 &
 Python (normalisasi numerik) \\
 \hline
 
+4 &
+Graph Densifier &
+Pembentukan sisi \texttt{TAG\_COOCCUR} dan \texttt{EMBED\_SIM} &
+G3 &
+DuckDB, FAISS \\
+\hline
+
 5 &
 Graph Database &
-Penyimpanan dan proses traversal \emph{knowledge graph} berbobot &
+Penyimpanan dan traversal \emph{knowledge graph} berbobot &
 G2, G3 &
 Neo4j \\
 \hline
 
 6 &
 Embedding Model &
-Pengkodean teks untuk pencarian berbasis vektor &
+Pengkodean teks untuk pencarian vektor dan pengukuran kemiripan &
 --- &
-\texttt{text-embedding- 3-small} \\
+all-MiniLM-L6-v2 \\
 \hline
 
 7 &
 Vector Store &
 Indeks dan pencarian top-$k$ &
 --- &
-FAISS / ChromaDB \\
+FAISS \\
 \hline
 
 8 &
 Retrieval Engine &
-\emph{Graph-guided retrieval} dan pencarian berbasis vektor &
+\emph{Entity anchoring}, traversal berbobot, \emph{semantic expansion}, dan fusi &
 G2, G3 &
-Custom (Python) \\
+Python \\
 \hline
 
 9 &
 LLM Generator &
-\emph{Grounded generation} dan mekanisme \emph{citation} &
+\emph{Grounded generation} dengan \emph{dual-constraint} dan validasi kutipan &
 G1 &
-GPT-4o (API OpenAI) \\
+\texttt{gpt-4o-mini} (API OpenAI) \\
 \hline
 
 10 &
 Evaluator &
-Komputasi metrik evaluasi komparatif &
+\emph{LLM-as-a-Judge} (halusinasi, relevansi konteks, relevansi jawaban) dan uji statistik &
 G1--G3 &
-ROUGE, BERTScore, DeepEval \\
+Llama-3.3-70B-Instruct, \texttt{gpt-4o-mini}, SciPy \\
+\hline
+
+11 &
+Dashboard &
+Menjalankan eksperimen, menelusuri hasil, dan memvisualisasikan KG untuk demonstrasi &
+--- &
+FastAPI, React \\
 \hline
 
 \end{tabularx}

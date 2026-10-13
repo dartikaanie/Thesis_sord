@@ -1,7 +1,534 @@
-% ==========================================
-% BAB V IMPLEMENTASI
-% ==========================================
-\cleardoublepage
-\chapter{IMPLEMENTASI}
+%============================================================
+% BAB IV — IMPLEMENTASI
+% Sumber fakta: repo dartikaanie/graphrag (commit 2fece1c, 2026-10-13),
+% log pipeline di 01_data_cleaning/logs/, dan docs/DECISION_C_SCORING.md.
+%============================================================
+
+\chapter{Implementasi}
 \label{chap:implementasi}
-asdfasdf
+
+Bab ini memaparkan realisasi rancangan \emph{GraphRAG Framework} yang dijelaskan pada Bab~\ref{chap:analisis-desain}. Pembahasan disusun mengikuti urutan \emph{pipeline} penelitian, yaitu:
+\begin{enumerate}[1.]
+    \item lingkungan implementasi dan struktur kode,
+    \item persiapan dataset SORD,
+    \item konstruksi \emph{knowledge graph} berbobot beserta indeks vektor dan densifikasi graf,
+    \item implementasi keempat kondisi eksperimen (A, B, C, dan D),
+    \item penetapan parameter Kondisi C pada \emph{development set},
+    \item implementasi instrumen evaluasi, dan
+    \item mekanisme reprodusibilitas.
+\end{enumerate}
+Seluruh angka pada bab ini diambil dari log eksekusi dan berkas keluaran yang tersimpan di repositori kode penelitian.
+
+%============================================================
+\section{Lingkungan Implementasi}
+\label{sec:lingkungan-implementasi}
+%============================================================
+
+Seluruh implementasi dan eksperimen dijalankan pada satu komputer pribadi. Keterbatasan memori komputer tersebut menjadi pertimbangan utama dalam berbagai keputusan implementasi pada bab ini, misalnya pemrosesan data secara bertahap dan pembatasan memori basis data analitik. Spesifikasi lingkungan implementasi dirangkum pada Tabel~\ref{tab:lingkungan-implementasi}.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Lingkungan implementasi penelitian.}
+\label{tab:lingkungan-implementasi}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.6cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Komponen} & \textbf{Spesifikasi} \\
+\hline
+Perangkat keras & MacBook dengan prosesor Apple M2 (arm64), RAM 8~GB \\
+\hline
+Bahasa pemrograman & Python 3.10.9 \\
+\hline
+Pengolahan data & DuckDB (berkas Parquet), pandas; \texttt{memory\_limit} 2~GB dan 2 \emph{thread} \\
+\hline
+\emph{Graph database} & Neo4j Desktop 2026.07.0, basis data \texttt{graphrag} \\
+\hline
+Indeks vektor & FAISS (\texttt{faiss-cpu}) \\
+\hline
+Model \emph{embedding} & \texttt{all-MiniLM-L6-v2} (\texttt{sentence-transformers}, 384 dimensi), dijalankan pada CPU \\
+\hline
+Tokenisasi & \texttt{tiktoken}, \emph{encoding} \texttt{cl100k\_base} \\
+\hline
+LLM \emph{generator} & \texttt{gpt-4o-mini} melalui API OpenAI \\
+\hline
+LLM \emph{judge} & Llama-3.3-70B-Instruct melalui DeepInfra (\emph{judge} utama); \texttt{gpt-4o-mini} (\emph{judge} sekunder) \\
+\hline
+Analisis statistik & SciPy, scikit-learn \\
+\hline
+\end{tabularx}
+\end{table}
+
+Model \emph{embedding} sengaja dijalankan pada CPU, bukan pada GPU Apple (MPS). Pada pengujian awal, eksekusi melalui MPS dengan memori bersama 8~GB menyebabkan kehabisan memori GPU dan menghasilkan berkas keluaran kosong. Untuk model sekecil \texttt{all-MiniLM-L6-v2}, CPU memberikan kinerja yang memadai dan hasil yang deterministik.
+
+Kode penelitian disusun dalam satu repositori dengan struktur sebagai berikut:
+\begin{itemize}
+    \item \texttt{01\_data\_cleaning/}: \emph{pipeline} data, mulai dari validasi integritas hingga konstruksi dan densifikasi KG;
+    \item \texttt{llm/}: mesin eksperimen, yang memuat abstraksi penyedia LLM, \emph{prompt} bersama, validasi kutipan, skrip keempat kondisi (\texttt{a\_pure\_llm/}, \texttt{b\_rag/}, \texttt{c\_graphrag/}, \texttt{d\_lightrag/}), dan instrumen evaluasi (\texttt{evaluation/});
+    \item \texttt{docs/}: catatan keputusan metodologis, termasuk \texttt{DECISION\_C\_SCORING.md}.
+\end{itemize}
+
+%============================================================
+\section{Persiapan Data SORD}
+\label{sec:persiapan-data}
+%============================================================
+
+\subsection{Validasi Integritas}
+Dataset SORD \autocite{Fatima2026} diperoleh dalam bentuk dua belas berkas CSV, yaitu judul dan isi pertanyaan, jawaban, komentar, serta metadata tambahan (\emph{badges}, tag, pengguna, dan \emph{votes}). Setiap kategori disediakan dalam dua sumber, yaitu \emph{Contain} dan \emph{LikeMinusContain}. Setiap berkas divalidasi terhadap jumlah baris dan ukuran berkas yang dilaporkan oleh \textcite{Fatima2026}, kelengkapan kolom minimal, serta keberadaan identitas \emph{post} yang duplikat. Toleransi yang digunakan adalah 1\% untuk jumlah baris dan 15\% untuk ukuran berkas. Kedua belas berkas lolos validasi tanpa peringatan.
+
+\subsection{Penggabungan dan Deduplikasi}
+Kedua sumber data digabungkan per kategori dan disimpan dalam format Parquet. Karena terdapat tumpang-tindih antara sumber \emph{Contain} dan \emph{LikeMinusContain}, gabungan pertanyaan berisi 2.811.534 baris dengan sebagian identitas yang berulang. Deduplikasi berdasarkan identitas \emph{post} menghasilkan \textbf{2.685.814 pertanyaan unik}. Deduplikasi dilakukan satu kali pada tahap ini agar seluruh skrip berikutnya bekerja pada data yang sama dan tidak perlu mengulang deduplikasi.
+
+\subsection{Analisis Data Eksploratif}
+Analisis eksploratif dilakukan terhadap kualitas data dan sinyal kepercayaan sebelum KG dibangun. Dua temuan yang relevan untuk desain adalah sebagai berikut. Pertama, 47,4\% pertanyaan memiliki \emph{accepted answer}, sehingga hanya sebagian populasi yang memenuhi syarat sebagai sampel evaluasi yang memiliki \emph{ground truth}. Kedua, median skor \emph{upvote} jawaban yang diterima adalah 2, sedangkan jawaban yang tidak diterima adalah 1. Temuan kedua mendukung asumsi bahwa status \emph{accepted answer} berasosiasi dengan kualitas jawaban yang lebih tinggi, sehingga layak diberi bobot kepercayaan tertinggi pada Tabel~\ref{tab:bobot-kepercayaan}.
+
+%============================================================
+\section{Konstruksi \emph{Knowledge Graph} Berbobot}
+\label{sec:implementasi-kg}
+%============================================================
+
+Konstruksi KG dijalankan dalam beberapa skrip terpisah. Setiap skrip menulis log bertanda waktu dan dapat dijalankan ulang tanpa menduplikasi data, karena penulisan ke Neo4j menggunakan operasi \texttt{MERGE} dengan batasan keunikan pada identitas simpul. Seluruh populasi SORD dimasukkan ke dalam graf tanpa pembatasan domain. Statistik akhir KG disajikan pada Tabel~\ref{tab:statistik-kg}.
+
+\subsection{Graf Struktural}
+Simpul \texttt{Question}, \texttt{Answer}, dan \texttt{Tag} beserta sisi \texttt{HAS\_ACCEPTED\_ANSWER}, \texttt{HAS\_ANSWER}, dan \texttt{TAGGED\_WITH} dibangun dari data SORD yang telah dideduplikasi. Graf memuat 725.795 jawaban, yaitu jawaban yang pertanyaan induknya termasuk dalam populasi. Sebanyak 270.988 di antaranya terhubung melalui \texttt{HAS\_ACCEPTED\_ANSWER} dan 454.807 melalui \texttt{HAS\_ANSWER}. Bobot \texttt{HAS\_ANSWER} dihitung dengan normalisasi \emph{min-max} skor jawaban di dalam setiap \emph{thread}. Apabila seluruh jawaban dalam satu \emph{thread} memiliki skor yang sama, bobotnya ditetapkan 0,5. Seluruh perhitungan bobot dilakukan secara vektorisasi pada DuckDB dan pandas agar tetap layak dijalankan pada skala jutaan baris.
+
+\subsection{Pengayaan Tautan Antar-\emph{Thread}}
+Tabel \texttt{PostLinks} dari Stack Exchange Data Dump memuat 6.552.590 tautan antar-\emph{post}. Tautan tersebut dicocokkan dengan pertanyaan di SORD, dan hanya tautan yang kedua ujungnya terdapat di SORD yang dipertahankan. Pencocokan ini menghasilkan 160.647 pasangan tautan. Karena penulisan ke Neo4j menggunakan \texttt{MERGE}, pasangan berarah yang sama yang muncul lebih dari sekali di \texttt{PostLinks} hanya disimpan sebagai satu sisi, sehingga graf akhir memuat \textbf{151.094} sisi \texttt{IS\_RELATED\_TO}. Tautan bertipe \emph{Duplicate} diberi bobot 1,0, sedangkan tautan bertipe \emph{Linked} diberi bobot berupa kemiripan kosinus \emph{embedding} kedua pertanyaan, dengan rata-rata 0,611.
+
+\subsection{Simpul Pengguna dan Bobot Kepercayaan Kontributor}
+\label{subsec:implementasi-author-trust}
+Reputasi kontributor diambil dari data pengguna Stack Exchange. Dari 294.412 pengguna yang menjadi pemilik \emph{post}, 293.078 memiliki data reputasi. Bobot \texttt{AUTHOR\_TRUST} dihitung dengan normalisasi logaritmik terhadap persentil ke-99 reputasi, yaitu 54.383:
+\begin{equation}
+w^{\mathrm{auth}} = \min\left(\frac{\log(1+\mathrm{rep})}{\log(1+54.383)},\ 1\right)
+\label{eq:author-weight}
+\end{equation}
+Proses ini menghasilkan 293.078 simpul \texttt{User} dan 715.604 sisi \texttt{AUTHOR\_TRUST}. Sebanyak 10.191 jawaban (1,4\%) tidak memiliki sisi tersebut karena penulisnya telah menghapus akun atau bersifat anonim.
+
+\subsection{Skor Kepercayaan Simpul dan Koreksi Komponen Reputasi}
+\label{subsec:implementasi-trustscore}
+Skor kepercayaan \texttt{trustScore} dihitung sesuai Persamaan~\eqref{eq:trust-question} dan \eqref{eq:trust-answer}. Pemeriksaan implementasi menemukan bahwa pada saat KG pertama kali dibangun, berkas data pengguna belum tersedia. Akibatnya, reputasi bernilai kosong untuk seluruh jawaban, dan normalisasi \emph{min-max} terhadap deret yang seluruhnya nol menghasilkan nilai konstan 0,5. Komponen reputasi pada Persamaan~\eqref{eq:trust-answer} menjadi konstanta $0{,}2 \times 0{,}5 = 0{,}1$ untuk setiap jawaban, sehingga reputasi tidak pernah memengaruhi urutan kandidat. Hal ini terlihat pada log konstruksi yang mencatat nilai minimum \texttt{trustScore} jawaban tepat 0,100. Sisi \texttt{AUTHOR\_TRUST} yang ditambahkan kemudian juga tidak memperbarui \texttt{trustScore}.
+
+Temuan ini ditangani melalui prosedur yang dicatat dalam \emph{decision record} (Amendemen~5, Subbab~\ref{subsec:catatan-keputusan}). Prosedurnya terdiri atas tiga langkah:
+\begin{enumerate}
+    \item Pengaruh reputasi diuji terlebih dahulu pada \emph{development set} tanpa mengubah graf (Subbab~\ref{subsec:keputusan-reputasi}).
+    \item Setelah keputusan untuk menyertakan reputasi diambil, seluruh \texttt{trustScore} jawaban diperbarui menjadi
+    \begin{equation}
+    \mathrm{trust}'_A = \mathrm{clip}_{[0,1]}\left(\mathrm{trust}_A - 0{,}2 \times 0{,}5 + 0{,}2 \times w^{\mathrm{auth}}_A\right)
+    \label{eq:trust-fix}
+    \end{equation}
+    dengan $w^{\mathrm{auth}}_A = 0$ untuk jawaban tanpa sisi \texttt{AUTHOR\_TRUST}. Sebelum pembaruan, nilai lama seluruh jawaban disimpan sebagai cadangan. Setelah pembaruan, nilai yang tersimpan diverifikasi terhadap nilai yang dihitung, dengan selisih maksimum 0, dan setiap simpul diberi penanda versi \texttt{trustScoreVersion}.
+    \item \emph{Retrieval} dari graf yang telah diperbarui diverifikasi menghasilkan konteks top-5 yang identik dengan konteks yang dievaluasi pada langkah pertama, untuk 50 pertanyaan $\times$ 5 nilai $\alpha$.
+\end{enumerate}
+Setelah pembaruan, rentang \texttt{trustScore} jawaban berubah dari $[0{,}100;\ 0{,}892]$ (rata-rata 0,214) menjadi $[0{,}002;\ 0{,}984]$ (rata-rata 0,261). Skrip konstruksi KG juga diperbaiki agar pembangunan ulang menggunakan definisi yang sama.
+
+\subsection{Indeks Vektor}
+\label{subsec:implementasi-indeks-vektor}
+Setiap pertanyaan diubah menjadi vektor dari teks judul ditambah 1.000 karakter pertama isi pertanyaan, menggunakan \texttt{all-MiniLM-L6-v2}. Vektor dinormalisasi L2 sehingga hasil kali dalam (\emph{inner product}) setara dengan kemiripan kosinus. Seluruh 2.685.814 vektor disimpan sebagai berkas \emph{memory-mapped} agar tidak perlu dimuat penuh ke RAM, lalu diindeks menggunakan FAISS \texttt{IndexIVFFlat} dengan 3.276 klaster dan $n_{\mathrm{probe}} = 32$. Indeks yang sama digunakan untuk tiga keperluan, yaitu \emph{entity anchoring}, \emph{semantic expansion}, dan pembentukan sisi \texttt{EMBED\_SIM}.
+
+\subsection{Densifikasi Graf}
+\label{subsec:implementasi-densifikasi}
+Graf struktural sangat jarang. Sebanyak 91,96\% pertanyaan tidak memiliki sisi ke pertanyaan lain, sehingga traversal dua \emph{hop} hampir tidak pernah menemukan kandidat. Densifikasi dilakukan dengan dua jenis sisi turunan:
+\begin{enumerate}
+    \item \texttt{TAG\_COOCCUR}. Tag dengan frekuensi dokumen lebih dari 200 dianggap terlalu umum (misalnya \texttt{python} atau \texttt{javascript}) dan dikeluarkan, sehingga tersisa 52.402 tag informatif (92,9\% dari seluruh tag). Dari 81.759.382 pasangan kandidat, pasangan dengan koefisien Jaccard himpunan tag informatif $\geq 0{,}6$ dipertahankan, dengan paling banyak 20 tetangga per pertanyaan. Hasilnya adalah 11.841.429 sisi dari 749.699 pertanyaan sumber.
+    \item \texttt{EMBED\_SIM}. Untuk setiap pertanyaan, dicari 10 tetangga terdekat pada indeks FAISS dengan kemiripan kosinus $\geq 0{,}7$. Hasilnya adalah 10.141.497 sisi dari 1.736.862 pertanyaan sumber.
+\end{enumerate}
+Validasi pascadensifikasi dijalankan dengan skrip \texttt{12\_validate\_densification.py}, yang menghitung derajat setiap simpul \texttt{Question} melalui gabungan sisi \texttt{IS\_RELATED\_TO}, \texttt{TAG\_COOCCUR}, dan \texttt{EMBED\_SIM}. Hasilnya dirangkum pada Tabel~\ref{tab:validasi-densifikasi}, dan log lengkapnya disimpan di direktori \texttt{logs} pada repositori. Ketiga kriteria terpenuhi: proporsi pertanyaan terisolasi turun dari 91,96\% menjadi 23,10\%, sehingga traversal dua \emph{hop} kini dapat menemukan tetangga bagi sebagian besar pertanyaan.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Hasil validasi densifikasi pada tingkat korpus (2.685.814 simpul \texttt{Question}).}
+\label{tab:validasi-densifikasi}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|r|r|c|}
+\hline
+\textbf{Kriteria} & \textbf{Hasil} & \textbf{Target} & \textbf{Status} \\
+\hline
+Pertanyaan terisolasi (derajat 0) & 620.542 (23,10\%) & $\leq 30\%$ & Lulus \\
+Rata-rata derajat & 8,24 & $\geq 3$ & Lulus \\
+Median derajat & 6 & $\geq 1$ & Lulus \\
+\hline
+\end{tabular}
+\end{table}
+
+Skrip yang sama juga menyediakan validasi tingkat sampel, yaitu pemeriksaan keterjangkauan dua \emph{hop} dan latensi pada 384 pertanyaan. Validasi tersebut tidak digunakan dalam penelitian ini, karena keterjangkauan kandidat dan latensi \emph{retrieval} diukur langsung pada \emph{run} Kondisi C (Subbab~\ref{subsec:implementasi-kondisi-c}).
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Statistik \emph{knowledge graph} SORD setelah konstruksi, pengayaan, dan densifikasi.}
+\label{tab:statistik-kg}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|r|l|}
+\hline
+\textbf{Elemen} & \textbf{Jumlah} & \textbf{Sumber} \\
+\hline
+Simpul \texttt{Question} & 2.685.814 & SORD (setelah deduplikasi) \\
+Simpul \texttt{Answer} & 725.795 & SORD \\
+Simpul \texttt{Tag} & 56.435 & SORD \\
+Simpul \texttt{User} & 293.078 & Stack Exchange Users \\
+\hline
+Sisi \texttt{HAS\_ACCEPTED\_ANSWER} & 270.988 & struktural \\
+Sisi \texttt{HAS\_ANSWER} & 454.807 & struktural \\
+Sisi \texttt{TAGGED\_WITH} & 8.525.257 & struktural \\
+Sisi \texttt{AUTHOR\_TRUST} & 715.604 & struktural \\
+Sisi \texttt{IS\_RELATED\_TO} & 151.094 & PostLinks \\
+Sisi \texttt{TAG\_COOCCUR} & 11.841.429 & densifikasi \\
+Sisi \texttt{EMBED\_SIM} & 10.141.497 & densifikasi \\
+\hline
+\textbf{Total sisi} & \textbf{32.100.676} & \\
+\hline
+\end{tabular}
+\end{table}
+
+
+%============================================================
+\section{Implementasi Kondisi Eksperimen}
+\label{sec:implementasi-kondisi}
+%============================================================
+
+\subsection{Komponen Bersama}
+\label{subsec:komponen-bersama}
+Keempat kondisi berbagi komponen yang sama agar satu-satunya perbedaan antarkondisi adalah mekanisme \emph{retrieval} dan \emph{grounding}.
+
+\noindent\textbf{\emph{Sampling}.} Kandidat sampel diambil dengan \emph{reservoir sampling} sebanyak 1.536 pertanyaan ($4 \times 384$) dari pertanyaan yang \emph{accepted answer}-nya terdapat di data jawaban, menggunakan \emph{seed} 42. Kandidat kemudian disaring dengan batas 2.048 token untuk gabungan judul, isi, dan tag pertanyaan, sehingga tersisa 1.471 pertanyaan. Kandidat yang tersisa diacak satu kali dengan \emph{seed} yang sama. Posisi 1--384 menjadi sampel uji dan posisi 385--434 menjadi \emph{development set}. Ukuran kumpulan kandidat dibuat tetap, tidak bergantung pada ukuran sampel yang diminta, sehingga setiap sampel kecil, misalnya $n{=}10$ pada studi pilot, selalu merupakan awalan dari sampel yang lebih besar pada semua kondisi.
+
+\noindent\textbf{Pencegahan kebocoran data.} Untuk setiap pertanyaan evaluasi, pertanyaan itu sendiri beserta seluruh jawabannya dikecualikan dari \emph{retrieval}. Pada Kondisi B, pengecualian dilakukan satu kali ketika korpus dibangun. Pada Kondisi C dan D, yang berbagi satu graf untuk seluruh populasi, pengecualian dilakukan pada setiap kueri, yaitu pada hasil \emph{anchoring}, pada setiap simpul yang dilewati traversal, dan pada \emph{semantic expansion}.
+
+\noindent\textbf{\emph{Prompt}.} Seluruh kondisi menggunakan struktur empat giliran yang mereplikasi kode publik \textcite{DaSilva2025}. Konteks \emph{retrieval} dan instruksi pengendaliannya hanya ditambahkan pada giliran keempat. Teks instruksi \emph{grounding} dan \emph{citation} identik pada Kondisi B, C, dan D. Instruksi \emph{grounding} meminta model untuk tidak membuat klaim yang tidak didukung konteks dan menyatakan bahwa sumber tidak mencakup bagian tersebut. Instruksi \emph{citation} meminta model mengutip label \texttt{[SO-<id>]} yang benar-benar tercantum di konteks. Apabila \emph{retrieval} tidak menghasilkan konteks sama sekali, model diminta menyatakan bahwa tidak ada sumber relevan dan tidak menjawab dari pengetahuannya sendiri.
+
+\emph{Prompt} mengalami dua revisi selama studi pilot, dan versinya dicatat pada setiap keluaran. Pada versi awal, contoh label numerik di dalam instruksi, misalnya \texttt{[SO-1234]}, terkadang disalin model sebagai kutipan palsu ketika konteks kurang relevan. Penggantian contoh dengan \emph{placeholder} non-numerik hanya memindahkan gejala, karena model kemudian menyalin \emph{placeholder} tersebut. Versi akhir (v3) menghapus seluruh contoh kalimat yang dapat disalin dan menambahkan aturan eksplisit untuk menulis klaim tanpa kutipan apabila tidak ada sumber yang mendukung.
+
+\noindent\textbf{Validasi kutipan.} Setelah jawaban dihasilkan, seluruh kutipan diekstraksi dengan ekspresi reguler dan dibandingkan dengan daftar label pada konteks. Untuk setiap jawaban, dicatat apakah terdapat kutipan, apakah terdapat kutipan yang valid, dan daftar kutipan yang tidak valid. Implementasi validasi ini digunakan bersama oleh Kondisi B, C, dan D.
+
+\noindent\textbf{LLM.} Seluruh kondisi memanggil \texttt{gpt-4o-mini} melalui satu modul abstraksi penyedia, dengan satu panggilan per pertanyaan dan tanpa pengulangan.
+Sesuai protokol \textcite{DaSilva2025}, parameter \emph{temperature} dan batas token keluaran tidak dikirim, sehingga nilai bawaan API yang berlaku (\emph{temperature} bawaan OpenAI bernilai 1). Setiap rekaman hasil menyimpan parameter permintaan yang benar-benar dikirim, yaitu \texttt{\{model: gpt-4o-mini, temperature: null\}}, sehingga konfigurasi ini dapat diverifikasi pada seluruh \emph{run}. Pengaturan ini berbeda dengan \emph{judge}, yang dijalankan dengan \emph{temperature} 0 (Subbab~\ref{sec:implementasi-evaluasi}).
+
+\noindent\textbf{Metrik bawaan.} Setiap kondisi menghitung kemiripan kosinus antara jawaban dan \emph{accepted answer} menggunakan \texttt{all-MiniLM-L6-v2}, sama dengan \textcite{DaSilva2025}. Kondisi B, C, dan D juga mencatat latensi \emph{retrieval} per pertanyaan.
+
+\subsection{Kondisi A: LLM Murni}
+Kondisi A memanggil LLM dengan \emph{prompt} empat giliran tanpa konteks. Sampel, model, dan metrik kemiripan identik dengan kondisi lain sehingga Kondisi A berfungsi sebagai replikasi \emph{baseline} \textcite{DaSilva2025} dalam lingkungan penelitian ini.
+
+\subsection{Kondisi B: RAG Konvensional}
+Korpus Kondisi B berupa pasangan judul pertanyaan dan isi jawaban dari seluruh populasi jawaban SORD, yaitu populasi yang sama dengan simpul \texttt{Answer} pada KG, setelah seluruh jawaban milik pertanyaan evaluasi dikeluarkan. Pada studi pilot, korpus ini dibatasi 8.000 jawaban hasil \emph{reservoir sampling} untuk mempercepat iterasi; pada \emph{run} resmi batas tersebut dihapus (\texttt{--index-pool} melebihi jumlah jawaban) sehingga B, C, dan D mengakses kumpulan pengetahuan yang sama. Setiap dokumen dipotong menjadi \emph{chunk} berukuran paling banyak 400 token tanpa tumpang-tindih, di-\emph{embedding}, lalu diindeks dengan FAISS \texttt{IndexFlatIP}, yaitu pencarian eksak berbasis kemiripan kosinus. Indeks disimpan sebagai \emph{cache} di disk. Pada waktu inferensi, lima \emph{chunk} teratas dimasukkan ke dalam \emph{prompt}. Kondisi B dijalankan dalam dua varian, yaitu \emph{B-plain} (hanya instruksi \emph{citation}) dan \emph{B-grounded} (instruksi \emph{citation} dan \emph{grounding}).
+Karena pengecualian kebocoran data bergantung pada sampel, indeks dibangun ulang satu kali untuk sampel uji, lalu dipakai bersama oleh \emph{B-plain} dan \emph{B-grounded}. Sebelum \emph{run} dimulai, sistem memeriksa bahwa indeks tidak memuat jawaban dari pertanyaan evaluasi.
+\todo{Isi jumlah dokumen dan jumlah \emph{chunk} korpus Kondisi B pada \emph{run} resmi (baris log \texttt{Korpus retrieval (sebelum chunking)} dan jumlah vektor indeks FAISS).}
+
+\subsection{Kondisi C: \emph{GraphRAG Framework}}
+\label{subsec:implementasi-kondisi-c}
+Untuk setiap pertanyaan evaluasi, Kondisi C menjalankan langkah-langkah berikut.
+\begin{enumerate}
+    \item \textbf{\emph{Entity anchoring}.} Vektor pertanyaan diambil langsung dari berkas vektor indeks (atau di-\emph{embedding} ulang apabila belum ada), lalu dicari $N_{\mathrm{anchor}} = 3$ pertanyaan terdekat, dengan pertanyaan evaluasi itu sendiri dikecualikan.
+    \item \textbf{\emph{Graph traversal}.} Dari ketiga \emph{seed node}, dijalankan dua kueri Cypher. Kueri satu \emph{hop} mengambil jawaban milik \emph{seed node} melalui \texttt{HAS\_ACCEPTED\_ANSWER} atau \texttt{HAS\_ANSWER}. Kueri dua \emph{hop} (Listing~\ref{lst:cypher-2hop}) mengambil jawaban dari pertanyaan tetangga melalui \texttt{IS\_RELATED\_TO}, \texttt{TAG\_COOCCUR}, atau \texttt{EMBED\_SIM}, dengan bobot jalur berupa hasil kali kedua bobot sisi, dan dibatasi 50 kandidat dengan bobot tertinggi.
+    \item \textbf{\emph{Semantic expansion}.} Judul dari paling banyak tiga pertanyaan perantara hasil traversal digunakan sebagai kueri vektor baru. Untuk setiap kueri, diambil tiga pertanyaan tetangga yang belum pernah ditemukan, lalu jawaban satu \emph{hop}-nya. Bobot jalur kandidat dari tahap ini dikalikan dengan batas 0,4.
+    \item \textbf{Fusi.} Kandidat dideduplikasi berdasarkan identitas jawaban, lalu diberi skor menurut Persamaan~\eqref{eq:combined-trust} dan \eqref{eq:final-score}. Kemiripan $\mathrm{sim}(q,c)$ dihitung terhadap teks kandidat persis seperti yang akan ditampilkan kepada LLM, yaitu \texttt{Q: <judul>} diikuti baris \texttt{A: <jawaban>} yang dipotong 400 token. Lima kandidat teratas menjadi \emph{unified context window}, masing-masing diberi label \texttt{[SO-<id pertanyaan>]}.
+    \item \textbf{\emph{Grounded generation}} dan validasi kutipan, sebagaimana dijelaskan pada Subbab~\ref{subsec:komponen-bersama}.
+\end{enumerate}
+
+\begin{lstlisting}[caption={Kueri Cypher traversal dua \emph{hop} pada Kondisi C (disederhanakan; tipe sisi disisipkan sesuai konfigurasi).}, label={lst:cypher-2hop}, frame=single, captionpos=t, language={}]
+UNWIND $anchor_ids AS anchor_id
+MATCH (anchor:Question {id: anchor_id})
+      -[r2:IS_RELATED_TO|TAG_COOCCUR|EMBED_SIM]->(q2:Question)
+WHERE NOT q2.id IN $exclude_q
+MATCH (q2)-[r3:HAS_ACCEPTED_ANSWER|HAS_ANSWER]->(a:Answer)
+WHERE NOT a.id IN $exclude_a
+WITH q2, a, r2, r3, (r2.weight * r3.weight) AS edge_weight
+ORDER BY edge_weight DESC, a.id ASC
+LIMIT 50
+RETURN q2.id, a.id, a.trustScore, a.isAccepted, edge_weight
+\end{lstlisting}
+
+Setiap item konteks disimpan bersama metadata \emph{provenance}, yaitu pertanyaan perantara, tipe relasi yang dilewati, jumlah \emph{hop}, tahap asal, status \emph{accepted answer}, bobot jalur, $\mathrm{sim}$, $\mathrm{sim}_{\mathrm{norm}}$, $\mathrm{trust}$, skor akhir, dan peringkat. Ukuran kumpulan kandidat sebelum pemotongan top-$k$ juga dicatat per pertanyaan.
+
+\noindent\textbf{Determinisme.} Pemeriksaan pada studi pilot menunjukkan bahwa kandidat dengan skor yang persis sama diurutkan menurut urutan kembalian Neo4j, yang tidak dijamin stabil antareksekusi. Seluruh kueri dan pengurutan di Python kemudian diberi kunci pengurutan sekunder berupa identitas jawaban. Perubahan ini mengubah konteks pada 7 dari 10 pertanyaan pilot, meskipun logika pemeringkatannya tidak berubah. Setelah perbaikan, \emph{retrieval} yang dijalankan dua kali menghasilkan konteks yang identik secara \emph{byte} untuk seluruh pertanyaan pilot. Versi \emph{retrieval} (v1, v2, v3) dicatat pada setiap keluaran agar \emph{run} lama tetap dapat direproduksi.
+
+\noindent\textbf{\emph{Cache embedding}.} \emph{Embedding} teks kandidat disimpan dalam basis data SQLite dengan kunci identitas jawaban dan \emph{hash} teks, sehingga evaluasi beberapa nilai $\alpha$ tidak meng-\emph{embedding} ulang kandidat yang sama. Setiap teks di-\emph{embedding} secara terpisah (ukuran \emph{batch} 1), karena keluaran model berbeda sekitar $10^{-7}$ bergantung pada isi \emph{batch}. Dengan cara ini, hasil dengan dan tanpa \emph{cache} identik secara bit.
+
+\noindent\textbf{Latensi dan cakupan.} Pada \emph{development set} (50 pertanyaan $\times$ 5 nilai $\alpha$, 250 eksekusi \emph{retrieval}), latensi \emph{retrieval} memiliki median 0,07 detik, persentil ke-95 0,65 detik, dan maksimum 1,93 detik. Angka ini jauh di bawah batas NF3 (15 detik). Median ukuran kumpulan kandidat adalah 14 jawaban (rentang 0--65). Satu dari 50 pertanyaan tidak memperoleh kandidat sama sekali, dan empat pertanyaan lain memperoleh kurang dari lima item konteks. Pada kasus tanpa konteks, \emph{prompt} meminta model menyatakan bahwa tidak ada sumber relevan.
+
+\subsection{Kondisi D: GraphRAG \emph{Dual-Level}}
+Kondisi D menggunakan koneksi Neo4j, indeks FAISS, \emph{sampling}, dan pencegahan kebocoran data yang sama dengan Kondisi C, dan tidak membangun struktur data baru. \emph{Low-level retrieval} mengambil jawaban satu \emph{hop} dari tiga \emph{seed node}, dengan skor berupa kemiripan kosinus \emph{seed node}. \emph{High-level retrieval} mengambil jawaban dua \emph{hop} melalui \texttt{IS\_RELATED\_TO}, \texttt{TAG\_COOCCUR}, dan \texttt{EMBED\_SIM}, dengan skor berupa bobot mentah sisi antarpertanyaan. Kedua hasil dideduplikasi dan diurutkan hanya berdasarkan skor relevansi.
+
+Implementasi Kondisi D mengalami dua perbaikan sebelum \emph{run} resmi. Perbaikan pertama menambahkan \texttt{EMBED\_SIM} yang tidak tercantum pada kueri \emph{high-level}, sehingga sebelumnya \emph{seed node} yang hanya memiliki sisi tersebut tidak menghasilkan kandidat. Perbaikan kedua memindahkan pemeriksaan keberadaan jawaban ke sebelum pemotongan \texttt{LIMIT}, karena sisi \texttt{EMBED\_SIM} memiliki bobot kategoris yang sama sehingga pemotongan dapat memilih pertanyaan tanpa jawaban. Kedua perbaikan diverifikasi pada pertanyaan pilot yang terdampak. Contohnya, satu pertanyaan yang semula tidak memperoleh kandidat menjadi memperoleh lima kandidat. Versi \emph{retrieval} Kondisi D dicatat secara terpisah dari Kondisi C.
+
+\subsection{Saklar Ablasi}
+Setiap komponen yang diuji kontribusinya dapat dinyalakan atau dimatikan melalui parameter tanpa mengubah kode, dan setiap nilai parameter ikut menentukan \emph{hash} konfigurasi keluaran (Tabel~\ref{tab:saklar-ablasi}).
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Parameter ablasi dan eksplorasi pada implementasi.}
+\label{tab:saklar-ablasi}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|>{\ttfamily\raggedright\arraybackslash}p{4.6cm}|>{\raggedright\arraybackslash}p{1.4cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{\rmfamily Parameter} & \textbf{Kondisi} & \textbf{Fungsi} \\
+\hline
+require\_grounding & B, C, D & Menyalakan atau mematikan instruksi \emph{grounding}; instruksi \emph{citation} tetap aktif \\
+\hline
+alpha & C & Bobot kepercayaan pada Persamaan~\eqref{eq:final-score}; $\alpha{=}0$ berarti pemeringkatan murni berbasis relevansi \\
+\hline
+enable\_semantic\_\allowbreak expansion & C & Menyalakan atau mematikan tahap \emph{semantic expansion} \\
+\hline
+max\_hops, edge\_types & C & Eksploratif: kedalaman traversal dan tipe sisi yang dilalui \\
+\hline
+accepted\_only & C & Eksploratif: hanya \emph{accepted answer} sebagai kandidat \\
+\hline
+use\_author\_\allowbreak trust & C & Eksploratif, tidak digunakan; setelah koreksi pada Subbab~\ref{subsec:implementasi-trustscore}, saklar ini akan menghitung reputasi dua kali \\
+\hline
+\end{tabularx}
+\end{table}
+
+%============================================================
+\section{Justifikasi Parameter}
+\label{sec:justifikasi-parameter}
+%============================================================
+
+Parameter pada implementasi terbagi menjadi tiga kelompok menurut dasar penetapannya, yaitu parameter yang mengikuti rujukan, parameter yang dipilih secara empiris pada \emph{development set}, dan parameter heuristik yang ditetapkan sebelum eksperimen dan tidak disetel. Pemisahan ini penting karena hanya kelompok kedua yang disesuaikan dengan data, dan seluruhnya dipilih pada \emph{development set} yang terpisah dari sampel uji. Rinciannya disajikan pada Tabel~\ref{tab:justifikasi-parameter}.
+
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\caption{Dasar penetapan parameter implementasi.}
+\label{tab:justifikasi-parameter}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.3cm}|>{\raggedright\arraybackslash}p{2.8cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Parameter} & \textbf{Nilai} & \textbf{Dasar penetapan} \\
+\hline
+\multicolumn{3}{|l|}{\textit{Mengikuti rujukan}} \\
+\hline
+Ukuran sampel uji & 384 & 95\% kepercayaan, \emph{margin} 5\%; sama dengan \textcite{DaSilva2025} \\
+\hline
+Model \emph{embedding} dan metrik kemiripan & MiniLM-L6-v2, kosinus & Sama dengan \textcite{DaSilva2025} \\
+\hline
+Ambang reliabilitas \emph{judge} & $\kappa \geq 0{,}6$ & \textcite{Gu2026} \\
+\hline
+Mekanisme \emph{dual-level} Kondisi D & --- & Diadaptasi dari \textcite{Guo2025} \\
+\hline
+Bentuk skor akhir & kombinasi konveks, \emph{min-max} & \textcite{Bruch2023} \\
+\hline
+Uji statistik dan ukuran efek & Wilcoxon, Cliff's $\delta$, Holm & \textcite{DaSilva2025}; \textcite{Romano2006}; \textcite{Holm1979} \\
+\hline
+\multicolumn{3}{|l|}{\textit{Dipilih secara empiris pada development set}} \\
+\hline
+Bobot kepercayaan $\alpha$ & \todo{isi} & Prosedur dua tahap (Subbab~\ref{subsec:tahap1}--\ref{subsec:tahap2}) \\
+\hline
+Komponen reputasi pada $\mathrm{trust}_A$ & disertakan & Amendemen~5 (Subbab~\ref{subsec:keputusan-reputasi}) \\
+\hline
+Definisi label \emph{judge} relevansi konteks & ctxrel-v2 & Lolos ambang kontrol \\
+\hline
+\multicolumn{3}{|l|}{\textit{Heuristik, ditetapkan sebelum eksperimen dan tidak disetel}} \\
+\hline
+Koefisien $\mathrm{trust}_Q$ & 0,7 / 0,3 & \emph{Upvote} adalah penilaian kolektif eksplisit; tayangan hanya mencerminkan popularitas (log karena condong) \\
+\hline
+Koefisien $\mathrm{trust}_A$ & 0,5 / 0,3 / 0,2 & \emph{Upvote}: penilaian kolektif; \emph{accepted}: penilaian satu orang (penanya), berasosiasi dengan skor lebih tinggi; reputasi: menilai penulis, bukan jawaban \\
+\hline
+Normalisasi reputasi & $\log$, P99 & Distribusi sangat condong; mencegah pengguna ekstrem menekan nilai kontributor lain ke nol \\
+\hline
+Bobot jalur dua \emph{hop} & hasil kali & Bobot sisi dibaca sebagai keyakinan relasi valid; jalur panjang atau melewati sisi lemah bernilai lebih rendah \\
+\hline
+Bobot fusi kepercayaan & 0,7 / 0,3 & Jalur memuat validasi relasi oleh komunitas; kepercayaan intrinsik sebagai pelengkap \\
+\hline
+Bobot kategoris densifikasi dan batas \emph{semantic expansion} & 0,6 / 0,4 / 0,4 & Hierarki: relasi tervalidasi komunitas $>$ kesamaan tag $>$ kemiripan \emph{embedding} \\
+\hline
+Ambang densifikasi & Jaccard $\geq 0{,}6$; kosinus $\geq 0{,}7$; 20/10 tetangga & Simpul terisolasi $\leq 30\%$ dengan graf yang muat di RAM 8~GB (Subbab~\ref{subsec:implementasi-densifikasi}) \\
+\hline
+$N_{\mathrm{anchor}}$, $n_{\mathrm{expansion}}$, $k$, batas \emph{chunk} & 3, 3, 5, 400 token & Konteks ringkas, latensi rendah; $k$ dan \emph{chunk} sama pada B, C, D \\
+\hline
+Korpus Kondisi B & seluruh jawaban SORD & Sama dengan populasi jawaban pada KG Kondisi C/D agar perbandingan adil \\
+\hline
+\end{tabularx}
+\end{table}
+
+Parameter heuristik tidak disetel untuk menghindari penyesuaian berlebih terhadap data yang terbatas, dan karena tujuan penelitian adalah menguji kontribusi sinyal kepercayaan secara keseluruhan, bukan mencari kombinasi koefisien terbaik. Kontribusi sinyal kepercayaan sebagai satu kesatuan tetap diuji melalui perbandingan Kondisi C dengan Kondisi D dan dengan $\alpha{=}0$. Sensitivitas hasil terhadap masing-masing koefisien heuristik tidak diuji dan dicatat sebagai keterbatasan penelitian.
+
+%============================================================
+\section{Penetapan Parameter Kondisi C}
+\label{sec:penetapan-parameter}
+%============================================================
+
+\subsection{Catatan Keputusan Metodologis}
+\label{subsec:catatan-keputusan}
+Seluruh keputusan yang memengaruhi Kondisi C setelah studi pilot dicatat dalam satu \emph{decision record} di repositori. Setiap keputusan ditulis dan di-\emph{commit} \emph{sebelum} data yang relevan dilihat, dan setiap perubahan prosedur ditambahkan sebagai amendemen bertanggal tanpa menghapus isi sebelumnya. Dengan demikian, urutan antara keputusan dan hasil dapat diverifikasi melalui riwayat \emph{commit}. Isi utama \emph{decision record} dirangkum pada Tabel~\ref{tab:decision-record}.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Ringkasan \emph{decision record} penetapan parameter Kondisi C.}
+\label{tab:decision-record}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{2.6cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Bagian} & \textbf{Isi} \\
+\hline
+Keputusan awal (6 Okt 2026) & Menambahkan suku relevansi ke skor pemeringkatan (Persamaan~\eqref{eq:final-score}); memilih $\alpha$ melalui prosedur dua tahap pada \emph{development set} \\
+\hline
+Amendemen 1 (7 Okt) & Kontrol \emph{judge} relevansi konteks diperluas menjadi 50 kontrol positif dan 50 kontrol negatif; \emph{judge} versi awal gagal ambang kontrol positif \\
+\hline
+Amendemen 2 (7 Okt) & Revisi definisi label \emph{judge} relevansi konteks (ctxrel-v2) dan penambahan kontrol negatif sulit \\
+\hline
+Amendemen 3 (7 Okt) & Kontrol negatif sulit dipilih berdasarkan kemiripan \emph{embedding} tertinggi dan tidak berasal dari sampel uji \\
+\hline
+Amendemen 4 (9 Okt) & Revisi \emph{judge} halusinasi (judge-v2.1), metrik utama biner, dan kalibrasi terhadap anotasi manusia \\
+\hline
+Amendemen 5 (10 Okt) & Koreksi komponen reputasi pada \texttt{trustScore} (Subbab~\ref{subsec:keputusan-reputasi}) \\
+\hline
+\end{tabularx}
+\end{table}
+
+\subsection{Validasi \emph{Judge} Relevansi Konteks}
+Sebelum digunakan untuk memilih $\alpha$, \emph{judge} relevansi konteks diuji dengan tiga jenis item kontrol pada 50 pertanyaan \emph{development set}:
+\begin{itemize}
+    \item kontrol positif, yaitu \emph{accepted answer} pertanyaan itu sendiri;
+    \item kontrol negatif mudah, yaitu jawaban dari pertanyaan tanpa tag yang sama;
+    \item kontrol negatif sulit, yaitu jawaban dari pertanyaan bertag sama dengan kemiripan \emph{embedding} tertinggi.
+\end{itemize}
+Versi awal (ctxrel-v1) menilai 88\% kontrol positif sebagai \texttt{RELEVAN}, di bawah ambang 90\%. Seluruh kegagalan berupa label \texttt{SEBAGIAN} untuk jawaban yang memberikan solusi alternatif atau penyebab masalah, karena \emph{judge} memaknai \texttt{RELEVAN} sebagai ``menyelesaikan masalah persis dengan cara penanya''. Versi revisi (ctxrel-v2) hanya mengubah definisi label dan mencapai 94\% kontrol positif \texttt{RELEVAN}, 100\% kontrol negatif mudah \texttt{TIDAK\_RELEVAN}, dan 100\% kontrol negatif sulit tidak \texttt{RELEVAN} ($n{=}47$). Ketiganya memenuhi ambang yang ditetapkan, sehingga ctxrel-v2 digunakan pada tahap~1.
+
+\subsection{Pengaruh Reputasi Kontributor}
+\label{subsec:keputusan-reputasi}
+Setelah koreksi pada Subbab~\ref{subsec:implementasi-trustscore} ditemukan, pengaruh reputasi diuji dalam dua langkah tanpa mengubah graf. Pertama, tanpa panggilan LLM, konteks top-5 dengan dan tanpa reputasi dibandingkan. Reputasi mengubah himpunan top-5 pada 4\%, 6\%, 10\%, dan 40\% pertanyaan untuk $\alpha = 0{,}25;\ 0{,}5;\ 0{,}75;\ 1$. Item yang masuk selalu ditulis oleh kontributor dengan reputasi lebih tinggi daripada item yang keluar, dan jumlah \emph{accepted answer} yang masuk dan keluar hampir selalu sama. Artinya, reputasi bekerja sebagai pembeda di antara jawaban yang setara, bukan mengalahkan status \emph{accepted answer}.
+
+Kedua, tahap~1 dijalankan ulang dengan reputasi. Hanya 18 item konteks baru yang perlu dinilai, sedangkan item lainnya memakai label tahap~1. Aturan keputusan ditetapkan sebelum penilaian: reputasi disertakan apabila, pada $\alpha = 0{,}25$ dan $0{,}5$, relevansi konteks tidak memburuk melebihi margin seri tahap~1. Hasilnya, persentase pertanyaan dengan sedikitnya satu konteks \texttt{RELEVAN} tidak berubah (48\%), dan rata-rata skor relevansi hanya bergeser $-0{,}004$ dan $+0{,}006$. Reputasi pun disertakan. Reputasi bersifat netral terhadap relevansi konteks, dan penyertaannya didasarkan pada konsistensi desain, yaitu agar ketiga sinyal komunitas benar-benar digunakan sesuai klaim pada G2.
+
+\subsection{Tahap 1: Seleksi Berdasarkan Relevansi Konteks}
+\label{subsec:tahap1}
+Untuk setiap $\alpha \in \{0;\ 0{,}25;\ 0{,}5;\ 0{,}75;\ 1\}$, \emph{retrieval} dijalankan pada 50 pertanyaan \emph{development set} tanpa pembangkitan jawaban. Seluruh item konteks yang unik kemudian dinilai dengan ctxrel-v2. Hasil tahap~1 yang berlaku, yaitu dengan \texttt{trustScore} yang telah memuat reputasi, disajikan pada Tabel~\ref{tab:tahap1}.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Hasil tahap 1 pada \emph{development set} ($n{=}50$, ctxrel-v2, \emph{judge} utama).}
+\label{tab:tahap1}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|c|c|c|c|}
+\hline
+$\alpha$ & \textbf{\makecell{\% pertanyaan dengan\\$\geq 1$ \texttt{RELEVAN}}} & \textbf{\makecell{Rata-rata skor\\relevansi}} & \textbf{\makecell{\% \emph{accepted answer}\\terpilih}} \\
+\hline
+0 & 48,0 & 0,326 & 37,3 \\
+0,25 & 48,0 & 0,324 & 42,0 \\
+0,5 & 48,0 & 0,318 & 52,1 \\
+0,75 & 46,0 & 0,286 & 67,8 \\
+1 & 36,0 & 0,223 & 74,6 \\
+\hline
+\end{tabular}
+\end{table}
+
+Sesuai prosedur, dua nilai terbaik pada kriteria utama, dengan pemecah seri rata-rata skor lalu nilai $\alpha$ yang lebih besar, adalah $\alpha = 0{,}5$ dan $\alpha = 0{,}25$, sehingga keduanya dilanjutkan ke tahap~2. Tabel~\ref{tab:tahap1} juga memperlihatkan pola yang konsisten: semakin besar bobot kepercayaan, semakin banyak \emph{accepted answer} yang terpilih, tetapi relevansi konteks menurun. Penurunan ini terutama berasal dari jawaban yang ditemukan melalui \texttt{TAG\_COOCCUR}: pada seluruh nilai $\alpha$, tidak ada satu pun \emph{accepted answer} yang ditemukan melalui jalur \texttt{TAG\_COOCCUR}$\rightarrow$\texttt{HAS\_ACCEPTED\_ANSWER} yang dinilai \texttt{RELEVAN}. Artinya, sinyal kepercayaan tanpa suku relevansi cenderung menarik jawaban yang dipercaya komunitas tetapi tidak berkaitan dengan pertanyaan. Temuan ini menjadi dasar penggunaan skor gabungan pada Persamaan~\eqref{eq:final-score}.
+
+\subsection{Tahap 2: Seleksi Berdasarkan Halusinasi}
+\label{subsec:tahap2}
+Untuk kedua nilai $\alpha$ hasil tahap~1, jawaban dibangkitkan pada \emph{development set} dengan \emph{grounding} aktif dan tidak aktif (4 \emph{run}, 200 jawaban), lalu dinilai dengan \emph{judge} halusinasi yang telah dibekukan. Pemilihan menggunakan \emph{hallucination rate} biner yang digabung untuk kedua keadaan \emph{grounding}. Kriteria utamanya menghitung tanpa \texttt{ABSTAIN}, dengan pemecah seri yang menghitung \texttt{ABSTAIN} sebagai jawaban nonfaktual, dan margin seri dua jawaban. Skrip laporan tahap~2 memeriksa bahwa keempat \emph{run} berkonfigurasi benar dan dijalankan setelah pembaruan graf, serta bahwa seluruh jawaban dinilai dengan versi \emph{judge} yang dibekukan, sebelum menerapkan aturan seleksi.
+\todo{Isi hasil tahap 2 (tabel per $\alpha$, $\alpha$ terpilih, tanggal) setelah kalibrasi \emph{judge} (Amendemen 4) dan \emph{run} tahap 2 selesai.}
+
+%============================================================
+\section{Implementasi Evaluasi}
+\label{sec:implementasi-evaluasi}
+%============================================================
+
+\subsection{\emph{LLM-as-a-Judge}}
+Instrumen evaluasi berjalan terpisah dari kondisi eksperimen. Instrumen ini membaca berkas hasil yang sudah ada dan menulis keluarannya ke berkas baru, sehingga satu \emph{run} dapat dinilai ulang tanpa membangkitkan jawaban kembali. Seluruh \emph{judge} terdaftar dalam satu registri yang mencatat model, penyedia, presisi yang benar-benar dilayani, dan model yang diharapkan dilaporkan oleh penyedia. Setiap ketidaksesuaian antara model yang diminta dan model yang melayani dicatat pada setiap keluaran. Dalam proses ini ditemukan bahwa permintaan ke Llama-3.3-70B-Instruct di DeepInfra dilayani oleh varian \emph{Turbo}, dan hal ini dicatat sebagai fakta implementasi. \emph{Judge} utama berasal dari keluarga model yang berbeda dengan \emph{generator} untuk mengurangi bias preferensi terhadap model sendiri \autocite{Gu2026}.
+
+Ada tiga instrumen \emph{judge} yang digunakan.
+\begin{enumerate}
+    \item \textbf{Halusinasi.} Kutipan dihapus dari jawaban (\emph{blinding}), dan \emph{judge} tidak diberi informasi kondisi, \emph{provider}, maupun model. \emph{Judge} mengekstraksi klaim dan menilai setiap klaim terhadap \emph{accepted answer} sebagai \texttt{SUPPORTED}, \texttt{CONTRADICTED}, \texttt{FABRICATED}, atau \texttt{UNVERIFIABLE}. Label akhir diturunkan secara deterministik dari daftar klaim, bukan dari label yang dilaporkan \emph{judge}. Instrumen ini direvisi dua kali. Revisi judge-v2 menangani jawaban ``sumber tidak mencakup'' yang sebelumnya dinilai sebagai halusinasi penuh, pernyataan tentang konteks yang diekstraksi sebagai klaim, dan solusi alternatif yang benar tetapi dinilai salah. Revisi judge-v2.1 (Amendemen~4) mempertahankan kualifikasi klaim (versi, platform, pustaka), membatasi tingkat keparahan hanya untuk klaim yang salah, dan menetapkan metrik utama biner: sebuah jawaban dinyatakan berhalusinasi apabila sedikitnya satu klaimnya \texttt{CONTRADICTED} atau \texttt{FABRICATED}.
+    \item \textbf{Relevansi konteks} (Kondisi B, C, D). Setiap item konteks dinilai hanya terhadap pertanyaan, tanpa \emph{accepted answer} dan tanpa skor \emph{retrieval}, sehingga \emph{judge} tidak dapat menilai item lebih tinggi karena mengetahui peringkatnya. Kecukupan konteks secara keseluruhan dinilai dalam panggilan terpisah. Metrik \emph{context precision} dan \emph{reciprocal rank} diturunkan dari label per item.
+    \item \textbf{Relevansi jawaban.} Jawaban dinilai hanya terhadap pertanyaan, tanpa \emph{accepted answer} dan tanpa konteks, sehingga relevansi terpisah dari kebenaran.
+\end{enumerate}
+
+\subsection{Sistem Anotasi untuk Kalibrasi \emph{Judge}}
+\label{subsec:sistem-anotasi}
+Pada studi pilot, kesepakatan antara \emph{judge} utama dan sekunder hanya mencapai $\kappa = 0{,}24$, dan kekeliruan \emph{judge} terjadi pada kedua arah. Sesuai rancangan pada Subbab~\ref{subsubsec:validasi-judge} dan Amendemen~4, \emph{judge} halusinasi divalidasi terhadap anotasi manusia. Sistem anotasi diimplementasikan sebagai satu alat baris perintah dengan lima tahap.
+\begin{enumerate}
+    \item \textbf{Pembangkitan set kalibrasi.} Kondisi A, \emph{B-plain}, dan \emph{B-grounded} dijalankan pada \emph{development set} dengan pengaturan pembangkitan yang sama dengan studi pilot, sehingga menghasilkan 150 jawaban. Skrip hanya berjalan dari \emph{working tree} yang bersih, dan setiap \emph{run} didaftarkan sebagai \emph{run} kalibrasi sebelum jawaban dibangkitkan.
+    \item \textbf{Ekspor buta.} Sebanyak 60 item diambil secara terstratifikasi (20 per kondisi, \emph{seed} 42) dan diekspor ke berkas \emph{spreadsheet} untuk anotator pertama. Subset tetap berisi 30 item (10 per kondisi) diekspor untuk anotator kedua. Setiap baris hanya memuat kode item, pertanyaan, \emph{accepted answer}, dan jawaban kandidat yang label kutipannya telah dihapus, dengan konversi teks dan pemotongan yang sama dengan masukan \emph{judge}. Kunci yang menghubungkan kode item dengan pertanyaan, kondisi, dan \emph{run} disimpan di luar repositori, dan hanya \emph{hash} SHA-256 kunci tersebut yang dicatat di repositori. Setiap tahap berikutnya memverifikasi kunci terhadap \emph{hash} ini.
+    \item \textbf{Pengisian dan validasi.} Anotator mengisi tiga kolom untuk setiap item, yaitu \texttt{abstain} (Y/N), \texttt{hallucinated} (Y/N, hanya jika tidak abstain), dan \texttt{severity} (\texttt{PENUH}/\texttt{SEBAGIAN}, hanya jika berhalusinasi), mengikuti pedoman anotasi berbahasa Indonesia yang di-\emph{commit} sebelum anotasi dimulai. Pedoman menggunakan definisi yang sama dengan \emph{prompt judge}: referensi menentukan apabila membahas klaim tersebut; klaim yang tidak dibahas referensi dinilai tidak dapat diverifikasi, kecuali jelas dikarang atau bertentangan dengan fakta teknis yang mapan; dan dokumentasi resmi hanya boleh dibuka untuk memeriksa keberadaan suatu API. Berkas yang telah diisi divalidasi secara otomatis sebelum diproses, misalnya untuk mendeteksi sel kosong atau kombinasi label yang tidak konsisten.
+    \item \textbf{Kesepakatan antaranotator dan adjudikasi.} Cohen's~$\kappa$ antara kedua anotator dihitung pada 30 item yang beririsan sebelum diskusi. Perbedaan label diselesaikan melalui diskusi, dan hasilnya menjadi referensi manusia. Sebelum referensi ini tersedia, \emph{judge} terkunci dan menolak menilai \emph{run} kalibrasi, sehingga label \emph{judge} tidak dapat dilihat sebelum anotasi selesai. Penggunaan opsi untuk membuka kunci tersebut dicatat dalam log.
+    \item \textbf{Kesepakatan \emph{judge}--manusia.} \emph{Judge} dijalankan pada set kalibrasi dengan \emph{temperature} 0 dan batas 1.500 token keluaran. Kedua nilai tersebut dikirim secara eksplisit dan dicatat pada setiap keluaran. Cohen's~$\kappa$ tak berbobot dihitung pada tiga kategori (\texttt{ABSTAIN}, tidak berhalusinasi, berhalusinasi), ditambah $\kappa$ biner pada item yang tidak \texttt{ABSTAIN} menurut manusia maupun \emph{judge}. Versi \emph{prompt} yang mencapai $\kappa \geq 0{,}6$, atau versi dengan $\kappa$ tertinggi setelah paling banyak tiga versi, kemudian dibekukan.
+\end{enumerate}
+Alur yang sama digunakan untuk 30 item \emph{confirmation set} dari keluaran tahap~2, yang hanya dianotasi oleh peneliti dan dikerjakan sebelum label \emph{judge} untuk item tersebut dilihat.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Hasil kalibrasi \emph{judge} halusinasi terhadap anotasi manusia.}
+\label{tab:kalibrasi-judge}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|c|c|}
+\hline
+\textbf{Ukuran} & \textbf{$n$} & \textbf{$\kappa$} \\
+\hline
+Manusia--manusia (sebelum adjudikasi) & 30 & \todo{isi} \\
+\hline
+\emph{Judge} utama--referensi, kalibrasi, per versi \emph{prompt} & 60 & \todo{isi} \\
+\hline
+\emph{Judge} sekunder--referensi, kalibrasi & 60 & \todo{isi} \\
+\hline
+\emph{Judge} utama--referensi, konfirmasi & 30 & \todo{isi} \\
+\hline
+\end{tabularx}
+\end{table}
+\todo{Isi versi \emph{judge} yang dibekukan beserta tanggalnya, dan identitas anotator kedua (cukup peran/latar belakang).}
+
+\subsection{Analisis Statistik}
+Perbandingan antarkondisi dilakukan berpasangan pada tingkat pertanyaan, yaitu pada irisan pertanyaan yang memiliki nilai metrik pada kedua kondisi, dan jumlah pasangan dilaporkan per metrik. Uji yang digunakan adalah Wilcoxon \emph{Signed-Rank} dua sisi. Pasangan dengan selisih nol dikeluarkan dari uji, karena metrik ordinal memiliki banyak nilai seri. Ukuran efek dihitung dengan Cliff's Delta dan diinterpretasikan dengan ambang \textcite{Romano2006}, dan nilai $p$ dikoreksi dengan Holm--Bonferroni \autocite{Holm1979} per metrik. Analisis hubungan kepercayaan dan relevansi dilakukan pada tingkat item dan tingkat pertanyaan. Analisis tingkat pertanyaan diperlukan karena item-item di dalam satu pertanyaan tidak saling bebas, sehingga signifikansi tingkat item saja akan terlalu optimistis.
+
+%============================================================
+\section{Reprodusibilitas}
+\label{sec:reprodusibilitas}
+%============================================================
+
+Beberapa mekanisme diterapkan agar setiap hasil dapat ditelusuri ke kode dan konfigurasi yang menghasilkannya (NF4).
+\begin{itemize}
+    \item \textbf{\emph{Hash} konfigurasi.} Setiap \emph{run} memiliki \emph{hash} dari seluruh parameter yang memengaruhi hasil, dan \emph{hash} tersebut menjadi bagian nama berkas keluaran. Konfigurasi yang berbeda selalu menghasilkan berkas yang berbeda. Penambahan parameter baru dirancang agar \emph{hash run} lama tidak berubah, dan hal ini diuji dengan menghitung ulang \emph{hash} seluruh \emph{run} pilot.
+    \item \textbf{\emph{Manifest} dan riwayat.} Setiap keluaran disertai \emph{manifest} yang mencatat waktu mulai dan selesai, \emph{commit} Git, status kebersihan \emph{working tree} beserta daftar berkas yang berubah, versi paket, dan jumlah item. Seluruh \emph{run} juga dicatat pada berkas riwayat per kondisi.
+    \item \textbf{Gerbang \emph{commit} bersih.} Prosedur seleksi pada Subbab~\ref{sec:penetapan-parameter} menolak berjalan apabila terdapat perubahan kode yang belum di-\emph{commit}.
+    \item \textbf{Ketahanan.} Seluruh skrip dapat dilanjutkan setelah terhenti, dengan melewati pertanyaan yang sudah selesai dan mencatat kegagalan secara terpisah.
+    \item \textbf{Pengujian otomatis.} Repositori memuat 589 kasus uji pada 63 berkas, yang mencakup ketaksaling-irisan sampel uji dan \emph{development set}, kesetaraan $\alpha{=}1$ dengan pemeringkatan lama, determinisme \emph{cache embedding}, setiap jalur aturan seleksi, dan kesesuaian rumus pembaruan \texttt{trustScore} dengan rumus yang dievaluasi.
+\end{itemize}
+
+%============================================================
+\section{Pemenuhan Kebutuhan Fungsional}
+\label{sec:pemenuhan-kebutuhan}
+%============================================================
+
+Tabel~\ref{tab:pemenuhan-fungsional} memetakan setiap kebutuhan fungsional pada Tabel~\ref{tab:checklist-f1-f7} ke implementasinya. Pembaruan pengetahuan tanpa \emph{re-training} tidak termasuk kebutuhan fungsional karena merupakan sifat arsitektural yang tidak diimplementasikan maupun dievaluasi (Subbab~\ref{subsec:kebutuhan-fungsional}).
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Status implementasi kebutuhan fungsional.}
+\label{tab:pemenuhan-fungsional}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|c|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{2.4cm}|}
+\hline
+\textbf{Req.} & \textbf{Bukti implementasi} & \textbf{Status} \\
+\hline
+F1 & KG dari seluruh populasi SORD (Tabel~\ref{tab:statistik-kg}); simpul terisolasi 23,10\% setelah densifikasi; \texttt{trustScore} memuat ketiga sinyal komunitas & Terpenuhi \\
+\hline
+F2 & Indeks FAISS 2.685.814 vektor (Subbab~\ref{subsec:implementasi-indeks-vektor}) & Terpenuhi \\
+\hline
+F3 & \emph{Vector anchoring} dengan pengecualian pertanyaan evaluasi & Terpenuhi \\
+\hline
+F4 & \emph{Hybrid retrieval} tiga tahap dan fusi deterministik (Subbab~\ref{subsec:implementasi-kondisi-c}) & Terpenuhi \\
+\hline
+F5 & \emph{Dual-constraint}, validasi kutipan, dan \emph{provenance} per item & Terpenuhi \\
+\hline
+F6 & Empat kondisi, saklar ablasi, dan instrumen evaluasi & Terpenuhi; \emph{run} resmi belum dijalankan \\
+\hline
+\end{tabularx}
+\end{table}
+
+%============================================================
+\section{Ringkasan}
+\label{sec:ringkasan-implementasi}
+%============================================================
+
+Implementasi menghasilkan KG berbobot dari seluruh populasi SORD dengan 2,7 juta pertanyaan dan 32 juta sisi, empat kondisi eksperimen yang berbagi \emph{sampling}, \emph{prompt}, model, dan pencegahan kebocoran data yang sama, serta instrumen evaluasi yang terpisah dari \emph{generator}. Tiga hal dari proses implementasi berpengaruh langsung pada interpretasi hasil di bab berikutnya:
+\begin{enumerate}
+    \item Struktur eksplisit Stack Overflow saja tidak cukup untuk traversal, sehingga densifikasi graf menjadi prasyarat \emph{retrieval} dua \emph{hop}.
+    \item Pemeringkatan murni berdasarkan kepercayaan menurunkan relevansi konteks, sehingga sinyal kepercayaan dikombinasikan dengan relevansi melalui parameter $\alpha$ yang dipilih pada \emph{development set}.
+    \item Keputusan metodologis setelah studi pilot, termasuk koreksi komponen reputasi, dicatat sebelum data yang relevan dilihat dan diverifikasi secara otomatis.
+\end{enumerate}
+Bab berikutnya menyajikan hasil evaluasi keempat kondisi pada sampel uji.

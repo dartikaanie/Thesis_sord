@@ -1,5 +1,7 @@
 %============================================================
 % BAB III — ANALISIS DAN DESAIN
+% Revisi 2026-10-09: disesuaikan dengan implementasi aktual
+% (repo dartikaanie/graphrag, commit 43b3b3b).
 %============================================================
 
 \chapter{Analisis dan Desain}
@@ -9,9 +11,10 @@ Bab ini merupakan kelanjutan langsung dari analisis \emph{research gap} yang dii
 \begin{enumerate}[1.]
     \item Deskripsi hasil analisis kondisi saat ini dan persoalan yang ditangani, merujuk pada analisis dari studi-studi yang diidentifikasi pada Bab~\ref{chap:studi-literatur},
     \item Analisis kebutuhan komponen \emph{GraphRAG Framework}, mencakup kebutuhan fungsional dan nonfungsional yang diturunkan dari rumusan masalah dan hipotesis penelitian yang ditetapkan di Bab~\ref{chap:pendahuluan}, dan
-    \item Analisis pemilihan solusi beserta desain konseptual \emph{GraphRAG Framework} yang merespons ketiga kesenjangan secara sistematis, termasuk rancangan \emph{knowledge graph} berbobot, mekanisme \emph{hybrid retrieval}, dan protokol evaluasi komparatif.
+    \item Analisis pemilihan solusi beserta desain \emph{GraphRAG Framework} yang merespons ketiga kesenjangan secara sistematis, termasuk rancangan \emph{knowledge graph} berbobot, mekanisme \emph{hybrid retrieval}, mekanisme \emph{grounded generation}, dan protokol evaluasi komparatif.
 \end{enumerate}
- 
+
+%============================================================
 \section{Analisis Kondisi Saat Ini}
 \label{sec:kondisi-saat-ini}
 %============================================================
@@ -19,16 +22,16 @@ Bab ini merupakan kelanjutan langsung dari analisis \emph{research gap} yang dii
 \label{subsec:model-konseptual}
 
 Sistem tanya-jawab teknis berbasis \emph{Large Language Model} (LLM) yang umum digunakan saat ini masih bekerja menggunakan mekanisme satu arah. Pengguna memberikan pertanyaan terkait pemrograman, kemudian model menghasilkan jawaban berdasarkan pengetahuan internal yang telah dipelajari selama proses pra-pelatihan (\emph{pre-training}) \autocite{Huang2025}. Pengetahuan tersebut dikenal sebagai \emph{parametric knowledge}, yaitu informasi yang tersimpan dalam parameter atau bobot model. Dengan mekanisme ini, LLM menghasilkan respons berdasarkan apa yang telah dipelajari sebelumnya tanpa mengambil informasi tambahan dari sumber eksternal saat proses inferensi berlangsung.
-Konsekuensinya, sistem tidak memiliki mekanisme untuk melakukan \emph{grounding} terhadap sumber pengetahuan yang terverifikasi, seperti dokumentasi resmi, basis pengetahuan komunitas, maupun repositori teknis lainnya. Akibatnya, kualitas jawaban sangat bergantung pada cakupan dan representativitas data latih yang digunakan selama pelatihan model \autocite{YizhengHuang2026}. Kondisi tersebut dapat menimbulkan beberapa permasalahan, seperti ketidakakuratan informasi, hilangnya konteks teknis tertentu, serta munculnya halusinasi ketika model menghadapi pertanyaan yang tidak tercakup dengan baik pada data pelatihan.
+Konsekuensinya, sistem tidak memiliki mekanisme untuk melakukan \emph{grounding} terhadap sumber pengetahuan yang terbaru, terverifikasi, seperti dokumentasi resmi, basis pengetahuan komunitas, maupun repositori teknis lainnya. Akibatnya, kualitas jawaban sangat bergantung pada cakupan dan representativitas data latih yang digunakan selama pelatihan model \autocite{YizhengHuang2026}. Kondisi tersebut dapat menimbulkan beberapa permasalahan, seperti ketidakakuratan informasi, hilangnya konteks teknis tertentu, serta munculnya halusinasi ketika model menghadapi pertanyaan yang tidak tercakup dengan baik pada proses pra-pelatihan.
 Gambar~\ref{fig:model-konseptual-saat-ini} memperlihatkan model konseptual sistem yang digunakan saat ini beserta titik-titik potensi kegagalan yang menjadi fokus pada penelitian ini.
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.9\textwidth]{images/bab3_model_konseptual_saat_ini}
-\caption{Model konseptual sistem tanya-jawab berbasis LLM generik tanpa mekanisme pengambilan konteks dari sumber terverifikasi.}
+\caption{Model konseptual sistem tanya-jawab berbasis LLM generik tanpa mekanisme pengambilan kontekstual eksternal. Titik-titik potensi kegagalan yang menjadi fokus penelitian ini ditandai dengan lingkaran merah.}
 \label{fig:model-konseptual-saat-ini}
 \end{figure}
 
-Pendekatan RAG konvensional telah diusulkan dalam literatur sebagai mekanisme \emph{grounding} berbasis pengambilan dokumen eksternal \autocite{Kamalipour2026}. Pada RAG konvensional, sumber data diindeks sebagai \emph{flat chunks} ke dalam \emph{vector store},  dan informasi diambil melalui \emph{dense retrieval} berbasis kemiripan kosinus. Pendekatan ini mengatasi sebagian keterbatasan LLM Murni yaitu ketergantungan pada \emph{parametric knowledge} yang statis \autocite{Zhou2026}. Arsitektur  RAG konvensional diilustrasikan  pada Gambar~\ref{fig:arsitektur-rag-konvensional}.
+Pendekatan RAG konvensional telah diusulkan dalam literatur sebagai mekanisme \emph{grounding} berbasis pengambilan dokumen eksternal \autocite{Kamalipour2026}. Pada RAG konvensional, sumber data diindeks sebagai \emph{flat chunks} ke dalam \emph{vector store}, dan informasi diambil melalui \emph{dense retrieval} berbasis kemiripan kosinus. Pendekatan ini mengatasi sebagian keterbatasan LLM murni, yaitu ketergantungan pada \emph{parametric knowledge} yang statis \autocite{Zhou2026}. Arsitektur RAG konvensional diilustrasikan pada Gambar~\ref{fig:arsitektur-rag-konvensional}.
 
 \begin{figure}[!htbp]
 \centering
@@ -45,9 +48,9 @@ Studi \textcite{DaSilva2025} menyediakan bukti kuantitatif paling komprehensif t
 
 \input{tables/bab3_analisis_keterbatasan_baseline.tex}
 
-Studi \textcite{Kabir2024} memperkuat temuan ini dengan melaporkan bahwa 52\% jawaban ChatGPT untuk pertanyaan SO bersifat tidak benar ketika dievaluasi secara manual, Angka yang jauh lebih tinggi dari yang diklaim dalam evaluasi berbasis metrik otomatis. Ketidakakuratan ini paling parah pada pertanyaan yang membutuhkan pengetahuan tentang versi \emph{library} atau \emph{framework} terkini, yang merupakan manifestasi konkret dari kesenjangan G2 dan G3.
+Studi \textcite{Kabir2024} memperkuat temuan ini dengan melaporkan bahwa 52\% jawaban ChatGPT untuk pertanyaan Stack Overflow bersifat tidak benar ketika dievaluasi secara manual, angka yang jauh lebih tinggi dari yang diklaim dalam evaluasi berbasis metrik otomatis. Ketidakakuratan ini paling parah pada pertanyaan yang membutuhkan pengetahuan tentang versi \emph{library} atau \emph{framework} terkini, yang merupakan manifestasi konkret dari kesenjangan G2 dan G3.
 
-Selain itu, \textcite{Nashid2023} mendemonstrasikan bahwa augmentasi konteks dari Stack Overflow meningkatkan relevansi jawaban LLM pada tugas pemrograman, namun pendekatan berbasis \emph{dense retrieval} yang digunakan tidak mengeksplorasi struktur relasional dan sinyal kepercayaan yang tersedia dalam konten Stackoverflow dan sinyal kepercayaan yang tersedia dalam konten Stack Overflow. Studi ini menunjukkan peningkatan yang menjanjikan tetapi terbatas, mengkonfirmasi bahwa mekanisme RAG konvensional belum sepenuhnya memanfaatkan potensi sumber daya komunitas teknis seperti Stack Overflow, yang menjadi inti dari kesenjangan G2 dan G3.
+Selain itu, \textcite{Nashid2023} mendemonstrasikan bahwa augmentasi konteks dari Stack Overflow meningkatkan relevansi jawaban LLM pada tugas pemrograman. Namun, pendekatan berbasis \emph{dense retrieval} yang digunakan tidak mengeksplorasi struktur relasional dan sinyal kepercayaan yang tersedia dalam konten Stack Overflow. Studi ini menunjukkan peningkatan yang menjanjikan tetapi terbatas, yang mengonfirmasi bahwa mekanisme RAG konvensional belum sepenuhnya memanfaatkan potensi sumber daya komunitas teknis seperti Stack Overflow. Hal ini menjadi inti dari kesenjangan G2 dan G3.
 
 \subsection{Identifikasi Masalah}
 \label{subsec:identifikasi-masalah-kondisi}
@@ -58,13 +61,13 @@ Berdasarkan ketiga studi di atas, masalah utama yang ditangani dalam penelitian 
     LLM menghasilkan jawaban yang terdengar meyakinkan namun faktanya keliru, khususnya ketika pertanyaan menyentuh
     \emph{library} atau \emph{framework} yang rilis atau diperbarui setelah batas pengetahuan (\emph{knowledge cutoff}) model. Kondisi ini merupakan bentuk \emph{factual hallucination} dan \emph{extrinsic hallucination} sebagaimana diklasifikasikan oleh \textcite{Ji2023} dan \textcite{Huang2025} pada Bab~\ref{chap:studi-literatur}. Ini adalah manifestasi dari absennya mekanisme \emph{grounding} eksternal (G1).
 
-    \item Kegagalan Memanfaatkan Sinyal Kepercayaan Komunitas Stackoverflow.
-    Informasi signal kepercayaan seperti \emph{upvote}, status \emph{accepted answer}, reputasi kontributor, hubungan rekomendasi yang tersedia di StackOverflow namun tidak dieksploitasi oleh LLM maupun sistem RAG konvensional. Ini adalah inti kesenjangan G2.
+    \item Kegagalan Memanfaatkan Sinyal Kepercayaan Komunitas Stack Overflow.
+    Sinyal kepercayaan seperti \emph{upvote}, status \emph{accepted answer}, reputasi kontributor, dan hubungan antar-\emph{thread} tersedia di Stack Overflow, tetapi tidak dieksploitasi oleh LLM maupun sistem RAG konvensional. Ini adalah inti kesenjangan G2.
 
     \item Ketidakterlacakan Sumber Jawaban.
     Jawaban LLM tidak dapat dilacak ke diskusi komunitas yang menjadi dasarnya. Ketidakterlacakan ini menghalangi verifikasi independen dan mengurangi kepercayaan pengguna, terutama pada konteks profesional.
 
-    \item Pengetahuan yang Tidak Dapat Diperbarui Tanpa \emph{Re-training}. 
+    \item Pengetahuan yang Tidak Dapat Diperbarui Tanpa \emph{Re-training}.
     LLM tidak dapat mengadaptasi pengetahuannya secara dinamis ketika ekosistem \emph{library} berkembang, tanpa proses \emph{fine-tuning} ulang yang mahal secara komputasi. Keterbatasan statis pengetahuan parametrik ini merupakan salah satu motivasi utama pendekatan berbasis RAG dan KG \autocite{YizhengHuang2026, Lewis2020}.
 \end{enumerate}
 
@@ -76,7 +79,8 @@ Berdasarkan ketiga studi di atas, masalah utama yang ditangani dalam penelitian 
 \subsection{Identifikasi Kebutuhan Pengguna}
 \label{subsec:identifikasi-kebutuhan-pengguna}
 
-Pengguna utama \emph{GraphRAG Framework} adalah \emph{software developer}dan \emph{software engineer} yang menggunakan LLM untuk mendapatkan jawaban atas pertanyaan teknis di domain pemrograman, pertanyaan yang biasanya diajukan ke Stack Overflow. Tabel~\ref{tab:kebutuhan-pengguna} memetakan masalah pengguna ke kebutuhan solusi yang harus dipenuhi artefak. \input{tables/bab3_kebutuhan_pengguna.tex}
+Pengguna utama \emph{GraphRAG Framework} adalah \emph{software developer} dan \emph{software engineer} yang menggunakan LLM untuk mendapatkan jawaban atas pertanyaan teknis di domain pemrograman, yaitu jenis pertanyaan yang biasanya diajukan ke Stack Overflow. Tabel~\ref{tab:kebutuhan-pengguna} memetakan masalah pengguna ke kebutuhan solusi yang harus dipenuhi artefak.
+\input{tables/bab3_kebutuhan_pengguna.tex}
 
 \FloatBarrier
 \subsection{Kebutuhan Fungsional}
@@ -86,32 +90,32 @@ Berdasarkan pemetaan masalah di atas, kebutuhan fungsional \emph{GraphRAG Framew
 
 \begin{enumerate}[label=\textbf{F\arabic*.}]
     \item Konstruksi \emph{Knowledge Graph} Berbobot dari Stack Overflow.
-    Sistem harus dapat memproses dataset Stack Overflow mencakup pertanyaan, jawaban diterima, komentar, tag, dan data rekomendasi untuk mengekstrak entitas dan relasi. Pipeline konstruksi yaitu penyusunan ontologi domain \emph{schema-based}, praproses dokumen, NER dan ekstraksi relasi, \emph{entity linking}, serta peningkatan kualitas graf. Sistem kemudian membangun KG berbobot di mana bobot pada simpul dan sisi merepresentasikan sinyal kepercayaan komunitas SO (skor \emph{upvote}, status \emph{accepted answer}, reputasi kontributor, dan kekuatan rekomendasi antar-\emph{thread}). Kebutuhan ini secara langsung menjawab G2 dan G3.
+    Sistem harus dapat memproses dataset SORD \autocite{Fatima2026}, yang mencakup pertanyaan, jawaban, tag, dan metadata pengguna, menjadi KG berbobot. Simpul dan relasi diturunkan dari metadata struktural Stack Overflow (relasi pertanyaan--jawaban, penandaan tag, tautan antar-\emph{thread}, dan kepemilikan jawaban), sehingga tidak bergantung pada ekstraksi entitas dari teks bebas. Bobot pada simpul dan sisi merepresentasikan sinyal kepercayaan komunitas (skor \emph{upvote}, status \emph{accepted answer}, dan reputasi kontributor). Karena relasi Stack Overflow terbatas, sistem perlu menambahkan relasi antarpertanyaan yang serupa untuk mempermudah pencarian informasi dan penelusuran solusi. Pendekatan ini menjawab G2 dan G3.
 
-    \item Pengindeksan Vektor Teks Konten Stack Overflow
-    Sistem harus mengindeks teks pertanyaan dan jawaban dari Stack Overflow ke dalam \emph{vector store} menggunakan model \emph{embedding} untuk mendukung pencarian semantik berbasis kemiripan kosinus sebagai jalur komplementer terhadap traversal graf.
+    \item Pengindeksan Vektor Teks Konten Stack Overflow.
+    Sistem harus mengindeks teks pertanyaan dan jawaban ke dalam \emph{vector store} menggunakan model \emph{embedding} untuk mendukung pencarian semantik berbasis kemiripan kosinus. Indeks ini digunakan sebagai titik masuk ke graf dan penelusuran melalui relasi graf.
 
-    \item Pemahaman dan Dekomposisi Kueri.
-    Sistem harus mampu mengekstrak entitas kunci dari kueri pengguna menggunakan \emph{named entity recognition} (NER) dan memetakan entitas tersebut ke simpul yang ada di KG Stack Overflow melalui \emph{entity linking}. % 
+    \item Pemetaan Kueri ke \emph{Knowledge Graph} (\emph{Entity Anchoring}).
+    Sistem harus mampu memetakan kueri pengguna ke sekumpulan simpul awal (\emph{seed nodes}) di \emph{Knowledge Graph}. Pemetaan dilakukan dengan mencari simpul \emph{Question} yang paling mirip secara semantik dengan kueri melalui indeks vektor, sehingga setiap kueri memperoleh titik masuk ke graf tanpa memerlukan ekstraksi entitas.
 
     \item \emph{Hybrid Retrieval}.
-    Mekanisme pengambilan konteks menjalankan tiga tahap sekuensial, yaitu \emph{Entity Anchoring}, \emph{Graph Traversal} multi-hop mengikuti sisi berbobot tertinggi, dan \emph{Semantic Expansion} yang menggunakan simpul hasil Graph Traversal sebagai anchor pencarian vektor di FAISS untuk menemukan konten relevan yang tidak terhubung eksplisit di KG. Hasil ketiga tahap difusikan melalui proses reranking, deduplikasi, dan packing menjadi \emph{unified context window}. Kebutuhan ini menjawab G2 dan G3.
+    Mekanisme pengambilan konteks menjalankan tiga tahap sekuensial, yaitu \emph{Entity Anchoring}, \emph{Graph Traversal} hingga dua \emph{hop}, dan \emph{Semantic Expansion} untuk menemukan konten relevan lainnya. Hasil ketiga tahap digabungkan, pdiurutkan berdasarkan tingkat kepercayaan, dan disusun menjadi satu konteks untuk dikirim ke LLM. Mekanisme ini menjawab G2 dan G3.
 
     \item \emph{Grounded Generation} dengan \emph{Dual-Constraint} dan \emph{Citation}.
-    Berdasarkan \emph{unified context window} dari \emph{hybrid retrieval}, sistem membangkitkan jawaban melalui mekanisme \emph{dual-constraint}: (a)\emph{RAG Grounding} memastikan setiap klaim bersumber dari konteks yang diberikan (\emph{context-faithful generation}), dan (b)\emph{KG-Constraint} memastikan jawaban konsisten dengan fakta yang terkodekan dalam KG berbobot. Output sistem terdiri atas tiga elemen: jawaban faktual, kutipan ke SO \emph{thread} sumber, dan jalur \emph{provenance} pada KG. Ini menjawab G1.
+    Sistem menghasillkan jawaban berdasarkan konteks yang tersedia (\emph{grounding constraint}) dan memastikan setiap klaim memiliki sumber yang valid (\emph{citation constraint}). Output sistem terdiri atas jawaban, kutipan sumberStack Overflow, dan catatan \emph{provenance} yang menunjukkan jalur pengambilan informasi pada \emph{knowledge graph}. Kebutuhan ini menjawab G1.
 
-    \item Protokol Evaluasi Komparatif Tiga Kondisi.
-    Sistem harus menyediakan \emph{pipeline} evaluasi yang dapat membandingkan tiga kondisi secara \emph{apple-to-apple}: (a) LLM murni sebagai \emph{baseline} \autocite{DaSilva2025}, (b) RAG konvensional sebagai \emph{ablation}, dan (c) \emph{GraphRAG Framework} yang diusulkan menggunakan dataset evaluasi yang sama. Evaluasi menggunakan kerangka RAGAS dengan metrik \emph{hallucination rate}, \emph{faithfulness}, \emph{context relevance}, dan \emph{answer relevance} \autocite{Kamalipour2026}, serta paradigma \emph{LLM-as-a-Judge} yang reliabilitasnya divalidasi dengan Cohen's~$\kappa \geq 0{,}6$ \autocite{Gu2026}.
-
-    \item Pembaruan KG Inkremental.
-    Sistem harus mendukung penambahan konten SO baru ke dalam KG tanpa \emph{re-training} model LLM, sehingga pengetahuan dapat diperbarui secara efisien seiring perkembangan ekosistem \emph{library}. Ini merupakan keunggulan arsitektural RAG dan KG dibandingkan pendekatan parametrik murni.
+    \item Protokol Evaluasi Komparatif.
+    Sistem harus dapat membandingkan empat kondisi pada sampel pertanyaan yang sama: (a) LLM murni sebagai \emph{baseline} \autocite{DaSilva2025}, (b) RAG konvensional, (c) \emph{GraphRAG Framework} yang diusulkan, dan (d) GraphRAG \emph{dual-level} tanpa sinyal kepercayaan yang diadaptasi dari LightRAG \autocite{Guo2025}. Evaluasi mendukung ablasi terkontrol dengan mengubah satu komponen tanpa memengaruhi komponen lainnya. Evaluasi diukur berdasarkan empat dimensi evaluasi RAG \autocite{Kamalipour2026} menggunakan \emph{LLM-as-a-Judge}, yang reliabilitasnya divalidasi terhadap anotasi manusia dengan target Cohen's (\kappa \geq 0{,}6) \autocite{Gu2026}.
 \end{enumerate}
+
+Kemampuan memperbarui pengetahuan tanpa \emph{re-training} LLM (masalah M5 pada Tabel~\ref{tab:kebutuhan-pengguna}) tidak dirumuskan sebagai kebutuhan fungsional tersendiri. Kemampuan ini merupakan sifat arsitektural pendekatan berbasis \emph{retrieval}: pengetahuan disimpan di luar parameter model sehingga dapat diperbarui dengan mengubah sumber pengetahuannya \autocite{Lewis2020}, dan pada GraphRAG pembaruan dapat dilakukan dengan menambahkan simpul dan sisi baru ke graf \autocite{Kamalipour2026}. Penelitian ini tidak mengimplementasikan maupun mengevaluasi mekanisme pembaruan inkremental, karena seluruh pertanyaan penelitian berfokus pada reduksi halusinasi. Pembaruan inkremental diposisikan sebagai pengembangan lanjutan.
 
 \subsection{Kebutuhan Nonfungsional}
 \label{subsec:kebutuhan-nonfungsional}
 
-Tabel~\ref{tab:kebutuhan-nonfungsional} merinci keenam kebutuhan nonfungsional yang diturunkan dari empat pertimbangan yang saling berkaitan. Pertama, dimensi kinerja dan skalabilitas, sistem harus mampu melakukan traversal KG berbobot dan pencarian vektor dalam waktu yang dapat diterima untuk penggunaan interaktif, mengingat dataset Stack Overflow berskala besar. Kedua, dimensi keterlacakan (\emph{traceability}), setiap jawaban harus menyertakan jalur \emph{provenance} yang dapat ditelusuri ke simpul KG sumber. Ketiga, dimensi \emph{reprodusibilitas} evaluasi, protokol tiga kondisi (A, B, C) harus dapat dijalankan ulang dengan hasil yang konsisten, sesuai persyaratan validitas evaluasi komparatif. Keempat, dimensi \emph{modularitas}, komponen KG, \emph{retriever}, dan \emph{generator} harus dapat diganti atau dikonfigurasi secara independen agar eksperimen ablasi dapat dilakukan dengan mengubah satu variabel pada satu waktu.
+Tabel~\ref{tab:kebutuhan-nonfungsional} merangkum keenam kebutuhan nonfungsional berdasarkan empat aspek. Pertama, kinerja dan skalabilitas, yaitu sistem harus mampu melakukan traversal KG berbobot dan pencarian vektor dalam waktu yang dapat diterima untuk penggunaan interaktif. Kedua, keterlacakan (\emph{traceability}), yaitu setiap jawaban harus menyertakan kutipan yang valid dan dapat ditelusuri ke simpul sumber di KG. Ketiga, reprodusibilitas evaluasi, yaitu setiap eksperimen harus menggunakan dataset, konfigurasi, dan prosedur evaluasi yang terdokumentasi agar perbandingan antarmetode dapat dilakukan secara konsisten dan hasilnya dapat diverifikasi. Keempat, modularitas, yaitu komponen KG, \emph{retriever}, dan \emph{generator} harus dapat dikonfigurasi secara independen agar eksperimen ablasi dapat dilakukan dengan mengubah satu variabel pada satu waktu.
 \input{tables/bab3_kebutuhan_nonfungsional.tex}
+
 %============================================================
 \section{Analisis Pemilihan Solusi}
 \label{sec:analisis-solusi}
@@ -120,32 +124,36 @@ Tabel~\ref{tab:kebutuhan-nonfungsional} merinci keenam kebutuhan nonfungsional y
 \subsection{Alternatif Solusi}
 \label{subsec:alternatif-solusi}
 
-Berdasarkan identifikasi masalah dan kebutuhan di atas, tiga kondisi dipertimbangkan sekaligus membentuk \emph{framework} evaluasi komparatif penelitian ini.
+Berdasarkan identifikasi masalah dan kebutuhan tersebut, ditetapkan empat alternatif pendekatan yang sekaligus menjadi dasar evaluasi komparatif dalam penelitian ini.
 
 \begin{enumerate}
 
-    \item LLM Murni (\emph{Baseline} \textcite{DaSilva2025}).
+    \item LLM Murni (Kondisi A, \emph{baseline} \textcite{DaSilva2025}).
+
+    LLM menjawab kueri pengguna langsung dari \emph{parametric knowledge} tanpa augmentasi konteks eksternal. Ini adalah kondisi yang dievaluasi oleh \textcite{DaSilva2025} dan \textcite{Kabir2024}, dan menjadi titik acuan pengukuran \emph{improvement}. Keterbatasan yang sudah terdokumentasi adalah halusinasi pada domain \emph{framework} dan \emph{library}, absennya \emph{citation}, kegagalan pada pertanyaan relasional kompleks, dan ketidakmampuan mengadaptasi pengetahuan tanpa \emph{re-training}.
+
+    \item RAG Konvensional (Kondisi B).
+
+    Pasangan judul pertanyaan dan isi jawaban dari SORD \autocite{Fatima2026} dibagi menjadi potongan text (\emph{flat chunks}) dan disimpan dalam \emph{vector store}. Pada saat inferensi, sistem mengambil potongan yang paling mirip dengan kueri untuk diberikan kepada LLM (\emph{dense retrieval}). Pendekatan ini tidak memanfaatkan relasi antarinformasi dan sinyal kepercayaan komunitas (G2), sehingga membatasi penelusuran multi-hop dan berisiko mengambil informasi yang kurang relevan (\emph{knowledge noise}) \autocite{Zhou2026}. Studi \textcite{Nashid2023} menunjukkan peningkatan yang menjanjikan tetapi terbatas karena ketiadaan struktur relasional.
+
+    \item \emph{GraphRAG Framework} Berbobot Kepercayaan (Kondisi C, solusi yang diusulkan).
+
+    Konten SORD \autocite{Fatima2026} direpresentasikan sebagai KG berbobot yang menyimpan sinyal kepercayaan komunitas. Mekanisme \emph{hybrid retrieval} menjalankan tiga tahap sekuensial, yaitu \emph{Entity Anchoring}, \emph{Graph Traversal} berbobot, dan \emph{Semantic Expansion}. Hasil ketiga tahap digabungkan dan diurutkan berdasarkan tingkat kepercayaan sebagai konteks bagi LLLM. Pembangkitan jawaban menggunakan \emph{dual-constraint} (\emph{grounding} dan \emph{citation}). Output mencakup jawaban, kutipan thread Stack Overflow, dan catatan provenance. Pendekatan ini menjawab G1, G2, dan G3.
+
+    \item GraphRAG \emph{Dual-Level} tanpa Sinyal Kepercayaan (Kondisi D, pembanding GraphRAG).
     
-    LLM menjawab kueri pengguna langsung dari \emph{parametric knowledge} tanpa augmentasi konteks eksternal. Ini adalah kondisi yang dievaluasi oleh \textcite{DaSilva2025} dan \textcite{Kabir2024}, dan menjadi titik acuan pengukuran \emph{improvement}. Keterbatasan yang sudah terdokumentasi adalah halusinasi pada domain Framework \& Library, absennya \emph{citation}, kegagalan pada pertanyaan relasional kompleks, ketidakmampuan mengadaptasi pengetahuan tanpa \emph{re-training}.
-    
-    \item RAG Konvensional (Kondisi Pembanding).
-    
-    Konten SO dari SORD \autocite{Fatima2026} diindeks sebagai \emph{flat chunks} ke dalam \emph{vector store}. Pada waktu inferensi, potongan teks paling mirip secara semantik diambil dan dimasukkan ke dalam \emph{prompt} LLM (\emph{dense retrieval}). Keterbatasan arsitektural adalah tidak mengeksploitasi struktur relasional KG, sinyal kepercayaan komunitas SO (G2) tidak dimanfaatkan, tidak mampu menjawab kueri multi-hop, rentan terhadap \emph{knowledge noise} dari \emph{chunk} yang kurang relevan \autocite{Zhou2026}. Studi \textcite{Nashid2023} menunjukkan peningkatan yang menjanjikan tetapi terbatas karena ketiadaan struktur relasional.
-    
-    \item \emph{GraphRAG Framework} (Solusi yang Diusulkan).
-    
-    Konten SO dari SORD \autocite{Fatima2026} direpresentasikan sebagai KG berbobot di mana sinyal kepercayaan dikodekan secara eksplisit. Mekanisme \emph{hybrid retrieval} menjalankan tiga tahap sekuensial, yaitu \emph{Entity Anchoring}, \emph{Graph Traversal} multi-hop berbobot, dan \emph{Semantic Expansion} berbasis simpul subgraf. Hasil ketiga tahap difusikan menjadi \emph{unified context window} berformat E–R–E. Pembangkitan jawaban menggunakan mekanisme \emph{dual-constraint}: \emph{RAG Grounding} (jawaban harus bersumber dari konteks) dilanjutkan \emph{KG-Constraint} (jawaban harus konsisten dengan fakta KG). Output akhir berupa jawaban faktual, kutipan SO \emph{thread} dan jalur \emph{provenance} pada KG. Keunggulan arsitektural ini menjawab G1, G2, dan G3.
+    Kondisi D mengadaptasi mekanisme dual-level retrieval dari LightRAG \autocite{Guo2025}, yang menggabungkan pencarian entitas spesifik dan tema atau komunitas. Kondisi ini menggunakan KG dan indeks vektor yang sama dengan Kondisi C, tetapi pemeringkatan hanya berdasarkan relevansi, tanpa sinyal kepercayaan. Kondisi D berfungsi sebagai pembanding untuk mengukur kontribusi pembobotan kepercayaan secara terpisah dari kontribusi struktur graf.
 \end{enumerate}
 
 \subsection{Analisis Penentuan Solusi}
 \label{subsec:penentuan-solusi}
 \input{tables/bab3_komparasi_solusi.tex}
-Tabel~\ref{tab:komparasi-solusi} menyajikan matriks komparasi ketiga kondisi terhadap kebutuhan yang telah diidentifikasi. Matriks ini sekaligus mendefinisikan posisi \emph{improvement} yang diklaim penelitian ini. Berdasarkan matriks ini, Kondisi C (\emph{GraphRAG Framework}) dipilih sebagai solusi yang dikembangkan. Tabel~\ref{tab:perbandingan-kondisi} menyajikan ringkasan dari perbandingan ketiga kondisi tersebut, sekaligus menunjukkan posisi penelitian ini terhadap baseline \textcite{DaSilva2025} dan kondisi pembanding RAG konvensional. 
+Tabel~\ref{tab:komparasi-solusi} menyajikan matriks komparasi keempat alternatif terhadap kebutuhan yang telah diidentifikasi, berdasarkan analisis desain sebelum evaluasi dilakukan. Matriks ini sekaligus mendefinisikan posisi \emph{improvement} yang diklaim penelitian ini. Berdasarkan matriks tersebut, Kondisi C (\emph{GraphRAG Framework} berbobot kepercayaan) dipilih sebagai solusi yang dikembangkan, karena merupakan satu-satunya alternatif yang memanfaatkan sinyal kepercayaan komunitas (G2) sekaligus struktur relasional (G3). Tabel~\ref{tab:perbandingan-kondisi} menyajikan ringkasan pemenuhan kebutuhan pada keempat kondisi tersebut.
 \input{tables/bab3_perbandingan_kondisi.tex}
-Sebagai konsekuensinya, Kondisi C dipilih sebagai solusi yang dikembangkan pada penelitian ini. Sementara itu, Kondisi A dan Kondisi B tetap diimplementasikan sebagai pembanding dalam protokol evaluasi komparatif (F6), sehingga peningkatan kinerja yang diperoleh dapat diukur secara kuantitatif dan direproduksi terhadap \emph{baseline} \textcite{DaSilva2025}.
+Kondisi A, B, dan D tetap diimplementasikan sebagai pembanding dalam protokol evaluasi komparatif (F6). Perbandingan C terhadap A mengukur manfaat \emph{grounding} berbasis Stack Overflow secara keseluruhan, perbandingan C terhadap B mengukur manfaat struktur graf dan sinyal kepercayaan dibandingkan \emph{dense retrieval}, dan perbandingan C terhadap D mengukur manfaat sinyal kepercayaan secara spesifik pada struktur graf yang identik.
 
 %============================================================
-\section{Desain Konseptual \emph{GraphRAG Framework}}
+\section{Desain \emph{GraphRAG Framework}}
 \label{sec:desain-graphrag}
 %============================================================
 
@@ -156,24 +164,25 @@ Arsitektur \emph{GraphRAG Framework} yang diusulkan terdiri atas tiga blok utama
 
 \begin{enumerate}
     \item Konstruksi \emph{Knowledge Graph} Berbobot.
-    
-    Dataset SORD \autocite{Fatima2026} diproses melalui tiga tahapan utama. Pertama, dilakukan \emph{ekstraksi entitas dan relasi} untuk menghasilkan triple \mbox{(subjek-predikat-objek)} dari data Stack Overflow. Kedua, triple yang dihasilkan digunakan untuk membangun \emph{knowledge graph} berbobot di \emph{Graph database}. Bobot pada setiap relasi ditentukan berdasarkan sinyal kepercayaan komunitas Stack Overflow, seperti status \emph{accepted answer}, jumlah \emph{upvote}, dan reputasi kontributor. Ketiga, seluruh teks \emph{post} diindeks ke dalam basis data vektor menggunakan FAISS atau ChromaDB dengan bantuan model \emph{embedding}. Hasil dari tahap ini berupa \emph{knowledge graph} berbobot dan \emph{vector store} yang akan digunakan pada proses pencarian informasi.   
-    
-    Intervensi konstruksi KG berbobot ini diprediksi meningkatkan metrik \emph{faithfulness} karena mekanisme pembobotan berbasis sinyal komunitas secara langsung memprioritaskan pengetahuan yang telah tervalidasi, sehingga konteks yang diberikan kepada LLM mengandung lebih banyak fakta teknis yang akurat, berdasarkan studi \textcite{Zhou2026} yang menunjukkan peningkatan akurasi retrieval sebesar 3,62 poin persentase ketika KG terstruktur digunakan dibandingkan RAG konvensional.
-    
+
+    Dataset SORD \autocite{Fatima2026} diproses melalui tiga tahapan utama. Pertama, data mentah divalidasi integritasnya, digabungkan, dan dideduplikasi. Kedua, simpul dan relasi dibangun langsung dari metadata struktural Stack Overflow ke dalam \emph{graph database}, lalu setiap simpul dan sisi diberi bobot berdasarkan sinyal kepercayaan komunitas, seperti status \emph{accepted answer}, jumlah \emph{upvote}, dan reputasi kontributor. Ketiga, graf didensifikasi dengan relasi turunan antar-pertanyaan (tautan antar-\emph{thread}, kemiripan tag, dan kemiripan \emph{embedding}), dan seluruh pertanyaan diindeks ke dalam indeks vektor FAISS. Hasil dari tahap ini berupa KG berbobot dan indeks vektor yang digunakan pada proses pencarian informasi.
+
+    Intervensi konstruksi KG berbobot ini diprediksi meningkatkan \emph{faithfulness} karena pembobotan berbasis sinyal komunitas memprioritaskan pengetahuan yang telah tervalidasi, sehingga konteks yang diberikan kepada LLM mengandung lebih banyak fakta teknis yang akurat. Prediksi ini didasarkan pada studi \textcite{Zhou2026} yang menunjukkan peningkatan akurasi \emph{retrieval} ketika KG terstruktur digunakan dibandingkan RAG konvensional.
+
     \item \emph{Hybrid Retrieval} (Pencarian Gabungan).
-    
-    Ketika pengguna mengajukan pertanyaan, sistem melakukan proses pencarian informasi melalui beberapa tahap. Tahap pertama adalah \emph{entity anchoring}, yaitu mengidentifikasi entitas teknis dalam pertanyaan dan menghubungkannya dengan simpul yang sesuai pada \emph{knowledge graph}. Tahap kedua adalah \emph{graph traversal}, yaitu menelusuri hubungan antar simpul pada graph untuk menemukan informasi yang paling relevan. Penelusuran dilakukan dengan mempertimbangkan bobot relasi yang berasal dari sinyal kepercayaan komunitas. Tahap ketiga adalah \emph{semantic expansion}, yaitu menggunakan hasil penelusuran graph sebagai dasar pencarian pada basis data vektor sehingga sistem dapat menemukan informasi relevan yang tidak terhubung secara langsung dalam graph.Informasi yang diperoleh dari ketiga tahap tersebut kemudian digabungkan melalui proses \emph{reranking}, deduplikasi, dan penyusunan konteks. Hasil akhirnya adalah satu kumpulan konteks terintegrasi (\emph{unified context window}) yang berisi fakta dari \emph{knowledge graph}, kutipan teks, serta tautan ke sumber asalnya.
 
-    Intervensi \emph{hybrid retrieval} ini diprediksi meningkatkan metrik menurunkan \emph{hallucination rate} karena mekanisme \emph{multi-hop traversal} berbobot memungkinkan sistem menelusuri rantai hubungan antar entitas teknis yang tidak dapat ditangkap oleh \emph{dense retrieval} biasa, berdasarkan studi \textcite{Wang2026} yang memperoleh 91,6\% Hit@1 pada kueri \emph{multi-hop} tanpa pelatihan tambahan menggunakan traversal subgraf progresif.
+    Ketika pengguna mengajukan pertanyaan, sistem melakukan pencarian informasi melalui tiga tahap. Tahap pertama adalah \emph{entity anchoring}, yaitu menemukan simpul \texttt{Question} yang paling mirip secara semantik dengan pertanyaan pengguna. Tahap kedua adalah \emph{graph traversal}, yaitu menelusuri relasi berbobot untuk mengumpulkan informasi beserta jalur dan bobot kepercayaannya. Tahap ketiga adalah \emph{semantic expansion}, yaitu mencari informasi relevan tambahan melalui indeks vektor. Hasil ketiga tahap digabungkan, diurutkan, dan disusun menjadi satu konteks terintegrasi (\emph{unified context window}) yang dilengkapi label sumber dan metadata asal informasi di KG.
+
+    Pembagian menjadi tiga tahap mengikuti alur umum GraphRAG yang dijelaskan oleh \textcite{Kamalipour2026}: pemetaan kueri ke simpul awal, penelusuran graf multi-hop, dan penggabungan hasilnya dengan pencarian vektor. Ketiga tahap saling melengkapi karena memiliki fungsi yang berbeda (Subbab~\ref{subsec}). \emph{Entity anchoring} diperlukan untuk menemukan titik masuk ke graf dengan melakukan pencarian vektor terhadap simpul \texttt{Question}. Kegagalan pemetaan kueri dapat menurunkan recall GraphRAG \autocite{Kamalipour2026}. \emph{Graph traversal} diperlukan untuk menemukan hubungan antar pertanyaan dan memanfaatkan sinyal kepercayaan komunitas yang tidak tersedia dalam pencarian teks biasa. Jalur traversal juga membantu menjelaskan asal-usul informasi yang digunakan \autocite{Kamalipour2026}. \emph{Semantic expansion} diperlukan untuk menemukan informasi relevan yang tidak terhubung langsung dalam graf. Penggabungan traversal dan pencarian vektor dapat meningkatkan cakupan informasi \autocite{Kamalipour2026,Zhu2026}.
     
+    Hybrid retrieval diprediksi menurunkan hallucination rate karena menggabungkan penelusuran relasi antarthread dengan pencarian semantik untuk memperoleh konteks yang lebih relevan. Prediksi ini didasarkan pada studi \textcite{Wang2026} yang memperoleh 91,6\% Hit@1 pada kueri \emph{multi-hop} tanpa pelatihan tambahan menggunakan traversal subgraf progresif.
+
     \item \emph{Grounded Generation}.
-    
-    Konteks yang telah diperoleh dari tahap \emph{retrieval} digunakan sebagai dasar bagi LLM untuk menghasilkan jawaban. Pada tahap ini diterapkan dua mekanisme pengendalian. Pertama, \emph{RAG Grounding} memastikan bahwa jawaban yang dihasilkan didasarkan pada informasi yang tersedia dalam konteks sehingga mengurangi kemungkinan munculnya informasi yang tidak didukung sumber. Kedua, \emph{KG-Constraint} memastikan bahwa jawaban tetap konsisten dengan fakta yang tersimpan dalam \emph{knowledge graph} berbobot. Output akhir sistem terdiri atas tiga komponen, yaitu: (a) jawaban yang dihasilkan oleh model, (b) kutipan menuju \emph{thread} Stack Overflow yang menjadi sumber informasi, dan (c) jalur \emph{provenance} pada \emph{knowledge graph} yang menunjukkan asal-usul informasi beserta tingkat kepercayaannya.
 
-    Intervensi \emph{grounded generation} dengan mekanisme \emph{dual-constraint} ini diprediksi meningkatkan metrik \emph{faithfulness} secara signifikan dan menurunkan \emph{hallucination rate} karena kedua lapisan kendali secara bersamaan membatasi ruang generasi LLM pada fakta yang tersedia di konteks dan KG, berdasarkan studi \textcite{BenKhalifa2026} pada sistem LARK yang mencapai \emph{hallucination rate} hanya 2,1\% ketika LLM dibatasi oleh KG sebagai sumber pengetahuan utama. 
+    Konteks yang telah diperoleh dari tahap \emph{retrieval} digunakan sebagai dasar bagi LLM untuk menghasilkan jawaban. Pada tahap ini diterapkan dua mekanisme pengendalian. Pertama, \emph{grounding constraint} memastikan bahwa jawaban didasarkan pada informasi yang tersedia dalam konteks, dan model menyatakan secara eksplisit apabila konteks tidak mencukupi. Kedua, \emph{citation constraint} mewajibkan setiap klaim mengutip label sumber yang benar-benar terdapat dalam konteks. Output akhir sistem terdiri atas tiga komponen, yaitu (a) jawaban yang dihasilkan oleh model, (b) kutipan menuju \emph{thread} Stack Overflow yang menjadi sumber informasi, dan (c) catatan \emph{provenance} yang menunjukkan jalur pengambilan setiap sumber di KG beserta bobot kepercayaannya.
+
+    Intervensi \emph{grounded generation} dengan \emph{dual-constraint} ini diprediksi meningkatkan \emph{faithfulness} dan menurunkan \emph{hallucination rate} karena kedua lapisan kendali secara bersamaan membatasi ruang generasi LLM pada fakta yang tersedia di konteks. Prediksi ini didasarkan pada studi \textcite{BenKhalifa2026} yang menunjukkan \emph{hallucination rate} lebih rendah ketika LLM dibatasi oleh KG sebagai sumber pengetahuan utama.
 \end{enumerate}
-
 
 %------ Gambar Arsitektur Framework ------
 \begin{figure}[!htbp]
@@ -182,109 +191,163 @@ Arsitektur \emph{GraphRAG Framework} yang diusulkan terdiri atas tiga blok utama
 \caption{Arsitektur \emph{GraphRAG Framework} yang terdiri atas tiga blok utama (Konstruksi KG Berbobot, \emph{Hybrid Retrieval}, dan \emph{Grounded Generation}) beserta blok evaluasi komparatif.}
 \label{fig:arsitektur-framework}
 \end{figure}
- 
-Selain ketiga blok utama tersebut, terdapat Blok Evaluasi yang digunakan untuk membandingkan tiga pendekatan berbeda, yaitu Kondisi A (LLM murni tanpa \emph{retrieval}), Kondisi B (RAG konvensional dengan \emph{dense retrieval}), dan Kondisi C (\emph{GraphRAG Framework} yang menggabungkan \emph{knowledge graph} berbobot, \emph{hybrid retrieval}, dan mekanisme \emph{dual-constraint}).
-Gambar~\ref{fig:arsitektur-framework} menunjukkan hubungan antar komponen dalam arsitektur \emph{GraphRAG Framework} secara keseluruhan.
+\todo{Update gambar: hapus  NER/\emph{entity linking} dan \emph{KG-Constraint}, ganti dengan \emph{vector anchoring} dan \emph{citation constraint}, dan tambahkan Kondisi D pada blok evaluasi.}
 
+Selain ketiga blok utama tersebut, terdapat Blok Evaluasi yang digunakan untuk membandingkan empat kondisi, yaitu Kondisi A (LLM murni tanpa \emph{retrieval}), Kondisi B (RAG konvensional dengan \emph{dense retrieval}), Kondisi C (\emph{GraphRAG Framework} berbobot kepercayaan), dan Kondisi D (GraphRAG \emph{dual-level} tanpa sinyal kepercayaan). Gambar~\ref{fig:arsitektur-framework} menunjukkan hubungan antarkomponen dalam arsitektur \emph{GraphRAG Framework} secara keseluruhan.
+
+%------------------------------------------------------------
 \subsection{Desain \emph{Knowledge Graph} Berbobot dari SORD}
 \label{subsec:desain-kg-berbobot}
-\emph{Knowledge graph} (KG) berbobot merupakan komponen utama dalam framework yang diusulkan. Komponen ini dirancang untuk menjawab G2, yaitu pemanfaatan sinyal kepercayaan komunitas, serta G3, yaitu penerapan pendekatan GraphRAG pada data komunitas teknis yang telah melalui validasi sosial. Sumber data yang digunakan adalah SORD \autocite{Fatima2026}, yaitu dataset yang dikurasi dari Stack Overflow dan mencakup pertanyaan, jawaban, komentar, serta tag beserta seluruh metadata sinyal kepercayaan komunitas. Desain KG mencakup jenis simpul (\emph{node}), jenis relasi (\emph{edge}), dan mekanisme pembobotan yang digunakan untuk merepresentasikan tingkat kepercayaan informasi.
-\subsubsection{Tipe Simpul}
-Setiap simpul dalam KG merepresentasikan objek atau konsep yang terdapat pada data Stack Overflow. Berikut empat tipe simpul yang digunakan.
-\begin{enumerate}[(a)]
-    \item \texttt{Question}, yaitu simpul yang merepresentasikan pertanyaan pada Stack Overflow. Simpul ini menyimpan informasi seperti \texttt{id}, \texttt{title}, \texttt{body}, \texttt{score}, \texttt{viewCount}, \texttt{creationDate}, dan \texttt{domainTag}.
-    \item \texttt{Answer}, yaitu simpul yang merepresentasikan jawaban terhadap suatu pertanyaan. Atribut yang disimpan meliputi \texttt{id}, \texttt{body}, \texttt{score}, \texttt{isAccepted}, dan \texttt{authorReputation}.
-    \item \texttt{Tag}, yaitu simpul yang merepresentasikan teknologi, bahasa pemrograman, atau domain tertentu yang digunakan pada Stack Overflow. Simpul ini memiliki atribut \texttt{name} dan \texttt{questionCount}.
-    \item \texttt{Concept}, yaitu simpul yang merepresentasikan konsep atau entitas teknis yang diekstraksi dari teks pertanyaan maupun jawaban, seperti nama \emph{library}, jenis \emph{error}, atau metode API. Simpul ini memiliki atribut \texttt{name}, \texttt{type}, dan \texttt{frequency}.
-\end{enumerate}
-Keempat tipe simpul di atas memungkinkan pembentukan tripel domain pemrograman, misalnya (\texttt{Q\#1234}, \texttt{hasAcceptedAnswer}, \texttt{A\#9823}) atau (\texttt{A\#9823}, \texttt{mentions}, \texttt{OAuth2PasswordBearer}).
-\subsubsection{Tipe Sisi dan Skema Bobot Kepercayaan}
-Hubungan antar simpul direpresentasikan dalam bentuk sisi (\emph{edge}). Setiap sisi diberikan bobot yang mencerminkan tingkat kepercayaan berdasarkan sinyal yang tersedia pada Stack Overflow. Dengan demikian, kualitas informasi yang telah divalidasi oleh komunitas dapat direpresentasikan secara eksplisit di dalam KG. Sinyal kepercayaan yang digunakan meliputi status \emph{accepted answer}, jumlah \emph{upvote}, serta reputasi pengguna yang memberikan kontribusi. Operasionalisasi dari setiap sinyal tersebut menjadi bobot relasi dijelaskan pada Tabel~\ref{tab:bobot-kepercayaan}.
-\input{tables/bab3_bobot_kepercayaan.tex}
- 
-Untuk memberikan gambaran mengenai struktur KG yang dibangun, Gambar~\ref{fig:contoh-subgraf-kg} menampilkan contoh subgraf dari domain autentikasi pada \emph{framework} FastAPI. Subgraf tersebut memuat dua simpul \texttt{Question} yang saling terhubung: \texttt{Q\#1234} mengenai validasi token OAuth2 pada FastAPI (\texttt{score=58}, \texttt{viewCount=21k}), dan \texttt{Q\#2567} mengenai penanganan \emph{refresh token expired} (\texttt{score=34}, \texttt{viewCount=8k}). Keduanya dihubungkan melalui relasi \texttt{isRelatedTo} dengan bobot $w{=}0{,}41$, yang mencerminkan keterkaitan topik antar-\emph{thread} tanpa hubungan langsung berupa \emph{accepted answer}.
+\emph{Knowledge graph} (KG) berbobot merupakan komponen utama dalam \emph{framework} yang diusulkan. Komponen ini dirancang untuk menjawab G2, yaitu pemanfaatan sinyal kepercayaan komunitas, serta G3, yaitu penerapan GraphRAG pada data komunitas teknis yang telah melalui validasi sosial. Sumber data yang digunakan adalah SORD \autocite{Fatima2026}, yaitu dataset yang dikurasi dari Stack Overflow dan mencakup pertanyaan, jawaban, komentar, serta tag beserta metadata sinyal kepercayaan komunitas. Desain KG mencakup jenis simpul (\emph{node}), jenis relasi (\emph{edge}), dan mekanisme pembobotan yang digunakan untuk merepresentasikan tingkat kepercayaan informasi.
 
-%------ Gambar 3.5: Contoh Subgraf KG SORD ------
+Seluruh simpul dan relasi dibangun dari metadata struktural yang sudah tersedia di Stack Overflow, sehingga tidak memerlukan ekstraksi entitas dari teks bebas. Hal ini mengurangi risiko kesalahan ekstraksi dan memastikan bahwa setiap simpul dan relasi memiliki makna yang jelas dan konsisten. Selain itu, bobot pada simpul dan sisi merepresentasikan sinyal kepercayaan komunitas, seperti skor \emph{upvote}, status \emph{accepted answer}, dan reputasi kontributor. Bobot ini digunakan untuk memprioritaskan informasi yang lebih dapat dipercaya selama proses \emph{retrieval}.
+
+\subsubsection{Tipe Simpul}
+Setiap simpul dalam KG merepresentasikan satu objek pada Stack Overflow, dan setiap atributnya diambil langsung dari metadata SORD. KG menggunakan empat tipe simpul berikut.
+\begin{enumerate}[(a)]
+    \item \texttt{Question}, yaitu pertanyaan pada Stack Overflow, dengan atribut \texttt{id}, \texttt{title}, \texttt{body}, \texttt{score}, \texttt{viewCount}, \texttt{creationDate}, \texttt{domainTag}, dan \texttt{trustScore}. Gabungan \texttt{title} dan \texttt{body} digunakan untuk membangun indeks vektor yang menjadi titik masuk \emph{retrieval}. Atribut \texttt{domainTag} adalah tag pertama pertanyaan, sedangkan \texttt{trustScore} dihitung dengan Persamaan~\eqref{eq:trust-question}.
+    \item \texttt{Answer}, yaitu jawaban terhadap suatu pertanyaan, dengan atribut \texttt{id}, \texttt{body}, \texttt{score}, \texttt{isAccepted}, \texttt{authorReputation}, dan \texttt{trustScore}. Isi \texttt{body} menjadi teks konteks yang diberikan kepada LLM. Atribut \texttt{authorReputation} adalah salinan reputasi kontributornya, dan \texttt{trustScore} dihitung dengan Persamaan~\eqref{eq:trust-answer}.
+    \item \texttt{Tag}, yaitu label teknologi, bahasa pemrograman, atau \emph{library} pada Stack Overflow, dengan atribut \texttt{name} dan \texttt{questionCount} (jumlah pertanyaan yang memakai tag tersebut).
+    \item \texttt{User}, yaitu kontributor yang menulis jawaban, dengan atribut \texttt{id} dan \texttt{reputation}. Simpul ini menjadi sumber sinyal reputasi pada sisi \texttt{AUTHOR\_TRUST}.
+\end{enumerate}
+Simpul-simpul tersebut dihubungkan oleh sisi berbobot yang dijelaskan pada subbab berikutnya, misalnya \texttt{(Q\#1234)-[HAS\_ACCEPTED\_ANSWER]->(A\#9823)} yang menghubungkan pertanyaan dengan jawaban yang diterima, atau \texttt{(Q\#1234)-[TAGGED\_WITH]->(fastapi)} yang menghubungkan pertanyaan dengan tagnya.
+
+\subsubsection{Skor Kepercayaan Simpul}
+Selain bobot pada sisi, setiap simpul \texttt{Question} dan \texttt{Answer} memiliki skor kepercayaan (\texttt{trustScore}) dalam rentang $[0,1]$. Skor pertanyaan dihitung dari skor \emph{upvote} dan popularitas (jumlah tayangan), sedangkan skor jawaban dihitung dari skor \emph{upvote}, status \emph{accepted answer}, dan reputasi kontributor:
+\begin{align}
+\mathrm{trust}_Q &= 0{,}7 \cdot \mathrm{norm}(\mathrm{score}_Q) + 0{,}3 \cdot \mathrm{norm}\big(\log(1 + \mathrm{views}_Q)\big) \label{eq:trust-question}\\
+\mathrm{trust}_A &= 0{,}5 \cdot \mathrm{norm}(\mathrm{score}_A) + 0{,}3 \cdot \mathbf{1}[\mathrm{acc}_A] + 0{,}2 \cdot w^{\mathrm{auth}}_A \label{eq:trust-answer}
+\end{align}
+dengan $\mathrm{norm}(\cdot)$ adalah normalisasi \emph{min-max} pada seluruh populasi simpul sejenis, $\mathbf{1}[\mathrm{acc}_A]$ bernilai 1 apabila jawaban berstatus \emph{accepted answer} dan 0 apabila tidak, serta $w^{\mathrm{auth}}_A$ adalah bobot kepercayaan kontributor jawaban, yaitu bobot sisi \texttt{AUTHOR\_TRUST} pada Tabel~\ref{tab:bobot-kepercayaan} (bernilai 0 apabila kontributor tidak diketahui). Reputasi dinormalisasi secara logaritmik terhadap persentil ke-99, bukan secara \emph{min-max}, karena distribusi reputasi Stack Overflow sangat condong: segelintir pengguna dengan reputasi sangat tinggi akan membuat hampir seluruh kontributor lain bernilai mendekati nol apabila dinormalisasi \emph{min-max}.
+Koefisien pada Persamaan~\eqref{eq:trust-question} dan \eqref{eq:trust-answer} merupakan parameter heuristik yang tidak disetel; dasar pemilihannya dijelaskan pada Subbab~\ref{sec:justifikasi-parameter}.
+
+\subsubsection{Tipe Sisi dan Skema Bobot Kepercayaan}
+Hubungan antarsimpul direpresentasikan dalam bentuk sisi (\emph{edge}). Setiap sisi diberikan bobot $w \in [0,1]$ yang mencerminkan tingkat kepercayaan atau kekuatan hubungan. Tujuh tipe sisi dibagi menjadi tiga kelompok, yaitu sisi struktural yang berasal langsung dari SORD, sisi pengayaan dari tautan antar-\emph{thread} Stack Overflow, dan sisi densifikasi yang diturunkan dari kemiripan antar-pertanyaan. Operasionalisasi setiap tipe sisi menjadi bobot dijelaskan pada Tabel~\ref{tab:bobot-kepercayaan}.
+\input{tables/bab3_bobot_kepercayaan.tex}
+
+Bobot kategoris pada sisi densifikasi disusun secara hierarkis: relasi yang divalidasi langsung oleh komunitas (\texttt{HAS\_ACCEPTED\_ANSWER} dan tautan \emph{Duplicate} dengan $w{=}1{,}0$) memiliki bobot tertinggi, diikuti relasi berbasis kesamaan tag ($w{=}0{,}6$), dan relasi berbasis kemiripan \emph{embedding} ($w{=}0{,}4$) yang paling lemah karena tidak melibatkan validasi manusia. Hierarki ini memastikan bahwa ketika jalur traversal dibandingkan, jalur yang melewati relasi tervalidasi komunitas selalu diprioritaskan. 
+
+Sisi \texttt{AUTHOR\_TRUST} tidak dilalui pada traversal. Bobotnya digunakan satu kali, yaitu sebagai komponen reputasi pada Persamaan~\eqref{eq:trust-answer}, sehingga sinyal reputasi tidak terhitung dua kali. Dengan demikian, ketiga sinyal kepercayaan komunitas (skor \emph{upvote}, status \emph{accepted answer}, dan reputasi kontributor) seluruhnya ikut menentukan pemeringkatan jawaban.
+
+Untuk memberikan gambaran mengenai struktur KG yang dibangun, Gambar~\ref{fig:contoh-subgraf-kg} menampilkan contoh ilustratif subgraf dari domain autentikasi pada \emph{framework} FastAPI. Subgraf tersebut memuat dua simpul \texttt{Question} yang saling terhubung: \texttt{Q\#1234} mengenai validasi token OAuth2 pada FastAPI (\texttt{score=58}, \texttt{viewCount=21k}), dan \texttt{Q\#2567} mengenai penanganan \emph{refresh token expired} (\texttt{score=34}, \texttt{viewCount=8k}). Keduanya dihubungkan melalui relasi \texttt{IS\_RELATED\_TO} bertipe \emph{Linked} dengan bobot $w{=}0{,}41$, yang mencerminkan keterkaitan topik antar-\emph{thread}.
+
+%------ Gambar: Contoh Subgraf KG SORD ------
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.9\textwidth]{images/bab3_contoh_subgraf_kg.png}
-\caption{Contoh subgraf \emph{knowledge graph} berbobot dari SORD pada domain autentikasi FastAPI}
+\caption{Contoh ilustratif subgraf \emph{knowledge graph} berbobot dari SORD pada domain autentikasi FastAPI}
 \label{fig:contoh-subgraf-kg}
 \end{figure}
+\todo{Perbarui gambar contoh subgraf: hapus lapisan \texttt{Concept} dan relasi \texttt{mentions}; tambahkan simpul \texttt{User} (\texttt{AUTHOR\_TRUST}) serta sisi \texttt{TAG\_COOCCUR}/\texttt{EMBED\_SIM}; gunakan nama sisi sesuai Tabel~\ref{tab:bobot-kepercayaan}.}
 
-Masing-masing pertanyaan memiliki simpul \texttt{Answer} yang diterima (\emph{accepted}): \texttt{A\#9823} menjawab Q\#1234 dengan solusi \texttt{Depends(oauth2\_scheme) + decode} ($w{=}0{,}93$), sedangkan \texttt{A\#9412} menjawab Q\#2567 dengan \texttt{raise HTTPException(401)} ($w{=}0{,}89$). Perbedaan nilai $w$ di antara keduanya mencerminkan perbedaan sinyal kepercayaan komunitas, yaitu skor \emph{upvote} dan reputasi kontributor. Kedua pertanyaan juga terhubung ke tiga simpul \texttt{Tag}, yaitu \texttt{oauth2}, \texttt{fastapi}, dan \texttt{jwt}, melalui relasi \texttt{taggedWith}. Simpul \texttt{fastapi} berperan sebagai \emph{bridge node} yang menghubungkan kedua \emph{thread} secara tidak langsung, sehingga traversal dari salah satu pertanyaan dapat menjangkau pertanyaan lainnya melalui tag yang sama. Pada lapisan \texttt{Concept}, \texttt{A\#9823} menyebutkan kelas \texttt{OAuth2PasswordBearer} (\texttt{freq=203}) dan \texttt{A\#9412} menyebutkan \texttt{HTTPException} (\texttt{freq=875}), keduanya diekstraksi melalui NER berbasis LLM dari teks \emph{body} jawaban. Kedua konsep ini dihubungkan dengan relasi \texttt{isRelatedTo} ($w{=}0{,}52$) karena sering muncul bersama dalam implementasi autentikasi FastAPI. Bobot kepercayaan pada setiap sisi merepresentasikan hasil validasi komunitas Stack Overflow dan menjadi penentu prioritas jalur traversal pada tahap \emph{hybrid retrieval}.
+Masing-masing pertanyaan memiliki simpul \texttt{Answer} yang diterima (\emph{accepted}): \texttt{A\#9823} menjawab Q\#1234 dengan solusi \texttt{Depends(oauth2\_scheme)} dan dekode token, sedangkan \texttt{A\#9412} menjawab Q\#2567 dengan \texttt{raise HTTPException(401)}. Kedua jawaban terhubung melalui \texttt{HAS\_ACCEPTED\_ANSWER} ($w{=}1{,}0$) dan memiliki \texttt{trustScore} yang berbeda ($0{,}93$ dan $0{,}89$) karena perbedaan skor \emph{upvote} dan reputasi kontributornya. Kedua pertanyaan juga terhubung ke simpul \texttt{Tag} \texttt{oauth2}, \texttt{fastapi}, dan \texttt{jwt} melalui relasi \texttt{TAGGED\_WITH}. Apabila kesamaan himpunan tag informatif kedua pertanyaan memenuhi ambang Jaccard (Tabel~\ref{tab:bobot-kepercayaan}), terbentuk pula sisi densifikasi \texttt{TAG\_COOCCUR} di antara keduanya, sehingga traversal dari salah satu pertanyaan tetap dapat menjangkau pertanyaan lainnya meskipun tautan \emph{Linked} tidak ada. Bobot kepercayaan pada setiap sisi dan simpul inilah yang menentukan prioritas jalur traversal pada tahap \emph{hybrid retrieval}.
 
 \subsubsection{Proses Konstruksi KG}
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.8\textwidth]{images/bab3_flowchart_konstruksi_kg}
-\caption{Flowchart konstruksi \emph{knowledge graph} berbobot dari dataset SORD.}
+\caption{\emph{Flowchart} konstruksi \emph{knowledge graph} berbobot dari dataset SORD.}
 \label{fig:flowchart-konstruksi-kg}
 \end{figure}
+\todo{Perbarui \emph{flowchart}: ganti jalur NER $\rightarrow$ \emph{entity linking} $\rightarrow$ penggabungan tripel dengan urutan validasi integritas $\rightarrow$ \emph{merge} dan deduplikasi $\rightarrow$ pembangunan graf struktural $\rightarrow$ pengayaan PostLinks $\rightarrow$ pembobotan $\rightarrow$ densifikasi; jalur vektor: \emph{embedding} judul+isi pertanyaan $\rightarrow$ indeks FAISS.}
 
-Gambar~\ref{fig:flowchart-konstruksi-kg} menunjukkan alur pembangunan \emph{knowledge graph} (KG) berbobot dari dataset SORD \autocite{Fatima2026}. Proses dimulai dari satu titik masukan bersama, yaitu tahap \emph{preprocessing} teks, yang kemudian bercabang menjadi dua jalur paralel yaitu untuk membangun KG berbobot dan untuk membangun indeks vektor. Kedua jalur dijalankan secara bersamaan dan menghasilkan dua komponen output yang berbeda namun saling melengkapi.
- 
-Teks yang telah diproses pada tahap \emph{preprocessing} diteruskan ke proses \emph{Named Entity Recognition} (NER) untuk mengidentifikasi entitas teknis seperti nama \emph{library}, jenis \emph{error}, dan metode API. Hasil NER kemudian diproses melalui \emph{entity linking} yang memetakan setiap entitas ke simpul yang tepat dalam skema KG, sekaligus menyelesaikan ambiguitas terminologi teknis yang umum terjadi pada konten Stack Overflow. Keluaran dari \emph{entity linking} berupa himpunan triple dalam format (subjek - predikat - objek), misalnya \texttt{(A\#9823, mentions, OAuth2PasswordBearer)}. Triple-triple tersebut kemudian melewati dua langkah lanjutan secara berurutan. Pertama, penggabungan triple, yaitu proses konsolidasi seluruh triple dari berbagai \emph{post} menjadi satu struktur graf tunggal disertai resolusi duplikasi. Kedua, pembobotan relasi, yaitu penetapan nilai $w$ pada setiap sisi berdasarkan sinyal kepercayaan komunitas Stack Overflow, yang meliputi status \emph{accepted answer}, jumlah \emph{upvote}, dan reputasi kontributor. Hasil akhir jalur ini adalah KG berbobot yang disimpan di \emph{Graph database} dan digunakan pada tahap \emph{graph traversal} saat inferensi.
+Gambar~\ref{fig:flowchart-konstruksi-kg} menunjukkan alur pembangunan KG berbobot dari dataset SORD \autocite{Fatima2026}. Proses terdiri atas lima tahap berurutan.
+\begin{enumerate}
+    \item Validasi dan konsolidasi data. File mentah SORD divalidasi terhadap jumlah baris dan ukuran yang dilaporkan oleh \textcite{Fatima2026}. Sumber data \emph{Contain} dan \emph{LikeMinusContain} kemudian digabungkan dan dideduplikasi berdasarkan identitas \emph{post}.
+    \item Pembangunan graf struktural. Simpul \texttt{Question}, \texttt{Answer}, \texttt{Tag}, dan \texttt{User} beserta sisi \texttt{HAS\_ACCEPTED\_ANSWER}, \texttt{HAS\_ANSWER}, \texttt{TAGGED\_WITH}, dan \texttt{AUTHOR\_TRUST} dibangun langsung dari metadata SORD dan data reputasi pengguna Stack Exchange, bersamaan dengan perhitungan \texttt{trustScore} pada Persamaan~\eqref{eq:trust-question} dan \eqref{eq:trust-answer}. Data reputasi harus tersedia sebelum \texttt{trustScore} jawaban dihitung; apabila tidak, komponen reputasi bernilai konstan untuk seluruh jawaban dan tidak berpengaruh pada pemeringkatan.
+    \item Pengayaan tautan antar-\emph{thread}. Tabel \texttt{PostLinks} dari Stack Exchange Data Dump dicocokkan dengan pertanyaan yang ada di SORD untuk membentuk sisi \texttt{IS\_RELATED\_TO} bertipe \emph{Linked} dan \emph{Duplicate}. Tahap ini hanya menambah sisi, tidak menambah simpul baru.
+    \item Pengindeksan vektor. Judul dan isi setiap pertanyaan diubah menjadi vektor padat (\emph{dense vector}) menggunakan model \emph{embedding}, dinormalisasi, lalu disimpan dalam indeks FAISS. Indeks ini digunakan untuk \emph{entity anchoring}, \emph{semantic expansion}, dan pembentukan sisi \texttt{EMBED\_SIM}.
+    \item Densifikasi graf. Graf struktural Stack Overflow sangat jarang karena sebagian besar pertanyaan tidak memiliki tautan eksplisit ke pertanyaan lain. Densifikasi menambahkan sisi \texttt{TAG\_COOCCUR} dan \texttt{EMBED\_SIM} sehingga sebagian besar pertanyaan memiliki tetangga yang dapat dijangkau melalui traversal. Proporsi simpul terisolasi yang ditargetkan setelah densifikasi adalah paling banyak 30\%.
+\end{enumerate}
 
-Secara paralel, teks hasil \emph{preprocessing} juga diteruskan ke model \emph{embedding} yang mengubah setiap \emph{post} menjadi representasi vektor padat (\emph{dense vector}). Vektor yang dihasilkan kemudian melewati proses \emph{chunking}, yaitu pemecahan teks menjadi potongan-potongan berukuran lebih kecil disertai metadata yang relevan seperti \texttt{postId}, \texttt{score}, \texttt{isAccepted}, dan \texttt{tag}. Penyertaan metadata ini memungkinkan sistem menyaring dan mengurutkan hasil pencarian berdasarkan sinyal kepercayaan komunitas, bahkan pada tahap pencarian berbasis vektor. Seluruh \emph{chunk} beserta metadata-nya kemudian disimpan dalam basis data vektor FAISS. Hasil akhir jalur ini adalah indeks vektor yang digunakan pada tahap \emph{semantic expansion} saat inferensi.
- 
-Dengan demikian, proses konstruksi KG menghasilkan dua komponen yang bekerja secara komplementer yaitu KG berbobot di \emph{Graph database} yang menyediakan pengetahuan relasional terstruktur, dan indeks vektor di FAISS yang menyediakan pencarian semantik berbasis kemiripan. Keduanya digunakan bersama-sama pada mekanisme \emph{hybrid retrieval} yang dijelaskan pada subbagian berikutnya.
+Dengan demikian, proses konstruksi menghasilkan dua komponen yang bekerja secara komplementer, yaitu KG berbobot di \emph{graph database} yang menyediakan pengetahuan relasional terstruktur, dan indeks vektor di FAISS yang menyediakan pencarian semantik. Keduanya digunakan bersama-sama pada mekanisme \emph{hybrid retrieval} yang dijelaskan pada subbagian berikutnya.
 
+%------------------------------------------------------------
 \subsection{Desain Mekanisme \emph{Hybrid Retrieval}}
 \label{subsec:desain-retrieval}
 
-Mekanisme \emph{hybrid retrieval} merupakan implementasi Blok 2 dalam \emph{GraphRAG Framework}. Komponen ini dirancang untuk menggabungkan keunggulan pencarian berbasis \emph{knowledge graph} dan pencarian berbasis representasi vektor. Pencarian berbasis graf memiliki kemampuan yang baik dalam menemukan hubungan antarentitas secara eksplisit, namun cakupannya terbatas pada informasi yang telah terhubung dalam graf. Sebaliknya, pencarian berbasis vektor mampu menemukan informasi yang relevan secara semantik, tetapi kurang efektif dalam menangani pertanyaan yang memerlukan hubungan relasional yang kompleks. Oleh karena itu, penelitian ini menggabungkan kedua pendekatan tersebut melalui tiga tahap yang dilakukan secara berurutan.
+Mekanisme \emph{hybrid retrieval} merupakan implementasi Blok 2 dalam \emph{GraphRAG Framework}. Komponen ini dirancang untuk menggabungkan keunggulan pencarian berbasis \emph{knowledge graph} dan pencarian berbasis representasi vektor. Pencarian berbasis graf memiliki kemampuan yang baik dalam menemukan hubungan antarentitas secara eksplisit, namun cakupannya terbatas pada informasi yang telah terhubung dalam graf. Sebaliknya, pencarian berbasis vektor mampu menemukan informasi yang relevan secara semantik, tetapi kurang efektif dalam menangani pertanyaan yang memerlukan hubungan relasional. Oleh karena itu, penelitian ini menggabungkan kedua pendekatan tersebut melalui tiga tahap yang dilakukan secara berurutan.
 
 \subsubsection{\emph{Entity Anchoring}}
 
-Tahap pertama bertujuan untuk mengidentifikasi entitas teknis yang terdapat pada pertanyaan pengguna. Proses ini dilakukan menggunakan metode \emph{Named Entity Recognition} (NER) yang dilanjutkan dengan \emph{entity linking} untuk memetakan setiap entitas ke simpul yang sesuai pada \emph{knowledge graph} SORD \autocite{Fatima2026}. Sebagai contoh, pada kueri \textit{"How to implement OAuth2 login with FastAPI?"}, NER mengekstraksi entitas teknis \texttt{FastAPI}, \texttt{OAuth2}, dan \texttt{login}, kemudian \emph{entity linking} memetakan entitas-entitas tersebut ke simpul \texttt{Q\#1234}, \texttt{Q\#2567}, dan \texttt{OAuth2PasswordBearer} di dalam KG SORD. Tahap ini penting karena istilah teknis pada Stack Overflow sering kali memiliki makna yang bergantung pada konteks (nama fungsi, metode, atau paket tertentu) dapat digunakan pada berbagai teknologi yang berbeda. Hasil dari tahap ini berupa sekumpulan simpul awal (\emph{seed nodes}) yang akan digunakan sebagai titik awal pencarian pada tahap berikutnya.
+Tahap pertama bertujuan memetakan pertanyaan pengguna ke simpul-simpul awal (\emph{seed nodes}) di KG. Judul dan isi pertanyaan diubah menjadi vektor menggunakan model \emph{embedding} yang sama dengan yang digunakan untuk mengindeks KG, kemudian dicari $N_{\mathrm{anchor}}$ simpul \texttt{Question} yang paling mirip berdasarkan kemiripan kosinus. Sebagai contoh, kueri \textit{``How to implement OAuth2 login with FastAPI?''} akan dipetakan ke pertanyaan-pertanyaan serupa seperti \texttt{Q\#1234} dan \texttt{Q\#2567}. Pendekatan berbasis \emph{embedding} ini dipilih karena setiap pertanyaan Stack Overflow pada dasarnya merepresentasikan satu permasalahan teknis yang spesifik, sehingga pertanyaan yang mirip secara semantik merupakan titik masuk yang alami ke diskusi komunitas yang relevan. Pendekatan ini juga konsisten dengan mekanisme \emph{low-level retrieval} pada LightRAG yang menggunakan pencarian vektor untuk menemukan simpul awal di graf \autocite{Guo2025}. Hasil tahap ini berupa sekumpulan \emph{seed nodes} yang digunakan sebagai titik awal penelusuran.
 
 \subsubsection{\emph{Graph Traversal}}
 
-Setelah memperoleh \emph{seed nodes}, sistem melakukan penelusuran graf (\emph{graph traversal}) untuk menemukan informasi yang berkaitan dengan entitas tersebut. Penelusuran dilakukan secara \emph{multi-hop} dengan mengikuti relasi yang memiliki bobot kepercayaan paling tinggi. Bobot relasi ditentukan berdasarkan sinyal kepercayaan komunitas Stack Overflow, sepertistatus \emph{accepted answer}, jumlah \emph{upvote}, dan reputasi kontributor. Sebagai ilustrasi, dari simpul \texttt{Q\#1234} sistem mengikuti relasi \texttt{hasAcceptedAnswer} dengan bobot $w{=}1{,}0$ menuju \texttt{A\#9823}, kemudian dari \texttt{A\#9823} mengikuti relasi \texttt{mentions} menuju \texttt{OAuth2PasswordBearer}. Secara paralel, sistem juga menelusuri relasi \texttt{isRelatedTo} dari \texttt{Q\#1234} menuju \texttt{Q\#2567}. Melalui proses ini, sistem dapat menemukan rantai hubungan antar konsep yang relevan serta memperoleh subgraf yang berisi informasi yang telah divalidasi oleh komunitas.
+Setelah memperoleh \emph{seed nodes}, sistem menelusuri graf untuk mengumpulkan simpul \texttt{Answer} yang relevan. Penelusuran dilakukan dalam dua pola:
+\begin{sloppypar}
+\begin{enumerate}
+    \item Satu \emph{hop}: jawaban milik \emph{seed node} itu sendiri, melalui sisi \texttt{HAS\_ACCEPTED\_ANSWER} atau \texttt{HAS\_ANSWER}. Bobot jalurnya adalah bobot sisi tersebut.
+    \item Dua \emph{hop}: dari \emph{seed node} ke pertanyaan lain melalui sisi \texttt{IS\_RELATED\_TO}, \texttt{TAG\_COOCCUR}, atau \texttt{EMBED\_SIM}, lalu ke jawaban pertanyaan tersebut. Bobot jalurnya adalah hasil kali bobot kedua sisi, $w_{\mathrm{path}} = w_{q \rightarrow q'} \cdot w_{q' \rightarrow a}$, sehingga jalur yang lebih panjang atau melewati relasi yang lebih lemah memperoleh bobot yang lebih rendah.
+\end{enumerate}
+Sebagai ilustrasi, dari simpul \texttt{Q\#1234} sistem mengikuti \texttt{HAS\_ACCEPTED\_ANSWER} ($w{=}1{,}0$) menuju \texttt{A\#9823}. Secara paralel, sistem mengikuti \texttt{IS\_RELATED\_TO} ($w{=}0{,}41$) menuju \texttt{Q\#2567} dan dilanjutkan ke \texttt{A\#9412} melalui \texttt{HAS\_ACCEPTED\_ANSWER}, sehingga bobot jalurnya $0{,}41 \times 1{,}0 = 0{,}41$. Melalui proses ini, sistem memperoleh kumpulan jawaban yang telah divalidasi komunitas beserta bobot jalur yang menghubungkannya ke kueri.
+\end{sloppypar}
 
 \subsubsection{\emph{Semantic Expansion}}
 
-Subgraf yang diperoleh dari tahap sebelumnya kemudian digunakan untuk memperluas pencarian secara semantik. Simpul-simpul pada subgraf diubah menjadi representasi vektor menggunakan model \emph{embedding} dan digunakan
-sebagai acuan pencarian pada \emph{vector store} yang disimpan di FAISS. Pendekatan ini memungkinkan sistem menemukan informasi yang relevan meskipun tidak memiliki hubungan langsung dalam \emph{knowledge graph}. Dengan demikian, cakupan informasi dapat diperluas tanpa menghilangkan konteks relasional yang telah diperoleh dari proses \emph{graph traversal}. Berbeda dengan pendekatan RAG konvensional yang melakukan pencarian langsung dari kueri pengguna, tahap ini memanfaatkan simpul-simpul hasil penelusuran graf sebagai dasar pencarian semantik. Hasil dari tahap ini adalah kumpulan informasi yang relevan baik secara relasional maupun semantik, yang kemudian akan digabungkan pada tahap berikutnya untuk membentuk konteks yang akan digunakan dalam pembangkitan jawaban.
+Simpul-simpul pertanyaan yang dilewati pada tahap traversal kemudian digunakan untuk memperluas pencarian secara semantik. Judul dari beberapa pertanyaan tersebut diubah menjadi vektor dan digunakan sebagai kueri baru pada indeks FAISS untuk menemukan pertanyaan tetangga yang belum pernah ditemukan sebelumnya, lalu jawaban dari pertanyaan-pertanyaan tersebut diambil. Pendekatan ini memungkinkan sistem menemukan informasi yang relevan meskipun tidak memiliki hubungan langsung dalam KG. Berbeda dengan RAG konvensional yang mencari langsung dari kueri pengguna, tahap ini memanfaatkan simpul hasil penelusuran graf sebagai dasar pencarian semantik. Karena kandidat dari tahap ini tidak ditemukan melalui relasi eksplisit, bobot jalurnya dibatasi pada tingkat kepercayaan terendah dalam hierarki bobot, yaitu setara dengan sisi \texttt{EMBED\_SIM} ($w \leq 0{,}4$).
 
-\subsubsection{\emph{Fusi Konteks} Terverifikasi}
+\subsubsection{Fusi dan Pemeringkatan Konteks}
+\label{subsubsec:fusi-konteks}
 
-Sebelum digunakan oleh LLM, seluruh informasi hasil pencarian digabungkan menjadi satu konteks terintegrasi. Proses ini terdiri atas tiga langkah berurutan, yaitu \emph{reranking}, deduplikasi, dan \emph{packing}. Tahap \emph{reranking} mengurutkan kembali seluruh hasil pencarian berdasarkan tingkat kepercayaan yang diperoleh dari sinyal komunitas Stack Overflow. Selanjutnya, deduplikasi dilakukan untuk menghilangkan informasi yang berulang dari kedua jalur pencarian. Terakhir, proses \emph{packing} menyusun seluruh informasi ke dalam \emph{unified context window} sesuai dengan batas panjang \emph{prompt} yang dapat diproses oleh model.
+Sebelum digunakan oleh LLM, seluruh kandidat hasil traversal dan \emph{semantic expansion} digabungkan menjadi satu konteks terintegrasi melalui tiga langkah berurutan, yaitu deduplikasi, pemeringkatan, dan \emph{packing}.
+
+Pada langkah deduplikasi, setiap jawaban hanya dipertahankan satu kali, yaitu kemunculan dengan skor kepercayaan tertinggi. Pada langkah pemeringkatan, setiap kandidat $c$ diberi skor kepercayaan gabungan yang menggabungkan kepercayaan struktural (bobot jalur) dan kepercayaan intrinsik jawaban:
+\begin{equation}
+\mathrm{trust}(c) = 0{,}7 \cdot \min\big(w_{\mathrm{path}}(c), 1\big) + 0{,}3 \cdot \mathrm{trust}_A(c)
+\label{eq:combined-trust}
+\end{equation}
+
+Studi pilot menunjukkan bahwa pemeringkatan yang hanya berdasarkan Persamaan~\eqref{eq:combined-trust} dapat memprioritaskan jawaban yang sangat dipercaya komunitas tetapi kurang relevan dengan pertanyaan. Oleh karena itu, skor akhir menggabungkan relevansi dan kepercayaan secara linear:
+\begin{equation}
+\mathrm{score}(c) = (1 - \alpha) \cdot \mathrm{sim}_{\mathrm{norm}}(q, c) + \alpha \cdot \mathrm{trust}(c)
+\label{eq:final-score}
+\end{equation}
+dengan $\mathrm{sim}_{\mathrm{norm}}(q,c)$ adalah kemiripan kosinus antara kueri $q$ dan teks kandidat yang dinormalisasi \emph{min-max} dalam kumpulan kandidat setiap pertanyaan, dan $\alpha \in [0,1]$ mengatur kontribusi kepercayaan. Bentuk ini merupakan kombinasi konveks dari dua skor yang telah dinormalisasi. \textcite{Bruch2023} menganalisis fungsi fusi pada \emph{hybrid retrieval} dan menunjukkan bahwa kombinasi konveks skor ternormalisasi lebih unggul daripada fusi berbasis peringkat, serta parameter bobotnya dapat ditala dengan sedikit contoh berlabel. Bentuk ini juga hanya memiliki satu parameter yang mudah diinterpretasikan, dan nilai $\alpha{=}0$ menghasilkan pemeringkatan murni berbasis relevansi yang berfungsi sebagai ablasi bersih terhadap kontribusi kepercayaan. Nilai $\alpha$ dipilih melalui prosedur yang ditetapkan sebelumnya pada \emph{development set} yang terpisah dari sampel uji (Subbab~\ref{subsec:desain-evaluasi}).
+\todo{Isi nilai $\alpha$ terpilih setelah prosedur seleksi selesai (\texttt{official\_params.json} masih \texttt{pending\_selection}). Jika aturan \emph{keep-current} berlaku ($\alpha{=}1$), sesuaikan paragraf ini: pemeringkatan cukup menggunakan Persamaan~\eqref{eq:combined-trust}.}
+
+Kandidat diurutkan berdasarkan skor akhir secara menurun, dengan identitas jawaban sebagai kunci pengurutan sekunder agar hasilnya deterministik ketika terdapat skor yang sama. Pada langkah \emph{packing}, $k{=}5$ kandidat teratas disusun menjadi \emph{unified context window}. Setiap item konteks berisi judul pertanyaan asal dan isi jawaban, dipotong sesuai batas token, dan diberi label sumber \texttt{[SO-<id>]}.
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\textwidth]{images/bab3_hybrid_retrieval.png}
 \caption{Alur mekanisme \emph{hybrid retrieval} pada \emph{GraphRAG Framework}.}
 \label{fig:bab3_hybrid_retrieval}
-\end{figure} 
-Gambar~\ref{fig:bab3_hybrid_retrieval} mengilustrasikan alur pemrosesan kueri secara lengkap, mencakup tiga tahap \emph{hybrid retrieval} dan \emph{fusi konteks} terverifikasi yang menghasilkan \emph{unified context window} untuk tahap \emph{Grounded Generation}.
+\end{figure}
+\todo{Perbarui gambar \emph{hybrid retrieval}: tahap pertama menjadi \emph{vector anchoring} (bukan NER), dan langkah fusi menjadi deduplikasi $\rightarrow$ skor Persamaan~\eqref{eq:final-score} $\rightarrow$ top-$k$.}
+Gambar~\ref{fig:bab3_hybrid_retrieval} mengilustrasikan alur pemrosesan kueri secara lengkap, mencakup tiga tahap \emph{hybrid retrieval} dan fusi konteks yang menghasilkan \emph{unified context window} untuk tahap \emph{grounded generation}.
 
-Konteks yang dihasilkan menggunakan format Entitas-Relasi-Entitas (E-R-E) dan dilengkapi dengan kutipan teks serta tautan ke \emph{thread} Stack Overflow asal. Informasi tersebut berfungsi sebagai jalur \emph{provenance} yang memungkinkan sumber informasi ditelusuri kembali pada tahap pembangkitan jawaban.
+\subsubsection{Pencegahan Kebocoran Data (\emph{Leakage})}
 
+KG dibangun dari seluruh populasi SORD, sehingga pertanyaan yang digunakan untuk evaluasi juga terdapat di dalam graf beserta jawaban diterimanya, yaitu jawaban yang justru menjadi \emph{ground truth}. Tanpa pencegahan, \emph{retrieval} dapat menemukan kembali jawaban tersebut dan menghasilkan kinerja yang bias tinggi secara artifisial. Karena korpus berupa satu graf bersama, pengecualian dilakukan secara dinamis pada setiap kueri: pertanyaan evaluasi itu sendiri dikecualikan dari hasil \emph{anchoring} dan dari setiap simpul yang dilewati traversal, serta seluruh jawabannya (diterima maupun tidak) dikecualikan dari kandidat pada setiap tahap.
+
+%------------------------------------------------------------
 \subsection{Desain \emph{Grounded Generation}}
 \label{subsec:desain-grounded-generation}
 
-\emph{Grounded generation} merupakan implementasi Blok 3 dalam \emph{GraphRAG Framework}. Tahap ini bertujuan menghasilkan jawaban yang berlandaskan pada pengetahuan yang telah diperoleh melalui proses \emph{hybrid retrieval}. Oleh karena itu, LLM tidak hanya mengandalkan \emph{parametric knowledge} yang tersimpan dalam model, tetapi juga menggunakan konteks yang berasal dari komunitas Stack Overflow dan telah direpresentasikan dalam KG SORD. Masukan utama pada tahap ini adalah \emph{unified context window}, yaitu kumpulan konteks yang menggabungkan hasil \emph{text retrieval} dan \emph{graph retrieval}. Seluruh informasi tersebut diberikan kepada LLM sebagai dasar untuk menyusun jawaban.
+\emph{Grounded generation} merupakan implementasi Blok 3 dalam \emph{GraphRAG Framework}. Tahap ini bertujuan menghasilkan jawaban yang berlandaskan pada pengetahuan yang diperoleh melalui \emph{hybrid retrieval}, sehingga LLM tidak hanya mengandalkan \emph{parametric knowledge}. Masukan utama pada tahap ini adalah \emph{unified context window}.
+
+Agar perbandingan antarkondisi valid, seluruh kondisi menggunakan struktur \emph{prompt} yang sama, yaitu empat giliran percakapan yang mereplikasi \textcite{DaSilva2025}: (1) persona umum \emph{software engineering}, (2) persona spesifik yang dibentuk dari tag pertanyaan, (3) konfirmasi persona oleh asisten, dan (4) pertanyaan beserta deskripsinya. Satu-satunya perbedaan antarkondisi adalah ada atau tidaknya konteks hasil \emph{retrieval} beserta instruksi pengendaliannya pada giliran keempat.
 
 \subsubsection{Mekanisme \emph{Dual-Constraint}}
 
-Untuk memastikan jawaban yang dihasilkan tetap \emph{grounded}, penelitian ini menerapkan mekanisme \emph{dual-constraint} \autocite{BenKhalifa2026}. Mekanisme ini terdiri atas dua lapisan kendali yang saling melengkapi. Lapisan pertama membatasi jawaban agar tetap sesuai dengan konteks yang diberikan, sedangkan lapisan kedua membatasi jawaban agar tetap konsisten dengan fakta yang tersimpan dalam \emph{knowledge graph}.
+Untuk memastikan jawaban yang dihasilkan tetap \emph{grounded}, penelitian ini menerapkan mekanisme \emph{dual-constraint} yang terdiri atas dua lapisan kendali yang saling melengkapi \autocite{BenKhalifa2026}.
 
-Lapisan pertama adalah \emph{RAG Grounding}. Pada lapisan ini, LLM diarahkan untuk melakukan \emph{context-faithful generation}, yaitu menghasilkan jawaban yang berlandaskan pada informasi yang tersedia di dalam \emph{unified context window}. Dengan pendekatan ini, setiap klaim dalam jawaban diharapkan memiliki dukungan dari konteks yang
-diberikan. Lapisan ini membantu mengurangi \emph{faithfulness hallucination}, yaitu kondisi ketika model menghasilkan informasi yang tidak sesuai dengan konteks yang digunakan \autocite{Huang2025}.
+Lapisan pertama adalah \emph{grounding constraint}. LLM diinstruksikan untuk menjawab hanya berdasarkan informasi yang tersedia di dalam \emph{unified context window} (\emph{context-faithful generation}) dan menyatakan secara eksplisit apabila konteks tidak memuat informasi yang cukup, alih-alih melengkapinya dengan pengetahuan internal. Lapisan ini ditujukan untuk mengurangi \emph{faithfulness hallucination}, yaitu kondisi ketika model menghasilkan informasi yang tidak sesuai dengan konteks yang digunakan \autocite{Huang2025}.
 
-Lapisan kedua adalah \emph{KG-Constraint}. Pada lapisan ini, LLM diarahkan untuk mematuhi fakta-fakta yang direpresentasikan dalam \emph{knowledge graph}. Informasi hasil \emph{graph retrieval} direpresentasikan dalam bentuk tripel \texttt{(Entitas-Relasi-Entitas)} beserta segmen teks pendukungnya, kemudian dimasukkan ke dalam \emph{prompt}. Kehadiran fakta terstruktur tersebut membantu mengurangi \emph{factual hallucination}, yaitu munculnya fakta yang tidak didukung oleh sumber pengetahuan yang digunakan \autocite{Huang2025}.
+Lapisan kedua adalah \emph{citation constraint}. LLM diinstruksikan untuk mengutip label \texttt{[SO-<id>]} pada setiap klaim, dengan aturan bahwa label yang dikutip harus benar-benar terdapat dalam konteks dan benar-benar mendukung klaim tersebut. Apabila tidak ada sumber yang mendukung suatu klaim, klaim tersebut ditulis tanpa kutipan, dan model dilarang menebak label. Setelah jawaban dihasilkan, sistem mengekstraksi seluruh kutipan dan memvalidasinya terhadap daftar label pada konteks, sehingga kutipan fiktif dapat dideteksi secara otomatis. Lapisan ini ditujukan untuk mengurangi \emph{factual hallucination} dan sekaligus menjadi dasar pengukuran keterlacakan (NF2).
 
-Sebagai contoh, pada domain autentikasi FastAPI, relasi (A\#9823, mentions, OAuth2PasswordBearer) yang diperoleh dari KG digunakan sebagai batasan faktual dalam proses generasi jawaban. Dengan demikian, model tetap mengacu pada solusi yang telah divalidasi oleh komunitas Stack Overflow.
+\begin{sloppypar}
+Sebagai contoh, pada domain autentikasi FastAPI, klaim bahwa \texttt{OAuth2PasswordBearer} digunakan bersama \texttt{Depends()} harus disertai label \texttt{[SO-1234]} apabila jawaban \texttt{A\#9823} dari \texttt{Q\#1234} terdapat dalam konteks. Dengan demikian, model tetap mengacu pada solusi yang telah divalidasi oleh komunitas Stack Overflow.
+\end{sloppypar}
 
-Kombinasi \emph{RAG Grounding} dan \emph{KG-Constraint} memungkinkan sistem menghasilkan jawaban yang relevan terhadap pertanyaan, didukung oleh konteks yang tersedia, serta konsisten dengan pengetahuan terstruktur yang terdapat dalam KG tanpa memerlukan pelatihan ulang model \autocite{BenKhalifa2026}.
+Kedua lapisan dapat dinyalakan atau dimatikan secara terpisah. Hal ini memungkinkan kontribusi \emph{grounding constraint} diuji sebagai faktor eksperimen tersendiri (Subbab~\ref{subsec:desain-evaluasi}).
 
 \subsubsection{\emph{Provenance} sebagai Mekanisme Keterlacakan}
 
-Selain menghasilkan jawaban, sistem juga menyediakan informasi \emph{provenance} untuk menunjukkan asal-usul pengetahuan yang digunakan dalam proses generasi. Melalui mekanisme ini, setiap jawaban dapat ditelusuri kembali ke simpul dan relasi pada \emph{knowledge graph} yang menjadi sumber konteksnya \autocite{Ali2026}.
+Selain menghasilkan jawaban, sistem menyediakan informasi \emph{provenance} untuk menunjukkan asal-usul pengetahuan yang digunakan dalam proses generasi \autocite{Ali2026}. Setiap item pada \emph{unified context window} dicatat bersama metadata asal-usulnya, yaitu pertanyaan perantara (\texttt{via\_question}), jawaban sumber, tipe relasi yang dilewati, jumlah \emph{hop}, tahap \emph{retrieval} asal (traversal atau \emph{semantic expansion}), status \emph{accepted answer}, bobot jalur, dan skor akhir. Karena setiap kutipan \texttt{[SO-<id>]} dalam jawaban merujuk pada item konteks tertentu, setiap klaim dapat ditelusuri kembali ke jalur pengambilannya di KG.
 
-Pada penelitian ini, \emph{provenance} mencakup dua jenis informasi. Pertama, asal informasi berupa \emph{thread} Stack Overflow yang digunakan sebagai referensi. Kedua, tingkat kepercayaan sumber yang diperoleh dari sinyal komunitas, seperti skor \emph{upvote}, status \emph{accepted answer}, dan reputasi kontributor. Dengan adanya \emph{provenance}, pengguna tidak hanya mengetahui dari mana jawaban berasal, tetapi juga dapat menilai tingkat kepercayaan sumber yang mendasarinya.
+Dengan demikian, \emph{provenance} mencakup dua jenis informasi. Pertama, asal informasi berupa \emph{thread} Stack Overflow yang digunakan sebagai referensi. Kedua, tingkat kepercayaan sumber yang diperoleh dari sinyal komunitas. Pengguna tidak hanya mengetahui dari mana jawaban berasal, tetapi juga dapat menilai tingkat kepercayaan sumber yang mendasarinya.
 
 \subsubsection{\emph{Output} Sistem}
 
@@ -292,67 +355,138 @@ Output akhir \emph{GraphRAG Framework} terdiri atas tiga komponen utama.
 
 \begin{enumerate}
     \item Jawaban yang dihasilkan LLM berdasarkan konteks hasil \emph{hybrid retrieval}.
-    
-    \item Referensi ke \emph{thread} Stack Overflow yang menjadi sumber informasi sehingga pengguna dapat melakukan verifikasi secara langsung.
-    
-    \item Informasi \emph{provenance} yang menunjukkan simpul dan relasi pada \emph{knowledge graph} yang berkontribusi terhadap pembentukan jawaban beserta bobot kepercayaannya.
+
+    \item Kutipan \texttt{[SO-<id>]} ke \emph{thread} Stack Overflow yang menjadi sumber informasi, beserta hasil validasinya, sehingga pengguna dapat melakukan verifikasi secara langsung.
+
+    \item Catatan \emph{provenance} untuk setiap item konteks, yang menunjukkan jalur pengambilan di KG beserta bobot kepercayaannya.
 \end{enumerate}
 
-Sebagai ilustrasi, untuk kueri \textit{``How to implement OAuth2 login with FastAPI?''}, sistem menghasilkan jawaban mengenai penggunaan \texttt{OAuth2PasswordBearer} dan \texttt{Depends()}. Jawaban tersebut disertai referensi ke \texttt{A\#9823} serta jalur \emph{provenance} $\texttt{Q\#1234} \rightarrow \texttt{A\#9823} \rightarrow \texttt{OAuth2PasswordBearer}$. Melalui informasi tersebut, pengguna dapat menelusuri sumber pengetahuan yang digunakan sekaligus memahami tingkat kepercayaan yang dimiliki sumber tersebut berdasarkan validasi komunitas.
+Sebagai ilustrasi, untuk kueri \textit{``How to implement OAuth2 login with FastAPI?''}, sistem menghasilkan jawaban mengenai penggunaan \texttt{OAuth2PasswordBearer} dan \texttt{Depends()} yang disertai kutipan \texttt{[SO-1234]}. Catatan \emph{provenance} untuk kutipan tersebut menunjukkan jalur $\texttt{Q\#1234} \xrightarrow{\texttt{HAS\_ACCEPTED\_ANSWER},\, w=1{,}0} \texttt{A\#9823}$ yang ditemukan pada tahap traversal satu \emph{hop}. Melalui informasi tersebut, pengguna dapat menelusuri sumber pengetahuan sekaligus memahami tingkat kepercayaan sumber berdasarkan validasi komunitas.
 
+%------------------------------------------------------------
+\subsection{Desain Kondisi Pembanding}
+\label{subsec:desain-kondisi-pembanding}
+
+Ketiga kondisi pembanding dirancang agar hanya berbeda dari Kondisi C pada komponen yang ingin diukur kontribusinya. Kriteria pemilihan pertanyaan, model LLM, model \emph{embedding}, struktur \emph{prompt}, dan jumlah konteks ($k{=}5$) dibuat identik pada seluruh kondisi.
+
+\subsubsection{Kondisi A: LLM Murni}
+Kondisi A mereplikasi protokol \textcite{DaSilva2025}: setiap pertanyaan dijawab dengan satu panggilan LLM tanpa konteks eksternal, menggunakan struktur \emph{prompt} empat giliran yang sama, tanpa pengulangan maupun \emph{resampling}.
+\textcite{DaSilva2025} menyatakan bahwa kedua model dijalankan dengan konfigurasi bawaan, termasuk \emph{temperature} dan panjang konteks bawaan, tanpa penyetelan hiperparameter tambahan, agar evaluasi mencerminkan cara pengguna umumnya berinteraksi dengan model. Penelitian ini mengikuti ketentuan tersebut: panggilan API tidak menyertakan parameter \emph{temperature} maupun batas token keluaran, sehingga nilai bawaan penyedia yang berlaku. Konfigurasi yang sama diterapkan pada keempat kondisi, sehingga perbedaan antarkondisi tidak berasal dari pengaturan \emph{sampling}. Repositori publik pendamping studi tersebut memuat nilai \texttt{temperature=0.6}; karena nilai ini tidak dilaporkan dalam artikel, penelitian ini berpegang pada teks artikel yang telah melalui proses \emph{peer review}.
+
+\subsubsection{Kondisi B: RAG Konvensional}
+Korpus \emph{retrieval} Kondisi B berupa pasangan judul pertanyaan dan isi jawaban, yang dipotong menjadi \emph{chunk} berukuran paling banyak 400 token tanpa tumpang-tindih, lalu diindeks ke FAISS menggunakan model \emph{embedding} yang sama dengan Kondisi C. Judul pertanyaan disertakan pada setiap \emph{chunk} karena jawaban Stack Overflow sering kali ambigu tanpa konteks pertanyaannya. Untuk mencegah kebocoran data, seluruh jawaban dari pertanyaan evaluasi dikeluarkan dari korpus sebelum indeks dibangun. Pada waktu inferensi, $k{=}5$ \emph{chunk} dengan kemiripan kosinus tertinggi terhadap kueri dimasukkan ke dalam \emph{prompt}. Kondisi B dapat dijalankan dengan atau tanpa instruksi \emph{grounding} dan \emph{citation}, menggunakan teks instruksi yang identik dengan Kondisi C, sehingga perbandingan keterlacakan antara B dan C bersifat \emph{apple-to-apple}.
+Agar perbandingan adil, korpus Kondisi B memuat \emph{seluruh} populasi jawaban SORD yang juga dimuat dalam KG Kondisi C dan D, dengan aturan pengecualian kebocoran data yang sama. Dengan demikian, Kondisi B, C, dan D mengakses kumpulan pengetahuan yang identik, menggunakan model \emph{embedding} yang sama, dan memasukkan jumlah konteks yang sama ($k{=}5$) ke dalam \emph{prompt}. Satu-satunya perbedaan di antara ketiganya adalah cara konteks dipilih: kemiripan vektor datar pada B, struktur graf dan sinyal kepercayaan pada C, serta struktur graf tanpa sinyal kepercayaan pada D. Perbedaan hasil antarkondisi karenanya dapat diatribusikan pada mekanisme \emph{retrieval}, bukan pada perbedaan cakupan korpus.
+
+\subsubsection{Kondisi D: GraphRAG \emph{Dual-Level}}
+Kondisi D mengadaptasi mekanisme \emph{dual-level retrieval} dari LightRAG \autocite{Guo2025}. Adaptasi dilakukan pada mekanisme pengambilannya saja: Kondisi D menggunakan KG, indeks vektor, dan pencegahan kebocoran data yang \emph{sama persis} dengan Kondisi C, dan tidak melakukan ekstraksi entitas berbasis LLM seperti LightRAG asli. Keputusan ini disengaja agar perbedaan C dan D murni terletak pada mekanisme pemeringkatan, bukan pada data atau graf yang digunakan. Kondisi D terdiri atas dua tingkat pengambilan:
+\begin{enumerate}
+    \item \emph{Low-level retrieval}, yang analog dengan pengambilan entitas spesifik pada LightRAG: jawaban satu \emph{hop} dari \emph{seed nodes} hasil \emph{anchoring}, dengan skor berupa kemiripan kosinus \emph{seed node} terhadap kueri.
+    \item \emph{High-level retrieval}, yang analog dengan pengambilan tema atau komunitas pada LightRAG: jawaban dua \emph{hop} melalui sisi \texttt{IS\_RELATED\_TO}, \texttt{TAG\_COOCCUR}, dan \texttt{EMBED\_SIM}, dengan skor berupa nilai kemiripan mentah dari sisi tersebut.
+\end{enumerate}
+Hasil kedua tingkat dideduplikasi, diurutkan berdasarkan skor relevansi saja, dan dipotong menjadi $k{=}5$ item. Skor kepercayaan dan status \emph{accepted answer} tidak pernah memengaruhi pemeringkatan pada Kondisi D. Kondisi D tidak memiliki tahap \emph{semantic expansion}. Instruksi \emph{grounding} dan \emph{citation} pada Kondisi D identik dengan Kondisi C.
+
+%------------------------------------------------------------
 \subsection{Desain Evaluasi}
 \label{subsec:desain-evaluasi}
-Evaluasi dilakukan untuk mengukur kinerja \emph{GraphRAG Framework} yang diusulkan serta menguji hipotesis penelitian yang telah dirumuskan pada Bab~\ref{chap:pendahuluan}. Untuk memastikan perbandingan yang adil, seluruh eksperimen menggunakan protokol yang sama dan hanya berbeda pada mekanisme pencarian informasi (\emph{retrieval}) dan \emph{grounding} yang digunakan. Dengan demikian, perbedaan hasil yang diperoleh dapat dikaitkan secara langsung dengan kontribusi metode yang diusulkan.
+Evaluasi dilakukan untuk mengukur kinerja \emph{GraphRAG Framework} yang diusulkan serta menguji hipotesis penelitian yang telah dirumuskan pada Bab~\ref{chap:pendahuluan}. Untuk memastikan perbandingan yang adil, seluruh eksperimen menggunakan protokol yang sama dan hanya berbeda pada mekanisme \emph{retrieval} dan \emph{grounding} yang digunakan. Dengan demikian, perbedaan hasil yang diperoleh dapat dikaitkan secara langsung dengan kontribusi komponen yang diuji.
 
-Tiga kondisi pengujian digunakan dalam penelitian ini, yaitu:
-
-\begin{itemize}
-    \item Kondisi A - LLM Murni (\emph{Baseline})
-    Pada kondisi ini, model LLM menjawab pertanyaan pengguna secara langsung berdasarkan pengetahuan yang telah dipelajari selama proses pelatihan (\emph{parametric knowledge}). Tidak digunakan sumber informasi eksternal maupun mekanisme \emph{retrieval}.
-    \item Kondisi B - RAG Konvensional
-    Pada kondisi ini, sistem menggunakan pendekatan \emph{Retrieval-Augmented Generation} (RAG) berbasis \emph{dense retrieval}. Pencarian konteks dilakukan melalui basis data vektor tanpa memanfaatkan \emph{knowledge graph}, sinyal kepercayaan komunitas, maupun mekanisme \emph{dual-constraint}.
-    \item Kondisi C - \emph{GraphRAG Framework}
-    Kondisi ini merupakan pendekatan yang diusulkan dalam penelitian. Sistem memanfaatkan \emph{knowledge graph} berbobot, mekanisme \emph{hybrid retrieval} yang menggabungkan penelusuran graf dan pencarian vektor, serta mekanisme \emph{dual-constraint} yang terdiri atas \emph{RAG Grounding} dan \emph{KG-Constraint}.
-\end{itemize}
-
-Untuk membandingkan ketiga kondisi tersebut, digunakan prosedur evaluasi sebagai berikut.
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\textwidth]{images/bab3_perbandingan_tiga_kondisi_evaluasi.png}
-\caption{Perbandingan tiga kondisi evaluasi yang menghasilkan output yang diukur dengan metrik yang identik.}
+\caption{Perbandingan kondisi evaluasi yang menghasilkan output yang diukur dengan metrik yang identik.}
 \label{fig:perbandingan-tiga-kondisi}
 \end{figure}
-Gambar~\ref{fig:perbandingan-tiga-kondisi} menyajikan kerangka perbandingan tiga kondisi dalam format tiga kolom sejajar. Ketiga kondisi menerima \emph{input identik} (kueri pengguna yang sama dan sumber data SORD yang sama), menjalankan \emph{proses yang berbeda} (tanpa retrieval, \emph{dense retrieval}, atau \emph{hybrid retrieval} berbasis KG berbobot), dan menghasilkan \emph{output yang diukur dengan metrik yang sama} (\emph{faithfulness}, \emph{hallucination rate}, \emph{context relevance}, dan \emph{answer relevance}).
-Pendekatan GraphRAG (Kondisi C) memperkenalkan kompleksitas arsitektural yang lebih tinggi dibandingkan Kondisi A dan B. Proses konstruksi KG, latensi, dan ketergantungan pada akurasi NER serta \emph{entity linking} sebagai batasan tambahan penelitian ini. Dengan demikian, Penelitian ini membatasi klaim peningkatan pada dimensi kualitas jawaban (\emph{faithfulness} dan \emph{hallucination rate}), bukan efisiensi komputasi.
+\todo{Perbarui gambar menjadi empat kolom (tambahkan Kondisi D) dan sesuaikan daftar metrik dengan Tabel~\ref{tab:metrik-evaluasi}.}
+Gambar~\ref{fig:perbandingan-tiga-kondisi} menyajikan kerangka perbandingan kondisi evaluasi dalam format kolom sejajar. Seluruh kondisi menerima \emph{input} identik (pertanyaan yang sama dan sumber data SORD yang sama), menjalankan proses yang berbeda (tanpa \emph{retrieval}, \emph{dense retrieval}, \emph{hybrid retrieval} berbobot kepercayaan, atau \emph{dual-level retrieval} tanpa kepercayaan), dan menghasilkan output yang diukur dengan metrik yang sama.
+
+Pendekatan GraphRAG (Kondisi C dan D) memperkenalkan kompleksitas arsitektural yang lebih tinggi dibandingkan Kondisi A dan B, yaitu proses konstruksi dan densifikasi KG serta latensi traversal. Oleh karena itu, penelitian ini membatasi klaim peningkatan pada dimensi kualitas jawaban (\emph{faithfulness}, \emph{hallucination rate}, dan keterlacakan), sedangkan latensi hanya diverifikasi terhadap batas NF3 dan tidak diklaim sebagai keunggulan.
+
+\subsubsection{Dataset dan Strategi \emph{Sampling}}
+Evaluasi menggunakan pertanyaan yang bersumber dari seluruh populasi SORD \autocite{Fatima2026} tanpa pembatasan domain, sedangkan KG dibangun dari populasi yang sama. Pertanyaan memenuhi syarat sebagai sampel apabila (a) memiliki \emph{accepted answer} yang terdapat dalam data jawaban SORD, dan (b) panjang judul, isi, dan tag pertanyaan tidak melebihi 2.048 token. Sebagai \emph{ground truth}, digunakan jawaban berstatus \emph{accepted answer}, konsisten dengan protokol \textcite{DaSilva2025}.
+
+Ukuran sampel uji ditetapkan sebesar $n{=}384$, yaitu ukuran yang diperlukan untuk tingkat kepercayaan 95\% dengan \emph{margin of error} 5\%. Ukuran ini identik dengan \textcite{DaSilva2025}, sehingga hasil Kondisi A dapat dibandingkan langsung dengan studi asli. Sampel diambil dari kumpulan kandidat berukuran tetap, yaitu 1.536 pertanyaan memenuhi syarat (a) yang dipilih secara acak dengan \emph{reservoir sampling} (\emph{seed} 42), lalu disaring dengan syarat (b), dan diacak sekali menjadi satu urutan permutasi deterministik. Posisi 1--384 pada permutasi tersebut menjadi sampel uji, sedangkan posisi 385--434 ($n{=}50$) menjadi \emph{development set}. Kedua himpunan tidak beririsan sejak konstruksinya. Karena seluruh kondisi menggunakan permutasi yang sama, setiap sampel berukuran lebih kecil (misalnya pada studi pilot) merupakan subset awal dari sampel yang lebih besar, sehingga hasil antarukuran sampel tetap dapat dibandingkan.
+
+Seluruh penyetelan, yaitu pemilihan $\alpha$, perumusan instruksi \emph{prompt}, dan perumusan instruksi \emph{judge}, hanya dilakukan pada \emph{development set}. Sampel uji hanya dijalankan satu kali setelah seluruh parameter dibekukan.
+
+\subsubsection{Prosedur Pemilihan Parameter $\alpha$}
+Nilai $\alpha$ pada Persamaan~\eqref{eq:final-score} dipilih melalui prosedur dua tahap yang ditetapkan sebelum hasil \emph{development set} dilihat. Kandidat nilai yang diuji adalah $\alpha \in \{0;\ 0{,}25;\ 0{,}5;\ 0{,}75;\ 1\}$.
 \begin{enumerate}
-    \item Dataset Evaluasi.
-    
-    Evaluasi menggunakan subset pertanyaan yang bersumber dari SORD \autocite{Fatima2026}. Subset yang digunakan dibatasi pada domain Python Framework \& Library dengan perkiraan ukuran ±5.000 pasang Q\&A untuk konstruksi KG, dan ±200 pasang Q\&A sebagai sampel evaluasi (fase \emph{benchmark}). Sebagai \emph{ground truth}, digunakan jawaban yang berstatus \emph{accepted answer} pada Stack Overflow, yang konsisten dengan protokol evaluasi \textcite{DaSilva2025}. Pemilihan sumber data ini memungkinkan hasil penelitian dibandingkan secara langsung dengan penelitian sebelumnya yang menggunakan konten Stack Overflow dari periode yang sama.
-    
-    \item Kontrol Variabel LLM.
-    
-    Ketiga kondisi menggunakan model LLM yang sama. Dengan demikian, pengaruh perbedaan kemampuan model dapat dieliminasi sehingga evaluasi berfokus pada efektivitas mekanisme \emph{retrieval}, \emph{grounding}, dan pemanfaatan \emph{knowledge graph}.
-    
-    \item Metrik Evaluasi.
-    
-    Kinerja sistem dievaluasi menggunakan sejumlah metrik yang mengukur kualitas jawaban, kesesuaian dengan sumber referensi, serta tingkat kepercayaan hasil yang diberikan. Rincian metrik yang digunakan beserta alasan pemilihannya disajikan pada Tabel~\ref{tab:metrik-evaluasi}.
+    \item Tahap 1 (\emph{retrieval} saja). Untuk setiap nilai $\alpha$, konteks diambil untuk 50 pertanyaan \emph{development set} dan relevansinya dinilai oleh \emph{judge} relevansi konteks. Kriteria utama adalah persentase pertanyaan yang memiliki sedikitnya satu item konteks berlabel \texttt{RELEVAN}. Dua nilai $\alpha$ terbaik dilanjutkan ke tahap 2.
+    \item Tahap 2 (pembangkitan jawaban). Untuk kedua nilai $\alpha$ tersebut, jawaban dibangkitkan dengan \emph{grounding} aktif dan tidak aktif, lalu dinilai dengan \emph{judge} halusinasi. Nilai dengan \emph{hallucination rate} terendah dipilih. Apabila hasilnya setara, dipilih $\alpha$ yang lebih besar karena kontribusi yang diuji adalah sinyal kepercayaan.
 \end{enumerate}
+Apabila $\alpha{=}1$ terpilih, pemeringkatan cukup menggunakan Persamaan~\eqref{eq:combined-trust}. Sebelum tahap 1, validitas \emph{judge} relevansi konteks diuji terlebih dahulu menggunakan item kontrol: kontrol positif berupa \emph{accepted answer} dari pertanyaan itu sendiri, kontrol negatif mudah berupa jawaban dari pertanyaan tanpa tag yang sama, dan kontrol negatif sulit berupa jawaban dari pertanyaan bertag sama dengan kemiripan \emph{embedding} tertinggi. \emph{Judge} dinyatakan valid apabila sedikitnya 90\% kontrol positif dinilai \texttt{RELEVAN}, 90\% kontrol negatif mudah dinilai \texttt{TIDAK\_RELEVAN}, dan 80\% kontrol negatif sulit tidak dinilai \texttt{RELEVAN}.
+\todo{Isi tabel hasil tahap 1 dan tahap 2 serta nilai $\alpha$ terpilih di Bab Implementasi/Evaluasi setelah prosedur selesai.}
+
+\subsubsection{Faktor Eksperimen dan Ablasi}
+Selain perbandingan antarkondisi, dua faktor diuji secara terkontrol.
+\begin{enumerate}
+    \item \emph{Grounding constraint} (aktif atau tidak aktif) pada Kondisi B, C, dan D. Pada keadaan tidak aktif, hanya instruksi \emph{citation} yang dipertahankan, sehingga kontribusi \emph{grounding} dapat dipisahkan dari kontribusi kutipan.
+    \item Kontribusi sinyal kepercayaan pada Kondisi C, yaitu membandingkan $\alpha$ terpilih terhadap $\alpha{=}0$ (pemeringkatan murni berbasis relevansi) dengan struktur \emph{retrieval} yang identik.
+\end{enumerate}
+Kombinasi kedua faktor tersebut menghasilkan sembilan \emph{run} resmi pada Tabel~\ref{tab:matriks-run}. Setiap \emph{run} menggunakan 384 pertanyaan uji yang sama, dan seluruh jawaban dinilai oleh \emph{judge} utama dan sekunder.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Matriks \emph{run} resmi ($n{=}384$ per \emph{run}).}
+\label{tab:matriks-run}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|c|l|c|c|l|}
+\hline
+\textbf{No.} & \textbf{Kondisi} & \textbf{\emph{Grounding}} & \textbf{$\alpha$} & \textbf{Tujuan perbandingan} \\
+\hline
+R1 & A (LLM murni) & -- & -- & \emph{baseline} replikasi \\
+R2 & B-plain & tidak & -- & C vs B (tanpa \emph{grounding}) \\
+R3 & B-grounded & ya & -- & C vs B (dengan \emph{grounding}) \\
+R4 & C & tidak & $\alpha^{*}$ & kondisi utama \\
+R5 & C & ya & $\alpha^{*}$ & kondisi utama \\
+R6 & C & tidak & 0 & ablasi sinyal kepercayaan \\
+R7 & C & ya & 0 & ablasi sinyal kepercayaan \\
+R8 & D & tidak & -- & C vs D (tanpa \emph{grounding}) \\
+R9 & D & ya & -- & C vs D (dengan \emph{grounding}) \\
+\hline
+\end{tabular}
+\end{table}
+
+Perbandingan antarkondisi selalu dilakukan pada pengaturan \emph{grounding} yang sama, misalnya R5 dibandingkan dengan R3, R7, dan R9, sedangkan R1 dibandingkan dengan kedua varian C. Dengan demikian, efek struktur \emph{retrieval}, efek sinyal kepercayaan, dan efek \emph{grounding} dapat dipisahkan.
+\todo{Konfirmasi Tabel~\ref{tab:matriks-run}, ganti $\alpha^{*}$ dengan nilai hasil tahap 2, dan tetapkan perbandingan mana yang menjadi hipotesis utama sebelum \emph{run} resmi dimulai.}
+
+\subsubsection{Kontrol Variabel LLM dan \emph{Judge}}
+Seluruh kondisi menggunakan model LLM yang sama, yaitu \texttt{gpt-4o-mini}, sehingga perbedaan kemampuan model tidak memengaruhi hasil dan evaluasi berfokus pada efektivitas mekanisme \emph{retrieval} dan \emph{grounding}. Penilaian \emph{LLM-as-a-Judge} menggunakan \emph{judge} utama Llama-3.3-70B-Instruct, yang berasal dari keluarga model berbeda dengan \emph{generator} untuk menghindari bias preferensi terhadap model sendiri (\emph{self-preference bias}) \autocite{Gu2026}, dan \emph{judge} sekunder \texttt{gpt-4o-mini} sebagai pembanding. \emph{Judge} tidak diberi informasi mengenai kondisi, \emph{provider}, atau model yang menghasilkan jawaban, dan label kutipan dihapus dari jawaban sebelum dinilai, sehingga \emph{judge} tidak dapat menilai lebih tinggi suatu jawaban hanya karena mengetahui asalnya.
+
+\subsubsection{Validasi \emph{Judge} terhadap Anotasi Manusia}
+\label{subsubsec:validasi-judge}
+Kesepakatan antar-\emph{judge} saja tidak cukup untuk membuktikan bahwa \emph{judge} menilai dengan benar, karena dua \emph{judge} dapat sepakat pada penilaian yang sama-sama keliru. Oleh karena itu, \emph{judge} halusinasi divalidasi terhadap anotasi manusia sebelum digunakan untuk seleksi parameter maupun evaluasi akhir. Rancangannya adalah sebagai berikut.
+\begin{enumerate}
+    \item \textbf{Set kalibrasi.} Jawaban dibangkitkan pada \emph{development set} oleh Kondisi A, Kondisi B tanpa \emph{grounding}, dan Kondisi B dengan \emph{grounding}. Ketiga kondisi ini dipilih karena tidak bergantung pada parameter Kondisi C yang sedang dipilih. Sebanyak 60 item diambil secara terstratifikasi (20 per kondisi).
+    \item \textbf{Anotasi buta.} Anotator hanya melihat pertanyaan, \emph{accepted answer} sebagai referensi, dan jawaban kandidat yang label kutipannya telah dihapus, yaitu masukan yang sama persis dengan masukan \emph{judge}. Anotator tidak mengetahui kondisi asal jawaban maupun label \emph{judge}. Anotasi mengikuti pedoman tertulis yang menggunakan definisi yang sama dengan \emph{prompt judge}.
+    \item \textbf{Dua anotator.} Peneliti menganotasi seluruh 60 item, dan anotator kedua menganotasi 30 item di antaranya. Kesepakatan antaranotator dilaporkan sebelum perbedaan diselesaikan melalui diskusi, dan label hasil diskusi menjadi referensi.
+    \item \textbf{Kriteria penerimaan.} Kesepakatan \emph{judge} utama terhadap referensi manusia diukur dengan Cohen's~$\kappa$ tak berbobot pada tiga kategori (\texttt{ABSTAIN}, tidak berhalusinasi, berhalusinasi), dengan target $\kappa \geq 0{,}6$ \autocite{Gu2026}. \emph{Prompt judge} boleh direvisi paling banyak tiga kali. Apabila target tidak tercapai, versi dengan $\kappa$ tertinggi dibekukan dan hal tersebut dilaporkan sebagai keterbatasan.
+    \item \textbf{Set konfirmasi.} Setelah \emph{judge} dibekukan, 30 item diambil dari keluaran tahap~2 dan dianotasi sebelum label \emph{judge} untuk item tersebut dilihat. Kesepakatan pada set ini menjadi estimasi reliabilitas \emph{judge} di luar sampel kalibrasi.
+\end{enumerate}
+
+\subsubsection{Metrik Evaluasi}
+Kinerja sistem dievaluasi menggunakan metrik yang mencakup empat dimensi evaluasi RAG menurut \textcite{Kamalipour2026}, yaitu relevansi \emph{retrieval}, \emph{faithfulness}, relevansi jawaban, dan kebenaran jawaban, ditambah keterlacakan dan latensi. Rincian metrik beserta alasan pemilihannya disajikan pada Tabel~\ref{tab:metrik-evaluasi}.
 \input{tables/bab3_metrik_evaluasi.tex}
-\subsubsection{\emph{Checklist} Pemenuhan Kebutuhan Fungsional F1--F7}
- 
-Selain evaluasi berbasis metrik kuantitatif, penelitian ini menyertakan verifikasi pemenuhan kebutuhan fungsional sebagai bagian dari protokol evaluasi artefak sesuai DSRM. Tabel~\ref{tab:checklist-f1-f7} memetakan setiap kebutuhan fungsional ke komponen sistem yang mengimplementasikannya dan kriteria verifikasi yang digunakan. \input{tables/bab3_checklist_f1_f7.tex}
- 
+
+\emph{Hallucination rate} utama bersifat biner: sebuah jawaban dinyatakan berhalusinasi apabila sedikitnya satu klaimnya dinilai bertentangan dengan referensi (\emph{contradicted}) atau dikarang (\emph{fabricated}). Jawaban yang tidak mencoba menjawab, misalnya menyatakan bahwa konteks tidak mencukupi, diberi label \texttt{ABSTAIN} dan tidak dihitung sebagai halusinasi, karena pernyataan jujur tentang keterbatasan konteks merupakan perilaku yang diharapkan dari \emph{grounding}. \emph{Hallucination rate} dilaporkan dalam dua varian, yaitu dengan \texttt{ABSTAIN} dikeluarkan dari penyebut dan dengan \texttt{ABSTAIN} dihitung sebagai jawaban nonfaktual. Tingkat keparahan (\emph{penuh} apabila kesalahan mengenai solusi utama, \emph{sebagian} apabila hanya mengenai detail sekunder), proporsi \texttt{ABSTAIN}, dan proporsi klaim yang tidak dapat diverifikasi dilaporkan secara deskriptif. Label akhir diturunkan secara deterministik dari daftar klaim yang diekstraksi \emph{judge}, bukan dari label yang dilaporkan \emph{judge} itu sendiri.
+
+\subsubsection{\emph{Checklist} Pemenuhan Kebutuhan Fungsional F1--F6}
+
+Selain evaluasi berbasis metrik kuantitatif, penelitian ini menyertakan verifikasi pemenuhan kebutuhan fungsional sebagai bagian dari protokol evaluasi artefak sesuai DSRM. Tabel~\ref{tab:checklist-f1-f7} memetakan setiap kebutuhan fungsional ke komponen sistem yang mengimplementasikannya dan kriteria verifikasi yang digunakan.
+\input{tables/bab3_checklist_f1_f7.tex}
+
 \subsubsection{Uji Statistik dan Alasannya}
- 
-Untuk menguji signifikansi perbedaan kinerja antar kondisi, penelitian ini menggunakan \emph{uji Wilcoxon Signed-Rank} (dua sisi, $\alpha = 0{,}05$) sebagai uji utama. Uji Wilcoxon dipilih karena distribusi skor \emph{faithfulness} dan \emph{hallucination rate} tidak dapat diasumsikan normal pada skala terbatas $[0,1]$, sehingga uji parametrik seperti \emph{t-test} tidak tepat digunakan \autocite{Kamalipour2026}. Selain signifikansi statistik, ukuran efek diukur menggunakan Cliff's Delta ($\delta$) untuk mengkuantifikasi besaran praktis perbedaan antar kondisi, dengan interpretasi: $|\delta| < 0{,}147$ (kecil), $0{,}147 \leq |\delta| < 0{,}330$ (sedang), $|\delta| \geq 0{,}474$ (besar). Kombinasi kedua ukuran ini memastikan bahwa klaim peningkatan kinerja memiliki landasan statistik dan praktis yang dapat direproduksi.
- 
-\subsubsection{Studi Kasus Kualitatif untuk Provenance dan Keterlacakan}
- 
-Minimal satu \emph{case study} kualitatif akan dilakukan untuk mendemonstrasikan mekanisme \emph{provenance} dan keterlacakan sumber secara naratif. Studi kasus dipilih dari pertanyaan bertipe \emph{multi-hop} pada domain autentikasi FastAPI atau penanganan \emph{exception} Pandas, karena kedua topik tersebut memiliki rantai relasi antar entitas yang kaya di dalam KG SORD. Narasi studi kasus akan menelusuri jalur lengkap dari kueri pengguna hingga jawaban akhir, yaitu: (1) entitas apa yang diidentifikasi oleh NER, (2) simpul mana yang ditemukan melalui \emph{entity linking}, (3) jalur traversal mana yang diikuti beserta bobot masing-masing sisi, (4) simpul tambahan apa yang ditemukan melalui \emph{semantic expansion}, (5) bagaimana unified context window disusun, dan (6) bagaimana mekanisme \emph{dual-constraint} membentuk jawaban akhir. Studi kasus ini bertujuan menunjukkan bahwa setiap klaim dalam jawaban dapat ditelusuri kembali ke sumber komunitas yang spesifik, sehingga \emph{explainability} sistem dapat didemonstrasikan secara konkret \autocite{Ali2026}.
- 
-\subsubsection{Strategi \emph{Sampling Benchmark}}
- 
-Dataset evaluasi akan menggunakan strategi \emph{stratified random sampling} berdasarkan topik Python Framework \& Library. Target jumlah sampel adalah ±200 pasang Q\&A yang didistribusikan secara proporsional ke dalam minimal 5 subtopik utama (misalnya: FastAPI, Pandas, Django, SQLAlchemy, dan Scikit-learn), sehingga setiap subtopik diwakili oleh minimal 30 pasang Q\&A. Pemilihan 200 sampel didasarkan pada pertimbangan bahwa ukuran tersebut cukup untuk mendeteksi efek sedang ($|\delta| \geq 0{,}3$) dengan kekuatan statistik $\geq 0{,}8$ pada uji Wilcoxon dua sisi ($\alpha = 0{,}05$). Stratifikasi per topik memastikan evaluasi tidak didominasi oleh satu domain tertentu dan memungkinkan analisis sub-kelompok untuk mengidentifikasi topik di mana GraphRAG memberikan manfaat paling signifikan.
+
+Untuk menguji signifikansi perbedaan kinerja antarkondisi, penelitian ini menggunakan uji Wilcoxon \emph{Signed-Rank} berpasangan (dua sisi, $\alpha_{\mathrm{stat}} = 0{,}05$) pada tingkat pertanyaan. Uji berpasangan digunakan karena setiap kondisi menjawab pertanyaan yang sama, sedangkan uji nonparametrik dipilih karena skor yang digunakan terbatas pada rentang tertentu atau bersifat biner atau ordinal (misalnya label halusinasi per jawaban), sehingga asumsi normalitas pada uji parametrik seperti \emph{t-test} tidak terpenuhi \autocite{Kamalipour2026}. Karena terdapat beberapa pasangan kondisi yang dibandingkan untuk setiap metrik, nilai $p$ dikoreksi menggunakan metode Holm--Bonferroni \autocite{Holm1979} per metrik untuk mengendalikan kesalahan tipe I akibat perbandingan berganda.
+
+Selain signifikansi statistik, ukuran efek diukur menggunakan Cliff's Delta ($\delta$) untuk mengkuantifikasi besaran praktis perbedaan antarkondisi. Pasangan uji Wilcoxon dan Cliff's Delta ini sama dengan yang digunakan \textcite{DaSilva2025}, sehingga besaran efek dapat dibandingkan langsung dengan studi \emph{baseline}. Interpretasi besaran efek mengikuti ambang \textcite{Romano2006}: $|\delta| < 0{,}147$ (dapat diabaikan), $0{,}147 \leq |\delta| < 0{,}33$ (kecil), $0{,}33 \leq |\delta| < 0{,}474$ (sedang), dan $|\delta| \geq 0{,}474$ (besar). Bersama validasi \emph{judge} terhadap anotasi manusia (Subbab~\ref{subsubsec:validasi-judge}), kombinasi ukuran ini memastikan bahwa klaim peningkatan kinerja memiliki landasan statistik dan praktis yang dapat direproduksi.
+\todo{Rujukan Holm (1979) dan Romano dkk. (2006) berada di luar rentang 2020--2026, dan Romano dkk. (2006) merupakan makalah konferensi. Keduanya adalah sumber asli metode statistik yang umum dirujuk; konfirmasi dengan pembimbing bahwa pengecualian ini dapat diterima.}
+
+\subsubsection{Studi Kasus Kualitatif untuk \emph{Provenance} dan Keterlacakan}
+
+Minimal satu studi kasus kualitatif dilakukan untuk mendemonstrasikan mekanisme \emph{provenance} dan keterlacakan sumber secara naratif. Studi kasus dipilih dari sampel uji, yaitu pertanyaan yang konteks Kondisi C-nya memuat item hasil traversal dua \emph{hop}, sehingga peran struktur graf dapat diperlihatkan. Narasi studi kasus menelusuri jalur lengkap dari kueri pengguna hingga jawaban akhir, yaitu: (1) \emph{seed nodes} yang diperoleh melalui \emph{entity anchoring}, (2) jalur traversal yang diikuti beserta bobot setiap sisi, (3) kandidat tambahan dari \emph{semantic expansion}, (4) skor kepercayaan dan skor akhir yang menentukan susunan \emph{unified context window}, (5) kutipan yang muncul pada jawaban beserta hasil validasinya, dan (6) perbandingan dengan jawaban Kondisi B dan D untuk pertanyaan yang sama. Studi kasus ini bertujuan menunjukkan bahwa setiap klaim dalam jawaban dapat ditelusuri kembali ke sumber komunitas yang spesifik, sehingga \emph{explainability} sistem dapat didemonstrasikan secara konkret \autocite{Ali2026}.
+
 %============================================================
 \section{Ringkasan Desain}
 \label{sec:ringkasan-desain}
@@ -360,27 +494,25 @@ Dataset evaluasi akan menggunakan strategi \emph{stratified random sampling} ber
 
 \input{tables/bab3_ringkasan_komponen.tex}
 
-Tabel~\ref{tab:ringkasan-komponen} merangkum komponen teknis \emph{GraphRAG Framework} beserta kaitannya dengan kesenjangan yang dijawab dan kebutuhan yang dipenuhi.
+Tabel~\ref{tab:ringkasan-komponen} merangkum komponen teknis \emph{GraphRAG Framework} beserta kaitannya dengan kesenjangan yang dijawab dan teknologi yang digunakan.
 
-Secara keseluruhan, desain yang diusulkan telah dirancang untuk memenuhi seluruh kebutuhan fungsional (F1--F7) dan kebutuhan nonfungsional (NF1--NF6) yang telah diidentifikasi pada tahap analisis. Selain itu, rancangan ini juga menjaga keterkaitan antara kesenjangan penelitian yang dibahas pada Bab~\ref{chap:studi-literatur}, hipotesis penelitian yang dirumuskan pada Bab~\ref{chap:pendahuluan}, dan solusi teknis yang diusulkan dalam penelitian ini.
+Secara keseluruhan, desain yang diusulkan dirancang untuk memenuhi seluruh kebutuhan fungsional (F1--F6) dan kebutuhan nonfungsional (NF1--NF6) yang telah diidentifikasi pada tahap analisis. Selain itu, rancangan ini menjaga keterkaitan antara kesenjangan penelitian yang dibahas pada Bab~\ref{chap:studi-literatur}, hipotesis penelitian yang dirumuskan pada Bab~\ref{chap:pendahuluan}, dan solusi teknis yang diusulkan dalam penelitian ini.
 
-Bab ini berfokus pada perancangan arsitektur dan komponen utama sistem. Implementasi dari setiap komponen, proses pengembangan sistem, serta hasil evaluasi terhadap pendekatan yang diusulkan akan dijelaskan pada bab-bab berikutnya.
-
-
+Bab ini berfokus pada perancangan arsitektur dan komponen utama sistem. Implementasi setiap komponen, proses pengembangan sistem, serta hasil evaluasi terhadap pendekatan yang diusulkan dijelaskan pada bab-bab berikutnya.
 
 %============================================================
 \section{Hasil yang Diharapkan}
 \label{sec:hasil-yang-diharapkan}
 %============================================================
- 
-Berdasarkan desain evaluasi tiga kondisi dan metrik yang telah dirumuskan pada bab ini, penelitian ini diharapkan menghasilkan temuan sebagai berikut.
- 
+
+Berdasarkan desain evaluasi dan metrik yang telah dirumuskan pada bab ini, penelitian ini diharapkan menghasilkan temuan sebagai berikut.
+
 \begin{enumerate}
-    \item \emph{GraphRAG Framework} (Kondisi C) diharapkan menunjukkan keunggulan yang signifikan secara statistik (uji Wilcoxon Signed-Rank dan Cliff's Delta) atas Kondisi A (LLM murni) dan Kondisi B (RAG konvensional) pada metrik Cosine Similarity, ROUGE-1/2/L, BERTScore, dan \emph{Hallucination Rate}.
- 
-    \item Pembobotan konteks berdasarkan sinyal kepercayaan komunitas Stack Overflow (skor \emph{upvote}, status \emph{accepted answer}, dan reputasi kontributor) yang dioperasionalkan pada mekanisme \emph{Graph Traversal} diharapkan meningkatkan relevansi konteks yang diambil dibandingkan \emph{retrieval} berbasis kemiripan vektor pada Kondisi B.
- 
-    \item Mekanisme \emph{grounded generation} dengan \emph{dual-constraint} (\emph{RAG Grounding} dan \emph{KG-Constraint}) diharapkan menghasilkan jawaban dengan \emph{provenance} yang dapat ditelusuri kembali ke \emph{thread} Stack Overflow asal, sehingga memenuhi kebutuhan fungsional terkait keterlacakan jawaban (F5) sebagaimana didefinisikan pada Tabel~\ref{tab:checklist-f1-f7}.
- 
-    \item Secara keseluruhan, hasil ini diharapkan menunjukkan bahwa \emph{GraphRAG Framework} yang diusulkan dapat menjadi dasar arsitektural bagi pengembangan \emph{AI coding assistant} yang lebih bertanggung jawab, dengan menggabungkan validasi sosial komunitas sebagai dimensi kepercayaan pengetahuan dalam sistem berbasis LLM.
+    \item \emph{GraphRAG Framework} (Kondisi C) diharapkan menunjukkan \emph{hallucination rate} yang lebih rendah secara statistik (uji Wilcoxon \emph{Signed-Rank} dengan koreksi Holm--Bonferroni dan Cliff's Delta) dibandingkan Kondisi A (LLM murni) dan Kondisi B (RAG konvensional).
+
+    \item Pemeringkatan konteks berdasarkan sinyal kepercayaan komunitas Stack Overflow diharapkan menghasilkan konteks yang lebih relevan dan jawaban yang lebih faktual dibandingkan pemeringkatan tanpa kepercayaan, baik pada struktur graf yang sama (Kondisi D dan Kondisi C dengan $\alpha{=}0$) maupun dibandingkan \emph{dense retrieval} (Kondisi B).
+
+    \item Mekanisme \emph{grounded generation} dengan \emph{dual-constraint} diharapkan menghasilkan jawaban dengan kutipan valid ke \emph{thread} Stack Overflow asal dan catatan \emph{provenance} yang dapat ditelusuri, sehingga memenuhi kebutuhan keterlacakan (F5, NF2) sebagaimana didefinisikan pada Tabel~\ref{tab:checklist-f1-f7}.
+
+    \item Secara keseluruhan, hasil ini diharapkan menunjukkan bahwa \emph{GraphRAG Framework} yang diusulkan merupakan metode yang direkomendasikan untuk domain dengan sinyal kepercayaan komunitas yang terstruktur, seperti Stack Overflow, dan dapat menjadi dasar arsitektural bagi pengembangan \emph{AI coding assistant} yang lebih bertanggung jawab.
 \end{enumerate}

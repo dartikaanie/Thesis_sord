@@ -7,8 +7,8 @@
 \renewcommand{\arraystretch}{1.2}
 
 \begin{tabularx}{\textwidth}
-{|>{\ttfamily\raggedright\arraybackslash}p{2.8cm}
- |>{\centering\arraybackslash}p{1.8cm}
+{|>{\ttfamily\raggedright\arraybackslash}p{3.7cm}
+ |>{\centering\arraybackslash}p{1.3cm}
  |>{\raggedright\arraybackslash}X
  |>{\raggedright\arraybackslash}X|}
 \hline
@@ -20,45 +20,61 @@
 \\
 \hline
 
-hasAcceptedAnswer &
+\multicolumn{4}{|l|}{\textit{Sisi struktural (metadata SORD)}} \\
+\hline
+
+HAS\_ACCEPTED\_ANSWER &
 Q $\rightarrow$ A &
-Jawaban yang diterima sebagai solusi terbaik oleh penanya &
-$w = 1.0$
+Jawaban yang diterima sebagai solusi oleh penanya &
+$w = 1{,}0$
 \\
 \hline
 
-hasAnswer &
+HAS\_ANSWER &
 Q $\rightarrow$ A &
-Jawaban lain dengan skor tinggi &
-$w = \mathrm{normalize}(\mathrm{score})$
+Jawaban lain pada \emph{thread} yang sama &
+$w = $ normalisasi \emph{min-max} skor jawaban dalam satu \emph{thread} ($0{,}5$ apabila seluruh skor sama)
 \\
 \hline
 
-taggedWith &
+TAGGED\_WITH &
 Q $\rightarrow$ Tag &
-Pertanyaan dikategorikan dalam domain teknologi tertentu &
-$w = 1.0$
+Pertanyaan dikategorikan dalam teknologi atau domain tertentu &
+$w = 1{,}0$ (struktural)
 \\
 \hline
 
-isRelatedTo &
-Q $\leftrightarrow$ Q &
-Pasangan rekomendasi dalam dataset SORD &
-$w = \mathrm{similarity}(q_i,q_j)$
-\\
-\hline
-
-mentions &
-Q/A $\rightarrow$ Concept &
-Pertanyaan atau jawaban menyebut entitas teknis tertentu &
-$w = \mathrm{TF\mbox{-}IDF}(\mathrm{concept},\mathrm{doc})$
-\\
-\hline
-
-authorTrust &
-A $\rightarrow$ Author &
+AUTHOR\_TRUST &
+A $\rightarrow$ User &
 Kepercayaan terhadap kontributor jawaban &
-$w = \mathrm{normalize}(\mathrm{reputation})$
+$w = \log(1+\mathrm{rep}) / \log(1+\mathrm{rep}_{P99})$, dipotong pada $[0,1]$; dipakai sebagai komponen reputasi \texttt{trustScore} jawaban, tidak dilalui pada traversal
+\\
+\hline
+
+\multicolumn{4}{|l|}{\textit{Sisi pengayaan (Stack Exchange PostLinks)}} \\
+\hline
+
+IS\_RELATED\_TO &
+Q $\rightarrow$ Q &
+Tautan antar-\emph{thread} yang dibuat komunitas, bertipe \emph{Duplicate} atau \emph{Linked} &
+\emph{Duplicate}: $w = 1{,}0$; \emph{Linked}: $w = $ kemiripan kosinus \emph{embedding} kedua pertanyaan
+\\
+\hline
+
+\multicolumn{4}{|l|}{\textit{Sisi densifikasi (relasi turunan)}} \\
+\hline
+
+TAG\_COOCCUR &
+Q $\rightarrow$ Q &
+Kesamaan himpunan tag informatif (tag dengan frekuensi dokumen $\leq 200$), koefisien Jaccard $\geq 0{,}6$, paling banyak 20 tetangga per simpul &
+$w = 0{,}6$ (kategoris); nilai Jaccard disimpan sebagai atribut
+\\
+\hline
+
+EMBED\_SIM &
+Q $\rightarrow$ Q &
+Kemiripan semantik judul dan isi pertanyaan, kosinus $\geq 0{,}7$, paling banyak 10 tetangga per simpul &
+$w = 0{,}4$ (kategoris); nilai kosinus disimpan sebagai atribut
 \\
 \hline
 
