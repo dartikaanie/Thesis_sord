@@ -1,0 +1,378 @@
+%============================================================
+% BAB V — EVALUASI
+% Versi 2026-10-19 (laporan kemajuan).
+% Struktur dan protokol sudah final sesuai Bab III dan Bab IV;
+% seluruh nilai hasil masih \todo karena tahap 2 seleksi alpha,
+% pembekuan judge, dan kesembilan run resmi (R1--R9) belum dijalankan.
+% Analisis bersifat deskriptif (tanpa uji inferensial).
+% Anotasi manual: satu kali oleh satu anotator (peneliti).
+%============================================================
+
+\chapter{Evaluasi}
+\label{chap:evaluasi}
+
+Bab ini menyajikan hasil evaluasi \emph{GraphRAG Framework} terhadap ketiga kondisi pembanding pada sampel uji ($n{=}384$), mengikuti protokol yang ditetapkan pada Subbab~\ref{subsec:desain-evaluasi} dan diimplementasikan pada Bab~\ref{chap:implementasi}. Pembahasan disusun sebagai berikut:
+\begin{enumerate}[1.]
+    \item pelaksanaan evaluasi dan pemeriksaan integritas \emph{run},
+    \item reliabilitas instrumen \emph{LLM-as-a-Judge},
+    \item hasil \emph{hallucination rate} dan tiga perbandingan utama,
+    \item efek sinyal kepercayaan (C-utama terhadap C-ablasi) dan efek \emph{grounding},
+    \item hasil metrik pendukung, yaitu \emph{faithfulness}, keterlacakan, relevansi, kemiripan dengan \emph{accepted answer}, dan latensi,
+    \item studi kasus kualitatif \emph{provenance},
+    \item pembahasan terhadap pertanyaan penelitian, dan
+    \item ancaman terhadap validitas.
+\end{enumerate}
+Seluruh hasil dilaporkan secara deskriptif, yaitu sebagai jumlah, persentase, selisih, dan hitungan berpasangan per pertanyaan (Subbab~\ref{subsubsec:analisis-hasil}). Temuan dinyatakan sebagai perbedaan yang teramati pada sampel uji, bukan sebagai perbedaan yang signifikan secara statistik.
+
+%============================================================
+\section{Pelaksanaan Evaluasi}
+\label{sec:pelaksanaan-evaluasi}
+%============================================================
+
+\subsection{Urutan Pelaksanaan}
+Evaluasi dilaksanakan dalam urutan yang menjamin bahwa sampel uji baru digunakan setelah seluruh parameter dan instrumen dibekukan:
+\begin{enumerate}
+    \item anotasi manual set kalibrasi oleh peneliti dan pembekuan versi \emph{judge} halusinasi (Subbab~\ref{subsec:sistem-anotasi});
+    \item tahap~2 seleksi $\alpha$ pada \emph{development set}, yang menetapkan $\alpha^{*}$ untuk C-utama dan $\alpha^{\mathrm{abl}}$ untuk C-ablasi (Subbab~\ref{subsec:tahap2});
+    \item penguncian parameter resmi, yang membuka akses ke sampel uji (Subbab~\ref{subsec:implementasi-matriks-run});
+    \item pelaksanaan kesembilan \emph{run} resmi R1--R9 (Tabel~\ref{tab:matriks-run}); dan
+    \item penilaian seluruh jawaban dengan \emph{judge} utama dan sekunder yang telah dibekukan, serta penilaian relevansi konteks dan relevansi jawaban.
+\end{enumerate}
+\todo{Isi tanggal setiap langkah, $\alpha^{*}$ dan $\alpha^{\mathrm{abl}}$ yang digunakan, versi \emph{judge} beku, dan \emph{commit} repositori yang digunakan untuk \emph{run} resmi.}
+
+\subsection{Integritas \emph{Run}}
+\label{subsec:integritas-run}
+Sebelum hasil dianalisis, setiap \emph{run} resmi diperiksa terhadap empat kriteria: kelengkapan (384 pertanyaan dengan jawaban), kesesuaian sampel dengan daftar identitas yang dibekukan, konfigurasi yang sesuai dengan matriks \emph{run}, dan tidak adanya kebocoran data. Kebocoran diukur dengan dua metrik pada Subbab~\ref{subsec:implementasi-leakage}, yaitu proporsi pertanyaan yang konteksnya memuat identitas dari himpunan pengecualian, dan proporsi item konteks yang memiliki kemiripan kosinus $\geq 0{,}95$ dengan \emph{accepted answer}. Hasilnya dirangkum pada Tabel~\ref{tab:integritas-run}.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Pemeriksaan integritas \emph{run} resmi pada sampel uji.}
+\label{tab:integritas-run}
+\renewcommand{\arraystretch}{1.2}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|l|c|c|c|c|c|}
+\hline
+\textbf{Run} & \textbf{Label} & \textbf{\makecell{Jawaban\\lengkap}} & \textbf{\makecell{Gagal /\\diulang}} & \textbf{\makecell{Kebocoran\\ID (\%)}} & \textbf{\makecell{Konteks kosinus\\$\geq 0{,}95$}} & \textbf{\makecell{Pertanyaan\\$<5$ konteks}} \\
+\hline
+R1 & A & \todo{} & \todo{} & -- & -- & -- \\
+R2 & B-plain & \todo{} & \todo{} & \todo{} & \todo{} & \todo{} \\
+R3 & B-grounded & \todo{} & \todo{} & \todo{} & \todo{} & \todo{} \\
+R4 & C-utama-plain & \todo{} & \todo{} & \todo{} & \todo{} & \todo{} \\
+R5 & C-utama-grounded & \todo{} & \todo{} & \todo{} & \todo{} & \todo{} \\
+R6 & C-ablasi-plain & \todo{} & \todo{} & \todo{} & \todo{} & \todo{} \\
+R7 & C-ablasi-grounded & \todo{} & \todo{} & \todo{} & \todo{} & \todo{} \\
+R8 & D-plain & \todo{} & \todo{} & \todo{} & \todo{} & \todo{} \\
+R9 & D-grounded & \todo{} & \todo{} & \todo{} & \todo{} & \todo{} \\
+\hline
+\end{tabular}%
+}
+\end{table}
+\todo{Tuliskan ringkasan pemeriksaan integritas, termasuk pertanyaan yang tidak memperoleh konteks pada B, C, atau D dan penanganannya, serta biaya API seluruh \emph{run} dan penilaian.}
+
+%============================================================
+\section{Reliabilitas Instrumen \emph{Judge}}
+\label{sec:reliabilitas-judge}
+%============================================================
+
+Hasil kalibrasi \emph{judge} halusinasi terhadap referensi satu anotator disajikan pada Tabel~\ref{tab:kalibrasi-judge}. Bagian ini membahas implikasinya terhadap interpretasi hasil pada subbab-subbab berikutnya.
+
+\todo{Jelaskan apakah \emph{judge} utama mencapai $\kappa \geq 0{,}6$ terhadap referensi peneliti, berapa revisi \emph{prompt} yang diperlukan, dan pola ketidaksepakatan utama dari matriks konfusi (misalnya \emph{judge} lebih longgar atau lebih ketat daripada peneliti, dan pada kondisi mana).}
+
+\todo{Laporkan kesepakatan \emph{judge} utama dan sekunder pada seluruh jawaban \emph{run} resmi ($\kappa$ dengan selang kepercayaan 95\% \emph{bootstrap}) sebagai indikator konsistensi penilaian pada data uji.}
+
+\todo{Ringkas hasil ketiga probe bias \emph{judge} (otoritas, urutan, panjang) dan dampaknya terhadap interpretasi perbandingan antarkondisi.}
+
+Karena referensi manusia berasal dari satu anotator yang menilai satu kali, reliabilitas referensi itu sendiri tidak diukur. Oleh karena itu, kesepakatan \emph{judge}--peneliti menunjukkan sejauh mana \emph{judge} mereproduksi penilaian peneliti, bukan kebenaran mutlak label tersebut. Keterbatasan ini dibahas pada Subbab~\ref{sec:ancaman-validitas}.
+
+%============================================================
+\section{\emph{Hallucination Rate}}
+\label{sec:hasil-halusinasi}
+%============================================================
+
+\subsection{Hasil per \emph{Run}}
+Tabel~\ref{tab:hasil-halusinasi} menyajikan \emph{hallucination rate} biner setiap \emph{run} dalam dua versi, yaitu versi utama yang mengeluarkan \texttt{ABSTAIN} dan versi pelengkap yang menghitung \texttt{ABSTAIN} sebagai jawaban nonfaktual, beserta proporsi \texttt{ABSTAIN} dan tingkat keparahan halusinasi.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{\emph{Hallucination rate} per \emph{run} pada sampel uji ($n{=}384$, \emph{judge} utama).}
+\label{tab:hasil-halusinasi}
+\renewcommand{\arraystretch}{1.2}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|l|c|c|c|c|c|}
+\hline
+\textbf{Run} & \textbf{Label} & \textbf{\texttt{ABSTAIN}} & \textbf{\makecell{Halusinasi\\(utama)}} & \textbf{\makecell{Halusinasi\\(\texttt{ABSTAIN}\\nonfaktual)}} & \textbf{\makecell{Keparahan\\penuh / sebagian}} & \textbf{\makecell{Klaim tak\\terverifikasi}} \\
+\hline
+R1 & A & \todo{} & \todo{} & \todo{} & \todo{} & \todo{} \\
+R2 & B-plain & \todo{} & \todo{} & \todo{} & \todo{} & \todo{} \\
+R3 & B-grounded & \todo{} & \todo{} & \todo{} & \todo{} & \todo{} \\
+R4 & C-utama-plain & \todo{} & \todo{} & \todo{} & \todo{} & \todo{} \\
+R5 & C-utama-grounded & \todo{} & \todo{} & \todo{} & \todo{} & \todo{} \\
+R6 & C-ablasi-plain & \todo{} & \todo{} & \todo{} & \todo{} & \todo{} \\
+R7 & C-ablasi-grounded & \todo{} & \todo{} & \todo{} & \todo{} & \todo{} \\
+R8 & D-plain & \todo{} & \todo{} & \todo{} & \todo{} & \todo{} \\
+R9 & D-grounded & \todo{} & \todo{} & \todo{} & \todo{} & \todo{} \\
+\hline
+\multicolumn{7}{|l|}{\footnotesize Setiap sel ditulis sebagai jumlah (persentase). Penyebut versi utama adalah jumlah jawaban non-\texttt{ABSTAIN}.} \\
+\hline
+\end{tabular}%
+}
+\end{table}
+
+\todo{Uraikan pola utama Tabel~\ref{tab:hasil-halusinasi}: urutan kondisi menurut \emph{hallucination rate} utama, apakah urutannya berubah pada versi pelengkap, dan kondisi mana yang memiliki proporsi \texttt{ABSTAIN} tinggi.}
+
+\todo{Laporkan hasil \emph{judge} sekunder untuk tabel yang sama (dapat diletakkan di lampiran) dan apakah urutan kondisi konsisten antara kedua \emph{judge}.}
+
+\subsection{Perbandingan Utama}
+\label{subsec:perbandingan-utama}
+Tiga perbandingan utama yang ditetapkan sebelum \emph{run} resmi adalah R5 terhadap R1, R5 terhadap R3, dan R5 terhadap R9. Untuk setiap perbandingan, Tabel~\ref{tab:perbandingan-utama} menyajikan selisih \emph{hallucination rate} dan hitungan berpasangan per pertanyaan. Hitungan berpasangan menggunakan versi yang menghitung \texttt{ABSTAIN} sebagai nonfaktual, sehingga seluruh 384 pasangan tercakup.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Perbandingan utama \emph{hallucination rate} dan hitungan berpasangan per pertanyaan.}
+\label{tab:perbandingan-utama}
+\renewcommand{\arraystretch}{1.2}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+\textbf{Perbandingan} & \textbf{\makecell{Selisih\\(pp, utama)}} & \textbf{\makecell{Hanya\\pembanding}} & \textbf{\makecell{Hanya\\C-utama}} & \textbf{Keduanya} & \textbf{\makecell{Tidak\\keduanya}} \\
+\hline
+R5 vs R1 (C vs A) & \todo{} & \todo{} & \todo{} & \todo{} & \todo{} \\
+R5 vs R3 (C vs B) & \todo{} & \todo{} & \todo{} & \todo{} & \todo{} \\
+R5 vs R9 (C vs D) & \todo{} & \todo{} & \todo{} & \todo{} & \todo{} \\
+\hline
+\multicolumn{6}{|l|}{\footnotesize Selisih negatif berarti \emph{hallucination rate} C-utama lebih rendah. Kolom ``hanya X'' = berhalusinasi hanya pada X.} \\
+\hline
+\end{tabular}%
+}
+\end{table}
+
+\todo{Interpretasikan setiap perbandingan: besar selisih, apakah selisih berasal dari perbaikan yang konsisten (kolom ``hanya pembanding'' jauh lebih besar daripada ``hanya C-utama'') atau dari pertukaran kesalahan, serta hitungan berpasangan pada pasangan tanpa \texttt{ABSTAIN} beserta jumlah pasangan yang dikeluarkan.}
+
+%============================================================
+\section{Efek Sinyal Kepercayaan dan \emph{Grounding}}
+\label{sec:efek-trust-grounding}
+%============================================================
+
+\subsection{C-utama terhadap C-ablasi}
+\label{subsec:hasil-ablasi-trust}
+Klaim mengenai efek \texttt{trustScore} hanya didasarkan pada perbandingan C-utama dan C-ablasi pada sampel uji, karena kedua varian identik kecuali nilai $\alpha$. Kandidat tahap~2 adalah $\alpha = 0{,}25$ dan $\alpha = 0$, sehingga salah satu varian tidak menggunakan \texttt{trustScore} pada pemeringkatan akhir (Subbab~\ref{subsec:implementasi-matriks-run}).
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Perbandingan C-utama dan C-ablasi per keadaan \emph{grounding}.}
+\label{tab:hasil-ablasi-trust}
+\renewcommand{\arraystretch}{1.2}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|c|c|c|c|c|c|}
+\hline
+\textbf{Pasangan} & \textbf{\makecell{Halusinasi\\C-utama}} & \textbf{\makecell{Halusinasi\\C-ablasi}} & \textbf{\makecell{Hanya\\C-ablasi}} & \textbf{\makecell{Hanya\\C-utama}} & \textbf{Keduanya} & \textbf{\makecell{Tidak\\keduanya}} \\
+\hline
+R4 vs R6 (\emph{plain}) & \todo{} & \todo{} & \todo{} & \todo{} & \todo{} & \todo{} \\
+R5 vs R7 (\emph{grounded}) & \todo{} & \todo{} & \todo{} & \todo{} & \todo{} & \todo{} \\
+Gabungan & \todo{} & \todo{} & \todo{} & \todo{} & \todo{} & \todo{} \\
+\hline
+\end{tabular}%
+}
+\end{table}
+
+\todo{Laporkan juga perbedaan isi konteks antara C-utama dan C-ablasi: proporsi pertanyaan dengan himpunan top-5 yang berbeda, proporsi \emph{accepted answer} dalam konteks, relevansi konteks, kemiripan kosinus, dan NF2 kedua varian.}
+
+\todo{Interpretasikan efek \texttt{trustScore}. Apabila $\alpha^{*}$ dipilih melalui aturan seri pada tahap~2, nyatakan bahwa tahap~2 tidak digunakan sebagai bukti efek kepercayaan.}
+
+\subsection{Efek \emph{Grounding}}
+\label{subsec:hasil-grounding}
+Efek \emph{grounding constraint} diamati dengan membandingkan keadaan \emph{plain} dan \emph{grounded} pada setiap kondisi yang memiliki konteks, dengan \emph{retrieval} yang identik.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Efek \emph{grounding} per kondisi (\emph{hallucination rate} utama dan proporsi \texttt{ABSTAIN}).}
+\label{tab:hasil-grounding}
+\renewcommand{\arraystretch}{1.2}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+\textbf{Kondisi} & \textbf{\makecell{Halusinasi\\\emph{plain}}} & \textbf{\makecell{Halusinasi\\\emph{grounded}}} & \textbf{\makecell{Selisih\\(pp)}} & \textbf{\makecell{\texttt{ABSTAIN}\\\emph{plain}}} & \textbf{\makecell{\texttt{ABSTAIN}\\\emph{grounded}}} \\
+\hline
+B (R2 vs R3) & \todo{} & \todo{} & \todo{} & \todo{} & \todo{} \\
+C-utama (R4 vs R5) & \todo{} & \todo{} & \todo{} & \todo{} & \todo{} \\
+C-ablasi (R6 vs R7) & \todo{} & \todo{} & \todo{} & \todo{} & \todo{} \\
+D (R8 vs R9) & \todo{} & \todo{} & \todo{} & \todo{} & \todo{} \\
+\hline
+\end{tabular}%
+}
+\end{table}
+
+\todo{Interpretasikan apakah \emph{grounding} menurunkan halusinasi secara konsisten pada semua kondisi, dan apakah penurunan tersebut disertai kenaikan \texttt{ABSTAIN}.}
+
+%============================================================
+\section{Metrik Pendukung}
+\label{sec:metrik-pendukung}
+%============================================================
+
+\subsection{\emph{Faithfulness} dan Keterlacakan}
+Untuk Kondisi B, C, dan D, \emph{faithfulness} dan \emph{citation support} dihitung dari label per klaim \emph{judge}, sedangkan NF2 dihitung dari validasi kutipan otomatis terhadap daftar label konteks. Pada Kondisi A, kutipan yang muncul dilaporkan sebagai kutipan fiktif.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{\emph{Faithfulness}, \emph{citation support}, dan keterlacakan per \emph{run}.}
+\label{tab:hasil-faithfulness}
+\renewcommand{\arraystretch}{1.2}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|l|c|c|c|c|}
+\hline
+\textbf{Run} & \textbf{Label} & \textbf{\makecell{\emph{Faithfulness}\\rata-rata / median}} & \textbf{\makecell{\emph{Citation support}\\rata-rata}} & \textbf{\makecell{NF2: jawaban dengan\\$\geq 1$ kutipan valid}} & \textbf{\makecell{Jawaban dengan\\kutipan tidak valid}} \\
+\hline
+R1 & A & -- & -- & -- & \todo{} \\
+R2 & B-plain & \todo{} & \todo{} & \todo{} & \todo{} \\
+R3 & B-grounded & \todo{} & \todo{} & \todo{} & \todo{} \\
+R4 & C-utama-plain & \todo{} & \todo{} & \todo{} & \todo{} \\
+R5 & C-utama-grounded & \todo{} & \todo{} & \todo{} & \todo{} \\
+R6 & C-ablasi-plain & \todo{} & \todo{} & \todo{} & \todo{} \\
+R7 & C-ablasi-grounded & \todo{} & \todo{} & \todo{} & \todo{} \\
+R8 & D-plain & \todo{} & \todo{} & \todo{} & \todo{} \\
+R9 & D-grounded & \todo{} & \todo{} & \todo{} & \todo{} \\
+\hline
+\end{tabular}%
+}
+\end{table}
+
+\todo{Interpretasikan hasil \emph{faithfulness} dan keterlacakan, terutama perbedaan antara kutipan yang valid secara format (NF2) dan kutipan yang benar-benar mendukung klaim (\emph{citation support}).}
+
+\subsection{Relevansi Konteks dan Relevansi Jawaban}
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Relevansi konteks (ctxrel-v2) dan relevansi jawaban per kondisi.}
+\label{tab:hasil-relevansi}
+\renewcommand{\arraystretch}{1.2}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Kondisi} & \textbf{\makecell{\% pertanyaan dengan\\$\geq 1$ konteks \texttt{RELEVANT}}} & \textbf{\makecell{Rata-rata skor\\relevansi konteks}} & \textbf{\makecell{\% \emph{accepted answer}\\dalam konteks}} & \textbf{\makecell{Relevansi\\jawaban}} \\
+\hline
+A & -- & -- & -- & \todo{} \\
+B & \todo{} & \todo{} & \todo{} & \todo{} \\
+C-utama & \todo{} & \todo{} & \todo{} & \todo{} \\
+C-ablasi & \todo{} & \todo{} & \todo{} & \todo{} \\
+D & \todo{} & \todo{} & \todo{} & \todo{} \\
+\hline
+\multicolumn{5}{|l|}{\footnotesize Relevansi konteks tidak bergantung pada keadaan \emph{grounding}, karena \emph{retrieval}-nya identik.} \\
+\hline
+\end{tabular}%
+}
+\end{table}
+
+\todo{Interpretasikan hubungan antara relevansi konteks dan \emph{hallucination rate} antarkondisi, termasuk kontribusi tipe sisi (traversal satu \emph{hop}, dua \emph{hop}, dan \emph{semantic expansion}) pada konteks Kondisi C.}
+
+\subsection{Kemiripan dengan \emph{Accepted Answer}}
+Kemiripan kosinus antara jawaban dan \emph{accepted answer} dilaporkan untuk menjaga keterbandingan dengan \textcite{DaSilva2025}. Metrik ini bukan ukuran halusinasi, karena jawaban yang benar dengan pendekatan berbeda dapat memiliki kemiripan rendah.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Kemiripan kosinus jawaban terhadap \emph{accepted answer} per \emph{run}.}
+\label{tab:hasil-kosinus}
+\renewcommand{\arraystretch}{1.2}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|l|c|c|c|}
+\hline
+\textbf{Run} & \textbf{Label} & \textbf{Rata-rata} & \textbf{Median} & \textbf{\% kosinus $> 0{,}5$} \\
+\hline
+R1 & A & \todo{} & \todo{} & \todo{} \\
+R2 & B-plain & \todo{} & \todo{} & \todo{} \\
+R3 & B-grounded & \todo{} & \todo{} & \todo{} \\
+R4 & C-utama-plain & \todo{} & \todo{} & \todo{} \\
+R5 & C-utama-grounded & \todo{} & \todo{} & \todo{} \\
+R6 & C-ablasi-plain & \todo{} & \todo{} & \todo{} \\
+R7 & C-ablasi-grounded & \todo{} & \todo{} & \todo{} \\
+R8 & D-plain & \todo{} & \todo{} & \todo{} \\
+R9 & D-grounded & \todo{} & \todo{} & \todo{} \\
+\hline
+\end{tabular}%
+}
+\end{table}
+
+\todo{Bandingkan hasil R1 dengan angka yang dilaporkan \textcite{DaSilva2025} sebagai pemeriksaan replikasi \emph{baseline}, dengan mencatat perbedaan model (\texttt{gpt-4o-mini} terhadap ChatGPT-3.5) dan dataset.}
+
+\subsection{Latensi}
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Latensi per kondisi (detik).}
+\label{tab:hasil-latensi}
+\renewcommand{\arraystretch}{1.2}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Kondisi} & \textbf{\makecell{\emph{Retrieval}\\median / p95}} & \textbf{\makecell{Generasi\\median / p95}} & \textbf{\makecell{Total\\median / p95}} & \textbf{\makecell{NF3 (p95 total\\$\leq 15$ detik)}} \\
+\hline
+A & -- & \todo{} & \todo{} & -- \\
+B & \todo{} & \todo{} & \todo{} & -- \\
+C-utama & \todo{} & \todo{} & \todo{} & \todo{} \\
+C-ablasi & \todo{} & \todo{} & \todo{} & -- \\
+D & \todo{} & \todo{} & \todo{} & -- \\
+\hline
+\end{tabular}%
+}
+\end{table}
+\todo{Nyatakan pemenuhan NF3 untuk Kondisi C dan catat bahwa latensi generasi bergantung pada API pihak ketiga.}
+
+%============================================================
+\section{Studi Kasus \emph{Provenance}}
+\label{sec:studi-kasus}
+%============================================================
+
+Studi kasus dipilih dari sampel uji, yaitu pertanyaan yang konteks C-utama-nya memuat item hasil traversal dua \emph{hop}, mengikuti rancangan pada Subbab~\ref{subsec:desain-evaluasi}.
+
+\todo{Pilih satu pertanyaan studi kasus dan uraikan: (1) \emph{seed nodes} hasil \emph{entity anchoring}; (2) jalur traversal beserta bobot setiap sisi; (3) kandidat dari \emph{semantic expansion}; (4) \texttt{trustScore}, $\mathrm{sim}_{\mathrm{norm}}$, dan skor akhir yang menentukan lima konteks teratas; (5) kutipan pada jawaban beserta hasil validasinya; dan (6) perbandingan dengan jawaban Kondisi B dan D untuk pertanyaan yang sama.}
+
+\todo{Tambahkan satu gambar subgraf jalur \emph{provenance} studi kasus.}
+
+%============================================================
+\section{Pembahasan}
+\label{sec:pembahasan}
+%============================================================
+
+Subbab ini mengaitkan hasil evaluasi dengan kelima pertanyaan penelitian pada Bab~\ref{chap:pendahuluan}.
+
+\begin{enumerate}
+    \item \textbf{Konstruksi \emph{knowledge graph} berbobot.} KG dibangun dari seluruh populasi SORD dengan 2.685.814 pertanyaan dan 32.100.676 sisi, dan ketiga sinyal komunitas tercakup dalam \texttt{trustScore} (Subbab~\ref{sec:implementasi-kg}). Densifikasi menurunkan proporsi pertanyaan terisolasi dari 91,96\% menjadi 23,10\%. \todo{Kaitkan dengan hasil evaluasi: kontribusi tipe sisi pada konteks yang relevan dan pada jawaban yang tidak berhalusinasi.}
+    \item \textbf{\emph{Hybrid retrieval}.} \todo{Bahas apakah konteks Kondisi C lebih relevan dibandingkan Kondisi B dan D (Tabel~\ref{tab:hasil-relevansi}), dan peran \emph{semantic expansion}.}
+    \item \textbf{\emph{Grounded generation} dan keterlacakan.} \todo{Bahas hasil \emph{faithfulness}, \emph{citation support}, dan NF2 (Tabel~\ref{tab:hasil-faithfulness}), serta efek \emph{grounding} (Tabel~\ref{tab:hasil-grounding}).}
+    \item \textbf{Protokol evaluasi komparatif.} Protokol yang diimplementasikan mencakup empat kondisi dan sembilan \emph{run} dengan sampel, \emph{prompt}, model, korpus jawaban, dan aturan pencegahan kebocoran data yang sama, serta instrumen \emph{judge} yang divalidasi terhadap anotasi manusia. \todo{Bahas apakah protokol berhasil memisahkan efek struktur \emph{retrieval}, sinyal kepercayaan, dan \emph{grounding}, berdasarkan hasil integritas \emph{run} dan reliabilitas \emph{judge}.}
+    \item \textbf{Besar reduksi halusinasi.} \todo{Rangkum selisih \emph{hallucination rate} C-utama terhadap A, B, dan D (Tabel~\ref{tab:perbandingan-utama}) serta terhadap C-ablasi (Tabel~\ref{tab:hasil-ablasi-trust}), dinyatakan sebagai perbedaan yang teramati pada sampel uji. Kaitkan dengan klaim kontribusi: metode yang direkomendasikan untuk domain dengan sinyal kepercayaan komunitas yang terstruktur.}
+\end{enumerate}
+
+\todo{Ringkas status hipotesis penelitian berdasarkan perbandingan utama, dengan rumusan deskriptif (bukan signifikansi statistik).}
+
+%============================================================
+\section{Ancaman terhadap Validitas}
+\label{sec:ancaman-validitas}
+%============================================================
+
+Beberapa faktor dapat memengaruhi validitas hasil evaluasi dan perlu dipertimbangkan dalam menafsirkan temuan.
+
+\begin{enumerate}
+    \item \textbf{Referensi manusia dari satu anotator.} Label manusia yang digunakan untuk memvalidasi \emph{judge} berasal dari satu anotator yang menilai satu kali. Reliabilitas antaranotator dan intra-anotator tidak diukur. Selain itu, anotator bukan pakar di seluruh topik Stack Overflow, sehingga klaim pada domain yang kurang dikuasai lebih mungkin dinilai tidak dapat diverifikasi. Prosedur untuk anotator kedua, penilaian ulang, dan set konfirmasi pada sampel uji telah disiapkan dan dapat dijalankan apabila diperlukan; dalam hal tersebut, penilaian \emph{judge} pada \emph{run} resmi akan dijalankan ulang.
+    \item \textbf{Ketergantungan pada \emph{LLM-as-a-Judge}.} Seluruh metrik halusinasi diturunkan dari label \emph{judge}. Meskipun \emph{judge} dikalibrasi dan dibutakan, bias \emph{judge} yang tidak terdeteksi oleh probe dapat memengaruhi perbandingan antarkondisi.
+    \item \textbf{\emph{Ground truth} berupa \emph{accepted answer}.} \emph{Accepted answer} dipilih oleh penanya dan dapat usang, tidak lengkap, atau bukan satu-satunya solusi yang benar. Klaim yang benar tetapi tidak dibahas oleh referensi dinilai tidak dapat diverifikasi, bukan berhalusinasi.
+    \item \textbf{Ukuran sampel dan analisis deskriptif.} Sampel uji berukuran 384 pertanyaan, dan \emph{development set} untuk seleksi parameter hanya 50 pertanyaan. Penelitian ini tidak melakukan uji hipotesis inferensial, sehingga selisih kecil antarkondisi tidak dapat dibedakan dari variasi acak.
+    \item \textbf{Parameter heuristik.} Koefisien \texttt{trustScore}, bobot jalur, dan ambang densifikasi ditetapkan sebelum eksperimen dan tidak disetel. Sensitivitas hasil terhadap koefisien tersebut tidak diuji.
+    \item \textbf{Perbedaan jumlah konteks.} Kondisi D lebih sering memperoleh kurang dari lima item konteks dibandingkan Kondisi B dan C, sehingga sebagian selisih C terhadap D dapat berasal dari jumlah konteks, bukan hanya dari sinyal kepercayaan.
+    \item \textbf{Satu model \emph{generator}.} Seluruh kondisi menggunakan \texttt{gpt-4o-mini} dengan parameter bawaan API dan satu pembangkitan per pertanyaan. Hasil dapat berbeda pada model lain atau pada pembangkitan ulang.
+    \item \textbf{Set kalibrasi dengan korpus lama.} Set kalibrasi \emph{judge} dibangkitkan dengan korpus Kondisi B versi pilot. Hal ini tidak memengaruhi validasi \emph{judge}, tetapi distribusi jawaban pada set kalibrasi dapat berbeda dengan distribusi pada \emph{run} resmi.
+    \item \textbf{Cakupan domain.} Sampel diambil dari seluruh populasi SORD tanpa pembatasan domain, sehingga hasil menggambarkan kinerja rata-rata lintas topik dan tidak dapat langsung digeneralisasi ke domain di luar Stack Overflow.
+\end{enumerate}
+
+%============================================================
+\section{Ringkasan}
+\label{sec:ringkasan-evaluasi}
+%============================================================
+
+\todo{Ringkas temuan utama bab ini dalam tiga sampai empat butir: hasil perbandingan utama, efek sinyal kepercayaan, efek \emph{grounding}, dan reliabilitas instrumen.}

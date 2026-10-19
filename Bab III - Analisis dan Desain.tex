@@ -147,7 +147,7 @@ Berdasarkan identifikasi masalah dan kebutuhan tersebut, ditetapkan empat altern
 \label{subsec:penentuan-solusi}
 \input{tables/bab3_komparasi_solusi.tex}
 Tabel~\ref{tab:komparasi-solusi} menyajikan matriks komparasi keempat alternatif terhadap kebutuhan yang telah diidentifikasi, berdasarkan analisis desain sebelum evaluasi dilakukan. Matriks ini sekaligus mendefinisikan posisi \emph{improvement} yang diklaim penelitian ini. Berdasarkan matriks tersebut, Kondisi C (\emph{GraphRAG Framework} berbobot kepercayaan) dipilih sebagai solusi yang dikembangkan, karena merupakan satu-satunya alternatif yang memanfaatkan sinyal kepercayaan komunitas (G2) sekaligus struktur relasional (G3).
-Kondisi A, B, dan D tetap diimplementasikan sebagai pembanding dalam protokol evaluasi komparatif (F6). Perbandingan C terhadap A mengukur manfaat \emph{grounding} berbasis Stack Overflow secara keseluruhan, perbandingan C terhadap B mengukur manfaat struktur graf dan sinyal kepercayaan dibandingkan \emph{dense retrieval}, dan perbandingan C terhadap D mengukur manfaat mekanisme \emph{retrieval} Kondisi C, yaitu pemeringkatan berbobot kepercayaan dan \emph{semantic expansion}, dibandingkan \emph{dual-level retrieval} pada graf yang sama. Kontribusi sinyal kepercayaan secara terpisah diukur melalui perbandingan C-utama terhadap C-ablasi (Subbab~\ref{subsec:desain-evaluasi}).
+Kondisi A, B, dan D tetap diimplementasikan sebagai pembanding dalam protokol evaluasi komparatif (F6). Perbandingan C terhadap A mengukur manfaat \emph{grounding} berbasis Stack Overflow secara keseluruhan, perbandingan C terhadap B mengukur manfaat struktur graf dan sinyal kepercayaan dibandingkan \emph{dense retrieval}, dan perbandingan C terhadap D mengukur manfaat sinyal kepercayaan secara spesifik pada struktur graf yang identik.
 
 %============================================================
 \section{Desain \emph{GraphRAG Framework}}
@@ -208,6 +208,7 @@ Setiap simpul dalam KG merepresentasikan satu objek pada Stack Overflow, dan set
     \item \texttt{User}, yaitu kontributor yang menulis jawaban, dengan atribut \texttt{id} dan \texttt{reputation}. Simpul ini menjadi sumber sinyal reputasi pada sisi \texttt{AUTHOR\_TRUST}.
 \end{enumerate}
 Simpul-simpul tersebut dihubungkan oleh sisi berbobot yang dijelaskan pada subbab berikutnya, misalnya \texttt{(Q\#1234)-[HAS\_ACCEPTED\_ANSWER]->(A\#9823)} yang menghubungkan pertanyaan dengan jawaban yang diterima, atau \texttt{(Q\#1234)-[TAGGED\_WITH]->(fastapi)} yang menghubungkan pertanyaan dengan tagnya.
+
 \subsubsection{Skor Kepercayaan Simpul}
 Selain bobot pada sisi, setiap simpul \texttt{Question} dan \texttt{Answer} memiliki skor kepercayaan (\texttt{trustScore}) dalam rentang $[0,1]$. Skor pertanyaan dihitung dari skor \emph{upvote} dan popularitas (jumlah tayangan), sedangkan skor jawaban dihitung dari skor \emph{upvote}, status \emph{accepted answer}, dan reputasi kontributor:
 \begin{align}
@@ -264,7 +265,7 @@ Gambar~\ref{fig:flowchart-konstruksi-kg} menunjukkan alur pembangunan KG berbobo
     \item Pembangunan graf struktural. Simpul \texttt{Question}, \texttt{Answer}, \texttt{Tag}, dan \texttt{User} serta sisi \texttt{HAS\_ACCEPTED\_ANSWER}, \texttt{HAS\_ANSWER}, \texttt{TAGGED\_WITH}, dan \texttt{AUTHOR\_TRUST} dibangun dari metadata SORD dan data reputasi pengguna Stack Exchange. Pada tahap ini, sistem juga menghitung \texttt{trustScore} untuk pertanyaan dan jawaban menggunakan Persamaan~\eqref{eq:trust-question} dan \eqref{eq:trust-answer}.
     \item Pengayaan tautan antar-\emph{thread}. Data \texttt{PostLinks} dari Stack Exchange Data Dump dicocokkan dengan pertanyaan dalam SORD untuk membentuk sisi \texttt{IS\_RELATED\_TO} bertipe \emph{Linked} dan \emph{Duplicate}. Tahap ini hanya menambahkan sisi tanpa membuat simpul baru.
     \item Pengindeksan vektor. Judul dan isi setiap pertanyaan diubah menjadi vektor padat (\emph{dense vector}) menggunakan model \emph{embedding}, dinormalisasi, lalu disimpan dalam indeks FAISS. Indeks ini digunakan untuk \emph{entity anchoring}, \emph{semantic expansion}, dan pembentukan sisi \texttt{EMBED\_SIM}.
-    \item Densifikasi graf. Graf struktural Stack Overflow sangat jarang karena sebagian besar pertanyaan tidak memiliki tautan eksplisit ke pertanyaan lain. Densifikasi menambahkan sisi \texttt{TAG\_COOCCUR} dan \texttt{EMBED\_SIM} sehingga sebagian besar pertanyaan memiliki tetangga yang dapat dijangkau melalui traversal.
+    \item Densifikasi graf. Graf struktural Stack Overflow sangat jarang karena sebagian besar pertanyaan tidak memiliki tautan eksplisit ke pertanyaan lain. Densifikasi menambahkan sisi \texttt{TAG\_COOCCUR} dan \texttt{EMBED\_SIM} sehingga sebagian besar pertanyaan memiliki tetangga yang dapat dijangkau melalui traversal. 
 \end{enumerate}
 
 Dengan demikian, proses konstruksi menghasilkan dua komponen, yaitu KG berbobot di \emph{graph database} yang menyediakan pengetahuan relasional terstruktur, dan indeks vektor di FAISS yang menyediakan pencarian semantik. Keduanya digunakan bersama-sama pada mekanisme \emph{hybrid retrieval} yang dijelaskan pada subbagian berikutnya.
@@ -328,9 +329,17 @@ Gambar~\ref{fig:bab3_hybrid_retrieval} mengilustrasikan alur pemrosesan kueri se
 \subsubsection{Pencegahan Kebocoran Data (\emph{Leakage})}
 \label{subsubsec:leakage}
 
-KG dibangun dari seluruh populasi SORD, sehingga pertanyaan yang digunakan untuk evaluasi juga terdapat di dalam graf beserta jawaban diterimanya, yaitu jawaban yang justru menjadi \emph{ground truth}. Tanpa pencegahan, \emph{retrieval} dapat menemukan kembali jawaban tersebut dan menghasilkan kinerja yang bias tinggi secara artifisial. Hal yang sama berlaku untuk pertanyaan yang ditandai komunitas sebagai \emph{Duplicate} dari pertanyaan evaluasi, karena jawabannya pada dasarnya merupakan jawaban atas pertanyaan yang sama.
+KG dibangun dari seluruh populasi SORD, sehingga pertanyaan yang digunakan untuk evaluasi juga terdapat di dalam graf beserta jawaban diterimanya, yaitu jawaban yang justru menjadi \emph{ground truth}. Korpus Kondisi B, yang memuat jawaban yang sama, juga mengandung jawaban tersebut. Tanpa pencegahan, \emph{retrieval} dapat menemukan kembali jawaban tersebut dan menghasilkan kinerja yang bias tinggi secara artifisial. Hal yang sama berlaku untuk pertanyaan yang ditandai komunitas sebagai \emph{Duplicate} dari pertanyaan evaluasi, serta pertanyaan yang isinya hampir identik dengan pertanyaan evaluasi meskipun tidak ditandai, karena jawabannya pada dasarnya merupakan jawaban atas pertanyaan yang sama.
 
-Oleh karena itu, untuk setiap pertanyaan evaluasi ditetapkan satu himpunan pengecualian yang berisi pertanyaan itu sendiri, seluruh jawabannya (diterima maupun tidak), serta pertanyaan yang terhubung dengannya melalui sisi \texttt{IS\_RELATED\_TO} bertipe \emph{Duplicate} beserta jawabannya. Himpunan ini dibentuk oleh satu aturan yang sama untuk Kondisi B, C, dan D. Pada Kondisi C dan D, yang berbagi satu graf untuk seluruh populasi, pengecualian diterapkan pada setiap kueri, yaitu pada hasil \emph{anchoring}, pada setiap simpul yang dilewati traversal, dan pada \emph{semantic expansion}. Pertanyaan yang hanya bertautan \emph{Linked} tidak dikecualikan, karena tautan tersebut menandai topik yang berkaitan, bukan pertanyaan yang sama.
+Oleh karena itu, untuk setiap pertanyaan evaluasi ditetapkan satu himpunan pengecualian yang berisi:
+\begin{enumerate}
+    \item pertanyaan itu sendiri beserta seluruh jawabannya (diterima maupun tidak);
+    \item pertanyaan yang terhubung dengannya melalui sisi \texttt{IS\_RELATED\_TO} bertipe \emph{Duplicate}, ke kedua arah, beserta seluruh jawabannya; dan
+    \item pertanyaan \emph{near-duplicate}, yaitu pertanyaan yang \emph{embedding} judul dan isinya memiliki kemiripan kosinus $\geq 0{,}95$ dengan pertanyaan evaluasi, beserta seluruh jawabannya.
+\end{enumerate}
+Pengecualian ditetapkan hanya berdasarkan identitas dan kemiripan pertanyaan, tidak pernah berdasarkan isi \emph{accepted answer}, sehingga aturan ini tidak memanfaatkan pengetahuan tentang \emph{ground truth}. Himpunan ini dibentuk oleh satu aturan yang sama dan diterapkan per kueri pada Kondisi B, C, dan D: kandidat diambil lebih banyak dari yang diperlukan, kandidat yang termasuk himpunan pengecualian dibuang, lalu hasilnya dipotong menjadi $k$ item. Pada Kondisi C dan D, yang berbagi satu graf untuk seluruh populasi, pengecualian diterapkan pada hasil \emph{anchoring}, pada setiap simpul yang dilewati traversal, dan pada \emph{semantic expansion}. Setiap kondisi memeriksa per kueri bahwa irisan hasil \emph{retrieval} dan himpunan pengecualian kosong.
+
+Pertanyaan yang hanya bertautan \emph{Linked} tidak dikecualikan, karena tautan tersebut menandai topik yang berkaitan dan merupakan pengetahuan komunitas yang sah, bukan pertanyaan yang sama. Kebocoran diukur pada setiap \emph{run} dengan dua metrik, yaitu proporsi pertanyaan yang konteksnya memuat identitas dari himpunan pengecualian, dan proporsi item konteks yang memiliki kemiripan kosinus $\geq 0{,}95$ dengan \emph{accepted answer}. Metrik kedua hanya digunakan sebagai alat ukur, bukan sebagai penyaring.
 
 %------------------------------------------------------------
 \subsection{Desain \emph{Grounded Generation}}
@@ -338,7 +347,7 @@ Oleh karena itu, untuk setiap pertanyaan evaluasi ditetapkan satu himpunan penge
 
 \emph{Grounded generation} merupakan implementasi Blok 3 dalam \emph{GraphRAG Framework}. Tahap ini bertujuan menghasilkan jawaban yang berlandaskan pada pengetahuan yang diperoleh melalui \emph{hybrid retrieval}, sehingga LLM tidak hanya mengandalkan \emph{parametric knowledge}. Masukan utama pada tahap ini adalah \emph{unified context window}.
 
-Agar perbandingan antarkondisi valid, seluruh kondisi menggunakan struktur \emph{prompt} yang sama, yaitu empat giliran percakapan yang mereplikasi \textcite{DaSilva2025}: (1) persona umum \emph{software engineering}, (2) persona spesifik yang dibentuk dari tag pertanyaan, (3) konfirmasi persona oleh asisten, dan (4) pertanyaan beserta deskripsinya. Satu-satunya perbedaan antarkondisi adalah ada atau tidaknya konteks hasil \emph{retrieval} beserta instruksi pengendaliannya pada giliran keempat.
+Agar perbandingan antarkondisi valid, seluruh kondisi menggunakan struktur \emph{prompt} yang sama, yaitu empat giliran percakapan yang mereplikasi \textcite{DaSilva2025}: (1) persona umum \emph{software engineering}, (2) persona spesifik yang dibentuk dari tag pertanyaan, (3) konfirmasi persona oleh asisten, dan (4) pertanyaan beserta deskripsinya. Pada Kondisi B, C, dan D, intervensi \emph{retrieval} dan pengendaliannya ditambahkan di dua tempat. Pertama, giliran pertama ditambah aturan pengutipan sumber, dan pada keadaan \emph{grounding} aktif juga larangan membuat klaim di luar konteks. Kedua, giliran keempat memuat konteks hasil \emph{retrieval}, instruksi pengendaliannya, dan pengingat singkat di akhir giliran. Kondisi A menggunakan keempat giliran tanpa tambahan. Kedua tambahan tersebut merupakan bagian dari intervensi yang diuji, dan teksnya identik pada Kondisi B, C, dan D, sehingga perbedaan di antara ketiga kondisi tersebut hanya terletak pada isi konteks.
 
 \subsubsection{Mekanisme \emph{Dual-Constraint}}
 
@@ -386,9 +395,9 @@ Kondisi A mereplikasi protokol \textcite{DaSilva2025}, yaitu setiap pertanyaan d
 Terkait parameter generasi, \textcite{DaSilva2025} menyatakan bahwa model dijalankan dengan konfigurasi bawaan, termasuk \emph{temperature} dan panjang konteks, tanpa penyetelan hiperparameter tambahan, agar evaluasi mencerminkan cara pengguna pada umumnya berinteraksi dengan model. Penelitian ini mengikuti ketentuan tersebut: panggilan API untuk generasi jawaban tidak menyertakan parameter \emph{temperature} maupun batas token keluaran, sehingga yang berlaku adalah nilai bawaan penyedia. Konfigurasi yang sama diterapkan pada keempat kondisi, sehingga perbedaan hasil antarkondisi tidak berasal dari perbedaan pengaturan generasi.
 
 \subsubsection{Kondisi B: RAG Konvensional}
-Korpus \emph{retrieval} Kondisi B berupa pasangan judul pertanyaan dan isi jawaban, yang dipotong menjadi \emph{chunk} berukuran paling banyak 400 token tanpa tumpang-tindih, lalu diindeks ke FAISS menggunakan model \emph{embedding} yang sama dengan Kondisi C. Judul pertanyaan disertakan pada setiap \emph{chunk} karena jawaban Stack Overflow sering kali ambigu tanpa konteks pertanyaannya. Kebocoran data dicegah dengan aturan pengecualian yang sama dengan Kondisi C dan D (Subbab~\ref{subsubsec:leakage}). Pada waktu inferensi, $k{=}5$ \emph{chunk} dengan kemiripan kosinus tertinggi terhadap kueri dimasukkan ke dalam \emph{prompt}. Kondisi B menggunakan teks instruksi yang identik dengan Kondisi C, sehingga perbandingan keterlacakan antara B dan C bersifat adil.
+Korpus \emph{retrieval} Kondisi B memuat \emph{seluruh} populasi jawaban SORD yang juga dimuat dalam KG Kondisi C dan D. Setiap jawaban direpresentasikan oleh satu vektor dari teks berupa judul pertanyaan induknya diikuti isi jawaban, dipotong pada batas 400 token, tanpa pemecahan menjadi beberapa \emph{chunk}. Representasi ini identik dengan teks kandidat yang dinilai dan ditampilkan kepada LLM pada Kondisi C. Judul pertanyaan disertakan karena jawaban Stack Overflow sering kali ambigu tanpa konteks pertanyaannya. Vektor diindeks ke FAISS menggunakan model \emph{embedding} yang sama dengan Kondisi C, dan teks kueri dibentuk dengan cara yang sama dengan Kondisi C. Kebocoran data dicegah dengan aturan pengecualian per kueri yang sama dengan Kondisi C dan D (Subbab~\ref{subsubsec:leakage}). Pada waktu inferensi, $k{=}5$ jawaban dengan kemiripan kosinus tertinggi terhadap kueri dimasukkan ke dalam \emph{prompt}. Kondisi B menggunakan teks instruksi yang identik dengan Kondisi C, sehingga perbandingan keterlacakan antara B dan C bersifat adil.
 
-Korpus Kondisi B memuat \emph{seluruh} populasi jawaban SORD yang juga dimuat dalam KG Kondisi C dan D. Dengan demikian, Kondisi B, C, dan D mengakses kumpulan pengetahuan yang identik, menggunakan model \emph{embedding} yang sama, dan memasukkan jumlah konteks yang sama ($k{=}5$) ke dalam \emph{prompt}. Perbedaan di antara ketiganya terletak pada cara konteks dipilih, yaitu kemiripan vektor datar pada B, struktur graf dan sinyal kepercayaan pada C, serta struktur graf tanpa sinyal kepercayaan pada D.
+Dengan demikian, Kondisi B, C, dan D mengakses kumpulan pengetahuan yang identik, menggunakan model \emph{embedding}, teks kueri, dan representasi teks jawaban yang sama, serta memasukkan jumlah konteks yang sama ($k{=}5$) ke dalam \emph{prompt}. Perbedaan di antara ketiganya terletak pada cara konteks dipilih, yaitu kemiripan vektor datar pada B, struktur graf dan sinyal kepercayaan pada C, serta struktur graf tanpa sinyal kepercayaan pada D. Kondisi B tidak menggunakan relasi graf maupun sinyal kepercayaan apa pun pada saat \emph{retrieval}.
 
 \subsubsection{Kondisi C: GraphRAG dengan Sinyal Kepercayaan}
 Kondisi C merupakan implementasi penuh \emph{GraphRAG Framework} yang diusulkan, dengan mekanisme \emph{hybrid retrieval} tiga tahap (\emph{entity anchoring}, \emph{graph traversal}, dan \emph{semantic expansion}) sebagaimana dijelaskan pada Subbab~\ref{subsec:desain-retrieval}. Kandidat konteks diperingkat menggunakan skor akhir pada Persamaan~\eqref{eq:final-score}, yang menggabungkan relevansi dan kepercayaan dengan bobot $\alpha$. Bobot $\alpha$ merupakan satu-satunya parameter \emph{retrieval} yang disetel dalam penelitian ini. Nilainya dipilih pada \emph{development set} yang terpisah dari sampel uji melalui prosedur dua tahap yang ditetapkan sebelum data dilihat (Subbab~\ref{subsubsec:prosedur-alpha}), lalu dikunci sebelum evaluasi pada sampel uji.
@@ -416,9 +425,10 @@ Hasil kedua tingkat dideduplikasi, diurutkan berdasarkan skor relevansi saja, da
 \emph{Retrieval} & -- & \emph{Dense} & \emph{Hybrid} & \emph{Dual-level} \\
 Sinyal kepercayaan & -- & tidak & $\alpha^{*}$ (utama) / $\alpha^{\mathrm{abl}}$ (ablasi) & tidak \\
 \emph{Semantic expansion} & -- & -- & ya & tidak \\
-Konteks & -- & 5 \emph{chunk} & 5 item & 5 item \\
+Konteks & -- & 5 jawaban & 5 item & $\leq 5$ item \\
 \emph{Grounding} & -- & ya / tidak & ya / tidak & ya / tidak \\
 \emph{Citation} & -- & ya & ya & ya \\
+Pengecualian kebocoran & -- & ya & ya & ya \\
 \emph{Prompt} & \multicolumn{4}{c|}{Struktur percakapan empat giliran yang sama} \\
 \hline
 \end{tabular}
@@ -456,8 +466,8 @@ Seluruh penyetelan, yaitu pemilihan $\alpha$, perumusan instruksi \emph{prompt},
 \label{subsubsec:prosedur-alpha}
 Nilai $\alpha$ dipilih dari lima kandidat, $\alpha \in \{0;\ 0{,}25;\ 0{,}5;\ 0{,}75;\ 1\}$, melalui dua tahap pada \emph{development set}. Kandidat, kriteria, dan aturan seri ditetapkan dan dicatat sebelum hasil tahap mana pun dilihat.
 \begin{enumerate}
-    \item \textbf{Tahap 1: relevansi konteks.} Untuk setiap kandidat, \emph{retrieval} Kondisi C dijalankan tanpa pembangkitan jawaban, lalu setiap item konteks dinilai relevansinya oleh \emph{judge} relevansi konteks. Kriteria utama adalah persentase pertanyaan yang memiliki sedikitnya satu item konteks relevan. Selisih paling banyak satu pertanyaan dianggap seri, dan seri dipecahkan dengan rata-rata skor relevansi. Dua kandidat terbaik dilanjutkan ke tahap~2. Sebelum tahap ini, \emph{judge} relevansi konteks diuji dengan item kontrol positif (\emph{accepted answer} pertanyaan itu sendiri) dan kontrol negatif (jawaban dari pertanyaan yang tidak berkaitan), dan baru digunakan apabila memenuhi ambang kontrol yang ditetapkan.
-    \item \textbf{Tahap 2: halusinasi.} Untuk kedua kandidat, jawaban dibangkitkan dengan \emph{grounding} aktif dan tidak aktif, lalu dinilai dengan \emph{judge} halusinasi yang telah divalidasi dan dibekukan (Subbab~\ref{subsubsec:validasi-judge}). Kriteria utama adalah \emph{hallucination rate} biner tanpa \texttt{ABSTAIN}, digabung untuk kedua keadaan \emph{grounding}, dengan margin seri dua jawaban. Seri dipecahkan dengan \emph{hallucination rate} yang menghitung \texttt{ABSTAIN} sebagai jawaban nonfaktual. Apabila masih seri, dipilih $\alpha$ yang lebih besar, karena kontribusi yang diuji adalah sinyal kepercayaan.
+    \item \textbf{Tahap 1: relevansi konteks.} Untuk setiap kandidat, \emph{retrieval} Kondisi C dijalankan tanpa pembangkitan jawaban, lalu setiap item konteks dinilai relevansinya oleh \emph{judge} relevansi konteks. Kriteria utama adalah persentase pertanyaan yang memiliki sedikitnya satu item konteks relevan. Selisih paling banyak satu pertanyaan dianggap seri, dan seri dipecahkan dengan rata-rata skor relevansi, dengan selisih paling banyak 0,02 tetap dianggap seri. Apabila masih seri pada kedua kriteria, $\alpha$ yang lebih besar ditempatkan lebih dahulu, karena kontribusi yang diuji adalah sinyal kepercayaan. Dua kandidat terbaik dilanjutkan ke tahap~2. Sebelum tahap ini, \emph{judge} relevansi konteks diuji dengan item kontrol positif (\emph{accepted answer} pertanyaan itu sendiri) dan kontrol negatif (jawaban dari pertanyaan yang tidak berkaitan), dan baru digunakan apabila memenuhi ambang kontrol yang ditetapkan.
+    \item \textbf{Tahap 2: halusinasi.} Untuk kedua kandidat, jawaban dibangkitkan dengan \emph{grounding} aktif dan tidak aktif, lalu dinilai dengan \emph{judge} halusinasi yang telah divalidasi dan dibekukan (Subbab~\ref{subsubsec:validasi-judge}). Kriteria utama adalah \emph{hallucination rate} biner tanpa \texttt{ABSTAIN}, digabung untuk kedua keadaan \emph{grounding}, dengan margin seri dua jawaban. Seri dipecahkan dengan \emph{hallucination rate} yang menghitung \texttt{ABSTAIN} sebagai jawaban nonfaktual. Apabila masih seri, dipilih $\alpha$ yang lebih besar, dengan alasan yang sama seperti pada tahap~1.
 \end{enumerate}
 
 \subsubsection{Faktor Eksperimen dan Ablasi}
@@ -505,13 +515,15 @@ Seluruh kondisi menggunakan model LLM yang sama, yaitu \texttt{gpt-4o-mini}, seh
 
 \subsubsection{Validasi \emph{Judge} terhadap Anotasi Manusia}
 \label{subsubsec:validasi-judge}
-Kesepakatan antar-\emph{judge} saja tidak cukup untuk membuktikan bahwa \emph{judge} menilai dengan benar, karena dua \emph{judge} dapat sepakat pada penilaian yang sama-sama keliru. Oleh karena itu, \emph{judge} halusinasi divalidasi terhadap anotasi manusia sebelum digunakan untuk seleksi parameter maupun evaluasi akhir. Rancangannya adalah sebagai berikut.
+Kesepakatan antar-\emph{judge} saja tidak cukup untuk membuktikan bahwa \emph{judge} menilai dengan benar, karena dua \emph{judge} dapat sepakat pada penilaian yang sama-sama keliru. Oleh karena itu, \emph{judge} halusinasi divalidasi terhadap anotasi manusia sebelum digunakan untuk seleksi parameter maupun evaluasi akhir.Rancangannya adalah sebagai berikut.
+
 \begin{enumerate}
     \item \textbf{Set kalibrasi.} Jawaban digenerasi pada \emph{development set} oleh Kondisi A, Kondisi B tanpa \emph{grounding}, dan Kondisi B dengan \emph{grounding}. Ketiga kondisi ini dipilih karena tidak bergantung pada parameter Kondisi C yang sedang dipilih. Sebanyak 60 item diambil secara terstratifikasi (20 per kondisi).
     \item \textbf{Anotasi buta.} Anotator hanya melihat pertanyaan, \emph{accepted answer} sebagai referensi, dan jawaban kandidat yang label kutipannya telah dihapus, yaitu masukan yang sama persis dengan masukan \emph{judge}. Anotator tidak mengetahui kondisi asal jawaban maupun label \emph{judge}. Anotasi mengikuti pedoman tertulis yang menggunakan definisi yang sama dengan \emph{prompt judge}.
     \item \textbf{Dua anotator.} Peneliti menganotasi seluruh 60 item, dan anotator kedua menganotasi 30 item di antaranya. Kesepakatan antaranotator dilaporkan sebelum perbedaan diselesaikan melalui diskusi, dan label hasil diskusi menjadi referensi.
     \item \textbf{Kriteria penerimaan.} Kesepakatan \emph{judge} utama terhadap referensi manusia diukur dengan Cohen's~$\kappa$ tak berbobot pada tiga kategori (\texttt{ABSTAIN}, tidak berhalusinasi, berhalusinasi), dengan target $\kappa \geq 0{,}6$ \autocite{Gu2026}. \emph{Prompt judge} boleh direvisi paling banyak tiga kali. Apabila target tidak tercapai, versi dengan $\kappa$ tertinggi dibekukan dan hal tersebut dilaporkan sebagai keterbatasan.
     \item \textbf{Set konfirmasi.} Setelah \emph{prompt} dan konfigurasi \emph{judge} dikunci, diambil 30 item baru dari keluaran tahap~2 yang tidak digunakan saat kalibrasi. Anotator manusia memberi label pada item tersebut tanpa melihat label \emph{judge} terlebih dahulu. Kesepakatan antara label manusia dan label \emph{judge} pada set ini digunakan sebagai estimasi reliabilitas \emph{judge} terhadap data yang belum pernah dilihat selama kalibrasi.
+    \item \textbf{Probe bias \emph{judge}.} Pada \emph{development set}, tiga sumber bias \emph{judge} diukur secara deskriptif: bias otoritas (perubahan label ketika label kutipan dibiarkan), bias urutan (perubahan label ketika urutan item konteks diacak), dan bias panjang (korelasi panjang jawaban dengan label halusinasi per kondisi).
 \end{enumerate}
 
 \subsubsection{Metrik Evaluasi}
@@ -525,7 +537,9 @@ Kinerja sistem dievaluasi menggunakan metrik yang mencakup empat dimensi evaluas
     \item \texttt{ABSTAIN} dikeluarkan dari perhitungan. Versi ini menjadi metrik utama.
     \item \texttt{ABSTAIN} dihitung sebagai jawaban yang gagal. Versi ini dilaporkan sebagai pelengkap untuk menunjukkan apakah \emph{hallucination rate} yang rendah disebabkan oleh tingginya proporsi \texttt{ABSTAIN}.
 \end{enumerate}
-Selain itu, tiga hal dilaporkan secara deskriptif: tingkat keparahan halusinasi (\emph{penuh} jika kesalahan mengenai solusi utama, \emph{sebagian} jika hanya mengenai detail pendukung), proporsi \texttt{ABSTAIN}, dan proporsi klaim yang tidak dapat diverifikasi.
+Selain itu, tiga hal dilaporkan secara deskriptif: tingkat  halusinasi (\emph{penuh} jika kesalahan mengenai solusi utama, \emph{sebagian} jika hanya mengenai detail pendukung), proporsi \texttt{ABSTAIN}, dan proporsi klaim yang tidak dapat diverifikasi.
+
+Dengan aturan tetap yang sama, dua metrik turunan dihitung dari label per klaim untuk Kondisi B, C, dan D. \emph{Faithfulness} adalah proporsi klaim jawaban yang didukung konteks hasil \emph{retrieval}, sedangkan \emph{citation support} adalah proporsi klaim berkutipan yang benar-benar didukung oleh item konteks yang dikutip. Keduanya tidak dihitung untuk Kondisi A, karena kondisi tersebut tidak memiliki konteks.
 
 \subsubsection{\emph{Checklist} Pemenuhan Kebutuhan Fungsional F1--F6}
 
@@ -537,7 +551,7 @@ Selain evaluasi berbasis metrik kuantitatif, penelitian ini menyertakan verifika
 
 Hasil setiap kondisi dilaporkan secara deskriptif. Untuk \emph{hallucination rate}, dilaporkan jumlah dan persentase jawaban yang berhalusinasi pada setiap kondisi, beserta selisih persentase antarkondisi pada setiap perbandingan.
 
-Karena setiap kondisi menjawab pertanyaan yang sama, setiap perbandingan utama dan perbandingan C-utama terhadap C-ablasi juga dilaporkan dalam bentuk hitungan berpasangan per pertanyaan, yaitu jumlah pertanyaan yang berhalusinasi hanya pada kondisi pertama, hanya pada kondisi kedua, pada keduanya, dan tidak pada keduanya. Hitungan ini menunjukkan apakah selisih persentase berasal dari perbaikan yang konsisten atau dari pertukaran kesalahan pada pertanyaan yang berbeda. Untuk metrik kontinu, yaitu \emph{cosine similarity}, \emph{faithfulness}, relevansi konteks, dan latensi, dilaporkan nilai rata-rata dan median setiap kondisi.
+Karena setiap kondisi menjawab pertanyaan yang sama, setiap perbandingan utama dan perbandingan C-utama terhadap C-ablasi juga dilaporkan dalam bentuk hitungan berpasangan per pertanyaan, yaitu jumlah pertanyaan yang berhalusinasi hanya pada kondisi pertama, hanya pada kondisi kedua, pada keduanya, dan tidak pada keduanya. Hitungan ini menunjukkan apakah selisih persentase berasal dari perbaikan yang konsisten atau dari pertukaran kesalahan pada pertanyaan yang berbeda. Untuk metrik kontinu, yaitu \emph{cosine similarity}, \emph{faithfulness}, \emph{citation support}, relevansi konteks, dan latensi, dilaporkan nilai rata-rata dan median setiap kondisi.
 
 \subsubsection{Studi Kasus Kualitatif untuk \emph{Provenance} dan Keterlacakan}
 
@@ -565,8 +579,8 @@ Berdasarkan desain evaluasi dan metrik yang telah dirumuskan pada bab ini, penel
 
 \begin{enumerate}
     \item \emph{GraphRAG Framework} (Kondisi C-utama) diharapkan menghasilkan \emph{hallucination rate} yang lebih rendah dibandingkan Kondisi A (LLM murni), Kondisi B (RAG konvensional), dan Kondisi D (GraphRAG tanpa sinyal kepercayaan) pada sampel uji.
-    
-    \item Pemeringkatan konteks yang menyertakan sinyal kepercayaan komunitas Stack Overflow (C-utama) diharapkan menghasilkan jawaban yang lebih faktual dibandingkan C-ablasi pada struktur \emph{retrieval} yang identik.
+
+    \item Pemeringkatan konteks yang menyertakan sinyal kepercayaan komunitas Stack Overflow diharapkan menghasilkan jawaban yang lebih faktual dibandingkan pemeringkatan tanpa atau dengan bobot kepercayaan yang berbeda pada struktur graf yang sama, yaitu Kondisi D dan C-ablasi, maupun dibandingkan \emph{dense retrieval} (Kondisi B).
 
     \item Mekanisme \emph{grounded generation} dengan \emph{dual-constraint} diharapkan menghasilkan jawaban dengan kutipan valid ke \emph{thread} Stack Overflow asal dan catatan \emph{provenance} yang dapat ditelusuri, sehingga memenuhi kebutuhan keterlacakan (F5, NF2) sebagaimana didefinisikan pada Tabel~\ref{tab:checklist-f1-f6}.
 
