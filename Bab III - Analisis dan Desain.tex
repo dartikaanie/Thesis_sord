@@ -147,7 +147,7 @@ Berdasarkan identifikasi masalah dan kebutuhan tersebut, ditetapkan empat altern
 \label{subsec:penentuan-solusi}
 \input{tables/bab3_komparasi_solusi.tex}
 Tabel~\ref{tab:komparasi-solusi} menyajikan matriks komparasi keempat alternatif terhadap kebutuhan yang telah diidentifikasi, berdasarkan analisis desain sebelum evaluasi dilakukan. Matriks ini sekaligus mendefinisikan posisi \emph{improvement} yang diklaim penelitian ini. Berdasarkan matriks tersebut, Kondisi C (\emph{GraphRAG Framework} berbobot kepercayaan) dipilih sebagai solusi yang dikembangkan, karena merupakan satu-satunya alternatif yang memanfaatkan sinyal kepercayaan komunitas (G2) sekaligus struktur relasional (G3).
-Kondisi A, B, dan D tetap diimplementasikan sebagai pembanding dalam protokol evaluasi komparatif (F6). Perbandingan C terhadap A mengukur manfaat \emph{grounding} berbasis Stack Overflow secara keseluruhan, perbandingan C terhadap B mengukur manfaat struktur graf dan sinyal kepercayaan dibandingkan \emph{dense retrieval}, dan perbandingan C terhadap D mengukur manfaat sinyal kepercayaan secara spesifik pada struktur graf yang identik.
+Kondisi A, B, dan D tetap diimplementasikan sebagai pembanding dalam protokol evaluasi komparatif (F6). Perbandingan C terhadap A mengukur manfaat \emph{grounding} berbasis Stack Overflow secara keseluruhan, perbandingan C terhadap B mengukur manfaat struktur graf dan sinyal kepercayaan dibandingkan \emph{dense retrieval}, dan perbandingan C terhadap D mengukur manfaat mekanisme \emph{retrieval} Kondisi C, yaitu pemeringkatan berbobot kepercayaan dan \emph{semantic expansion}, dibandingkan \emph{dual-level retrieval} pada graf yang sama. Kontribusi sinyal kepercayaan secara terpisah diukur melalui perbandingan C-utama terhadap C-ablasi (Subbab~\ref{subsec:desain-evaluasi}).
 
 %============================================================
 \section{Desain \emph{GraphRAG Framework}}
@@ -566,7 +566,7 @@ Berdasarkan desain evaluasi dan metrik yang telah dirumuskan pada bab ini, penel
 \begin{enumerate}
     \item \emph{GraphRAG Framework} (Kondisi C-utama) diharapkan menghasilkan \emph{hallucination rate} yang lebih rendah dibandingkan Kondisi A (LLM murni), Kondisi B (RAG konvensional), dan Kondisi D (GraphRAG tanpa sinyal kepercayaan) pada sampel uji.
     
-    \item Pemeringkatan konteks yang menyertakan sinyal kepercayaan komunitas Stack Overflow diharapkan menghasilkan jawaban yang lebih faktual dibandingkan pemeringkatan tanpa atau dengan bobot kepercayaan yang berbeda pada struktur graf yang sama, yaitu Kondisi D dan C-ablasi, maupun dibandingkan \emph{dense retrieval} (Kondisi B).
+    \item Pemeringkatan konteks yang menyertakan sinyal kepercayaan komunitas Stack Overflow (C-utama) diharapkan menghasilkan jawaban yang lebih faktual dibandingkan C-ablasi pada struktur \emph{retrieval} yang identik.
 
     \item Mekanisme \emph{grounded generation} dengan \emph{dual-constraint} diharapkan menghasilkan jawaban dengan kutipan valid ke \emph{thread} Stack Overflow asal dan catatan \emph{provenance} yang dapat ditelusuri, sehingga memenuhi kebutuhan keterlacakan (F5, NF2) sebagaimana didefinisikan pada Tabel~\ref{tab:checklist-f1-f6}.
 
