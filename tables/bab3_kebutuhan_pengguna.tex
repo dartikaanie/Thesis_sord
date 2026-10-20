@@ -11,26 +11,26 @@
 \textbf{No.} & \textbf{Masalah Pengguna} & \textbf{Akar Penyebab (Gap)} &
 \textbf{Kebutuhan Solusi} \\
 \hline
-M1 & LLM memberikan jawaban keliru atau halusinasi pada domain Framework
-    \& Library &
-    G1: Absennya \emph{grounding} eksternal &
-    Jawaban di-\emph{ground} pada konten SO terverifikasi \\
+    M1 & LLM menghasilkan jawaban yang keliru atau mengalami halusinasi 
+    G1: Keterbatasan \emph{grounding} pada sumber pengetahuan eksternal &
+    Menggunakan konteks dari konten Stack Overflow (SO) yang relevan dan terverifikasi sebagai dasar penyusunan jawaban \\
 \hline
-M2 & Kualitas jawaban tidak mencerminkan konsensus komunitas SO &
+    M2 & Kualitas jawaban tidak mencerminkan konsensus komunitas SO &
     G2: Sinyal kepercayaan tidak dieksploitasi &
-    Bobot kepercayaan (\emph{upvote}, \emph{accepted}) dikodekan dalam KG \\
+    Memanfaatkan bobot kepercayaan (\emph{upvote}, \emph{accepted}) \\
 \hline
-M3 & Tidak dapat menelusuri dari mana jawaban berasal &
-    G1 + G2: Tidak ada mekanisme \emph{citation} &
-    Setiap jawaban menyertakan referensi ke SO thread \\
+    M3 & Kesulitan menelusuri sumber yang mendasari jawaban &
+    Keterbatasan mekanisme sitasi dan pelacakan provenance jawaban &
+    Menyertakan referensi ke thread SO serta jalur relasional yang mendukung pengambilan konteks \\
 \hline
-M4 & Jawaban tidak dapat menangani pertanyaan relasional kompleks &
-    G3: Tidak ada penalaran berbasis struktur graf &
-    Traversal graf untuk menghubungkan entitas terkait \\
+    M4 & Sistem kesulitan menghubungkan informasi dari beberapa pertanyaan atau thread yang saling berkaitan &
+    G3: Belum optimalnya pemanfaatan struktur graf untuk pengambilan konteks relasional &
+    Melakukan traversal graf untuk menemukan dan menghubungkan pertanyaan, jawaban, serta entitas terkait \\
 \hline
-M5 & Pengetahuan LLM tidak mencakup versi \emph{library} terbaru &
-    G1 + G2: \emph{Knowledge cutoff} tanpa mekanisme pembaruan &
-    Pembaruan KG tanpa \emph{re-training} LLM \\
+    M5 & Pengetahuan LLM tidak secara otomatis mengikuti perkembangan teknologi &
+    Keterbatasan pembaruan pengetahuan parametrik tanpa \emph{fine-tuning} atau \emph{re-training} &
+    Memperbarui korpus dan indeks KG secara terpisah dari model bahasa agar informasi baru dapat digunakan tanpa melatih ulang LLM \\
 \hline
 \end{tabularx}
 \end{table}
+

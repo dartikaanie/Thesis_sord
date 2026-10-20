@@ -11,11 +11,11 @@
 \hline
 NF1 & Akurasi &
     Jawaban lebih faktual dari kondisi \emph{baseline} &
-    \emph{Hallucination rate} Kondisi C lebih rendah dari Kondisi A (replikasi \textcite{DaSilva2025}) secara statistik signifikan ($\alpha = 0{,}05$) \\
+    \emph{Hallucination rate} Kondisi C lebih rendah dari Kondisi lainnya \\
 \hline
 NF2 & Keterlacakan &
     Setiap jawaban memiliki referensi yang valid ke \emph{thread} Stack Overflow &
-    $100\%$ jawaban Kondisi C memuat $\geq 1$ kutipan yang labelnya terdapat dalam konteks \\
+    Jawaban Kondisi C memuat $\geq 1$ kutipan yang labelnya terdapat dalam konteks \\
 \hline
 NF3 & Latensi &
     Waktu \emph{retrieval} yang wajar untuk pengguna &
@@ -25,13 +25,6 @@ NF4 & Reprodusibilitas &
     Hasil evaluasi dapat direproduksi &
     \emph{Seed} tetap, pemeringkatan deterministik, konfigurasi setiap \emph{run} tercatat, serta kode dipublikasikan secara terbuka \\
 \hline
-NF5 & Modularitas &
-    Komponen KG, \emph{retrieval}, dan LLM dapat dikonfigurasi &
-    Setiap komponen dan saklar ablasi dapat diubah melalui konfigurasi tanpa mengubah kode \\
-\hline
-NF6 & Skalabilitas &
-    Mendukung seluruh populasi SORD &
-    KG dengan $> 2{,}6$ juta simpul \texttt{Question} dapat dibangun dan di-\emph{query} pada laptop dengan RAM 8~GB \\
-\hline
+
 \end{tabularx}
 \end{table}

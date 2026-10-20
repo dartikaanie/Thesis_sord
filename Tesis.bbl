@@ -250,6 +250,55 @@
       \verb 10.1016/j.aei.2026.104560
       \endverb
     \endentry
+    \entry{Bruch2023}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=1765e1db35ec77f2bcd0b71be3280a5f}{%
+           family={Bruch},
+           familyi={B\bibinitperiod},
+           given={Sebastian},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2f99b55d287031a406303807e3e67686}{%
+           family={Gai},
+           familyi={G\bibinitperiod},
+           given={Siyu},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b98d831fc2951a555f3c74866d4c36df}{%
+           family={Ingber},
+           familyi={I\bibinitperiod},
+           given={Amir},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {ACM}%
+      }
+      \strng{namehash}{583342968877e279b54962a7198c4f78}
+      \strng{fullhash}{583342968877e279b54962a7198c4f78}
+      \strng{fullhashraw}{583342968877e279b54962a7198c4f78}
+      \strng{bibnamehash}{583342968877e279b54962a7198c4f78}
+      \strng{authorbibnamehash}{583342968877e279b54962a7198c4f78}
+      \strng{authornamehash}{583342968877e279b54962a7198c4f78}
+      \strng{authorfullhash}{583342968877e279b54962a7198c4f78}
+      \strng{authorfullhashraw}{583342968877e279b54962a7198c4f78}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{author}
+      \field{journaltitle}{ACM Transactions on Information Systems}
+      \field{number}{1}
+      \field{title}{An Analysis of Fusion Functions for Hybrid Retrieval}
+      \field{volume}{42}
+      \field{year}{2023}
+      \field{pages}{20:1\bibrangedash 20:35}
+      \range{pages}{-1}
+      \verb{doi}
+      \verb 10.1145/3596512
+      \endverb
+    \endentry
     \entry{Chang2026}{article}{}{}
       \true{moreauthor}
       \true{morelabelname}
@@ -1848,6 +1897,81 @@
       \range{pages}{1}
       \verb{doi}
       \verb 10.1016/j.infsof.2026.108171
+      \endverb
+    \endentry
+    \entry{sarmah2024hybridrag}{inproceedings}{}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=775d82149307ea260f37f40d63d0599e}{%
+           family={Sarmah},
+           familyi={S\bibinitperiod},
+           given={Bhaskarjit},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d739a6477a7a8a18c91725bfcd4ea50a}{%
+           family={Mehta},
+           familyi={M\bibinitperiod},
+           given={Dhagash},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8acd32895877e1a458fcaecf766dc8c5}{%
+           family={Hall},
+           familyi={H\bibinitperiod},
+           given={Benika},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=43e8d5dd0786713d65ea1a46110d25ef}{%
+           family={Rao},
+           familyi={R\bibinitperiod},
+           given={Rohan},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6efe8157a7b1fa80cc8a1ef6103fe559}{%
+           family={Patel},
+           familyi={P\bibinitperiod},
+           given={Sunil},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=3550fe3364d849579cf7b934a3ade70f}{%
+           family={Pasquali},
+           familyi={P\bibinitperiod},
+           given={Stefano},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{location}{1}{%
+        {Brooklyn, NY, USA}%
+      }
+      \list{publisher}{1}{%
+        {ACM}%
+      }
+      \strng{namehash}{99dbc6aaafda07c66547f62fa5c78754}
+      \strng{fullhash}{a6823900eb7e1119f7732d2c1420a878}
+      \strng{fullhashraw}{a6823900eb7e1119f7732d2c1420a878}
+      \strng{bibnamehash}{a6823900eb7e1119f7732d2c1420a878}
+      \strng{authorbibnamehash}{a6823900eb7e1119f7732d2c1420a878}
+      \strng{authornamehash}{99dbc6aaafda07c66547f62fa5c78754}
+      \strng{authorfullhash}{a6823900eb7e1119f7732d2c1420a878}
+      \strng{authorfullhashraw}{a6823900eb7e1119f7732d2c1420a878}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 5th ACM International Conference on AI in Finance}
+      \field{series}{ICAIF '24}
+      \field{title}{{HybridRAG}: Integrating Knowledge Graphs and Vector Retrieval Augmented Generation for Efficient Information Extraction}
+      \field{year}{2024}
+      \field{pages}{608\bibrangedash 616}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1145/3677052.3698671
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1145/3677052.3698671
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1145/3677052.3698671
       \endverb
     \endentry
     \entry{DaSilva2025}{article}{}{}

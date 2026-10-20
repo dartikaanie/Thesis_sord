@@ -1,9 +1,9 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.3.4)  13 OCT 2026 21:18
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.3.4)  20 OCT 2026 17:25
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**Tesis.tex
-(./Tesis.tex
+**tesis.tex
+(./tesis.tex
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
 (/usr/local/texlive/2026/texmf-dist/tex/latex/base/book.cls
@@ -1027,13 +1027,13 @@ Package csquotes Warning: No style for language 'indonesian'.
 (csquotes)                Using fallback style on input line 344.
 
 Package csquotes Info: Redefining alias 'default' -> 'fallback'.
-(./Tesis.aux
+(./tesis.aux
 (/usr/local/texlive/2026/texmf-dist/tex/generic/babel/locale/en/babel-english.t
 ex)
 Package babel Info: Importing data for english
-(babel)             from babel-en.ini. Reported on input line 67.
+(babel)             from babel-en.ini. Reported on input line 19.
 )
-\openout1 = `Tesis.aux'.
+\openout1 = `tesis.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 344.
 LaTeX Font Info:    ... okay on input line 344.
@@ -1194,9 +1194,9 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 Package hyperref Info: Link coloring ON on input line 344.
-(./Tesis.out) (./Tesis.out)
+(./tesis.out) (./tesis.out)
 \@outlinefile=\write4
-\openout4 = `Tesis.out'.
+\openout4 = `tesis.out'.
 
 Package biblatex Info: Trying to load language 'indonesian'...
 Package biblatex Info: ... file 'indonesian.lbx' not found.
@@ -1205,15 +1205,21 @@ Package biblatex Info: ... file 'indonesian.lbx' not found.
 Package biblatex Warning: Language 'indonesian' not supported.
 (biblatex)                Using dummy definitions on input line 344.
 
+Package biblatex Info: Trying to load language 'english'...
+Package biblatex Info: ... file 'english.lbx' found.
+(/usr/local/texlive/2026/texmf-dist/tex/latex/biblatex/lbx/english.lbx
+File: english.lbx 2025/07/10 v3.21 biblatex localization (PK/MW)
+)
 Package biblatex Info: XeTeX detected.
 (biblatex)             Assuming input encoding 'utf8'.
 Package biblatex Info: Automatic encoding selection.
 (biblatex)             Assuming data encoding 'utf8'.
-\openout3 = `Tesis.bcf'.
+\openout3 = `tesis.bcf'.
 
 Package biblatex Info: Trying to load bibliographic data...
-Package biblatex Info: ... file 'Tesis.bbl' found.
-(./Tesis.bbl)
+Package biblatex Info: ... file 'tesis.bbl' found.
+
+(./tesis.bbl)
 Package biblatex Info: Reference section=0 on input line 344.
 Package biblatex Info: Reference segment=0 on input line 344.
  (./1 Halaman Judul.tex
@@ -1351,298 +1357,87 @@ Package geometry Warning: `a4paper': not available in `\newgeometry'; skipped.
 (./6 Daftar Isi.tex [12
 
 
-] (./Tesis.toc)
+] (./tesis.toc
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [13]
+Underfull \hbox (badness 1019) in paragraph at lines 475--475
+ [][] [][][]\TU/TimesNewRoman(0)/m/n/12 Kemampuan \TU/TimesNewRoman(0)/m/it/12 
+Multi-hop Reasoning \TU/TimesNewRoman(0)/m/n/12 pada Perta- 
+ []
+
+
+Underfull \hbox (badness 1019) in paragraph at lines 488--488
+ [][] [][][]\TU/TimesNewRoman(0)/m/n/12 Analisis Lisensi sebagai Representasi D
+omain 
+ []
+
+
+Underfull \hbox (badness 3826) in paragraph at lines 491--491
+ [][] [][][]\TU/TimesNewRoman(0)/m/n/12 Implikasi terhadap Penelitian Berbasis 
+Stack 
+ []
+
+[14] [15] [16])
 \tf@toc=\write5
-\openout5 = `Tesis.toc'.
+\openout5 = `tesis.toc'.
 
-) (./7 Daftar Gambar.tex [13] [14
+) (./7 Daftar Gambar.tex [17] [18
 
-]
-(./Tesis.lof)
+] (./tesis.lof [19])
 \tf@lof=\write6
-\openout6 = `Tesis.lof'.
-
-) (./8 Daftar Tabel.tex [15] [16
-
-] (./Tesis.lot)
-\tf@lot=\write7
-\openout7 = `Tesis.lot'.
+\openout6 = `tesis.lof'.
 
 )
-(./12 Daftar Singkatan.tex [17] [18
+(./8 Daftar Tabel.tex [20] (./tesis.lot
+Underfull \hbox (badness 6825) in paragraph at lines 788--788
+ [][] [][][]\TU/TimesNewRoman(0)/m/n/12 Ringkasan komponen \TU/TimesNewRoman(0)
+/m/it/12 GraphRAG Framework \TU/TimesNewRoman(0)/m/n/12 dan kaitannya 
+ []
 
-]
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `lmtt' (encoding: TU).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+
+Underfull \vbox (badness 3547) has occurred while \output is active []
+
+ [21
+
+])
+\tf@lot=\write7
+\openout7 = `tesis.lot'.
+
+)
+(./12 Daftar Singkatan.tex [22]
 Overfull \hbox (2.66713pt too wide) in alignment at lines 15--53
  [] [] [] 
  []
 
 
-ignored: Infinite glue shrinkage found in box being split [19]) [20] (./Bab I - Pendahul
-uan.tex
+ignored: Infinite glue shrinkage found in box being split [23
+
+]) [24] (./Bab I - Pendahuluan.tex
 Bab I.
-
-Package biblatex Warning: No localisation for language 'english' loaded.
-(biblatex)                Please rerun LaTeX to ensure languages can
-(biblatex)                be requested properly.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Qin2025' on input line 8.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Ronanki2026' on input line 10.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Malamas2025' on input line 10.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Ji2023' on input line 12.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Ji2023' on input line 12.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Huang2025' on input line 12.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Chang2026' on input line 12.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
 [1
 
 
 
 ]
 
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Alomari2026' on input line 14.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Aldosari2026' on input line 14.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 14.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Ronanki2026' on input line 14.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 16.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Kabir2024' on input line 16.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Kabir2024' on input line 16.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
 Package biblatex-chicago Warning: Empty Ibidem citation on input line 16.
 
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Nashid2023' on input line 16.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
 [2]
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Lewis2020' on input line 18.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
+Underfull \hbox (badness 1365) in paragraph at lines 18--19
+[][][][][]\TU/TimesNewRoman(0)/m/n/12 Cruz Cabello, Sales, dan Machado ([][]202
+5[][])[] []menemukan bahwa RAG mampu
+ []
 
 
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'YizhengHuang2026' on input line 18.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DelaCruzCabello2025' on input line 18.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Ronanki2026' on input line 18.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'YizhengHuang2026' on input line 20.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-Package microtype Info: Loading generic protrusion settings for font family
-(microtype)             `lmtt' (encoding: TU).
-(microtype)             For optimal results, create family-specific settings.
-(microtype)             See the microtype manual for details.
-[3]
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Zhu2026' on input line 22.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
+Underfull \hbox (badness 2521) in paragraph at lines 18--19
+\TU/TimesNewRoman(0)/m/n/12 meningkatkan akurasi dan interpretabilitas jawaban 
+LLM tanpa memerlukan
+ []
 
 
 Underfull \hbox (badness 1303) in paragraph at lines 22--23
@@ -1650,201 +1445,10 @@ Underfull \hbox (badness 1303) in paragraph at lines 22--23
 )/m/n/12 (GraphRAG) yang mengintegrasikan struktur
  []
 
+[3]
+Underfull \vbox (badness 1412) has occurred while \output is active []
 
-Underfull \hbox (badness 1028) in paragraph at lines 22--23
-\TU/TimesNewRoman(0)/m/it/12 multi-hop\TU/TimesNewRoman(0)/m/n/12 . Ketiga, inf
-ormasi yang diperoleh dari graf diintegrasikan dengan
- []
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Pan2024' on input line 24.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Zhou2026' on input line 24.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Ali2026' on input line 24.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'BenKhalifa2026' on input line 24.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Gu2026' on input line 26.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 28.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Kabir2024' on input line 28.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Nashid2023' on input line 28.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Zhu2026' on input line 28.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Pan2024' on input line 28.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-[4]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 36.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Kabir2024' on input line 36.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Nashid2023' on input line 36.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Zhu2026' on input line 36.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Pan2024' on input line 36.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Chang2026' on input line 36.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Huang2025' on input line 36.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
+ [4]
 Underfull \vbox (badness 7722) has occurred while \output is active []
 
  [5]
@@ -1871,159 +1475,13 @@ grounding \TU/TimesNewRoman(0)/m/n/12 faktual yang lebih kuat disertai jalur
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [7]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Fatima2026' on input line 115.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [8]
 
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Fatima2026' on input line 122.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
 Package biblatex-chicago Warning: Empty Ibidem citation on input line 122.
 
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Ji2023' on input line 141.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Huang2025' on input line 141.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 141.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Kabir2024' on input line 141.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Chang2026' on input line 141.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'YizhengHuang2026' on input line 141.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
 [9]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 144.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Kabir2024' on input line 144.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Zhu2026' on input line 144.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Pan2024' on input line 144.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Underfull \hbox (badness 1325) in paragraph at lines 143--145
-\TU/TimesNewRoman(0)/m/it/12 Knowledge graph \TU/TimesNewRoman(0)/m/n/12 yang d
-ibangun dari konten Stack Overflow merepre-
- []
-
-
-Underfull \hbox (badness 1142) in paragraph at lines 143--145
-\TU/TimesNewRoman(0)/m/it/12 retrieval \TU/TimesNewRoman(0)/m/n/12 yang memanfa
-atkan struktur relasional dan bobot kepercayaan
- []
-
-
 Underfull \hbox (badness 1789) in paragraph at lines 153--154
 []\TU/TimesNewRoman(0)/m/n/12 Penelitian ini menggunakan kerangka \TU/TimesNewR
 oman(0)/m/it/12 Design Science Research Methodology
@@ -2033,28 +1491,6 @@ oman(0)/m/it/12 Design Science Research Methodology
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [10]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Fatima2026' on input line 166.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Fatima2026' on input line 169.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
 
 Package biblatex-chicago Warning: Empty Ibidem citation on input line 169.
 
@@ -2066,372 +1502,41 @@ Underfull \vbox (badness 2608) has occurred while \output is active []
 
 ]
 Bab II.
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Ji2023' on input line 14.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Ji2023' on input line 14.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Huang2025' on input line 16.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
 [15
 
 ]
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Chang2026' on input line 18.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Huang2025' on input line 22.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Ji2023' on input line 25.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Chang2026' on input line 27.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
 File: images/chang2026_fig7_misinformation.png Graphic file (type bmp)
 <images/chang2026_fig7_misinformation.png>
 
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Chang2026' on input line 36.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
 
 Package biblatex-chicago Warning: Empty Ibidem citation on input line 36.
 
 
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Chang2026' on input line 36.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
 Package biblatex-chicago Warning: Empty Ibidem citation on input line 36.
 
-[16]
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Alomari2026' on input line 42.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Alomari2026' on input line 44.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Alomari2026' on input line 46.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-[17]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 48.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Ronanki2026' on input line 50.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
+[16] [17]
 Underfull \vbox (badness 1412) has occurred while \output is active []
 
  [18]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'YizhengHuang2026' on input line 66.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Moia2026' on input line 66.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Ji2023' on input line 67.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Malamas2025' on input line 67.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Lewis2020' on input line 68.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Lewis2020' on input line 76.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'YizhengHuang2026' on input line 76.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Underfull \hbox (badness 1286) in paragraph at lines 76--77
-[]\TU/TimesNewRoman(0)/m/it/12 Retrieval-Augmented Generation \TU/TimesNewRoman
-(0)/m/n/12 (RAG) diperkenalkan oleh [][][][][]Lewis []
- []
-
-
-Underfull \hbox (badness 1803) in paragraph at lines 76--77
-\TU/TimesNewRoman(0)/m/n/12 pembangkitan jawaban. Pengetahuan disimpan pada sum
-ber eksternal yang
- []
-
-
 Underfull \vbox (badness 7722) has occurred while \output is active []
 
  [19]
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Vizniuk2024' on input line 92.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
+Underfull \hbox (badness 1603) in paragraph at lines 92--94
+\TU/TimesNewRoman(0)/m/n/12 sistem RAG ini dimulai dari masukan kueri pengguna 
+hingga dihasilkannya
+ []
 
 File: images/vizniuk_rag_pipeline.png Graphic file (type bmp)
 <images/vizniuk_rag_pipeline.png>
 
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Vizniuk2024' on input line 98.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
 Package biblatex-chicago Warning: Empty Ibidem citation on input line 98.
 
 
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Vizniuk2024' on input line 98.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
 Package biblatex-chicago Warning: Empty Ibidem citation on input line 98.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 102.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Vizniuk2024' on input line 103.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
 
 [20]
 File: images/kamalipour_rag_taxonomy.png Graphic file (type bmp)
 <images/kamalipour_rag_taxonomy.png>
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 108.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 108.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
 
 
 Package biblatex-chicago Warning: Empty Ibidem citation on input line 108.
@@ -2440,519 +1545,48 @@ File: images/The_indexing_ process_in_a_RAG_pipeline.png Graphic file (type bmp
 )
 <images/The_indexing_ process_in_a_RAG_pipeline.png>
 
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 118.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
 Package biblatex-chicago Warning: Empty Ibidem citation on input line 118.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 118.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
 
 
 Underfull \vbox (badness 2393) has occurred while \output is active []
 
  [21]
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Vizniuk2024' on input line 124.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Vizniuk2024' on input line 126.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
 [22]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 152.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [23]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DelaCruzCabello2025' on input line 157.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Awotunde2026' on input line 161.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Ronanki2026' on input line 167.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [24]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 174.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Hendawi2026' on input line 178.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Oarga2026' on input line 188.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Oarga2026' on input line 188.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Hogan2022' on input line 188.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
 [25]
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Wang2026' on input line 190.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Wang2026' on input line 198.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
 
 Package biblatex-chicago Warning: Empty Ibidem citation on input line 198.
 
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Oarga2026' on input line 198.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Cui2026' on input line 198.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Pan2024' on input line 208.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Oarga2026' on input line 210.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Cui2026' on input line 212.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Cui2026' on input line 212.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Pan2024' on input line 212.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
 [26]
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Zhou2026' on input line 216.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Cong2026' on input line 218.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Zhou2026' on input line 218.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Cong2026' on input line 220.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Oarga2026' on input line 220.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Cong2026' on input line 220.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Cong2026' on input line 230.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
 
 Package biblatex-chicago Warning: Empty Ibidem citation on input line 230.
 
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Tao2026' on input line 230.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Zhou2026' on input line 232.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Li2026' on input line 232.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
 [27]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 234.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Pan2024' on input line 238.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
 Overfull \hbox (20.28143pt too wide) in paragraph at lines 245--246
 []\TU/lmtt/m/n/12 DataFrame.apply() $\OMS/cmsy/m/n/12 !$ \TU/lmtt/m/n/12 row_by
 _row_processing $\OMS/cmsy/m/n/12 !$ \TU/lmtt/m/n/12 high_memory_usage
  []
 
 
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Tao2026' on input line 267.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
 Underfull \vbox (badness 1394) has occurred while \output is active []
 
  [28]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 279.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Pan2024' on input line 282.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Zhu2026' on input line 283.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 287.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
 File: images/Graph_RAG_pipeline.png Graphic file (type bmp)
 <images/Graph_RAG_pipeline.png>
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 292.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
 
 
 Package biblatex-chicago Warning: Empty Ibidem citation on input line 292.
 
 
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 292.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Underfull \hbox (badness 2922) in paragraph at lines 292--292
+Underfull \hbox (badness 2343) in paragraph at lines 292--292
 [][]|\TU/TimesNewRoman(0)/m/n/12 Gambaran umum \TU/TimesNewRoman(0)/m/it/12 pip
-eline \TU/TimesNewRoman(0)/m/n/12 Graph-RAG ([][][]Kamalipour, Asadi []
+eline \TU/TimesNewRoman(0)/m/n/12 Graph-RAG ([][][]Kamalipour, Asadi, dan
  []
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 297.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
 
 
 Package biblatex-chicago Warning: Empty Ibidem citation on input line 297.
@@ -2969,57 +1603,13 @@ Underfull \hbox (badness 1527) in paragraph at lines 297--298
 /n/12 (OpenIE) digunakan untuk mengekstraksi tripel
  []
 
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [29]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 300.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
+[29]
 
 Package biblatex-chicago Warning: Empty Ibidem citation on input line 300.
 
-
-Underfull \vbox (badness 2173) has occurred while \output is active []
-
- [30]
-
-LaTeX Warning: Reference `tab:rag_vs_graphrag' on page 31 undefined on input li
-ne 311.
-
-(./tables/rag_vs_graphrag.tex
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 5.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
+[30] (./tables/rag_vs_graphrag.tex
 
 Package biblatex-chicago Warning: Empty Ibidem citation on input line 5.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 5.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
 
 
 Package biblatex-chicago Warning: Empty Ibidem citation on input line 5.
@@ -3081,224 +1671,31 @@ Underfull \hbox (badness 2134) in paragraph at lines 49--49
 []|\TU/TimesNewRoman(0)/m/n/10.95 Throughput tinggi, pencarian
  []
 
-)
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 315.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Underfull \vbox (badness 2903) has occurred while \output is active []
-
- [31]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 329.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
+) [31]
 
 Package biblatex-chicago Warning: Empty Ibidem citation on input line 329.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Wang2026' on input line 333.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
 
 [32]
 Overfull \hbox (75.6187pt too wide) detected at line 349
 [] [] [] [] [] [] []
  []
 
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 356.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-[33]
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Ali2026' on input line 374.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Zhou2026' on input line 376.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Underfull \vbox (badness 3058) has occurred while \output is active []
-
- [34]
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Wang2026' on input line 380.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'BenKhalifa2026' on input line 384.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 394.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
+[33] [34]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [35]
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Zhou2026' on input line 400.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Underfull \hbox (badness 1342) in paragraph at lines 400--401
-\TU/TimesNewRoman(0)/m/n/12 spesifik dapat meningkatkan performa tugas \TU/Time
-sNewRoman(0)/m/it/12 text-to-SQL generation\TU/TimesNewRoman(0)/m/n/12 . Sistem
-
- []
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'BenKhalifa2026' on input line 404.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
 [36]
 Underfull \hbox (badness 1275) in paragraph at lines 416--417
 \TU/TimesNewRoman(0)/m/n/12 phRAG dengan menambahkan sinyal kepercayaan komunit
 as Stack Overflow
  []
 
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 424.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 426.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-LaTeX Warning: Reference `fig:dasilva_setup' on page 37 undefined on input line
- 426.
-
 File: images/bab2_rancangan_empiris.png Graphic file (type bmp)
 <images/bab2_rancangan_empiris.png>
 
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 431.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
 Package biblatex-chicago Warning: Empty Ibidem citation on input line 431.
 
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 431.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex-chicago Warning: Empty Ibidem citation on input line 431.
-
-[37]
-
-LaTeX Warning: Reference `tab:so_signals' on page 38 undefined on input line 43
-7.
-
-(./tables/so_signals.tex
+[37] (./tables/so_signals.tex
 Underfull \hbox (badness 7221) in paragraph at lines 17--17
 []|\TU/TimesNewRoman(0)/m/n/10.95 Status \TU/TimesNewRoman(0)/m/it/10.95 accept
 ed ans-
@@ -3319,865 +1716,64 @@ Overfull \hbox (37.59995pt too wide) in paragraph at lines 9--34
  [][] 
  []
 
-)
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Nashid2023' on input line 444.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-[38]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 446.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-LaTeX Warning: Reference `fig:dasilva_domain' on page 39 undefined on input lin
-e 446.
-
+) [38]
 File: images/dasilva_domain.png Graphic file (type bmp)
 <images/dasilva_domain.png>
 
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 452.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
 
 Package biblatex-chicago Warning: Empty Ibidem citation on input line 452.
 
 
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 452.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
 Package biblatex-chicago Warning: Empty Ibidem citation on input line 452.
 
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Kabir2024' on input line 456.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
+[39] [40]
+Underfull \hbox (badness 1163) in paragraph at lines 476--477
+\TU/TimesNewRoman(0)/m/n/12 model didukung oleh informasi yang terdapat dalam k
+onteks yang diberikan,
+ []
 
 
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Fatima2026' on input line 462.
+Underfull \vbox (badness 3989) has occurred while \output is active []
 
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-[39]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Nashid2023' on input line 464.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 464.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-LaTeX Warning: Reference `tab:so_signals' on page 40 undefined on input line 46
-6.
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [40]
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Ji2023' on input line 476.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Huang2025' on input line 476.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'BenKhalifa2026' on input line 478.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Ali2026' on input line 482.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-[41]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'BenKhalifa2026' on input line 488.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Ali2026' on input line 492.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 500.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Gu2026' on input line 502.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
+ [41]
 [42]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 504.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 508.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 515.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
 
 Package biblatex-chicago Warning: Empty Ibidem citation on input line 515.
 
 
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 519.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
 Package biblatex-chicago Warning: Empty Ibidem citation on input line 519.
 
-[43]
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Alomari2026' on input line 533.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 539.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-LaTeX Warning: Reference `tab:ragas_metrics' on page 44 undefined on input line
- 539.
-
-(./tables/bab2_ragas_metrik.tex
+[43] (./tables/bab2_ragas_metrik.tex
 Overfull \hbox (23.37357pt too wide) in paragraph at lines 6--31
  [][] 
  []
 
-)
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Gu2026' on input line 544.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [44]
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Gu2026' on input line 553.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
+) [44]
 
 Package biblatex-chicago Warning: Empty Ibidem citation on input line 553.
 
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Alomari2026' on input line 557.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Gu2026' on input line 559.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-[45]
-
-LaTeX Warning: Reference `tab:penelitian_terkait' on page 46 undefined on input
- line 566.
-
-(./tables/bab2_penelitian_terkait.tex
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 53.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
+[45] (./tables/bab2_penelitian_terkait.tex
 Underfull \hbox (badness 10000) in paragraph at lines 53--53
-[]|[][][][][]\TU/TimesNewRoman(0)/m/n/10.95 Silva, Samhi []
+[]|[][][][][]\TU/TimesNewRoman(0)/m/n/10.95 Silva, Samhi, dan
  []
 
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Kabir2024' on input line 53.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 53--53
-[]|[][][][][]\TU/TimesNewRoman(0)/m/n/10.95 Kabir []
- []
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Alomari2026' on input line 53.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 53--53
-[]|[][][][][]\TU/TimesNewRoman(0)/m/n/10.95 Alomari []
- []
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Jiang2026' on input line 53.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 53--53
-[]|[][][][][][][]\TU/TimesNewRoman(0)/m/n/10.95 Jiang [][][]
- []
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Nashid2023' on input line 53.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Wang2026' on input line 53.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 53--53
-[]|[][][][][]\TU/TimesNewRoman(0)/m/n/10.95 Wang []
- []
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Ali2026' on input line 53.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Zhou2026' on input line 53.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 53--53
-[]|[][][][][]\TU/TimesNewRoman(0)/m/n/10.95 Zhou []
- []
-
-)
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 571.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Kabir2024' on input line 571.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Alomari2026' on input line 575.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Jiang2026' on input line 575.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [46]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Nashid2023' on input line 579.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Wang2026' on input line 582.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Ali2026' on input line 582.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Zhou2026' on input line 582.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [47]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 593.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Kabir2024' on input line 593.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Nashid2023' on input line 597.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Zhou2026' on input line 597.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Wang2026' on input line 601.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Ali2026' on input line 601.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Zhou2026' on input line 601.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Underfull \vbox (badness 2608) has occurred while \output is active []
-
- [48]
-
-LaTeX Warning: Reference `fig:kerangka_konseptual' on page 49 undefined on inpu
-t line 618.
-
+) [46] [47] [48]
 File: images/bab2_kerangka_konseptual.png Graphic file (type bmp)
 <images/bab2_kerangka_konseptual.png>
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Fatima2026' on input line 628.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-[49]
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Wang2026' on input line 633.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-[50]
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Zhou2026' on input line 636.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'BenKhalifa2026' on input line 639.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Ali2026' on input line 639.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Gu2026' on input line 642.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 642.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Peffers2007' on input line 644.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-) (./Bab III - Analisis dan Desain.tex [51] [52
+ [49] [50]) (./Bab III - Analisis dan Desain.tex [51] [52
 
 ]
 Bab III.
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Huang2025' on input line 24.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'YizhengHuang2026' on input line 25.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-LaTeX Warning: Reference `fig:model-konseptual-saat-ini' on page 53 undefined o
-n input line 26.
-
 File: images/bab3_model_konseptual_saat_ini.png Graphic file (type bmp)
 <images/bab3_model_konseptual_saat_ini.png>
 [53]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 34.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Zhou2026' on input line 34.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-LaTeX Warning: Reference `fig:arsitektur-rag-konvensional' on page 54 undefined
- on input line 34.
-
 File: images/bab3_arsitektur_rag_konvensional.png Graphic file (type bmp)
 <images/bab3_arsitektur_rag_konvensional.png>
 
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 39.
 
+Package biblatex-chicago Warning: Empty Ibidem citation on input line 37.
 
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 39.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex-chicago Warning: Empty Ibidem citation on input line 39.
-
-[54]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 47.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-LaTeX Warning: Reference `tab:analisis-keterbatasan-baseline' on page 55 undefi
-ned on input line 47.
-
-(./tables/bab3_analisis_keterbatasan_baseline.tex
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 4.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 4.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
+[54] (./tables/bab3_analisis_keterbatasan_baseline.tex
 Underfull \hbox (badness 10000) in paragraph at lines 30--30
 []|\TU/TimesNewRoman(0)/m/n/12 15% pertanyaan—yang
  []
@@ -4267,536 +1863,183 @@ Underfull \hbox (badness 1571) in paragraph at lines 30--30
 \TU/TimesNewRoman(0)/m/n/12 SO belum dapat digan-
  []
 
-)
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Kabir2024' on input line 51.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-[55]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Nashid2023' on input line 53.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Ji2023' on input line 62.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Huang2025' on input line 62.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'YizhengHuang2026' on input line 71.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Lewis2020' on input line 71.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-[56]
-
-LaTeX Warning: Reference `tab:kebutuhan-pengguna' on page 57 undefined on input
- line 82.
-
-(./tables/bab3_kebutuhan_pengguna.tex)
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Fatima2026' on input line 93.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-[57]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 108.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Guo2025' on input line 108.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 108.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Gu2026' on input line 108.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
+) [55] [56] (./tables/bab3_kebutuhan_pengguna.tex) [57]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [58]
-LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <12> not available
-(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 111.
-
-
-LaTeX Warning: Reference `tab:checklist-f1-f7' on page 59 undefined on input li
-ne 111.
-
-
-LaTeX Warning: Reference `tab:komparasi-solusi' on page 59 undefined on input l
-ine 111.
-
-
-LaTeX Warning: Reference `tab:perbandingan-kondisi' on page 59 undefined on inp
-ut line 111.
-
-
-LaTeX Warning: Reference `tab:kebutuhan-pengguna' on page 59 undefined on input
- line 111.
-
-
-LaTeX Warning: Reference `tab:kebutuhan-nonfungsional' on page 59 undefined on 
-input line 118.
-
-(./tables/bab3_kebutuhan_nonfungsional.tex
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 36.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-)
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 133.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 135.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Kabir2024' on input line 135.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-[59] [60]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Fatima2026' on input line 139.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Zhou2026' on input line 139.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Nashid2023' on input line 139.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Fatima2026' on input line 143.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Guo2025' on input line 147.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
+(./tables/bab3_kebutuhan_nonfungsional.tex) [59] [60]
+(./tables/bab3_komparasi_solusi.tex)
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [61]
-(./tables/bab3_komparasi_solusi.tex)
+[62]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-LaTeX Warning: Reference `tab:komparasi-solusi' on page 62 undefined on input l
-ine 153.
+ [63]
 
-
-LaTeX Warning: Reference `tab:perbandingan-kondisi' on page 62 undefined on inp
-ut line 153.
-
-(./tables/bab3_perbandingan_kondisi.tex) [62] [63]
-
-LaTeX Warning: Reference `fig:arsitektur-framework' on page 64 undefined on inp
-ut line 165.
+Package biblatex-chicago Warning: Empty Ibidem citation on input line 173.
 
 
-LaTeX Warning: Reference `fig:kerangka_konseptual' on page 64 undefined on inpu
-t line 165.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Fatima2026' on input line 170.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Zhou2026' on input line 172.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
+Package biblatex-chicago Warning: Empty Ibidem citation on input line 173.
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [64]
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Wang2026' on input line 178.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'BenKhalifa2026' on input line 184.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
 File: images/bab3_arsitektur_framework.png Graphic file (type bmp)
 <images/bab3_arsitektur_framework.png>
 
-LaTeX Warning: Reference `fig:arsitektur-framework' on page 65 undefined on inp
-ut line 196.
-
-[65] [66]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Fatima2026' on input line 201.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Underfull \hbox (badness 2460) in paragraph at lines 209--210
-[]\TU/lmtt/m/n/12 Answer\TU/TimesNewRoman(0)/m/n/12 , yaitu simpul yang merepre
-sentasikan jawaban terhadap suatu
- []
-
-
+[65]
 Underfull \vbox (badness 3058) has occurred while \output is active []
 
- [67]
-Underfull \hbox (badness 1436) in paragraph at lines 213--214
-\TU/TimesNewRoman(0)/m/n/12 Keempat tipe simpul di atas membentuk tripel domain
- pemrograman, misal-
+ [66]
+Underfull \hbox (badness 1558) in paragraph at lines 208--209
+[]\TU/lmtt/m/n/12 User\TU/TimesNewRoman(0)/m/n/12 , yaitu kontributor yang menu
+lis jawaban, dengan atribut \TU/lmtt/m/n/12 id \TU/TimesNewRoman(0)/m/n/12 dan
  []
 
 
-Underfull \hbox (badness 1472) in paragraph at lines 213--214
-\TU/TimesNewRoman(0)/m/n/12 nya (\TU/lmtt/m/n/12 Q#1234\TU/TimesNewRoman(0)/m/n
-/12 , \TU/lmtt/m/n/12 HAS_ACCEPTED_ANSWER\TU/TimesNewRoman(0)/m/n/12 , \TU/lmtt
-/m/n/12 A#9823\TU/TimesNewRoman(0)/m/n/12 ) atau (\TU/lmtt/m/n/12 Q#1234\TU/Tim
-esNewRoman(0)/m/n/12 , \TU/lmtt/m/n/12 TAGGED_WITH\TU/TimesNewRoman(0)/m/n/12 ,
-
+Underfull \hbox (badness 4132) in paragraph at lines 208--209
+\TU/lmtt/m/n/12 reputation\TU/TimesNewRoman(0)/m/n/12 . Simpul ini menjadi sumb
+er sinyal reputasi pada sisi
  []
 
 
-LaTeX Warning: Reference `tab:bobot-kepercayaan' on page 68 undefined on input 
-line 221.
-
-
-Underfull \hbox (badness 1603) in paragraph at lines 220--223
-[]\OT1/cmr/m/n/12 [[][]]$ \TU/TimesNewRoman(0)/m/n/12 bernilai 1 apabila jawaba
-n berstatus \TU/TimesNewRoman(0)/m/it/12 accepted answer \TU/TimesNewRoman(0)/m
-/n/12 dan 0 apabila
+Underfull \hbox (badness 8189) in paragraph at lines 210--211
+\TU/TimesNewRoman(0)/m/n/12 berikutnya, misalnya \TU/lmtt/m/n/12 (Q#1234)-[HAS_
+ACCEPTED_ANSWER]->(A#9823) \TU/TimesNewRoman(0)/m/n/12 yang
  []
 
 
-LaTeX Warning: Reference `tab:bobot-kepercayaan' on page 68 undefined on input 
-line 225.
-
-(./tables/bab3_bobot_kepercayaan.tex)
-Underfull \vbox (badness 6063) has occurred while \output is active []
-
- [68]
-[69]
-
-LaTeX Warning: Reference `eq:trust-answer' on page 70 undefined on input line 2
-30.
+Overfull \hbox (112.11426pt too wide) in paragraph at lines 210--211
+\TU/TimesNewRoman(0)/m/n/12 menghubungkan pertanyaan dengan jawaban yang diteri
+ma, atau \TU/lmtt/m/n/12 (Q#1234)-[TAGGED_WITH]->(fastapi)
+ []
 
 
-LaTeX Warning: Reference `fig:contoh-subgraf-kg' on page 70 undefined on input 
-line 232.
+Underfull \hbox (badness 2990) in paragraph at lines 228--229
+[]$\OML/cmm/m/it/12 w[]$ \TU/TimesNewRoman(0)/m/n/12 adalah bobot kepercayaan k
+ontributor jawaban, yaitu bobot sisi
+ []
+
+[67] (./tables/bab3_bobot_kepercayaan.tex)
+Underfull \hbox (badness 3229) in paragraph at lines 240--241
+[]\TU/TimesNewRoman(0)/m/n/12 Untuk memberikan gambaran mengenai struktur KG ya
+ng dibangun, Gam-
+ []
+
+
+Underfull \hbox (badness 1221) in paragraph at lines 240--241
+\TU/TimesNewRoman(0)/m/n/12 bar [][]III.4[][] menampilkan contoh ilustratif sub
+graf dari domain autentikasi pada
+ []
+
+
+Underfull \hbox (badness 4303) in paragraph at lines 240--241
+\TU/TimesNewRoman(0)/m/it/12 framework \TU/TimesNewRoman(0)/m/n/12 FastAPI. Sub
+graf tersebut memuat dua simpul \TU/lmtt/m/n/12 Question \TU/TimesNewRoman(0)/m
+/n/12 yang
+ []
+
+
+Underfull \hbox (badness 3525) in paragraph at lines 240--241
+\TU/TimesNewRoman(0)/m/n/12 saling terhubung: \TU/lmtt/m/n/12 Q#1234 \TU/TimesN
+ewRoman(0)/m/n/12 mengenai validasi token OAuth2 pada FastAPI
+ []
+
+
+Underfull \hbox (badness 1796) in paragraph at lines 240--241
+\TU/TimesNewRoman(0)/m/it/12 expired \TU/TimesNewRoman(0)/m/n/12 (\TU/lmtt/m/n/
+12 score=34\TU/TimesNewRoman(0)/m/n/12 , \TU/lmtt/m/n/12 viewCount=8k\TU/TimesN
+ewRoman(0)/m/n/12 ). Keduanya dihubungkan melalui relasi
+ []
+
+
+Underfull \hbox (badness 2582) in paragraph at lines 240--241
+\TU/lmtt/m/n/12 IS_RELATED_TO \TU/TimesNewRoman(0)/m/n/12 bertipe \TU/TimesNewR
+oman(0)/m/it/12 Linked \TU/TimesNewRoman(0)/m/n/12 dengan bobot $\OML/cmm/m/it/
+12 w[]\OT1/cmr/m/n/12 0[]41$\TU/TimesNewRoman(0)/m/n/12 , yang mencerminkan
+ []
 
 File: images/bab3_contoh_subgraf_kg.png Graphic file (type bmp)
 <images/bab3_contoh_subgraf_kg.png>
+LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <12> not available
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 249.
 
-LaTeX Warning: Reference `tab:bobot-kepercayaan' on page 70 undefined on input 
-line 241.
-
-
-Underfull \hbox (badness 1796) in paragraph at lines 241--242
+Underfull \hbox (badness 1796) in paragraph at lines 249--250
 [][]\TU/TimesNewRoman(0)/b/n/12 [TODO: Perbarui gambar contoh subgraf: hapus la
 pisan \TU/lmtt/b/n/12 Concept \TU/TimesNewRoman(0)/b/n/12 dan
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 241--242
+Underfull \hbox (badness 10000) in paragraph at lines 249--250
 \TU/TimesNewRoman(0)/b/n/12 relasi \TU/lmtt/b/n/12 mentions\TU/TimesNewRoman(0)
 /b/n/12 ; tambahkan simpul \TU/lmtt/b/n/12 User \TU/TimesNewRoman(0)/b/n/12 (\T
 U/lmtt/b/n/12 AUTHOR_TRUST\TU/TimesNewRoman(0)/b/n/12 ) serta sisi
  []
 
-[70]
 
-LaTeX Warning: Reference `tab:bobot-kepercayaan' on page 71 undefined on input 
-line 243.
-
-
-Underfull \hbox (badness 5388) in paragraph at lines 243--244
+Underfull \hbox (badness 5388) in paragraph at lines 251--252
 []\TU/TimesNewRoman(0)/m/n/12 Masing-masing pertanyaan memiliki simpul \TU/lmtt
 /m/n/12 Answer \TU/TimesNewRoman(0)/m/n/12 yang diterima (\TU/TimesNewRoman(0)/
 m/it/12 accep-
  []
 
 
-Underfull \hbox (badness 3514) in paragraph at lines 243--244
+Underfull \hbox (badness 3514) in paragraph at lines 251--252
 \TU/TimesNewRoman(0)/m/it/12 ted\TU/TimesNewRoman(0)/m/n/12 ): \TU/lmtt/m/n/12 
 A#9823 \TU/TimesNewRoman(0)/m/n/12 menjawab Q#1234 dengan solusi \TU/lmtt/m/n/1
 2 Depends(oauth2_scheme)
  []
 
 
-Underfull \hbox (badness 7168) in paragraph at lines 243--244
+Underfull \hbox (badness 7168) in paragraph at lines 251--252
 \TU/TimesNewRoman(0)/m/n/12 dan dekode token, sedangkan \TU/lmtt/m/n/12 A#9412 
 \TU/TimesNewRoman(0)/m/n/12 menjawab Q#2567 dengan \TU/lmtt/m/n/12 raise
  []
 
 
-Overfull \hbox (0.92949pt too wide) in paragraph at lines 243--244
+Overfull \hbox (0.92949pt too wide) in paragraph at lines 251--252
 \TU/lmtt/m/n/12 HTTPException(401)\TU/TimesNewRoman(0)/m/n/12 . Kedua jawaban t
 erhubung melalui \TU/lmtt/m/n/12 HAS_ACCEPTED_ANSWER
  []
 
-
-Underfull \hbox (badness 1490) in paragraph at lines 243--244
-\TU/TimesNewRoman(0)/m/n/12 (Tabel []), terbentuk pula sisi densifikasi \TU/lmt
-t/m/n/12 TAG_COOCCUR \TU/TimesNewRoman(0)/m/n/12 di antara keduanya,
- []
-
+[68] [69]
 File: images/bab3_flowchart_konstruksi_kg.png Graphic file (type bmp)
 <images/bab3_flowchart_konstruksi_kg.png>
-
-LaTeX Warning: Reference `fig:flowchart-konstruksi-kg' on page 71 undefined on 
-input line 254.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Fatima2026' on input line 254.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex-chicago Warning: Empty Ibidem citation on input line 254.
-
-[71]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Fatima2026' on input line 256.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-LaTeX Warning: Reference `eq:trust-question' on page 72 undefined on input line
- 257.
-
-
-LaTeX Warning: Reference `eq:trust-answer' on page 72 undefined on input line 2
-57.
-
-
-Underfull \hbox (badness 6284) in paragraph at lines 257--258
-\TU/TimesNewRoman(0)/m/n/12 beserta sisi \TU/lmtt/m/n/12 HAS_ACCEPTED_ANSWER\TU
-/TimesNewRoman(0)/m/n/12 , \TU/lmtt/m/n/12 HAS_ANSWER\TU/TimesNewRoman(0)/m/n/1
-2 , \TU/lmtt/m/n/12 TAGGED_WITH\TU/TimesNewRoman(0)/m/n/12 , dan
+ [70]
+Underfull \hbox (badness 2717) in paragraph at lines 265--266
+[]\TU/TimesNewRoman(0)/m/n/12 Pembangunan graf struktural. Simpul \TU/lmtt/m/n/
+12 Question\TU/TimesNewRoman(0)/m/n/12 , \TU/lmtt/m/n/12 Answer\TU/TimesNewRoma
+n(0)/m/n/12 , \TU/lmtt/m/n/12 Tag\TU/TimesNewRoman(0)/m/n/12 , dan
  []
 
-[72]
 
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Guo2025' on input line 273.
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
+ [71]
 
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
+Package biblatex-chicago Warning: Empty Ibidem citation on input line 277.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 280--281
+Underfull \vbox (badness 3460) has occurred while \output is active []
+
+ [72]
+Underfull \hbox (badness 10000) in paragraph at lines 288--289
 []\TU/TimesNewRoman(0)/m/n/12 Satu \TU/TimesNewRoman(0)/m/it/12 hop\TU/TimesNew
 Roman(0)/m/n/12 : jawaban milik \TU/TimesNewRoman(0)/m/it/12 seed node \TU/Time
 sNewRoman(0)/m/n/12 itu sendiri, melalui sisi
  []
 
 
-Underfull \hbox (badness 1286) in paragraph at lines 283--284
+Underfull \hbox (badness 1286) in paragraph at lines 291--292
 \TU/TimesNewRoman(0)/m/n/12 ($\OML/cmm/m/it/12 w[]\OT1/cmr/m/n/12 1[]0$\TU/Time
 sNewRoman(0)/m/n/12 ) menuju \TU/lmtt/m/n/12 A#9823\TU/TimesNewRoman(0)/m/n/12 
 . Secara paralel, sistem mengikuti \TU/lmtt/m/n/12 IS_RELATED_TO
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 283--284
+Underfull \hbox (badness 10000) in paragraph at lines 291--292
 \TU/TimesNewRoman(0)/m/n/12 ($\OML/cmm/m/it/12 w[]\OT1/cmr/m/n/12 0[]41$\TU/Tim
 esNewRoman(0)/m/n/12 ) menuju \TU/lmtt/m/n/12 Q#2567 \TU/TimesNewRoman(0)/m/n/1
 2 dan dilanjutkan ke \TU/lmtt/m/n/12 A#9412 \TU/TimesNewRoman(0)/m/n/12 melalui
@@ -4804,406 +2047,149 @@ esNewRoman(0)/m/n/12 ) menuju \TU/lmtt/m/n/12 Q#2567 \TU/TimesNewRoman(0)/m/n/1
  []
 
 
-Underfull \hbox (badness 1117) in paragraph at lines 283--284
+Underfull \hbox (badness 1117) in paragraph at lines 291--292
 \TU/lmtt/m/n/12 HAS_ACCEPTED_ANSWER\TU/TimesNewRoman(0)/m/n/12 , sehingga bobot
  jalurnya $\OT1/cmr/m/n/12 0[]41 \OMS/cmsy/m/n/12 ^^B \OT1/cmr/m/n/12 1[]0 = 0[
 ]41$\TU/TimesNewRoman(0)/m/n/12 . Me-
  []
 
 
-Underfull \hbox (badness 1194) in paragraph at lines 283--284
+Underfull \hbox (badness 1194) in paragraph at lines 291--292
 \TU/TimesNewRoman(0)/m/n/12 lalui proses ini, sistem memperoleh kumpulan jawaba
 n yang telah divalidasi
  []
 
+
+Underfull \hbox (badness 1796) in paragraph at lines 291--292
+\TU/TimesNewRoman(0)/m/n/12 komunitas beserta bobot jalur yang menghubungkannya
+ ke kueri. []\TU/TimesNewRoman(0)/b/n/12 [TODO:
+ []
+
 [73]
-
-LaTeX Warning: Reference `eq:combined-trust' on page 74 undefined on input line
- 301.
-
-
-LaTeX Warning: Reference `subsec:desain-evaluasi' on page 74 undefined on input
- line 306.
-
-
-LaTeX Warning: Reference `eq:combined-trust' on page 74 undefined on input line
- 307.
-
-[74]
 File: images/bab3_hybrid_retrieval.png Graphic file (type bmp)
 <images/bab3_hybrid_retrieval.png>
 
+Underfull \vbox (badness 1533) has occurred while \output is active []
 
-LaTeX Warning: Reference `eq:final-score' on page 75 undefined on input line 31
-8.
-
-
-LaTeX Warning: Reference `fig:bab3_hybrid_retrieval' on page 75 undefined on in
-put line 319.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 331.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Underfull \hbox (badness 1533) in paragraph at lines 331--332
+ [74]
+[75] [76]
+Underfull \hbox (badness 1533) in paragraph at lines 350--351
 []\TU/TimesNewRoman(0)/m/n/12 Agar perbandingan antarkondisi valid, seluruh kon
 disi menggunakan struktur
  []
 
-[75] [76]
 
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'BenKhalifa2026' on input line 335.
+Underfull \hbox (badness 1910) in paragraph at lines 350--351
+\TU/TimesNewRoman(0)/m/n/12 aturan pengutipan sumber, dan pada keadaan \TU/Time
+sNewRoman(0)/m/it/12 grounding \TU/TimesNewRoman(0)/m/n/12 aktif juga larangan
+ []
 
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Huang2025' on input line 337.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 342--343
+[77]
+Underfull \hbox (badness 10000) in paragraph at lines 361--362
 []\TU/TimesNewRoman(0)/m/n/12 Sebagai contoh, pada domain autentikasi FastAPI, 
 klaim bahwa
  []
 
 
-Underfull \hbox (badness 2556) in paragraph at lines 342--343
+Underfull \hbox (badness 2556) in paragraph at lines 361--362
 \TU/lmtt/m/n/12 OAuth2PasswordBearer \TU/TimesNewRoman(0)/m/n/12 digunakan bers
 ama \TU/lmtt/m/n/12 Depends() \TU/TimesNewRoman(0)/m/n/12 harus disertai label
  []
 
 
-LaTeX Warning: Reference `subsec:desain-evaluasi' on page 77 undefined on input
- line 345.
+Underfull \hbox (badness 3364) in paragraph at lines 364--365
+[]\TU/TimesNewRoman(0)/m/n/12 Pada eksperimen, \TU/TimesNewRoman(0)/m/it/12 gro
+unding constraint \TU/TimesNewRoman(0)/m/n/12 dapat dinonaktifkan secara terpis
+ah,
+ []
 
+[78]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Ali2026' on input line 349.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Underfull \vbox (badness 3635) has occurred while \output is active []
-
- [77]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 374.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 375.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Underfull \vbox (badness 4859) has occurred while \output is active []
-
- [78]
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Guo2025' on input line 382.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Underfull \hbox (badness 2521) in paragraph at lines 385--386
-\TU/TimesNewRoman(0)/m/n/12 nitas pada LightRAG: jawaban dua \TU/TimesNewRoman(
+ [79]
+[80]
+Underfull \hbox (badness 2310) in paragraph at lines 411--412
+\TU/TimesNewRoman(0)/m/n/12 pada LightRAG, yaitu jawaban dua \TU/TimesNewRoman(
 0)/m/it/12 hop \TU/TimesNewRoman(0)/m/n/12 melalui sisi \TU/lmtt/m/n/12 IS_RELA
 TED_TO\TU/TimesNewRoman(0)/m/n/12 ,
  []
 
-[79]
+[81]
 File: images/bab3_perbandingan_tiga_kondisi_evaluasi.png Graphic file (type bmp
 )
 <images/bab3_perbandingan_tiga_kondisi_evaluasi.png>
-
-
-LaTeX Warning: Reference `tab:metrik-evaluasi' on page 80 undefined on input li
-ne 400.
-
-
-LaTeX Warning: Reference `fig:perbandingan-tiga-kondisi' on page 80 undefined o
-n input line 401.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Fatima2026' on input line 406.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 406.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 408.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-[80] [81]
+ [82]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 412.
+(hyperref)                removing `math shift' on input line 465.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\alpha' on input line 412.
+(hyperref)                removing `\alpha' on input line 465.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 412.
+(hyperref)                removing `math shift' on input line 465.
 
-
-LaTeX Warning: Reference `eq:final-score' on page 82 undefined on input line 41
-3.
-
-
-Underfull \hbox (badness 1412) in paragraph at lines 413--415
-\TU/TimesNewRoman(0)/m/n/12 an sebelum hasil \TU/TimesNewRoman(0)/m/it/12 devel
-opment set \TU/TimesNewRoman(0)/m/n/12 dilihat. Kandidat nilai yang diuji adala
-h
+[83]
+Underfull \hbox (badness 2762) in paragraph at lines 477--478
+[]\TU/TimesNewRoman(0)/m/n/12 Kontribusi sinyal kepercayaan pada Kondisi C, yai
+tu membandingkan
  []
 
-
-LaTeX Warning: Reference `eq:combined-trust' on page 82 undefined on input line
- 418.
-
-[82]
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Gu2026' on input line 430.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 433.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-LaTeX Warning: Reference `tab:metrik-evaluasi' on page 83 undefined on input li
-ne 433.
-
-(./tables/bab3_metrik_evaluasi.tex
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 43.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Gu2026' on input line 43.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 47.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-) [83] [84]
-
-LaTeX Warning: Reference `tab:checklist-f1-f7' on page 85 undefined on input li
-ne 440.
-
-(./tables/bab3_checklist_f1_f7.tex
-Overfull \hbox (3.4563pt too wide) in paragraph at lines 8--51
- [][] 
- []
-
-)
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 445.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-[85]
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Gu2026' on input line 447.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Ali2026' on input line 452.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-(./tables/bab3_ringkasan_komponen.tex)
-
-LaTeX Warning: Reference `tab:ringkasan-komponen' on page 86 undefined on input
- line 461.
-
-
+[84] [85] (./tables/bab3_metrik_evaluasi.tex)
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [86]
-[87]
+[87] (./tables/bab3_checklist_f1_f6.tex
+Overfull \hbox (3.4563pt too wide) in paragraph at lines 8--46
+ [][] 
+ []
 
-LaTeX Warning: Reference `tab:checklist-f1-f7' on page 88 undefined on input li
-ne 479.
+) [88] (./tables/bab3_ringkasan_komponen.tex)
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [89]
+[90]
+Underfull \hbox (badness 3428) in paragraph at lines 583--584
+\TU/TimesNewRoman(0)/m/n/12 Stack Overflow diharapkan menghasilkan jawaban yang
+ lebih faktual
+ []
 
 
-Underfull \hbox (badness 1867) in paragraph at lines 481--482
+Underfull \hbox (badness 1867) in paragraph at lines 587--588
 \TU/TimesNewRoman(0)/m/it/12 Framework \TU/TimesNewRoman(0)/m/n/12 yang diusulk
 an merupakan metode yang direkomendasikan
  []
 
-) (./Bab IV - Implementasi.tex [88]
-Bab IV.
-
-LaTeX Warning: Reference `chap:analisis-desain' on page 89 undefined on input l
-ine 10.
-
-
-LaTeX Warning: Reference `tab:lingkungan-implementasi' on page 89 undefined on 
-input line 27.
-
-[89
+) (./Bab IV - Implementasi.tex [91] [92
 
 ]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Fatima2026' on input line 80.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
+Bab IV.
+[93]
+Underfull \hbox (badness 10000) in paragraph at lines 64--65
+[]\TU/lmtt/m/n/12 01_data_cleaning/\TU/TimesNewRoman(0)/m/n/12 : \TU/TimesNewRo
+man(0)/m/it/12 pipeline \TU/TimesNewRoman(0)/m/n/12 data, mulai dari validasi i
+ntegritas
+ []
 
 
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Fatima2026' on input line 80.
+Underfull \hbox (badness 3019) in paragraph at lines 64--65
+\TU/TimesNewRoman(0)/m/n/12 hingga konstruksi, pembobotan, dan densifikasi KG, 
+termasuk modul
+ []
 
 
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
+Overfull \hbox (27.39468pt too wide) in paragraph at lines 66--67
+[]\TU/lmtt/m/n/12 docs/ \TU/TimesNewRoman(0)/m/n/12 dan \TU/lmtt/m/n/12 reports
+/\TU/TimesNewRoman(0)/m/n/12 : catatan keputusan metodologis (\TU/lmtt/m/n/12 D
+ECISION_C_SCORING.md\TU/TimesNewRoman(0)/m/n/12 ),
+ []
 
 
-LaTeX Warning: Reference `tab:bobot-kepercayaan' on page 90 undefined on input 
-line 86.
+Underfull \vbox (badness 1163) has occurred while \output is active []
 
-
-Underfull \vbox (badness 6625) has occurred while \output is active []
-
- [90]
-
-LaTeX Warning: Reference `tab:statistik-kg' on page 91 undefined on input line 
-93.
-
-
+ [94]
 Underfull \hbox (badness 6542) in paragraph at lines 96--97
 []\TU/TimesNewRoman(0)/m/n/12 Simpul \TU/lmtt/m/n/12 Question\TU/TimesNewRoman(
 0)/m/n/12 , \TU/lmtt/m/n/12 Answer\TU/TimesNewRoman(0)/m/n/12 , dan \TU/lmtt/m/
@@ -5211,261 +2197,73 @@ n/12 Tag \TU/TimesNewRoman(0)/m/n/12 beserta sisi \TU/lmtt/m/n/12 HAS_ACCEPTED_
 ANSWER\TU/TimesNewRoman(0)/m/n/12 ,
  []
 
+[95] [96]
+Underfull \vbox (badness 2080) has occurred while \output is active []
 
+ [97]
+Underfull \vbox (badness 1783) has occurred while \output is active []
+
+ [98]
+Underfull \hbox (badness 4429) in paragraph at lines 157--157
+[][]|\TU/TimesNewRoman(0)/m/n/12 Hasil validasi densifikasi pada tingkat korpus
+ (2.685.814 simpul
+ []
+
+[99] [100] [101]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [91]
-
-LaTeX Warning: Reference `eq:trust-question' on page 92 undefined on input line
- 112.
-
-
-LaTeX Warning: Reference `eq:trust-answer' on page 92 undefined on input line 1
-12.
-
-
-LaTeX Warning: Reference `eq:trust-answer' on page 92 undefined on input line 1
-12.
-
-
-LaTeX Warning: Reference `subsec:catatan-keputusan' on page 92 undefined on inp
-ut line 114.
-
-
-LaTeX Warning: Reference `subsec:keputusan-reputasi' on page 92 undefined on in
-put line 116.
-
-
-Underfull \hbox (badness 1221) in paragraph at lines 121--123
-\TU/TimesNewRoman(0)/m/n/12 dengan $\OML/cmm/m/it/12 w[] \OT1/cmr/m/n/12 = 0$ \
-TU/TimesNewRoman(0)/m/n/12 untuk jawaban tanpa sisi \TU/lmtt/m/n/12 AUTHOR_TRUS
-T\TU/TimesNewRoman(0)/m/n/12 . Sebelum
+ [102]
+Underfull \hbox (badness 1286) in paragraph at lines 250--251
+[]\TU/TimesNewRoman(0)/m/n/12 setiap jawaban direpresentasikan oleh satu vektor
+ dari teks \TU/lmtt/m/n/12 Q: <judul
  []
 
 
-Underfull \hbox (badness 1742) in paragraph at lines 121--123
-\TU/TimesNewRoman(0)/m/n/12 telah pembaruan, nilai yang tersimpan diverifikasi 
-terhadap nilai yang
+Underfull \hbox (badness 1466) in paragraph at lines 250--251
+\TU/TimesNewRoman(0)/m/n/12 token dengan fungsi pemotongan yang sama dengan Kon
+disi C, tanpa
  []
 
-[92]
-
-LaTeX Warning: Reference `tab:statistik-kg' on page 93 undefined on input line 
-168.
-
-
-Underfull \hbox (badness 1803) in paragraph at lines 168--169
-[][]\TU/TimesNewRoman(0)/b/n/12 [TODO: Total sisi pada Tabel [] adalah penjumla
-han baris di atasnya
- []
-
-[93] [94]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 185.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 192.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 194.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-[95]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 197.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-LaTeX Warning: Reference `chap:analisis-desain' on page 96 undefined on input l
-ine 201.
-
-
-LaTeX Warning: Reference `lst:cypher-2hop' on page 96 undefined on input line 2
-08.
-
-
-Overfull \hbox (2.35094pt too wide) in paragraph at lines 208--209
+[103]
+Overfull \hbox (2.35094pt too wide) in paragraph at lines 264--265
 \TU/TimesNewRoman(0)/m/n/12 satu \TU/TimesNewRoman(0)/m/it/12 hop \TU/TimesNewR
 oman(0)/m/n/12 mengambil jawaban milik \TU/TimesNewRoman(0)/m/it/12 seed node \
 TU/TimesNewRoman(0)/m/n/12 melalui \TU/lmtt/m/n/12 HAS_ACCEPTED_ANSWER
  []
 
-
-LaTeX Warning: Reference `eq:combined-trust' on page 96 undefined on input line
- 210.
-
-
-LaTeX Warning: Reference `eq:final-score' on page 96 undefined on input line 21
-0.
-
-
-Underfull \hbox (badness 1221) in paragraph at lines 210--211
-\TU/TimesNewRoman(0)/m/n/12 teks kandidat persis seperti yang akan ditampilkan 
-kepada LLM, yaitu
- []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [96]
-
-LaTeX Warning: Reference `subsec:komponen-bersama' on page 97 undefined on inpu
-t line 211.
-
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 214.
-[97]
-
-LaTeX Warning: Reference `tab:saklar-ablasi' on page 98 undefined on input line
- 241.
-
-
-LaTeX Warning: Reference `eq:final-score' on page 98 undefined on input line 26
-5.
-
-
-LaTeX Warning: Reference `subsec:implementasi-trustscore' on page 98 undefined 
-on input line 265.
-
-
-LaTeX Warning: Reference `tab:decision-record' on page 98 undefined on input li
-ne 275.
-
-
+nput line 270.
+[104] [105]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [98]
+ [106]
 
-LaTeX Warning: Reference `eq:final-score' on page 99 undefined on input line 29
-9.
+LaTeX Warning: Float too large for page by 134.36949pt on input line 410.
 
-
-LaTeX Warning: Reference `subsec:keputusan-reputasi' on page 99 undefined on in
-put line 299.
-
-[99]
-
-LaTeX Warning: Reference `subsec:implementasi-trustscore' on page 100 undefined
- on input line 313.
-
-
-LaTeX Warning: Reference `tab:tahap1' on page 100 undefined on input line 319.
-
-
-LaTeX Warning: Reference `tab:tahap1' on page 100 undefined on input line 340.
-
-
-LaTeX Warning: Reference `eq:final-score' on page 100 undefined on input line 3
-40.
-
-[100]
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Gu2026' on input line 353.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
+[107] [108] [109] [110] [111]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [101]
-[102]
-
-LaTeX Warning: Reference `sec:penetapan-parameter' on page 103 undefined on inp
-ut line 385.
-
-[103]
-Underfull \hbox (badness 2027) in paragraph at lines 405--407
-\TU/TimesNewRoman(0)/m/n/12 Halaman eksperimen faktorial menyediakan \TU/TimesN
-ewRoman(0)/m/it/12 preset Dev \TU/TimesNewRoman(0)/m/n/12 ($\OML/cmm/m/it/12 n[
-]\OT1/cmr/m/n/12 50$\TU/TimesNewRoman(0)/m/n/12 ) dan \TU/TimesNewRoman(0)/m/it
-/12 Official
+ [112]
+Underfull \hbox (badness 4193) in paragraph at lines 522--523
+[]\TU/TimesNewRoman(0)/b/n/12 Keluaran per klaim. \TU/TimesNewRoman(0)/m/n/12 S
+tatus klaim terhadap referensi (\TU/lmtt/m/n/12 SUPPORTED\TU/TimesNewRoman(0)/m
+/n/12 ,
  []
 
+[113] [114]
+Underfull \vbox (badness 2608) has occurred while \output is active []
 
-LaTeX Warning: Reference `tab:pemenuhan-fungsional' on page 104 undefined on in
-put line 413.
+ [115]
+[116] [117]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-
-LaTeX Warning: Reference `tab:checklist-f1-f7' on page 104 undefined on input l
-ine 413.
-
-
-LaTeX Warning: Reference `tab:statistik-kg' on page 104 undefined on input line
- 439.
-
-
-LaTeX Warning: Reference `subsec:implementasi-indeks-vektor' on page 104 undefi
-ned on input line 439.
-
-
-LaTeX Warning: Reference `subsec:implementasi-kondisi-c' on page 104 undefined 
-on input line 439.
-
-[104]) [105] [106
+ [118])
+[119] [120
 
 ]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Aldosari2026' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Ali2026' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 420--420
-\TU/TimesNewRoman(0)/m/n/12 Deng [] Pavlos Kefalas. 2026. “  Pythia-RAG: Retrie
-val-Augmented
+Underfull \hbox (badness 7888) in paragraph at lines 420--420
+\TU/TimesNewRoman(0)/m/n/12 Deng, dan Pavlos Kefalas. 2026. “  Pythia-RAG: Retr
+ieval-Augmented
  []
 
 
@@ -5482,31 +2280,9 @@ nowledge-Based Systems \TU/TimesNewRoman(0)/m/n/12 335:115200. [][]$[] [] [] []
  []
 
 
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Alomari2026' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Awotunde2026' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Underfull \hbox (badness 1406) in paragraph at lines 420--420
-[] \TU/TimesNewRoman(0)/m/n/12 Hossein Khaleghian. 2026. “  Domain-Specific SQL
- Generation with
+Underfull \hbox (badness 1769) in paragraph at lines 420--420
+\TU/TimesNewRoman(0)/m/n/12 dan Hossein Khaleghian. 2026. “  Domain-Specific SQ
+L Generation with
  []
 
 
@@ -5516,400 +2292,25 @@ d Engineering Informatics \TU/TimesNewRoman(0)/m/n/12 73:104560. [][]$[] [] []
 [] []  []
  []
 
+[121
 
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Chang2026' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Cong2026' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DelaCruzCabello2025' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-[107
-
-]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Cui2026' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Fatima2026' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Gu2026' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Guo2025' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'in' untranslated
-(biblatex)                at entry 'Guo2025' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Hendawi2026' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Hogan2022' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Huang2025' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'YizhengHuang2026' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Underfull \hbox (badness 1540) in paragraph at lines 420--420
-[][]\TU/TimesNewRoman(0)/m/n/12 Huang, Yizheng [] Jimmy Xiangji Huang. 2026. “ 
- A Survey on Retrieval-
+] [122]
+Underfull \hbox (badness 1418) in paragraph at lines 420--420
+[][]\TU/TimesNewRoman(0)/m/n/12 Huang, Yizheng, dan Jimmy Xiangji Huang. 2026. 
+“  A Survey on Retrieval-
  []
 
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Ji2023' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-[108]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Jiang2026' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kabir2024' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'in' untranslated
-(biblatex)                at entry 'Kabir2024' on input line 420.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Kamalipour2026' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'BenKhalifa2026' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Lewis2020' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'in' untranslated
-(biblatex)                at entry 'Lewis2020' on input line 420.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Li2026' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Malamas2025' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Underfull \hbox (badness 6477) in paragraph at lines 420--420
+[123]
+Underfull \hbox (badness 5954) in paragraph at lines 420--420
 [][]\TU/TimesNewRoman(0)/m/n/12 Malamas, Nikolaos, Emmanouil Tsardoulias, Konst
-antinos Panayiotou []
+antinos Panayiotou, dan
  []
 
-[109]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Moia2026' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Nashid2023' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'in' untranslated
-(biblatex)                at entry 'Nashid2023' on input line 420.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Oarga2026' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Pan2024' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Peffers2007' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'andothers' untranslated
-(biblatex)                at entry 'Qin2025' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Ronanki2026' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'DaSilva2025' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-[110]
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Tao2026' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Vizniuk2024' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Underfull \hbox (badness 1389) in paragraph at lines 420--420
-\TU/TimesNewRoman(0)/m/n/12 Xiao [] Jacek Smoląg. 2024. “  A Comprehensive Surv
-ey of Retrieval-
+[124]
+Underfull \hbox (badness 1264) in paragraph at lines 420--420
+\TU/TimesNewRoman(0)/m/n/12 Xiao, dan Jacek Smoląg. 2024. “  A Comprehensive Su
+rvey of Retrieval-
  []
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Wang2026' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Zhou2026' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
 
 
 Underfull \hbox (badness 1221) in paragraph at lines 420--420
@@ -5917,59 +2318,37 @@ Underfull \hbox (badness 1221) in paragraph at lines 420--420
 esNewRoman(0)/m/it/12 Journal of Manufacturing
  []
 
-
-Package biblatex Warning: Bibliography string 'and' untranslated
-(biblatex)                at entry 'Zhu2026' on input line 420.
-
-
-Package biblatex Warning: Using fallback definition for \mkbibdatelong.
-(biblatex)                The command should be defined in the .lbx file.
-(biblatex)                If you see this message, the .lbx file could not be
-(biblatex)                loaded, is faulty or does not contain a definition
-(biblatex)                for \mkbibdatelong.
-
-[111] [112
-
-]
+[125] [126]
 
 Package caption Warning: Unused \captionsetup[algorithm] on input line 324.
 See the caption package documentation for explanation.
 
-(./Tesis.aux)
+(./tesis.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
 
 
-LaTeX Warning: There were undefined references.
-
-
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
-
-Package rerunfilecheck Warning: File `Tesis.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `Tesis.out':
-(rerunfilecheck)             Before: 635FAB9750B7122CD7EFA6D0E52F1B59;10473
-(rerunfilecheck)             After:  3F0652990A4A2F90D9B6F22B1E989894;36270.
+Package rerunfilecheck Info: File `tesis.out' has not changed.
+(rerunfilecheck)             Checksum: 9DC5F4F1E550E22C1709BAB09DDC7857;37034.
 
 Package biblatex Warning: Please rerun LaTeX.
 (biblatex)                Page breaks have changed.
 
-Package logreq Info: Writing requests to 'Tesis.run.xml'.
-\openout1 = `Tesis.run.xml'.
+Package logreq Info: Writing requests to 'tesis.run.xml'.
+\openout1 = `tesis.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 34081 strings out of 468168
- 673520 string characters out of 5432816
- 2137501 words of memory out of 5000000
- 62277 multiletter control sequences out of 15000+600000
+ 35617 strings out of 468168
+ 702891 string characters out of 5432816
+ 2194296 words of memory out of 5000000
+ 63811 multiletter control sequences out of 15000+600000
  637087 words of font info for 128 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 73i,16n,95p,1917b,6485s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 73i,16n,95p,1917b,8601s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on Tesis.pdf (132 pages).
+Output written on tesis.pdf (150 pages).

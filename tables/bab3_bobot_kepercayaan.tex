@@ -34,6 +34,7 @@ HAS\_ANSWER &
 Q $\rightarrow$ A &
 Jawaban lain pada \emph{thread} yang sama &
 $w = $ normalisasi \emph{min-max} skor jawaban dalam satu \emph{thread} ($0{,}5$ apabila seluruh skor sama)
+\todo{ganti jadi P99}
 \\
 \hline
 
@@ -44,7 +45,7 @@ $w = 1{,}0$ (struktural)
 \\
 \hline
 
-AUTHOR\_TRUST &
+AUTHOR\_TRUST \todo{cek lagi penggunaannya}&
 A $\rightarrow$ User &
 Kepercayaan terhadap kontributor jawaban &
 $w = \log(1+\mathrm{rep}) / \log(1+\mathrm{rep}_{P99})$, dipotong pada $[0,1]$; dipakai sebagai komponen reputasi \texttt{trustScore} jawaban, tidak dilalui pada traversal
