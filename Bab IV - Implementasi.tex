@@ -10,19 +10,18 @@ Bab ini memaparkan realisasi rancangan \emph{GraphRAG Framework} yang dijelaskan
     \item lingkungan implementasi dan struktur kode,
     \item persiapan dataset SORD,
     \item konstruksi \emph{knowledge graph} berbobot beserta indeks vektor dan densifikasi graf,
-    \item implementasi keempat kondisi eksperimen (A, B, C, dan D) dan komponen yang mereka gunakan bersama,
+    \item implementasi keempat kondisi eksperimen (A, B, C, dan D) dan komponen yang digunakan bersama,
     \item dasar penetapan parameter dan proses penetapan parameter Kondisi C pada \emph{development set},
     \item implementasi instrumen evaluasi dan matriks \emph{run} resmi, dan
     \item mekanisme reprodusibilitas.
 \end{enumerate}
-Seluruh angka pada bab ini diambil dari log eksekusi, laporan, dan berkas keluaran yang tersimpan di repositori kode penelitian.
 
 %============================================================
 \section{Lingkungan Implementasi}
 \label{sec:lingkungan-implementasi}
 %============================================================
 
-Seluruh implementasi dan eksperimen dijalankan pada satu komputer pribadi. Keterbatasan memori komputer tersebut menjadi pertimbangan utama dalam berbagai keputusan implementasi pada bab ini, misalnya pemrosesan data secara bertahap, pembatasan memori basis data analitik, dan pemuatan indeks vektor satu kali per proses. Spesifikasi lingkungan implementasi dirangkum pada Tabel~\ref{tab:lingkungan-implementasi}.
+Seluruh implementasi dan eksperimen dijalankan pada satu komputer pribadi. Spesifikasi lingkungan implementasi dirangkum pada Tabel~\ref{tab:lingkungan-implementasi}.
 
 \begin{table}[!htbp]
 \centering
@@ -57,31 +56,21 @@ Pengujian otomatis & \texttt{pytest} \\
 \end{tabularx}
 \end{table}
 
-Vektor kueri dan vektor teks kandidat pada Kondisi C dihitung di CPU, satu teks per panggilan. Pada pengujian awal, eksekusi melalui GPU Apple (MPS) dengan memori bersama 8~GB menyebabkan kehabisan memori GPU dan menghasilkan berkas keluaran kosong. Selain itu, keluaran model sedikit berbeda (sekitar $10^{-7}$) bergantung pada isi \emph{batch}, sehingga \emph{embedding} satu per satu di CPU dipilih agar hasil Kondisi C deterministik. Pembangunan indeks korpus Kondisi B, yang tidak pernah dibandingkan langsung dengan vektor Kondisi C, dijalankan pada MPS dengan \emph{batch} tetap agar lebih cepat (Subbab~\ref{subsec:implementasi-kondisi-b}).
-
-Kode penelitian disusun dalam satu repositori dengan struktur sebagai berikut:
-\begin{itemize}
-    \item \texttt{01\_data\_cleaning/}: \emph{pipeline} data, mulai dari validasi integritas hingga konstruksi, pembobotan, dan densifikasi KG, termasuk modul \texttt{trust\_formulas.py} yang memuat seluruh rumus kepercayaan;
-    \item \texttt{llm/}: mesin eksperimen, yang memuat abstraksi penyedia LLM, \emph{prompt} bersama, validasi kutipan, modul bersama (\texttt{common/}: teks kueri dan kandidat, pengecualian kebocoran data, \emph{provenance}), daftar identitas sampel yang dibekukan (\texttt{sample\_ids/}), skrip keempat kondisi (\texttt{a\_pure\_llm/}, \texttt{b\_rag/}, \texttt{c\_graphrag/}, \texttt{d\_lightrag/}), dan instrumen evaluasi (\texttt{evaluation/});
-    \item \texttt{docs/} dan \texttt{reports/}: catatan keputusan metodologis (\texttt{DECISION\_C\_SCORING.md}), matriks \emph{run} resmi, log revisi \emph{judge}, pedoman anotasi, dan laporan teknis setiap perbaikan.
-\end{itemize}
-
 %============================================================
 \section{Persiapan Data SORD}
 \label{sec:persiapan-data}
 %============================================================
 
 \subsection{Validasi Integritas}
-Dataset SORD \autocite{Fatima2026} diperoleh dalam bentuk dua belas berkas CSV, yaitu judul dan isi pertanyaan, jawaban, komentar, serta metadata tambahan (\emph{badges}, tag, pengguna, dan \emph{votes}). Setiap kategori disediakan dalam dua sumber, yaitu \emph{Contain} dan \emph{LikeMinusContain}. Setiap berkas divalidasi terhadap jumlah baris dan ukuran berkas yang dilaporkan oleh \textcite{Fatima2026}, kelengkapan kolom minimal, serta keberadaan identitas \emph{post} yang duplikat. Toleransi yang digunakan adalah 1\% untuk jumlah baris dan 15\% untuk ukuran berkas. Kedua belas berkas lolos validasi tanpa peringatan.
+Dataset SORD \autocite{Fatima2026} diperoleh dalam bentuk dua belas berkas CSV, yaitu judul dan isi pertanyaan, jawaban, komentar, serta metadata tambahan (\emph{badges}, tag, pengguna, dan \emph{votes}). Setiap kategori disediakan dalam dua sumber, yaitu \emph{Contain} dan \emph{LikeMinusContain}. Setiap berkas divalidasi terhadap jumlah baris dan ukuran berkas yang dilaporkan oleh \textcite{Fatima2026}, kelengkapan kolom minimal, serta keberadaan identitas \emph{post} yang duplikat. Kedua belas berkas lolos validasi.
 
 \subsection{Penggabungan dan Deduplikasi}
-Kedua sumber data digabungkan per kategori dan disimpan dalam format Parquet. Karena terdapat tumpang-tindih antara sumber \emph{Contain} dan \emph{LikeMinusContain}, gabungan pertanyaan berisi 2.811.534 baris dengan sebagian identitas yang berulang. Deduplikasi berdasarkan identitas \emph{post} menghasilkan \textbf{2.685.814 pertanyaan unik}. Deduplikasi dilakukan satu kali pada tahap ini agar seluruh skrip berikutnya bekerja pada data yang sama.
+Kedua sumber data digabungkan per kategori dan disimpan dalam format Parquet. Karena terdapat tumpang-tindih antara sumber \emph{Contain} dan \emph{LikeMinusContain}, gabungan pertanyaan berisi 2.811.534 baris dengan sebagian identitas yang berulang. Deduplikasi berdasarkan identitas \emph{post} menghasilkan 2.685.814 pertanyaan unik. 
 
 \subsection{Analisis Data Eksploratif}
 Analisis eksploratif dilakukan terhadap kualitas data dan sinyal kepercayaan sebelum KG dibangun. Tiga temuan yang relevan untuk implementasi adalah sebagai berikut.
 \begin{enumerate}
     \item Sebanyak 47,4\% pertanyaan memiliki \emph{accepted answer}, sehingga hanya sebagian populasi yang memenuhi syarat sebagai sampel evaluasi yang memiliki \emph{ground truth}.
-    \item Median skor \emph{upvote} jawaban yang diterima adalah 2, sedangkan jawaban yang tidak diterima adalah 1. Temuan ini mendukung asumsi bahwa status \emph{accepted answer} berasosiasi dengan kualitas jawaban yang lebih tinggi.
     \item Distribusi skor \emph{upvote} sangat condong. Skor jawaban berkisar antara $-26$ dan 6.095 dengan median 1 dan persentil ke-99 sebesar 46, sedangkan skor pertanyaan berkisar antara $-42$ dan 11.651 dengan median 1 dan persentil ke-99 sebesar 30. Temuan ini menjadi dasar normalisasi logaritmik pada Persamaan~\eqref{eq:normlog} (Subbab~\ref{subsec:implementasi-trustscore}).
 \end{enumerate}
 
@@ -90,15 +79,16 @@ Analisis eksploratif dilakukan terhadap kualitas data dan sinyal kepercayaan seb
 \label{sec:implementasi-kg}
 %============================================================
 
-Konstruksi KG dijalankan dalam beberapa skrip terpisah. Setiap skrip menulis log bertanda waktu dan dapat dijalankan ulang tanpa menduplikasi data, karena penulisan ke Neo4j menggunakan operasi \texttt{MERGE} dengan batasan keunikan pada identitas simpul. Seluruh populasi SORD dimasukkan ke dalam graf tanpa pembatasan domain. Statistik akhir KG disajikan pada Tabel~\ref{tab:statistik-kg}.
+Seluruh populasi SORD dimasukkan ke dalam graf. Statistik akhir KG disajikan pada Tabel~\ref{tab:statistik-kg}.
 
 \subsection{Graf Struktural}
 Simpul \texttt{Question}, \texttt{Answer}, dan \texttt{Tag} beserta sisi \texttt{HAS\_ACCEPTED\_ANSWER}, \texttt{HAS\_ANSWER}, dan \texttt{TAGGED\_WITH} dibangun dari data SORD yang telah dideduplikasi. Graf memuat 725.795 jawaban, yaitu jawaban yang pertanyaan induknya termasuk dalam populasi. Sebanyak 270.988 di antaranya terhubung melalui \texttt{HAS\_ACCEPTED\_ANSWER} dan 454.807 melalui \texttt{HAS\_ANSWER}. Setiap jawaban memiliki tepat satu pertanyaan induk, dan jumlah simpul dengan \texttt{isAccepted} bernilai benar sama persis dengan jumlah sisi \texttt{HAS\_ACCEPTED\_ANSWER}. Dari 2.685.814 pertanyaan, hanya 602.900 yang memiliki sedikitnya satu jawaban di graf. Fakta ini berpengaruh pada tahap \emph{semantic expansion} (Subbab~\ref{subsec:implementasi-kondisi-c}).
 
-Bobot \texttt{HAS\_ANSWER} dihitung dengan normalisasi \emph{min-max} skor jawaban di dalam setiap \emph{thread}. Apabila seluruh jawaban dalam satu \emph{thread} memiliki skor yang sama, bobotnya ditetapkan 0,5. Seluruh perhitungan bobot dilakukan secara vektorisasi pada DuckDB dan pandas agar tetap layak dijalankan pada skala jutaan baris.
+Bobot \texttt{HAS\_ANSWER} dihitung dengan normalisasi \emph{min-max} skor jawaban di dalam setiap \emph{thread}. Apabila seluruh jawaban dalam satu \emph{thread} memiliki skor yang sama, bobotnya ditetapkan 0,5. 
 
-\subsection{Pengayaan Tautan Antar-\emph{Thread}}
-Tabel \texttt{PostLinks} dari Stack Exchange Data Dump memuat 6.552.590 tautan antar-\emph{post}. Tautan tersebut dicocokkan dengan pertanyaan di SORD, dan hanya tautan yang kedua ujungnya terdapat di SORD yang dipertahankan. Pencocokan ini menghasilkan 160.647 pasangan tautan. Karena penulisan ke Neo4j menggunakan \texttt{MERGE}, pasangan berarah yang sama yang muncul lebih dari sekali di \texttt{PostLinks} hanya disimpan sebagai satu sisi, sehingga graf akhir memuat \textbf{151.094} sisi \texttt{IS\_RELATED\_TO}. Tautan bertipe \emph{Duplicate} diberi bobot 1,0, sedangkan tautan bertipe \emph{Linked} diberi bobot berupa kemiripan kosinus \emph{embedding} kedua pertanyaan, dengan rata-rata 0,611. Tipe tautan disimpan sebagai atribut \texttt{link\_type} pada sisi, sehingga dapat digunakan juga oleh aturan pengecualian kebocoran data (Subbab~\ref{subsec:implementasi-leakage}).
+\subsection{Tautan Antar-\emph{Thread}}
+Tabel \texttt{PostLinks} dari Stack Exchange Data Dump memuat 6.552.590 tautan antar-\emph{post}. Tautan tersebut dicocokkan dengan pertanyaan di SORD, dan hanya tautan yang kedua ujungnya terdapat di SORD yang dipertahankan. Proses ini menghasilkan 160.647 pasangan tautan, dengan 151.094 sisi \texttt{IS\_RELATED\_TO} pada graf akhir. Tautan bertipe \emph{Duplicate} diberi bobot 1,0, sedangkan tautan bertipe \emph{Linked} diberi bobot berdasarkan kemiripan kosinus \emph{embedding} kedua pertanyaan, dengan nilai rata-rata 0,611. Tipe tautan disimpan dalam atribut link_type pada setiap sisi.
+
 
 \subsection{Simpul Pengguna dan Bobot Kepercayaan Kontributor}
 \label{subsec:implementasi-author-trust}
@@ -106,9 +96,8 @@ Reputasi kontributor diambil dari data pengguna Stack Exchange. Dari 294.412 pen
 
 \subsection{Skor Kepercayaan Simpul}
 \label{subsec:implementasi-trustscore}
-Skor kepercayaan \texttt{trustScore} dihitung sesuai Persamaan~\eqref{eq:trust-question} dan \eqref{eq:trust-answer}. Seluruh rumus kepercayaan, termasuk $\mathrm{normlog}$ dan $w^{\mathrm{auth}}$, ditempatkan dalam satu modul yang dipakai bersama oleh skrip konstruksi KG dan skrip pembaruan, sehingga pembangunan ulang graf dan pembaruan menghasilkan nilai yang identik untuk masukan yang sama. Persentil ke-99 dihitung pada skor mentah (termasuk skor negatif) untuk seluruh populasi simpul sejenis, menggunakan metode kuantil linear. Nilai yang diperoleh adalah $P_{99} = 46$ untuk skor jawaban, $P_{99} = 30$ untuk skor pertanyaan, dan $P_{99} = 54.383$ untuk reputasi kontributor.
-
-Rumus yang berlaku saat ini merupakan hasil dua koreksi yang ditemukan selama implementasi. Keduanya dicatat dalam \emph{decision record} (Subbab~\ref{subsec:catatan-keputusan}) sebelum tahap~2 seleksi $\alpha$ dan sebelum sampel uji digunakan.
+Skor kepercayaan \texttt{trustScore} dihitung sesuai Persamaan~\eqref{eq:trust-question} dan \eqref{eq:trust-answer}. Persentil ke-99 dihitung pada skor mentah (termasuk skor negatif) untuk seluruh populasi simpul sejenis, menggunakan metode kuantil linear. Nilai yang diperoleh adalah $P_{99} = 46$ untuk skor jawaban, $P_{99} = 30$ untuk skor pertanyaan, dan $P_{99} = 54.383$ untuk reputasi kontributor.
+Rumus yang digunakan saat ini merupakan hasil dari dua koreksi selama implementasi. Kedua koreksi tersebut dicatat sebelum penggunaan pada sampel uji dilakukan.
 \begin{enumerate}
     \item \textbf{Komponen reputasi (Amendemen~5).} Pada saat KG pertama kali dibangun, berkas data pengguna belum tersedia. Akibatnya, reputasi bernilai kosong untuk seluruh jawaban, dan normalisasi \emph{min-max} terhadap deret yang seluruhnya nol menghasilkan konstanta 0,5. Komponen reputasi menjadi $0{,}2 \times 0{,}5 = 0{,}1$ untuk setiap jawaban, sehingga reputasi tidak pernah memengaruhi urutan kandidat. Hal ini terlihat pada log konstruksi yang mencatat nilai minimum \texttt{trustScore} jawaban tepat 0,100. Pengaruh reputasi diuji terlebih dahulu pada \emph{development set} tanpa mengubah graf (Subbab~\ref{subsec:keputusan-reputasi}). Setelah keputusan untuk menyertakannya diambil, komponen konstanta tersebut diganti dengan $w^{\mathrm{auth}}_A$ pada seluruh 725.795 simpul \texttt{Answer} (13 Oktober 2026), dengan versi \texttt{v2-reputation}.
     \item \textbf{Normalisasi skor \emph{upvote} (Amendemen~6).} Pemeriksaan distribusi menunjukkan bahwa normalisasi \emph{min-max} global terhadap skor \emph{upvote} membuat sinyal tersebut hampir hilang. Untuk 90\% jawaban, $\mathrm{minmax}(\mathrm{score}_A) \leq 0{,}0052$, sehingga kontribusinya terhadap \texttt{trustScore} kurang dari 0,003. Hal yang sama terjadi pada pertanyaan. Ketidakkonsistenan ini juga terlihat dari perlakuan terhadap reputasi, yang sudah dinormalisasi secara logaritmik karena alasan yang sama. Komponen skor kemudian diganti dengan $\mathrm{normlog}$ untuk simpul \texttt{Answer} dan \texttt{Question}, dengan koefisien yang tidak berubah. Keputusan ini didasarkan pada distribusi data, bukan pada hasil halusinasi, dan rumusnya dicatat sebelum dampaknya pada \emph{development set} dihitung.
@@ -149,7 +138,7 @@ Graf struktural sangat jarang. Sebanyak 91,96\% pertanyaan tidak memiliki sisi k
     \item \texttt{TAG\_COOCCUR}. Tag dengan frekuensi dokumen lebih dari 200 dianggap terlalu umum (misalnya \texttt{python} atau \texttt{javascript}) dan dikeluarkan, sehingga tersisa 52.402 tag informatif (92,9\% dari seluruh tag). Dari 81.759.382 pasangan kandidat, pasangan dengan koefisien Jaccard himpunan tag informatif $\geq 0{,}6$ dipertahankan, dengan paling banyak 20 tetangga per pertanyaan. Hasilnya adalah 11.841.429 sisi dari 749.699 pertanyaan sumber.
     \item \texttt{EMBED\_SIM}. Untuk setiap pertanyaan, dicari 10 tetangga terdekat pada indeks FAISS dengan kemiripan kosinus $\geq 0{,}7$. Hasilnya adalah 10.141.497 sisi dari 1.736.862 pertanyaan sumber.
 \end{enumerate}
-Validasi pascadensifikasi menghitung derajat setiap simpul \texttt{Question} melalui gabungan sisi \texttt{IS\_RELATED\_TO}, \texttt{TAG\_COOCCUR}, dan \texttt{EMBED\_SIM}. Hasilnya dirangkum pada Tabel~\ref{tab:validasi-densifikasi}. Ketiga kriteria terpenuhi: proporsi pertanyaan terisolasi turun dari 91,96\% menjadi 23,10\%, sehingga traversal dua \emph{hop} kini dapat menemukan tetangga bagi sebagian besar pertanyaan.
+Validasi pascadensifikasi menghitung derajat setiap simpul \texttt{Question} melalui gabungan sisi \texttt{IS\_RELATED\_TO}, \texttt{TAG\_COOCCUR}, dan \texttt{EMBED\_SIM}. Hasilnya dirangkum pada Tabel~\ref{tab:validasi-densifikasi}. Ketiga kriteria validasi terpenuhi. Proporsi pertanyaan yang tidak memiliki tetangga turun dari 91,96\% menjadi 23,10\%. Dengan demikian, traversal dua \emph{hop} dapat menjangkau tetangga untuk sebagian besar pertanyaan.
 
 \begin{table}[!htbp]
 \centering
@@ -203,42 +192,31 @@ Sisi \texttt{EMBED\_SIM} & 10.141.497 & densifikasi \\
 
 \subsection{Komponen Bersama}
 \label{subsec:komponen-bersama}
-Keempat kondisi berbagi komponen yang sama agar perbedaan antarkondisi hanya terletak pada mekanisme \emph{retrieval} dan \emph{grounding}. Komponen yang sebelumnya disalin di setiap skrip kondisi, yaitu pembentukan teks kueri, pembentukan teks kandidat, pemotongan token, dan pengecualian kebocoran data, dipindahkan ke satu modul bersama.
+Keempat kondisi berbagi komponen yang sama agar perbedaan antarkondisi hanya terletak pada mekanisme \emph{retrieval} dan \emph{grounding}. Komponen tersebut meliputi pembentukan teks kueri, pembentukan teks kandidat, pemotongan token, dan pengecualian kebocoran data.
 
-\noindent\textbf{\emph{Sampling}.} Kandidat sampel diambil dengan \emph{reservoir sampling} sebanyak 1.536 pertanyaan ($4 \times 384$) dari pertanyaan yang \emph{accepted answer}-nya terdapat di data jawaban, menggunakan \emph{seed} 42. Kandidat kemudian disaring dengan batas 2.048 token untuk gabungan judul, isi, dan tag pertanyaan. Sebanyak 65 pertanyaan gugur (panjang minimum 2.069 token, median 2.826 token), sehingga tersisa 1.471 pertanyaan. Kandidat yang tersisa diacak satu kali dengan \emph{seed} yang sama. Posisi 1--384 menjadi sampel uji dan posisi 385--434 menjadi \emph{development set}. Ukuran kumpulan kandidat dibuat tetap, tidak bergantung pada ukuran sampel yang diminta, sehingga setiap sampel kecil selalu merupakan awalan dari sampel yang lebih besar pada semua kondisi.
+\noindent\textbf{\emph{Sampling}.} Kandidat sampel diambil dengan \emph{reservoir sampling} sebanyak 1.536 pertanyaan ($4 \times 384$) dari pertanyaan yang \emph{accepted answer}-nya terdapat di data jawaban, menggunakan \emph{seed} 42. Kandidat kemudian disaring dengan batas 2.048 token untuk gabungan judul, isi, dan tag pertanyaan. Sebanyak 65 pertanyaan gugur (panjang minimum 2.069 token, median 2.826 token), sehingga tersisa 1.471 pertanyaan. Kandidat yang tersisa kemudian diacak satu kali menggunakan seed yang sama. Sebanyak 384 pertanyaan pertama (posisi 1–384) digunakan sebagai sampel uji, sedangkan 50 pertanyaan berikutnya (posisi 385–434) digunakan sebagai development set.
 
-Daftar identitas 384 pertanyaan uji dan 50 pertanyaan \emph{development set} kemudian dibekukan sebagai berkas di repositori beserta \emph{hash} SHA-256-nya. Setiap kondisi memeriksa bahwa sampel yang dihasilkannya identik dengan daftar beku tersebut, dan hasil pemeriksaan dicatat pada \emph{manifest} setiap \emph{run}. Pemeriksaan ini mencegah kemungkinan satu kondisi memperoleh sampel yang berbeda apabila kode \emph{sampling} berubah.
+Daftar identitas kedua kelompok tersebut kemudian dibekukan. Langkah ini memastikan semua kondisi menggunakan sampel yang sama, meskipun kode sampling mengalami perubahan.
 
 \noindent\textbf{\emph{Prompt}.} Seluruh kondisi menggunakan struktur empat giliran yang mereplikasi kode publik \textcite{DaSilva2025}. Pada Kondisi B, C, dan D, intervensi \emph{retrieval} dan pengendaliannya ditambahkan di dua tempat:
 \begin{enumerate}
     \item giliran pertama (\emph{system}) ditambah aturan pengutipan label \texttt{[SO-<id>]}, dan pada varian \emph{grounded} juga larangan membuat klaim di luar konteks;
     \item giliran keempat memuat konteks hasil \emph{retrieval}, instruksi \emph{citation} dan (pada varian \emph{grounded}) instruksi \emph{grounding}, serta pengingat singkat di akhir giliran.
 \end{enumerate}
-Kondisi A menggunakan giliran pertama asli tanpa tambahan. Kedua tambahan tersebut merupakan bagian dari intervensi \emph{retrieval} dan pengendaliannya, dan teksnya identik byte demi byte pada Kondisi B, C, dan D, yang diverifikasi dengan pengujian otomatis. Apabila \emph{retrieval} tidak menghasilkan konteks sama sekali, model diminta menyatakan bahwa tidak ada sumber relevan dan tidak menjawab dari pengetahuannya sendiri.
+Apabila \emph{retrieval} tidak menghasilkan konteks sama sekali, model diminta menyatakan bahwa tidak ada sumber relevan dan tidak menjawab dari pengetahuannya sendiri.
 
-\emph{Prompt} mengalami dua revisi selama studi pilot, dan versinya dicatat pada setiap keluaran. Pada versi awal, contoh label numerik di dalam instruksi, misalnya \texttt{[SO-1234]}, terkadang disalin model sebagai kutipan palsu ketika konteks kurang relevan. Penggantian contoh dengan \emph{placeholder} non-numerik hanya memindahkan gejala, karena model kemudian menyalin \emph{placeholder} tersebut. Versi akhir (v3) menghapus seluruh contoh kalimat yang dapat disalin dan menambahkan aturan eksplisit untuk menulis klaim tanpa kutipan apabila tidak ada sumber yang mendukung.
+\noindent\textbf{Validasi kutipan.} Setelah jawaban dihasilkan, seluruh kutipan diekstraksi menggunakan ekspresi reguler, kemudian dicocokkan dengan daftar label pada konteks. Untuk setiap jawaban, dicatat apakah terdapat kutipan, apakah terdapat kutipan yang valid, serta daftar kutipan yang tidak valid. Mekanisme validasi ini digunakan secara konsisten pada Kondisi B, C, dan D.
 
-\noindent\textbf{Validasi kutipan.} Setelah jawaban dihasilkan, seluruh kutipan diekstraksi dengan ekspresi reguler dan dibandingkan dengan daftar label pada konteks. Untuk setiap jawaban, dicatat apakah terdapat kutipan, apakah terdapat kutipan yang valid, dan daftar kutipan yang tidak valid. Implementasi validasi ini digunakan bersama oleh Kondisi B, C, dan D.
-
-\noindent\textbf{LLM.} Seluruh kondisi memanggil \texttt{gpt-4o-mini} melalui satu modul abstraksi penyedia, dengan satu panggilan per pertanyaan dan tanpa pengulangan. Sesuai ketentuan pada Subbab~\ref{subsec:desain-kondisi-pembanding}, parameter \emph{temperature} dan batas token keluaran tidak dikirim, sehingga nilai bawaan API yang berlaku (\emph{temperature} bawaan OpenAI bernilai 1). Setiap rekaman hasil menyimpan parameter permintaan yang benar-benar dikirim, yaitu \texttt{\{model: gpt-4o-mini, temperature: null\}}, sehingga konfigurasi ini dapat diverifikasi pada seluruh \emph{run}. Pengaturan ini berbeda dengan \emph{judge}, yang selalu dijalankan dengan \emph{temperature} 0 (Subbab~\ref{sec:implementasi-evaluasi}).
-
-\noindent\textbf{Rekaman hasil.} Setiap rekaman per pertanyaan memuat identitas \emph{run}, kondisi, jawaban, konteks beserta metadatanya, hasil validasi kutipan, kemiripan kosinus antara jawaban dan \emph{accepted answer} (menggunakan \texttt{all-MiniLM-L6-v2}, sama dengan \textcite{DaSilva2025}), serta tiga ukuran latensi: latensi \emph{retrieval} (kosong untuk Kondisi A), latensi pemanggilan \emph{generator}, dan latensi total per pertanyaan. Dengan demikian, pemenuhan NF3 dapat diperiksa baik untuk \emph{retrieval} maupun untuk keseluruhan \emph{pipeline}.
+\noindent\textbf{LLM.} Seluruh kondisi memanggil \texttt{gpt-4o-mini}, dengan satu panggilan per pertanyaan dan tanpa pengulangan. Sesuai ketentuan pada Subbab~\ref{subsec:desain-kondisi-pembanding}, parameter \emph{temperature} dan batas token keluaran tidak dikirim, sehingga nilai bawaan API yang berlaku (\emph{temperature} bawaan OpenAI bernilai 1).
 
 \subsection{Pencegahan Kebocoran Data}
 \label{subsec:implementasi-leakage}
-Aturan pengecualian pada Subbab~\ref{subsubsec:leakage} diimplementasikan sebagai satu fungsi bersama untuk Kondisi B, C, dan D. Audit tanpa pengecualian pada 50 pertanyaan \emph{development set} (\emph{retrieval} saja, tanpa LLM) menunjukkan bahwa kebocoran ini nyata: konteks yang memuat \emph{thread} pertanyaan evaluasi itu sendiri muncul pada 84\% pertanyaan untuk Kondisi B, serta 100\% untuk Kondisi C dan D. Angka 100\% pada C dan D terjadi karena kedua kondisi melakukan \emph{anchoring} dengan \emph{embedding} pertanyaan, sehingga pertanyaan itu sendiri menjadi \emph{anchor} teratas apabila tidak dikecualikan.
-
-Himpunan pengecualian setiap pertanyaan evaluasi terdiri atas tiga bagian:
+Aturan pengecualian pada Subbab~\ref{subsubsec:leakage} diimplementasikan untuk Kondisi B, C, dan D. Himpunan pengecualian setiap pertanyaan evaluasi terdiri atas tiga bagian:
 \begin{enumerate}
     \item pertanyaan itu sendiri beserta seluruh jawabannya, termasuk \emph{accepted answer};
-    \item pertanyaan yang terhubung melalui \texttt{IS\_RELATED\_TO} bertipe \emph{Duplicate}, ke kedua arah, beserta seluruh jawabannya;
+    \item pertanyaan yang terhubung melalui \texttt{IS\_RELATED\_TO} bertipe \emph{Duplicate} beserta seluruh jawabannya;
     \item pertanyaan \emph{near-duplicate}, yaitu pertanyaan yang \emph{embedding} judul dan isinya memiliki kemiripan kosinus $\geq 0{,}95$ dengan pertanyaan evaluasi, beserta seluruh jawabannya.
 \end{enumerate}
-Pengecualian ditetapkan hanya berdasarkan identitas dan kemiripan pertanyaan, tidak pernah berdasarkan isi \emph{accepted answer}. Ambang 0,95 dipilih karena satu-satunya kasus \emph{Linked} dengan kemiripan tinggi pada audit bernilai 0,9468, sehingga ambang yang lebih rendah mulai mengecualikan jawaban yang relevan secara sah. Pertanyaan bertipe \emph{Linked} tidak dikecualikan; pengecualiannya hanya disediakan sebagai mode analisis sensitivitas.
-
-Bagian himpunan yang bergantung pada graf dihitung satu kali untuk seluruh 1.471 kandidat sampel dan disimpan dalam satu berkas Parquet, yang menghasilkan isi identik byte demi byte apabila dibangun ulang. Dengan cara ini, Kondisi B dapat menerapkan aturan yang sama tanpa mengakses Neo4j. Pada saat \emph{retrieval}, setiap kondisi mengambil kandidat lebih banyak dari yang diperlukan, membuang kandidat yang termasuk himpunan pengecualian, lalu memotong hasilnya menjadi $k$ item. Pada Kondisi C dan D, pengecualian diterapkan pada hasil \emph{anchoring}, pada setiap simpul yang dilewati traversal, dan pada \emph{semantic expansion}. Setiap kondisi kemudian memeriksa per kueri bahwa irisan hasil \emph{retrieval} dan himpunan pengecualian kosong, serta mencatat jumlah pertanyaan dan jawaban yang dikecualikan, jumlah kandidat yang dibuang, dan jumlah item konteks akhir.
-
-Dari 1.471 kandidat sampel, 13 pertanyaan (0,9\%) memiliki pasangan \emph{Duplicate} dan 3 pertanyaan (0,2\%) memiliki pasangan \emph{near-duplicate}. Pada sampel uji, hanya jumlah agregatnya yang dihitung, yaitu 2 pertanyaan dengan pasangan \emph{Duplicate} dan 1 pertanyaan dengan pasangan \emph{near-duplicate}. Dengan pengecualian aktif, konteks yang memuat identitas dari himpunan pengecualian turun menjadi 0\% pada ketiga kondisi, dan tidak ada item konteks yang memiliki kemiripan kosinus $\geq 0{,}95$ dengan \emph{accepted answer}. Kemiripan kosinus ini hanya digunakan sebagai alat ukur kebocoran, bukan sebagai penyaring. Pada \emph{development set}, perluasan aturan dari \emph{thread} sendiri menjadi aturan di atas tidak mengubah satu pun himpunan pengecualian, sehingga hasil tahap~1 seleksi $\alpha$ tetap berlaku (Amendemen~8).
 
 \subsection{Kondisi A: LLM Murni}
 Kondisi A memanggil LLM dengan \emph{prompt} empat giliran tanpa konteks. Sampel, model, dan metrik kemiripan identik dengan kondisi lain sehingga Kondisi A berfungsi sebagai replikasi \emph{baseline} \textcite{DaSilva2025} dalam lingkungan penelitian ini.

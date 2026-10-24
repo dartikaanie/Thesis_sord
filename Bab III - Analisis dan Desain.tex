@@ -277,7 +277,7 @@ Mekanisme \emph{hybrid retrieval} merupakan implementasi Blok 2 dalam \emph{Grap
 
 \subsubsection{\emph{Entity Anchoring}}
 
-Tahap pertama bertujuan memetakan pertanyaan pengguna ke simpul-simpul awal (\emph{seed nodes}) di KG. Judul dan isi pertanyaan diubah menjadi vektor menggunakan model \emph{embedding} yang sama dengan yang digunakan untuk mengindeks KG, kemudian dicari $N_{\mathrm{anchor}}$ simpul \texttt{Question} yang paling mirip berdasarkan kemiripan kosinus. Sebagai contoh, kueri \textit{``How to implement OAuth2 login with FastAPI?''} akan dipetakan ke pertanyaan-pertanyaan serupa seperti \texttt{Q\#1234} dan \texttt{Q\#2567}. Pendekatan berbasis \emph{embedding} ini dipilih karena setiap pertanyaan Stack Overflow pada dasarnya merepresentasikan satu permasalahan teknis yang spesifik, sehingga pertanyaan yang mirip secara semantik merupakan titik masuk yang alami ke diskusi komunitas yang relevan. Pendekatan ini juga konsisten dengan mekanisme \emph{low-level retrieval} pada LightRAG yang menggunakan pencarian vektor untuk menemukan simpul awal di graf \autocite{Guo2025}. Hasil tahap ini berupa sekumpulan \emph{seed nodes} yang digunakan sebagai titik awal penelusuran.
+Tahap pertama bertujuan memetakan pertanyaan pengguna ke simpul-simpul awal (\emph{seed nodes}) di KG. Judul dan isi pertanyaan diubah menjadi vektor menggunakan model \emph{embedding} yang sama dengan yang digunakan untuk mengindeks KG, kemudian dicari simpul \texttt{Question} yang paling mirip berdasarkan kemiripan kosinus. Sebagai contoh, kueri \textit{``How to implement OAuth2 login with FastAPI?''} akan dipetakan ke pertanyaan-pertanyaan serupa seperti \texttt{Q\#1234} dan \texttt{Q\#2567}. Pendekatan berbasis \emph{embedding} ini dipilih karena setiap pertanyaan Stack Overflow pada dasarnya merepresentasikan satu permasalahan teknis yang spesifik, sehingga pertanyaan yang mirip secara semantik merupakan titik masuk yang alami ke diskusi komunitas yang relevan. Pendekatan ini juga konsisten dengan mekanisme \emph{low-level retrieval} pada LightRAG yang menggunakan pencarian vektor untuk menemukan simpul awal di graf \autocite{Guo2025}. Hasil tahap ini berupa sekumpulan \emph{seed nodes} yang digunakan sebagai titik awal penelusuran.
 
 \subsubsection{\emph{Graph Traversal}}
 
@@ -294,7 +294,7 @@ Sebagai ilustrasi, dari simpul \texttt{Q\#1234} sistem mengikuti \texttt{HAS\_AC
 
 Simpul-simpul pertanyaan yang dilewati pada tahap traversal kemudian digunakan untuk memperluas pencarian secara semantik. Judul dari beberapa pertanyaan tersebut diubah menjadi vektor dan digunakan sebagai kueri baru pada indeks FAISS untuk menemukan pertanyaan tetangga yang belum pernah ditemukan sebelumnya, lalu jawaban dari pertanyaan-pertanyaan tersebut diambil. Pendekatan ini memungkinkan sistem menemukan informasi yang relevan meskipun tidak memiliki hubungan langsung dalam KG. Berbeda dengan RAG konvensional yang mencari langsung dari kueri pengguna, tahap ini memanfaatkan simpul hasil penelusuran graf sebagai dasar pencarian semantik.
 
-Karena sebagian besar pertanyaan di SORD tidak memiliki jawaban, tetangga yang dipilih dibatasi pada pertanyaan yang memiliki sedikitnya satu jawaban dan tidak terkena aturan pengecualian kebocoran data. Pembatasan ini diterapkan sebelum jumlah tetangga dipotong, sehingga setiap slot \emph{expansion} terisi oleh pertanyaan yang benar-benar dapat menyumbang kandidat konteks. Karena kandidat dari tahap ini tidak ditemukan melalui relasi eksplisit, bobot jalurnya dibatasi pada tingkat kepercayaan terendah dalam hierarki bobot, yaitu setara dengan sisi \texttt{EMBED\_SIM} ($w \leq 0{,}4$).
+Karena sebagian besar pertanyaan di SORD tidak memiliki jawaban, tetangga yang dipilih dibatasi pada pertanyaan yang memiliki sedikitnya satu jawaban. Penyaringan dilakukan sebelum jumlah tetangga ditentukan agar setiap slot expansion diisi oleh pertanyaan yang dapat memberikan kandidat konteks. Karena kandidat pada tahap ini tidak diperoleh melalui relasi eksplisit dalam graf, bobot jalurnya ditetapkan pada tingkat kepercayaan terendah, yaitu setara dengan sisi \texttt{EMBED\_SIM} ($w \leq 0{,}4$).
 
 \subsubsection{Fusi dan Pemeringkatan Konteks}
 \label{subsubsec:fusi-konteks}
@@ -314,7 +314,7 @@ Sinyal kepercayaan mengukur seberapa tervalidasi suatu jawaban oleh komunitas, b
 \end{equation}
 dengan $\mathrm{sim}_{\mathrm{norm}}(q,c)$ adalah kemiripan kosinus antara kueri $q$ dan teks kandidat yang dinormalisasi \emph{min-max} dalam kumpulan kandidat setiap pertanyaan, dan $\alpha \in [0,1]$ mengatur kontribusi kepercayaan. Bentuk ini merupakan kombinasi konveks dari dua skor yang telah dinormalisasi. \textcite{Bruch2023} menganalisis fungsi fusi pada \emph{hybrid retrieval} dan menunjukkan bahwa kombinasi konveks skor ternormalisasi lebih unggul daripada fusi berbasis peringkat, serta parameter bobotnya dapat ditala dengan sedikit contoh berlabel. Bentuk ini juga hanya memiliki satu parameter yang mudah diinterpretasikan: $\alpha{=}0$ menghasilkan pemeringkatan murni berbasis relevansi, sedangkan $\alpha{=}1$ menghasilkan pemeringkatan murni berbasis kepercayaan. Nilai $\alpha$ dipilih melalui prosedur yang ditetapkan sebelumnya pada \emph{development set} yang terpisah dari sampel uji (Subbab~\ref{subsubsec:prosedur-alpha}).
 
-Kandidat diurutkan berdasarkan skor akhir secara menurun, dengan identitas jawaban sebagai kunci pengurutan sekunder agar hasilnya deterministik ketika terdapat skor yang sama. Pada langkah \emph{packing}, $k{=}5$ kandidat teratas disusun menjadi \emph{unified context window}. Setiap item konteks berisi judul pertanyaan asal dan isi jawaban, dipotong sesuai batas token, dan diberi label sumber \texttt{[SO-<id>]}.
+Kandidat diurutkan berdasarkan skor akhir dari tertinggi ke terendah. Jika terdapat skor yang sama, identitas jawaban digunakan sebagai urutan kedua agar hasil pengurutan tetap konsisten. Pada langkah \emph{packing}, $k{=}5$ kandidat teratas disusun menjadi \emph{unified context window}. Setiap item konteks berisi judul pertanyaan asal dan isi jawaban, dipotong sesuai batas token, dan diberi label sumber \texttt{[SO-<id>]}.
 
 \begin{figure}[!htbp]
 \centering
@@ -336,9 +336,7 @@ Oleh karena itu, untuk setiap pertanyaan evaluasi ditetapkan satu himpunan penge
     \item pertanyaan yang terhubung dengannya melalui sisi \texttt{IS\_RELATED\_TO} bertipe \emph{Duplicate}, ke kedua arah, beserta seluruh jawabannya; dan
     \item pertanyaan \emph{near-duplicate}, yaitu pertanyaan yang \emph{embedding} judul dan isinya memiliki kemiripan kosinus $\geq 0{,}95$ dengan pertanyaan evaluasi, beserta seluruh jawabannya.
 \end{enumerate}
-Pengecualian ditetapkan hanya berdasarkan identitas dan kemiripan pertanyaan, tidak pernah berdasarkan isi \emph{accepted answer}, sehingga aturan ini tidak memanfaatkan pengetahuan tentang \emph{ground truth}. Himpunan ini dibentuk oleh satu aturan yang sama dan diterapkan per kueri pada Kondisi B, C, dan D: kandidat diambil lebih banyak dari yang diperlukan, kandidat yang termasuk himpunan pengecualian dibuang, lalu hasilnya dipotong menjadi $k$ item. Pada Kondisi C dan D, yang berbagi satu graf untuk seluruh populasi, pengecualian diterapkan pada hasil \emph{anchoring}, pada setiap simpul yang dilewati traversal, dan pada \emph{semantic expansion}. Setiap kondisi memeriksa per kueri bahwa irisan hasil \emph{retrieval} dan himpunan pengecualian kosong.
-
-Pertanyaan yang hanya bertautan \emph{Linked} tidak dikecualikan, karena tautan tersebut menandai topik yang berkaitan dan merupakan pengetahuan komunitas yang sah, bukan pertanyaan yang sama. Kebocoran diukur pada setiap \emph{run} dengan dua metrik, yaitu proporsi pertanyaan yang konteksnya memuat identitas dari himpunan pengecualian, dan proporsi item konteks yang memiliki kemiripan kosinus $\geq 0{,}95$ dengan \emph{accepted answer}. Metrik kedua hanya digunakan sebagai alat ukur, bukan sebagai penyaring.
+Pengecualian ditetapkan hanya berdasarkan identitas dan kemiripan pertanyaan. Himpunan ini dibentuk oleh satu aturan yang sama dan diterapkan per kueri pada Kondisi B, C, dan D: kandidat diambil lebih banyak dari yang diperlukan, kandidat yang termasuk himpunan pengecualian dibuang, lalu hasilnya dipotong menjadi $k$ item. Pada Kondisi C dan D, yang berbagi satu graf untuk seluruh populasi, pengecualian diterapkan pada hasil \emph{anchoring}, pada setiap simpul yang dilewati traversal, dan pada \emph{semantic expansion}. Setiap kondisi memeriksa per kueri bahwa irisan hasil \emph{retrieval} dan himpunan pengecualian kosong.
 
 %------------------------------------------------------------
 \subsection{Desain \emph{Grounded Generation}}
@@ -359,8 +357,6 @@ Lapisan kedua adalah \emph{citation constraint}. LLM diinstruksikan untuk mengut
 \begin{sloppypar}
 Sebagai contoh, pada domain autentikasi FastAPI, klaim bahwa \texttt{OAuth2PasswordBearer} digunakan bersama \texttt{Depends()} harus disertai label \texttt{[SO-1234]} apabila jawaban \texttt{A\#9823} dari \texttt{Q\#1234} terdapat dalam konteks. Dengan demikian, model tetap mengacu pada solusi yang telah divalidasi oleh komunitas Stack Overflow.
 \end{sloppypar}
-
-Pada eksperimen, \emph{grounding constraint} dapat dinonaktifkan secara terpisah, sedangkan \emph{citation constraint} selalu aktif pada Kondisi B, C, dan D. Dengan demikian, kontribusi \emph{grounding} dapat diuji sebagai faktor eksperimen tersendiri tanpa menghilangkan kemampuan pengukuran keterlacakan (Subbab~\ref{subsec:desain-evaluasi}).
 
 \subsubsection{\emph{Provenance} sebagai Mekanisme Keterlacakan}
 
@@ -389,8 +385,7 @@ Sebagai ilustrasi, untuk kueri \textit{``How to implement OAuth2 login with Fast
 Penelitian ini membandingkan empat kondisi. Kondisi C merupakan kerangka yang diusulkan, sedangkan Kondisi A, B, dan D merupakan pembanding yang dirancang agar hanya berbeda dari Kondisi C pada komponen yang ingin diukur kontribusinya. Kriteria pemilihan pertanyaan, model LLM, model \emph{embedding}, struktur \emph{prompt}, dan jumlah konteks ($k{=}5$) dibuat identik pada seluruh kondisi. Ringkasan perbedaan keempat kondisi disajikan pada Tabel~\ref{tab:perbandingan-kondisi}.
 
 \subsubsection{Kondisi A: LLM Murni}
-Kondisi A mereplikasi protokol \textcite{DaSilva2025}, yaitu setiap pertanyaan dijawab tanpa konteks eksternal menggunakan struktur \emph{prompt} percakapan empat giliran yang sama dengan studi tersebut, dan setiap pertanyaan menghasilkan tepat satu jawaban yang langsung dievaluasi tanpa \emph{resampling}.
-
+Kondisi A mereplikasi protokol \textcite{DaSilva2025}, yaitu setiap pertanyaan dijawab tanpa konteks eksternal menggunakan struktur \emph{prompt} percakapan empat giliran yang sama dengan studi tersebut, dan setiap pertanyaan menghasilkan tepat satu jawaban yang langsung dievaluasi.
 Terkait parameter generasi, \textcite{DaSilva2025} menyatakan bahwa model dijalankan dengan konfigurasi bawaan, termasuk \emph{temperature} dan panjang konteks, tanpa penyetelan hiperparameter tambahan, agar evaluasi mencerminkan cara pengguna pada umumnya berinteraksi dengan model. Penelitian ini mengikuti ketentuan tersebut: panggilan API untuk generasi jawaban tidak menyertakan parameter \emph{temperature} maupun batas token keluaran, sehingga yang berlaku adalah nilai bawaan penyedia. Konfigurasi yang sama diterapkan pada keempat kondisi, sehingga perbedaan hasil antarkondisi tidak berasal dari perbedaan pengaturan generasi.
 
 \subsubsection{Kondisi B: RAG Konvensional}
@@ -409,7 +404,7 @@ Kondisi D mengadaptasi mekanisme \emph{dual-level retrieval} dari LightRAG \auto
     \item \emph{Low-level retrieval}, yang analog dengan pengambilan entitas spesifik pada LightRAG, yaitu jawaban satu \emph{hop} dari \emph{seed nodes} hasil \emph{anchoring}, dengan skor berupa kemiripan kosinus \emph{seed node} terhadap kueri.
     \item \emph{High-level retrieval}, yang analog dengan pengambilan tema atau komunitas pada LightRAG, yaitu jawaban dua \emph{hop} melalui sisi \texttt{IS\_RELATED\_TO}, \texttt{TAG\_COOCCUR}, dan \texttt{EMBED\_SIM}, dengan skor berupa nilai kemiripan mentah dari sisi tersebut.
 \end{enumerate}
-Hasil kedua tingkat dideduplikasi, diurutkan berdasarkan skor relevansi saja, dan dipotong menjadi $k{=}5$ item. Berbeda dengan Kondisi C, skor kepercayaan dan status \emph{accepted answer} tidak memengaruhi pemeringkatan, dan Kondisi D tidak memiliki tahap \emph{semantic expansion}. Instruksi \emph{grounding} dan \emph{citation} pada Kondisi D identik dengan Kondisi C.
+Hasil dari kedua tingkat digabungkan, dihapus duplikasinya, lalu diurutkan berdasarkan skor relevansi dari tertinggi ke terendah. selanjutnya, item teratas dipilih ($k{=}5$). Berbeda dengan Kondisi C, Kondisi D tidak menggunakan skor kepercayaan maupun status \emph{accepted answer} untuk menentukan peringkat dan tidak memiliki tahap \emph{semantic expansion}. Namun, instruksi \emph{grounding} dan \emph{citation} pada Kondisi D tetap sama dengan Kondisi C.
 
 \begin{table}[!htbp]
 \centering
@@ -424,8 +419,8 @@ Hasil kedua tingkat dideduplikasi, diurutkan berdasarkan skor relevansi saja, da
 \emph{Retrieval} & -- & \emph{Dense} & \emph{Hybrid} & \emph{Dual-level} \\
 Sinyal kepercayaan & -- & tidak & $\alpha^{*}$ (utama) / $\alpha^{\mathrm{abl}}$ (ablasi) & tidak \\
 \emph{Semantic expansion} & -- & -- & ya & tidak \\
-Konteks & -- & 5 jawaban & 5 item & $\leq 5$ item \\
-\emph{Grounding} & -- & ya / tidak & ya / tidak & ya / tidak \\
+Konteks & -- & 5 jawaban & 5 item &  5 item \\
+\emph{Grounding} & -- & ya & ya & ya \\
 \emph{Citation} & -- & ya & ya & ya \\
 Pengecualian kebocoran & -- & ya & ya & ya \\
 \emph{Prompt} & \multicolumn{4}{c|}{Struktur percakapan empat giliran yang sama} \\
@@ -441,16 +436,16 @@ Evaluasi dilakukan untuk mengukur kinerja \emph{GraphRAG Framework} yang diusulk
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\textwidth]{images/bab3_perbandingan_tiga_kondisi_evaluasi.png}
-\caption{Perbandingan kondisi evaluasi yang menghasilkan output yang diukur dengan metrik yang identik.}
+\caption{Perbandingan kondisi evaluasi yang menghasilkan output yang diukur dengan metrik yang identik. 
+\todo{Perbarui gambar menjadi empat kolom (tambahkan Kondisi D) dan sesuaikan daftar metrik dengan Tabel~\ref{tab:metrik-evaluasi}.}}
 \label{fig:perbandingan-tiga-kondisi}
 \end{figure}
-\todo{Perbarui gambar menjadi empat kolom (tambahkan Kondisi D) dan sesuaikan daftar metrik dengan Tabel~\ref{tab:metrik-evaluasi}.}
 Gambar~\ref{fig:perbandingan-tiga-kondisi} menyajikan kerangka perbandingan kondisi evaluasi dalam format kolom sejajar. Seluruh kondisi menerima \emph{input} identik (pertanyaan yang sama dan sumber data SORD yang sama), menjalankan proses yang berbeda (tanpa \emph{retrieval}, \emph{dense retrieval}, \emph{hybrid retrieval} berbobot kepercayaan, atau \emph{dual-level retrieval} tanpa kepercayaan), dan menghasilkan output yang diukur dengan metrik yang sama.
 
 Pendekatan GraphRAG (Kondisi C dan D) memiliki kompleksitas arsitektural lebih tinggi daripada Kondisi A dan B karena memerlukan konstruksi dan densifikasi KG serta proses \emph{graph traversal}. Oleh karena itu, penelitian ini berfokus pada peningkatan kualitas jawaban, yang diukur melalui \emph{faithfulness}, \emph{hallucination rate}, dan keterlacakan. Latensi hanya dievaluasi untuk memastikan pemenuhan batas NF3, bukan sebagai keunggulan yang diklaim.
 
 \subsubsection{Dataset dan Strategi \emph{Sampling}}
-Evaluasi menggunakan pertanyaan yang bersumber dari seluruh populasi SORD \autocite{Fatima2026} tanpa pembatasan domain, sedangkan KG dibangun dari populasi yang sama. Pertanyaan memenuhi syarat sebagai sampel apabila (a) memiliki \emph{accepted answer} yang terdapat dalam data jawaban SORD, dan (b) panjang judul, isi, dan tag pertanyaan tidak melebihi 2.048 token. Kriteria (b) diadopsi dari \textcite{DaSilva2025}, yang menerapkannya untuk menyesuaikan dengan batas konteks model yang mereka evaluasi. Meskipun model yang digunakan dalam penelitian ini memiliki batas konteks yang lebih besar, kriteria tersebut dipertahankan agar karakteristik populasi sampel konsisten dengan studi acuan, sekaligus menyisakan ruang bagi konteks hasil \emph{retrieval} pada Kondisi B, C, dan D. Sebagai \emph{ground truth}, digunakan jawaban berstatus \emph{accepted answer}, konsisten dengan protokol \textcite{DaSilva2025}.
+Evaluasi menggunakan pertanyaan yang bersumber dari seluruh populasi SORD \autocite{Fatima2026} tanpa pembatasan domain, sedangkan KG dibangun dari populasi yang sama. Pertanyaan memenuhi syarat sebagai sampel apabila (a) memiliki \emph{accepted answer} yang terdapat dalam data jawaban SORD, dan (b) panjang judul, isi, dan tag pertanyaan tidak melebihi 2.048 token. Kriteria (b) diadopsi dari \textcite{DaSilva2025}, yang menerapkannya untuk menyesuaikan dengan batas konteks model yang mereka evaluasi. Jawaban berstatus \emph{accepted answer} digunakan sebagai \emph{ground truth}, konsisten dengan protokol \textcite{DaSilva2025}.
 
 Ukuran sampel uji ditetapkan $n{=}384$, yaitu ukuran minimum untuk tingkat kepercayaan 95\% dengan \emph{margin of error} 5\%, sama dengan \textcite{DaSilva2025}. Sampel disusun melalui tiga langkah:
 \begin{enumerate}
@@ -463,13 +458,17 @@ Seluruh penyetelan, yaitu pemilihan $\alpha$, perumusan instruksi \emph{prompt},
 
 \subsubsection{Prosedur Pemilihan $\alpha$}
 \label{subsubsec:prosedur-alpha}
-Nilai $\alpha$ dipilih dari lima kandidat, $\alpha \in \{0;\ 0{,}25;\ 0{,}5;\ 0{,}75;\ 1\}$, melalui dua tahap pada \emph{development set}. Kandidat, kriteria, dan aturan seri ditetapkan dan dicatat sebelum hasil tahap mana pun dilihat.
+Nilai $\alpha$ dipilih dari lima kandidat, $\alpha \in \{0;\ 0{,}25;\ 0{,}5;\ 0{,}75;\ 1\}$, melalui dua tahap evaluasi pada \emph{development set}. 
 \begin{enumerate}
-    \item \textbf{Tahap 1: relevansi konteks.} Untuk setiap kandidat, \emph{retrieval} Kondisi C dijalankan tanpa pembangkitan jawaban, lalu setiap item konteks dinilai relevansinya oleh \emph{judge} relevansi konteks. Kriteria utama adalah persentase pertanyaan yang memiliki sedikitnya satu item konteks relevan. Selisih paling banyak satu pertanyaan dianggap seri, dan seri dipecahkan dengan rata-rata skor relevansi, dengan selisih paling banyak 0,02 tetap dianggap seri. Apabila masih seri pada kedua kriteria, $\alpha$ yang lebih besar ditempatkan lebih dahulu, karena kontribusi yang diuji adalah sinyal kepercayaan. Dua kandidat terbaik dilanjutkan ke tahap~2. Sebelum tahap ini, \emph{judge} relevansi konteks diuji dengan item kontrol positif (\emph{accepted answer} pertanyaan itu sendiri) dan kontrol negatif (jawaban dari pertanyaan yang tidak berkaitan), dan baru digunakan apabila memenuhi ambang kontrol yang ditetapkan.
-    \item \textbf{Tahap 2: halusinasi.} Untuk kedua kandidat, jawaban dibangkitkan dengan \emph{grounding} aktif dan tidak aktif, lalu dinilai dengan \emph{judge} halusinasi yang telah divalidasi dan dibekukan (Subbab~\ref{subsubsec:validasi-judge}). Kriteria utama adalah \emph{hallucination rate} biner tanpa \texttt{ABSTAIN}, digabung untuk kedua keadaan \emph{grounding}, dengan margin seri dua jawaban. Seri dipecahkan dengan \emph{hallucination rate} yang menghitung \texttt{ABSTAIN} sebagai jawaban nonfaktual. Apabila masih seri, dipilih $\alpha$ yang lebih besar, dengan alasan yang sama seperti pada tahap~1.
+    \item \textbf{Tahap 1: relevansi konteks.} Untuk setiap kandidat, \emph{retrieval} Kondisi C dijalankan tanpa pembangkitan jawaban, lalu setiap item konteks dinilai relevansinya oleh \emph{judge} relevansi konteks. Kriteria utama adalah persentase pertanyaan yang memiliki setidaknya satu item yang relevan. Jika selisih jumlah pertanyaan yang memenuhi kriteria ini tidak lebih dari satu, hasil dianggap seri. Penentuan dilanjutkan dengan membandingkan rata-rata skor relevansi. Jika selisih rata-rata skor tidak lebih dari 0, hasil tetap dianggap seri. Jika kedua kriteria masih menghasilkan seri, nilai $\alpha$  yang lebih besar diprioritaskan karena eksperimen ini menguji kontribusi sinyal kepercayaan
+    
+    \item \textbf{Tahap 2: halusinasi.} Untuk kedua kandidat, jawaban dihasilkan dengan \emph{grounding} aktif dan tidak aktif, lalu dinilai dengan \emph{judge} halusinasi. 
+    
+    Kriteria utama adalah hallucination rate biner tanpa menghitung ABSTAIN sebagai halusinasi, dengan selisih maksimal dua jawaban dianggap seri. Jika masih seri, hasil dibandingkan menggunakan hallucination rate yang menghitung ABSTAIN sebagai jawaban nonfaktual. Jika hasilnya tetap seri, nilai $\alpha$ yang lebih besar dipilih karena eksperimen ini menguji kontribusi sinyal kepercayaan
 \end{enumerate}
 
 \subsubsection{Faktor Eksperimen dan Ablasi}
+\todo{Perbarui subbab ini untuk recheck ablasi apa saja yang dilakukan}
 Selain perbandingan antarkondisi, dua faktor diuji secara terkontrol.
 \begin{enumerate}
     \item \emph{Grounding constraint} (aktif atau tidak aktif) pada Kondisi B, C, dan D. Pada keadaan tidak aktif, hanya instruksi \emph{citation} yang dipertahankan, sehingga kontribusi \emph{grounding} dapat dipisahkan dari kontribusi kutipan.
