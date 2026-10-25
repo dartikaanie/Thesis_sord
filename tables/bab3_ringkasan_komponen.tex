@@ -1,8 +1,7 @@
 \begin{table}[!htbp]
 \centering
 \small
-\caption{Ringkasan komponen \emph{GraphRAG Framework} dan kaitannya dengan
-kesenjangan penelitian}
+\caption{Ringkasan komponen \emph{GraphRAG Framework} dan kaitannya dengan kesenjangan penelitian}
 \label{tab:ringkasan-komponen}
 
 \begin{tabularx}{\textwidth}
@@ -31,7 +30,7 @@ Python, DuckDB, Neo4j \\
 
 3 &
 Weight Calculator &
-Perhitungan \texttt{trustScore} simpul dan bobot kepercayaan setiap sisi &
+Perhitungan \texttt{trustScore} simpul \texttt{Answer} dan bobot kepercayaan setiap sisi &
 G2 &
 Python (normalisasi numerik) \\
 \hline
@@ -66,23 +65,30 @@ FAISS \\
 
 8 &
 Retrieval Engine &
-\emph{Entity anchoring}, traversal berbobot, \emph{semantic expansion}, dan fusi &
+\emph{Entity anchoring}, traversal berbobot, \emph{semantic expansion}, serta fusi dan pemeringkatan &
 G2, G3 &
 Python \\
 \hline
 
 9 &
+Leakage Guard &
+Pengecualian pertanyaan evaluasi beserta jawabannya dari hasil \emph{retrieval} dan pemeriksaan irisan kosong per kueri &
+--- &
+Python \\
+\hline
+
+10 &
 LLM Generator &
 \emph{Grounded generation} dengan \emph{dual-constraint} dan validasi kutipan &
 G1 &
 \texttt{gpt-4o-mini} (API OpenAI) \\
 \hline
 
-10 &
+11 &
 Evaluator &
-\emph{LLM-as-a-Judge} (halusinasi, relevansi konteks, relevansi jawaban) dan uji statistik &
+Panel \emph{LLM-as-a-Judge} (halusinasi, \emph{faithfulness}, \emph{citation support}, relevansi konteks, relevansi jawaban) dan analisis deskriptif &
 G1--G3 &
-Llama-3.3-70B-Instruct, \texttt{gpt-4o-mini}, SciPy \\
+Llama-3.3-70B-Instruct, DeepSeek-V3.2, Qwen3-235B-A22B-Instruct-2507 \\
 \hline
 
 \end{tabularx}

@@ -341,7 +341,6 @@ Kandidat diurutkan berdasarkan skor akhir dari tertinggi ke terendah. Jika terda
 \caption{Alur mekanisme \emph{hybrid retrieval} pada \emph{GraphRAG Framework}.}
 \label{fig:bab3_hybrid_retrieval}
 \end{figure}
-\todo{Perbarui gambar \emph{hybrid retrieval}: tahap pertama menjadi \emph{vector anchoring} (hapus NER), \emph{semantic expansion} hanya ke pertanyaan berjawaban, dan langkah fusi menjadi deduplikasi $\rightarrow$ skor Persamaan~\eqref{eq:final-score} $\rightarrow$ top-$k$.}
 Gambar~\ref{fig:bab3_hybrid_retrieval} mengilustrasikan alur pemrosesan kueri secara lengkap, mencakup tiga tahap \emph{hybrid retrieval} dan fusi konteks yang menghasilkan \emph{unified context window} untuk tahap \emph{grounded generation}.
 
 \subsubsection{Pencegahan Kebocoran Data (\emph{Leakage})}
@@ -444,20 +443,24 @@ Dasar peringkat & -- & kosinus & $\mathrm{score}(c)$ & kemiripan \\
 %------------------------------------------------------------
 \subsection{Desain Evaluasi}
 \label{subsec:desain-evaluasi}
-Evaluasi dilakukan untuk mengukur kinerja \emph{GraphRAG Framework} yang diusulkan. Untuk memastikan perbandingan yang adil, seluruh eksperimen menggunakan protokol yang sama dan hanya berbeda pada mekanisme \emph{retrieval} dan \emph{grounding} yang digunakan. Dengan demikian, perbedaan hasil yang diperoleh dapat dikaitkan secara langsung dengan kontribusi komponen yang diuji.
+
+Evaluasi dilakukan untuk mengukur kinerja \emph{GraphRAG Framework} yang diusulkan. Agar perbandingan adil, seluruh eksperimen menggunakan sampel pertanyaan, model LLM, model \emph{embedding}, struktur \emph{prompt}, dan jumlah konteks yang sama. Perbedaan antar kondisi B, C, dan D terletak pada mekanisme pemilihan konteks yang digunakan. Dengan demikian, perbedaan hasil evaluasi dapat dianalisis berdasarkan perbedaan mekanisme tersebut. Gambar~\ref{fig:perbandingan-empat-kondisi} menyajikan kerangka perbandingan kondisi evaluasi. Seluruh kondisi menerima \emph{input} identik (pertanyaan yang sama dan sumber data SORD yang sama), menjalankan proses yang berbeda (tanpa \emph{retrieval}, \emph{dense retrieval}, \emph{hybrid retrieval} berbobot kepercayaan, atau \emph{dual-level retrieval} tanpa kepercayaan), dan menghasilkan keluaran yang diukur dengan metrik yang sama.
+
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\textwidth]{images/bab3_perbandingan_tiga_kondisi_evaluasi.png}
-\caption{Perbandingan kondisi evaluasi yang menghasilkan output yang diukur dengan metrik yang identik. 
-\label{fig:perbandingan-tiga-kondisi}
+\caption{Perbandingan empat kondisi evaluasi yang menghasilkan keluaran yang diukur dengan metrik yang identik.}
+\label{fig:perbandingan-empat-kondisi}
 \end{figure}
-Gambar~\ref{fig:perbandingan-tiga-kondisi} menyajikan kerangka perbandingan kondisi evaluasi dalam format kolom sejajar. Seluruh kondisi menerima \emph{input} identik (pertanyaan yang sama dan sumber data SORD yang sama), menjalankan proses yang berbeda (tanpa \emph{retrieval}, \emph{dense retrieval}, \emph{hybrid retrieval} berbobot kepercayaan, atau \emph{dual-level retrieval} tanpa kepercayaan), dan menghasilkan output yang diukur dengan metrik yang sama.
+Gambar~\ref{fig:perbandingan-empat-kondisi} menyajikan kerangka perbandingan kondisi evaluasi dalam format kolom sejajar. Seluruh kondisi menerima \emph{input} identik (pertanyaan yang sama dan sumber data SORD yang sama), menjalankan proses yang berbeda (tanpa \emph{retrieval}, \emph{dense retrieval}, \emph{hybrid retrieval} berbobot kepercayaan, atau \emph{dual-level retrieval} tanpa kepercayaan), dan menghasilkan output yang diukur dengan metrik yang sama.
+
 
 Pendekatan GraphRAG (Kondisi C dan D) memiliki kompleksitas arsitektural lebih tinggi daripada Kondisi A dan B karena memerlukan konstruksi dan densifikasi KG serta proses \emph{graph traversal}. Oleh karena itu, penelitian ini berfokus pada peningkatan kualitas jawaban, yang diukur melalui \emph{faithfulness}, \emph{hallucination rate}, dan keterlacakan. Latensi hanya dievaluasi untuk memastikan pemenuhan batas NF3, bukan sebagai keunggulan yang diklaim.
 
 \subsubsection{Dataset dan Strategi \emph{Sampling}}
-Evaluasi menggunakan pertanyaan yang bersumber dari seluruh populasi SORD \autocite{Fatima2026} tanpa pembatasan domain, sedangkan KG dibangun dari populasi yang sama. Pertanyaan memenuhi syarat sebagai sampel apabila (a) memiliki \emph{accepted answer} yang terdapat dalam data jawaban SORD, dan (b) panjang judul, isi, dan tag pertanyaan tidak melebihi 2.048 token. Kriteria (b) diadopsi dari \textcite{DaSilva2025}, yang menerapkannya untuk menyesuaikan dengan batas konteks model yang mereka evaluasi. Jawaban berstatus \emph{accepted answer} digunakan sebagai \emph{ground truth}, konsisten dengan protokol \textcite{DaSilva2025}.
+
+Evaluasi menggunakan pertanyaan yang bersumber dari seluruh populasi SORD \autocite{Fatima2026} tanpa pembatasan domain. KG dibangun dari populasi yang sama. Pertanyaan memenuhi syarat sebagai sampel apabila (a) memiliki \emph{accepted answer} yang terdapat dalam data jawaban SORD, dan (b) panjang judul, isi, dan tag pertanyaan tidak melebihi 2.048 token. Kriteria (b) diadopsi dari \textcite{DaSilva2025}, yang menerapkannya untuk menyesuaikan dengan batas konteks model yang mereka evaluasi. Jawaban berstatus \emph{accepted answer} digunakan sebagai \emph{ground truth}, konsisten dengan protokol \textcite{DaSilva2025}.
 
 Ukuran sampel uji ditetapkan $n{=}384$, yaitu ukuran minimum untuk tingkat kepercayaan 95\% dengan \emph{margin of error} 5\%, sama dengan \textcite{DaSilva2025}. Sampel disusun melalui tiga langkah:
 \begin{enumerate}
@@ -470,63 +473,48 @@ Seluruh penyetelan, yaitu pemilihan $\alpha$, perumusan instruksi \emph{prompt},
 
 \subsubsection{Prosedur Pemilihan $\alpha$}
 \label{subsubsec:prosedur-alpha}
+
 Nilai $\alpha$ dipilih dari lima kandidat, $\alpha \in \{0;\ 0{,}25;\ 0{,}5;\ 0{,}75;\ 1\}$, melalui dua tahap evaluasi pada \emph{development set}.
 \begin{enumerate}
-    \item \textbf{Tahap 1: relevansi konteks.} Untuk setiap kandidat, \emph{retrieval} Kondisi C dijalankan tanpa pembangkitan jawaban, lalu setiap item konteks dinilai oleh \emph{judge} relevansi konteks, yaitu LLM yang menilai apakah isi item tersebut membantu menyelesaikan masalah pada pertanyaan uji (berlabel \texttt{RELEVANT}, \texttt{PARTIAL}, atau \texttt{IRRELEVANT}) tanpa mengetahui kondisi asal maupun skor \emph{retrieval}-nya.  Kriteria utama adalah persentase pertanyaan yang memiliki setidaknya satu item yang relevan. Jika selisih jumlah pertanyaan yang memenuhi kriteria ini tidak lebih dari satu, hasil dianggap seri, dan penentuan dilanjutkan dengan membandingkan rata-rata skor relevansi. Jika rata-rata skor sama persis, nilai $\alpha$ yang lebih besar diprioritaskan karena penelitian ini menguji kontribusi sinyal kepercayaan. Dua kandidat dengan hasil terbaik diteruskan ke tahap 2.
+    \item \textbf{Tahap 1: relevansi konteks.} Untuk setiap kandidat, \emph{retrieval} Kondisi C dijalankan tanpa pembangkitan jawaban, lalu setiap item konteks dinilai oleh \emph{judge} relevansi konteks, yaitu LLM yang menilai apakah isi item tersebut membantu menyelesaikan masalah pada pertanyaan uji (berlabel \texttt{RELEVANT}, \texttt{PARTIAL}, atau \texttt{IRRELEVANT}) tanpa mengetahui kondisi asal maupun skor \emph{retrieval}-nya. Kriteria utama adalah persentase pertanyaan yang memiliki setidaknya satu item \texttt{RELEVANT}. Hasil dianggap seri jika selisihnya tidak lebih dari 2 poin persentase (setara satu pertanyaan pada $n{=}50$), dan penentuan dilanjutkan dengan rata-rata skor relevansi (\texttt{RELEVANT}~=~1, \texttt{PARTIAL}~=~0,5, \texttt{IRRELEVANT}~=~0). Jika masih seri, nilai $\alpha$ yang lebih besar diprioritaskan karena penelitian ini menguji kontribusi sinyal kepercayaan. Dua kandidat dengan hasil terbaik diteruskan ke tahap 2.
 
-    \item \textbf{Tahap 2: halusinasi.} Untuk kedua kandidat yang diteruskan, jawaban dihasilkan dengan \emph{grounding}, lalu dinilai dengan \emph{judge} halusinasi. Kriteria utama adalah \emph{hallucination rate} biner tanpa menghitung \texttt{ABSTAIN} sebagai halusinasi, dengan selisih paling banyak dua jawaban dianggap seri. Jika masih seri, hasil dibandingkan menggunakan \emph{hallucination rate} yang menghitung \texttt{ABSTAIN} sebagai jawaban nonfaktual. Jika hasilnya tetap seri, nilai $\alpha$ yang lebih besar dipilih karena penelitian ini menguji kontribusi sinyal kepercayaan.
+    \item \textbf{Tahap 2: halusinasi.} Untuk kedua kandidat yang diteruskan, jawaban dihasilkan pada \emph{development set} dengan instruksi \emph{grounding} aktif, dan kedua pengaturan tersebut digabungkan sehingga setiap kandidat dinilai pada 100 jawaban oleh panel \emph{judge} halusinasi (Subbab~\ref{subsubsec:kontrol-judge}). Kriteria utama adalah jumlah jawaban berhalusinasi tanpa menghitung \texttt{ABSTAIN} sebagai halusinasi, dengan selisih paling banyak dua jawaban dianggap seri. Jika masih seri, hasil dibandingkan menggunakan jumlah yang menghitung \texttt{ABSTAIN} sebagai jawaban nonfaktual, dengan batas seri yang sama. Jika hasilnya tetap seri, nilai $\alpha$ yang lebih besar dipilih karena penelitian ini menguji kontribusi sinyal kepercayaan.
 \end{enumerate}
 
 \subsubsection{Matriks \emph{Run}}
 \label{subsubsec:matriks-run}
-Setiap kondisi dijalankan satu kali pada sampel uji, dengan instruksi \emph{grounding} dan \emph{citation} aktif pada Kondisi B, C, dan D. Hal ini menghasilkan empat \emph{run} resmi pada Tabel~\ref{tab:matriks-run}. Setiap \emph{run} menggunakan 384 pertanyaan uji yang sama, dan seluruh jawaban dinilai oleh \emph{judge} utama dan sekunder.
+Setiap kondisi dijalankan satu kali pada sampel uji. Hal ini menghasilkan empat \emph{run} resmi pada Tabel~\ref{tab:matriks-run}. Setiap \emph{run} menggunakan 384 pertanyaan uji yang sama, dan seluruh jawaban dinilai oleh panel \emph{judge}.
 
 \begin{table}[!htbp]
 \centering
 \small
 \caption{Matriks \emph{run} resmi ($n{=}384$ per \emph{run}).}
-\label{tab:matriks-run}
+\label{tab:table-matriks-run}
 \renewcommand{\arraystretch}{1.2}
-\begin{tabular}{|c|l|c|c|l|}
+\begin{tabular}{|c|l|c|l|}
 \hline
-\textbf{No.} & \textbf{Kondisi} & \textbf{\emph{Grounding}} & \textbf{$\alpha$} & \textbf{Tujuan perbandingan} \\
+\textbf{No.} & \textbf{Kondisi} & \textbf{$\alpha$} & \textbf{Tujuan Perbandingan} \\
 \hline
-R1 & A (LLM murni) & -- & -- & \emph{baseline} replikasi \\
-R2 & B-plain & tidak & -- & C vs B (tanpa \emph{grounding}) \\
-R3 & B-grounded & ya & -- & C vs B (dengan \emph{grounding}) \\
-R4 & C-utama & tidak & $\alpha^{*}$ & kondisi utama \\
-R5 & C-utama & ya & $\alpha^{*}$ & kondisi utama \\
-R6 & C-ablasi & tidak & $\alpha^{\mathrm{abl}}$ & ablasi sinyal kepercayaan \\
-R7 & C-ablasi & ya & $\alpha^{\mathrm{abl}}$ & ablasi sinyal kepercayaan \\
-R8 & D & tidak & -- & C vs D (tanpa \emph{grounding}) \\
-R9 & D & ya & -- & C vs D (dengan \emph{grounding}) \\
+R1 & A (LLM murni) & -- & Baseline tanpa *retrieval* \\
+R2 & B (RAG konvensional) & -- & Perbandingan C dengan RAG konvensional \\
+R3 & C (GraphRAG berbobot kepercayaan) & $\alpha^{*}$ & Evaluasi metode yang diusulkan \\
+R4 & D (GraphRAG \emph{*dual-level*}) & -- & Perbandingan C dengan *dual-level retrieval* \\
 \hline
 \end{tabular}
 \end{table}
 
-Perbandingan antarkondisi selalu dilakukan pada pengaturan \emph{grounding} yang sama, sehingga efek struktur \emph{retrieval}, efek sinyal kepercayaan, dan efek \emph{grounding} dapat dipisahkan. Untuk menghindari pemilihan hasil setelah data diperoleh, perbandingan utama ditetapkan sebelum \emph{run} resmi dimulai, yaitu \emph{hallucination rate} (versi utama) pada tiga pasangan berikut:
+Untuk menghindari pemilihan hasil setelah data diperoleh, perbandingan utama ditetapkan sebelum \emph{run} resmi dimulai, yaitu \emph{hallucination rate} pada tiga pasangan berikut:
 \begin{enumerate}
-    \item R5 terhadap R1 (C terhadap LLM murni),
-    \item R5 terhadap R3 (C terhadap RAG konvensional), dan
-    \item R5 terhadap R9 (C terhadap GraphRAG tanpa sinyal kepercayaan).
+    \item R3 terhadap R1 (C terhadap LLM murni),
+    \item R3 terhadap R2 (C terhadap RAG konvensional), dan
+    \item R3 terhadap R4 (C terhadap GraphRAG tanpa sinyal kepercayaan).
 \end{enumerate}
-Ketiga perbandingan ini menjadi dasar penarikan kesimpulan utama. Klaim mengenai efek sinyal kepercayaan di dalam Kondisi C hanya didasarkan pada perbandingan C-utama terhadap C-ablasi (R5 terhadap R7, dan R4 terhadap R6) pada sampel uji. Perbandingan lainnya, termasuk seluruh \emph{run} tanpa \emph{grounding}, diperlakukan sebagai analisis pendukung.
+
+Kondisi B, C, dan D memakai instruksi \emph{grounding} dan \emph{citation} yang identik. Sehingga perbedaan di antara ketiganya hanya berasal dari mekanisme pemilihan konteks. Sebaliknya, selisih terhadap Kondisi A mencerminkan efek kerangka secara keseluruhan, yaitu konteks beserta instruksi pengendaliannya. Selisih antara Kondisi C dan D mencerminkan perbedaan mekanisme \emph{retrieval} secara keseluruhan, yaitu sinyal kepercayaan, \emph{semantic expansion}, dan skema skor sekaligus, sehingga tidak dapat dikaitkan hanya pada sinyal kepercayaan.
 
 \subsubsection{Kontrol Variabel LLM dan \emph{Judge}}
-Seluruh kondisi menggunakan model LLM yang sama, yaitu \texttt{gpt-4o-mini}, sehingga perbedaan hasil tidak dipengaruhi oleh perbedaan kemampuan model dan evaluasi berfokus pada efektivitas mekanisme \emph{retrieval} dan \emph{grounding}. Penilaian \emph{LLM-as-a-Judge} menggunakan \emph{judge} utama Llama-3.3-70B-Instruct dan \emph{judge} sekunder \texttt{gpt-4o-mini} sebagai pembanding. \emph{Judge} utama sengaja dipilih dari keluarga model yang berbeda dengan \emph{generator} untuk menghindari bias preferensi terhadap model sendiri (\emph{self-preference bias}) \autocite{Gu2026}. Berbeda dengan generasi jawaban yang menggunakan konfigurasi bawaan, seluruh panggilan \emph{judge} menggunakan \emph{temperature} 0 untuk meminimalkan variasi penilaian antar-\emph{run}. \emph{Judge} tidak diberi informasi mengenai kondisi, \emph{provider}, atau model yang menghasilkan jawaban, dan label kutipan dihapus dari jawaban sebelum dinilai, sehingga \emph{judge} tidak dapat menilai lebih tinggi suatu jawaban hanya karena mengetahui asalnya. Versi \emph{judge} yang sama, setelah dibekukan, digunakan untuk tahap~2 seleksi $\alpha$ dan untuk seluruh \emph{run} resmi.
-
-\subsubsection{Validasi \emph{Judge} terhadap Anotasi Manusia}
-\label{subsubsec:validasi-judge}
-Kesepakatan antar-\emph{judge} saja tidak cukup untuk membuktikan bahwa \emph{judge} menilai dengan benar, karena dua \emph{judge} dapat sepakat pada penilaian yang sama-sama keliru. Oleh karena itu, \emph{judge} halusinasi divalidasi terhadap anotasi manusia sebelum digunakan untuk seleksi parameter maupun evaluasi akhir.Rancangannya adalah sebagai berikut.
-
-\begin{enumerate}
-    \item \textbf{Set kalibrasi.} Jawaban digenerasi pada \emph{development set} oleh Kondisi A, Kondisi B tanpa \emph{grounding}, dan Kondisi B dengan \emph{grounding}. Ketiga kondisi ini dipilih karena tidak bergantung pada parameter Kondisi C yang sedang dipilih. Sebanyak 60 item diambil secara terstratifikasi (20 per kondisi).
-    \item \textbf{Anotasi buta.} Anotator hanya melihat pertanyaan, \emph{accepted answer} sebagai referensi, dan jawaban kandidat yang label kutipannya telah dihapus, yaitu masukan yang sama persis dengan masukan \emph{judge}. Anotator tidak mengetahui kondisi asal jawaban maupun label \emph{judge}. Anotasi mengikuti pedoman tertulis yang menggunakan definisi yang sama dengan \emph{prompt judge}.
-    \item \textbf{Dua anotator.} Peneliti menganotasi seluruh 60 item, dan anotator kedua menganotasi 30 item di antaranya. Kesepakatan antaranotator dilaporkan sebelum perbedaan diselesaikan melalui diskusi, dan label hasil diskusi menjadi referensi.
-    \item \textbf{Kriteria penerimaan.} Kesepakatan \emph{judge} utama terhadap referensi manusia diukur dengan Cohen's~$\kappa$ tak berbobot pada tiga kategori (\texttt{ABSTAIN}, tidak berhalusinasi, berhalusinasi), dengan target $\kappa \geq 0{,}6$ \autocite{Gu2026}. \emph{Prompt judge} boleh direvisi paling banyak tiga kali. Apabila target tidak tercapai, versi dengan $\kappa$ tertinggi dibekukan dan hal tersebut dilaporkan sebagai keterbatasan.
-    \item \textbf{Set konfirmasi.} Setelah \emph{prompt} dan konfigurasi \emph{judge} dikunci, diambil 30 item baru dari keluaran tahap~2 yang tidak digunakan saat kalibrasi. Anotator manusia memberi label pada item tersebut tanpa melihat label \emph{judge} terlebih dahulu. Kesepakatan antara label manusia dan label \emph{judge} pada set ini digunakan sebagai estimasi reliabilitas \emph{judge} terhadap data yang belum pernah dilihat selama kalibrasi.
-    \item \textbf{Probe bias \emph{judge}.} Pada \emph{development set}, tiga sumber bias \emph{judge} diukur secara deskriptif: bias otoritas (perubahan label ketika label kutipan dibiarkan), bias urutan (perubahan label ketika urutan item konteks diacak), dan bias panjang (korelasi panjang jawaban dengan label halusinasi per kondisi).
-\end{enumerate}
+\label{subsubsec:kontrol-judge}
+Seluruh kondisi menggunakan model LLM yang sama, yaitu \texttt{gpt-4o-mini}, sehingga perbedaan hasil tidak dipengaruhi oleh perbedaan kemampuan model dan evaluasi berfokus pada efektivitas mekanisme \emph{retrieval}. Penilaian \emph{LLM-as-a-Judge} dilakukan oleh panel tiga \emph{judge} dari keluarga model yang berbeda dengan \emph{generator}, yaitu Llama-3.3-70B-Instruct, DeepSeek-V3.2, dan Qwen3-235B-A22B-Instruct-2507, untuk menghindari bias preferensi terhadap model sendiri (\emph{self-preference bias}) \autocite{Gu2026}. Label panel ditentukan dengan suara mayoritas dua dari tiga \emph{judge}. Label \texttt{ABSTAIN} memerlukan sedikitnya dua \emph{judge}, dan jika tidak ada mayoritas pada tingkat keparahan halusinasi, label panel adalah median skor ordinal (faktual dan \texttt{ABSTAIN}~=~0, sebagian~=~1, penuh~=~2). Tingkat halusinasi setiap \emph{judge} juga dilaporkan secara terpisah untuk melihat apakah kesimpulan bergantung pada \emph{judge} tertentu. Konsistensi penilaian antar-\emph{judge} dilaporkan sebagai persentase jawaban yang diberi label sama oleh ketiga \emph{judge}.
 
 \subsubsection{Metrik Evaluasi}
 Kinerja sistem dievaluasi menggunakan metrik yang mencakup empat dimensi evaluasi RAG menurut \textcite{Kamalipour2026}, yaitu relevansi \emph{retrieval}, \emph{faithfulness}, relevansi jawaban, dan kebenaran jawaban, ditambah keterlacakan dan latensi. Rincian metrik beserta alasan pemilihannya disajikan pada Tabel~\ref{tab:metrik-evaluasi}.
@@ -539,9 +527,9 @@ Kinerja sistem dievaluasi menggunakan metrik yang mencakup empat dimensi evaluas
     \item \texttt{ABSTAIN} dikeluarkan dari perhitungan. Versi ini menjadi metrik utama.
     \item \texttt{ABSTAIN} dihitung sebagai jawaban yang gagal. Versi ini dilaporkan sebagai pelengkap untuk menunjukkan apakah \emph{hallucination rate} yang rendah disebabkan oleh tingginya proporsi \texttt{ABSTAIN}.
 \end{enumerate}
-Selain itu, tiga hal dilaporkan secara deskriptif: tingkat  halusinasi (\emph{penuh} jika kesalahan mengenai solusi utama, \emph{sebagian} jika hanya mengenai detail pendukung), proporsi \texttt{ABSTAIN}, dan proporsi klaim yang tidak dapat diverifikasi.
+Selain itu, tiga aspek dilaporkan secara deskriptif, yaitu tingkat keparahan halusinasi, proporsi \texttt{ABSTAIN}, dan proporsi klaim yang tidak dapat diverifikasi. Halusinasi dikategorikan sebagai \emph{penuh} jika kesalahan menyangkut solusi utama dan \emph{sebagian} jika kesalahan hanya menyangkut detail pendukung. Jawaban yang tidak dapat dinilai tetap dihitung dan dilaporkan secara terpisah tanpa menggantikan nilainya dengan estimasi.
 
-Dengan aturan tetap yang sama, dua metrik turunan dihitung dari label per klaim untuk Kondisi B, C, dan D. \emph{Faithfulness} adalah proporsi klaim jawaban yang didukung konteks hasil \emph{retrieval}, sedangkan \emph{citation support} adalah proporsi klaim berkutipan yang benar-benar didukung oleh item konteks yang dikutip. Keduanya tidak dihitung untuk Kondisi A, karena kondisi tersebut tidak memiliki konteks.
+Dengan aturan tetap yang sama, dua metrik turunan dihitung dari label per klaim untuk Kondisi B, C, dan D. \emph{Faithfulness} adalah proporsi klaim jawaban yang didukung konteks hasil \emph{retrieval}, sedangkan \emph{citation support} adalah proporsi klaim berkutipan yang benar-benar didukung oleh item konteks yang dikutip. Keduanya tidak dihitung untuk Kondisi A, karena kondisi tersebut tidak memiliki konteks. Keterlacakan (NF2) diukur sebagai proporsi jawaban yang memuat setidaknya satu kutipan \texttt{[SO-<id>]} yang pengenalnya terdapat dalam konteks hasil \emph{retrieval}.
 
 \subsubsection{\emph{Checklist} Pemenuhan Kebutuhan Fungsional F1--F6}
 
@@ -553,7 +541,7 @@ Selain evaluasi berbasis metrik kuantitatif, penelitian ini menyertakan verifika
 
 Hasil setiap kondisi dilaporkan secara deskriptif. Untuk \emph{hallucination rate}, dilaporkan jumlah dan persentase jawaban yang berhalusinasi pada setiap kondisi, beserta selisih persentase antarkondisi pada setiap perbandingan.
 
-Karena setiap kondisi menjawab pertanyaan yang sama, setiap perbandingan utama dan perbandingan C-utama terhadap C-ablasi juga dilaporkan dalam bentuk hitungan berpasangan per pertanyaan, yaitu jumlah pertanyaan yang berhalusinasi hanya pada kondisi pertama, hanya pada kondisi kedua, pada keduanya, dan tidak pada keduanya. Hitungan ini menunjukkan apakah selisih persentase berasal dari perbaikan yang konsisten atau dari pertukaran kesalahan pada pertanyaan yang berbeda. Untuk metrik kontinu, yaitu \emph{cosine similarity}, \emph{faithfulness}, \emph{citation support}, relevansi konteks, dan latensi, dilaporkan nilai rata-rata dan median setiap kondisi.
+Karena setiap kondisi menjawab pertanyaan yang sama, setiap perbandingan utama juga dilaporkan dalam bentuk hitungan berpasangan per pertanyaan, yaitu jumlah pertanyaan yang berhalusinasi hanya pada kondisi pertama, hanya pada kondisi kedua, pada keduanya, dan tidak pada keduanya. Hitungan ini menunjukkan apakah selisih persentase berasal dari perbaikan yang konsisten atau dari pertukaran kesalahan pada pertanyaan yang berbeda. Tingkat halusinasi setiap \emph{judge} dilaporkan terpisah bersama persentase jawaban yang diberi label sama oleh ketiga \emph{judge}. Untuk metrik kontinu, yaitu \emph{cosine similarity}, \emph{faithfulness}, \emph{citation support}, relevansi konteks, dan latensi, dilaporkan nilai rata-rata dan median setiap kondisi.
 
 \subsubsection{Studi Kasus Kualitatif untuk \emph{Provenance} dan Keterlacakan}
 
@@ -564,9 +552,9 @@ Minimal satu studi kasus kualitatif dilakukan untuk mendemonstrasikan mekanisme 
 \label{sec:ringkasan-desain}
 %============================================================
 
-\input{tables/bab3_ringkasan_komponen.tex}
-
 Tabel~\ref{tab:ringkasan-komponen} merangkum komponen teknis \emph{GraphRAG Framework} beserta kaitannya dengan kesenjangan yang dijawab dan teknologi yang digunakan.
+
+\input{tables/bab3_ringkasan_komponen.tex}
 
 Secara keseluruhan, desain yang diusulkan dirancang untuk memenuhi seluruh kebutuhan fungsional (F1--F6) dan kebutuhan nonfungsional (NF1--NF6) yang telah diidentifikasi pada tahap analisis. Selain itu, rancangan ini menjaga keterkaitan antara kesenjangan penelitian yang dibahas pada Bab~\ref{chap:studi-literatur}, hipotesis penelitian yang dirumuskan pada Bab~\ref{chap:pendahuluan}, dan solusi teknis yang diusulkan dalam penelitian ini.
 
@@ -580,11 +568,11 @@ Bab ini berfokus pada perancangan arsitektur, komponen utama sistem, dan protoko
 Berdasarkan desain evaluasi dan metrik yang telah dirumuskan pada bab ini, penelitian ini diharapkan menghasilkan temuan sebagai berikut.
 
 \begin{enumerate}
-    \item \emph{GraphRAG Framework} (Kondisi C-utama) diharapkan menghasilkan \emph{hallucination rate} yang lebih rendah dibandingkan Kondisi A (LLM murni), Kondisi B (RAG konvensional), dan Kondisi D (GraphRAG tanpa sinyal kepercayaan) pada sampel uji.
+    \item \emph{GraphRAG Framework} (Kondisi C) diharapkan menghasilkan \emph{hallucination rate} yang lebih rendah dibandingkan Kondisi A (LLM murni), Kondisi B (RAG konvensional), dan Kondisi D (GraphRAG tanpa sinyal kepercayaan) pada sampel uji.
 
-    \item Pemeringkatan konteks yang menyertakan sinyal kepercayaan komunitas Stack Overflow diharapkan menghasilkan jawaban yang lebih faktual dibandingkan pemeringkatan tanpa atau dengan bobot kepercayaan yang berbeda pada struktur graf yang sama, yaitu Kondisi D dan C-ablasi, maupun dibandingkan \emph{dense retrieval} (Kondisi B).
+    \item Mekanisme pemilihan konteks yang menggabungkan struktur graf, \emph{semantic expansion}, dan sinyal kepercayaan komunitas Stack Overflow diharapkan menghasilkan jawaban yang lebih faktual dibandingkan pemilihan konteks tanpa sinyal kepercayaan pada struktur graf yang sama (Kondisi D). Karena kedua kondisi berbeda pada beberapa komponen sekaligus, perbedaan tersebut mencerminkan efek mekanisme secara keseluruhan dan tidak dikaitkan hanya pada sinyal kepercayaan.
 
-    \item Mekanisme \emph{grounded generation} dengan \emph{dual-constraint} diharapkan menghasilkan jawaban dengan kutipan valid ke \emph{thread} Stack Overflow asal dan catatan \emph{provenance} yang dapat ditelusuri, sehingga memenuhi kebutuhan keterlacakan (F5, NF2) sebagaimana didefinisikan pada Tabel~\ref{tab:checklist-f1-f6}.
+    \item Mekanisme \emph{grounded generation} dengan \emph{dual-constraint} diharapkan menghasilkan jawaban dengan kutipan valid ke \emph{thread} Stack Overflow asal, serta catatan \emph{provenance} yang tersedia atas permintaan dan memungkinkan setiap sumber yang dikutip ditelusuri kembali ke jalur pengambilannya, sehingga memenuhi kebutuhan keterlacakan (F5, NF2) sebagaimana didefinisikan pada Tabel~\ref{tab:checklist-f1-f6}.
 
-    \item Secara keseluruhan, hasil ini diharapkan menunjukkan bahwa \emph{GraphRAG Framework} yang diusulkan merupakan metode yang direkomendasikan untuk domain dengan sinyal kepercayaan komunitas yang terstruktur, seperti Stack Overflow, dan dapat menjadi dasar arsitektural bagi pengembangan \emph{AI coding assistant} yang lebih bertanggung jawab.
+    \item Secara keseluruhan, hasil ini diharapkan memberikan bukti empiris mengenai manfaat penggabungan struktur graf dan sinyal kepercayaan komunitas pada domain dengan sinyal yang terstruktur seperti Stack Overflow, dan dapat menjadi dasar arsitektural bagi pengembangan \emph{AI coding assistant} yang lebih bertanggung jawab. Generalisasi ke domain lain tidak diklaim karena evaluasi dilakukan pada satu dataset dan satu model LLM.
 \end{enumerate}
