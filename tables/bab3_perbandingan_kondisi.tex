@@ -1,47 +1,23 @@
 
 \begin{table}[!htbp]
 \centering
-\caption{Perbandingan pemenuhan kebutuhan sistem pada empat kondisi penelitian.}
-\label{tab:perbandingan-kondisi}
 \small
+\caption{Perbandingan keempat kondisi eksperimen.}
+\label{tab:perbandingan-kondisi}
 \renewcommand{\arraystretch}{1.2}
-
-\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|c|c|c|c|}
+\begin{tabular}{|l|c|c|c|c|}
 \hline
-\textbf{Kriteria Kebutuhan}
-  & \textbf{\makecell{Kondisi A\\LLM Murni}}
-  & \textbf{\makecell{Kondisi B\\RAG\\Konvensional}}
-  & \textbf{\makecell{Kondisi C\\GraphRAG\\Berbobot}}
-  & \textbf{\makecell{Kondisi D\\GraphRAG\\\emph{Dual-Level}}}
-\\ \hline
-
-\emph{Grounding} arsitektural berbasis Stack Overflow (G1)
-  & $\times$ & $\sim$ & $\checkmark$ & $\checkmark$ \\ \hline
-Pengetahuan \emph{library}/API terkini (G1)
-  & $\times$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\ \hline
-Sinyal kepercayaan komunitas Stack Overflow (G2)
-  & $\times$ & $\times$ & $\checkmark$ & $\times$ \\ \hline
-\emph{Retrieval} relasional dan multi-hop (G2, G3)
-  & $\times$ & $\times$ & $\checkmark$ & $\checkmark$ \\ \hline
-\emph{Semantic retrieval} berbasis vektor
-  & $\times$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\ \hline
-\emph{Grounded generation} dan sitasi (G1)
-  & $\times$ & $\sim$ & $\checkmark$ & $\checkmark$ \\ \hline
-\emph{Provenance} dan keterlacakan sumber
-  & $\times$ & $\sim$ & $\checkmark$ & $\sim$ \\ \hline
-Protokol evaluasi komparatif
-  & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\ \hline
-Pembaruan pengetahuan tanpa \emph{re-training}\textsuperscript{\dag}
-  & $\times$ & $\sim$ & $\checkmark$ & $\checkmark$ \\ \hline
-
-\end{tabularx}
-
-\vspace{0.2cm}
-\footnotesize
-$\checkmark$ = Terpenuhi \qquad
-$\sim$ = Sebagian terpenuhi \qquad
-$\times$ = Tidak terpenuhi \\
-Kondisi B memperoleh $\sim$ pada \emph{grounding} dan sitasi karena instruksi tersebut bersifat opsional. Kondisi D memperoleh $\sim$ pada \emph{provenance} karena konteksnya tidak membawa bobot kepercayaan. \\
-\textsuperscript{\dag}\todo{Baris ini bergantung pada keputusan F7.}
-
+\textbf{Aspek} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} \\
+\hline
+\emph{Retrieval} & -- & \emph{Dense} & \emph{Hybrid} & \emph{Dual-level} \\
+Sinyal kepercayaan & -- & tidak & ya ($\alpha^{*}$) & tidak \\
+\emph{Semantic expansion} & -- & -- & ya & tidak \\
+Konteks & -- & 5 jawaban & 5 item &  5 item \\
+\emph{Grounding} & -- & ya & ya & ya \\
+\emph{Citation} & -- & ya & ya & ya \\
+Pengecualian kebocoran & -- & ya & ya & ya \\
+\emph{Prompt} & \multicolumn{4}{c|}{Struktur percakapan empat giliran yang sama} \\
+Dasar peringkat & -- & kosinus & $\mathrm{score}(c)$ & kosinus \\
+\hline
+\end{tabular}
 \end{table}

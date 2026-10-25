@@ -15,73 +15,40 @@
 \hline
 
 \textbf{Kebutuhan / Kriteria}
-&
-\textbf{Kondisi A} \newline
-(LLM Murni)
-&
-\textbf{Kondisi B} \newline
-(RAG Konvensional)
-&
-\textbf{Kondisi C} \newline
-(GraphRAG Berbobot)
-&
-\textbf{Kondisi D} \newline
-(GraphRAG \emph{Dual-Level})
+& \textbf{Kondisi A} \newline (LLM Murni)
+& \textbf{Kondisi B} \newline (RAG Konvensional)
+& \textbf{Kondisi C} \newline (GraphRAG Berbobot)
+& \textbf{Kondisi D} \newline (GraphRAG \emph{Dual-Level})
 \\
 \hline
 
 Reduksi halusinasi (M1)
-& Tidak
-& Ya
-& \textbf{Ya}
-& Ya
-\\
+& Tidak & Ya & \textbf{Ya} & Ya \\
 \hline
 
 Pemanfaatan sinyal kepercayaan Stack Overflow (M2, F1)
-& Tidak
-& Tidak
-& \textbf{Ya}
-& Tidak
-\\
+& Tidak & Tidak & \textbf{Ya} & Tidak \\
 \hline
 
-Keterlacakan sumber (\emph{citation}) (M3, F5)
-& Tidak
-& Sebagian
-& \textbf{Ya}
-& Ya
-\\
+Keterlacakan sumber (\emph{citation} dan \emph{provenance}) (M3, F5)
+& Tidak & Sebagian & \textbf{Ya} & Sebagian \\
 \hline
 
 Penalaran relasional dan \emph{multi-hop} (M4, F4)
-& Tidak
-& Tidak
-& \textbf{Ya}
-& Ya
-\\
+& Tidak & Tidak & \textbf{Ya} & Ya \\
 \hline
 
-Pembaruan pengetahuan tanpa \emph{re-training} (M5, F7)\textsuperscript{\dag}
-& Tidak
-& Ya
-& \textbf{Ya}
-& Ya
-\\
+Pembaruan pengetahuan tanpa \emph{re-training} (M5)
+& Tidak & Ya & \textbf{Ya} & Ya \\
 \hline
 
 \textbf{Kesesuaian keseluruhan}
-& \textbf{Rendah}
-& \textbf{Sedang}
-& \textbf{Tinggi}
-& \textbf{Sedang}
-\\
+& \textbf{Rendah} & \textbf{Sedang} & \textbf{Tinggi} & \textbf{Sedang} \\
 \hline
 
 \end{tabularx}
 
 \vspace{0.1cm}
 \raggedright\footnotesize
-Kondisi D dinilai ``Sebagian'' pada G3 karena memanfaatkan struktur graf komunitas, tetapi tidak memanfaatkan validasi sosialnya sebagai sinyal pemeringkatan. \\
-\textsuperscript{\dag}\todo{Baris ini bergantung pada keputusan F7.}
+Kondisi B dan D memperoleh ``Sebagian'' pada keterlacakan karena provenance-nya lebih sederhana: Kondisi B hanya mencatat jalur kemiripan vektor, dan Kondisi D mencatat jalur tanpa bobot kepercayaan.
 \end{table}
