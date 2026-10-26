@@ -5,7 +5,7 @@
 \chapter{IMPLEMENTASI}
 \label{chap:implementasi}
 
-Bab ini menjelaskan implementasi \emph{*GraphRAG Framework*} usulan berdasarkan rancangan pada Bab~\ref{chap:analisis-desain}. Pembahasan disusun mengikuti alur kerja sistem sebagai berikut.
+Bab ini menjelaskan implementasi \emph{GraphRAG Framework} usulan berdasarkan rancangan pada Bab~\ref{chap:analisis-desain}. Pembahasan disusun mengikuti alur kerja sistem sebagai berikut.
 \begin{enumerate}[1.]
     \item Gambaran umum implementasi sistem.
     \item Lingkungan implementasi dan perangkat pendukung.
@@ -15,7 +15,7 @@ Bab ini menjelaskan implementasi \emph{*GraphRAG Framework*} usulan berdasarkan 
     \item Generasi jawaban menggunakan model LLM.
     \item Pemilihan parameter berdasarkan \emph{development set}.
     \item Pemenuhan kebutuhan sistem dan batasan implementasi.
-
+\end{enumerate}
 %============================================================
 \section{Gambaran Umum Implementasi Sistem}
 \label{sec:gambaran-implementasi}
@@ -66,7 +66,7 @@ Tokenisasi & \texttt{tiktoken}, \emph{encoding} \texttt{cl100k\_base} \\
 \subsection{Konfigurasi Layanan LLM}
 \label{subsec:konfigurasi-llm}
 
-LM digunakan untuk dua peran, yaitu sebagai \emph{generator} jawaban dan sebagai \emph{judge} untuk evaluasi. Model \emph{generator} tidak pernah digunakan sebagai \emph{judge}, sesuai ketentuan pada Subbab~\ref{subsubsec:kontrol-judge}. Konfigurasi setiap peran ditunjukkan pada Tabel~\ref{tab:konfigurasi-llm}.
+LLM digunakan untuk dua peran, yaitu sebagai \emph{generator} jawaban dan sebagai \emph{judge} untuk evaluasi. Model \emph{generator} tidak pernah digunakan sebagai \emph{judge}, sesuai ketentuan pada Subbab~\ref{subsubsec:kontrol-judge}. Konfigurasi setiap peran ditunjukkan pada Tabel~\ref{tab:konfigurasi-llm}.
 
 \begin{table}[!htbp]
 \centering
@@ -134,7 +134,7 @@ Pertanyaan memenuhi syarat sampel (a) & 270.988 & \emph{Accepted answer} terdapa
 \end{table}
 
 Analisis eksploratif terhadap kualitas data dan sinyal kepercayaan dilakukan sebelum KG dibangun. Dua temuan berikut relevan bagi implementasi.
-\begin{enumerate}k
+\begin{enumerate}
     \item Sebanyak 47,5\% pertanyaan (1.275.276 dari 2.685.814) mencatat identitas \emph{accepted answer}, tetapi identitas tersebut hanya merujuk ke jawaban yang ada di data jawaban pada 270.988 pertanyaan (10,1\%). Sisanya, 1.004.288 pertanyaan, merujuk ke jawaban yang tidak termasuk dalam unduhan SORD. Dengan demikian, hanya 270.988 pertanyaan yang memenuhi syarat sebagai sampel evaluasi karena memiliki \emph{ground truth}.
     \item Distribusi skor \emph{upvote} jawaban sangat condong. Skor berkisar antara $-26$ dan 6.095 dengan median 1 dan persentil ke-99 sebesar 46. Temuan ini menjadi dasar normalisasi logaritmik pada Persamaan~\eqref{eq:normlog} (Subbab~\ref{subsec:implementasi-trustscore}).
 \end{enumerate}
@@ -291,7 +291,7 @@ Gambar~\ref{fig:subgraf-implementasi} memperlihatkan contoh nyata hasil densifik
 \caption{Contoh subgraf  pada \emph{knowledge graph} hasil konstruksi untuk pertanyaan \texttt{17239006}. Simpul terang adalah pertanyaan dan simpul gelap adalah jawaban, dengan sisi satu \emph{hop} (\texttt{HAS\_ACCEPTED\_ANSWER}) dan dua \emph{hop} melalui pertanyaan tetangga (\texttt{IS\_RELATED\_TO}, \texttt{TAG\_COOCCUR}, \texttt{EMBED\_SIM}, lalu \texttt{HAS\_ANSWER}).}
 \label{fig:subgraf-implementasi}
 \end{figure}
-r
+
 %============================================================
 \section{Realisasi Kondisi Eksperimen}
 \label{sec:implementasi-kondisi}
@@ -404,7 +404,7 @@ Kondisi D menggunakan koneksi Neo4j, indeks FAISS, \emph{sampling}, dan pengecua
     \item \emph{High-level retrieval} mengumpulkan pertanyaan tetangga dari \emph{anchor} dengan Listing~\ref{lst:cypher-d-tetangga}. Hanya pertanyaan yang memiliki sedikitnya satu jawaban di luar himpunan pengecualian kebocoran data yang dikembalikan. Paling banyak 100 pertanyaan dinilai per kueri; apabila lebih, identitas pertanyaan terkecil dipertahankan (deterministik dan tidak bergantung pada isi) dan kejadian ini dicatat. Tiga pertanyaan dengan kosinus tertinggi ($N_{\mathrm{high}} = 3$) dipilih, kemudian jawabannya diambil dengan kueri yang sama dengan Listing~\ref{lst:cypher-1hop} untuk pertanyaan terpilih tersebut.
 \end{itemize}
 
-\begin{lstlisting}[language=Cypher, basicstyle=\ttfamily\scriptsize, caption={Kueri Cypher Kondisi D untuk mencari pertanyaan tetangga pada \emph{high-level retrieval}. Bobot sisi tidak dikembalikan. Tipe sisi ditulis tetap; pada kode disisipkan dari konfigurasi.}, label={lst:cypher-d-tetangga}]
+\begin{lstlisting}[language={}, basicstyle=\ttfamily\scriptsize, caption={Kueri Cypher Kondisi D untuk mencari pertanyaan tetangga pada \emph{high-level retrieval}. Bobot sisi tidak dikembalikan. Tipe sisi ditulis tetap; pada kode disisipkan dari konfigurasi.}, label={lst:cypher-d-tetangga}]
 UNWIND $anchor_ids AS anchor_id
 MATCH (anchor:Question {id: anchor_id})
       -[r2:IS_RELATED_TO|TAG_COOCCUR|EMBED_SIM]->(q2:Question)
@@ -464,7 +464,7 @@ Teknik \emph{prompting} yang digunakan dirangkum pada Tabel~\ref{tab:teknik-prom
 \hline
 \textbf{Kode} & \textbf{Teknik} & \textbf{Bagian pada \emph{prompt}} & \textbf{Alasan} \\
 \hline
-T1 & \emph{Zero-shot} & Seluruh \emph{prompt}; tidak ada contoh pasangan masukan-keluaran & Contoh sitasi pada percobaan awal disalin model sebagai kutipan palsu (butir~\ref{item:tanpa-contoh-label}), sehingga contoh dihapus. Tanpa contoh, \emph{prompt} juga identik antarkondisi kecuali pada konteksnya. \\
+T1 & \emph{Zero-shot} & Seluruh \emph{prompt}; tidak ada contoh pasangan masukan-keluaran & Contoh sitasi pada percobaan awal disalin model sebagai kutipan palsu, sehingga contoh dihapus. Tanpa contoh, \emph{prompt} juga identik antarkondisi kecuali pada konteksnya. \\
 \hline
 T2 & \emph{Persona / role prompting} & Giliran 1 (kalimat pertama), giliran 2 dan 3 & Mereplikasi struktur \textcite{DaSilva2025} dan dipakai sama pada Kondisi A sampai D, sehingga persona tidak menjadi pembeda antarkondisi. \\
 \hline
@@ -564,6 +564,12 @@ Pembedaan antara upaya memberikan kutipan dan kutipan yang valid memungkinkan si
 
 Keluaran bawaan sistem hanya berupa jawaban beserta kutipan sumbernya. \emph{Provenance} tidak dihasilkan bersama jawaban dan tidak pernah ditampilkan kepada LLM. Informasi ini dicatat oleh tahap \emph{retrieval} pada rekaman hasil dan hanya dibaca kembali ketika pengguna memintanya. Setiap item konteks pada rekaman Kondisi B, C, dan D membawa metadata asal-usul yang dirangkum pada Tabel~\ref{tab:field-provenance}.
 
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Metadata \emph{provenance} per item konteks (versi \texttt{v3}).}
+\label{tab:field-provenance}
+\renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\textwidth}{|>{\ttfamily\raggedright\arraybackslash}p{3.4cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{2.0cm}|}
 \hline
 \textbf{\rmfamily Bidang} & \textbf{\rmfamily Keterangan} & \textbf{\rmfamily Kondisi} \\
@@ -595,7 +601,7 @@ relevance\_score & Kosinus kueri terhadap pertanyaan pemilik jawaban & D \\
 sim, sim\_norm, trust, combined\_score, final\_score, alpha & Komponen skor akhir Kondisi C (Subbab~\ref{subsec:implementasi-kondisi-c}) & C \\
 \hline
 \end{tabularx}
-
+\end{table}
 
 \begin{figure}[!htbp]
 \centering
@@ -766,14 +772,14 @@ Bentuk skor akhir & kombinasi konveks, \emph{min-max} & \textcite{Bruch2023} \\
 \hline
 \multicolumn{3}{|l|}{\textit{Dihitung dari data}} \\
 \hline
-$P_{99}$ pada $\mathrm{normlog}$ &  Skor di atas persentil ke-99 dipotong menjadi 1 agar nilai ekstrem tidak menekan nilai lain \\
-
+$P_{99}$ pada $\mathrm{normlog}$ & skor jawaban 46; skor pertanyaan 30; reputasi 54.383 & Skor di atas persentil ke-99 dipotong menjadi 1 agar nilai ekstrem tidak menekan nilai lain \\
 \hline
 \multicolumn{3}{|l|}{\textit{Dipilih secara empiris pada \emph{development set}}} \\
 \hline
 Bobot kepercayaan $\alpha^{*}$ (Kondisi C) & 0,5 & Prosedur dua tahap (Subbab~\ref{subsec:pemilihan-alpha}) \\
 \hline
 Definisi label \emph{judge} relevansi konteks & \texttt{ctxrel} & Lolos ambang kontrol (Subbab~\ref{subsubsec:validasi-ctxrel}) \\
+\hline
 \multicolumn{3}{|l|}{\textit{Heuristik, ditetapkan sebelum eksperimen dan tidak disetel}} \\
 \hline
 Koefisien $\mathrm{trust}_Q$ & 0,7 / 0,3 (\emph{upvote} / tayangan) & \emph{Upvote} adalah penilaian kolektif; tayangan hanya popularitas \\
@@ -791,6 +797,7 @@ $N_{\mathrm{anchor}}$, $n_{\mathrm{expansion}}$, $k$, batas teks item & 3, 3, 5,
 \emph{Seed} pengambilan sampel & 42 & Kebiasaan reprodusibilitas, tidak disetel \\
 \hline
 \emph{Temperature} \emph{judge} & 0 & Instrumen ukur, bukan generatif; keluaran stabil dan dapat diulang \\
+\hline
 \end{tabularx}
 \end{table}
 
@@ -824,7 +831,7 @@ F4 & \emph{Hybrid retrieval} tiga tahap, \emph{semantic expansion} ke pertanyaan
 \hline
 F5 & \emph{Dual-constraint}, validasi kutipan, dan \emph{provenance} atas permintaan (Subbab~\ref{sec:implementasi-generasi}) & Terpenuhi \\
 \hline
-F6 & Empat kondisi, matriks \emph{run}, dan instrumen evaluasi (Subbab~\ref{sec:implementasi-kondisi} dan \ref{sec:implementasi-evaluasi}) & Terimplementasi; generasi keempat kondisi selesai \\
+F6 & Empat kondisi, matriks \emph{run}, dan instrumen evaluasi (Subbab~\ref{sec:implementasi-kondisi}; hasil evaluasi dilaporkan pada Bab~\ref{chap:evaluasi} (Subbab~\ref{sec:pelaksanaan-evaluasi}) & Terimplementasi; generasi keempat kondisi selesai \\
 \hline
 \end{tabularx}
 \end{table}
