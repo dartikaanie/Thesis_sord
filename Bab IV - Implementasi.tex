@@ -80,9 +80,10 @@ LLM digunakan untuk dua peran, yaitu sebagai \emph{generator} jawaban dan sebaga
 \hline
 \emph{Generator} (Kondisi A, B, C, D) & \texttt{gpt-4o-mini}, API OpenAI & Satu panggilan per pertanyaan. Parameter \emph{temperature} dan batas token keluaran tidak dikirim sehingga nilai bawaan penyedia berlaku \\
 \hline
-\emph{Judge} panel (halusinasi) & \texttt{meta-llama/Llama-3.3-70B-Instruct-Turbo}, \texttt{deepseek-ai/DeepSeek-V3.2}, dan \texttt{Qwen/Qwen3-235B-A22B-Instruct-2507}, melalui DeepInfra & \emph{Temperature} 0 (penilaian konsisten)\\
+\emph{Judge} panel (halusinasi) & \texttt{meta-llama/Llama-3.3-70B-Instruct-Turbo}, \texttt{deepseek-ai/DeepSeek-V3.2}, dan \texttt{Qwen/Qwen3-235B-A22B-Instruct-2507}, melalui DeepInfra & \emph{Temperature} 0 \\
 \hline
-\emph{Judge} relevansi konteks dan jawaban & \texttt{meta-llama/Llama-3.3-70B-Instruct}, DeepInfra & \emph{Temperature} 0 (penilaian konsisten)\\
+\emph{Judge} relevansi konteks dan jawaban & \texttt{meta-llama/Llama-3.3-70B-Instruct-Turbo}, melalui DeepInfra & \emph{Temperature} 0 \\
+\hline
 \hline
 \end{tabularx}
 \end{table}
@@ -228,7 +229,7 @@ Sisi \texttt{EMBED\_SIM} & 10.141.497 & Densifikasi; bobot 0,4 \\
 
 Skor kepercayaan simpul \texttt{Answer} dihitung sesuai Persamaan~\eqref{eq:trust-answer} dan \eqref{eq:normlog}. Koefisien yang digunakan adalah $w^{A}_{s} = 0{,}5$ untuk skor \emph{upvote}, $w^{A}_{a} = 0{,}3$ untuk status \emph{accepted answer}, dan $w^{A}_{r} = 0{,}2$ untuk reputasi kontributor. Persentil ke-99 dihitung pada skor mentah (termasuk skor negatif) untuk seluruh populasi simpul sejenis dengan metode kuantil linear. Nilai yang diperoleh adalah $P_{99}^{A} = 46$ untuk skor jawaban dan $P_{99} = 54.383$ untuk reputasi kontributor. Reputasi dari 293.078 kontributor menghasilkan 715.604 sisi \texttt{AUTHOR\_TRUST}. Sebanyak 10.191 jawaban (1,4\%) tidak memiliki sisi tersebut, yaitu 8.674 jawaban dari akun yang dihapus atau anonim dan 1.517 jawaban dari pengguna yang tidak terdapat pada data reputasi, sehingga $w^{\mathrm{auth}}_A = 0$ untuk jawaban tersebut.
 
-Seluruh rumus kepercayaan, termasuk $\mathrm{normlog}$ dan $w^{\mathrm{auth}}$, ditempatkan dalam satu modul yang dipakai bersama oleh skrip konstruksi KG dan skrip pembaruan. Dengan cara ini, pembangunan ulang graf dan pembaruan skor menghasilkan nilai yang identik untuk masukan yang sama. Setiap simpul diberi penanda versi rumus (\texttt{trustScoreVersion = v3-logscore}), dan setiap \emph{run} Kondisi C mencatat versi yang terbaca dari graf pada awal \emph{run}. Pembaruan skor dijalankan dengan prosedur yang dapat diverifikasi, yaitu nilai lama disimpan sebagai cadangan, nilai baru ditulis, lalu nilai yang tersimpan dibaca ulang dan dibandingkan dengan nilai hasil perhitungan (selisih maksimum 0).
+Seluruh rumus kepercayaan, termasuk $\mathrm{normlog}$ dan $w^{\mathrm{auth}}$, ditempatkan dalam satu modul yang dipakai bersama oleh skrip konstruksi KG dan skrip pembaruan. Dengan cara ini, pembangunan ulang graf dan pembaruan skor menghasilkan nilai yang identik untuk masukan yang sama. Setiap simpul diberi penanda versi rumus (\texttt{trustScoreVersion = v3-logscore}), dan setiap \emph{run} Kondisi C mencatat versi yang terbaca dari graf pada awal \emph{run}. Pembaruan skor dijalankan dengan prosedur yang dapat diverifikasi, yaitu nilai lama disimpan sebagai cadangan, nilai baru ditulis, lalu nilai yang tersimpan dibaca ulang dan dibandingkan dengan nilai hasil perhitungan.
 
 Komponen skor \emph{upvote} pada 725.795 simpul \texttt{Answer} dinormalisasi secara logaritmik untuk menghitung \texttt{trustScore}. Dengan normalisasi \emph{min-max} biasa, 90\% jawaban memiliki skor \emph{upvote} di bawah 0,0052. Akibatnya, skor sebagian besar jawaban terkonsentrasi di sekitar nol sehingga kurang efektif untuk membedakan kandidat. Setelah normalisasi logaritmik diterapkan, median skor meningkat menjadi 0,180 dan persentil ke-90 menjadi 0,505. Distribusi ini memberikan rentang skor yang lebih tersebar untuk membedakan jawaban berdasarkan jumlah \emph{upvote}.
 
@@ -337,7 +338,7 @@ Kondisi C membaca KG Neo4j dan indeks FAISS yang telah dibangun dan tidak memban
 \begin{enumerate}
     \item \textbf{\emph{Entity anchoring}.} Vektor pertanyaan diambil langsung dari berkas vektor indeks, atau di-\emph{embedding} ulang apabila belum ada. Dari kandidat terdekat yang tidak termasuk himpunan pengecualian, dipilih $N_{\mathrm{anchor}} = 3$ pertanyaan teratas yang memiliki sedikitnya satu jawaban di luar himpunan pengecualian (Subbab~\ref{subsec:implementasi-leakage}).
     \item \textbf{\emph{Graph traversal}.} Dari ketiga \emph{seed node}, dijalankan dua kueri Cypher. Kueri satu \emph{hop} (Listing~\ref{lst:cypher-1hop}) mengambil jawaban milik \emph{seed node} melalui \texttt{HAS\_ACCEPTED\_ANSWER} atau \texttt{HAS\_ANSWER}, dengan membuang jawaban yang termasuk himpunan pengecualian. Kueri dua \emph{hop} (Listing~\ref{lst:cypher-2hop}) mengambil jawaban dari pertanyaan tetangga melalui \texttt{IS\_RELATED\_TO}, \texttt{TAG\_COOCCUR}, atau \texttt{EMBED\_SIM}. Pertanyaan tetangga dan jawaban yang termasuk himpunan pengecualian dibuang pada kueri ini, sehingga pertanyaan evaluasi tidak dapat kembali sebagai tetangga. Bobot jalur adalah hasil kali kedua bobot sisi. Kandidat dua \emph{hop} diurutkan menurut bobot jalur penuh, dengan identitas jawaban sebagai pemutus seri, lalu dibatasi 50 kandidat secara total untuk ketiga \emph{seed node}. Pembatasan ini dilakukan sebelum duplikasi jawaban dihapus. Kandidat satu \emph{hop} tidak dibatasi.
-    \item \item \textbf{\emph{Semantic expansion}.} Dari daftar hasil traversal (jawaban satu \emph{hop} lebih dahulu, kemudian jawaban dua \emph{hop} menurut bobot jalur), diambil tiga pertanyaan asal unik yang pertama, lalu judulnya digunakan sebagai kueri vektor baru. Untuk setiap judul, dipilih tiga pertanyaan tetangga yang bukan pertanyaan evaluasi, bukan \emph{seed node}, belum diambil oleh judul sebelumnya, dan memiliki sedikitnya satu jawaban yang tidak termasuk himpunan pengecualian kebocoran data. Jawaban satu \emph{hop} dari pertanyaan-pertanyaan tersebut kemudian diambil. Dengan demikian, paling banyak sembilan pertanyaan tetangga diperluas. Bobot jalur kandidat dari tahap ini dibatasi paling tinggi 0,4. Karena ketiga \emph{seed node} selalu memiliki jawaban, daftar hasil traversal diawali jawaban satu \emph{hop} dari ketiga \emph{seed node}, sehingga tiga pertanyaan asal pertama pada praktiknya adalah ketiga \emph{seed node} itu sendiri. 
+    \item \textbf{\emph{Semantic expansion}.} Dari daftar hasil traversal (jawaban satu \emph{hop} lebih dahulu, kemudian jawaban dua \emph{hop} menurut bobot jalur), diambil tiga pertanyaan asal unik yang pertama, lalu judulnya digunakan sebagai kueri vektor baru. Untuk setiap judul, dipilih tiga pertanyaan tetangga yang bukan pertanyaan evaluasi, bukan \emph{seed node}, belum diambil oleh judul sebelumnya, dan memiliki sedikitnya satu jawaban yang tidak termasuk himpunan pengecualian kebocoran data. Jawaban satu \emph{hop} dari pertanyaan-pertanyaan tersebut kemudian diambil. Dengan demikian, paling banyak sembilan pertanyaan tetangga diperluas. Bobot jalur kandidat dari tahap ini dibatasi paling tinggi 0,4. Karena ketiga \emph{seed node} selalu memiliki jawaban, daftar hasil traversal diawali jawaban satu \emph{hop} dari ketiga \emph{seed node}, sehingga tiga pertanyaan asal pertama pada praktiknya adalah ketiga \emph{seed node} itu sendiri. 
     \item \textbf{Fusi dan pemeringkatan.}
     \begin{enumerate}[label=\alph*)]
         \item \emph{Skor kepercayaan gabungan.} Setiap kandidat diberi skor kepercayaan gabungan menurut Persamaan~\eqref{eq:combined-trust}.
@@ -414,7 +415,7 @@ ORDER BY qid ASC, anchor_id ASC, r2_type ASC
 Hasil kedua tingkat dideduplikasi (skor tertinggi dipertahankan), diurutkan menurun dengan identitas jawaban sebagai pemutus seri, dan lima item teratas dipilih. Kondisi D tidak menggunakan \texttt{trustScore}, status \emph{accepted answer}, maupun \emph{semantic expansion}. Karena Kondisi D tidak memiliki \emph{semantic expansion}, kumpulan kandidatnya lebih kecil dan jumlah item konteks dapat kurang dari lima untuk sebagian pertanyaan.
 
 %============================================================
-\section{Generasi Jawaban dan  Validasi Kutipan}
+\section{Generasi Jawaban dan Validasi Kutipan}
 \label{sec:implementasi-generasi}
 %============================================================
 
@@ -550,7 +551,7 @@ Seluruh kondisi memanggil \texttt{gpt-4o-mini} melalui satu modul abstraksi peny
 \item Daftar kutipan yang valid dan tidak valid.
 \end{enumerate}
 
-Pembedaan antara upaya memberikan kutipan dan kutipan yang valid memungkinkan sistem membedakan jawaban yang mencantumkan ID fiktif dari jawaban yang sama sekali tidak mencoba memberikan kutipan. Implementasi validasi yang sama digunakan pada Kondisi B, C, dan D agar keterlacakan dapat dibandingkan secara adil. Pada Kondisi A, tidak ada konteks yang diberikan kepada model sehingga semua kutipan yang dihasilkan dianggap tidak valid berdasarkan definisi tersebut. Metrik keterlacakan (NF2) dihitung berdasarkan keluaran validasi ini (Subbab~\ref{subsec:implementasi-nf2}).
+Pembedaan antara upaya memberikan kutipan dan kutipan yang valid memungkinkan sistem membedakan jawaban yang mencantumkan ID fiktif dari jawaban yang sama sekali tidak mencoba memberikan kutipan. Implementasi validasi yang sama digunakan pada Kondisi B, C, dan D agar keterlacakan dapat dibandingkan secara adil. Pada Kondisi A, tidak ada konteks yang diberikan kepada model sehingga semua kutipan yang dihasilkan dianggap tidak valid berdasarkan definisi tersebut. Metrik keterlacakan (NF2) dihitung berdasarkan keluaran validasi ini (Subbab~\ref{subsec:hasil-nf2}).
 
 \subsection{Pencatatan dan Penelusuran \emph{Provenance}}
 \label{subsec:implementasi-provenance}
@@ -655,7 +656,7 @@ Sebelum digunakan untuk memilih $\alpha$, \emph{judge} relevansi konteks \texttt
 \subsubsection{Tahap 1: Seleksi Berdasarkan Relevansi Konteks}
 \label{subsubsec:tahap1-alpha}
 
-Untuk setiap nilai $\alpha$, \emph{retrieval} Kondisi C dijalankan pada 50 pertanyaan \emph{development set} tanpa generasi jawaban, lalu setiap item konteks  dinilai oleh \emph{judge} relevansi konteks. Hasil pengulangan disajikan pada Tabel~\ref{tab:tahap1-alpha}. Rata-rata skor relevansi dihitung dengan memberi skor pada label \emph{judge} (\texttt{RELEVANT} bernilai 1, \texttt{PARTIAL} bernilai 0,5, dan \texttt{IRRELEVANT} bernilai 0) lalu merata-ratakannya pada seluruh item konteks akhir dari 50 pertanyaan \emph{development set}.
+Untuk setiap nilai $\alpha$, \emph{retrieval} Kondisi C dijalankan pada 50 pertanyaan \emph{development set} tanpa generasi jawaban, lalu setiap item konteks  dinilai oleh \emph{judge} relevansi konteks. Hasil disajikan pada Tabel~\ref{tab:tahap1-alpha}. Rata-rata skor relevansi dihitung dengan memberi skor pada label \emph{judge} (\texttt{RELEVANT} bernilai 1, \texttt{PARTIAL} bernilai 0,5, dan \texttt{IRRELEVANT} bernilai 0) lalu merata-ratakannya pada seluruh item konteks akhir dari 50 pertanyaan \emph{development set}.
 
 \begin{table}[!htbp]
 \centering
@@ -706,10 +707,7 @@ $\alpha$ & & \textbf{Llama} & \textbf{DeepSeek} & \textbf{Qwen} & \textbf{Panel}
 \end{tabularx}
 \end{table}
 
-Panel menyatakan sebuah jawaban berhalusinasi hanya bila sedikitnya dua dari tiga juri menandainya. Juri Llama hampir tidak pernah menandai halusinasi, sehingga kesepakatan itu praktis berasal dari DeepSeek dan Qwen. Semakin sedikit jawaban berhalusinasi, semakin baik nilai $\alpha$ tersebut. Menurut label panel dengan jawaban \texttt{ABSTAIN} dikeluarkan (kriteria utama), $\alpha = 0{,}25$ memiliki 21 jawaban berhalusinasi dan $\alpha = 0{,}5$ memiliki 23 jawaban, sehingga $\alpha = 0{,}25$ sedikit lebih baik dengan selisih 2 jawaban. Menurut kriteria pembanding (\texttt{ABSTAIN} dihitung sebagai kegagalan), angkanya 31 dan 32, sehingga selisihnya 1 jawaban. Kedua selisih tidak melebihi margin 2 jawaban, sehingga kedua nilai dianggap seri. Aturan terakhir, yaitu mendahulukan $\alpha$ yang lebih besar, menetapkan \textbf{$\alpha^{*} = 0{,}5$}, dan nilai ini digunakan pada Kondisi C.
-
-
-Tabel~\ref{tab:tahap2-per-mode} merinci hasil per mode \emph{prompt}.
+Panel menyatakan sebuah jawaban berhalusinasi hanya bila sedikitnya dua dari tiga juri menandainya. Juri Llama hampir tidak pernah menandai halusinasi, sehingga kesepakatan itu praktis berasal dari DeepSeek dan Qwen. Semakin sedikit jawaban berhalusinasi, semakin baik nilai $\alpha$ tersebut.  Tabel~\ref{tab:tahap2-per-mode} merinci hasil per mode \emph{prompt}.
 
 \begin{table}[!htbp]
 \centering
@@ -735,8 +733,6 @@ Kandidat yang unggul berbeda menurut mode. Pada \emph{grounding} aktif, $\alpha 
 
 Pada tahap 2, nilai $\alpha$ yang lebih baik adalah yang memiliki lebih sedikit jawaban berhalusinasi menurut label panel. Menurut kriteria utama (jawaban \texttt{ABSTAIN} dikeluarkan), $\alpha = 0{,}25$ memiliki 21 jawaban berhalusinasi dan $\alpha = 0{,}5$ memiliki 23, sehingga selisihnya 2 jawaban. Menurut kriteria pembanding (jawaban \texttt{ABSTAIN} dihitung sebagai kegagalan), angkanya 31 dan 32, sehingga selisihnya 1 jawaban. Kedua selisih tidak melebihi margin 2 jawaban, sehingga kedua nilai dianggap seri. Aturan terakhir, yaitu mendahulukan $\alpha$ yang lebih besar, menetapkan \textbf{$\alpha^{*} = 0{,}5$}. 
 
-Nilai $\alpha^{*} = 0{,}5$ digunakan pada Kondisi C.
-
 %------------------------------------------------------------
 \subsection{Ringkasan Parameter yang Dibekukan}
 \label{subsec:parameter-beku}
@@ -759,15 +755,13 @@ Ukuran sampel uji & 384 & 95\% kepercayaan, \emph{margin} 5\%; sama dengan \text
 \hline
 Batas panjang pertanyaan & 2.048 token & Sama dengan \textcite{DaSilva2025} \\
 \hline
-Model \emph{embedding} dan metrik kemiripan & MiniLM-L6-v2, kosinus & Sama dengan \textcite{DaSilva2025} \\
+Model \emph{embedding}  & MiniLM-L6-v2, kosinus & Sama dengan \textcite{DaSilva2025} \\
 \hline
 Mekanisme \emph{dual-level} Kondisi D & --- & Diadaptasi dari \textcite{Guo2025} \\
 \hline
 Bentuk skor akhir & kombinasi konveks, \emph{min-max} & \textcite{Bruch2023} \\
 \hline
 \multicolumn{3}{|l|}{\textit{Dihitung dari data}} \\
-\hline
-$P_{99}$ pada $\mathrm{normlog}$ & skor jawaban 46; skor pertanyaan 30; reputasi 54.383 & Skor di atas persentil ke-99 dipotong menjadi 1 agar nilai ekstrem tidak menekan nilai lain \\
 \hline
 \multicolumn{3}{|l|}{\textit{Dipilih secara empiris pada \emph{development set}}} \\
 \hline
@@ -816,7 +810,7 @@ Tabel~\ref{tab:pemenuhan-fungsional} memetakan setiap kebutuhan fungsional pada 
 \hline
 \textbf{Req.} & \textbf{Bukti implementasi} & \textbf{Status} \\
 \hline
-F1 & KG dari seluruh populasi SORD (Tabel~\ref{tab:statistik-kg}); simpul tanpa sisi keluar 23,10\% setelah densifikasi; \texttt{trustScore} memuat ketiga sinyal komunitas (Tabel~\ref{tab:distribusi-trustscore}) & Terpenuhi \\
+F1 & KG dari seluruh populasi SORD (Tabel~\ref{tab:statistik-kg}); simpul tanpa sisi keluar 23,10\% setelah densifikasi; \texttt{trustScore} memuat ketiga sinyal komunitas & Terpenuhi \\
 \hline
 F2 & Indeks FAISS 2.685.814 vektor pertanyaan (Subbab~\ref{subsec:implementasi-indeks-vektor}) & Terpenuhi \\
 \hline
@@ -826,7 +820,7 @@ F4 & \emph{Hybrid retrieval} tiga tahap, \emph{semantic expansion} ke pertanyaan
 \hline
 F5 & \emph{Dual-constraint}, validasi kutipan, dan \emph{provenance} atas permintaan (Subbab~\ref{sec:implementasi-generasi}) & Terpenuhi \\
 \hline
-F6 & Empat kondisi, matriks \emph{run}, dan instrumen evaluasi (Subbab~\ref{sec:implementasi-kondisi}; hasil evaluasi dilaporkan pada Bab~\ref{chap:evaluasi} (Subbab~\ref{sec:pelaksanaan-evaluasi}) & Terimplementasi; generasi keempat kondisi selesai \\
+F6 & Empat kondisi, matriks \emph{run}, dan instrumen evaluasi (Subbab~\ref{sec:implementasi-kondisi}); pelaksanaan evaluasi dilaporkan pada Bab~\ref{chap:evaluasi} (Subbab~\ref{sec:pelaksanaan-evaluasi}) & Terimplementasi; generasi keempat kondisi selesai \\
 \hline
 \end{tabularx}
 \end{table}
@@ -846,7 +840,7 @@ Tabel~\ref{tab:pemenuhan-nonfungsional} memetakan kebutuhan nonfungsional pada T
 \hline
 \textbf{Req.} & \textbf{Kategori} & \textbf{Mekanisme implementasi} \\
 \hline
-NF1 & Akurasi & Panel \emph{judge} dan skrip pelaporan menghitung \emph{hallucination rate} pada keempat kondisi (Subbab~\ref{subsec:implementasi-judge} dan \ref{subsec:implementasi-pelaporan}); hasil disajikan pada bab evaluasi \\
+NF1 & Akurasi & Panel \emph{judge} dan skrip pelaporan menghitung \emph{hallucination rate} pada keempat kondisi disajikan pada bab evaluasi \\
 \hline
 NF2 & Keterlacakan & Validasi kutipan terhadap konteks yang diberikan dan pencatatan \emph{provenance} per item (Subbab~\ref{subsec:kutipan-generasi} dan \ref{subsec:implementasi-provenance}) \\
 \hline
