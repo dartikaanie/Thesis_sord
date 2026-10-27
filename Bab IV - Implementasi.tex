@@ -116,7 +116,6 @@ Pertanyaan, baris mentah & 2.811.534 & Gabungan sumber \emph{Contain} dan \emph{
 Pertanyaan unik (\emph{question}) & 2.685.814 & Setelah deduplikasi identitas \emph{post} \\
 \quad dengan sedikitnya satu jawaban & 602.900 & 22,4\% dari pertanyaan; median 1, rata-rata 1,20, maksimum 54 jawaban \\
 \quad tanpa jawaban & 2.082.914 & \\
-\quad mencatat \emph{accepted answer} & 1.275.276 & 47,5\%; hanya pencatatan identitas \\
 \quad \emph{accepted answer} terdapat di data jawaban & 270.988 & 10,1\% dari pertanyaan \\
 Jawaban, baris mentah & 3.655.888 & Seluruhnya unik \\
 Jawaban dalam KG (\emph{answer}) & 725.795 & Pertanyaan induknya di SORD (19,9\% dari jawaban mentah) \\
@@ -128,14 +127,13 @@ Tag & 56.435 & Rata-rata 3,17 dan median 3 tag per pertanyaan (rentang 1--6) \\
 Relasi pertanyaan--tag & 8.525.257 & Tidak ada pertanyaan tanpa tag \\
 Pengguna (\emph{user}) & 293.078 & Dari 294.412 penulis jawaban, 293.078 memiliki data reputasi dan dimasukkan sebagai simpul \texttt{User}. \\
 Tautan antar-\emph{thread} (\texttt{PostLinks}) & 6.552.590 & 160.647 berada dalam cakupan SORD; dimuat sebagai 151.094 sisi \\
-Pertanyaan memenuhi syarat sampel (a) & 270.988 & \emph{Accepted answer} terdapat di data jawaban \\
 \hline
 \end{tabularx}
 \end{table}
 
 Analisis eksploratif terhadap kualitas data dan sinyal kepercayaan dilakukan sebelum KG dibangun. Dua temuan berikut relevan bagi implementasi.
 \begin{enumerate}
-    \item Sebanyak 47,5\% pertanyaan (1.275.276 dari 2.685.814) mencatat identitas \emph{accepted answer}, tetapi identitas tersebut hanya merujuk ke jawaban yang ada di data jawaban pada 270.988 pertanyaan (10,1\%). Sisanya, 1.004.288 pertanyaan, merujuk ke jawaban yang tidak termasuk dalam unduhan SORD. Dengan demikian, hanya 270.988 pertanyaan yang memenuhi syarat sebagai sampel evaluasi karena memiliki \emph{ground truth}.
+    \item Sebanyak 47,5\% pertanyaan (1.275.276 dari 2.685.814) mencatat identitas \emph{accepted answer}, tetapi hanya 270.988 pertanyaan (10,1\%) yang jawabannya terdapat di data jawaban SORD. Hanya pertanyaan ini yang memiliki \emph{ground truth} dan memenuhi syarat sebagai sampel evaluasi.
     \item Distribusi skor \emph{upvote} jawaban sangat condong. Skor berkisar antara $-26$ dan 6.095 dengan median 1 dan persentil ke-99 sebesar 46. Temuan ini menjadi dasar normalisasi logaritmik pada Persamaan~\eqref{eq:normlog} (Subbab~\ref{subsec:implementasi-trustscore}).
 \end{enumerate}
 
@@ -177,7 +175,7 @@ Aturan pengecualian pada Subbab~\ref{subsubsec:leakage} diimplementasikan sebaga
     \item Kondisi C dan D: pada hasil \emph{entity anchoring}, pada setiap pertanyaan dan jawaban yang dilewati \emph{graph traversal} (satu \emph{hop} maupun dua \emph{hop}), dan pada kandidat \emph{semantic expansion} (khusus C).
     \item Kondisi B: pada hasil pencarian vektor, baik berdasarkan identitas jawaban maupun identitas pertanyaan pemiliknya.
 \end{itemize}
-Karena penyaringan dilakukan setelah pencarian, sistem mengambil kandidat tambahan untuk mengantisipasi kandidat yang harus dikecualikan. Pada \emph{entity anchoring}, pencarian pada indeks FAISS mengambil $N_{\mathrm{anchor}}$ ditambah jumlah pertanyaan pada himpunan pengecualian ditambah lima kandidat cadangan, yaitu sembilan kandidat untuk $N_{\mathrm{anchor}}{=}3$ pada mode \texttt{thread}, lalu kandidat yang termasuk himpunan pengecualian dibuang dan tiga pertanyaan teratas yang tersisa dipertahankan sebagai \emph{seed node}. Pada \emph{semantic expansion}, jumlah kandidat yang diambil dihitung dengan prinsip yang sama dengan faktor (Subbab~\ref{subsec:implementasi-kondisi-c}). Setiap kondisi menjalankan pemeriksaan per kueri bahwa irisan antara hasil \emph{retrieval} dan himpunan pengecualian kosong.
+Karena penyaringan dilakukan setelah pencarian, sistem mengambil kandidat yang jauh lebih banyak daripada yang dibutuhkan. Pada \emph{entity anchoring}, kandidat yang termasuk himpunan pengecualian dibuang, lalu sisanya diperiksa dalam satu kueri ke Neo4j untuk mengetahui apakah memiliki sedikitnya satu jawaban di luar himpunan pengecualian. Tiga pertanyaan pertama menurut peringkat kemiripan yang lolos pemeriksaan ini dipertahankan sebagai \emph{seed node}. Kondisi C dan D memakai fungsi yang sama untuk langkah ini.
 
 %============================================================
 \section{Konstruksi \emph{Knowledge Graph}}
@@ -190,7 +188,12 @@ Konstruksi KG mengikuti alur lima tahap yang dirancang pada Subbab~\ref{subsec:d
 \subsection{Pembangunan Graf Struktural}
 \label{subsec:pembangunan-graf-struktural}
 
-Skema KG mengikuti desain pada Subbab~\ref{subsec:desain-kg-berbobot}, yaitu empat tipe simpul dan tujuh tipe sisi. Jumlah setiap elemen pada graf akhir disajikan pada Tabel~\ref{tab:statistik-kg}. Graf struktural dibangun dalam dua langkah. Pertama, simpul \texttt{Question}, \texttt{Answer}, dan \texttt{Tag} beserta sisi \texttt{HAS\_ACCEPTED\_ANSWER}, \texttt{HAS\_ANSWER}, dan \texttt{TAGGED\_WITH} dibangun dari data SORD yang telah dideduplikasi. Graf memuat 725.795 jawaban, masing-masing dengan tepat satu pertanyaan induk. Sebanyak 270.988 di antaranya terhubung melalui \texttt{HAS\_ACCEPTED\_ANSWER} dan 454.807 melalui \texttt{HAS\_ANSWER}. Dari 2.685.814 pertanyaan, hanya 602.900 yang memiliki sedikitnya satu jawaban di graf. Fakta ini berpengaruh pada \emph{semantic expansion} (Subbab~\ref{subsec:implementasi-kondisi-c}). Bobot \texttt{HAS\_ANSWER} dihitung dengan normalisasi \emph{min-max} skor jawaban di dalam setiap \emph{thread}, dan bernilai 0,5 apabila seluruh jawaban dalam satu \emph{thread} memiliki skor yang sama. Kedua, reputasi kontributor diambil dari data pengguna Stack Exchange. Dari 294.412 pengguna yang menjadi pemilik \emph{question}, 293.078 memiliki data reputasi dan dimasukkan sebagai simpul \texttt{User}. Bobot \texttt{AUTHOR\_TRUST} dihitung sebagaimana dijelaskan pada Subbab~\ref{subsec:implementasi-trustscore}.
+Skema KG mengikuti desain pada Subbab~\ref{subsec:desain-kg-berbobot}, yaitu empat tipe simpul dan tujuh tipe sisi. Jumlah setiap elemen pada graf akhir disajikan pada Tabel~\ref{tab:statistik-kg}. Graf struktural dibangun dalam dua langkah.
+
+Pertama, simpul \texttt{Question}, \texttt{Answer}, dan \texttt{Tag} beserta sisi \texttt{HAS\_ACCEPTED\_ANSWER}, \texttt{HAS\_ANSWER}, dan \texttt{TAGGED\_WITH} dibangun dari data SORD yang telah dideduplikasi. Setiap jawaban memiliki tepat satu pertanyaan induk. Hanya 602.900 dari 2.685.814 pertanyaan yang memiliki sedikitnya satu jawaban di graf, dan fakta ini memengaruhi \emph{entity anchoring} dan \emph{semantic expansion} (Subbab~\ref{subsec:implementasi-kondisi-c}). Bobot \texttt{HAS\_ANSWER} dihitung dengan normalisasi \emph{min-max} skor jawaban di dalam setiap \emph{thread}, dan bernilai 0,5 apabila seluruh jawaban dalam satu \emph{thread} memiliki skor yang sama.
+
+Kedua, reputasi kontributor diambil dari data pengguna Stack Exchange. Dari 294.412 penulis jawaban, 293.078 memiliki data reputasi dan dimasukkan sebagai simpul \texttt{User}. Bobot \texttt{AUTHOR\_TRUST} dihitung sebagaimana dijelaskan pada Subbab~\ref{subsec:implementasi-trustscore}.
+
 
 \begin{table}[!htbp]
 \centering
@@ -227,23 +230,8 @@ Skor kepercayaan simpul \texttt{Answer} dihitung sesuai Persamaan~\eqref{eq:trus
 
 Seluruh rumus kepercayaan, termasuk $\mathrm{normlog}$ dan $w^{\mathrm{auth}}$, ditempatkan dalam satu modul yang dipakai bersama oleh skrip konstruksi KG dan skrip pembaruan. Dengan cara ini, pembangunan ulang graf dan pembaruan skor menghasilkan nilai yang identik untuk masukan yang sama. Setiap simpul diberi penanda versi rumus (\texttt{trustScoreVersion = v3-logscore}), dan setiap \emph{run} Kondisi C mencatat versi yang terbaca dari graf pada awal \emph{run}. Pembaruan skor dijalankan dengan prosedur yang dapat diverifikasi, yaitu nilai lama disimpan sebagai cadangan, nilai baru ditulis, lalu nilai yang tersimpan dibaca ulang dan dibandingkan dengan nilai hasil perhitungan (selisih maksimum 0).
 
-Distribusi \texttt{trustScore} pada 725.795 simpul \texttt{Answer} disajikan pada Tabel~\ref{tab:distribusi-trustscore}. Komponen skor \emph{upvote} setelah normalisasi logaritmik memiliki median 0,180 dan persentil ke-90 0,505. Dengan normalisasi \emph{min-max} biasa, 90\% jawaban memiliki komponen skor yang kurang dari 0,0052, sehingga sinyal \emph{upvote} hampir tidak membedakan kandidat. Normalisasi logaritmik menyebarkan komponen tersebut (median 0,180 dan persentil ke-90 0,505), sehingga sinyal \emph{upvote} tidak menumpuk di sekitar nol.
+Komponen skor \emph{upvote} pada 725.795 simpul \texttt{Answer} dinormalisasi secara logaritmik untuk menghitung \texttt{trustScore}. Dengan normalisasi \emph{min-max} biasa, 90\% jawaban memiliki skor \emph{upvote} di bawah 0,0052. Akibatnya, skor sebagian besar jawaban terkonsentrasi di sekitar nol sehingga kurang efektif untuk membedakan kandidat. Setelah normalisasi logaritmik diterapkan, median skor meningkat menjadi 0,180 dan persentil ke-90 menjadi 0,505. Distribusi ini memberikan rentang skor yang lebih tersebar untuk membedakan jawaban berdasarkan jumlah \emph{upvote}.
 
-\begin{table}[!htbp]
-\centering
-\small
-\caption{Distribusi \texttt{trustScore} simpul \texttt{Answer}.}
-\label{tab:distribusi-trustscore}
-\renewcommand{\arraystretch}{1.2}
-\begin{tabular}{|l|r|r|r|r|}
-\hline
-\textbf{Besaran} & \textbf{Min} & \textbf{Median} & \textbf{P90} & \textbf{Maks} \\
-\hline
-\texttt{trustScore} jawaban & 0,000 & 0,316 & 0,666 & 1,000 \\
-$\mathrm{normlog}(\mathrm{score}_A)$ (komponen skor \emph{upvote}) & -- & 0,180 & 0,505 & -- \\
-\hline
-\end{tabular}
-\end{table}
 
 \subsection{Pengayaan Tautan Antar-\emph{Thread}}
 \label{subsec:implementasi-pengayaan-tautan}
@@ -347,10 +335,16 @@ Vektor jawaban disimpan dalam indeks FAISS \texttt{IndexFlatIP}. Indeks ini meng
 
 Kondisi C membaca KG Neo4j dan indeks FAISS yang telah dibangun dan tidak membangun struktur data apa pun. Untuk setiap pertanyaan evaluasi, Kondisi C menjalankan langkah-langkah berikut.
 \begin{enumerate}
-    \item \textbf{\emph{Entity anchoring}.} Vektor pertanyaan diambil langsung dari berkas vektor indeks, atau di-\emph{embedding} ulang apabila belum ada, lalu dicari $N_{\mathrm{anchor}} = 3$ pertanyaan terdekat yang tidak termasuk himpunan pengecualian.
+    \item \textbf{\emph{Entity anchoring}.} Vektor pertanyaan diambil langsung dari berkas vektor indeks, atau di-\emph{embedding} ulang apabila belum ada. Dari kandidat terdekat yang tidak termasuk himpunan pengecualian, dipilih $N_{\mathrm{anchor}} = 3$ pertanyaan teratas yang memiliki sedikitnya satu jawaban di luar himpunan pengecualian (Subbab~\ref{subsec:implementasi-leakage}).
     \item \textbf{\emph{Graph traversal}.} Dari ketiga \emph{seed node}, dijalankan dua kueri Cypher. Kueri satu \emph{hop} (Listing~\ref{lst:cypher-1hop}) mengambil jawaban milik \emph{seed node} melalui \texttt{HAS\_ACCEPTED\_ANSWER} atau \texttt{HAS\_ANSWER}, dengan membuang jawaban yang termasuk himpunan pengecualian. Kueri dua \emph{hop} (Listing~\ref{lst:cypher-2hop}) mengambil jawaban dari pertanyaan tetangga melalui \texttt{IS\_RELATED\_TO}, \texttt{TAG\_COOCCUR}, atau \texttt{EMBED\_SIM}. Pertanyaan tetangga dan jawaban yang termasuk himpunan pengecualian dibuang pada kueri ini, sehingga pertanyaan evaluasi tidak dapat kembali sebagai tetangga. Bobot jalur adalah hasil kali kedua bobot sisi. Kandidat dua \emph{hop} diurutkan menurut bobot jalur penuh, dengan identitas jawaban sebagai pemutus seri, lalu dibatasi 50 kandidat secara total untuk ketiga \emph{seed node}. Pembatasan ini dilakukan sebelum duplikasi jawaban dihapus. Kandidat satu \emph{hop} tidak dibatasi.
-    \item \textbf{\emph{Semantic expansion}.} Dari daftar hasil traversal (jawaban satu \emph{hop} lebih dahulu, kemudian jawaban dua \emph{hop} menurut bobot jalur), diambil tiga pertanyaan asal unik yang pertama, lalu judulnya digunakan sebagai kueri vektor baru. Untuk setiap judul, dipilih tiga pertanyaan tetangga yang bukan pertanyaan evaluasi, bukan \emph{seed node}, belum diambil oleh judul sebelumnya, dan memiliki sedikitnya satu jawaban yang tidak termasuk himpunan pengecualian kebocoran data. Jawaban satu \emph{hop} dari pertanyaan-pertanyaan tersebut kemudian diambil. Dengan demikian, paling banyak sembilan pertanyaan diperluas. Bobot jalur kandidat dari tahap ini dibatasi 0,4.
-    \item \textbf{Fusi dan pemeringkatan.} Setiap kandidat diberi skor kepercayaan gabungan menurut Persamaan~\eqref{eq:combined-trust}. Apabila jawaban yang sama dicapai melalui beberapa jalur (satu \emph{hop}, dua \emph{hop}, atau \emph{semantic expansion}), hanya kemunculan dengan skor kepercayaan gabungan tertinggi yang dipertahankan, dan jika skornya sama, kemunculan yang ditemukan lebih dulu yang dipilih. Jalur yang kalah hanya dicatat sebagai jalur alternatif pada \emph{provenance}. Deduplikasi dilakukan setelah pembatasan 50 kandidat pada kueri dua \emph{hop} dan sebelum perhitungan skor akhir. Kemiripan $\mathrm{sim}(q,c)$ dihitung terhadap teks kandidat persis seperti yang akan ditampilkan kepada LLM, yaitu \texttt{Q: <judul>} diikuti baris \texttt{A: <jawaban>} yang dipotong 400 token, lalu dinormalisasi \emph{min-max} dalam kumpulan jawaban unik satu pertanyaan, dan skor akhir dihitung menurut Persamaan~\eqref{eq:final-score}. Kandidat diurutkan menurut skor akhir menurun dengan identitas jawaban sebagai pemutus seri. Lima kandidat teratas menjadi \emph{unified context window}, masing-masing diberi label \texttt{[SO-<id pertanyaan>]}.
+    \item \item \textbf{\emph{Semantic expansion}.} Dari daftar hasil traversal (jawaban satu \emph{hop} lebih dahulu, kemudian jawaban dua \emph{hop} menurut bobot jalur), diambil tiga pertanyaan asal unik yang pertama, lalu judulnya digunakan sebagai kueri vektor baru. Untuk setiap judul, dipilih tiga pertanyaan tetangga yang bukan pertanyaan evaluasi, bukan \emph{seed node}, belum diambil oleh judul sebelumnya, dan memiliki sedikitnya satu jawaban yang tidak termasuk himpunan pengecualian kebocoran data. Jawaban satu \emph{hop} dari pertanyaan-pertanyaan tersebut kemudian diambil. Dengan demikian, paling banyak sembilan pertanyaan tetangga diperluas. Bobot jalur kandidat dari tahap ini dibatasi paling tinggi 0,4. Karena ketiga \emph{seed node} selalu memiliki jawaban, daftar hasil traversal diawali jawaban satu \emph{hop} dari ketiga \emph{seed node}, sehingga tiga pertanyaan asal pertama pada praktiknya adalah ketiga \emph{seed node} itu sendiri. 
+    \item \textbf{Fusi dan pemeringkatan.}
+    \begin{enumerate}[label=\alph*)]
+        \item \emph{Skor kepercayaan gabungan.} Setiap kandidat diberi skor kepercayaan gabungan menurut Persamaan~\eqref{eq:combined-trust}.
+        \item \emph{Deduplikasi.} Apabila jawaban yang sama dicapai melalui beberapa jalur (satu \emph{hop}, dua \emph{hop}, atau \emph{semantic expansion}), hanya kemunculan dengan skor kepercayaan gabungan tertinggi yang dipertahankan, dan jika skornya sama, kemunculan yang ditemukan lebih dulu. Jalur yang kalah dicatat sebagai jalur alternatif pada \emph{provenance}. Deduplikasi dilakukan setelah pembatasan 50 kandidat pada kueri dua \emph{hop} dan sebelum perhitungan skor akhir.
+        \item \emph{Skor akhir.} Kemiripan $\mathrm{sim}(q,c)$ dihitung terhadap teks kandidat persis seperti yang ditampilkan kepada LLM, yaitu \texttt{Q: <judul>} diikuti \texttt{A: <jawaban>} yang dipotong 400 token, lalu dinormalisasi \emph{min-max} dalam kumpulan jawaban unik satu pertanyaan. Skor akhir dihitung menurut Persamaan~\eqref{eq:final-score}.
+        \item \emph{Pemilihan.} Kandidat diurutkan menurut skor akhir menurun dengan identitas jawaban sebagai pemutus seri. Lima kandidat teratas menjadi \emph{unified context window}, masing-masing diberi label \texttt{[SO-<id pertanyaan>]}.
+    \end{enumerate}
     \item \textbf{\emph{Grounded generation}} dan validasi kutipan, sebagaimana dijelaskan pada Subbab~\ref{sec:implementasi-generasi}.
 \end{enumerate}
 
@@ -401,7 +395,7 @@ RETURN q2.id AS via_question_id,
 Kondisi D menggunakan koneksi Neo4j, indeks FAISS, \emph{sampling}, dan pengecualian kebocoran data yang sama dengan Kondisi C, dan tidak membangun struktur data baru. Kondisi D bukan LightRAG asli karena tidak melakukan ekstraksi entitas berbasis LLM. Kedua tingkat \emph{retrieval} diskor dengan satu besaran yang sama, yaitu kemiripan kosinus antara \emph{embedding} kueri dan \emph{embedding} pertanyaan pemilik jawaban, yang dibaca dari \emph{embedding} yang telah tersimpan pada indeks FAISS. Bobot sisi tidak dibaca dan tidak dipakai sebagai skor.
 \begin{itemize}
     \item \emph{Low-level retrieval} memakai \emph{anchor} yang sama dengan Kondisi C ($N_{\mathrm{low}} = 3$) dan mengambil jawaban satu \emph{hop}-nya. Kueri yang digunakan sama dengan kueri satu \emph{hop} Kondisi C (Listing~\ref{lst:cypher-1hop}), tanpa kolom bobot sisi. Skornya adalah kosinus kueri terhadap pertanyaan \emph{anchor}.
-    \item \emph{High-level retrieval} mengumpulkan pertanyaan tetangga dari \emph{anchor} dengan Listing~\ref{lst:cypher-d-tetangga}. Hanya pertanyaan yang memiliki sedikitnya satu jawaban di luar himpunan pengecualian kebocoran data yang dikembalikan. Paling banyak 100 pertanyaan dinilai per kueri; apabila lebih, identitas pertanyaan terkecil dipertahankan (deterministik dan tidak bergantung pada isi) dan kejadian ini dicatat. Tiga pertanyaan dengan kosinus tertinggi ($N_{\mathrm{high}} = 3$) dipilih, kemudian jawabannya diambil dengan kueri yang sama dengan Listing~\ref{lst:cypher-1hop} untuk pertanyaan terpilih tersebut.
+    \item \emph{High-level retrieval} mengumpulkan pertanyaan tetangga dari \emph{anchor} dengan Listing~\ref{lst:cypher-d-tetangga}. Hanya pertanyaan yang memiliki sedikitnya satu jawaban di luar himpunan pengecualian kebocoran data yang dikembalikan. Tiga pertanyaan dengan kosinus tertinggi ($N_{\mathrm{high}} = 3$) dipilih, kemudian jawabannya diambil dengan kueri yang sama dengan Listing~\ref{lst:cypher-1hop} untuk pertanyaan terpilih tersebut. 
 \end{itemize}
 
 \begin{lstlisting}[language={}, basicstyle=\ttfamily\scriptsize, caption={Kueri Cypher Kondisi D untuk mencari pertanyaan tetangga pada \emph{high-level retrieval}. Bobot sisi tidak dikembalikan. Tipe sisi ditulis tetap; pada kode disisipkan dari konfigurasi.}, label={lst:cypher-d-tetangga}]
@@ -417,7 +411,7 @@ RETURN q2.id AS qid, anchor_id, type(r2) AS r2_type
 ORDER BY qid ASC, anchor_id ASC, r2_type ASC
 \end{lstlisting}
 
-Hasil kedua tingkat dideduplikasi (skor tertinggi dipertahankan), diurutkan menurun dengan identitas jawaban sebagai pemutus seri, dan lima item teratas dipilih. Kondisi D tidak menggunakan \texttt{trustScore}, status \emph{accepted answer}, maupun \emph{semantic expansion}. Status \emph{accepted answer} setiap item tetap dicatat untuk keperluan analisis, tetapi tidak memengaruhi pemeringkatan. Karena Kondisi D tidak memiliki \emph{semantic expansion}, kumpulan kandidatnya lebih kecil dan jumlah item konteks dapat kurang dari lima untuk sebagian pertanyaan.
+Hasil kedua tingkat dideduplikasi (skor tertinggi dipertahankan), diurutkan menurun dengan identitas jawaban sebagai pemutus seri, dan lima item teratas dipilih. Kondisi D tidak menggunakan \texttt{trustScore}, status \emph{accepted answer}, maupun \emph{semantic expansion}. Karena Kondisi D tidak memiliki \emph{semantic expansion}, kumpulan kandidatnya lebih kecil dan jumlah item konteks dapat kurang dari lima untuk sebagian pertanyaan.
 
 %============================================================
 \section{Generasi Jawaban dan  Validasi Kutipan}
@@ -450,9 +444,9 @@ Seluruh kondisi menggunakan struktur percakapan empat giliran yang mereplikasi k
 \end{tabularx}
 \end{table}
 
-Kondisi A menggunakan giliran pertama dan keempat tanpa tambahan apa pun. Pada Kondisi B, C, dan D, tambahan teks hanya berada di dua tempat, yaitu pada akhir giliran pertama dan pada giliran keempat. Kedua tambahan tersebut merupakan bagian dari intervensi \emph{retrieval} beserta pengendaliannya, bukan perbedaan tersembunyi. 
+Kondisi A menggunakan keempat giliran tanpa tambahan teks apa pun. Pada Kondisi B, C, dan D, tambahan teks hanya berada di dua tempat, yaitu pada akhir giliran pertama dan pada giliran keempat. Kedua tambahan tersebut merupakan bagian dari intervensi \emph{retrieval} beserta pengendaliannya, bukan perbedaan tersembunyi.
 
-Teknik \emph{prompting} yang digunakan dirangkum pada Tabel~\ref{tab:teknik-prompt}. Seluruh kondisi menggunakan \emph{prompt} yang bersifat \emph{zero-shot}, yaitu tidak ada contoh pasangan masukan-keluaran. Tiga teknik lain ditambahkan secara berlapis. \emph{Persona prompting}, \emph{Retrieval-augmented prompting} dan \emph{constraint prompting} hanya dipakai pada Kondisi B, C, dan D. Dengan susunan ini, perbedaan \emph{prompt} antarkondisi terbatas pada konteks dan aturan pengendaliannya. Posisi tiap teknik pada teks \emph{prompt} ditandai (T1)--(T4) pada Listing~\ref{lst:prompt-grounded}, yang memuat teks lengkap \emph{prompt} Kondisi B, C, dan D.
+Teknik \emph{prompting} yang digunakan dirangkum pada Tabel~\ref{tab:teknik-prompt}. Seluruh kondisi menggunakan \emph{prompt} yang bersifat \emph{zero-shot}, yaitu tidak ada contoh pasangan masukan-keluaran, dan \emph{persona prompting} yang sama pada Kondisi A sampai D. Dua teknik lain ditambahkan secara berlapis dan hanya dipakai pada Kondisi B, C, dan D, yaitu \emph{retrieval-augmented prompting} dan \emph{constraint prompting}. Dengan susunan ini, perbedaan \emph{prompt} antarkondisi terbatas pada konteks dan aturan pengendaliannya. Posisi tiap teknik pada teks \emph{prompt} ditandai (T1)--(T4) pada Listing~\ref{lst:prompt-grounded}, yang memuat teks lengkap \emph{prompt} Kondisi B, C, dan D.
 
 \begin{table}[!htbp]
 \centering
@@ -530,14 +524,13 @@ to answer, don't make that claim -- say the retrieved sources don't cover
 it instead.
 \end{lstlisting}
 
-Beberapa ketentuan pembentukan \emph{prompt} berikut yang ditetapkan pada implementasi.
+Beberapa ketentuan pembentukan \emph{prompt} berikut ditetapkan pada implementasi.
 \begin{enumerate}
-    \item \textbf{Format blok konteks.} Setiap item konteks disajikan sebagai label \texttt{[SO-<id pertanyaan>]} diikuti teks item berbentuk \texttt{Q: <judul>} dan \texttt{A: <jawaban>}. Seluruh teks item dipotong pada 400 \emph{token} dengan \emph{tokenizer} \texttt{cl100k\_base} (\texttt{tiktoken}), dan antaritem dipisahkan satu baris kosong. Format ini digunakan oleh Kondisi B, C, dan D.
-    \item \textbf{Persona dari tag.} Persona dibentuk dari tag pertanyaan dengan tanda kurung sudut dihapus dan antartag dipisahkan spasi. Apabila pertanyaan tidak memiliki tag, digunakan frasa \emph{software development}.
-    \item \textbf{Tanpa metadata \emph{retrieval}.} Bobot kepercayaan, jumlah \emph{hop}, tingkat \emph{retrieval} (\emph{low-level} atau \emph{high-level}), dan jalur pengambilan tidak pernah dimasukkan ke teks \emph{prompt}. Metadata tersebut hanya tersimpan pada rekaman hasil. Dengan demikian, perilaku sitasi model tidak dipengaruhi oleh metode \emph{retrieval} yang menghasilkan suatu item, melainkan hanya oleh isi teks item tersebut.
-    \item \textbf{Klaim tanpa dukungan tidak dibuat.} Apabila konteks tidak mendukung suatu klaim yang dibutuhkan, model diminta tidak membuat klaim tersebut dan menyatakan bahwa sumber yang diperoleh tidak mencakup bagian itu. Aturan ini selaras pada ketiga bagian instruksi (pesan sistem, butir ketiga, dan pengingat), sehingga tidak ada instruksi yang saling bertentangan.
-    \item \textbf{Konteks kosong.} Apabila \emph{retrieval} tidak menghasilkan konteks sama sekali, bagian konteks diganti dengan instruksi bahwa tidak ada sumber relevan yang ditemukan dan model tidak boleh menjawab dari pengetahuan umumnya (Listing~\ref{lst:prompt-kosong}). Pada kasus ini pengingat di akhir giliran keempat tidak ditambahkan. Dengan cara ini, perilaku model pada kasus tanpa konteks konsisten dengan aturan \emph{grounding}, dan ketiadaan kutipan pada jawaban dapat ditafsirkan sebagai keterbatasan \emph{retrieval}, bukan keterbatasan generasi.
+    \item \textbf{Format blok konteks.} Setiap item konteks disajikan sebagai label \texttt{[SO-<id pertanyaan>]} diikuti teks item berbentuk \texttt{Q: <judul>} dan \texttt{A: <jawaban>}. Seluruh teks item dipotong pada 400 \emph{token} dengan \emph{tokenizer} \texttt{cl100k\_base} (\texttt{tiktoken}), dan antaritem dipisahkan satu baris kosong. Persona dibentuk dari tag pertanyaan dengan tanda kurung sudut dihapus; apabila pertanyaan tidak memiliki tag, digunakan frasa \emph{software development}.
+    \item \textbf{Tanpa metadata \emph{retrieval}.} Bobot kepercayaan, jumlah \emph{hop}, tingkat \emph{retrieval}, dan jalur pengambilan tidak pernah dimasukkan ke teks \emph{prompt}. Metadata tersebut hanya tersimpan pada rekaman hasil, sehingga perilaku sitasi model hanya dipengaruhi isi teks item, bukan metode \emph{retrieval} yang menghasilkannya.
+    \item \textbf{Konteks kosong.} Apabila \emph{retrieval} tidak menghasilkan konteks sama sekali, bagian konteks diganti dengan instruksi pada Listing~\ref{lst:prompt-kosong}, dan pengingat di akhir giliran keempat tidak ditambahkan. Dengan cara ini, ketiadaan kutipan pada kasus tersebut dapat ditafsirkan sebagai keterbatasan \emph{retrieval}, bukan keterbatasan generasi.
 \end{enumerate}
+
 
 \begin{lstlisting}[caption={Pengganti blok konteks pada giliran keempat apabila \emph{retrieval} tidak menghasilkan konteks.}, label={lst:prompt-kosong}, frame=single, captionpos=t, language={}, basicstyle=\ttfamily\scriptsize]
 No relevant context was found in the Stack Overflow community for this
@@ -616,7 +609,7 @@ sim, sim\_norm, trust, combined\_score, final\_score, alpha & Komponen skor akhi
 \label{sec:justifikasi-parameter}
 %============================================================
 
-Parameter implementasi terbagi menjadi empat kelompok menurut dasar penetapannya, yaitu parameter yang mengikuti rujukan, parameter yang dihitung dari data, parameter yang dipilih secara empiris pada \emph{development set}, dan parameter heuristik yang ditetapkan sebelum eksperimen. Hanya satu parameter yang dipilih secara empiris, yaitu bobot relevansi--kepercayaan $\alpha$ pada Kondisi C. Subbab ini menjelaskan pemisahan data yang dipakai untuk pemilihan tersebut (Subbab~\ref{subsec:pemisahan-dev-uji}), proses dan hasil pemilihan $\alpha$ (Subbab~\ref{subsec:pemilihan-alpha}), serta ringkasan seluruh parameter yang dibekukan (Subbab~\ref{subsec:parameter-beku}).
+Parameter implementasi terbagi menjadi empat kelompok menurut dasar penetapannya, yaitu parameter yang mengikuti rujukan, parameter yang dihitung dari data, parameter yang dipilih secara empiris pada \emph{development set}, dan parameter heuristik yang ditetapkan sebelum eksperimen. Hanya satu parameter numerik yang dipilih secara empiris, yaitu bobot relevansi--kepercayaan $\alpha$ pada Kondisi C. Subbab ini menjelaskan pemisahan data yang dipakai (Subbab~\ref{subsec:pemisahan-dev-uji}), proses dan hasil pemilihan $\alpha$ (Subbab~\ref{subsec:pemilihan-alpha}), serta ringkasan seluruh parameter yang dibekukan (Subbab~\ref{subsec:parameter-beku}).
 
 %------------------------------------------------------------
 \subsection{Pemisahan \emph{Development Set} dan Sampel Uji}
@@ -643,7 +636,7 @@ Pada tahap 1, nilai $\alpha$ diurutkan dengan tiga aturan berikut.
     \item Jika dianggap sama, nilai dengan rata-rata skor relevansi lebih tinggi didahulukan. Selisih sampai 0,02 dianggap sama.
     \item Jika masih sama, nilai $\alpha$ yang lebih besar didahulukan.
 \end{enumerate}
-Dua nilai teratas menjadi kandidat tahap 2. Apabila $\alpha = 1$ justru berada di urutan pertama, tahap 2 dilewati dan skor lama dipertahankan.
+Dua nilai teratas menjadi kandidat tahap 2.
 
 Pada tahap 2, kandidat dibandingkan dengan jumlah jawaban yang dinilai berhalusinasi.
 \begin{enumerate}
@@ -651,7 +644,8 @@ Pada tahap 2, kandidat dibandingkan dengan jumlah jawaban yang dinilai berhalusi
     \item Jika dianggap sama, digunakan jumlah jawaban berhalusinasi dengan \texttt{ABSTAIN} dihitung sebagai kegagalan, dengan margin yang sama.
     \item Jika masih sama, nilai $\alpha$ yang lebih besar didahulukan.
 \end{enumerate}
-Pemenangnya menjadi $\alpha^{*}$ untuk \emph{run} resmi. Apabila pemenangnya $\alpha = 1$, skor lama dipertahankan. Aturan ini ditetapkan sebelum hasil apa pun diketahui. Alasan di balik urutan terakhir ("$\alpha$ lebih besar didahulukan") tidak dibuktikan oleh data, sehingga ia diperlakukan sebagai aturan yang ditetapkan lebih dahulu, bukan sebagai pilihan yang dibenarkan secara substantif.
+Pemenangnya menjadi $\alpha^{*}$ untuk sample uji. 
+
 
 \subsubsection{Validasi Instrumen Relevansi Konteks}
 \label{subsubsec:validasi-ctxrel}
@@ -712,7 +706,8 @@ $\alpha$ & & \textbf{Llama} & \textbf{DeepSeek} & \textbf{Qwen} & \textbf{Panel}
 \end{tabularx}
 \end{table}
 
-Panel menyatakan sebuah jawaban berhalusinasi hanya bila sedikitnya dua dari tiga juri menandainya. Juri Llama hampir tidak pernah menandai halusinasi, sehingga kesepakatan itu praktis berasal dari DeepSeek dan Qwen. Semakin sedikit jawaban berhalusinasi, semakin baik nilai $\alpha$ tersebut. Menurut label panel, $\alpha = 0{,}25$ memiliki 21 jawaban berhalusinasi dan $\alpha = 0{,}5$ memiliki 23 jawaban (Tabel~\ref{tab:tahap2-alpha}), sehingga $\alpha = 0{,}25$ sedikit lebih baik, tetapi selisih 2 jawaban masih dalam margin seri. Hitungan per juri tidak dijadikan dasar keputusan karena seleksi memakai label panel.
+Panel menyatakan sebuah jawaban berhalusinasi hanya bila sedikitnya dua dari tiga juri menandainya. Juri Llama hampir tidak pernah menandai halusinasi, sehingga kesepakatan itu praktis berasal dari DeepSeek dan Qwen. Semakin sedikit jawaban berhalusinasi, semakin baik nilai $\alpha$ tersebut. Menurut label panel dengan jawaban \texttt{ABSTAIN} dikeluarkan (kriteria utama), $\alpha = 0{,}25$ memiliki 21 jawaban berhalusinasi dan $\alpha = 0{,}5$ memiliki 23 jawaban, sehingga $\alpha = 0{,}25$ sedikit lebih baik dengan selisih 2 jawaban. Menurut kriteria pembanding (\texttt{ABSTAIN} dihitung sebagai kegagalan), angkanya 31 dan 32, sehingga selisihnya 1 jawaban. Kedua selisih tidak melebihi margin 2 jawaban, sehingga kedua nilai dianggap seri. Aturan terakhir, yaitu mendahulukan $\alpha$ yang lebih besar, menetapkan \textbf{$\alpha^{*} = 0{,}5$}, dan nilai ini digunakan pada Kondisi C.
+
 
 Tabel~\ref{tab:tahap2-per-mode} merinci hasil per mode \emph{prompt}.
 
@@ -733,7 +728,7 @@ $\alpha$ & \textbf{\emph{Grounding} aktif} & \textbf{\emph{Grounding} nonaktif} 
 \end{tabular}
 \end{table}
 
-Kandidat yang unggul berbeda menurut mode. Pada \emph{grounding} aktif, $\alpha = 0{,}25$ unggul 3 jawaban (8 terhadap 11), sedangkan pada \emph{grounding} nonaktif keadaannya berbalik (13 terhadap 12). Pada data gabungan, selisihnya hanya 2 jawaban. Seandainya seleksi dibatasi pada \emph{grounding} aktif, selisih 3 jawaban akan melampaui margin dan $\alpha = 0{,}25$ yang terpilih. Perbedaan ini tidak dipakai untuk mengubah keputusan, tetapi menunjukkan bahwa pemilihan $\alpha$ pada \emph{development set} berukuran 50 peka terhadap dasar seleksi dan selisih antarkandidat kecil.
+Kandidat yang unggul berbeda menurut mode. Pada \emph{grounding} aktif, $\alpha = 0{,}25$ unggul 3 jawaban (8 terhadap 11), sedangkan pada \emph{grounding} nonaktif keadaannya berbalik (13 terhadap 12). Seandainya seleksi dibatasi pada \emph{grounding} aktif, selisih 3 jawaban melampaui margin dan $\alpha = 0{,}25$ terpilih. Keputusan tidak diubah, tetapi hal ini menunjukkan bahwa pemilihan $\alpha$ pada 50 pertanyaan peka terhadap dasar seleksi.
 
 \subsubsection{Hasil Penetapan}
 \label{subsubsec:hasil-alpha}
@@ -778,7 +773,7 @@ $P_{99}$ pada $\mathrm{normlog}$ & skor jawaban 46; skor pertanyaan 30; reputasi
 \hline
 Bobot kepercayaan $\alpha^{*}$ (Kondisi C) & 0,5 & Prosedur dua tahap (Subbab~\ref{subsec:pemilihan-alpha}) \\
 \hline
-Definisi label \emph{judge} relevansi konteks & \texttt{ctxrel} & Lolos ambang kontrol (Subbab~\ref{subsubsec:validasi-ctxrel}) \\
+Definisi label \emph{judge} relevansi konteks & \texttt{ctxrel} & Dirumuskan pada \emph{development set}; lolos ambang kontrol (Subbab~\ref{subsubsec:validasi-ctxrel}) \\
 \hline
 \multicolumn{3}{|l|}{\textit{Heuristik, ditetapkan sebelum eksperimen dan tidak disetel}} \\
 \hline
@@ -872,12 +867,13 @@ NF6 & Skalabilitas & KG berisi 2.685.814 simpul \texttt{Question} dan 32.100.676
 Beberapa batasan implementasi perlu dicatat karena memengaruhi interpretasi hasil pada bab evaluasi.
 \begin{enumerate}
     \item Pembaruan KG secara inkremental tidak diimplementasikan dan tidak dievaluasi, dan diposisikan sebagai pengembangan lanjutan.
-    \item Seluruh penilaian halusinasi merupakan keluaran panel \emph{LLM-as-a-Judge} yang tidak divalidasi terhadap anotasi manusia, sehingga angka halusinasi harus ditafsirkan sebagai keluaran panel, bukan label manusia. \emph{Blinding} \texttt{blind-v3} juga tidak menutup seluruh frasa yang mengungkapkan keberadaan konteks, sehingga sebagian jawaban dari kondisi \emph{retrieval} mungkin tetap dikenali oleh \emph{judge}. Llama-3.3-70B-Instruct dilayani dalam varian \emph{Turbo} berpresisi FP8.
+    \item Seluruh penilaian halusinasi merupakan keluaran panel \emph{LLM-as-a-Judge} yang tidak divalidasi terhadap anotasi manusia, sehingga angka halusinasi harus ditafsirkan sebagai keluaran panel, bukan label manusia. 
     \item Koefisien heuristik pada \texttt{trustScore}, fusi, dan densifikasi tidak diuji sensitivitasnya.
     \item Kondisi D berbeda dari Kondisi C pada beberapa komponen sekaligus (sinyal kepercayaan, \emph{semantic expansion}, dan skema skor), sehingga perbandingan C dan D mengukur efek mekanisme \emph{retrieval} secara keseluruhan, bukan efek sinyal kepercayaan secara terpisah. 
     \item Evaluasi dilakukan pada satu \emph{dataset} dan satu model \emph{generator}, sehingga generalisasi ke domain atau model lain tidak diklaim.
     \item Nilai $\alpha$ dipilih pada \emph{development set} berukuran 50 pertanyaan dan ditetapkan melalui aturan pemecah seri, bukan dari keunggulan yang terukur. Hasil seleksi peka terhadap dasar penilaian (Subbab~\ref{subsubsec:tahap2-alpha}), sehingga hasil tahap 2 tidak dikutip sebagai bukti efek sinyal kepercayaan.
     \item Sampel uji hanya diambil dari pertanyaan yang jawaban terterimanya tersedia pada tabel jawaban (270.988 dari 2.685.814 pertanyaan, 10,09\%), sehingga hasil tidak digeneralisasi ke pertanyaan tanpa jawaban terterima.
+    \item Setiap kondisi dijalankan satu kali pada sampel uji dengan \emph{temperature} bawaan penyedia, sehingga variasi antar-\emph{run} pada \emph{generator} tidak diukur.
 \end{enumerate}
 
 %============================================================
@@ -885,7 +881,7 @@ Beberapa batasan implementasi perlu dicatat karena memengaruhi interpretasi hasi
 \label{sec:ringkasan-implementasi}
 %============================================================
 
-Implementasi menghasilkan KG berbobot dari seluruh populasi SORD, yang mencakup sekitar 2,7 juta pertanyaan dan 32 juta sisi. Empat kondisi eksperimen menggunakan \emph{sampling}, dan model \emph{generator} yang sama. Kondisi B, C, dan D juga menggunakan \emph{prompt}, korpus jawaban, dan aturan pencegahan kebocoran data yang sama. Instrumen evaluasi dijalankan secara terpisah dari \emph{generator}. Empat aspek implementasi berikut perlu diperhatikan dalam menafsirkan hasil evaluasi.
+Implementasi menghasilkan KG berbobot dari seluruh populasi SORD, yang mencakup sekitar 2,7 juta pertanyaan dan 32 juta sisi. Keempat kondisi eksperimen menggunakan sampel dan model \emph{generator} yang sama. Kondisi B, C, dan D juga menggunakan \emph{prompt}, korpus jawaban, dan aturan pencegahan kebocoran data yang sama. Instrumen evaluasi dijalankan secara terpisah dari \emph{generator} dan dijelaskan pada Bab~\ref{chap:evaluasi}. Empat aspek implementasi berikut perlu diperhatikan dalam menafsirkan hasil evaluasi.
 
 Pertama, struktur asli Stack Overflow belum cukup terhubung untuk mendukung \emph{traversal} graf secara efektif. Densifikasi graf menjadi bagian penting dari mekanisme \emph{retrieval} dua \emph{hop} dan menurunkan proporsi pertanyaan tanpa sisi keluar dari 94,88\% menjadi 23,10\%.
 
@@ -893,6 +889,6 @@ Kedua, pemeringkatan berdasarkan kepercayaan saja menurunkan relevansi konteks p
 
 Ketiga, Kondisi B, C, dan D menggunakan struktur dan isi \emph{prompt} yang sama tanpa menyertakan metadata \emph{retrieval}. Dengan demikian, perbedaan hasil antarkondisi dapat dikaitkan dengan perbedaan konteks yang diambil oleh masing-masing mekanisme \emph{retrieval}, bukan dengan perbedaan instruksi kepada model.
 
-Keempat, aturan pengecualian kebocoran data diterapkan secara seragam pada ketiga kondisi \emph{retrieval} dan diperiksa untuk setiap kueri. Namun, cakupannya terbatas pada pertanyaan evaluasi beserta seluruh jawabannya. Seluruh parameter dibekukan dalam tabel konfigurasi yang dihasilkan dari kode sebelum evaluasi pada sampel uji dijalankan.
+Keempat, aturan pengecualian kebocoran data diterapkan secara seragam pada ketiga kondisi \emph{retrieval} dan diperiksa untuk setiap kueri. Namun, cakupannya terbatas pada pertanyaan evaluasi beserta seluruh jawabannya. Instrumen evaluasi dijalankan terpisah dari \emph{generator} dan dijelaskan pada Bab~\ref{chap:evaluasi}. Seluruh parameter dibekukan dalam tabel konfigurasi yang dihasilkan dari kode sebelum evaluasi pada sampel uji dijalankan.
 
 Bab berikutnya menyajikan hasil evaluasi keempat kondisi pada sampel uji.
