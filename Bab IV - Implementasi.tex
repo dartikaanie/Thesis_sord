@@ -229,8 +229,6 @@ Sisi \texttt{EMBED\_SIM} & 10.141.497 & Densifikasi; bobot 0,4 \\
 
 Skor kepercayaan simpul \texttt{Answer} dihitung sesuai Persamaan~\eqref{eq:trust-answer} dan \eqref{eq:normlog}. Koefisien yang digunakan adalah $w^{A}_{s} = 0{,}5$ untuk skor \emph{upvote}, $w^{A}_{a} = 0{,}3$ untuk status \emph{accepted answer}, dan $w^{A}_{r} = 0{,}2$ untuk reputasi kontributor. Persentil ke-99 dihitung pada skor mentah (termasuk skor negatif) untuk seluruh populasi simpul sejenis dengan metode kuantil linear. Nilai yang diperoleh adalah $P_{99}^{A} = 46$ untuk skor jawaban dan $P_{99} = 54.383$ untuk reputasi kontributor. Reputasi dari 293.078 kontributor menghasilkan 715.604 sisi \texttt{AUTHOR\_TRUST}. Sebanyak 10.191 jawaban (1,4\%) tidak memiliki sisi tersebut, yaitu 8.674 jawaban dari akun yang dihapus atau anonim dan 1.517 jawaban dari pengguna yang tidak terdapat pada data reputasi, sehingga $w^{\mathrm{auth}}_A = 0$ untuk jawaban tersebut.
 
-Seluruh rumus kepercayaan, termasuk $\mathrm{normlog}$ dan $w^{\mathrm{auth}}$, ditempatkan dalam satu modul yang dipakai bersama oleh skrip konstruksi KG dan skrip pembaruan. Dengan cara ini, pembangunan ulang graf dan pembaruan skor menghasilkan nilai yang identik untuk masukan yang sama. Setiap simpul diberi penanda versi rumus (\texttt{trustScoreVersion = v3-logscore}), dan setiap \emph{run} Kondisi C mencatat versi yang terbaca dari graf pada awal \emph{run}. Pembaruan skor dijalankan dengan prosedur yang dapat diverifikasi, yaitu nilai lama disimpan sebagai cadangan, nilai baru ditulis, lalu nilai yang tersimpan dibaca ulang dan dibandingkan dengan nilai hasil perhitungan.
-
 Komponen skor \emph{upvote} pada 725.795 simpul \texttt{Answer} dinormalisasi secara logaritmik untuk menghitung \texttt{trustScore}. Dengan normalisasi \emph{min-max} biasa, 90\% jawaban memiliki skor \emph{upvote} di bawah 0,0052. Akibatnya, skor sebagian besar jawaban terkonsentrasi di sekitar nol sehingga kurang efektif untuk membedakan kandidat. Setelah normalisasi logaritmik diterapkan, median skor meningkat menjadi 0,180 dan persentil ke-90 menjadi 0,505. Distribusi ini memberikan rentang skor yang lebih tersebar untuk membedakan jawaban berdasarkan jumlah \emph{upvote}.
 
 
@@ -276,8 +274,8 @@ Gambar~\ref{fig:subgraf-implementasi} memperlihatkan contoh nyata hasil densifik
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.9\textwidth]{images/bab4_hasil_densifikasi.png}
-\caption{Contoh subgraf  pada \emph{knowledge graph} hasil konstruksi untuk pertanyaan \texttt{17239006}. Simpul terang adalah pertanyaan dan simpul gelap adalah jawaban, dengan sisi satu \emph{hop} (\texttt{HAS\_ACCEPTED\_ANSWER}) dan dua \emph{hop} melalui pertanyaan tetangga (\texttt{IS\_RELATED\_TO}, \texttt{TAG\_COOCCUR}, \texttt{EMBED\_SIM}, lalu \texttt{HAS\_ANSWER}).}
+\includegraphics[width=1\textwidth]{images/bab4_hasil_densifikasi.png}
+\caption{Contoh subgraf  pada \emph{knowledge graph} hasil konstruksi untuk pertanyaan \texttt{17239006}.}
 \label{fig:subgraf-implementasi}
 \end{figure}
 
@@ -677,7 +675,7 @@ $\alpha$ & \textbf{\makecell{\% pertanyaan dengan\\$\geq 1$ \texttt{RELEVANT}}} 
 \end{tabular}
 \end{table}
 
-Penerapan aturan pada Tabel~\ref{tab:tahap1-alpha} adalah sebagai berikut. Nilai tertinggi pada kriteria utama adalah 58,0\% (untuk $\alpha = 0{,}5$). Nilai $\alpha = 0$, $0{,}25$, dan $0{,}75$ (masing-masing 56,0\%) selisihnya tepat 2 poin, sehingga dianggap sama, sedangkan $\alpha = 1$ (40,0\%) tertinggal jauh. Pada kriteria rata-rata skor, $\alpha = 0$ (0,376), $0{,}25$ (0,374), dan $0{,}5$ (0,372) selisihnya tidak lebih dari 0,02 sehingga dianggap sama, sedangkan $\alpha = 0{,}75$ (0,332) tertinggal 0,044. Tiga nilai yang dianggap sama diurutkan menurut $\alpha$ yang lebih besar. Urutan akhirnya adalah $0{,}5;\ 0{,}25;\ 0;\ 0{,}75;\ 1$, sehingga \textbf{kandidat tahap 2 adalah $\alpha = 0{,}5$ dan $\alpha = 0{,}25$}. Karena nilai $\alpha$ dari 0 sampai 0,5 hampir seri dan urutannya ditentukan oleh aturan pemecah seri, hasil tahap 1 tidak digunakan sebagai bukti pengaruh sinyal kepercayaan.
+Penerapan aturan pada Tabel~\ref{tab:tahap1-alpha} adalah sebagai berikut. Nilai tertinggi pada kriteria utama adalah 58,0\% (untuk $\alpha = 0{,}5$). Nilai $\alpha = 0$, $0{,}25$, dan $0{,}75$ (masing-masing 56,0\%) selisihnya tepat 2 poin, sehingga dianggap sama, sedangkan $\alpha = 1$ (40,0\%) tertinggal jauh. Pada kriteria rata-rata skor, $\alpha = 0$ (0,376), $0{,}25$ (0,374), dan $0{,}5$ (0,372) selisihnya tidak lebih dari 0,02 sehingga dianggap sama, sedangkan $\alpha = 0{,}75$ (0,332) tertinggal 0,044. Tiga nilai yang dianggap sama diurutkan menurut $\alpha$ yang lebih besar. Urutan akhirnya adalah $0{,}5;\ 0{,}25;\ 0;\ 0{,}75;\ 1$, sehingga kandidat tahap 2 adalah $\alpha = 0{,}5$ dan $\alpha = 0{,}25$. Karena nilai $\alpha$ dari 0 sampai 0,5 hampir seri dan urutannya ditentukan oleh aturan pemecah seri, hasil tahap 1 tidak digunakan sebagai bukti pengaruh sinyal kepercayaan.
 
 Tabel~\ref{tab:tahap1-alpha} hanya menunjukkan satu pola yang jelas, yaitu kualitas konteks turun tajam ketika skor ditentukan oleh kepercayaan saja ($\alpha = 1$): persentase pertanyaan dengan konteks relevan turun dari 58,0\% menjadi 40,0\% dan rata-rata skor relevansi turun dari 0,376 menjadi 0,256. Pola ini sejalan dengan penggunaan skor gabungan pada Persamaan~\eqref{eq:final-score}, yaitu kepercayaan tanpa suku relevansi cenderung menarik jawaban yang dipercaya komunitas tetapi kurang berkaitan dengan pertanyaan.
 \subsubsection{Tahap 2: Seleksi Berdasarkan Halusinasi}
@@ -690,7 +688,7 @@ Jawaban dinilai oleh panel tiga \emph{judge} LLM, yaitu Llama-3.3-70B, DeepSeek-
 \begin{table}[!htbp]
 \centering
 \footnotesize
-\caption{Hasil tahap 2 pemilihan $\alpha$ pada \emph{development set} ($n{=}100$ jawaban per $\alpha$: 50 dengan \emph{grounding} aktif dan 50 nonaktif). Nilai halusinasi adalah jumlah jawaban berhalusinasi per jumlah jawaban yang dinilai, dengan \texttt{ABSTAIN} dikeluarkan dari penyebut kecuali pada kolom \texttt{ABSTAIN} dihitung gagal. Penyebut berbeda antarjuri karena setiap juri memiliki jumlah \texttt{ABSTAIN} sendiri. Kolom Panel adalah label akhir dua dari tiga juri.}
+\caption{Hasil tahap 2 pemilihan $\alpha$ pada \emph{development set}}
 \label{tab:tahap2-alpha}
 \renewcommand{\arraystretch}{1.2}
 \setlength{\tabcolsep}{4pt}

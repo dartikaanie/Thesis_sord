@@ -18,18 +18,18 @@ KG terbangun dari seluruh populasi SORD, bobot simpul dan sisi terisi dari sinya
 \hline
 
 F2 &
-Indeks vektor FAISS (\texttt{all-MiniLM-L6-v2}) &
-Indeks dapat di-\emph{query} dan mengembalikan pertanyaan atau \emph{chunk} paling mirip \\
+Indeks vektor FAISS untuk pertanyaan dan untuk jawaban (\texttt{all-MiniLM-L6-v2}) &
+Kedua indeks dapat di-\emph{query} dan mengembalikan pertanyaan atau jawaban paling mirip beserta skor kemiripannya \\
 \hline
 
 F3 &
-\emph{Entity anchoring} berbasis pencarian vektor &
-Setiap kueri memperoleh \emph{seed nodes} di KG, dengan pertanyaan evaluasi itu sendiri dikecualikan \\
+\emph{Entity anchoring} pada tingkat jawaban berbasis pencarian vektor &
+Setiap kueri memperoleh \emph{seed nodes} di KG dari pertanyaan induk jawaban yang paling mirip \\
 \hline
 
 F4 &
-\emph{Hybrid retrieval} (tiga tahap sekuensial) dan fusi &
-Traversal dan \emph{semantic expansion} menghasilkan \emph{unified context window} top-$k$ yang deterministik pada eksekusi berulang \\
+\emph{Hybrid retrieval} (\emph{anchoring}, \emph{traversal}, dan \emph{semantic expansion}) serta fusi berbobot &
+Kandidat dari ketiga sumber digabung dalam satu \emph{pool}, diberi bobot jalur, disaring (jawaban tidak diterima dan bernilai negatif dikeluarkan sebelum pemilihan), lalu $k$ kandidat teratas disusun menjadi \emph{unified context window} yang deterministik pada eksekusi berulang \\
 \hline
 
 F5 &

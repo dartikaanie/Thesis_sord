@@ -13,32 +13,32 @@
     A, B, C, D \\
 \hline
 \emph{Hallucination Rate} &
-    Proporsi jawaban yang memuat minimal satu klaim bertentangan dengan \emph{accepted answer} (\emph{contradicted}) atau dikarang (\emph{fabricated}), dinilai panel \emph{LLM-as-a-Judge} \autocite{Gu2026}. Dilaporkan dalam dua versi: \texttt{ABSTAIN} dikeluarkan dari penyebut (metrik utama), dan \texttt{ABSTAIN} dihitung sebagai nonfaktual &
+    Proporsi jawaban yang memuat minimal satu klaim bertentangan dengan \emph{accepted answer} (\emph{contradicted}) atau dikarang (\emph{fabricated}), dinilai panel \emph{LLM-as-a-Judge} \autocite{Gu2026}. Dilaporkan dalam dua versi: \texttt{ABSTAIN} dikeluarkan dari penyebut (metrik utama), dan \texttt{ABSTAIN} dihitung sebagai kegagalan &
     A, B, C, D \\
 \hline
 \emph{Faithfulness} &
     Proporsi klaim jawaban yang didukung konteks yang benar-benar diberikan kepada LLM; tidak berlaku untuk Kondisi A karena tidak ada konteks &
     B, C, D \\
 \hline
-\emph{Citation Support} &
+\emph{Citation Support} (NF4) &
     Proporsi klaim berkutipan yang benar-benar didukung oleh item konteks yang dikutip, dihitung dari label per klaim yang sama dengan \emph{faithfulness} &
     B, C, D \\
 \hline
 \emph{Context Relevance} &
-    Label per item konteks (\texttt{RELEVANT}/\texttt{PARTIAL}/\texttt{IRRELEVANT}) yang dinilai hanya terhadap pertanyaan, serta kecukupan konteks secara keseluruhan (\texttt{CUKUP}/\texttt{SEBAGIAN}/\texttt{TIDAK\_CUKUP}), dinilai oleh satu \emph{judge} LLM. Digunakan \emph{judge} LLM, bukan kemiripan kosinus, karena Kondisi B dan D diperingkat berdasarkan kemiripan kosinus &
+    Label per item konteks (\texttt{RELEVANT}/\texttt{PARTIAL}/\texttt{IRRELEVANT}) yang dinilai hanya terhadap pertanyaan, serta kecukupan konteks secara keseluruhan (\texttt{CUKUP}/\texttt{SEBAGIAN}/\texttt{TIDAK\_CUKUP}), dinilai oleh panel tiga \emph{judge} LLM. Digunakan \emph{judge} LLM, bukan kemiripan kosinus, karena Kondisi B dan D diperingkat berdasarkan kemiripan kosinus &
     B, C, D \\
 \hline
 \emph{Answer Relevance} &
-    Sejauh mana jawaban menjawab pertanyaan (\texttt{MENJAWAB}/\texttt{MENJAWAB\_SEBAGIAN}/\texttt{TIDAK\_MENJAWAB}), dinilai oleh satu \emph{judge} LLM tanpa \emph{accepted answer} maupun konteks agar terpisah dari penilaian kebenaran &
+    Sejauh mana jawaban menjawab pertanyaan (\texttt{MENJAWAB}/\texttt{MENJAWAB\_SEBAGIAN}/\texttt{TIDAK\_MENJAWAB}), dinilai oleh panel tiga \emph{judge} LLM tanpa \emph{accepted answer} maupun konteks agar terpisah dari penilaian kebenaran &
     A, B, C, D \\
 \hline
 \emph{Valid Citation Rate} (NF2) &
-    Proporsi jawaban dengan $\geq 1$ kutipan \texttt{[SO-<id>]} yang labelnya benar-benar terdapat dalam konteks; kutipan yang tidak terdapat dalam konteks dihitung sebagai kutipan fiktif. Tidak berlaku untuk Kondisi A\textsuperscript{*} &
+    Proporsi jawaban dengan $\geq 1$ kutipan \texttt{[SO-<id>]} yang labelnya benar-benar terdapat dalam konteks; kutipan yang tidak terdapat dalam konteks dihitung sebagai kutipan fiktif. Dilaporkan terhadap seluruh jawaban dan terhadap jawaban yang bukan \texttt{ABSTAIN}. Tidak berlaku untuk Kondisi A\textsuperscript{*} &
     B, C, D \\
 \hline
 Latensi (NF3) &
-    Waktu respons ujung ke ujung per kueri (\emph{retrieval} dan generasi). Persentil ke-95 diverifikasi terhadap batas $\leq 15$ detik pada Kondisi C dan tidak diklaim sebagai keunggulan; waktu \emph{retrieval} dilaporkan terpisah untuk Kondisi B, C, dan D &
-    B, C, D \\
+    Rerata waktu respons total (\emph{retrieval} hingga keluaran LLM), dihitung dari catatan waktu per kueri. Dibandingkan terhadap batas $\leq 15$ detik dan dilaporkan untuk seluruh kondisi tanpa klaim keunggulan &
+    A, B, C, D   \\
 \hline
 \end{tabularx}
 

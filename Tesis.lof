@@ -17,10 +17,6 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
 \addvspace {10\p@ }
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
@@ -698,27 +694,9 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {III.3}{\ignorespaces Arsitektur \emph {GraphRAG Framework} yang terdiri atas tiga blok utama (Konstruksi KG Berbobot, \emph {Hybrid Retrieval}, dan \emph {Grounded Generation}) beserta blok evaluasi komparatif.}}{65}{figure.caption.29}%
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {III.4}{\ignorespaces Contoh ilustratif subgraf \emph {knowledge graph} berbobot dari SORD pada domain autentikasi FastAPI}}{70}{figure.caption.31}%
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {III.5}{\ignorespaces \emph {Flowchart} konstruksi \emph {knowledge graph} berbobot dari dataset SORD.}}{71}{figure.caption.32}%
+\contentsline {figure}{\numberline {III.3}{\ignorespaces Arsitektur \emph {GraphRAG Framework} yang terdiri atas tiga blok utama (Konstruksi KG Berbobot, \emph {Hybrid Retrieval}, dan \emph {Grounded Generation}) beserta blok evaluasi komparatif.}}{66}{figure.caption.28}%
+\contentsline {figure}{\numberline {III.4}{\ignorespaces Contoh ilustratif subgraf KG berbobot yang memuat simpul \texttt {Question}, \texttt {Answer}, \texttt {Tag}, dan \texttt {User} beserta ketujuh tipe sisi. Nilai bersifat ilustratif.}}{70}{figure.caption.30}%
+\contentsline {figure}{\numberline {III.5}{\ignorespaces \emph {Flowchart} konstruksi \emph {knowledge graph} berbobot dari dataset SORD.}}{71}{figure.caption.31}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -731,7 +709,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {III.6}{\ignorespaces Alur mekanisme \emph {hybrid retrieval} pada \emph {GraphRAG Framework}.}}{75}{figure.caption.33}%
+\contentsline {figure}{\numberline {III.6}{\ignorespaces Alur mekanisme \emph {hybrid retrieval} pada \emph {GraphRAG Framework}.}}{77}{figure.caption.32}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -752,9 +730,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {III.7}{\ignorespaces Perbandingan kondisi evaluasi yang menghasilkan output yang diukur dengan metrik yang identik.}}{82}{figure.caption.35}%
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
+\contentsline {figure}{\numberline {III.7}{\ignorespaces Perbandingan empat kondisi evaluasi yang menghasilkan keluaran yang diukur dengan metrik yang identik.}}{83}{figure.caption.34}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -794,6 +770,20 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {figure}{\numberline {IV.1}{\ignorespaces Contoh subgraf pada \emph {knowledge graph} hasil konstruksi untuk pertanyaan \texttt {17239006}.}}{101}{figure.caption.45}%
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\contentsline {figure}{\numberline {IV.2}{\ignorespaces Contoh keluaran penelusuran \emph {provenance} atas permintaan pengguna.}}{111}{figure.caption.50}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -814,22 +804,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
+\addvspace {10\p@ }
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 

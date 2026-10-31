@@ -58,14 +58,14 @@ all-MiniLM-L6-v2 \\
 
 7 &
 Vector Store &
-Indeks dan pencarian top-$k$ &
+Indeks vektor pertanyaan dan indeks vektor jawaban beserta pencarian top-$k$ &
 --- &
 FAISS \\
 \hline
 
 8 &
 Retrieval Engine &
-\emph{Entity anchoring}, traversal berbobot, \emph{semantic expansion}, serta fusi dan pemeringkatan &
+\emph{Entity anchoring} pada tingkat jawaban, traversal berbobot, \emph{semantic expansion}, serta fusi, penyaringan, dan pemeringkatan &
 G2, G3 &
 Python \\
 \hline
@@ -86,7 +86,7 @@ G1 &
 
 11 &
 Evaluator &
-Panel \emph{LLM-as-a-Judge} untuk halusinasi beserta label dukungan per klaim (dasar \emph{faithfulness} dan \emph{citation support}), \emph{judge} tunggal untuk relevansi konteks dan relevansi jawaban, serta analisis deskriptif &
+Panel tiga \emph{LLM-as-a-Judge} untuk halusinasi, relevansi konteks, dan relevansi jawaban, beserta label dukungan per klaim (dasar \emph{faithfulness} dan \emph{citation support}) dan analisis deskriptif &
 G1--G3 &
 Llama-3.3-70B-Instruct, DeepSeek-V3.2, Qwen3-235B-A22B-Instruct-2507 \\
 \hline

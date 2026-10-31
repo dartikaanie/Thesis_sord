@@ -1,232 +1,179 @@
-% ==========================================================
+%============================================================
 % BAB V - EVALUASI DAN HASIL (kerangka)
-% Catatan: butuh paket xcolor, booktabs, graphicx (kemungkinan sudah ada di preamble)
-% ==========================================================
-\newcommand{\todored}[1]{\textcolor{red}{[TODO: #1]}}
-
+%============================================================
 \chapter{EVALUASI DAN HASIL}
 \label{chap:evaluasi}
 
+Bab ini melaporkan hasil evaluasi keempat kondisi eksperimen (A, B, C, dan D) pada sampel uji berdasarkan desain evaluasi pada Bab~\ref{chap:analisis-desain} dan implementasi pada Bab~\ref{chap:implementasi}. Seluruh parameter telah dibekukan sebelum evaluasi dijalankan, dan sampel uji hanya dijalankan satu kali. Hasil dilaporkan secara deskriptif, yaitu berupa nilai rata-rata, median, persentase, dan selisih antarkondisi. Pembahasan disusun sebagai berikut.
+\begin{enumerate}[1.]
+    \item Pelaksanaan evaluasi, yaitu konfigurasi eksperimen pada sampel uji, cakupan data, dan verifikasi kontrol eksperimen.
+    \item Keandalan panel \emph{judge} yang digunakan untuk menilai halusinasi, \emph{faithfulness}, dan \emph{citation support}.
+    \item Hasil kualitas jawaban, yaitu \emph{cosine similarity}, \emph{hallucination rate}, dan \emph{answer relevance}.
+    \item Hasil kualitas \emph{grounding} dan keterlacakan, yaitu \emph{faithfulness}, \emph{citation support}, dan \emph{valid citation rate} (NF2).
+    \item Hasil kualitas \emph{retrieval}, yaitu \emph{context relevance} dan kecukupan konteks.
+    \item Hasil latensi (NF3).
+    \item Analisis perbandingan antarkondisi, yaitu Kondisi C terhadap Kondisi B dan Kondisi D.
+    \item Analisis kasus berhasil dan kasus gagal.
+    \item Pembahasan, mencakup pemenuhan kriteria sukses NF1, NF2, dan NF3, jawaban atas rumusan masalah, serta posisi hasil terhadap penelitian terdahulu.
+    \item Ancaman terhadap validitas.
+\end{enumerate}
+
+%============================================================
 \section{Pelaksanaan Evaluasi}
 \label{sec:pelaksanaan-evaluasi}
-
-\todored{Paragraf pembuka: tujuan bab, merujuk ke desain evaluasi (Bab III) dan implementasi (Bab IV). Jangan ulang desain.}
+%============================================================
 
 \subsection{Konfigurasi Run Resmi}
 \label{subsec:konfigurasi-run}
-\todored{n=384, seed=42, generator gpt-4o-mini, parameter API default, empat run resmi (A, B, C, D), nilai $\alpha$ terpilih dari \emph{dev set} (rujuk Bab IV).}
+todo...
 
-\begin{table}[!htbp]
-\centering
-\caption{Ringkasan konfigurasi run resmi.}
-\label{tab:konfigurasi-run}
-\begin{tabular}{|l|l|l|l|}
-\hline
-\textbf{Kondisi} & \textbf{Deskripsi} & \textbf{Corpus} & \textbf{Jumlah Pertanyaan} \\
-\hline
-A & \emph{Pure LLM} & --- & \todored{n} \\
-B & \emph{Conventional RAG} (FAISS) & \todored{} & \todored{n} \\
-C & \emph{GraphRAG} berbobot kepercayaan & \todored{} & \todored{n} \\
-D & Retrieval dua tingkat (adaptasi LightRAG) & \todored{} & \todored{n} \\
-\hline
-\end{tabular}
-\end{table}
+\subsection{Cakupan Data dan Kelengkapan Run}
+\label{subsec:kelengkapan-run}
+todo...
 
-\subsection{Ringkasan Data dan Pemeriksaan \emph{Leakage}}
-\label{subsec:ringkasan-data}
-\todored{Jumlah pertanyaan berhasil diproses per kondisi, kasus gagal atau konteks kosong, dan bukti pencegahan \emph{leakage}.}
 
-\subsection{Konfigurasi Panel \emph{LLM-as-a-Judge}}
-\label{subsec:konfigurasi-judge}
-\todored{Tiga \emph{judge} non-GPT (Llama, DeepSeek, Qwen), \emph{temperature} 0, generator tidak ikut menilai.}
+\subsection{Verifikasi Kontrol Eksperimen}
+\label{subsec:verifikasi-kontrol}
+todo...
 
+
+%============================================================
+\section{Keandalan Panel \emph{Judge}}
+\label{sec:keandalan-judge}
+todo...
+%============================================================
+
+%============================================================
 \section{Hasil Kualitas Jawaban}
 \label{sec:hasil-kualitas-jawaban}
+todo...
+%============================================================
 
 \subsection{\emph{Cosine Similarity}}
 \label{subsec:hasil-cosine}
-\begin{table}[!htbp]
-\centering
-\caption{Hasil \emph{cosine similarity} per kondisi.}
-\label{tab:hasil-cosine}
-\begin{tabular}{|l|c|c|c|c|}
-\hline
-\textbf{Kondisi} & \textbf{Mean} & \textbf{Median} & \textbf{SD} & \textbf{Selisih vs C} \\
-\hline
-A & \todored{} & \todored{} & \todored{} & \todored{} \\
-B & \todored{} & \todored{} & \todored{} & \todored{} \\
-C & \todored{} & \todored{} & \todored{} & --- \\
-D & \todored{} & \todored{} & \todored{} & \todored{} \\
-\hline
-\end{tabular}
-\end{table}
-
-\todored{Gambar sebaran skor (boxplot/histogram) dan interpretasi singkat.}
+todo...
 
 \subsection{\emph{Hallucination Rate}}
 \label{subsec:hasil-halusinasi}
-\todored{Dua versi: \texttt{ABSTAIN} dikeluarkan dari penyebut (utama), dan \texttt{ABSTAIN} dihitung nonfaktual.}
-
-\begin{table}[!htbp]
-\centering
-\caption{Hasil \emph{hallucination rate} per kondisi.}
-\label{tab:hasil-halusinasi}
-\begin{tabular}{|l|c|c|c|}
-\hline
-\textbf{Kondisi} & \textbf{Rate (\texttt{ABSTAIN} dikeluarkan)} & \textbf{Rate (\texttt{ABSTAIN} nonfaktual)} & \textbf{Selisih vs C} \\
-\hline
-A & \todored{} & \todored{} & \todored{} \\
-B & \todored{} & \todored{} & \todored{} \\
-C & \todored{} & \todored{} & --- \\
-D & \todored{} & \todored{} & \todored{} \\
-\hline
-\end{tabular}
-\end{table}
+todo...
 
 \subsection{\emph{Answer Relevance}}
 \label{subsec:hasil-answer-relevance}
-\begin{table}[!htbp]
-\centering
-\caption{Distribusi \emph{answer relevance} per kondisi.}
-\label{tab:hasil-answer-relevance}
-\begin{tabular}{|l|c|c|c|}
-\hline
-\textbf{Kondisi} & \textbf{\texttt{MENJAWAB}} & \textbf{\texttt{MENJAWAB\_SEBAGIAN}} & \textbf{\texttt{TIDAK\_MENJAWAB}} \\
-\hline
-A & \todored{} & \todored{} & \todored{} \\
-B & \todored{} & \todored{} & \todored{} \\
-C & \todored{} & \todored{} & \todored{} \\
-D & \todored{} & \todored{} & \todored{} \\
-\hline
-\end{tabular}
-\end{table}
+todo...
 
-\section{Hasil Kualitas \emph{Grounding}}
+%============================================================
+\section{Hasil Kualitas \emph{Grounding} dan Keterlacakan}
 \label{sec:hasil-grounding}
-\todored{Berlaku untuk Kondisi B, C, D. Kondisi A tidak memiliki konteks.}
+todo...
+%============================================================
 
 \subsection{\emph{Faithfulness}}
 \label{subsec:hasil-faithfulness}
-\todored{Tabel \emph{faithfulness} B, C, D.}
+todo...
+
 
 \subsection{\emph{Citation Support}}
 \label{subsec:hasil-citation-support}
-\todored{Tabel \emph{citation support} B, C, D.}
+todo...
+
 
 \subsection{\emph{Valid Citation Rate} (NF2)}
 \label{subsec:hasil-nf2}
-\begin{table}[!htbp]
-\centering
-\caption{Hasil \emph{faithfulness}, \emph{citation support}, dan \emph{valid citation rate}.}
-\label{tab:hasil-grounding}
-\begin{tabular}{|l|c|c|c|}
-\hline
-\textbf{Kondisi} & \textbf{\emph{Faithfulness}} & \textbf{\emph{Citation Support}} & \textbf{\emph{Valid Citation Rate}} \\
-\hline
-B & \todored{} & \todored{} & \todored{} \\
-C & \todored{} & \todored{} & \todored{} \\
-D & \todored{} & \todored{} & \todored{} \\
-\hline
-\end{tabular}
-\end{table}
 
-\todored{Catatan: kepatuhan sitasi bergantung pada model; hasil berlaku untuk gpt-4o-mini.}
+todo...
 
+%============================================================
 \section{Hasil Kualitas \emph{Retrieval}}
 \label{sec:hasil-retrieval}
-\todored{\emph{Context relevance} per item (\texttt{RELEVANT}/\texttt{PARTIAL}/\texttt{IRRELEVANT}) dan kecukupan konteks (\texttt{CUKUP}/\texttt{SEBAGIAN}/\texttt{TIDAK\_CUKUP}) untuk B, C, D.}
+todo...
+%============================================================
 
-\begin{table}[!htbp]
-\centering
-\caption{Hasil \emph{context relevance} per kondisi.}
-\label{tab:hasil-context-relevance}
-\begin{tabular}{|l|c|c|c|c|c|c|}
-\hline
-\textbf{Kondisi} & \textbf{\texttt{RELEVANT}} & \textbf{\texttt{PARTIAL}} & \textbf{\texttt{IRRELEVANT}} & \textbf{\texttt{CUKUP}} & \textbf{\texttt{SEBAGIAN}} & \textbf{\texttt{TIDAK\_CUKUP}} \\
-\hline
-B & \todored{} & \todored{} & \todored{} & \todored{} & \todored{} & \todored{} \\
-C & \todored{} & \todored{} & \todored{} & \todored{} & \todored{} & \todored{} \\
-D & \todored{} & \todored{} & \todored{} & \todored{} & \todored{} & \todored{} \\
-\hline
-\end{tabular}
-\end{table}
+\subsection{\emph{Context Relevance} per Item}
+\label{subsec:hasil-context-relevance}
 
+todo...
+
+\subsection{Kecukupan Konteks}
+\label{subsec:hasil-kecukupan-konteks}
+todo...
+
+
+%============================================================
 \section{Hasil Latensi (NF3)}
 \label{sec:hasil-latensi}
-\begin{table}[!htbp]
-\centering
-\caption{Hasil latensi per kondisi (detik).}
-\label{tab:hasil-latensi}
-\begin{tabular}{|l|c|c|c|c|c|c|}
-\hline
- & \multicolumn{3}{c|}{\textbf{Retrieval}} & \multicolumn{3}{c|}{\textbf{Total}} \\
-\hline
-\textbf{Kondisi} & \textbf{Mean} & \textbf{Median} & \textbf{p95} & \textbf{Mean} & \textbf{Median} & \textbf{p95} \\
-\hline
-B & \todored{} & \todored{} & \todored{} & \todored{} & \todored{} & \todored{} \\
-C & \todored{} & \todored{} & \todored{} & \todored{} & \todored{} & \todored{} \\
-D & \todored{} & \todored{} & \todored{} & \todored{} & \todored{} & \todored{} \\
-\hline
-\end{tabular}
-\end{table}
+todo...
+%============================================================
 
-\todored{Verifikasi batas NF3 ($\leq 15$ detik p95) untuk Kondisi C; tidak diklaim sebagai keunggulan.}
 
-\section{Keandalan \emph{Judge}}
-\label{sec:keandalan-judge}
-\todored{Persentase \emph{agreement} antar-\emph{judge} per metrik. Subbab tambahan (Cohen's $\kappa$, severity) hanya bila dikerjakan.}
 
-\begin{table}[!htbp]
-\centering
-\caption{Persentase \emph{agreement} antar-\emph{judge}.}
-\label{tab:agreement-judge}
-\begin{tabular}{|l|c|}
-\hline
-\textbf{Metrik} & \textbf{\emph{Agreement} (\%)} \\
-\hline
-\emph{Hallucination Rate} & \todored{} \\
-\emph{Faithfulness} & \todored{} \\
-\emph{Citation Support} & \todored{} \\
-\hline
-\end{tabular}
-\end{table}
+%============================================================
+\section{Analisis Perbandingan Antar-Kondisi}
+\label{sec:analisis-antarkondisi}
+todo...
+%============================================================
 
-\section{Analisis Efek \emph{Trust-Weighted Knowledge Graph}}
-\label{sec:analisis-efek-trust}
 \subsection{Kondisi C terhadap Kondisi B}
-\todored{Perbandingan pada corpus yang sama; perbedaan dikaitkan dengan struktur graf dan bobot kepercayaan.}
-\subsection{Kondisi C terhadap Kondisi D}
-\todored{Dampak \emph{retrieval} tiga tahap dibanding dual-level pada KG yang sama.}
-\subsection{Ringkasan Lintas Metrik}
-\todored{Tabel ringkas: metrik mana C unggul, setara, atau kalah.}
+\label{subsec:analisis-c-b}
+todo...
 
+
+\subsection{Kondisi C terhadap Kondisi D}
+\label{subsec:analisis-c-d}
+todo...
+
+
+\subsection{Ringkasan Lintas Metrik}
+\label{subsec:ringkasan-lintas-metrik}
+todo...
+
+
+%============================================================
 \section{Analisis Kasus}
 \label{sec:analisis-kasus}
-\subsection{Kasus Berhasil}
-\todored{}
-\subsection{Kasus Gagal dan Pola Kegagalan}
-\todored{Konteks kosong, node terisolasi, topik di luar domain, jawaban usang.}
+todo...
+%============================================================
 
+\subsection{Kasus Berhasil}
+\label{subsec:kasus-berhasil}
+
+todo...
+
+\subsection{Kasus Gagal dan Pola Kegagalan}
+\label{subsec:kasus-gagal}
+todo...
+
+
+%============================================================
 \section{Pembahasan}
 \label{sec:pembahasan}
-\subsection{Jawaban atas Rumusan Masalah dan Pemenuhan Kebutuhan Nonfungsional}
-\todored{}
-\subsection{Posisi terhadap Penelitian Terdahulu}
-\todored{Bandingkan dengan \textcite{DaSilva2025} dan Kamalipour et al.}
-\subsection{Implikasi dan Klaim Kontribusi}
-\todored{Rekomendasi metode untuk domain dengan sinyal kepercayaan komunitas terstruktur; bukan metode terbaik universal.}
+%============================================================
 
+\subsection{Pemenuhan Kriteria Sukses Kebutuhan Nonfungsional}
+\label{subsec:pembahasan-nonfungsional}
+todo...
+
+\subsection{Jawaban atas Rumusan Masalah}
+\label{subsec:pembahasan-rumusan-masalah}
+todo...
+
+
+\subsection{Posisi terhadap Penelitian Terdahulu}
+\label{subsec:pembahasan-penelitian-terdahulu}
+todo...
+
+
+\subsection{Implikasi dan Klaim Kontribusi}
+\label{subsec:pembahasan-implikasi}
+todo...
+
+
+%============================================================
 \section{Ancaman terhadap Validitas}
 \label{sec:ancaman-validitas}
-\subsection{Validitas Internal}
-\todored{\emph{Judge} LLM, pemilihan $\alpha$, parameter generator.}
-\subsection{Validitas Eksternal}
-\todored{Satu domain, satu generator, n=384.}
-\subsection{Validitas Konstruk}
-\todored{\emph{Cosine similarity} sebagai proksi kualitas; \emph{judge} dan anotator bukan ahli semua topik.}
-\subsection{Reliabilitas}
-\todored{Seed tetap, \emph{log} per pertanyaan tersimpan.}
+%============================================================
 
-\section{Ringkasan Bab}
-\label{sec:ringkasan-bab5}
-\todored{}
+%============================================================
+\section{Ringkasan}
+\label{sec:ringkasan-evaluasi}
+%============================================================
+

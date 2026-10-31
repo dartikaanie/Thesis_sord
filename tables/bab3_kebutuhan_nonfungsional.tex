@@ -10,21 +10,24 @@
 \textbf{No.} & \textbf{Kategori} & \textbf{Deskripsi} & \textbf{Kriteria Sukses} \\
 \hline
 NF1 & Akurasi &
-    Jawaban lebih faktual dari kondisi \emph{baseline} &
-    \emph{Hallucination rate} Kondisi C lebih rendah dari Kondisi lainnya \\
+    Jawaban lebih faktual dari sistem pembanding &
+    Hallucination rate jawaban (di luar jawaban ABSTAIN) lebih rendah daripada LLM tanpa pengambilan konteks dan RAG konvensional \\
 \hline
 NF2 & Keterlacakan &
-    Setiap jawaban memiliki referensi yang valid ke \emph{thread} Stack Overflow &
-    Jawaban Kondisi C memuat $\geq 1$ kutipan yang labelnya terdapat dalam konteks \\
+    Setiap jawaban yang tidak menolak menjawab memiliki referensi yang valid ke \emph{thread} Stack Overflow &
+    Seluruh jawaban Kondisi C yang bukan \texttt{ABSTAIN} memuat $\geq 1$ kutipan yang labelnya terdapat dalam konteks. Proporsi atas seluruh jawaban dilaporkan sebagai pelengkap \\
 \hline
 NF3 & Latensi &
     Waktu respons yang wajar untuk pengguna &
-    $\leq 15$ detik per kueri (persentil ke-95, ujung ke ujung) pada Kondisi C dalam konfigurasi pengujian standar \\
+    $\leq 15$ detik per kueri (rata-rata latensi total, mencakup \emph{retrieval} dan generasi oleh LLM)\\
 \hline
-NF4 & Reprodusibilitas &
-    Hasil evaluasi dapat direproduksi &
-    \emph{Seed} tetap, pemeringkatan deterministik, konfigurasi setiap \emph{run} tercatat \\
+NF4 & Keandalan kutipan &
+    Kutipan pada jawaban benar-benar mendukung klaim yang dikaitkan dengannya &
+    Proporsi kutipan yang didukung konteks (\emph{citation support}) tidak lebih rendah daripada RAG konvensional \\
 \hline
-
+NF5 & Integritas evaluasi &
+    Konteks yang diberikan kepada LLM tidak berasal dari \emph{thread} yang sama dengan kueri uji &
+    Tidak ada kutipan atau konteks yang berasal dari \emph{thread} kueri uji pada seluruh pengujian \\
+\hline
 \end{tabularx}
 \end{table}

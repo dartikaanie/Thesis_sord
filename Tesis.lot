@@ -17,10 +17,6 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
 \addvspace {10\p@ }
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
@@ -614,7 +610,6 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {III.1}{\ignorespaces Temuan empiris \blx@tocontentsinit {0}\textcite {DaSilva2025} yang menjadi titik acuan pengukuran \emph {improvement} penelitian ini.}}{55}{table.caption.25}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -631,11 +626,11 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {table}{\numberline {III.1}{\ignorespaces Pemetaan masalah pengguna ke kebutuhan solusi \emph {GraphRAG Framework}.}}{58}{table.caption.25}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {III.2}{\ignorespaces Pemetaan masalah pengguna ke kebutuhan solusi \emph {GraphRAG Framework}.}}{57}{table.caption.26}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -658,11 +653,11 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {table}{\numberline {III.2}{\ignorespaces Kebutuhan nonfungsional \emph {GraphRAG Framework}.}}{61}{table.caption.26}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {III.3}{\ignorespaces Kebutuhan nonfungsional \emph {GraphRAG Framework}.}}{60}{table.caption.27}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -671,6 +666,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {table}{\numberline {III.3}{\ignorespaces Perbandingan keempat alternatif terhadap kebutuhan sistem dan tujuan penelitian berdasarkan analisis desain.}}{62}{table.caption.27}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -679,7 +675,6 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {III.4}{\ignorespaces Perbandingan keempat alternatif terhadap kebutuhan sistem dan tujuan penelitian berdasarkan analisis desain.}}{62}{table.caption.28}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -696,6 +691,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {table}{\numberline {III.4}{\ignorespaces Operasionalisasi sinyal kepercayaan Stack Overflow sebagai bobot sisi pada \emph {knowledge graph}.}}{69}{table.caption.29}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -708,7 +704,6 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {III.5}{\ignorespaces Operasionalisasi sinyal kepercayaan Stack Overflow sebagai bobot sisi pada \emph {knowledge graph}.}}{69}{table.caption.30}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -729,6 +724,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {table}{\numberline {III.5}{\ignorespaces Perbandingan keempat kondisi eksperimen.}}{82}{table.caption.33}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -743,13 +739,14 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {table}{\numberline {III.6}{\ignorespaces Matriks \emph {run} resmi.}}{85}{table.caption.35}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {III.6}{\ignorespaces Perbandingan keempat kondisi eksperimen.}}{81}{table.caption.34}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {table}{\numberline {III.7}{\ignorespaces Metrik evaluasi komparatif \emph {GraphRAG Framework}.}}{87}{table.caption.36}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -760,73 +757,43 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {table}{\numberline {III.8}{\ignorespaces \emph {Checklist} pemenuhan kebutuhan fungsional F1--F6}}{89}{table.caption.37}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {III.7}{\ignorespaces Matriks \emph {run} resmi ($n{=}384$ per \emph {run}).}}{85}{table.caption.36}%
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {III.8}{\ignorespaces Metrik evaluasi komparatif \emph {GraphRAG Framework}.}}{87}{table.caption.37}%
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {III.9}{\ignorespaces \emph {Checklist} pemenuhan kebutuhan fungsional F1--F6}}{89}{table.caption.38}%
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {III.10}{\ignorespaces Ringkasan komponen \emph {GraphRAG Framework} dan kaitannya dengan kesenjangan penelitian}}{90}{table.caption.39}%
+\contentsline {table}{\numberline {III.9}{\ignorespaces Ringkasan komponen \emph {GraphRAG Framework} dan kaitannya dengan kesenjangan penelitian}}{91}{table.caption.38}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {IV.1}{\ignorespaces Lingkungan implementasi penelitian.}}{94}{table.caption.40}%
+\contentsline {table}{\numberline {IV.1}{\ignorespaces Lingkungan implementasi penelitian.}}{94}{table.caption.39}%
+\contentsline {table}{\numberline {IV.2}{\ignorespaces Konfigurasi LLM untuk \emph {generator} dan \emph {judge}.}}{94}{table.caption.40}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {IV.2}{\ignorespaces Distribusi \texttt {trustScore} simpul sebelum dan sesudah koreksi.}}{98}{table.caption.41}%
-\contentsline {table}{\numberline {IV.3}{\ignorespaces Hasil validasi densifikasi pada tingkat korpus (2.685.814 simpul \texttt {Question}).}}{99}{table.caption.42}%
-\contentsline {table}{\numberline {IV.4}{\ignorespaces Statistik \emph {knowledge graph} SORD setelah konstruksi, pengayaan, dan densifikasi.}}{99}{table.caption.43}%
+\contentsline {table}{\numberline {IV.3}{\ignorespaces Jumlah data SORD yang digunakan setelah validasi dan deduplikasi.}}{96}{table.caption.41}%
+\contentsline {table}{\numberline {IV.4}{\ignorespaces Ringkasan penarikan sampel evaluasi.}}{97}{table.caption.42}%
+\contentsline {table}{\numberline {IV.5}{\ignorespaces Statistik \emph {knowledge graph} SORD setelah konstruksi, pengayaan, dan densifikasi.}}{99}{table.caption.43}%
+\contentsline {table}{\numberline {IV.6}{\ignorespaces Hasil validasi densifikasi pada tingkat korpus (2.685.814 simpul \texttt {Question}).}}{101}{table.caption.44}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {table}{\numberline {IV.7}{\ignorespaces Komponen yang identik pada Kondisi A, B, C, dan D.}}{102}{table.caption.46}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {table}{\numberline {IV.8}{\ignorespaces Struktur empat giliran \emph {prompt} pada Kondisi A dan Kondisi B, C, D.}}{106}{table.caption.47}%
+\contentsline {table}{\numberline {IV.9}{\ignorespaces Teknik \emph {prompting} yang digunakan.}}{107}{table.caption.48}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {IV.5}{\ignorespaces Parameter ablasi, konfigurasi, dan eksplorasi pada implementasi.}}{107}{table.caption.44}%
-\contentsline {table}{\numberline {IV.6}{\ignorespaces Dasar penetapan parameter implementasi.}}{108}{table.caption.45}%
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
+\contentsline {table}{\numberline {IV.10}{\ignorespaces Metadata \emph {provenance} per item konteks (versi \texttt {v3}).}}{110}{table.caption.49}%
+\contentsline {table}{\numberline {IV.11}{\ignorespaces Hasil tahap 1 pemilihan $\alpha $ pada \emph {development set} ($n{=}50$, \texttt {ctxrel}).}}{113}{table.caption.51}%
+\contentsline {table}{\numberline {IV.12}{\ignorespaces Hasil tahap 2 pemilihan $\alpha $ pada \emph {development set}}}{114}{table.caption.52}%
+\contentsline {table}{\numberline {IV.13}{\ignorespaces Rincian tahap 2 per mode \emph {prompt} (analisis sensitivitas, tidak digunakan dalam seleksi). Nilai: jumlah jawaban berhalusinasi per jumlah jawaban yang dinilai (\texttt {ABSTAIN} dikeluarkan).}}{114}{table.caption.53}%
+\contentsline {table}{\numberline {IV.14}{\ignorespaces Parameter beku pada \emph {run} resmi dan dasar penetapannya.}}{115}{table.caption.54}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -835,10 +802,21 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {IV.7}{\ignorespaces Ringkasan \emph {decision record}.}}{110}{table.caption.46}%
-\contentsline {table}{\numberline {IV.8}{\ignorespaces Hasil tahap 1 yang berlaku pada \emph {development set} ($n{=}50$, ctxrel-v2, \emph {judge} utama; \texttt {trustScore} \texttt {v3-logscore}, \emph {semantic expansion} ke pertanyaan berjawaban).}}{112}{table.caption.47}%
-\contentsline {table}{\numberline {IV.9}{\ignorespaces Hasil kalibrasi \emph {judge} halusinasi terhadap referensi satu anotator ($\kappa $ tiga kategori, dengan selang kepercayaan 95\% \emph {bootstrap}).}}{116}{table.caption.48}%
-\contentsline {table}{\numberline {IV.10}{\ignorespaces Status implementasi kebutuhan fungsional.}}{119}{table.caption.49}%
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\contentsline {table}{\numberline {IV.15}{\ignorespaces Status implementasi kebutuhan fungsional.}}{116}{table.caption.55}%
+\contentsline {table}{\numberline {IV.16}{\ignorespaces Mekanisme implementasi untuk kebutuhan nonfungsional.}}{116}{table.caption.56}%
+\addvspace {10\p@ }
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 

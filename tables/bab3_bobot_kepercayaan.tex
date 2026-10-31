@@ -33,7 +33,7 @@ $w = 1{,}0$
 HAS\_ANSWER &
 Q $\rightarrow$ A &
 Jawaban lain pada \emph{thread} yang sama &
-$w = $ normalisasi \emph{min-max} skor jawaban dalam satu \emph{thread} 
+Atribut sisi: normalisasi \emph{min-max} skor jawaban dalam satu \emph{thread}; tidak digunakan pada pengambilan konteks, karena bobot jawaban diambil dari \texttt{trustScore}
 \\
 \hline
 
@@ -47,7 +47,7 @@ $w = 1{,}0$ (struktural)
 AUTHOR\_TRUST &
 A $\rightarrow$ User &
 Kepercayaan terhadap kontributor jawaban &
-$w = \log(1+\mathrm{rep}) / \log(1+\mathrm{rep}_{P99})$, dipotong pada $[0,1]$; dipakai sebagai komponen reputasi \texttt{trustScore} jawaban, tidak dilalui pada traversal
+$w = \log(1+\mathrm{rep}) / \log(1+\mathrm{rep}_{P99})$, dipotong pada $[0,1]$; dipakai sebagai komponen reputasi \texttt{trustScore} jawaban, tidak dilalui pada \emph{traversal}
 \\
 \hline
 
@@ -79,4 +79,8 @@ $w = 0{,}4$ (kategoris); nilai kosinus disimpan sebagai atribut
 \hline
 
 \end{tabularx}
+
+\vspace{0.1cm}
+\raggedright\footnotesize
+Bobot sisi antar-pertanyaan ($w_{qq'}$) dikalikan dengan bobot jawaban ($w_{ans}$) untuk membentuk bobot jalur $w_{path}$. Bobot jawaban bernilai 1,0 untuk jawaban yang diterima dan \texttt{trustScore} (Persamaan~\ref{eq:trust-answer}) untuk jawaban lain. Nilai \texttt{trustScore} dihitung saat pembangunan graf dan dibaca saat pengambilan konteks tanpa mengubah graf.
 \end{table}
