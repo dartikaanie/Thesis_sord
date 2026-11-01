@@ -1,20 +1,35 @@
 %============================================================
-% BAB V - EVALUASI DAN HASIL (kerangka)
+% BAB V - EVALUASI DAN HASIL
+
+% DAFTAR GAMBAR YANG HARUS DILAMPIRKAN (placeholder \todo{Gambar ...} di bawah).
+% Seluruh data gambar sudah tersedia; sumber: results/bab5_per_item.csv.
+%  G1  fig:hasil-halusinasi      Batang (a) dan (b) per kondisi            [Tabel hasil-halusinasi]
+%  G2  fig:halusinasi-judge      Batang per judge x kondisi                [Tabel keandalan-judge]
+%  G3  fig:komposisi-label       Tumpuk label panel per kondisi            [Tabel komposisi-label]
+%  G4  fig:grounding-retrieval   Batang faithfulness, citation support,
+%                                context relevance, answer relevance       [Tabel grounding, retrieval, answer-relevance]
+%  G5  fig:komposisi-nf2         Tumpuk: kutipan valid / ABSTAIN /
+%                                non-ABSTAIN tanpa kutipan valid           [Tabel nf2-komposisi]
+%  G6  fig:latensi               Batang latensi retrieval dan total + garis 15 s [Tabel latensi]
+%  G7  fig:kasus-berhasil        Subgraf provenance qid 59157364           [Tabel kasus-berhasil]
+%  G8  fig:kasus-gagal           (opsional) qid 3418748 atau 416108        [Subbab kasus gagal]
+%  G9  fig:alpha-devlarge        (opsional, Bab IV) kurva alpha pada development set
+%  --  fig:contoh-provenance     (Bab IV) contoh rekaman provenance (JSON qid 56612920, laporan agen P18)
 %============================================================
 \chapter{EVALUASI DAN HASIL}
 \label{chap:evaluasi}
 
-Bab ini melaporkan hasil evaluasi keempat kondisi eksperimen (A, B, C, dan D) pada sampel uji berdasarkan desain evaluasi pada Bab~\ref{chap:analisis-desain} dan implementasi pada Bab~\ref{chap:implementasi}. Seluruh parameter telah dibekukan sebelum evaluasi dijalankan, dan sampel uji hanya dijalankan satu kali. Hasil dilaporkan secara deskriptif, yaitu berupa nilai rata-rata, median, persentase, dan selisih antarkondisi. Pembahasan disusun sebagai berikut.
+Bab ini melaporkan hasil evaluasi pada sampel uji ($n{=}384$) berdasarkan desain pada Bab~\ref{chap:analisis-desain} dan implementasi pada Bab~\ref{chap:implementasi}. Kondisi A, B, dan D dijalankan satu kali sebagai \emph{run} resmi dan hasilnya tidak diubah. Kondisi C dijalankan satu kali kemudian, setelah hasil A, B, dan D diketahui dan setelah rancangannya direvisi, sehingga seluruh hasil dan perbandingan yang melibatkan Kondisi C bersifat analisis lanjutan \emph{pasca-hoc} dan eksploratori. Hasil Kondisi C pada tabel diberi tanda $\dagger$. Hasil dilaporkan secara deskriptif berupa jumlah, persentase, rata-rata, dan selisih antarkondisi, dilengkapi uji berpasangan yang juga berlabel pasca-hoc. Pembahasan disusun sebagai berikut.
 \begin{enumerate}[1.]
-    \item Pelaksanaan evaluasi, yaitu konfigurasi eksperimen pada sampel uji, cakupan data, dan verifikasi kontrol eksperimen.
-    \item Keandalan panel \emph{judge} yang digunakan untuk menilai halusinasi, \emph{faithfulness}, dan \emph{citation support}.
-    \item Hasil kualitas jawaban, yaitu \emph{cosine similarity}, \emph{hallucination rate}, dan \emph{answer relevance}.
-    \item Hasil kualitas \emph{grounding} dan keterlacakan, yaitu \emph{faithfulness}, \emph{citation support}, dan \emph{valid citation rate} (NF2).
-    \item Hasil kualitas \emph{retrieval}, yaitu \emph{context relevance} dan kecukupan konteks.
+    \item Pelaksanaan evaluasi, yaitu konfigurasi \emph{run}, kelengkapan data, dan verifikasi kontrol eksperimen.
+    \item Keandalan panel \emph{judge}.
+    \item Hasil kualitas jawaban: \emph{cosine similarity}, \emph{hallucination rate}, dan \emph{answer relevance}.
+    \item Hasil kualitas \emph{grounding} dan keterlacakan: \emph{faithfulness}, \emph{citation support}, dan \emph{valid citation rate} (NF2).
+    \item Hasil kualitas \emph{retrieval}: \emph{context relevance}, kecukupan konteks (tidak dinilai), dan komposisi konteks.
     \item Hasil latensi (NF3).
-    \item Analisis perbandingan antarkondisi, yaitu Kondisi C terhadap Kondisi B dan Kondisi D.
-    \item Analisis kasus berhasil dan kasus gagal.
-    \item Pembahasan, mencakup pemenuhan kriteria sukses NF1, NF2, dan NF3, jawaban atas rumusan masalah, serta posisi hasil terhadap penelitian terdahulu.
+    \item Analisis perbandingan antarkondisi.
+    \item Analisis kasus.
+    \item Pembahasan.
     \item Ancaman terhadap validitas.
 \end{enumerate}
 
@@ -23,125 +38,558 @@ Bab ini melaporkan hasil evaluasi keempat kondisi eksperimen (A, B, C, dan D) pa
 \label{sec:pelaksanaan-evaluasi}
 %============================================================
 
-\subsection{Konfigurasi Run Resmi}
+\subsection{Konfigurasi \emph{Run}}
 \label{subsec:konfigurasi-run}
-todo...
 
-\subsection{Cakupan Data dan Kelengkapan Run}
+Tabel~\ref{tab:konfigurasi-run} merangkum \emph{run} yang dilaporkan. Seluruh \emph{run} memakai 384 pertanyaan uji yang sama, \emph{generator} \texttt{gpt-4o-mini} dengan pengaturan bawaan penyedia, dan panel tiga \emph{judge} (Subbab~\ref{subsec:konfigurasi-llm}). Seluruh penilaian memakai versi panel dan instruksi \emph{judge} yang sama (\texttt{panel-v2}, \texttt{judge-v2.3}), dengan model \emph{judge}, versi pembutaan (\emph{blinding}), dan suhu 0,0 yang identik. Kondisi A, B, dan D dinilai pada 26 sampai 27 Oktober 2026, dan Kondisi C pada 31 Oktober 2026. Model \emph{generator} yang dikembalikan penyedia sama pada seluruh 1.536 rekaman (\texttt{gpt-4o-mini-2024-07-18}).
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Konfigurasi \emph{run} yang dilaporkan. Tanda $\dagger$ menandai analisis lanjutan pasca-hoc.}
+\label{tab:konfigurasi-run}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|c|>{\raggedright\arraybackslash}p{2.6cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{2.6cm}|>{\raggedright\arraybackslash}p{2.2cm}|}
+\hline
+\textbf{Kondisi} & \textbf{Status} & \textbf{Konfigurasi khusus} & \textbf{Tanggal dan versi model} & \textbf{Hash konfigurasi} \\
+\hline
+A & \emph{Run} resmi & Tanpa \emph{retrieval}; \emph{prompt} empat giliran tanpa instruksi sitasi & 26 Okt 2026; \texttt{gpt-4o-mini-2024-07-18} & \texttt{24bf2a629b} \\
+\hline
+B & \emph{Run} resmi & Pencarian jawaban eksak, $k{=}5$ & 26 Okt 2026; \texttt{gpt-4o-mini-2024-07-18} & \texttt{4313f6c578} \\
+\hline
+C$^{\dagger}$ & Pasca-hoc & $\alpha^{*}{=}0{,}25$, $K_B{=}10$, $N_{\mathrm{anchor}}{=}3$, $N_{\mathrm{trav}}{=}50$, $N_{\mathrm{exp}}{=}3$, $n_{\mathrm{nb}}{=}3$, $w_{\mathrm{exp}}{=}0{,}4$, $k{=}5$; \emph{grounding} aktif & 31 Okt 2026; \texttt{gpt-4o-mini-2024-07-18} & \texttt{dc94ff58f6} \\
+\hline
+D & \emph{Run} resmi & $N_{\mathrm{low}}{=}3$, $N_{\mathrm{high}}{=}3$, $k{=}5$ & 26 Okt 2026; \texttt{gpt-4o-mini-2024-07-18} & \texttt{5ae879c9c0} \\
+\hline
+\end{tabularx}
+\end{table}
+
+Hash konfigurasi berbeda pada setiap kondisi karena konfigurasinya memang berbeda. Hal yang perlu dicatat adalah hash tabel parameter beku: A, B, dan D dijalankan dan dinilai di bawah tabel dengan hash \texttt{fcbee86cbb25}, sedangkan Kondisi C di bawah tabel hasil Amendment 19 dengan hash \texttt{6d06a0618fef}. Perubahan tabel tersebut tidak mengubah sampel, \emph{prompt} sistem, maupun parameter permintaan \emph{generator}: hash \emph{prompt} sistem Kondisi C sama dengan \emph{record} resmi B dan D, dan parameter permintaan identik (\texttt{gpt-4o-mini}, \emph{temperature} dan \texttt{max\_tokens} tidak dikirim sehingga memakai nilai bawaan penyedia).
+
+\subsection{Cakupan Data dan Kelengkapan \emph{Run}}
 \label{subsec:kelengkapan-run}
-todo...
 
+Setiap kondisi menghasilkan 384 jawaban dari 384 pertanyaan uji, dan himpunan pertanyaannya identik dengan sampel beku. Setiap jawaban memiliki 384 label panel; tidak ada jawaban \emph{answer relevance} yang tidak terselesaikan dan tidak ada item konteks tanpa label \emph{context relevance}. Pada Kondisi C, seluruh penilaian panel terbaca (0\% tidak dapat dinilai pada ketiga \emph{judge}).
 
 \subsection{Verifikasi Kontrol Eksperimen}
 \label{subsec:verifikasi-kontrol}
-todo...
 
+Kontrol yang diverifikasi adalah (i) daftar sampel identik dengan daftar beku (hash SHA-256), (ii) irisan hasil \emph{retrieval} dengan himpunan pengecualian kebocoran kosong untuk setiap kueri pada Kondisi B, C, dan D (NF5), (iii) struktur \emph{prompt} yang sama dengan teks instruksi identik pada B, C, dan D, dan (iv) pengaturan generasi yang sama. Implementasi Kondisi C diperiksa terhadap Amendment 19 pada 13 butir dan seluruhnya sesuai. Pencarian jawaban Kondisi C juga identik dengan Kondisi B: pada 250 pertanyaan (150 pertanyaan \emph{development set} dan 100 pertanyaan uji pertama) kosinus antara vektor kueri kedua kondisi sekitar 1 (selisih sekitar $5\times10^{-13}$, galat \emph{float32}), lima dan sepuluh jawaban teratas identik termasuk urutannya, dan ketiga \emph{seed node} sama pada seluruh pertanyaan. Hash sampel (SHA-256) pada manifest keempat kondisi sama dengan hash daftar beku. Irisan konteks dan irisan kutipan dengan himpunan pengecualian \emph{thread} dihitung ulang dari rekaman \emph{run} pada seluruh 384 pertanyaan uji, dan hasilnya nol pada Kondisi B, C, dan D (0/384 kueri untuk konteks dan 0/384 untuk kutipan), sehingga NF5 terpenuhi. Kondisi A tidak memiliki konteks. Rekaman \emph{run} menyimpan mode kebocoran, ukuran himpunan pengecualian, dan jumlah hasil yang dibuang oleh filter saat \emph{retrieval} (total 441 pada B, 2.273 pada C, dan 384 pada D), tetapi tidak menyimpan hasil verifikasi irisan per kueri; angka nol di atas adalah hasil pemeriksaan setelah \emph{run} selesai. Kutipan yang menunjuk \emph{thread} kueri sendiri juga tidak mungkin lolos validasi karena hanya id yang ada di konteks yang dianggap valid.
 
 %============================================================
 \section{Keandalan Panel \emph{Judge}}
 \label{sec:keandalan-judge}
-todo...
 %============================================================
+
+Penilaian halusinasi, \emph{faithfulness}, \emph{citation support}, dan kedua metrik relevansi dilakukan panel tiga \emph{judge} dengan suara dua dari tiga. Tabel~\ref{tab:keandalan-judge} melaporkan tingkat halusinasi tiap \emph{judge} (\texttt{ABSTAIN} dikeluarkan), tingkat halusinasi panel, dan persentase jawaban yang diberi label sama oleh ketiganya.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Tingkat halusinasi per \emph{judge} (\texttt{ABSTAIN} dikeluarkan per \emph{judge}) dan persentase jawaban yang diberi kategori sama oleh ketiga \emph{judge} (tiga kategori: \texttt{ABSTAIN}, halusinasi, tidak halusinasi; $n{=}384$).}
+\label{tab:keandalan-judge}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+\textbf{Kondisi} & \textbf{Llama} & \textbf{DeepSeek} & \textbf{Qwen} & \textbf{Panel} & \textbf{Label sama (3 \emph{judge})} \\
+\hline
+A & 6,0\% & 36,2\% & 37,2\% & 25,8\% & 54,2\% (208/384) \\
+B & 5,3\% & 38,6\% & 35,7\% & 24,8\% & 57,6\% (221/384) \\
+C$^{\dagger}$ & 3,7\% & 31,0\% & 34,0\% & 19,2\% & 57,8\% (222/384) \\
+D & 3,5\% & 29,8\% & 31,2\% & 17,7\% & 59,9\% (230/384) \\
+\hline
+\end{tabular}
+\end{table}
+
+Tingkat halusinasi berbeda tajam antar-\emph{judge}. Llama menandai 3,5 sampai 6,0\% jawaban, sedangkan DeepSeek dan Qwen menandai 29,8 sampai 38,6\%, sehingga label panel dua dari tiga praktis ditentukan oleh DeepSeek dan Qwen. Walaupun tingkatnya berbeda, arah selisih antarkondisi yang menjadi fokus bab ini sama pada ketiga \emph{judge}: Kondisi C lebih rendah daripada A dan B, dan lebih tinggi daripada D (Tabel~\ref{tab:keandalan-judge}). Urutan A dan B tidak sama pada semua \emph{judge}, yaitu A lebih tinggi daripada B menurut Llama dan Qwen, tetapi sebaliknya menurut DeepSeek. Urutan D terendah dan C kedua terendah juga sama pada ketiga \emph{judge}. Pada relevansi konteks \emph{development set}, kesepakatan antar-\emph{judge} berkisar $\kappa=0{,}50$ sampai $0{,}63$ dan ketiganya sepakat pada 61,4\% tripel.
+
+Kesepakatan pada label halusinasi sampel uji lebih rendah dan tidak merata antar-\emph{judge}. Ketiga \emph{judge} sepakat pada 54,2 sampai 59,9\% jawaban (tiga kategori). Pada kategori halusinasi biner (hanya jawaban yang tidak berlabel \texttt{ABSTAIN} oleh kedua \emph{judge} yang dibandingkan), $\kappa$ Cohen antara Llama dan DeepSeek atau Qwen hanya 0,05 sampai 0,15 pada seluruh kondisi, sedangkan antara DeepSeek dan Qwen 0,40 sampai 0,49. Dengan kata lain, Llama hampir tidak sepakat dengan dua \emph{judge} lain tentang jawaban mana yang berhalusinasi, dan label panel praktis mengikuti DeepSeek dan Qwen. Pada skala ordinal (faktual dan \texttt{ABSTAIN} = 0, sebagian = 1, penuh = 2), $\kappa$ berbobot kuadrat menunjukkan pola yang sama (Llama dengan lainnya 0,06 sampai 0,16, DeepSeek dengan Qwen 0,47 sampai 0,54).
+
+Seluruh label berasal dari \emph{LLM-as-a-Judge} tanpa validasi anotasi manusia. Angka halusinasi karena itu dibaca sebagai keluaran panel, bukan label manusia.
 
 %============================================================
 \section{Hasil Kualitas Jawaban}
 \label{sec:hasil-kualitas-jawaban}
-todo...
 %============================================================
 
 \subsection{\emph{Cosine Similarity}}
 \label{subsec:hasil-cosine}
-todo...
+
+Rata-rata \emph{cosine similarity} jawaban terhadap \emph{accepted answer} (model \emph{embedding} \texttt{all-MiniLM-L6-v2}, seluruh 384 jawaban termasuk \texttt{ABSTAIN}) adalah 0,6137 pada Kondisi A, 0,6015 pada B, 0,5999 pada C$^{\dagger}$, dan 0,6008 pada D (median 0,6339, 0,6215, 0,6150, dan 0,6153; simpangan baku 0,139 sampai 0,145). Proporsi jawaban dengan kosinus di atas 0,5 adalah 81,8\% (A), 77,3\% (B), 78,1\% (C$^{\dagger}$), dan 78,4\% (D). Selisih antara B, C$^{\dagger}$, dan D tidak lebih dari 0,0016 sehingga ketiganya praktis setara, sedangkan A sedikit lebih tinggi. Uji Wilcoxon \emph{signed-rank} berpasangan dua sisi (pasca-hoc, tanpa koreksi multiplisitas, $n{=}384$ pasangan) menunjukkan C$^{\dagger}$ lebih rendah daripada A (median selisih $-0{,}0124$; $p=0{,}011$), dan tidak berbeda dari B (median selisih $-0{,}0036$; $p=0{,}459$) maupun D (median selisih $+0{,}0003$; $p=0{,}728$). \todo{bandingkan proporsi kosinus di atas 0,5 dengan nilai pada \textcite{DaSilva2025} hanya bila definisi dan model \emph{embedding}-nya sepadan} Kemiripan semantik terhadap jawaban rujukan tidak membedakan jawaban yang benar dari yang berhalusinasi, sehingga metrik ini dilaporkan sebagai pembanding dengan studi asli dan bukan sebagai ukuran utama.
 
 \subsection{\emph{Hallucination Rate}}
 \label{subsec:hasil-halusinasi}
-todo...
+
+Tabel~\ref{tab:hasil-halusinasi} melaporkan \emph{hallucination rate} dalam dua versi, yaitu versi utama (a) dengan \texttt{ABSTAIN} dikeluarkan dari penyebut, dan versi (b) dengan \texttt{ABSTAIN} dihitung sebagai jawaban gagal.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{\emph{Hallucination rate} pada sampel uji ($n{=}384$, label panel).}
+\label{tab:hasil-halusinasi}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Kondisi} & \textbf{(a) \texttt{ABSTAIN} dikeluarkan} & \textbf{(b) \texttt{ABSTAIN} gagal} & \textbf{\texttt{ABSTAIN}} \\
+\hline
+A & 25,8\% (99/384) & 25,8\% (99/384) & 0\% (0) \\
+B & 24,8\% (76/307) & 39,8\% (153/384) & 20,1\% (77) \\
+C$^{\dagger}$ & 19,2\% (59/308) & 35,2\% (135/384) & 19,8\% (76) \\
+D & 17,7\% (52/293) & 37,2\% (143/384) & 23,7\% (91) \\
+\hline
+\end{tabular}
+\end{table}
+% Pembilang dan penyebut dihitung ulang dari rekaman judge (laporan agen P3) dan cocok dengan hitungan turunan sebelumnya.
+
+\begin{figure}[!htbp]
+\centering
+% \includegraphics[width=0.85\textwidth]{images/bab5_hasil_halusinasi.png}
+\todo{Gambar G1: diagram batang \emph{hallucination rate} versi (a) dan (b) untuk A, B, C$^{\dagger}$, D (data pada Tabel~\ref{tab:hasil-halusinasi})}
+\caption{\emph{Hallucination rate} per kondisi pada sampel uji. Kondisi C bersifat pasca-hoc.}
+\label{fig:hasil-halusinasi}
+\end{figure}
+
+Pada versi utama (a), Kondisi D memiliki \emph{hallucination rate} terendah (17,7\%), disusul Kondisi C$^{\dagger}$ (19,2\%), Kondisi B (24,8\%), dan Kondisi A (25,8\%). Kondisi C$^{\dagger}$ lebih rendah 6,6 poin persentase daripada A dan 5,6 poin daripada B, dan lebih tinggi 1,5 poin daripada D. Kondisi A dan B hampir sama pada versi ini (selisih 1,0 poin), sehingga konteks hasil \emph{retrieval} vektor saja tidak menurunkan \emph{hallucination rate} secara berarti dalam pengaturan ini.
+
+Pada versi (b), urutannya berubah. Kondisi A terendah (25,8\%) karena tidak pernah memilih \texttt{ABSTAIN}, sedangkan seluruh kondisi ber-\emph{grounding} lebih tinggi: C$^{\dagger}$ 35,2\%, D 37,2\%, dan B 39,8\%. Di antara kondisi ber-\emph{grounding}, C$^{\dagger}$ terendah. Penurunan pada versi (a) karena itu perlu dibaca bersama proporsi \texttt{ABSTAIN}: kondisi B, C$^{\dagger}$, dan D menolak menjawab pada 19,8 sampai 23,7\% pertanyaan, sedangkan A menjawab seluruhnya. Perbandingan C$^{\dagger}$ dengan B tidak terpengaruh oleh hal ini karena jumlah \texttt{ABSTAIN} keduanya hampir sama (76 dan 77), sehingga selisih pada versi (a) dan (b) berasal dari lebih sedikitnya jawaban berhalusinasi (59 terhadap 76), bukan dari lebih banyaknya penolakan. Sebaliknya, Kondisi D menolak lebih sering (91 jawaban), sehingga sebagian keunggulannya pada versi (a) berasal dari penyebut yang lebih kecil.
+
+Keparahan ditentukan dari klaim yang salah (\texttt{CONTRADICTED} atau \texttt{FABRICATED}): halusinasi penuh berarti sedikitnya satu klaim salah menyangkut solusi utama (\emph{core}), dan halusinasi sebagian berarti seluruh klaim salah bersifat minor. Label panel Kondisi C$^{\dagger}$ terdiri atas 249 jawaban faktual, 6 halusinasi sebagian, 53 halusinasi penuh, dan 76 \texttt{ABSTAIN} (Tabel~\ref{tab:komposisi-label} dan~\ref{tab:keparahan}). Halusinasi penuh mencakup 53 dari 59 jawaban berhalusinasi (89,8\%) pada C$^{\dagger}$, dan proporsinya serupa pada kondisi lain: 87 dari 99 pada A (87,9\%), 70 dari 76 pada B (92,1\%), dan 43 dari 52 pada D (82,7\%). Jadi perbedaan antarkondisi terutama terletak pada jumlah jawaban berhalusinasi, bukan pada keparahannya.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Tingkat keparahan halusinasi (label panel; persentase terhadap jawaban bukan \texttt{ABSTAIN}) dan klaim yang tidak dapat diverifikasi (gabungan klaim ketiga \emph{judge}, persentase terhadap seluruh klaim).}
+\label{tab:keparahan}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Kondisi} & \textbf{Penuh} & \textbf{Sebagian} & \textbf{Klaim tak terverifikasi} \\
+\hline
+A & 87 (22,7\%) & 12 (3,1\%) & 4.053 dari 7.864 (51,5\%) \\
+B & 70 (22,8\%) & 6 (2,0\%) & 1.977 dari 5.108 (38,7\%) \\
+C$^{\dagger}$ & 53 (17,2\%) & 6 (1,9\%) & 1.925 dari 5.015 (38,4\%) \\
+D & 43 (14,7\%) & 9 (3,1\%) & 1.882 dari 4.690 (40,1\%) \\
+\hline
+\end{tabular}
+\end{table}
+
+Setiap \emph{judge} mengekstrak daftar klaimnya sendiri, sehingga jumlah klaim pada Tabel~\ref{tab:keparahan} adalah gabungan tiga daftar. Separuh klaim jawaban A (51,5\%) tidak dapat diverifikasi terhadap rujukan, dibandingkan 38,4 sampai 40,1\% pada kondisi ber-\emph{grounding}. Klaim yang tidak dapat diverifikasi tidak dihitung sebagai halusinasi, sehingga angka halusinasi A dapat bernilai terlalu rendah.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Komposisi label panel pada sampel uji ($n{=}384$ per kondisi).}
+\label{tab:komposisi-label}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Kondisi} & \textbf{Faktual} & \textbf{Halusinasi sebagian} & \textbf{Halusinasi penuh} & \textbf{\texttt{ABSTAIN}} \\
+\hline
+A & 285 & 12 & 87 & 0 \\
+B & 231 & 6 & 70 & 77 \\
+C$^{\dagger}$ & 249 & 6 & 53 & 76 \\
+D & 241 & 9 & 43 & 91 \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{figure}[!htbp]
+\centering
+% \includegraphics[width=0.85\textwidth]{images/bab5_komposisi_label.png}
+\todo{Gambar G3: diagram batang bertumpuk label panel (faktual, halusinasi sebagian, halusinasi penuh, \texttt{ABSTAIN}) per kondisi (data pada Tabel~\ref{tab:komposisi-label})}
+\caption{Komposisi label panel per kondisi.}
+\label{fig:komposisi-label}
+\end{figure}
+
+Pada \emph{development set}, \emph{hallucination rate} Kondisi C dengan $\alpha^{*}{=}0{,}25$ adalah 17,1\% (a) dan 28,7\% (b) pada 150 pertanyaan. Pada sampel uji nilainya 19,2\% dan 35,2\%. Nilai uji lebih tinggi, terutama pada versi (b) karena proporsi \texttt{ABSTAIN} naik dari 14,0\% menjadi 19,8\%. Perbedaan ini sejalan dengan kecenderungan nilai yang menang pada seleksi untuk tampak lebih baik daripada nilai sebenarnya (\emph{winner's curse}), meskipun perbedaan sampel dan variasi generasi juga dapat berperan.
+
+Gambar~\ref{fig:halusinasi-judge} memperlihatkan bahwa arah C$^{\dagger}$ lebih rendah daripada A dan B pada versi (a) searah pada ketiga \emph{judge}, walaupun besarnya berbeda (misalnya terhadap B: 1,6 poin menurut Llama, 7,6 poin menurut DeepSeek, dan 1,7 poin menurut Qwen).
+
+\begin{figure}[!htbp]
+\centering
+% \includegraphics[width=0.9\textwidth]{images/bab5_halusinasi_judge.png}
+\todo{Gambar G2: diagram batang berkelompok \emph{hallucination rate} (a) per \emph{judge} (Llama, DeepSeek, Qwen) dan panel untuk A, B, C$^{\dagger}$, D (data pada Tabel~\ref{tab:keandalan-judge})}
+\caption{\emph{Hallucination rate} per \emph{judge} dan panel (\texttt{ABSTAIN} dikeluarkan).}
+\label{fig:halusinasi-judge}
+\end{figure}
+
+Uji signifikansi berpasangan untuk selisih-selisih ini dilaporkan pada Subbab~\ref{sec:analisis-antarkondisi}. Sebelum hasil uji tersedia, selisih pada subbab ini tidak dinyatakan signifikan.
 
 \subsection{\emph{Answer Relevance}}
 \label{subsec:hasil-answer-relevance}
-todo...
+
+Skor rata-rata \emph{answer relevance} (\texttt{MENJAWAB}~=~1, \texttt{MENJAWAB\_SEBAGIAN}~=~0,5, \texttt{TIDAK\_MENJAWAB}~=~0; label panel) adalah 0,969 pada Kondisi A, 0,664 pada B, 0,641 pada C$^{\dagger}$, dan 0,616 pada D (Tabel~\ref{tab:answer-relevance}). Skor Kondisi A mendekati 1 karena A selalu mencoba menjawab, sedangkan kondisi ber-\emph{grounding} memuat jawaban \texttt{ABSTAIN} yang tidak menjawab pertanyaan. Sebagian besar jawaban \texttt{ABSTAIN} memang berlabel \texttt{TIDAK\_MENJAWAB} (57 dari 77 pada B, 55 dari 76 pada C$^{\dagger}$, dan 63 dari 91 pada D), dan sisanya \texttt{MENJAWAB\_SEBAGIAN}. Dengan jawaban \texttt{ABSTAIN} dikeluarkan, skor menjadi 0,798 (B), 0,763 (C$^{\dagger}$), dan 0,759 (D), sehingga selisih besar terhadap A terutama berasal dari penolakan, sedangkan selisih antar-kondisi ber-\emph{grounding} yang tersisa kecil.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{\emph{Answer relevance} (label panel).}
+\label{tab:answer-relevance}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|l|*{4}{>{\centering\arraybackslash}X|}}
+\hline
+\textbf{Kondisi} & \textbf{Skor rata-rata} & \textbf{\texttt{MENJAWAB}} & \textbf{\texttt{MENJAWAB\_SEBAGIAN}} & \textbf{\texttt{TIDAK\_MENJAWAB}} \\
+\hline
+A & 0,969 & 360 (93,8\%) & 24 (6,2\%) & 0 (0,0\%) \\
+B & 0,664 & 183 (47,7\%) & 144 (37,5\%) & 57 (14,8\%) \\
+C$^{\dagger}$ & 0,641 & 166 (43,2\%) & 160 (41,7\%) & 58 (15,1\%) \\
+D & 0,616 & 153 (39,8\%) & 167 (43,5\%) & 64 (16,7\%) \\
+\hline
+\end{tabularx}
+\end{table}
+
+Di antara kondisi ber-\emph{grounding}, Kondisi C$^{\dagger}$ berada di antara B (lebih tinggi 0,023) dan D (lebih rendah 0,025).
 
 %============================================================
 \section{Hasil Kualitas \emph{Grounding} dan Keterlacakan}
 \label{sec:hasil-grounding}
-todo...
 %============================================================
 
 \subsection{\emph{Faithfulness}}
 \label{subsec:hasil-faithfulness}
-todo...
 
+\emph{Faithfulness} (proporsi klaim yang didukung konteks, digabung atas seluruh klaim) adalah 61,3\% pada Kondisi B, 58,0\% pada C$^{\dagger}$, dan 53,6\% pada D (Tabel~\ref{tab:grounding}). Kondisi A tidak dinilai karena tidak memiliki konteks. Kondisi C$^{\dagger}$ 3,3 poin lebih rendah daripada B dan 4,4 poin lebih tinggi daripada D (3.001 dari 4.895 klaim pada B, 2.826 dari 4.873 pada C$^{\dagger}$, dan 2.437 dari 4.544 pada D). Urutan B, C$^{\dagger}$, D sama pada ketiga \emph{judge}: Llama 62,1, 57,5, dan 51,3\%; DeepSeek 49,6, 45,1, dan 44,2\%; Qwen 74,2, 73,5, dan 66,7\%. Median per jawaban (per jawaban untuk tiap \emph{judge}) adalah 0,750 pada B, 0,667 pada C$^{\dagger}$, dan 0,600 pada D, dengan rata-rata 0,619, 0,582, dan 0,538.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{\emph{Faithfulness} dan \emph{citation support} (agregat atas klaim ketiga \emph{judge}; median dihitung per jawaban untuk tiap \emph{judge}).}
+\label{tab:grounding}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|l|*{4}{>{\centering\arraybackslash}X|}}
+\hline
+\textbf{Kondisi} & \textbf{\emph{Faithfulness}} & \textbf{Median (per jawaban)} & \textbf{\emph{Citation support}} & \textbf{Median (per jawaban)} \\
+\hline
+A & tidak berlaku & --- & tidak berlaku & --- \\
+B & 61,3\% & 0,750 & 90,2\% & 1,000 \\
+C$^{\dagger}$ & 58,0\% & 0,667 & 90,2\% & 1,000 \\
+D & 53,6\% & 0,600 & 89,3\% & 1,000 \\
+\hline
+\end{tabularx}
+\end{table}
 
 \subsection{\emph{Citation Support}}
 \label{subsec:hasil-citation-support}
-todo...
 
+\emph{Citation support} (proporsi klaim berkutipan yang didukung item konteks yang dikutip) adalah 90,2\% pada Kondisi B, 90,2\% pada C$^{\dagger}$, dan 89,3\% pada D. Nilai tepatnya adalah 1.971 dari 2.185 klaim berkutipan pada B (90,21\%), 1.907 dari 2.114 pada C$^{\dagger}$ (90,21\%), dan 1.602 dari 1.793 pada D (89,35\%). Kriteria NF4, yaitu \emph{citation support} Kondisi C tidak lebih rendah daripada B, terpenuhi secara deskriptif karena selisihnya kurang dari 0,01 poin. Klaim dari ketiga \emph{judge} tidak independen sehingga selisih ini tidak diuji. Nilai yang tinggi dan hampir sama pada ketiga kondisi menunjukkan bahwa klaim yang disertai kutipan umumnya didukung konteks yang dikutip, terlepas dari mekanisme \emph{retrieval}.
 
 \subsection{\emph{Valid Citation Rate} (NF2)}
 \label{subsec:hasil-nf2}
 
-todo...
+Tabel~\ref{tab:nf2} melaporkan proporsi jawaban dengan sedikitnya satu kutipan valid, yaitu kutipan yang labelnya terdapat dalam konteks yang diberikan kepada model. Kondisi A tidak diinstruksikan untuk mengutip dan tidak dinilai. Kriteria NF2 menuntut seluruh jawaban Kondisi C yang bukan \texttt{ABSTAIN} memuat kutipan valid. Definisi ini dirumuskan ulang setelah hasil terlihat (semula penyebutnya seluruh jawaban), sehingga kedua versi dilaporkan.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{\emph{Valid citation rate} (NF2) pada sampel uji.}
+\label{tab:nf2}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|l|*{4}{>{\centering\arraybackslash}X|}}
+\hline
+\textbf{Kondisi} & \textbf{Seluruh jawaban} & \textbf{Bukan \texttt{ABSTAIN}} & \textbf{Jawaban dengan kutipan palsu} & \textbf{Presisi kutipan} \\
+\hline
+B & 72,4\% (278/384) & 90,6\% (278/307) & 1,0\% (4/384) & 0,992 (785/791) \\
+C$^{\dagger}$ & 71,1\% (273/384) & 88,6\% (273/308) & 0,3\% (1/384) & 0,999 (780/781) \\
+D & 67,2\% (258/384) & 88,1\% (258/293) & 0,3\% (1/384) & 0,998 (657/658) \\
+\hline
+\end{tabularx}
+\end{table}
+Kutipan valid adalah penanda \texttt{[SO...]} yang id digitnya terdapat pada daftar \texttt{question\_id} item konteks yang diberikan kepada model; kutipan merujuk \emph{thread} (pertanyaan), bukan jawaban. Kutipan palsu adalah penanda yang id-nya tidak ada di konteks, dan kolom ``jawaban dengan kutipan palsu'' menghitung jawaban (penyebut 384) yang memuat sedikitnya satu kutipan palsu. Presisi kutipan adalah jumlah penanda valid dibagi seluruh penanda, dihitung atas seluruh \emph{run} (kutipan palsu: 6 dari 791 penanda pada B, 1 dari 781 pada C$^{\dagger}$, dan 1 dari 658 pada D). Presisi ini hanya mengukur keberadaan id di konteks, bukan apakah kutipan mendukung klaim; ukuran yang terakhir adalah \emph{citation support}. Kondisi A tidak memuat penanda kutipan (0 dari 384 jawaban).
+
+Kriteria NF2 tidak terpenuhi pada Kondisi C: 88,6\% jawaban yang bukan \texttt{ABSTAIN} memuat kutipan valid, atau 273 dari 308 jawaban, sehingga 35 jawaban tidak memuatnya. Target 100\% juga tidak tercapai oleh kondisi lain (B 90,6\%, D 88,1\%). Kekurangan tersebut murni berasal dari jawaban tanpa kutipan, bukan dari kutipan yang salah: kutipan fiktif hanya 0,3\% pada Kondisi C. Pemeriksaan terhadap pengurai kutipan tidak menemukan kesalahan; teks dalam kurung siku pada jawaban yang tidak terhitung sebagai kutipan adalah potongan kode, misalnya \texttt{row[0]}. Penyebabnya adalah kepatuhan \texttt{gpt-4o-mini} terhadap instruksi kutipan dan penolakan yang tidak memiliki sumber untuk dikutip, bukan sifat \emph{retrieval}. Selisih Kondisi C terhadap B pada seluruh jawaban hanya lima jawaban (1,3 poin), yang berada dalam variasi \emph{generator} karena \emph{temperature} dan \emph{seed} tidak dipatok.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Komposisi 384 jawaban menurut kutipan dan penolakan (label \texttt{ABSTAIN} panel).}
+\label{tab:nf2-komposisi}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Komponen} & \textbf{B} & \textbf{C$^{\dagger}$} & \textbf{D} \\
+\hline
+Memuat kutipan valid & 278 & 273 & 258 \\
+\texttt{ABSTAIN} & 77 & 76 & 91 \\
+Bukan \texttt{ABSTAIN}, tanpa kutipan valid & 29 & 35 & 35 \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{figure}[!htbp]
+\centering
+% \includegraphics[width=0.85\textwidth]{images/bab5_komposisi_nf2.png}
+\todo{Gambar G5: diagram batang bertumpuk komposisi jawaban (valid, \texttt{ABSTAIN}, tanpa kutipan valid) untuk B, C$^{\dagger}$, D (data pada Tabel~\ref{tab:nf2-komposisi})}
+\caption{Komposisi jawaban menurut kutipan valid dan penolakan.}
+\label{fig:komposisi-nf2}
+\end{figure}
 
 %============================================================
 \section{Hasil Kualitas \emph{Retrieval}}
 \label{sec:hasil-retrieval}
-todo...
 %============================================================
 
 \subsection{\emph{Context Relevance} per Item}
 \label{subsec:hasil-context-relevance}
 
-todo...
+Relevansi konteks dinilai per item oleh panel (\texttt{RELEVANT}~=~1, \texttt{PARTIAL}~=~0,5, \texttt{IRRELEVANT}~=~0) terhadap pertanyaan saja. Skor rata-rata adalah 0,342 pada Kondisi B, 0,319 pada C$^{\dagger}$, dan 0,284 pada D. Proporsi pertanyaan dengan sedikitnya satu item \texttt{RELEVANT} adalah 51,0\% pada B, 48,4\% pada C$^{\dagger}$, dan 39,6\% pada D (Tabel~\ref{tab:retrieval}). Kondisi C$^{\dagger}$ sedikit di bawah B (0,023 pada skor dan 2,6 poin pada proporsi) dan jelas di atas D (0,035 dan 8,8 poin). Penurunan tipis relevansi seiring bertambahnya bobot kepercayaan sudah terlihat pada \emph{development set}, ketika skor rata-rata turun dari 0,345 ($\alpha{=}0$) menjadi 0,335 ($\alpha{=}0{,}25$) dan 0,323 ($\alpha{=}0{,}5$), sedangkan jumlah pertanyaan dengan sedikitnya satu item relevan hampir tidak berubah (75, 75, dan 74 dari 150).
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{\emph{Context relevance} per item (label panel; B dan C masing-masing 1.920 item, D 1.884 item).}
+\label{tab:retrieval}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|l|*{3}{>{\centering\arraybackslash}X|}}
+\hline
+\textbf{Kondisi} & \textbf{Skor rata-rata} & \textbf{Pertanyaan $\geq 1$ \texttt{RELEVANT}} & \textbf{\texttt{RELEVANT} / \texttt{PARTIAL} / \texttt{IRRELEVANT} (item)} \\
+\hline
+B & 0,342 & 51,0\% (196/384) & 21,6\% / 25,2\% / 53,2\% \\
+C$^{\dagger}$ & 0,319 & 48,4\% (186/384) & 19,3\% / 25,3\% / 55,5\% \\
+D & 0,284 & 39,6\% (152/384) & 16,3\% / 24,2\% / 59,5\% \\
+\hline
+\end{tabularx}
+\end{table}
+
+\begin{figure}[!htbp]
+\centering
+% \includegraphics[width=0.9\textwidth]{images/bab5_grounding_retrieval.png}
+\todo{Gambar G4: diagram batang berkelompok untuk B, C$^{\dagger}$, D pada \emph{faithfulness}, \emph{citation support}, skor \emph{context relevance}, dan skor \emph{answer relevance} (data pada Tabel~\ref{tab:grounding}, \ref{tab:retrieval}, \ref{tab:answer-relevance})}
+\caption{Ringkasan metrik \emph{grounding} dan relevansi pada Kondisi B, C$^{\dagger}$, dan D.}
+\label{fig:grounding-retrieval}
+\end{figure}
 
 \subsection{Kecukupan Konteks}
 \label{subsec:hasil-kecukupan-konteks}
-todo...
 
+Kecukupan konteks tidak dinilai pada sampel uji. Modul penilai yang dipakai pada sampel uji menilai relevansi per item dan tidak memuat penilaian kecukupan, sehingga tidak ada hasil kecukupan untuk B, C, maupun D. Metrik ini karena itu tidak dilaporkan, dan keterbatasannya dicatat pada Subbab~\ref{sec:ancaman-validitas}. \todo{hapus kecukupan konteks dari Tabel~\ref{tab:metrik-evaluasi} (Bab~\ref{chap:analisis-desain}) atau tandai sebagai tidak dinilai}
+
+\subsection{Komposisi Konteks}
+\label{subsec:hasil-komposisi-konteks}
+
+Komposisi konteks adalah ukuran deskriptif asal item, yaitu proporsi item berstatus \emph{accepted}, rata-rata bobot kepercayaan item, dan asal item pada graf. Ukuran ini tidak menilai kebenaran maupun halusinasi. Tabel~\ref{tab:komposisi-konteks} melaporkannya pada sampel uji. Kondisi B dan C masing-masing memuat 5,00 item per pertanyaan, sedangkan Kondisi D memuat rata-rata 4,91 item. Konteks Kondisi C$^{\dagger}$ memuat 72,9\% item \emph{accepted} (1.400 dari 1.920), jauh lebih banyak daripada B (38,1\%) dan D (37,0\%), dengan rata-rata bobot kepercayaan item 0,812. Bobot kepercayaan item B dan D tidak disimpan pada rekaman \emph{run} (nilainya \texttt{None}), sehingga rata-ratanya tidak dilaporkan. Pada \emph{development set}, konteks dengan $\alpha=0{,}5$ memuat 78,3\% item \emph{accepted}, dibandingkan 40,0\% pada pemeringkatan hanya berdasarkan kemiripan pada \emph{pool} yang sama (Tabel~\ref{tab:profil-konteks}; profil itu dihitung pada $\alpha=0{,}5$, bukan $\alpha^{*}$). Karena skor akhir Kondisi C memang mengoptimalkan kepercayaan, perbedaan komposisi ini sebagian bersifat melingkar. Ia dinyatakan sebagai konteks yang lebih banyak berasal dari jawaban yang diterima komunitas, bukan konteks yang lebih berkualitas.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Komposisi konteks pada sampel uji ($n{=}384$ pertanyaan).}
+\label{tab:komposisi-konteks}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{5.2cm}|*{3}{>{\centering\arraybackslash}X|}}
+\hline
+\textbf{Ukuran} & \textbf{B} & \textbf{C$^{\dagger}$} & \textbf{D} \\
+\hline
+Rata-rata item konteks per pertanyaan & 5,00 & 5,00 & 4,91 \\
+Item \emph{accepted} & 732/1.920 (38,1\%) & 1.400/1.920 (72,9\%) & 697/1.884 (37,0\%) \\
+Rata-rata bobot kepercayaan item & tidak disimpan & 0,812 & tidak disimpan \\
+Item satu \emph{hop} & --- & 1.910 (99,5\%) & 1.396 (74,1\%) \\
+Item dua \emph{hop} & --- & 8 (0,4\%) & 488 (25,9\%) \\
+Item \emph{semantic expansion} & --- & 2 (0,1\%) & --- \\
+Item hasil \emph{refill} & --- & 0 & --- \\
+\hline
+\end{tabularx}
+\end{table}
+
+Temuan yang penting bagi interpretasi adalah bahwa perluasan graf hampir tidak berperan pada Kondisi C$^{\dagger}$ di sampel uji. Dari 1.920 item konteks, 1.910 (99,5\%) berasal dari satu \emph{hop}, 8 dari dua \emph{hop}, dan 2 dari \emph{semantic expansion}; hanya 10 dari 384 pertanyaan (2,6\%) memuat sedikitnya satu item dua \emph{hop} atau semantik, dan \emph{refill} tidak pernah dipakai. Penyaringan membuang 192 jawaban tidak diterima yang bernilai negatif dari seluruh \emph{pool}. Pada Kondisi D, item tingkat tinggi (dua \emph{hop}) merupakan 25,9\% konteks. Kondisi D memuat kurang dari lima item pada 26 dari 384 pertanyaan (6,8\%; 10 pertanyaan memuat tiga item dan 16 memuat empat item), karena kandidat tingkat tinggi dari pertanyaan tetangga yang tersedia kurang dari yang dibutuhkan.
 
 %============================================================
 \section{Hasil Latensi (NF3)}
 \label{sec:hasil-latensi}
-todo...
 %============================================================
 
+NF3 menuntut rata-rata latensi total per kueri, mencakup \emph{retrieval} dan generasi, tidak melebihi 15 detik. Pada sampel uji, rata-rata latensi total (\texttt{end\_to\_end\_latency\_sec}) Kondisi C$^{\dagger}$ adalah 5,41 detik (median 5,33; maksimum 11,72), sehingga NF3 terpenuhi dengan selisih lebar. Hal yang sama berlaku untuk kondisi lain: 7,55 detik (A), 5,97 detik (B), dan 6,50 detik (D) (Tabel~\ref{tab:latensi}). Rata-rata waktu \emph{retrieval} C$^{\dagger}$ adalah 1,96 detik, 0,43 detik lebih lama daripada B (1,53 detik) dan 0,91 detik lebih lama daripada D (1,05 detik). Median \emph{retrieval} lebih membedakan: 0,35 detik pada B, 0,95 detik pada D, dan 1,91 detik pada C$^{\dagger}$, karena rata-rata B terdongkrak satu pencilan (68,96 detik pada \emph{retrieval}). Rata-rata total C$^{\dagger}$ justru terendah karena waktu generasinya paling singkat (3,45 detik, dibanding 4,43 pada B, 5,45 pada D, dan 7,55 pada A); penyebab perbedaan waktu generasi tidak diselidiki. Pencilan tidak dikeluarkan: maksimum total adalah 77,06 detik (B), 40,58 detik (D), dan 20,45 detik (A), dan jawaban pertama A (19,81 detik) tampak seperti \emph{cold start}. Seluruh \emph{run} dijalankan berurutan oleh satu proses tanpa kueri yang tumpang-tindih waktu, tetapi status \emph{cache} (hangat atau dingin) tidak tercatat. Latensi \emph{retrieval} pada \emph{run development set} dilakukan dengan \emph{cache} yang telah hangat, sehingga tidak dipakai sebagai bukti NF3. Latensi tidak diklaim sebagai keunggulan karena pendekatan graf memiliki \emph{retrieval} yang lebih lambat daripada B dan D.
 
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Latensi per kueri pada sampel uji (detik; rata-rata, dengan median dalam kurung).}
+\label{tab:latensi}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Kondisi} & \textbf{\emph{Retrieval}} & \textbf{Total (\emph{end-to-end})} \\
+\hline
+A & --- & 7,55 (7,26) \\
+B & 1,53 (0,35) & 5,97 (4,81) \\
+C$^{\dagger}$ & 1,96 (1,91) & 5,41 (5,33) \\
+D & 1,05 (0,95) & 6,50 (6,23) \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{figure}[!htbp]
+\centering
+% \includegraphics[width=0.85\textwidth]{images/bab5_latensi.png}
+\todo{Gambar G6: diagram batang latensi \emph{retrieval} dan total per kondisi dengan garis batas 15 detik (data pada Tabel~\ref{tab:latensi})}
+\caption{Rata-rata latensi per kueri terhadap batas NF3.}
+\label{fig:latensi}
+\end{figure}
 
 %============================================================
 \section{Analisis Perbandingan Antar-Kondisi}
 \label{sec:analisis-antarkondisi}
-todo...
 %============================================================
+
+Seluruh perbandingan yang melibatkan Kondisi C adalah analisis pasca-hoc. Untuk setiap pasangan dilaporkan selisih \emph{hallucination rate}, hitungan berpasangan per pertanyaan (berhalusinasi hanya pada kondisi pertama, hanya pada kondisi kedua, pada keduanya, dan pada tidak satu pun), serta uji McNemar eksak berpasangan (Tabel~\ref{tab:berpasangan}). Uji dilaporkan per perbandingan tanpa koreksi atas banyaknya perbandingan dan tanpa klaim multiplisitas. \todo{sitasi uji McNemar menunggu persetujuan pembimbing} Arah selisih diperiksa pula pada tiap \emph{judge}, dan selisih disebut searah bila tandanya sama pada label panel dan pada ketiga \emph{judge}. Hasil uji tidak dipakai untuk menyimpulkan efek sinyal kepercayaan.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Hitungan berpasangan per pertanyaan dan uji McNemar eksak dua sisi (pasca-hoc, tanpa koreksi multiplisitas). ``Hanya C'' berarti C berhalusinasi dan pembanding tidak. Pada versi (a), pasangan yang salah satunya \texttt{ABSTAIN} dikeluarkan, sehingga $n$ lebih kecil dari 384.}
+\label{tab:berpasangan}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|l|c|*{5}{>{\centering\arraybackslash}X|}}
+\hline
+\textbf{Perbandingan} & \textbf{Versi ($n$ pasangan)} & \textbf{Hanya C} & \textbf{Hanya pembanding} & \textbf{Keduanya} & \textbf{Tidak keduanya} & \textbf{$p$} \\
+\hline
+C$^{\dagger}$ vs A & (a) (308) & 33 & 47 & 26 & 202 & 0,146 \\
+C$^{\dagger}$ vs A & (b) (384) & 83 & 47 & 52 & 202 & 0,002 \\
+C$^{\dagger}$ vs B & (a) (285) & 23 & 40 & 33 & 189 & 0,043 \\
+C$^{\dagger}$ vs B & (b) (384) & 42 & 60 & 93 & 189 & 0,092 \\
+C$^{\dagger}$ vs D & (a) (268) & 30 & 31 & 18 & 189 & 1,000 \\
+C$^{\dagger}$ vs D & (b) (384) & 52 & 60 & 83 & 189 & 0,509 \\
+\hline
+\end{tabularx}
+\end{table}
+
+\subsection{Kondisi C terhadap Kondisi A}
+\label{subsec:analisis-c-a}
+
+Pada versi utama (a), \emph{hallucination rate} Kondisi C$^{\dagger}$ (19,2\%) lebih rendah 6,6 poin daripada Kondisi A (25,8\%), dan arahnya sama pada ketiga \emph{judge}. Pada versi (b), arahnya berbalik: C$^{\dagger}$ (35,2\%) lebih tinggi 9,4 poin daripada A (25,8\%), karena A tidak menolak menjawab sedangkan C$^{\dagger}$ menolak pada 19,8\% pertanyaan. Dua versi ini menggambarkan pertukaran yang sama: konteks beserta instruksi \emph{grounding} mengurangi halusinasi pada jawaban yang diberikan, tetapi sebagian pertanyaan tidak dijawab. Jawaban C$^{\dagger}$ juga memuat kutipan yang dapat ditelusuri, sedangkan A tidak. Skor \emph{answer relevance} C$^{\dagger}$ (0,641) lebih rendah daripada A (0,969).
+
+Uji McNemar pada versi (a) tidak menunjukkan perbedaan yang nyata: dari 308 pasangan yang keduanya bukan \texttt{ABSTAIN}, 33 pertanyaan berhalusinasi hanya pada C$^{\dagger}$ dan 47 hanya pada A ($p=0{,}146$). Selisih 6,6 poin pada Tabel~\ref{tab:hasil-halusinasi} karena itu tidak dinyatakan signifikan. Pada versi (b), C$^{\dagger}$ lebih buruk daripada A (83 terhadap 47 pertanyaan; $p=0{,}002$), yang mencerminkan 76 penolakan C$^{\dagger}$ dan bukan lebih banyaknya jawaban salah.
 
 \subsection{Kondisi C terhadap Kondisi B}
 \label{subsec:analisis-c-b}
-todo...
 
+Kondisi C$^{\dagger}$ lebih rendah daripada B pada versi (a) (19,2\% terhadap 24,8\%, selisih 5,6 poin) dan pada versi (b) (35,2\% terhadap 39,8\%, selisih 4,6 poin), dengan proporsi \texttt{ABSTAIN} yang hampir sama (19,8\% dan 20,1\%). Arah selisih sama pada ketiga \emph{judge}, walaupun pada Qwen selisihnya kecil (34,0\% terhadap 35,7\%). Sebagai imbalannya, C$^{\dagger}$ sedikit lebih rendah pada \emph{faithfulness} (58,0\% terhadap 61,3\%), \emph{context relevance} (0,319 terhadap 0,342), \emph{answer relevance} (0,641 terhadap 0,666), dan \emph{valid citation rate} (71,1\% terhadap 72,4\% pada seluruh jawaban), sedangkan \emph{citation support} sama (90,2\%).
+
+Kumpulan jawaban awal Kondisi C identik dengan Kondisi B, sehingga selisih mencerminkan gabungan perluasan kandidat (traversal dan \emph{semantic expansion}), pembobotan kepercayaan dengan $\alpha^{*}{=}0{,}25$, dan penyaringan jawaban bernilai negatif. Penelitian ini tidak memisahkan ketiganya. Untuk menilai peran bobot kepercayaan saja diperlukan pembanding $\alpha=0$ (pemeringkatan hanya berdasarkan kemiripan pada \emph{pool} yang sama) pada sampel uji, yang tidak dijalankan. Pada \emph{development set}, $\alpha=0$ dan $\alpha=0{,}25$ menghasilkan jumlah pertanyaan dengan item relevan yang sama (75 dari 150), tetapi hanya \emph{retrieval} yang dinilai pada $\alpha=0$, bukan halusinasi. \todo{keputusan: menjalankan Kondisi C dengan $\alpha=0$ pada sampel uji sebagai ablasi pasca-hoc (kode saat ini menolak $\alpha\neq0{,}25$ pada sampel uji sehingga perlu perubahan kecil dan amandemen; perkiraan 1,8 sampai 2,9 USD dan 3 sampai 4 jam), atau menyatakannya sebagai pekerjaan lanjutan}
+
+Pada versi (a), dari 285 pasangan yang keduanya bukan \texttt{ABSTAIN}, 23 pertanyaan berhalusinasi hanya pada C$^{\dagger}$ dan 40 hanya pada B ($p=0{,}043$). Pada versi (b), hitungannya 42 terhadap 60 ($p=0{,}092$). Nilai $p=0{,}043$ adalah satu dari enam uji McNemar pada Tabel~\ref{tab:berpasangan}, dilaporkan tanpa koreksi, dan tipis di bawah 0,05; ia tidak dibaca sebagai bukti yang kuat. Yang dapat dikatakan adalah bahwa arah selisihnya konsisten (C$^{\dagger}$ lebih sedikit berhalusinasi pada kedua versi dan pada ketiga \emph{judge}) dan besarnya sekitar 5 poin, tanpa kepastian statistik yang memadai.
+
+Terhadap penjelasan selisih ini, data komposisi konteks (Subbab~\ref{subsec:hasil-komposisi-konteks}) menunjukkan bahwa perluasan dua \emph{hop} dan \emph{semantic expansion} hampir tidak mengubah konteks: 99,5\% item C$^{\dagger}$ berasal dari satu \emph{hop}, dan hanya 10 dari 384 pertanyaan memuat item hasil perluasan. Perbedaan C$^{\dagger}$ dari B karena itu lebih mungkin berasal dari kandidat satu \emph{hop} dari ketiga \emph{seed}, pembobotan kepercayaan, dan penyaringan 192 jawaban bernilai negatif, daripada dari penelusuran multi-\emph{hop}. Dugaan ini tidak diuji.
 
 \subsection{Kondisi C terhadap Kondisi D}
 \label{subsec:analisis-c-d}
-todo...
 
+Kondisi D lebih rendah daripada C$^{\dagger}$ pada versi utama (a) (17,7\% terhadap 19,2\%), tetapi lebih tinggi pada versi (b) (37,2\% terhadap 35,2\%) karena D menolak menjawab lebih sering (23,7\% terhadap 19,8\%). Arah C$^{\dagger}$ lebih tinggi daripada D pada versi (a) sama pada ketiga \emph{judge}. Kondisi C$^{\dagger}$ lebih baik daripada D pada \emph{faithfulness} (58,0\% terhadap 53,6\%), \emph{context relevance} (0,319 terhadap 0,284; pertanyaan dengan item relevan 48,4\% terhadap 39,6\%), \emph{answer relevance} (0,641 terhadap 0,616), dan \emph{valid citation rate} pada seluruh jawaban (71,1\% terhadap 67,2\%). Kondisi D juga rata-rata memuat 4,91 item konteks, lebih sedikit daripada C. Tidak ada kondisi yang unggul pada seluruh metrik. Hasil ini tidak mendukung harapan bahwa C lebih rendah daripada D pada versi utama. Perbedaan C dan D mencakup tingkat \emph{anchoring}, sinyal kepercayaan, \emph{semantic expansion}, penyaringan, dan skema skor, sehingga tidak dikaitkan hanya pada sinyal kepercayaan.
+
+Uji McNemar tidak menemukan perbedaan antara keduanya. Pada versi (a), dari 268 pasangan yang keduanya bukan \texttt{ABSTAIN}, hitungannya 30 (hanya C$^{\dagger}$) terhadap 31 (hanya D) dengan $p=1{,}000$; pada versi (b), 52 terhadap 60 dengan $p=0{,}509$. Selisih 1,5 poin pada tingkat jawaban (17,7\% terhadap 19,2\%) sebagian berasal dari penyebut yang berbeda, karena D menolak 15 jawaban lebih banyak, bukan dari perbedaan pada pertanyaan yang sama.
 
 \subsection{Ringkasan Lintas Metrik}
 \label{subsec:ringkasan-lintas-metrik}
-todo...
 
+Tabel~\ref{tab:ringkasan-nilai} merangkum nilai seluruh metrik, dan Tabel~\ref{tab:selisih} merangkum selisih Kondisi C$^{\dagger}$ terhadap tiap pembanding (dihitung dari nilai yang dibulatkan pada Tabel~\ref{tab:ringkasan-nilai}).
+
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\caption{Ringkasan nilai metrik pada sampel uji (label panel). Tanda $\dagger$ menandai analisis pasca-hoc.}
+\label{tab:ringkasan-nilai}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{6.2cm}|*{4}{>{\centering\arraybackslash}X|}}
+\hline
+\textbf{Metrik} & \textbf{A} & \textbf{B} & \textbf{C$^{\dagger}$} & \textbf{D} \\
+\hline
+\emph{Hallucination rate} (a), \% & 25,8 & 24,8 & 19,2 & 17,7 \\
+\emph{Hallucination rate} (b), \% & 25,8 & 39,8 & 35,2 & 37,2 \\
+\texttt{ABSTAIN}, \% & 0 & 20,1 & 19,8 & 23,7 \\
+\emph{Faithfulness}, \% & --- & 61,3 & 58,0 & 53,6 \\
+\emph{Citation support} (NF4), \% & --- & 90,2 & 90,2 & 89,3 \\
+\emph{Valid citation rate}, seluruh jawaban (NF2), \% & --- & 72,4 & 71,1 & 67,2 \\
+\emph{Valid citation rate}, bukan \texttt{ABSTAIN} (NF2), \% & --- & 90,6 & 88,6 & 88,1 \\
+\emph{Context relevance}, skor & --- & 0,342 & 0,319 & 0,284 \\
+Pertanyaan dengan $\geq 1$ item \texttt{RELEVANT}, \% & --- & 51,0 & 48,4 & 39,6 \\
+\emph{Answer relevance}, skor & 0,969 & 0,664 & 0,641 & 0,616 \\
+\emph{Cosine similarity}, rata-rata & 0,6137 & 0,6015 & 0,5999 & 0,6008 \\
+Latensi \emph{retrieval}, detik & --- & 1,53 & 1,96 & 1,05 \\
+Latensi total, detik (NF3) & 7,55 & 5,97 & 5,41 & 6,50 \\
+\hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\caption{Selisih Kondisi C$^{\dagger}$ terhadap pembanding (C dikurangi pembanding; poin persentase kecuali dinyatakan lain).}
+\label{tab:selisih}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{6.2cm}|*{3}{>{\centering\arraybackslash}X|}}
+\hline
+\textbf{Metrik} & \textbf{vs A} & \textbf{vs B} & \textbf{vs D} \\
+\hline
+\emph{Hallucination rate} (a) & $-6{,}6$ & $-5{,}6$ & $+1{,}5$ \\
+\emph{Hallucination rate} (b) & $+9{,}4$ & $-4{,}6$ & $-2{,}0$ \\
+\texttt{ABSTAIN} & $+19{,}8$ & $-0{,}3$ & $-3{,}9$ \\
+\emph{Faithfulness} & --- & $-3{,}3$ & $+4{,}4$ \\
+\emph{Citation support} & --- & $0{,}0$ & $+0{,}9$ \\
+\emph{Valid citation rate}, seluruh jawaban & --- & $-1{,}3$ & $+3{,}9$ \\
+\emph{Valid citation rate}, bukan \texttt{ABSTAIN} & --- & $-2{,}0$ & $+0{,}5$ \\
+\emph{Context relevance} (skor) & --- & $-0{,}023$ & $+0{,}035$ \\
+Pertanyaan dengan $\geq 1$ item \texttt{RELEVANT} & --- & $-2{,}6$ & $+8{,}8$ \\
+\emph{Answer relevance} (skor) & $-0{,}328$ & $-0{,}023$ & $+0{,}025$ \\
+\emph{Cosine similarity} & $-0{,}0138$ & $-0{,}0016$ & $-0{,}0009$ \\
+Latensi \emph{retrieval} (detik) & --- & $+0{,}43$ & $+0{,}91$ \\
+Latensi total (detik) & $-2{,}13$ & $-0{,}55$ & $-1{,}08$ \\
+\hline
+\end{tabularx}
+\end{table}
+
+Pola yang muncul adalah pertukaran, bukan keunggulan menyeluruh. Terhadap B, Kondisi C$^{\dagger}$ lebih rendah pada \emph{hallucination rate} dengan penolakan yang setara, tetapi sedikit lebih rendah pada metrik relevansi dan \emph{faithfulness}. Terhadap D, Kondisi C$^{\dagger}$ lebih baik pada \emph{faithfulness} dan relevansi tetapi sedikit lebih tinggi pada \emph{hallucination rate} versi utama. Terhadap A, Kondisi C$^{\dagger}$ lebih rendah pada versi utama tetapi lebih tinggi pada versi (b). Dari tiga perbandingan berpasangan pada versi utama, hanya C$^{\dagger}$ terhadap B yang berada di bawah $p=0{,}05$ (0,043, tanpa koreksi), dan tidak ada selisih yang dinyatakan signifikan.
 
 %============================================================
 \section{Analisis Kasus}
 \label{sec:analisis-kasus}
-todo...
 %============================================================
 
 \subsection{Kasus Berhasil}
 \label{subsec:kasus-berhasil}
 
-todo...
+Kriteria kasus berhasil ditetapkan sebelum isi jawaban dilihat: label panel Kondisi C$^{\dagger}$ bukan halusinasi dan bukan \texttt{ABSTAIN}, A atau B berhalusinasi, dan konteks C$^{\dagger}$ memuat sedikitnya satu item dua \emph{hop} atau hasil \emph{semantic expansion}. Hanya 3 dari 384 pertanyaan memenuhi kriteria ini, karena hanya 10 pertanyaan memuat item perluasan (Subbab~\ref{subsec:hasil-komposisi-konteks}). Dari ketiganya, hanya satu (pertanyaan 59157364) yang jawabannya mengutip item dua \emph{hop}; pada dua lainnya (39312836 dan 42729059) item tersebut ada di konteks tetapi tidak dikutip. Dengan demikian, klaim bahwa penelusuran dua \emph{hop} berkontribusi pada jawaban yang benar hanya ditopang oleh satu kasus, dan telusuran berikut mendemonstrasikan \emph{provenance} (Gambar~\ref{fig:contoh-provenance} pada Bab~\ref{chap:implementasi}) dan bukan bukti efek kausal.
+
+\paragraph{Pertanyaan 59157364.} Pertanyaan tentang \emph{routing} ASP.NET Web API agar dua bentuk URL dilayani (\emph{tag}: \texttt{asp.net}, \texttt{asp.net-web-api}, \texttt{asp.net-mvc-routing}). Jawaban A, B, dan D berlabel halusinasi penuh, sedangkan jawaban C$^{\dagger}$ berlabel faktual oleh ketiga \emph{judge} dan mengutip tiga sumber. Konteks C$^{\dagger}$ terdiri atas empat jawaban diterima satu \emph{hop} dan satu jawaban diterima dua \emph{hop} yang dicapai melalui sisi \texttt{TAG\_COOCCUR} dari pertanyaan \emph{seed} Q45768412 ke Q13421557 (Tabel~\ref{tab:kasus-berhasil}). Bobot jalur item dua \emph{hop} itu adalah $w_{qq'}\cdot w_{\mathrm{ans}}=0{,}6\times1{,}0=0{,}6$, lebih rendah daripada item satu \emph{hop} ($w_{\mathrm{path}}=1{,}0$), dan skor akhirnya 0,8074 menempatkannya di peringkat lima. Item ini dikutip oleh jawaban, bersama item peringkat dua dan empat.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Konteks Kondisi C$^{\dagger}$ pada pertanyaan 59157364 (urutan akhir).}
+\label{tab:kasus-berhasil}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|c|>{\raggedright\arraybackslash}X|c|c|c|c|c|}
+\hline
+\textbf{Peringkat} & \textbf{Jalur (\emph{seed} $\rightarrow$ jawaban)} & \textbf{\emph{Hop}} & \textbf{$w_{\mathrm{path}}$} & \textbf{Kemiripan} & \textbf{Skor akhir} & \textbf{Dikutip} \\
+\hline
+1 & Q32324146 $\rightarrow$ A32324221 (\texttt{HAS\_ACCEPTED\_ANSWER}) & 1 & 1,0 & 0,731 & 1,000 & tidak \\
+2 & Q45768412 $\rightarrow$ A45773844 (\texttt{HAS\_ACCEPTED\_ANSWER}) & 1 & 1,0 & 0,700 & 0,959 & ya \\
+3 & Q18099867 $\rightarrow$ A18100092 (\texttt{HAS\_ACCEPTED\_ANSWER}) & 1 & 1,0 & 0,698 & 0,955 & tidak \\
+4 & Q46177972 $\rightarrow$ A49482899 (\texttt{HAS\_ACCEPTED\_ANSWER}) & 1 & 1,0 & 0,689 & 0,943 & ya \\
+5 & Q45768412 $\rightarrow$ Q13421557 $\rightarrow$ A13545592 (\texttt{TAG\_COOCCUR} $\rightarrow$ \texttt{HAS\_ACCEPTED\_ANSWER}) & 2 & 0,6 & 0,662 & 0,807 & ya \\
+\hline
+\end{tabularx}
+\end{table}
+
+\begin{figure}[!htbp]
+\centering
+% \includegraphics[width=0.95\textwidth]{images/bab5_kasus_berhasil.png}
+\todo{Gambar G7: subgraf jalur dua \emph{hop} pada pertanyaan 59157364 (simpul \texttt{Question}/\texttt{Answer}, sisi \texttt{TAG\_COOCCUR} dan \texttt{HAS\_ACCEPTED\_ANSWER} dengan bobot, item yang masuk konteks dan yang dikutip ditandai; data pada Tabel~\ref{tab:kasus-berhasil})}
+\caption{Penelusuran \emph{provenance} pada kasus berhasil (pertanyaan 59157364).}
+\label{fig:kasus-berhasil}
+\end{figure}
+
+Pada pertanyaan 42729059 (\emph{tag}: \texttt{azure}, \texttt{azure-resource-manager}), A berhalusinasi penuh, B dan D memilih \texttt{ABSTAIN}, dan C$^{\dagger}$ menjawab dengan satu kutipan ke item satu \emph{hop} yang diterima, dan ketiga \emph{judge} menilainya faktual. Pada pertanyaan 39312836 (\emph{tag}: \texttt{jquery}, \texttt{html}, \texttt{css}, \texttt{hamburger-menu}), A berhalusinasi penuh, B dan D faktual, dan hanya DeepSeek menilai jawaban C$^{\dagger}$ berhalusinasi; C$^{\dagger}$ tidak menyertakan kutipan. Kedua kasus ini menunjukkan bahwa kebenaran jawaban C$^{\dagger}$ tidak harus berasal dari item dua \emph{hop}.
 
 \subsection{Kasus Gagal dan Pola Kegagalan}
 \label{subsec:kasus-gagal}
-todo...
 
+Tiga pola kegagalan teramati pada data kuantitatif Kondisi C$^{\dagger}$. Pertama, penolakan: 76 jawaban (19,8\%) berlabel \texttt{ABSTAIN}, yaitu konteks yang diambil tidak memuat dasar untuk menjawab. Kedua, halusinasi pada solusi utama: 53 dari 59 jawaban berhalusinasi berstatus penuh. Ketiga, jawaban tanpa kutipan valid: 35 jawaban yang bukan \texttt{ABSTAIN} tidak memuat kutipan valid, walaupun kutipan fiktif hanya 0,3\%. Selain itu, ketiga \emph{judge} hanya sepakat penuh pada 57,8\% jawaban, sehingga sebagian label bersifat sensitif terhadap pilihan \emph{judge}.
+
+Untuk melihat mekanismenya, kriteria kasus gagal ditetapkan sebelum isi jawaban dilihat, yaitu C$^{\dagger}$ berhalusinasi dan B tidak (23 pertanyaan memenuhi), dan tiga pertanyaan dengan id terkecil dipaparkan. Pada ketiganya, ketiga \emph{judge} tidak sepakat: Llama menilai faktual sedangkan DeepSeek atau Qwen menilai berhalusinasi, sehingga label ditentukan oleh dua \emph{judge} tersebut.
+\begin{itemize}
+    \item \textbf{Pertanyaan 416108} (dukungan \emph{garbage collection} di iPhone). C$^{\dagger}$ menyimpulkan bahwa dengan ARC tidak perlu memanggil \emph{release} atau \emph{autorelease}, sedangkan rujukan menyatakan sebaliknya (dua \emph{judge}: \texttt{CONTRADICTED}, keparahan \emph{core}). Kelima item konteks adalah jawaban diterima satu \emph{hop} dengan $w_{\mathrm{path}}=1{,}0$, sehingga sinyal kepercayaan tidak membedakan item yang menyesatkan dari yang tidak.
+    \item \textbf{Pertanyaan 3418748} (alat inspeksi WPF untuk Visual Studio 2010). C$^{\dagger}$ menyatakan bahwa kompatibilitas Snoop dengan VS 2010 tidak diketahui, yang dinilai bertentangan dengan rujukan (DeepSeek \emph{core}, Qwen \emph{minor}); label panel adalah halusinasi sebagian. Kelima item konteks adalah jawaban tidak diterima dengan $w_{\mathrm{path}}$ rendah (0,24 sampai 0,51). Konteks yang hanya berisi jawaban berkepercayaan rendah menghasilkan jawaban yang ragu atau keliru.
+    \item \textbf{Pertanyaan 8237958} (login pengguna di ASP.NET MVC). C$^{\dagger}$ menyarankan kontrol \emph{Login} dari \emph{toolbox} dan enkripsi DES, yang dinilai bertentangan atau dikarang terhadap rujukan oleh DeepSeek dan Qwen. Klaim tersebut didukung teks konteks (\texttt{supported\_by\_context} bernilai \texttt{YES}), tetapi konteksnya sendiri berasal dari era WebForms; kelima item adalah jawaban diterima satu \emph{hop}. Ini kegagalan relevansi konteks, bukan kegagalan \emph{grounding}.
+\end{itemize}
+Ketiga kasus menunjukkan bahwa jawaban diterima dengan bobot tertinggi tidak menjamin konteks yang relevan, dan bahwa \emph{grounding} yang setia pada konteks yang kurang relevan menghasilkan jawaban yang dinilai salah terhadap rujukan. Tiga kasus tidak mewakili seluruh kegagalan. \todo{Gambar G8 (opsional): tampilan konteks pertanyaan 3418748 atau 416108}
 
 %============================================================
 \section{Pembahasan}
@@ -150,30 +598,65 @@ todo...
 
 \subsection{Pemenuhan Kriteria Sukses Kebutuhan Nonfungsional}
 \label{subsec:pembahasan-nonfungsional}
-todo...
+
+Tabel~\ref{tab:status-nf} merangkum status kriteria sukses NF1 sampai NF5 pada Tabel~\ref{tab:kebutuhan-nonfungsional}. Seluruh status yang melibatkan Kondisi C adalah hasil analisis pasca-hoc.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Status kriteria sukses kebutuhan nonfungsional pada Kondisi C (pasca-hoc).}
+\label{tab:status-nf}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|c|>{\raggedright\arraybackslash}p{2.4cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{3.2cm}|}
+\hline
+\textbf{No.} & \textbf{Kriteria} & \textbf{Hasil} & \textbf{Status} \\
+\hline
+NF1 & \emph{Hallucination rate} (a) lebih rendah daripada A dan B & 19,2\% terhadap 25,8\% (A) dan 24,8\% (B); pada versi (b) lebih tinggi daripada A (35,2\% terhadap 25,8\%) & Terpenuhi secara numerik pada versi utama; dukungan statistik lemah (McNemar C vs A $p=0{,}146$; C vs B $p=0{,}043$, tanpa koreksi) \\
+\hline
+NF2 & Seluruh jawaban bukan \texttt{ABSTAIN} memuat kutipan valid & 88,6\% (273/308); seluruh jawaban 71,1\% & Tidak terpenuhi \\
+\hline
+NF3 & Rata-rata latensi total $\leq 15$ detik & 5,41 detik (median 5,33; maksimum 11,72) & Terpenuhi \\
+\hline
+NF4 & \emph{Citation support} tidak lebih rendah daripada B & 90,2\% terhadap 90,2\% & Terpenuhi (setara) \\
+\hline
+NF5 & Tidak ada konteks atau kutipan dari \emph{thread} kueri uji & 0/384 kueri dengan irisan konteks dan 0/384 dengan irisan kutipan (B, C, D) & Terpenuhi \\
+\hline
+\end{tabularx}
+\end{table}
+
+Terhadap NF1, \emph{hallucination rate} Kondisi C lebih rendah daripada A dan B hanya jika \texttt{ABSTAIN} dikeluarkan, dan kriteria tersebut tidak mengharuskan C lebih rendah daripada D. NF1 dinyatakan terpenuhi secara numerik, tetapi dukungan statistiknya lemah: dari tiga perbandingan berpasangan pada versi utama, hanya C terhadap B yang nominal di bawah 0,05 (0,043) dan tidak dikoreksi, sedangkan C terhadap A tidak berbeda nyata (0,146). NF2 tidak terpenuhi pada Kondisi C maupun pada kondisi lain. NF3 dan NF5 terpenuhi. Reprodusibilitas bukan lagi kriteria sukses yang diuji, tetapi tetap dicatat sebagai keterbatasan: parameter generasi tidak dikunci dan tabel parameter beku berubah setelah \emph{run} resmi (Amendment 19).
 
 \subsection{Jawaban atas Rumusan Masalah}
 \label{subsec:pembahasan-rumusan-masalah}
-todo...
 
+\emph{GraphRAG Framework} berbasis pengetahuan komunitas Stack Overflow berhasil dirancang dan diimplementasikan (Bab~\ref{chap:analisis-desain} dan~\ref{chap:implementasi}), mencakup konstruksi KG berbobot, \emph{hybrid retrieval} tiga tahap, dan \emph{grounded generation} dengan validasi kutipan. Pada sampel uji, Kondisi C menghasilkan \emph{hallucination rate} 19,2\% dengan \texttt{ABSTAIN} dikeluarkan, lebih rendah daripada LLM murni (25,8\%) dan RAG konvensional (24,8\%), dan sedikit di atas GraphRAG \emph{dual-level} tanpa sinyal kepercayaan (17,7\%). Uji berpasangan tidak menunjukkan perbedaan yang nyata terhadap LLM murni ($p=0{,}146$) maupun terhadap GraphRAG \emph{dual-level} ($p=1{,}000$), dan terhadap RAG konvensional selisihnya nominal berbeda ($p=0{,}043$) tanpa koreksi atas banyaknya uji. Selisih terhadap RAG konvensional tidak berasal dari penolakan yang lebih banyak, tetapi disertai penurunan kecil pada \emph{faithfulness} dan relevansi. Penelusuran multi-\emph{hop}, yang menjadi ciri utama GraphRAG, hampir tidak berperan pada sampel uji: hanya 10 dari 384 pertanyaan memuat item hasil perluasan, sehingga kerangka ini lebih tepat dibaca sebagai pemeringkatan jawaban satu \emph{hop} berbobot kepercayaan daripada sebagai penalaran multi-\emph{hop}. Karena Kondisi C dirancang dan dijalankan setelah hasil A, B, dan D diketahui, temuan ini bersifat eksploratori dan perlu direplikasi pada sampel dan \emph{run} independen. Kontribusi sinyal kepercayaan secara terpisah tidak dapat ditentukan dari rancangan ini, dan kondisi D, yang tidak memakai sinyal tersebut, memiliki \emph{hallucination rate} setara atau lebih rendah pada versi utama. \todo{setelah Bab~\ref{chap:pendahuluan} direvisi, selaraskan subbab ini dengan lima pertanyaan penelitian dan jawab satu per satu, serta dengan hipotesis dan uji yang dipakai (McNemar berpasangan untuk halusinasi, Wilcoxon \emph{signed-rank} untuk \emph{cosine similarity}) dan jumlah kondisi (empat)}
 
 \subsection{Posisi terhadap Penelitian Terdahulu}
 \label{subsec:pembahasan-penelitian-terdahulu}
-todo...
 
+\textcite{DaSilva2025} dan \textcite{Kabir2024} melaporkan bahwa LLM murni tidak menyertakan referensi dan sering salah pada pertanyaan Stack Overflow. Hasil Kondisi A sejalan dengan hal tersebut: seperempat jawaban (25,8\%) dinilai berhalusinasi dan tidak ada kutipan. Angka ini tidak dibandingkan langsung dengan 52\% jawaban tidak benar pada \textcite{Kabir2024}, karena penilaian studi tersebut manual sedangkan penilaian di sini memakai panel LLM tanpa validasi manusia. \textcite{Nashid2023} melaporkan peningkatan dari pemilihan contoh berbasis \emph{retrieval}. Pada penelitian ini, RAG konvensional (Kondisi B) hampir tidak menurunkan \emph{hallucination rate} dibandingkan LLM murni (24,8\% terhadap 25,8\%) dengan penolakan sekitar 20\%, sehingga manfaat \emph{retrieval} vektor saja terbatas pada pengaturan ini. Arah penurunan lebih besar pada Kondisi C sejalan dengan laporan bahwa struktur graf dan pembatasan pengetahuan dapat menurunkan halusinasi \autocite{Zhou2026, BenKhalifa2026}, tetapi besar efek dan penyebabnya tidak dapat dibandingkan langsung karena perbedaan data, model, dan metrik. \todo{lengkapi perbandingan kuantitatif dengan \textcite{Zhou2026}, \textcite{Zhu2026}, dan \textcite{BenKhalifa2026} dari Bab~\ref{chap:studi-literatur}, hanya bila metrik dan kondisinya sepadan}
 
 \subsection{Implikasi dan Klaim Kontribusi}
 \label{subsec:pembahasan-implikasi}
-todo...
 
+Kontribusi yang diklaim adalah (i) kerangka \emph{GraphRAG} berbasis sinyal komunitas Stack Overflow beserta implementasinya, (ii) protokol evaluasi yang transparan, termasuk pencegahan kebocoran data, pelaporan \texttt{ABSTAIN}, dan pemisahan \emph{run} resmi dari analisis pasca-hoc, dan (iii) temuan empiris beserta keterbatasannya. Efek sinyal kepercayaan terhadap halusinasi tidak diklaim, dan hasil tidak digeneralisasi ke domain atau model lain. Secara praktis, hasil menunjukkan bahwa jawaban ber-\emph{grounding} menukar sebagian cakupan dengan lebih sedikit halusinasi pada jawaban yang diberikan, sehingga penggunaan dalam konteks profesional perlu menyertakan penanganan pertanyaan yang ditolak.
 
 %============================================================
 \section{Ancaman terhadap Validitas}
 \label{sec:ancaman-validitas}
 %============================================================
 
+\begin{enumerate}
+    \item \textbf{Validitas konstruk.} Seluruh label berasal dari \emph{LLM-as-a-Judge} tanpa validasi manusia. Tingkat halusinasi berbeda tajam antar-\emph{judge} (Llama 3,5 sampai 6,0\% terhadap DeepSeek dan Qwen 29,8 sampai 38,6\%), kesepakatan penuh ketiga \emph{judge} hanya 57,8\% pada Kondisi C, $\kappa$ Llama dengan dua \emph{judge} lain pada label halusinasi hanya 0,05 sampai 0,15, dan validasi kontrol instrumen relevansi konteks dilakukan dengan Llama dan \texttt{gpt-4o-mini}, bukan dengan panel tiga \emph{judge} yang dipakai pada evaluasi. Kecukupan konteks tidak dinilai, dan klaim yang tidak dapat diverifikasi (38 sampai 52\% klaim) tidak dihitung sebagai halusinasi. \texttt{ABSTAIN} dapat menurunkan \emph{hallucination rate} versi utama tanpa meningkatkan kebenaran.
+    \item \textbf{Validitas internal.} Kondisi C dirancang dan dijalankan setelah hasil A, B, dan D diketahui, sehingga perbandingannya pasca-hoc. $\alpha^{*}$ dipilih dari himpunan berhingga pada 150 pertanyaan dengan satu jawaban per pertanyaan, sehingga rentan terhadap \emph{winner's curse}. \emph{Temperature} \emph{generator} tidak dikirim (memakai nilai bawaan penyedia). Versi model yang dikembalikan penyedia sama pada seluruh rekaman (\texttt{gpt-4o-mini-2024-07-18}), tetapi \emph{system fingerprint} berganti-ganti (36 sampai 61 nilai berbeda per kondisi). Setiap kondisi dijalankan satu kali sehingga variasi \emph{generator} tidak diukur. Tabel parameter beku A, B, D berbeda dari C (Amendment 19). Efek perluasan kandidat, pembobotan kepercayaan, dan penyaringan pada Kondisi C tidak dipisahkan, dan karena perluasan multi-\emph{hop} hampir tidak terpakai pada sampel uji, kesimpulan tentang manfaat graf multi-\emph{hop} tidak dapat ditarik.
+    \item \textbf{Validitas statistik.} Uji McNemar (enam uji) dan Wilcoxon (tiga uji) ditetapkan setelah data diperoleh dan dilaporkan tanpa koreksi atas banyaknya perbandingan dan metrik, sehingga risiko temuan kebetulan meningkat. Hanya satu dari enam uji McNemar yang nominal di bawah 0,05. Selisih kecil seperti 1,3 poin pada \emph{valid citation rate} berada dalam variasi \emph{generator}.
+    \item \textbf{Validitas eksternal.} Evaluasi memakai satu dataset (SORD), satu \emph{generator}, dan hanya pertanyaan dengan \emph{accepted answer} pada tabel jawaban (10,09\% pertanyaan), sehingga generalisasi tidak diklaim.
+    \item \textbf{Kebocoran dan kontrol.} Pengecualian \emph{thread} mencegah kebocoran langsung, tetapi tidak mencakup duplikat atau pertanyaan hampir identik di luar \emph{thread} yang sama. Kondisi D memuat kurang dari lima item konteks pada 26 dari 384 pertanyaan sehingga jumlah konteksnya tidak selalu sama dengan kondisi lain. Latensi tidak dikontrol terhadap status \emph{cache}.
+\end{enumerate}
+
 %============================================================
 \section{Ringkasan}
 \label{sec:ringkasan-evaluasi}
 %============================================================
 
+Kondisi A, B, dan D dijalankan sebagai \emph{run} resmi, dan Kondisi C dijalankan kemudian sebagai analisis pasca-hoc. Dengan \texttt{ABSTAIN} dikeluarkan, \emph{hallucination rate} adalah 25,8\% (A), 24,8\% (B), 19,2\% (C), dan 17,7\% (D). Dengan \texttt{ABSTAIN} dihitung sebagai kegagalan, A terendah (25,8\%) karena tidak pernah menolak, dan di antara kondisi ber-\emph{grounding} C terendah (35,2\%). Kondisi C setara dengan B pada \emph{citation support} dan sedikit lebih rendah pada \emph{faithfulness} dan relevansi, serta lebih baik daripada D pada \emph{faithfulness} dan relevansi. Uji berpasangan tidak menunjukkan perbedaan yang nyata pada tiga dari empat perbandingan; satu-satunya yang nominal di bawah 0,05 (C terhadap B, $p=0{,}043$) tidak dikoreksi dan tidak dibaca sebagai bukti yang kuat. Dari lima kebutuhan nonfungsional, NF3, NF4, dan NF5 terpenuhi, NF1 terpenuhi secara numerik dengan dukungan statistik lemah, dan NF2 tidak terpenuhi. Perluasan multi-\emph{hop} hampir tidak terpakai pada Kondisi C (10 dari 384 pertanyaan). Keterbatasan utamanya adalah status pasca-hoc Kondisi C, penilaian tanpa validasi manusia dengan kesepakatan antar-\emph{judge} yang rendah, satu \emph{run} per kondisi, kecukupan konteks yang tidak dinilai, dan tidak terpisahnya efek sinyal kepercayaan dari komponen lain.
