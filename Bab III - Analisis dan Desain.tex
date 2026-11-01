@@ -351,7 +351,7 @@ Sinyal kepercayaan mengukur seberapa tervalidasi suatu jawaban oleh komunitas, b
 dengan $\mathrm{sim}_{\mathrm{norm}}(q,c)$ adalah kemiripan kosinus antara kueri $q$ dan teks kandidat yang dinormalisasi \emph{min-max} atas seluruh kandidat \emph{pool} setiap pertanyaan, dihitung sebelum penyaringan. Parameter $\alpha \in [0,1]$ mengatur kontribusi bobot jalur. Ketika $\alpha=0$, pemeringkatan hanya didasarkan pada kemiripan pada \emph{pool} yang sama, dan nilai ini dipakai sebagai acuan. Ketika $\alpha=1$, pemeringkatan hanya didasarkan pada bobot jalur.
  
 
-Setelah skor dihitung, jawaban yang tidak berstatus \emph{accepted} dan memiliki skor negatif dikeluarkan dari kumpulan kandidat. Jika setelah penyaringan kandidat yang tersisa kurang dari $k$, kekurangannya diisi kembali (\emph{refill}) dari kandidat yang dibuang menurut skor tertinggi. Kandidat kemudian diurutkan berdasarkan skor akhir dari tertinggi ke terendah, dengan identitas jawaban sebagai urutan kedua jika skor sama agar hasil pengurutan konsisten. Pada langkah \emph{packing}, $k$ kandidat teratas disusun menjadi \emph{unified context window}. Setiap item konteks berisi judul pertanyaan asal dan isi jawaban, dipotong sesuai batas token, dan diberi label sumber \texttt{[SO-\textless id\textgreater]}.
+Setelah skor dihitung, jawaban yang tidak berstatus \emph{accepted} dan skor jawaban dari komunitas negatif dikeluarkan dari kumpulan kandidat. Jika setelah penyaringan kandidat yang tersisa kurang dari $k$, kekurangannya diisi kembali (\emph{refill}) dari kandidat yang dibuang menurut skor tertinggi. Kandidat kemudian diurutkan berdasarkan skor akhir dari tertinggi ke terendah, dengan identitas jawaban sebagai urutan kedua jika skor sama agar hasil pengurutan konsisten. Pada langkah \emph{packing}, $k$ kandidat teratas disusun menjadi \emph{unified context window}. Setiap item konteks berisi judul pertanyaan asal dan isi jawaban, dipotong sesuai batas token, dan diberi label sumber \texttt{[SO-\textless id\textgreater]}.
 
 \subsubsection{Pencegahan Kebocoran Data (\emph{Leakage})}
 \label{subsubsec:leakage}
@@ -480,7 +480,7 @@ Setiap kondisi dijalankan satu kali pada sampel uji. Hal ini menghasilkan empat 
 
 \begin{table}[!htbp]
 \centering
-\caption{Matriks \emph{run} resmi.}
+\caption{Matriks Pengujian.}
 \label{tab:table-matriks-run}
 \begin{tabular}{|c|l|l|}
 \hline

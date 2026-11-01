@@ -400,31 +400,6 @@ RETURN q2.id AS via_question_id,
        anchor_id
 \end{lstlisting}
  
-\begin{lstlisting}[caption={Kueri Cypher \emph{traversal} dua \emph{hop} pada Kondisi C. Bobot jalur adalah bobot sisi antar-pertanyaan dikalikan bobot jawaban.}, label={lst:cypher-2hop}, frame=single, captionpos=t, language={}, basicstyle=\ttfamily\scriptsize]
-UNWIND $anchor_ids AS anchor_id
-MATCH (anchor:Question {id: anchor_id})
-      -[r2:IS_RELATED_TO|TAG_COOCCUR|EMBED_SIM]->(q2:Question)
-WHERE NOT q2.id IN $exclude_q
-MATCH (q2)-[r3:HAS_ACCEPTED_ANSWER|HAS_ANSWER]->(a:Answer)
-WHERE NOT a.id IN $exclude_a
-WITH anchor_id, q2, a, r2, r3,
-     (r2.weight *
-      CASE WHEN type(r3) = 'HAS_ACCEPTED_ANSWER' THEN 1.0
-           ELSE coalesce(a.trustScore, 0.0) END) AS edge_weight
-ORDER BY edge_weight DESC, a.id ASC
-LIMIT 50
-RETURN q2.id AS via_question_id,
-       q2.title AS via_question_title,
-       a.id AS answer_id,
-       a.body AS answer_body,
-       a.trustScore AS answer_trust_score,
-       a.isAccepted AS is_accepted,
-       a.score AS answer_score,
-       edge_weight,
-       2 AS hop,
-       (type(r2) + '->' + type(r3)) AS rel_type,
-       anchor_id
-\end{lstlisting}
 
 \subsection{Kondisi D: GraphRAG \emph{Dual-Level}}
 \label{subsec:implementasi-kondisi-d}
@@ -650,7 +625,7 @@ Parameter implementasi terbagi menjadi empat kelompok menurut dasar penetapannya
 \subsection{Pemisahan \emph{Development Set} dan Sampel Uji}
 \label{subsec:pemisahan-dev-uji}
  
-\emph{Development set} (posisi 435--584, $n{=}150$), dan sampel uji (posisi 1--384) tidak saling beririsan. Perumusan instruksi \emph{prompt} \emph{generator} dan instruksi \emph{judge} dilakukan pada \emph{development set}, sedangkan pemilihan $\alpha$ dilakukan pada \emph{Development set} tanpa memakai pertanyaan uji. 
+\emph{Development set} (posisi 435--584, $n{=}150$), dan sampel uji (posisi 1--384) tidak saling beririsan. Perumusan instruksi \emph{prompt} \emph{generator} dan instruksi \emph{judge} dilakukan pada \emph{development set}, sedangkan pemilihan $\alpha$ dilakukan pada \emph{development set} tanpa memakai pertanyaan uji. 
  
 \subsection{Pemilihan Bobot Relevansi--Kepercayaan ($\alpha$)}
 \label{subsec:pemilihan-alpha}
@@ -663,12 +638,12 @@ Prosedur mengikuti desain pada Subbab~\ref{subsubsec:prosedur-alpha}. Himpunan k
 \subsubsection{Tahap 1: Seleksi Berdasarkan Relevansi Konteks}
 \label{subsubsec:tahap1-alpha}
  
-Untuk setiap nilai $\alpha$, \emph{retrieval} Kondisi C dijalankan pada 150 pertanyaan \emph{dev-large} tanpa pembangkitan jawaban, lalu setiap item konteks dinilai oleh panel. Hasil disajikan pada Tabel~\ref{tab:tahap1-alpha}.
+Untuk setiap nilai $\alpha$, \emph{retrieval} Kondisi C dijalankan pada 150 pertanyaan \emph{development set} tanpa pembangkitan jawaban, lalu setiap item konteks dinilai oleh panel. Hasil disajikan pada Tabel~\ref{tab:tahap1-alpha}.
  
 \begin{table}[!htbp]
 \centering
 \small
-\caption{Hasil tahap 1 pemilihan $\alpha$ pada \emph{dev-large} ($n{=}150$, panel tiga \emph{judge}).}
+\caption{Hasil tahap 1 pemilihan $\alpha$ pada \emph{development set} ($n{=}150$, panel tiga \emph{judge}).}
 \label{tab:tahap1-alpha}
 \renewcommand{\arraystretch}{1.2}
 \begin{tabular}{|c|c|c|l|}
@@ -693,7 +668,7 @@ Tahap 2 membandingkan $\alpha=0{,}1$ dan $\alpha=0{,}25$ pada 150 jawaban per ni
 \begin{table}[!htbp]
 \centering
 \small
-\caption{Hasil tahap 2 pemilihan $\alpha$ pada \emph{dev-large} (150 jawaban per $\alpha$, label panel).}
+\caption{Hasil tahap 2 pemilihan $\alpha$ pada \emph{development set} (150 jawaban per $\alpha$, label panel).}
 \label{tab:tahap2-alpha}
 \renewcommand{\arraystretch}{1.2}
 \begin{tabular}{|l|c|c|c|}
@@ -711,7 +686,7 @@ Halusinasi, \texttt{ABSTAIN} dihitung gagal (kedua) & 55/150 (36,7\%) & 43/150 (
 \subsubsection{Hasil Penetapan}
 \label{subsubsec:hasil-alpha}
  
-Berdasarkan aturan pada Subbab~\ref{subsubsec:prosedur-alpha-impl}, ditetapkan $\alpha^{*}=0{,}25$ untuk Kondisi C pada sampel uji. Nilai ini dipilih dari himpunan kandidat berhingga pada satu sampel berukuran 150 pertanyaan, dengan satu jawaban per pertanyaan dari generator yang tidak dikunci \emph{seed}-nya. Selisih 7 jawaban dapat sebagian berasal dari variasi generasi dan dari kecenderungan nilai yang menang pada seleksi untuk tampak lebih baik daripada nilai sebenarnya. Oleh karena itu $\alpha^{*}$ tidak dibaca sebagai bukti bahwa sinyal kepercayaan menurunkan halusinasi. Apakah selisih tersebut bertahan diperiksa pada \emph{run} sampel uji (Bab~\ref{chap:evaluasi}).
+Berdasarkan aturan pada Subbab~\ref{subsubsec:prosedur-alpha-impl}, ditetapkan $\alpha^{*}=0{,}25$ untuk Kondisi C pada sampel uji. Nilai ini dipilih dari himpunan kandidat berhingga pada satu sampel berukuran 150 pertanyaan, dengan satu jawaban per pertanyaan dari generator yang tidak dikunci \emph{seed}-nya. Selisih 7 jawaban dapat sebagian berasal dari variasi generasi dan dari kecenderungan nilai yang menang pada seleksi untuk tampak lebih baik daripada nilai sebenarnya. Oleh karena itu $\alpha^{*}$ tidak dibaca sebagai bukti bahwa sinyal kepercayaan menurunkan halusinasi. 
 
  \subsubsection{Profil Konteks pada \emph{Development Set}}
 \label{subsubsec:profil-konteks}
@@ -720,24 +695,30 @@ Untuk melihat pengaruh bobot kepercayaan pada isi konteks, \emph{retrieval} Kond
 
 Pada $\alpha^{*}=0{,}25$, 72,7\% item adalah jawaban yang diterima, dibandingkan 40,0\% pada $\alpha=0$ dan 78,3\% pada $\alpha=0{,}5$. Jawaban tidak diterima berkepercayaan rendah ($<0{,}3$) turun dari 45,5\% pada $\alpha=0$ menjadi 14,5\% pada $\alpha^{*}$ dan 6,3\% pada $\alpha=0{,}5$. Rata-rata kemiripan kosinus mentah hanya turun tipis, dari 0,663 ($\alpha=0$) menjadi 0,653 ($\alpha^{*}$) dan 0,644 ($\alpha=0{,}5$). Dengan demikian $\alpha^{*}$ memperoleh sebagian besar pergeseran komposisi yang dicapai $\alpha=0{,}5$ dengan penurunan kemiripan yang lebih kecil.
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering
-\caption{Profil 750 item konteks akhir pada \emph{development set} untuk tiga nilai $\alpha$.}
+\small
+\caption{Profil 750 item konteks akhir (5 item $\times$ 150 pertanyaan) pada \emph{development set} untuk tiga nilai $\alpha$.}
 \label{tab:profil-konteks}
-\begin{tabular}{lrrr}
-\toprule
-Ukuran & $\alpha=0$ & $\alpha^{*}=0{,}25$ & $\alpha=0{,}5$ \\
-\midrule
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Ukuran} & $\boldsymbol{\alpha=0}$ & $\boldsymbol{\alpha^{*}=0{,}25}$ & $\boldsymbol{\alpha=0{,}5}$ \\
+\hline
 Item \emph{accepted} (\%) & 40,0 & 72,7 & 78,3 \\
-Non-\emph{accepted} dengan \emph{trust} $<0{,}3$ (\%)\textsuperscript{a} & 45,5 & 14,5 & 6,3 \\
-Rata-rata \emph{trust} & 0,542 & 0,807 & 0,840 \\
-Rata-rata kemiripan & 0,663 & 0,653 & 0,644 \\
-\bottomrule
+\hline
+Item non-\emph{accepted} dengan $w_{\mathrm{path}}<0{,}3$ (\%)\textsuperscript{a} & 45,5 & 14,5 & 6,3 \\
+\hline
+Rata-rata bobot jalur $w_{\mathrm{path}}$ & 0,542 & 0,807 & 0,840 \\
+\hline
+Rata-rata kemiripan kosinus $\mathrm{sim}$ & 0,663 & 0,653 & 0,644 \\
+\hline
 \end{tabular}
 
-\vspace{2pt}
+\vspace{0.1cm}
+\raggedright\footnotesize
+\textsuperscript{a}Persentase terhadap seluruh 750 item. Semua item non-\emph{accepted} berasal dari satu \emph{hop}, sehingga $w_{\mathrm{path}}$ sama dengan \texttt{trustScore}-nya.
 \end{table}
-
  
 \subsection{Ringkasan Parameter yang Dibekukan}
 \label{subsec:parameter-beku}
@@ -769,11 +750,11 @@ Bentuk skor akhir & kombinasi konveks, \emph{min-max} & \textcite{Bruch2023} \\
 \hline
 $P_{99}^{A}$ (skor jawaban) dan $P_{99}$ reputasi & 46 dan 54.383 & Persentil ke-99 populasi KG (Subbab~\ref{subsec:implementasi-trustscore}) \\
 \hline
-\multicolumn{3}{|l|}{\textit{Dipilih secara empiris pada \emph{dev-large}}} \\
+\multicolumn{3}{|l|}{\textit{Dipilih secara empiris pada \emph{development set}}} \\
 \hline
 Bobot $\alpha^{*}$ (Kondisi C) & 0,25 & Prosedur dua tahap dengan margin $\delta_{\mathrm{q}}=2$ poin, $\delta_{\mathrm{s}}=0{,}02$, $\delta_{\mathrm{h}}=3$ (Subbab~\ref{subsec:pemilihan-alpha}) \\
 \hline
-Definisi label \emph{judge} relevansi konteks & \texttt{ctxrel} & Dirumuskan pada \emph{development set}; lolos ambang kontrol (Subbab~\ref{subsubsec:validasi-ctxrel}) \\
+Definisi label \emph{judge} relevansi konteks & \texttt{ctxrel} & Dirumuskan pada \emph{development set} \\
 \hline
 \multicolumn{3}{|l|}{\textit{Heuristik, ditetapkan sebelum eksperimen dan tidak disetel}} \\
 \hline
@@ -789,7 +770,7 @@ $K_B$, $K_{\mathrm{scan}}$, $N_{\mathrm{trav}}$ & 10, 50, 50 & Cakupan kandidat 
 \hline
 $N_{\mathrm{anchor}}$, $N_{\mathrm{exp}}$, $n_{\mathrm{nb}}$, $k$, batas teks item & 3, 3, 3, 5, 400 token & Konteks ringkas, latensi rendah; $k$ dan batas teks sama pada B, C, D \\
 \hline
-Filter jawaban & non-\emph{accepted} dengan skor bersih $<0$ dibuang; \emph{refill} bila $<k$ & Menyingkirkan jawaban yang ditolak komunitas \\
+Filter jawaban & non-\emph{accepted} dengan skor jawaban dari komunitas $<0$ dikeluarkan sebelum pemilihan $k$ teratas; \emph{accepted} tidak pernah dikeluarkan; \emph{refill} bila $<k$ & Menyingkirkan jawaban yang ditolak komunitas \\
 \hline
 \emph{Seed} pengambilan sampel & 42 & Kebiasaan reprodusibilitas, tidak disetel \\
 \hline
@@ -827,7 +808,7 @@ F4 & \emph{Hybrid retrieval} dengan \emph{pool} dari pencarian awal, traversal, 
 \hline
 F5 & \emph{Dual-constraint}, validasi kutipan, dan \emph{provenance} atas permintaan (Subbab~\ref{sec:implementasi-generasi}) & Terpenuhi \\
 \hline
-F6 & Empat kondisi dan instrumen evaluasi (Subbab~\ref{sec:implementasi-kondisi}); pelaksanaan dilaporkan pada Bab~\ref{chap:evaluasi} & Terimplementasi; A, B, D dan C dijalankan pada sampel uji, penilaian panel selesai \\
+F6 & Empat kondisi dan instrumen evaluasi (Subbab~\ref{sec:implementasi-kondisi}); hasil pelaksanaan pada sampel uji dilaporkan pada Bab~\ref{chap:evaluasi} & Terpenuhi \\
 \hline
 \end{tabularx}
 \end{table}
@@ -835,7 +816,7 @@ F6 & Empat kondisi dan instrumen evaluasi (Subbab~\ref{sec:implementasi-kondisi}
 \subsection{Realisasi Kebutuhan Nonfungsional}
 \label{subsec:realisasi-nonfungsional}
 
-Tabel~\ref{tab:pemenuhan-nonfungsional} memetakan kebutuhan nonfungsional pada Tabel~\ref{tab:kebutuhan-nonfungsional} ke mekanisme implementasinya. Pembuktian kriteria sukses NF1, NF2, dan NF3 dilakukan pada bab evaluasi karena bergantung pada hasil \emph{run} resmi.
+Tabel~\ref{tab:pemenuhan-nonfungsional} memetakan kebutuhan nonfungsional pada Tabel~\ref{tab:kebutuhan-nonfungsional} ke mekanisme implementasinya. Pembuktian kriteria sukses NF1 sampai NF5 dilakukan pada bab evaluasi karena bergantung pada hasil pengujian.
 
 \begin{table}[!htbp]
 \centering
@@ -847,13 +828,15 @@ Tabel~\ref{tab:pemenuhan-nonfungsional} memetakan kebutuhan nonfungsional pada T
 \hline
 \textbf{Req.} & \textbf{Kategori} & \textbf{Mekanisme implementasi} \\
 \hline
-NF1 & Akurasi & Panel \emph{judge} dan skrip pelaporan menghitung \emph{hallucination rate} pada keempat kondisi, disajikan pada bab evaluasi \\
+NF1 & Akurasi & Panel \emph{judge} dan skrip pelaporan menghitung \emph{hallucination rate} pada keempat kondisi, dengan \texttt{ABSTAIN} dikeluarkan dari penyebut (utama) dan dihitung sebagai kegagalan (pelengkap); hasil disajikan pada bab evaluasi \\
 \hline
 NF2 & Keterlacakan & Validasi kutipan terhadap konteks yang diberikan dan pencatatan \emph{provenance} per item (Subbab~\ref{subsec:kutipan-generasi} dan \ref{subsec:implementasi-provenance}); proporsi dilaporkan atas seluruh jawaban dan atas jawaban yang bukan \texttt{ABSTAIN} \\
 \hline
-NF3 & Latensi & Pencatatan waktu \emph{retrieval} dan \emph{end-to-end} per pertanyaan (Subbab~\ref{subsec:implementasi-latensi}) \\
+NF3 & Latensi & Pencatatan waktu \emph{retrieval} dan \emph{end-to-end} per pertanyaan (Subbab~\ref{subsec:implementasi-latensi}); rata-rata waktu \emph{end-to-end} dibandingkan dengan batas 15 detik \\
 \hline
-NF4 & Reprodusibilitas & \emph{Hash} konfigurasi, \emph{manifest}, sampel beku, tabel parameter beku, dan pengujian otomatis (Subbab~\ref{subsec:implementasi-matriks-run}) \\
+NF4 & Keandalan kutipan & Panel \emph{judge} melabeli setiap klaim jawaban terhadap konteks yang diberikan, dan \emph{citation support} dihitung dari klaim berkutipan yang didukung item konteks yang dikutip (Kondisi B, C, dan D) \\
+\hline
+NF5 & Integritas evaluasi & Himpunan pengecualian per pertanyaan diterapkan pada seluruh titik \emph{retrieval}, dan irisan antara konteks serta kutipan dengan himpunan pengecualian dihitung untuk setiap kueri uji setelah \emph{run} selesai (Subbab~\ref{subsec:implementasi-leakage} dan \ref{subsec:verifikasi-kontrol}) \\
 \hline
 \end{tabularx}
 \end{table}
