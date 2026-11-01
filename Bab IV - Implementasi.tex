@@ -355,8 +355,7 @@ Kondisi C membaca KG Neo4j, indeks pertanyaan, dan indeks jawaban yang telah dib
     \item \textbf{\emph{Grounded generation}} dan validasi kutipan, sebagaimana dijelaskan pada Subbab~\ref{sec:implementasi-generasi}.
 \end{enumerate}
  
-\todo{verifikasi Listing berikut terhadap kode c\_retrieval v5 sebelum dicetak}
-\begin{lstlisting}[caption={Kueri Cypher traversal satu \emph{hop} pada Kondisi C (tipe sisi ditulis tetap; pada kode disisipkan dari konfigurasi).}, label={lst:cypher-1hop}, frame=single, captionpos=t, language={}, basicstyle=\ttfamily\scriptsize]
+\begin{lstlisting}[caption={Kueri Cypher \emph{traversal} satu \emph{hop} pada Kondisi C (tipe sisi ditulis tetap; pada kode disisipkan dari konfigurasi).}, label={lst:cypher-1hop}, frame=single, captionpos=t, language={}, basicstyle=\ttfamily\scriptsize]
 UNWIND $anchor_ids AS anchor_id
 MATCH (anchor:Question {id: anchor_id})
       -[r:HAS_ACCEPTED_ANSWER|HAS_ANSWER]->(a:Answer)
@@ -365,15 +364,17 @@ RETURN anchor_id AS via_question_id,
        anchor.title AS via_question_title,
        a.id AS answer_id,
        a.body AS answer_body,
-       a.score AS answer_score,
        a.trustScore AS answer_trust_score,
        a.isAccepted AS is_accepted,
+       a.score AS answer_score,
+       CASE WHEN type(r) = 'HAS_ACCEPTED_ANSWER' THEN 1.0
+            ELSE coalesce(a.trustScore, 0.0) END AS edge_weight,
        1 AS hop,
        type(r) AS rel_type
 ORDER BY a.id ASC
 \end{lstlisting}
- 
-\begin{lstlisting}[caption={Kueri Cypher traversal dua \emph{hop} pada Kondisi C. Bobot jawaban dihitung dari status \emph{accepted} dan \texttt{trustScore}.}, label={lst:cypher-2hop}, frame=single, captionpos=t, language={}, basicstyle=\ttfamily\scriptsize]
+
+\begin{lstlisting}[caption={Kueri Cypher \emph{traversal} dua \emph{hop} pada Kondisi C. Bobot jalur adalah bobot sisi antar-pertanyaan dikalikan bobot jawaban.}, label={lst:cypher-2hop}, frame=single, captionpos=t, language={}, basicstyle=\ttfamily\scriptsize]
 UNWIND $anchor_ids AS anchor_id
 MATCH (anchor:Question {id: anchor_id})
       -[r2:IS_RELATED_TO|TAG_COOCCUR|EMBED_SIM]->(q2:Question)
@@ -381,20 +382,45 @@ WHERE NOT q2.id IN $exclude_q
 MATCH (q2)-[r3:HAS_ACCEPTED_ANSWER|HAS_ANSWER]->(a:Answer)
 WHERE NOT a.id IN $exclude_a
 WITH anchor_id, q2, a, r2, r3,
-     CASE WHEN a.isAccepted THEN 1.0
-          ELSE a.trustScore END AS w_ans
-WITH anchor_id, q2, a, r2, r3, w_ans,
-     (r2.weight * w_ans) AS edge_weight
+     (r2.weight *
+      CASE WHEN type(r3) = 'HAS_ACCEPTED_ANSWER' THEN 1.0
+           ELSE coalesce(a.trustScore, 0.0) END) AS edge_weight
 ORDER BY edge_weight DESC, a.id ASC
 LIMIT 50
 RETURN q2.id AS via_question_id,
        q2.title AS via_question_title,
        a.id AS answer_id,
        a.body AS answer_body,
-       a.score AS answer_score,
        a.trustScore AS answer_trust_score,
        a.isAccepted AS is_accepted,
-       r2.weight AS w_qq, w_ans, edge_weight,
+       a.score AS answer_score,
+       edge_weight,
+       2 AS hop,
+       (type(r2) + '->' + type(r3)) AS rel_type,
+       anchor_id
+\end{lstlisting}
+ 
+\begin{lstlisting}[caption={Kueri Cypher \emph{traversal} dua \emph{hop} pada Kondisi C. Bobot jalur adalah bobot sisi antar-pertanyaan dikalikan bobot jawaban.}, label={lst:cypher-2hop}, frame=single, captionpos=t, language={}, basicstyle=\ttfamily\scriptsize]
+UNWIND $anchor_ids AS anchor_id
+MATCH (anchor:Question {id: anchor_id})
+      -[r2:IS_RELATED_TO|TAG_COOCCUR|EMBED_SIM]->(q2:Question)
+WHERE NOT q2.id IN $exclude_q
+MATCH (q2)-[r3:HAS_ACCEPTED_ANSWER|HAS_ANSWER]->(a:Answer)
+WHERE NOT a.id IN $exclude_a
+WITH anchor_id, q2, a, r2, r3,
+     (r2.weight *
+      CASE WHEN type(r3) = 'HAS_ACCEPTED_ANSWER' THEN 1.0
+           ELSE coalesce(a.trustScore, 0.0) END) AS edge_weight
+ORDER BY edge_weight DESC, a.id ASC
+LIMIT 50
+RETURN q2.id AS via_question_id,
+       q2.title AS via_question_title,
+       a.id AS answer_id,
+       a.body AS answer_body,
+       a.trustScore AS answer_trust_score,
+       a.isAccepted AS is_accepted,
+       a.score AS answer_score,
+       edge_weight,
        2 AS hop,
        (type(r2) + '->' + type(r3)) AS rel_type,
        anchor_id
@@ -662,7 +688,7 @@ Selisih pada kriteria utama antar-$\alpha$ tidak lebih dari 2 poin persentase (1
 \subsubsection{Tahap 2: Seleksi Berdasarkan Halusinasi}
 \label{subsubsec:tahap2-alpha}
  
-Tahap 2 membandingkan $\alpha=0{,}1$ dan $\alpha=0{,}25$ pada 150 jawaban per nilai dengan \emph{grounding} aktif. Hasilnya disajikan pada Tabel~\ref{tab:tahap2-alpha}.
+Tahap 2 membandingkan $\alpha=0{,}1$ dan $\alpha=0{,}25$ pada 150 jawaban per nilai. Hasilnya disajikan pada Tabel~\ref{tab:tahap2-alpha}.
  
 \begin{table}[!htbp]
 \centering
@@ -681,12 +707,11 @@ Halusinasi, \texttt{ABSTAIN} dihitung gagal (kedua) & 55/150 (36,7\%) & 43/150 (
 \end{tabular}
 \end{table}
  
-Selisih pada kriteria utama (7 jawaban) melampaui margin $\delta_{\mathrm{h}}=3$, sehingga $\alpha=0{,}25$ unggul pada kriteria utama tanpa perlu aturan seri. Kriteria kedua memberi arah yang sama (selisih 12 jawaban). Dari 300 jawaban yang dinilai, Llama menandai 13 jawaban berhalusinasi, DeepSeek 84, dan Qwen 78, sehingga panel dua dari tiga praktis ditentukan oleh DeepSeek dan Qwen dan pilihan $\alpha$ tidak bergantung pada satu \emph{judge}. \todo{opsional: tambahkan tabel per judge untuk tahap 2 jika tersedia}
  
 \subsubsection{Hasil Penetapan}
 \label{subsubsec:hasil-alpha}
  
-Berdasarkan aturan pada Subbab~\ref{subsubsec:prosedur-alpha-impl}, ditetapkan $\alpha^{*}=0{,}25$ untuk Kondisi C pada sampel uji. Nilai ini dipilih dari himpunan kandidat berhingga pada satu sampel berukuran 150 pertanyaan, dengan satu jawaban per pertanyaan dari generator yang tidak dikunci \emph{seed}-nya. Selisih 7 jawaban dapat sebagian berasal dari variasi generasi dan dari kecenderungan nilai yang menang pada seleksi untuk tampak lebih baik daripada nilai sebenarnya (\emph{winner's curse}). Oleh karena itu $\alpha^{*}$ tidak dibaca sebagai bukti bahwa sinyal kepercayaan menurunkan halusinasi. Apakah selisih tersebut bertahan diperiksa pada \emph{run} sampel uji (Bab~\ref{chap:evaluasi}).
+Berdasarkan aturan pada Subbab~\ref{subsubsec:prosedur-alpha-impl}, ditetapkan $\alpha^{*}=0{,}25$ untuk Kondisi C pada sampel uji. Nilai ini dipilih dari himpunan kandidat berhingga pada satu sampel berukuran 150 pertanyaan, dengan satu jawaban per pertanyaan dari generator yang tidak dikunci \emph{seed}-nya. Selisih 7 jawaban dapat sebagian berasal dari variasi generasi dan dari kecenderungan nilai yang menang pada seleksi untuk tampak lebih baik daripada nilai sebenarnya. Oleh karena itu $\alpha^{*}$ tidak dibaca sebagai bukti bahwa sinyal kepercayaan menurunkan halusinasi. Apakah selisih tersebut bertahan diperiksa pada \emph{run} sampel uji (Bab~\ref{chap:evaluasi}).
 
  \subsubsection{Profil Konteks pada \emph{Development Set}}
 \label{subsubsec:profil-konteks}
@@ -769,8 +794,6 @@ Filter jawaban & non-\emph{accepted} dengan skor bersih $<0$ dibuang; \emph{refi
 \emph{Seed} pengambilan sampel & 42 & Kebiasaan reprodusibilitas, tidak disetel \\
 \hline
 \emph{Temperature judge} & 0 & Instrumen ukur, bukan generatif \\
-\hline
-Hash konfigurasi beku & \todo{isi A, B, D} / \todo{isi C} & Hash berbeda karena parameter C ditambahkan setelah \emph{run} A, B, D \\
 \hline
 \end{tabularx}
 \end{table}
