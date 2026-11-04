@@ -6,20 +6,22 @@
 \renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{2.9cm}|c|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
 \hline
-\textbf{Aspek} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} \\
+\textbf{Aspek} & \textbf{A} & \textbf{B} & \textbf{C-Acc} & \textbf{C-Acc+Vote} \\
 \hline
-\emph{Retrieval} & -- & \emph{Dense} & \emph{Hybrid} & \emph{Dual-level} \\
-\emph{Anchoring} & -- & -- & jawaban (indeks jawaban B), dipetakan ke pertanyaan induk & pertanyaan (indeks pertanyaan) \\
-Kandidat awal & -- & $k$ jawaban teratas & $K_B$ jawaban teratas, traversal, dan ekspansi & jawaban satu dan dua \emph{hop} \\
-Sinyal kepercayaan & -- & tidak & ya (bobot jalur, $\alpha^{*}$) & tidak \\
-\emph{Semantic expansion} & -- & -- & ya & tidak \\
-Penyaringan skor negatif & -- & -- & ya, dengan \emph{refill} & tidak \\
-Konteks & -- & $k$ jawaban & $k$ item & paling banyak $k$ item \\
+\emph{Retrieval} & -- & \emph{Dense} & \emph{Hybrid} & \emph{Hybrid} \\
+\emph{Anchoring} & -- & -- & jawaban (indeks jawaban B), dipetakan ke pertanyaan induk & jawaban (indeks jawaban B), dipetakan ke pertanyaan induk \\
+Kandidat awal & -- & $k$ jawaban teratas & $K_B$ jawaban teratas, traversal, dan ekspansi & $K_B$ jawaban teratas, traversal, dan ekspansi \\
+Sinyal kepercayaan & -- & tidak & ya (\emph{accepted answer}) & ya (\emph{accepted answer} dan \emph{upvote}) \\
+Bobot jawaban $w_{\mathrm{ans}}$ & -- & -- & $\mathbf{1}[\mathrm{acc}]$ & $w_{\mathrm{acc}}\mathbf{1}[\mathrm{acc}]+w_{\mathrm{vote}}\mathrm{trust}_A$ \\
+\emph{Semantic expansion} & -- & -- & ya & ya \\
+Penyaringan skor negatif & -- & -- & ya, dengan \emph{refill} & ya, dengan \emph{refill} \\
+Konteks & -- & $k$ jawaban & $k$ item & $k$ item \\
+Nilai $\alpha$ & -- & -- & $\alpha^{*}$ (bersama) & $\alpha^{*}$ (bersama) \\
 \emph{Grounding} & -- & ya & ya & ya \\
 \emph{Citation} & -- & ya & ya & ya \\
 Pengecualian kebocoran & -- & ya & ya & ya \\
 \emph{Prompt} & \multicolumn{4}{c|}{Struktur percakapan empat giliran yang sama} \\
-Dasar peringkat & -- & kosinus & $\mathrm{score}(c)$ & kosinus \\
+Dasar peringkat & -- & kosinus & $\mathrm{score}(c)$ & $\mathrm{score}(c)$ \\
 \hline
 \end{tabularx}
 \end{table}

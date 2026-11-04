@@ -11,44 +11,44 @@
 >{\centering\arraybackslash}p{1.9cm}|
 >{\centering\arraybackslash}p{2.1cm}|
 >{\centering\arraybackslash}p{2.1cm}|
->{\centering\arraybackslash}p{2.1cm}|}
+>{\centering\arraybackslash}p{2.3cm}|}
 \hline
 
 \textbf{Kebutuhan / Kriteria}
 & \textbf{Kondisi A} \newline (LLM Murni)
 & \textbf{Kondisi B} \newline (RAG Konvensional)
-& \textbf{Kondisi C} \newline (GraphRAG Berbobot)
-& \textbf{Kondisi D} \newline (GraphRAG \emph{Dual-Level})
+& \textbf{Kondisi C-Acc} \newline (GraphRAG, Bobot \emph{Accepted})
+& \textbf{Kondisi C-Acc+Vote} \newline (GraphRAG, Bobot \emph{Accepted} dan \emph{Upvote})
 \\
 \hline
 
 Reduksi halusinasi (M1)
-& Tidak & Ya & \textbf{Ya} & Ya \\
+& Tidak & Ya & \textbf{Ya} & \textbf{Ya} \\
 \hline
 
 Pemanfaatan sinyal kepercayaan Stack Overflow (M2, F1)
-& Tidak & Tidak & \textbf{Ya} & Tidak \\
+& Tidak & Tidak & \textbf{Ya} & \textbf{Ya} \\
 \hline
 
 Keterlacakan sumber (\emph{citation} dan \emph{provenance}) (M3, F5)
-& Tidak & Sebagian & \textbf{Ya} & Sebagian \\
+& Tidak & Sebagian & \textbf{Ya} & \textbf{Ya} \\
 \hline
 
 Penalaran relasional dan \emph{2-hop} (M4, F4)
-& Tidak & Tidak & \textbf{Ya} & Ya \\
+& Tidak & Tidak & \textbf{Ya} & \textbf{Ya} \\
 \hline
 
 Pembaruan pengetahuan tanpa \emph{re-training} (M5)
-& Tidak & Ya & \textbf{Ya} & Ya \\
+& Tidak & Ya & \textbf{Ya} & \textbf{Ya} \\
 \hline
 
 \textbf{Kesesuaian keseluruhan}
-& \textbf{Rendah} & \textbf{Sedang} & \textbf{Tinggi} & \textbf{Sedang} \\
+& \textbf{Rendah} & \textbf{Sedang} & \textbf{Tinggi} & \textbf{Tinggi} \\
 \hline
 
 \end{tabularx}
 
 \vspace{0.1cm}
 \raggedright\footnotesize
-Kondisi B dan D memperoleh ``Sebagian'' pada keterlacakan karena \emph{provenance}-nya lebih sederhana, yaitu Kondisi B hanya mencatat jalur kemiripan vektor, dan Kondisi D mencatat jalur tanpa bobot kepercayaan.
+Kondisi B memperoleh ``Sebagian'' pada keterlacakan karena \emph{provenance}-nya lebih sederhana, yaitu hanya mencatat jalur kemiripan vektor. Kondisi C-Acc dan C-Acc+Vote berbeda hanya pada definisi bobot jawaban, sehingga keduanya memenuhi kriteria yang sama.
 \end{table}

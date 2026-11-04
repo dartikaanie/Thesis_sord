@@ -28,8 +28,8 @@ Setiap kueri memperoleh \emph{seed nodes} di KG dari pertanyaan induk jawaban ya
 \hline
 
 F4 &
-\emph{Hybrid retrieval} (\emph{anchoring}, \emph{traversal}, dan \emph{semantic expansion}) serta fusi berbobot &
-Kandidat dari ketiga sumber digabung dalam satu \emph{pool}, diberi bobot jalur, disaring (jawaban tidak diterima dan bernilai negatif dikeluarkan sebelum pemilihan), lalu $k$ kandidat teratas disusun menjadi \emph{unified context window} yang deterministik pada eksekusi berulang \\
+\emph{Hybrid retrieval} (\emph{anchoring}, \emph{traversal}, dan \emph{semantic expansion}) serta fusi berbobot pada kedua varian Kondisi C &
+Kandidat dari ketiga sumber digabung dalam satu \emph{pool}, diberi bobot jalur menurut definisi bobot jawaban masing-masing varian, disaring (jawaban tidak diterima dan bernilai negatif dikeluarkan sebelum pemilihan), lalu $k$ kandidat teratas disusun menjadi \emph{unified context window} yang deterministik pada eksekusi berulang \\
 \hline
 
 F5 &
@@ -39,7 +39,7 @@ Output menyertakan jawaban, kutipan \texttt{[SO-<id>]} yang tervalidasi terhadap
 
 F6 &
 \emph{Pipeline} evaluasi empat kondisi &
-Kondisi A--D dapat dijalankan pada sampel yang sama dengan konfigurasi, \emph{prompt}, dan pengecualian kebocoran yang tercatat \\
+Kondisi A, B, C-Acc, dan C-Acc+Vote dapat dijalankan pada sampel yang sama dengan konfigurasi, \emph{prompt}, dan pengecualian kebocoran yang tercatat \\
 \hline
 
 \end{tabular}

@@ -4,41 +4,41 @@
 \caption{Metrik evaluasi komparatif \emph{GraphRAG Framework}.}
 \label{tab:metrik-evaluasi}
 \renewcommand{\arraystretch}{1.2}
-\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{2.0cm}|}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{2.2cm}|}
 \hline
 \textbf{Metrik} & \textbf{Definisi dan Alasan Pemilihan} & \textbf{Kondisi} \\
 \hline
 \emph{Cosine Similarity} &
     Kemiripan semantik jawaban terhadap \emph{accepted answer} (\texttt{all-MiniLM-L6-v2}); metrik utama \textcite{DaSilva2025}, sehingga hasil Kondisi A dapat dibandingkan langsung dengan studi asli &
-    A, B, C, D \\
+    A, B, C-Acc, C-Acc+Vote \\
 \hline
 \emph{Hallucination Rate} &
-    Proporsi jawaban yang memuat minimal satu klaim bertentangan dengan \emph{accepted answer} (\emph{contradicted}) atau dikarang (\emph{fabricated}), dinilai panel \emph{LLM-as-a-Judge} \autocite{Gu2026}. Dilaporkan dalam dua versi: \texttt{ABSTAIN} dikeluarkan dari penyebut (metrik utama), dan \texttt{ABSTAIN} dihitung sebagai kegagalan &
-    A, B, C, D \\
+    Proporsi jawaban yang memuat minimal satu klaim bertentangan dengan \emph{accepted answer} (\emph{contradicted}) atau dikarang (\emph{fabricated}), dinilai panel \emph{LLM-as-a-Judge} \autocite{Gu2026}. Dilaporkan dalam dua versi: \texttt{ABSTAIN} dikeluarkan dari penyebut (metrik utama), dan \texttt{ABSTAIN} dihitung sebagai kegagalan. Jumlah jawaban berhalusinasi dan jumlah \texttt{ABSTAIN} dilaporkan berdampingan dengan kedua versi &
+    A, B, C-Acc, C-Acc+Vote \\
 \hline
 \emph{Faithfulness} &
     Proporsi klaim jawaban yang didukung konteks yang benar-benar diberikan kepada LLM; tidak berlaku untuk Kondisi A karena tidak ada konteks &
-    B, C, D \\
+    B, C-Acc, C-Acc+Vote \\
 \hline
 \emph{Citation Support} (NF4) &
     Proporsi klaim berkutipan yang benar-benar didukung oleh item konteks yang dikutip, dihitung dari label per klaim yang sama dengan \emph{faithfulness} &
-    B, C, D \\
+    B, C-Acc, C-Acc+Vote \\
 \hline
 \emph{Context Relevance} &
-    Label per item konteks (\texttt{RELEVANT}/\texttt{PARTIAL}/\texttt{IRRELEVANT}) yang dinilai hanya terhadap pertanyaan, dinilai oleh panel tiga \emph{judge} LLM. Digunakan \emph{judge} LLM, bukan kemiripan kosinus, karena Kondisi B dan D diperingkat berdasarkan kemiripan kosinus &
-    B, C, D \\
+    Label per item konteks (\texttt{RELEVANT}/\texttt{PARTIAL}/\texttt{IRRELEVANT}) yang dinilai hanya terhadap pertanyaan, dinilai oleh panel tiga \emph{judge} LLM. Digunakan \emph{judge} LLM, bukan kemiripan kosinus, karena kemiripan kosinus sudah menjadi dasar pemeringkatan Kondisi B dan menjadi bagian skor akhir Kondisi C-Acc dan C-Acc+Vote &
+    B, C-Acc, C-Acc+Vote \\
 \hline
 \emph{Answer Relevance} &
     Sejauh mana jawaban menjawab pertanyaan (\texttt{MENJAWAB}/\texttt{MENJAWAB\_SEBAGIAN}/\texttt{TIDAK\_MENJAWAB}), dinilai oleh panel tiga \emph{judge} LLM tanpa \emph{accepted answer} maupun konteks agar terpisah dari penilaian kebenaran &
-    A, B, C, D \\
+    A, B, C-Acc, C-Acc+Vote \\
 \hline
 \emph{Valid Citation Rate} (NF2) &
     Proporsi jawaban dengan $\geq 1$ kutipan \texttt{[SO-<id>]} yang labelnya benar-benar terdapat dalam konteks; kutipan yang tidak terdapat dalam konteks dihitung sebagai kutipan fiktif. Dilaporkan terhadap seluruh jawaban dan terhadap jawaban yang bukan \texttt{ABSTAIN}. Tidak berlaku untuk Kondisi A\textsuperscript{*} &
-    B, C, D \\
+    B, C-Acc, C-Acc+Vote \\
 \hline
 Latensi (NF3) &
     Rerata waktu respons total (\emph{retrieval} hingga keluaran LLM), dihitung dari catatan waktu per kueri. Dibandingkan terhadap batas $\leq 15$ detik dan dilaporkan untuk seluruh kondisi tanpa klaim keunggulan &
-    A, B, C, D   \\
+    A, B, C-Acc, C-Acc+Vote \\
 \hline
 \end{tabularx}
 

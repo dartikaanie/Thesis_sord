@@ -11,11 +11,11 @@
 \hline
 NF1 & Akurasi &
     Jawaban lebih faktual dari sistem pembanding &
-    Hallucination rate jawaban (di luar jawaban ABSTAIN) lebih rendah daripada LLM tanpa pengambilan konteks dan RAG konvensional \\
+    Hallucination rate jawaban (di luar jawaban ABSTAIN) Kondisi C-Acc dan C-Acc+Vote lebih rendah daripada LLM tanpa pengambilan konteks dan RAG konvensional \\
 \hline
 NF2 & Keterlacakan &
     Setiap jawaban yang tidak menolak menjawab memiliki referensi yang valid ke \emph{thread} Stack Overflow &
-    Seluruh jawaban Kondisi C yang bukan \texttt{ABSTAIN} memuat $\geq 1$ kutipan yang labelnya terdapat dalam konteks. Proporsi atas seluruh jawaban dilaporkan sebagai pelengkap \\
+    Seluruh jawaban Kondisi C-Acc dan C-Acc+Vote yang bukan \texttt{ABSTAIN} memuat $\geq 1$ kutipan yang labelnya terdapat dalam konteks. Proporsi atas seluruh jawaban dilaporkan sebagai pelengkap \\
 \hline
 NF3 & Latensi &
     Waktu respons yang wajar untuk pengguna &

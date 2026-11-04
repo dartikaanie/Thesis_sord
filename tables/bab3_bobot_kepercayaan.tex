@@ -33,21 +33,14 @@ $w = 1{,}0$
 HAS\_ANSWER &
 Q $\rightarrow$ A &
 Jawaban lain pada \emph{thread} yang sama &
-Atribut sisi: normalisasi \emph{min-max} skor jawaban dalam satu \emph{thread}; tidak digunakan pada pengambilan konteks, karena bobot jawaban diambil dari \texttt{trustScore}
+Atribut sisi: normalisasi \emph{min-max} skor jawaban dalam satu \emph{thread}; tidak digunakan pada pengambilan konteks, karena bobot jawaban ditentukan oleh $w_{\mathrm{ans}}$
 \\
 \hline
 
 TAGGED\_WITH &
 Q $\rightarrow$ Tag &
 Pertanyaan dikategorikan dalam teknologi atau domain tertentu &
-$w = 1{,}0$ (struktural)
-\\
-\hline
-
-AUTHOR\_TRUST &
-A $\rightarrow$ User &
-Kepercayaan terhadap kontributor jawaban &
-$w = \log(1+\mathrm{rep}) / \log(1+\mathrm{rep}_{P99})$, dipotong pada $[0,1]$; dipakai sebagai komponen reputasi \texttt{trustScore} jawaban, tidak dilalui pada \emph{traversal}
+$w = 1{,}0$ (struktural); tidak dilalui pada \emph{traversal}
 \\
 \hline
 
@@ -82,5 +75,5 @@ $w = 0{,}4$ (kategoris); nilai kosinus disimpan sebagai atribut
 
 \vspace{0.1cm}
 \raggedright\footnotesize
-Bobot sisi antar-pertanyaan ($w_{qq'}$) dikalikan dengan bobot jawaban ($w_{ans}$) untuk membentuk bobot jalur $w_{path}$. Bobot jawaban bernilai 1,0 untuk jawaban yang diterima dan \texttt{trustScore} (Persamaan~\ref{eq:trust-answer}) untuk jawaban lain. Nilai \texttt{trustScore} dihitung saat pembangunan graf dan dibaca saat pengambilan konteks tanpa mengubah graf.
+Bobot sisi antar-pertanyaan ($w_{qq'}$) dikalikan dengan bobot jawaban ($w_{\mathrm{ans}}$) untuk membentuk bobot jalur $w_{\mathrm{path}}$. Bobot jawaban ditentukan oleh kondisi (Persamaan~\ref{eq:w-ans}): pada Kondisi C-Acc bernilai 1,0 untuk jawaban yang diterima dan 0 untuk jawaban lain, sedangkan pada Kondisi C-Acc+Vote merupakan gabungan berbobot antara status \emph{accepted answer} dan \texttt{trustScore} (Persamaan~\ref{eq:trust-answer}). Nilai \texttt{trustScore} dihitung saat pembangunan graf dan dibaca saat pengambilan konteks tanpa mengubah graf.
 \end{table}
