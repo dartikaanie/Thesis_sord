@@ -1,36 +1,23 @@
-
 % ============================================================
-% Tabel 2: Pemetaan Masalah Pengguna
+% Tabel: Pemetaan Masalah Pengguna
 % ============================================================
 \begin{table}[!htbp]
 \centering
-\caption{Pemetaan masalah pengguna ke kebutuhan solusi \emph{GraphRAG Framework}.}
+\caption{Pemetaan masalah pengguna ke kebutuhan solusi.}
 \label{tab:kebutuhan-pengguna}
-\begin{tabularx}{\textwidth}{|c|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\begin{tabularx}{\textwidth}{|c|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|c|}
 \hline
-\textbf{No.} & \textbf{Masalah Pengguna} & \textbf{Akar Penyebab (Gap)} &
-\textbf{Kebutuhan Solusi} \\
+\textbf{No.} & \textbf{Masalah Pengguna} & \textbf{Akar Penyebab} & \textbf{Kebutuhan Solusi} & \textbf{Kebutuhan Fungsional} \\
 \hline
-    M1 & LLM menghasilkan jawaban yang keliru atau mengalami halusinasi &
-    G1: Keterbatasan \emph{grounding} pada sumber pengetahuan eksternal &
-    Menggunakan konteks dari konten Stack Overflow (SO) yang relevan dan terverifikasi sebagai dasar penyusunan jawaban \\
+M1 & LLM menghasilkan jawaban yang tidak sesuai fakta (halusinasi faktual) &
+    Pengetahuan parametrik terbatas pada data pelatihan dan tidak mengikuti informasi yang berubah &
+    Menyediakan konteks eksternal sebagai dasar penyusunan jawaban dan mengukur pengaruhnya terhadap laju halusinasi &
+    F4, F5 \\
 \hline
-    M2 & Kualitas jawaban tidak mencerminkan konsensus komunitas SO &
-    G2: Sinyal kepercayaan tidak dieksploitasi &
-    Memanfaatkan bobot kepercayaan (\emph{upvote}, \emph{accepted}) \\
-\hline
-    M3 & Kesulitan menelusuri sumber yang mendasari jawaban &
-    Keterbatasan mekanisme sitasi dan pelacakan provenance jawaban &
-    Menyertakan referensi ke thread SO serta jalur relasional yang mendukung pengambilan konteks \\
-\hline
-    M4 & Sistem kesulitan menghubungkan informasi dari beberapa pertanyaan atau thread yang saling berkaitan &
-    G3: Belum optimalnya pemanfaatan struktur graf untuk pengambilan konteks relasional &
-    Melakukan traversal graf untuk menemukan dan menghubungkan pertanyaan, jawaban, serta entitas terkait \\
-\hline
-    M5 & Pengetahuan LLM tidak secara otomatis mengikuti perkembangan teknologi &
-    Keterbatasan pembaruan pengetahuan parametrik tanpa \emph{fine-tuning} atau \emph{re-training} &
-    Memperbarui korpus dan indeks KG secara terpisah dari model bahasa agar informasi baru dapat digunakan tanpa melatih ulang LLM \\
+M2 & Pengambilan konteks tidak membedakan informasi yang dinilai baik oleh pengguna dari informasi yang kurang dipercaya &
+    Pemilihan konteks hanya berdasarkan kemiripan semantik dan hubungan antarinformasi, sedangkan penilaian pengguna belum digunakan sebagai bobot &
+    Merepresentasikan penilaian pengguna (\emph{upvote}, \emph{accepted answer}) sebagai bobot keandalan pada graf dan menggunakannya saat pengambilan konteks &
+    F1, F2, F3, F4 \\
 \hline
 \end{tabularx}
 \end{table}
-

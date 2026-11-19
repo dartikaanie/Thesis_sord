@@ -3,31 +3,35 @@
 % ============================================================
 \begin{table}[!htbp]
 \centering
-\caption{Kebutuhan nonfungsional \emph{GraphRAG Framework}.}
+\caption{Kebutuhan nonfungsional.}
 \label{tab:kebutuhan-nonfungsional}
 \begin{tabularx}{\textwidth}{|c|l|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
 \hline
 \textbf{No.} & \textbf{Kategori} & \textbf{Deskripsi} & \textbf{Kriteria Sukses} \\
 \hline
-NF1 & Akurasi &
-    Jawaban lebih faktual dari sistem pembanding &
-    Hallucination rate jawaban (di luar jawaban ABSTAIN) Kondisi C-Acc dan C-Acc+Vote lebih rendah daripada LLM tanpa pengambilan konteks dan RAG konvensional \\
+NF1 & Laju halusinasi &
+    Jawaban dari GraphRAG berbobot lebih faktual daripada sistem pembanding &
+    \emph{Hallucination rate} (di luar jawaban \texttt{ABSTAIN}) Kondisi C-Acc dan C-Acc+Vote lebih rendah daripada Kondisi A dan Kondisi B \\
 \hline
 NF2 & Keterlacakan &
     Setiap jawaban yang tidak menolak menjawab memiliki referensi yang valid ke \emph{thread} Stack Overflow &
-    Seluruh jawaban Kondisi C-Acc dan C-Acc+Vote yang bukan \texttt{ABSTAIN} memuat $\geq 1$ kutipan yang labelnya terdapat dalam konteks. Proporsi atas seluruh jawaban dilaporkan sebagai pelengkap \\
+    Seluruh jawaban Kondisi B, B-Acc, C-Acc, dan C-Acc+Vote yang bukan \texttt{ABSTAIN} memuat $\geq 1$ kutipan yang labelnya terdapat dalam konteks. Proporsi atas seluruh jawaban dilaporkan sebagai pelengkap \\
 \hline
 NF3 & Latensi &
     Waktu respons yang wajar untuk pengguna &
-    $\leq 15$ detik per kueri (rata-rata latensi total, mencakup \emph{retrieval} dan generasi oleh LLM)\\
+    $\leq 15$ detik per kueri (rata-rata latensi total, mencakup \emph{retrieval} dan generasi oleh LLM) \\
 \hline
 NF4 & Keandalan kutipan &
     Kutipan pada jawaban benar-benar mendukung klaim yang dikaitkan dengannya &
-    Proporsi kutipan yang didukung konteks (\emph{citation support}) tidak lebih rendah daripada RAG konvensional \\
+    Proporsi kutipan yang didukung konteks (\emph{citation support}) Kondisi B-Acc, C-Acc, dan C-Acc+Vote tidak lebih rendah daripada Kondisi B \\
 \hline
 NF5 & Integritas evaluasi &
-    Konteks yang diberikan kepada LLM tidak berasal dari \emph{thread} yang sama dengan kueri uji &
-    Tidak ada kutipan atau konteks yang berasal dari \emph{thread} kueri uji pada seluruh pengujian \\
+    Konteks yang diberikan kepada LLM tidak berasal dari \emph{thread} yang sama dengan pertanyaan uji &
+    Irisan antara hasil \emph{retrieval} dan himpunan pengecualian kosong pada seluruh pertanyaan uji dan seluruh kondisi yang memakai konteks \\
+\hline
+NF6 & Keterbandingan antarkondisi &
+    Perbedaan hasil berasal dari mekanisme pemilihan konteks, bukan dari pengaturan lain &
+    Model generatif, model \emph{embedding}, sampel pertanyaan, struktur \emph{prompt}, dan jumlah konteks ($k{=}5$) identik pada seluruh kondisi \\
 \hline
 \end{tabularx}
 \end{table}

@@ -199,25 +199,27 @@ Penelitian ini menggunakan kerangka \emph{Design Science Research Methodology} (
 
 % =========================================================
 \section{Sistematika Penulisan}
+\label{sec:sistematika}
 % =========================================================
 
-Bagian ini menjelaskan gambaran umum isi dari setiap bab dalam laporan tesis. Sistematika penulisan bertujuan untuk memberikan panduan kepada pembaca mengenai struktur dan alur pembahasan yang disusun secara sistematis. Adapun sistematika penulisan dalam laporan tesis ini adalah sebagai berikut.
+Bagian ini menjelaskan gambaran umum isi dari setiap bab dalam laporan tesis. Adapun sistematika penulisan dalam laporan tesis ini adalah sebagai berikut.
 
 \begin{enumerate}
     \item \textbf{Bab I - Pendahuluan}\\
-    Bab ini menyajikan latar belakang yang membangun argumentasi urgensi penelitian, mulai dari halusinasi pada LLM, empat pendekatan solusi (\emph{fine-tuning}, \emph{in-context learning}, RAG, dan GraphRAG), hingga kesenjangan penelitian yang diidentifikasi dari literatur terkini. Selanjutnya dirumuskan pertanyaan penelitian utama dan lima pertanyaan turunan, tujuan umum dan khusus, manfaat teoritis dan praktis, ruang lingkup beserta batasan masalah dan syarat penerapan, hipotesis dengan dua premis dan dua hipotesis, gambaran metodologi DSRM enam tahap, dan sistematika penulisan.
+    Bab ini menguraikan latar belakang penelitian, rumusan masalah yang terdiri atas satu pertanyaan utama dan empat pertanyaan turunan, tujuan penelitian, manfaat teoritis dan praktis, ruang lingkup beserta batasan masalah, hipotesis penelitian, gambaran metodologi \emph{Design Science Research Methodology} (DSRM) enam tahap, dan sistematika penulisan.
 
     \item \textbf{Bab II - Studi Literatur}\\
     Bab ini menyajikan landasan teori dan analisis penelitian terdahulu yang menjadi basis ilmiah mekanisme pembobotan graf pengetahuan. Topik yang dikaji meliputi: halusinasi pada LLM beserta taksonomi dan penyebabnya, empat pendekatan solusi dan posisi penelitian terhadapnya, paradigma RAG dan keterbatasannya, graf pengetahuan dan arsitektur GraphRAG, keandalan sumber pengetahuan dan pembobotan kepercayaan, karakteristik sumber pengetahuan buatan pengguna beserta sinyal penilaian penggunanya, serta metodologi evaluasi halusinasi LLM. Bab ini memuat analisis kesenjangan penelitian dan kerangka konseptual penelitian.
 
     \item \textbf{Bab III - Analisis dan Desain}\\
-    Bab ini menerjemahkan kesenjangan penelitian ke dalam keputusan analisis dan desain yang konkret. Bagian ini mencakup: analisis kondisi saat ini dan keterbatasan sistem LLM generik, analisis kebutuhan fungsional dan nonfungsional mekanisme pembobotan, analisis komparatif kondisi solusi, serta desain konseptual yang meliputi skema graf pengetahuan berbobot, cara penilaian pengguna direpresentasikan sebagai bobot, integrasi bobot ke dalam proses pengambilan konteks GraphRAG, dan protokol evaluasi komparatif.
+    Bab ini menguraikan analisis kondisi saat ini beserta keterbatasannya, analisis kebutuhan fungsional dan nonfungsional mekanisme pembobotan graf pengetahuan berbasis penilaian pengguna, serta desain mekanisme tersebut. Desain mencakup graf pengetahuan berbobot, pengambilan konteks berbobot, lima kondisi pembanding, dan protokol evaluasi komparatif.
+
 
     \item \textbf{Bab IV - Implementasi}\\
-    Bab ini memaparkan proses implementasi mekanisme pembobotan, mencakup: implementasi konstruksi graf pengetahuan berbobot, implementasi integrasi bobot ke dalam pengambilan konteks, teknologi dan pustaka yang digunakan beserta alasan pemilihannya, serta hasil implementasi per komponen.
+     Bab ini memaparkan proses implementasi mekanisme pembobotan, mencakup: implementasi konstruksi graf pengetahuan berbobot, implementasi integrasi bobot ke dalam pengambilan konteks, teknologi dan pustaka yang digunakan beserta alasan pemilihannya, serta hasil implementasi per komponen.
 
     \item \textbf{Bab V - Evaluasi}\\
-    Bab ini menyajikan hasil pengujian dan evaluasi, mencakup hasil pengujian kuantitatif lima kondisi, analisis untuk pengujian hipotesis H1 dan H2, pemisahan kontribusi pembobotan penilaian pengguna dan struktur graf, analisis tambahan, evaluasi kualitas graf pengetahuan, serta diskusi temuan terhadap hipotesis, penjelasan penyebab hasil berdasarkan data dan literatur, dan keterbatasan.
+      Bab ini menyajikan hasil pengujian dan evaluasi, mencakup hasil pengujian kuantitatif lima kondisi, analisis untuk pengujian hipotesis H1 dan H2, pemisahan kontribusi pembobotan penilaian pengguna dan struktur graf, analisis tambahan, evaluasi kualitas graf pengetahuan, serta diskusi temuan terhadap hipotesis, penjelasan penyebab hasil berdasarkan data dan literatur, dan keterbatasan.
 
     \item \textbf{Bab VI - Kesimpulan dan Saran}\\
     Bab ini menyajikan kesimpulan yang ditarik dari hasil evaluasi terhadap hipotesis dan pertanyaan penelitian, keterbatasan penelitian, serta saran untuk pengembangan penelitian selanjutnya.
