@@ -19,12 +19,12 @@ GraphRAG merepresentasikan basis pengetahuan sebagai graf pengetahuan (\emph{kno
 
 Meskipun demikian, pemanfaatan hubungan antarinformasi belum menjamin keandalan konteks yang diambil. RAG maupun GraphRAG tetap bergantung pada kualitas sumber pengetahuan eksternal yang memiliki tingkat akurasi, kemutakhiran, dan cakupan yang beragam \autocite{WangXL2026}. Informasi yang keliru atau usang dapat meningkatkan risiko halusinasi \autocite{Huang2025}, sementara keandalan dan keberlanjutan data masih menjadi tantangan dalam integrasi LLM dengan basis pengetahuan \autocite{Yang2025}. Oleh karena itu, selain mempertimbangkan relevansi dan hubungan antarinformasi, mekanisme pengambilan konteks perlu mempertimbangkan keandalan sumber pengetahuan.
 
-Sejumlah penelitian telah mempertimbangkan keandalan sumber pengetahuan dalam pendekatan berbasis graf. \textcite{Shi2026} menggunakan bobot kepercayaan berdasarkan asal-usul dan kualitas dokumen, sedangkan \textcite{Wang2025CRAG} menggabungkan tingkat keyakinan informasi dengan keandalan sumber. \textcite{Asghari2026} memanfaatkan indikator keandalan untuk mengurangi penggunaan informasi yang kurang terpercaya, sementara \textcite{LiTrustProp2026} menggunakan umpan balik manusia yang disimulasikan untuk menilai keandalan dokumen melalui hubungan dalam graf. Pada konten buatan pengguna, \textcite{Kleybolte2026} menyimpan penilaian pengguna sebagai atribut graf, sedangkan \textcite{Banerjee2024} memanfaatkan graf untuk mengambil informasi dari platform tanya jawab. Sejumlah pendekatan tersebut dilaporkan meningkatkan kinerja GraphRAG \autocite{Shi2026} serta kualitas pengambilan informasi dan ketepatan jawaban \autocite{LiTrustProp2026}.
+Sejumlah penelitian telah mempertimbangkan keandalan sumber pengetahuan dalam pendekatan berbasis graf. \textcite{Shi2026} menggunakan bobot kepercayaan berdasarkan asal-usul dan kualitas dokumen, sedangkan \textcite{Wang2025CRAG} menggabungkan tingkat keyakinan informasi dengan keandalan sumber. \textcite{Asghari2026} memanfaatkan indikator keandalan untuk mengurangi penggunaan informasi yang kurang terpercaya, sementara \textcite{LiTrustProp2026} menggunakan umpan balik manusia yang disimulasikan untuk menilai keandalan dokumen melalui hubungan dalam graf. Pada konten penilaian pengguna, \textcite{Kleybolte2026} menyimpan penilaian pengguna sebagai atribut graf, sedangkan \textcite{Banerjee2024} memanfaatkan graf untuk mengambil informasi dari platform tanya jawab. Sejumlah pendekatan tersebut dilaporkan meningkatkan kinerja GraphRAG \autocite{Shi2026} serta kualitas pengambilan informasi dan ketepatan jawaban \autocite{LiTrustProp2026}.
 
-Berdasarkan telaah literatur, penelitian yang ditinjau belum memanfaatkan penilaian pengguna yang tersedia pada platform sebagai dasar pembobotan graf pengetahuan dalam proses pengambilan konteks GraphRAG. Penelitian sebelumnya menggunakan karakteristik dokumen atau tingkat keyakinan informasi sebagai dasar pembobotan \autocite{Shi2026, Wang2025CRAG, Asghari2026}, sedangkan penilaian pengguna pada graf pengetahuan berbasis konten buatan pengguna telah direpresentasikan sebagai atribut, tetapi belum digunakan sebagai bobot dalam pengambilan konteks \autocite{Kleybolte2026, Banerjee2024}. Untuk menjawab kesenjangan tersebut, penelitian ini mengusulkan pengembangan mekanisme pembobotan graf pengetahuan berbasis penilaian pengguna yang diintegrasikan ke dalam proses pengambilan konteks GraphRAG. Mekanisme ini bertujuan untuk memprioritaskan informasi yang dinilai lebih andal berdasarkan penilaian pengguna, sehingga konteks yang diberikan kepada LLM diharapkan dapat mengurangi risiko halusinasi.
+Berdasarkan telaah literatur, penelitian yang ditinjau belum memanfaatkan penilaian pengguna yang tersedia pada platform sebagai dasar pembobotan graf pengetahuan dalam proses pengambilan konteks GraphRAG. Penelitian sebelumnya menggunakan karakteristik dokumen atau tingkat keyakinan informasi sebagai dasar pembobotan \autocite{Shi2026, Wang2025CRAG, Asghari2026}, dan umpan balik manusia pada \textcite{LiTrustProp2026} disimulasikan sehingga tidak berasal dari penilaian pengguna pada platform, sedangkan penilaian pengguna pada graf pengetahuan telah direpresentasikan sebagai atribut, tetapi belum digunakan sebagai bobot dalam pengambilan konteks \autocite{Kleybolte2026, Banerjee2024}. Untuk menjawab kesenjangan tersebut, penelitian ini mengusulkan pengembangan mekanisme pembobotan graf pengetahuan berbasis penilaian pengguna yang diintegrasikan ke dalam proses pengambilan konteks GraphRAG. Mekanisme ini bertujuan untuk memprioritaskan informasi yang dinilai lebih andal berdasarkan penilaian pengguna, sehingga konteks yang diberikan kepada LLM diharapkan dapat mengurangi risiko halusinasi.
 
 Efektivitas mekanisme yang diusulkan perlu diuji melalui evaluasi yang terstruktur. \textcite{Gu2026} menyatakan bahwa pengukuran keandalan LLM masih menjadi tantangan dan memerlukan metode evaluasi yang jelas. Salah satu ukuran yang digunakan adalah laju halusinasi (\emph{hallucination rate}), yaitu proporsi jawaban yang tidak sesuai fakta atau tidak didukung informasi yang tersedia \autocite{Syeda2026}. Oleh karena itu, penelitian ini mengevaluasi pengaruh pembobotan graf berbasis penilaian pengguna terhadap laju halusinasi pada jawaban LLM.
- 
+
 Evaluasi dilakukan menggunakan data Stack Overflow sebagai studi kasus karena platform ini menyediakan penilaian pengguna terhadap jawaban, berupa skor suara (\emph{upvote}) dan penanda jawaban yang diterima (\emph{accepted answer}) \autocite{Kleybolte2026}. Selain itu, data Stack Overflow memiliki hubungan antara pertanyaan, jawaban, tag, dan pengguna, serta keterkaitan antarpertanyaan yang memungkinkan representasi dalam bentuk graf pengetahuan \autocite{Fatima2026}. Karakteristik tersebut mendukung pengujian mekanisme pembobotan graf berbasis penilaian pengguna untuk mengurangi halusinasi pada jawaban LLM. Mekanisme yang dikembangkan juga berpotensi diterapkan pada sumber pengetahuan lain yang memiliki penilaian pengguna dan hubungan antarinformasi serupa, sebagaimana dijelaskan pada Subbab~\ref{sec:ruang-lingkup}.
 
 % =========================================================
@@ -47,19 +47,19 @@ Untuk menjawab masalah utama tersebut, penelitian ini merumuskan lima pertanyaan
     \item Bagaimana bobot keandalan tersebut diintegrasikan ke dalam proses pengambilan konteks GraphRAG sehingga konteks yang diberikan kepada LLM mempertimbangkan keandalan sumber?
 
     \item Seberapa besar perbedaan laju halusinasi antara LLM murni, RAG konvensional, dan GraphRAG berbobot penilaian pengguna?
-    
+
     \item Seberapa besar kontribusi pembobotan penilaian pengguna dan kontribusi struktur graf terhadap perbedaan laju halusinasi dibandingkan RAG konvensional?
 
     \item Apakah penambahan sinyal penilaian kedua pada bobot memberikan perbedaan laju halusinasi dibandingkan bobot dengan satu sinyal penilaian?
 \end{enumerate}
- 
+
 % =========================================================
 \section{Tujuan}
 % =========================================================
- 
+
 Tujuan umum penelitian ini adalah mengembangkan mekanisme pembobotan graf pengetahuan berbasis penilaian pengguna pada GraphRAG, serta mengukur pengaruhnya terhadap halusinasi pada LLM. Adapun tujuan khusus dari penelitian ini adalah sebagai berikut.
 
- 
+
 \begin{enumerate}
     \item Merepresentasikan penilaian pengguna, berupa skor suara dan penanda jawaban yang diterima, sebagai bobot keandalan pada graf pengetahuan.
     \item Mengintegrasikan bobot keandalan tersebut ke dalam proses pengambilan konteks GraphRAG, sehingga konteks yang diberikan kepada LLM mempertimbangkan keandalan sumber.
@@ -67,67 +67,68 @@ Tujuan umum penelitian ini adalah mengembangkan mekanisme pembobotan graf penget
     \item Mengukur kontribusi pembobotan penilaian pengguna dan kontribusi struktur graf terhadap perbedaan laju halusinasi antara GraphRAG berbobot dan RAG konvensional.
     \item Mengukur perbedaan laju halusinasi antara bobot dengan satu sinyal penilaian dan bobot dengan dua sinyal penilaian.
 \end{enumerate}
- 
+
 % =========================================================
 \section{Manfaat Penelitian}
 % =========================================================
- 
+
 Penelitian ini diharapkan memberikan manfaat teoritis dan manfaat praktis sebagai berikut.
- 
+
 \subsection*{Manfaat Teoritis}
- 
+
 \begin{enumerate}
     \item Mekanisme pembobotan graf pengetahuan berbasis penilaian pengguna.
-     
+
     Penelitian ini mengusulkan mekanisme yang menggunakan penilaian pengguna sebagai bobot keandalan pada graf pengetahuan dan pada proses pengambilan konteks GraphRAG. Mekanisme ini memperkaya literatur pada persimpangan antara \emph{information retrieval}, graf pengetahuan, dan LLM, khususnya terkait pemanfaatan keandalan sumber dalam GraphRAG.
-    
+
     \item Bukti empiris mengenai kontribusi pembobotan dan struktur graf.
-    
+
     Penelitian ini memberikan bukti empiris mengenai seberapa besar pembobotan penilaian pengguna dan struktur graf masing-masing berkontribusi terhadap laju halusinasi. Bukti ini dapat menjadi dasar bagi penelitian lanjutan yang ingin menguji mekanisme serupa pada sumber pengetahuan lain.
- 
+
     \item Protokol evaluasi halusinasi yang membandingkan kondisi secara bertahap.
-     
+
     Protokol yang memisahkan pengaruh \emph{retrieval}, struktur graf, dan bobot penilaian pengguna dapat menjadi rujukan metodologis bagi penelitian mitigasi halusinasi LLM yang ingin mengukur kontribusi setiap komponen.
 \end{enumerate}
- 
+
 \subsection*{Manfaat Praktis}
- 
+
 \begin{enumerate}
     \item Mekanisme yang dapat diterapkan pada sistem tanya jawab berbasis LLM.
-    
+
     Mekanisme pembobotan yang dihasilkan dapat diintegrasikan ke dalam sistem tanya jawab berbasis LLM yang menggunakan GraphRAG, sehingga konteks yang diberikan kepada LLM mempertimbangkan keandalan sumber.
- 
+
     \item Panduan pemanfaatan penilaian pengguna sebagai sinyal keandalan.
-    
+
     Temuan penelitian ini menunjukkan apakah penilaian pengguna bermanfaat sebagai dasar pembobotan dan apakah struktur graf diperlukan di luar pembobotan itu sendiri. Temuan ini dapat menjadi pertimbangan bagi pengembang yang ingin memanfaatkan penilaian pengguna pada platform mereka.
- 
+
     \item Pemanfaatan kembali pengetahuan yang telah dinilai pengguna.
-    
+
     Penelitian ini menunjukkan cara memanfaatkan pengetahuan yang telah dinilai pengguna sebagai konteks bagi LLM, sehingga pengetahuan tersebut tidak hanya menjadi repositori pasif.
 \end{enumerate}
- 
+
 % =========================================================
 \section{Ruang Lingkup dan Batasan Masalah}
+\label{sec:ruang-lingkup}
 % =========================================================
- 
+
 Penelitian ini berfokus pada pengembangan dan evaluasi mekanisme pembobotan graf pengetahuan berbasis penilaian pengguna yang diintegrasikan ke dalam proses pengambilan konteks GraphRAG. Mekanisme ini dirancang untuk sumber pengetahuan yang memuat penilaian pengguna.
 
 Pengujian dibatasi pada satu studi kasus, yaitu data Stack Overflow pada domain pemrograman, yang berperan sebagai objek pembuktian. Stack Overflow dipilih karena platform ini menyimpan jawaban beserta penilaian pengguna berupa skor suara dan penanda jawaban yang diterima (\emph{accepted answer}) \autocite{Kleybolte2026}, kontennya telah digunakan sebagai konteks bagi LLM pada tugas terkait kode \autocite{Nashid2023}, dan jawaban LLM atas pertanyaan pemrograman dilaporkan sering kali tidak benar \autocite{Kabir2024}. Data yang digunakan adalah dataset SORD \autocite{Fatima2026}, dan pengujian menggunakan satu model generatif.
 
 Ruang lingkup penelitian ini mencakup: (1) representasi penilaian pengguna sebagai bobot keandalan pada graf pengetahuan yang dibangun dari data Stack Overflow, (2) integrasi bobot tersebut ke dalam proses pengambilan konteks GraphRAG, dan (3) evaluasi komparatif kuantitatif pada lima kondisi pengujian, yaitu LLM murni, RAG konvensional, RAG konvensional dengan pembobotan penilaian pengguna tanpa graf, GraphRAG dengan bobot satu sinyal penilaian, dan GraphRAG dengan bobot dua sinyal penilaian, menggunakan \emph{benchmark dataset} yang dikonstruksi dari SORD. Pemisahan kontribusi pembobotan dan struktur graf dilakukan melalui perbandingan kondisi tersebut. Analisis tambahan yang bersifat eksploratori mencakup perbandingan variasi struktur pengambilan konteks dan analisis pada himpunan pertanyaan yang dijawab oleh seluruh kondisi.
- 
+
 \textbf{Batasan masalah:}
 \begin{enumerate}
     \item Pengujian dibatasi pada satu studi kasus, yaitu data Stack Overflow pada domain pemrograman. Generalisasi ke sumber pengetahuan dan domain lain tidak diuji dan memerlukan adaptasi pada skema graf dan protokol evaluasi.
- 
+
     \item Bobot keandalan dibatasi pada dua sinyal penilaian pengguna, yaitu skor suara dan penanda jawaban yang diterima. Sinyal lain, seperti reputasi pengguna atau usia jawaban, tidak digunakan.
 
     \item Graf pengetahuan dibangun dari data pertanyaan, jawaban, dan keterkaitannya yang tersedia dalam dataset SORD \autocite{Fatima2026}, tanpa menyertakan eksekusi atau validasi kode secara dinamis.
- 
+
     \item Penelitian ini tidak membahas aspek \emph{fine-tuning} LLM. Seluruh eksperimen menggunakan satu model generatif dalam mode \emph{inference} tanpa modifikasi parameter, sehingga perubahan kinerja yang diamati berasal dari mekanisme pengambilan konteks.
- 
+
     \item Pengukuran halusinasi dibatasi pada laju halusinasi (\emph{hallucination rate}) dan tidak mencakup dimensi bias, toksisitas, atau kesesuaian gaya bahasa. Penilaian halusinasi dilakukan oleh panel tiga LLM penilai.
- 
+
     \item Penelitian ini tidak mencakup aspek skalabilitas infrastruktur dan penerapan ke lingkungan produksi. Seluruh eksperimen dilakukan dalam lingkungan penelitian yang terkontrol menggunakan subset data SORD dengan 384 pasang tanya jawab sebagai sampel \emph{benchmark} evaluasi.
 
     \item Setiap kondisi dijalankan satu kali dengan parameter bawaan API untuk model generatif, sehingga hasil memuat variasi pengambilan sampel oleh model dan selisih kecil antarkondisi tidak dapat dibedakan dari variasi tersebut.
@@ -137,23 +138,23 @@ Ruang lingkup penelitian ini mencakup: (1) representasi penilaian pengguna sebag
 \subsection*{Syarat Penerapan pada Kasus Lain}
 
 Hasil penelitian ini diuji hanya pada satu studi kasus. Penerapan pada sumber pengetahuan lain diperkirakan memerlukan tiga syarat, yang ditetapkan oleh peneliti dan tidak diuji pada penelitian ini: (1) sumber memuat penilaian pengguna yang eksplisit terhadap suatu pengetahuan, (2) tersedia keterkaitan antarinformasi yang dapat dimodelkan sebagai graf, dan (3) penilaian pengguna cukup mencerminkan keandalan pengetahuan tersebut.
- 
+
 % =========================================================
 \section{Hipotesis}
 % =========================================================
- 
+
 Hipotesis penelitian ini disusun berdasarkan dua premis yang diperoleh dari latar belakang dan rumusan masalah.
- 
+
 \begin{enumerate}
     \item \textbf{Premis 1: Keterbatasan LLM dan RAG Konvensional.}
     LLM yang mengandalkan pengetahuan parametrik rentan menghasilkan halusinasi akibat keterbatasan cakupan dan kemutakhiran data pelatihan \autocite{Huang2025, YizhengHuang2026, WangXL2026}. RAG konvensional dapat mengurangi keterbatasan tersebut dengan menyediakan informasi eksternal, tetapi masih berisiko menghasilkan halusinasi apabila konteks yang diambil tidak relevan, tidak akurat, atau menyesatkan \autocite{YizhengHuang2026, Huang2025, WangXL2026}. Oleh karena itu, relevansi semantik saja belum cukup untuk menjamin keandalan konteks yang diberikan kepada LLM.
- 
+
     \item \textbf{Premis 2: Potensi Graf Pengetahuan Berbobot Penilaian Pengguna.}
     Graf pengetahuan memungkinkan representasi dan penelusuran hubungan antarinformasi secara eksplisit \autocite{Syeda2026, WangXL2026}. Penelitian sebelumnya menunjukkan bahwa pembobotan kepercayaan pada graf dapat meningkatkan kinerja GraphRAG \autocite{Shi2026}. Sementara itu, penilaian pengguna telah direpresentasikan sebagai atribut graf pada konten buatan pengguna \autocite{Kleybolte2026}. Berdasarkan temuan tersebut, penilaian pengguna berpotensi dimanfaatkan sebagai dasar pembobotan graf untuk memprioritaskan konteks yang lebih andal dan mengurangi halusinasi LLM.
 \end{enumerate}
- 
+
 Berdasarkan kedua premis tersebut, penelitian ini merumuskan dua hipotesis yang diuji menggunakan data Stack Overflow sebagai studi kasus.
- 
+
 \begin{enumerate}
     \item[\textbf{H1}] GraphRAG dengan pembobotan graf pengetahuan berbasis penilaian pengguna menghasilkan laju halusinasi (\emph{hallucination rate}) yang lebih rendah dibandingkan LLM murni dan RAG konvensional berbasis \emph{dense retrieval}.
 
@@ -164,62 +165,66 @@ Berdasarkan kedua premis tersebut, penelitian ini merumuskan dua hipotesis yang 
 \section{Metodologi Penelitian}
 % =========================================================
 
-Penelitian ini menggunakan kerangka \emph{Design Science Research Methodology} (DSRM) sebagai pendekatan sistematis untuk merancang, mengembangkan, dan mengevaluasi artefak berbasis teknologi. DSRM dipilih karena penelitian ini tidak hanya bertujuan menganalisis fenomena yang ada, tetapi juga menghasilkan artefak nyata berupa \emph{GraphRAG Framework} yang memodelkan penilaian pengguna terhadap suatu pengetahuan sebagai bobot pada graf pengetahuan, sebagai upaya mengurangi halusinasi LLM. Penelitian ini dilaksanakan melalui enam tahapan berikut.
- 
+Penelitian ini menggunakan kerangka \emph{Design Science Research Methodology} (DSRM) sebagai pendekatan sistematis untuk merancang, mengembangkan, dan mengevaluasi artefak berbasis teknologi \autocite{Peffers2007}. DSRM dipilih karena penelitian ini bertujuan menghasilkan dan menguji artefak berupa mekanisme pembobotan graf pengetahuan berbasis penilaian pengguna yang diintegrasikan ke dalam proses pengambilan konteks GraphRAG untuk mengurangi halusinasi pada LLM. Penelitian dilaksanakan melalui enam tahapan berikut.
+
 \begin{enumerate}
     \item \textbf{Identifikasi Masalah dan Motivasi.}
     
-    Tahap ini dilaksanakan melalui studi literatur untuk memetakan keterbatasan pendekatan yang ada dan mengidentifikasi tiga kesenjangan penelitian (G1, G2, G3). Sumber yang dikaji mencakup jurnal dan konferensi bereputasi di bidang \emph{Natural Language Processing}, \emph{Information Retrieval}, dan graf pengetahuan dalam rentang tahun 2020--2026. Luaran dari tahapan ini adalah rumusan masalah, hipotesis, dan peta kesenjangan penelitian.
-    
+    Tahap ini dilakukan melalui telaah literatur yang dilengkapi telaah awal terhadap penelitian terkait. Telaah dilakukan untuk mengidentifikasi permasalahan halusinasi LLM, mengkaji pendekatan RAG dan GraphRAG, serta menemukan kesenjangan dalam pemanfaatan penilaian pengguna sebagai dasar pembobotan graf pengetahuan. Literatur yang dikaji mencakup publikasi jurnal dan konferensi di bidang \emph{Natural Language Processing}, \emph{Information Retrieval}, dan graf pengetahuan. Luaran tahap ini adalah rumusan masalah, kesenjangan penelitian, dan hipotesis.
+
     \item \textbf{Pendefinisian Tujuan Solusi.}
-    
-    Berdasarkan identifikasi masalah, ditetapkan tujuan solusi berupa spesifikasi fungsional dan nonfungsional \emph{GraphRAG Framework}. Spesifikasi ini mencakup skema graf pengetahuan berbobot, mekanisme pengambilan konteks, mekanisme pembangkitan jawaban, dan protokol evaluasi halusinasi komparatif empat kondisi. Luaran dari tahapan ini adalah dokumen spesifikasi kebutuhan artefak.
-    
+
+    Berdasarkan permasalahan yang diidentifikasi, ditetapkan tujuan dan kebutuhan solusi, baik fungsional maupun nonfungsional. Kebutuhan tersebut mencakup representasi penilaian pengguna sebagai bobot keandalan pada graf pengetahuan, penggunaan bobot dalam proses pengambilan konteks GraphRAG, serta mekanisme evaluasi untuk mengukur pengaruhnya terhadap halusinasi LLM. Luaran tahap ini adalah spesifikasi kebutuhan artefak dan kriteria evaluasi.
+
     \item \textbf{Perancangan dan Pengembangan Artefak.}
-    
-    Artefak dirancang dengan empat modul terintegrasi, yaitu: (1) modul konstruksi graf pengetahuan berbobot yang mengodekan entitas, relasi, dan sinyal penilaian pengguna sebagai bobot, dengan data dari dataset SORD \autocite{Fatima2026}; (2) modul \emph{hybrid retrieval}; (3) modul \emph{grounded generation}; serta (4) modul evaluasi. Seluruh komponen didokumentasikan menggunakan diagram arsitektur dan spesifikasi antarmuka antarmodul. Luaran dari tahapan ini adalah desain arsitektur \emph{framework} dan skema graf pengetahuan.
-    
+
+    Artefak dikembangkan melalui tiga komponen utama, yaitu: (1) konstruksi graf pengetahuan dari dataset SORD \autocite{Fatima2026} dengan pembobotan berdasarkan penilaian pengguna; (2) integrasi bobot keandalan ke dalam proses pengambilan konteks GraphRAG; dan (3) pengembangan mekanisme pengujian komparatif. Pengembangan difokuskan pada mekanisme pembobotan dan pemanfaatannya dalam pengambilan konteks, tanpa mengubah model generatif maupun arsitektur dasar GraphRAG.
+
+    Implementasi menggunakan Neo4j sebagai basis data graf, FAISS sebagai indeks vektor, serta satu model generatif yang digunakan secara konsisten pada seluruh kondisi eksperimen. Luaran tahap ini adalah rancangan mekanisme pembobotan, skema graf, dan dokumentasi arsitektur.
+
     \item \textbf{Implementasi.}
-    
-    Implementasi dilakukan menggunakan tumpukan teknologi yang dipilih berdasarkan kesesuaian kebutuhan, yaitu Neo4j untuk basis data graf, FAISS untuk indeks vektor, dan satu model generatif dalam mode \emph{inference}. Sebagai studi kasus, data yang digunakan adalah dataset SORD \autocite{Fatima2026} dari Stack Overflow. Luaran dari tahapan ini adalah implementasi \emph{GraphRAG Framework} yang dapat dijalankan dan didokumentasikan.
-    
+
+     Implementasi dilakukan menggunakan tumpukan teknologi yang dipilih berdasarkan kesesuaian kebutuhan, yaitu Neo4j untuk basis data graf, FAISS untuk indeks vektor, dan satu model generatif dalam mode \emph{inference}. Sebagai studi kasus, data yang digunakan adalah dataset SORD \autocite{Fatima2026} dari Stack Overflow. Luaran dari tahapan ini adalah implementasi mekanisme pembobotan dalam GraphRAG yang dapat dijalankan dan didokumentasikan.
+
     \item \textbf{Evaluasi.}
-    
-    Evaluasi dilakukan pada empat kondisi perbandingan, yaitu LLM murni, RAG konvensional, graf pengetahuan tanpa bobot penilaian pengguna, dan graf pengetahuan dengan bobot penilaian pengguna. Efektivitas diukur melalui \emph{hallucination rate} pada \emph{benchmark} yang dikonstruksi dari SORD. Luaran dari tahapan ini adalah hasil eksperimen, analisis, dan konfirmasi hipotesis.
-    
-    \item \textbf{Penarikan Kesimpulan dan Komunikasi Hasil.}
-    
-    Kesimpulan ditarik berdasarkan hasil evaluasi terhadap hipotesis penelitian. Prinsip-prinsip desain (\emph{design principles}) dirumuskan dari pengalaman pengembangan dan temuan evaluasi. Hasil penelitian dikomunikasikan dalam bentuk laporan tesis, dokumentasi teknis \emph{framework}, serta artikel ilmiah yang direncanakan untuk dipublikasikan di bidang \emph{Natural Language Processing} atau \emph{Information Retrieval}. Luaran dari tahapan ini adalah laporan tesis, \emph{design principles}, dan artikel ilmiah.
+
+    Evaluasi dilakukan secara komparatif menggunakan lima kondisi pengujian, yaitu: (1) LLM murni; (2) RAG konvensional berbasis \emph{dense retrieval}; (3) RAG konvensional dengan pembobotan penilaian pengguna tanpa struktur graf; (4) GraphRAG dengan pembobotan berdasarkan \emph{accepted answer}; dan (5) GraphRAG dengan pembobotan berdasarkan kombinasi \emph{accepted answer} dan \emph{upvote}.
+
+    Seluruh kondisi diuji menggunakan sampel pertanyaan yang sama dari dataset SORD dengan model generatif dan protokol evaluasi yang konsisten. Metrik utama adalah laju halusinasi (\emph{hallucination rate}), yang digunakan untuk membandingkan kinerja setiap kondisi. Perbandingan dilakukan secara bertahap untuk mengevaluasi perbedaan antara LLM murni, RAG konvensional, dan GraphRAG berbobot, serta pengaruh penambahan sinyal penilaian pengguna. Analisis tambahan yang bersifat eksploratori dilakukan untuk memisahkan kontribusi pembobotan dan struktur graf serta menguji variasi struktur pengambilan konteks.
+
+    \item \textbf{Komunikasi Hasil Penelitian.}
+
+    Hasil penelitian disimpulkan berdasarkan evaluasi artefak, pengujian hipotesis, dan jawaban terhadap pertanyaan penelitian. Temuan yang diperoleh, termasuk keterbatasan dan peluang pengembangan, didokumentasikan dalam laporan tesis dan dokumentasi teknis. Luaran tahap ini adalah laporan tesis.
 \end{enumerate}
- 
+
 % =========================================================
 \section{Sistematika Penulisan}
 % =========================================================
- 
+
 Bagian ini menjelaskan gambaran umum isi dari setiap bab dalam laporan tesis. Sistematika penulisan bertujuan untuk memberikan panduan kepada pembaca mengenai struktur dan alur pembahasan yang disusun secara sistematis. Adapun sistematika penulisan dalam laporan tesis ini adalah sebagai berikut.
- 
+
 \begin{enumerate}
     \item \textbf{Bab I - Pendahuluan}\\
-    Bab ini menyajikan latar belakang yang membangun argumentasi urgensi penelitian melalui tiga kesenjangan (G1, G2, G3) yang diidentifikasi dari literatur terkini. Selanjutnya dirumuskan pertanyaan penelitian utama dan empat pertanyaan turunan, tujuan umum dan khusus, manfaat teoritis dan praktis, ruang lingkup beserta batasan masalah, hipotesis dengan dua premis dan dua hipotesis, gambaran metodologi DSRM enam tahap, dan sistematika penulisan.
-    
+    Bab ini menyajikan latar belakang yang membangun argumentasi urgensi penelitian, mulai dari halusinasi pada LLM, empat pendekatan solusi (\emph{fine-tuning}, \emph{in-context learning}, RAG, dan GraphRAG), hingga kesenjangan penelitian yang diidentifikasi dari literatur terkini. Selanjutnya dirumuskan pertanyaan penelitian utama dan lima pertanyaan turunan, tujuan umum dan khusus, manfaat teoritis dan praktis, ruang lingkup beserta batasan masalah dan syarat penerapan, hipotesis dengan dua premis dan dua hipotesis, gambaran metodologi DSRM enam tahap, dan sistematika penulisan.
+
     \item \textbf{Bab II - Studi Literatur}\\
-    Bab ini menyajikan landasan teori dan analisis penelitian terdahulu yang menjadi basis ilmiah \emph{GraphRAG Framework}. Topik yang dikaji meliputi: halusinasi pada LLM beserta taksonomi dan penyebabnya, paradigma RAG dan keterbatasannya, graf pengetahuan dan arsitektur GraphRAG, keandalan sumber pengetahuan dan pembobotan kepercayaan, karakteristik sumber pengetahuan buatan pengguna (Stack Overflow) beserta sinyal penilaian penggunanya, konsep \emph{grounded generation}, serta metodologi evaluasi keandalan LLM. Bab ini diakhiri dengan analisis kesenjangan penelitian (G1, G2, G3) dan kerangka konseptual penelitian.
-    
+    Bab ini menyajikan landasan teori dan analisis penelitian terdahulu yang menjadi basis ilmiah mekanisme pembobotan graf pengetahuan. Topik yang dikaji meliputi: halusinasi pada LLM beserta taksonomi dan penyebabnya, empat pendekatan solusi dan posisi penelitian terhadapnya, paradigma RAG dan keterbatasannya, graf pengetahuan dan arsitektur GraphRAG, keandalan sumber pengetahuan dan pembobotan kepercayaan, karakteristik sumber pengetahuan buatan pengguna beserta sinyal penilaian penggunanya, serta metodologi evaluasi halusinasi LLM. Bab ini memuat analisis kesenjangan penelitian dan kerangka konseptual penelitian.
+
     \item \textbf{Bab III - Analisis dan Desain}\\
-    Bab ini menerjemahkan tiga kesenjangan penelitian ke dalam keputusan analisis dan desain yang konkret. Bagian ini mencakup: analisis kondisi saat ini dan keterbatasan sistem LLM generik, analisis kebutuhan fungsional dan nonfungsional \emph{framework}, analisis komparatif empat kondisi solusi (LLM murni, RAG konvensional, graf pengetahuan tanpa bobot, dan graf pengetahuan berbobot penilaian pengguna), serta desain konseptual \emph{GraphRAG Framework} meliputi skema graf pengetahuan berbobot, mekanisme \emph{hybrid retrieval}, modul \emph{grounded generation}, dan protokol evaluasi komparatif.
-    
+    Bab ini menerjemahkan kesenjangan penelitian ke dalam keputusan analisis dan desain yang konkret. Bagian ini mencakup: analisis kondisi saat ini dan keterbatasan sistem LLM generik, analisis kebutuhan fungsional dan nonfungsional mekanisme pembobotan, analisis komparatif kondisi solusi, serta desain konseptual yang meliputi skema graf pengetahuan berbobot, cara penilaian pengguna direpresentasikan sebagai bobot, integrasi bobot ke dalam proses pengambilan konteks GraphRAG, dan protokol evaluasi komparatif.
+
     \item \textbf{Bab IV - Implementasi}\\
-    Bab ini memaparkan proses implementasi \emph{GraphRAG Framework}, mencakup: implementasi konstruksi graf pengetahuan, implementasi modul \emph{hybrid retrieval}, implementasi modul \emph{grounded generation}, teknologi dan pustaka yang digunakan beserta alasan pemilihannya, serta hasil implementasi per modul.
-    
+    Bab ini memaparkan proses implementasi mekanisme pembobotan, mencakup: implementasi konstruksi graf pengetahuan berbobot, implementasi integrasi bobot ke dalam pengambilan konteks, teknologi dan pustaka yang digunakan beserta alasan pemilihannya, serta hasil implementasi per komponen.
+
     \item \textbf{Bab V - Evaluasi}\\
-    Bab ini menyajikan hasil pengujian dan evaluasi \emph{framework}, mencakup hasil pengujian kuantitatif empat kondisi, analisis untuk pengujian hipotesis H1 dan H2, evaluasi kualitas graf pengetahuan, serta diskusi temuan terhadap hipotesis dan keterkaitannya dengan kesenjangan G1, G2, dan G3.
-    
+    Bab ini menyajikan hasil pengujian dan evaluasi, mencakup hasil pengujian kuantitatif lima kondisi, analisis untuk pengujian hipotesis H1 dan H2, pemisahan kontribusi pembobotan penilaian pengguna dan struktur graf, analisis tambahan, evaluasi kualitas graf pengetahuan, serta diskusi temuan terhadap hipotesis, penjelasan penyebab hasil berdasarkan data dan literatur, dan keterbatasan.
+
     \item \textbf{Bab VI - Kesimpulan dan Saran}\\
-    Bab ini menyajikan kesimpulan yang ditarik dari hasil evaluasi terhadap hipotesis, prinsip-prinsip desain (\emph{design principles}) yang dirumuskan sebagai kontribusi pengetahuan, keterbatasan penelitian, serta saran untuk pengembangan penelitian selanjutnya.
-    
+    Bab ini menyajikan kesimpulan yang ditarik dari hasil evaluasi terhadap hipotesis dan pertanyaan penelitian, keterbatasan penelitian, serta saran untuk pengembangan penelitian selanjutnya.
+
     \item \textbf{Daftar Pustaka}\\
     Memuat seluruh referensi ilmiah yang dikutip dalam laporan tesis, disusun menggunakan gaya sitasi yang konsisten.
-    
+
     \item \textbf{Lampiran}\\
-    Memuat dokumen pendukung, termasuk kode implementasi \emph{GraphRAG Framework}, skema lengkap graf pengetahuan, \emph{benchmark dataset} yang dikonstruksi, data hasil pengujian secara lengkap, dan dokumen teknis pendukung lainnya.
+    Memuat dokumen pendukung, termasuk kode implementasi mekanisme pembobotan, skema lengkap graf pengetahuan, \emph{benchmark dataset} yang dikonstruksi, data hasil pengujian secara lengkap, dan dokumen teknis pendukung lainnya.
 \end{enumerate}
