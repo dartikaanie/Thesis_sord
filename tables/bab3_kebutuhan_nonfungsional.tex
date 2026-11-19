@@ -1,37 +1,37 @@
-% ============================================================
-% Tabel: Kebutuhan Nonfungsional
-% ============================================================
+```latex
 \begin{table}[!htbp]
 \centering
 \caption{Kebutuhan nonfungsional.}
 \label{tab:kebutuhan-nonfungsional}
+\small
 \begin{tabularx}{\textwidth}{|c|l|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
 \hline
-\textbf{No.} & \textbf{Kategori} & \textbf{Deskripsi} & \textbf{Kriteria Sukses} \\
+\textbf{No.} & \textbf{Kategori} & \textbf{Deskripsi} & \textbf{Kriteria Keberhasilan} \\
 \hline
 NF1 & Laju halusinasi &
-    Jawaban dari GraphRAG berbobot lebih faktual daripada sistem pembanding &
-    \emph{Hallucination rate} (di luar jawaban \texttt{ABSTAIN}) Kondisi C-Acc dan C-Acc+Vote lebih rendah daripada Kondisi A dan Kondisi B \\
+GraphRAG berbobot ditargetkan menghasilkan jawaban dengan tingkat halusinasi lebih rendah daripada sistem pembanding &
+\emph{Hallucination rate} Kondisi C-Acc dan C-Acc+Vote lebih rendah daripada Kondisi A dan B, dengan jawaban \texttt{ABSTAIN} dikeluarkan dari penyebut. Jumlah dan proporsi \texttt{ABSTAIN} dilaporkan terpisah \\
 \hline
 NF2 & Keterlacakan &
-    Setiap jawaban yang tidak menolak menjawab memiliki referensi yang valid ke \emph{thread} Stack Overflow &
-    Seluruh jawaban Kondisi B, B-Acc, C-Acc, dan C-Acc+Vote yang bukan \texttt{ABSTAIN} memuat $\geq 1$ kutipan yang labelnya terdapat dalam konteks. Proporsi atas seluruh jawaban dilaporkan sebagai pelengkap \\
+Jawaban yang dihasilkan dapat ditelusuri ke sumber konteks yang digunakan &
+Seluruh jawaban non-\texttt{ABSTAIN} pada Kondisi B, B-Acc, C-Acc, dan C-Acc+Vote memiliki sedikitnya satu label kutipan yang terdapat dalam konteks. Proporsi jawaban dengan kutipan valid dilaporkan \\
 \hline
 NF3 & Latensi &
-    Waktu respons yang wajar untuk pengguna &
-    $\leq 15$ detik per kueri (rata-rata latensi total, mencakup \emph{retrieval} dan generasi oleh LLM) \\
+Sistem memiliki waktu respons yang dapat diterima untuk penggunaan interaktif &
+Rata-rata latensi total, mencakup pengambilan konteks dan generasi jawaban, ditargetkan tidak melebihi 15 detik per kueri \\
 \hline
 NF4 & Keandalan kutipan &
-    Kutipan pada jawaban benar-benar mendukung klaim yang dikaitkan dengannya &
-    Proporsi kutipan yang didukung konteks (\emph{citation support}) Kondisi B-Acc, C-Acc, dan C-Acc+Vote tidak lebih rendah daripada Kondisi B \\
+Kutipan yang digunakan mendukung klaim dalam jawaban &
+Proporsi klaim berkutipan yang didukung sumbernya (\emph{citation support}) pada Kondisi B-Acc, C-Acc, dan C-Acc+Vote tidak lebih rendah daripada Kondisi B \\
 \hline
 NF5 & Integritas evaluasi &
-    Konteks yang diberikan kepada LLM tidak berasal dari \emph{thread} yang sama dengan pertanyaan uji &
-    Irisan antara hasil \emph{retrieval} dan himpunan pengecualian kosong pada seluruh pertanyaan uji dan seluruh kondisi yang memakai konteks \\
+Konteks yang diberikan kepada LLM tidak berasal dari \emph{thread} pertanyaan uji &
+Tidak terdapat irisan antara hasil \emph{retrieval} dan himpunan pengecualian pada seluruh kueri uji dalam kondisi yang menggunakan konteks \\
 \hline
 NF6 & Keterbandingan antarkondisi &
-    Perbedaan hasil berasal dari mekanisme pemilihan konteks, bukan dari pengaturan lain &
-    Model generatif, model \emph{embedding}, sampel pertanyaan, struktur \emph{prompt}, dan jumlah konteks ($k{=}5$) identik pada seluruh kondisi \\
+Variabel yang bukan bagian dari perlakuan eksperimen dikendalikan secara konsisten &
+Seluruh kondisi menggunakan sampel pertanyaan, model generatif, dan struktur dasar \emph{prompt} yang sama. Kondisi berbasis \emph{retrieval} menggunakan model \emph{embedding}, jumlah konteks ($k=5$), dan instruksi \emph{grounding} yang sama \\
 \hline
 \end{tabularx}
 \end{table}
+```

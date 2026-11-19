@@ -1,23 +1,29 @@
-% ============================================================
-% Tabel: Pemetaan Masalah Pengguna
-% ============================================================
+```latex
 \begin{table}[!htbp]
 \centering
 \caption{Pemetaan masalah pengguna ke kebutuhan solusi.}
 \label{tab:kebutuhan-pengguna}
+\small
 \begin{tabularx}{\textwidth}{|c|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|c|}
 \hline
-\textbf{No.} & \textbf{Masalah Pengguna} & \textbf{Akar Penyebab} & \textbf{Kebutuhan Solusi} & \textbf{Kebutuhan Fungsional} \\
+\textbf{No.} &
+\textbf{Masalah Pengguna} &
+\textbf{Keterbatasan Pendekatan Saat Ini} &
+\textbf{Kebutuhan Solusi} &
+\textbf{Kebutuhan Fungsional} \\
 \hline
-M1 & LLM menghasilkan jawaban yang tidak sesuai fakta (halusinasi faktual) &
-    Pengetahuan parametrik terbatas pada data pelatihan dan tidak mengikuti informasi yang berubah &
-    Menyediakan konteks eksternal sebagai dasar penyusunan jawaban dan mengukur pengaruhnya terhadap laju halusinasi &
-    F4, F5 \\
+M1 &
+LLM menghasilkan jawaban yang tidak sesuai fakta atau mengandung halusinasi &
+LLM murni mengandalkan pengetahuan parametrik yang terbatas pada data pelatihan &
+Menyediakan konteks eksternal yang relevan sebagai dasar penyusunan jawaban dan mengevaluasi pengaruhnya terhadap laju halusinasi &
+F2, F3, F4, F5 \\
 \hline
-M2 & Pengambilan konteks tidak membedakan informasi yang dinilai baik oleh pengguna dari informasi yang kurang dipercaya &
-    Pemilihan konteks hanya berdasarkan kemiripan semantik dan hubungan antarinformasi, sedangkan penilaian pengguna belum digunakan sebagai bobot &
-    Merepresentasikan penilaian pengguna (\emph{upvote}, \emph{accepted answer}) sebagai bobot keandalan pada graf dan menggunakannya saat pengambilan konteks &
-    F1, F2, F3, F4 \\
+M2 &
+Konteks yang diambil belum mempertimbangkan penilaian pengguna terhadap keandalan sumber &
+Pengambilan konteks umumnya mengutamakan kemiripan semantik atau hubungan antarinformasi tanpa menggunakan penilaian pengguna sebagai bobot keandalan &
+Merepresentasikan skor penilaian dan status \emph{accepted answer} sebagai bobot keandalan pada graf pengetahuan serta menggunakannya dalam pengambilan dan pemeringkatan konteks &
+F1, F4, F5 \\
 \hline
 \end{tabularx}
 \end{table}
+```
