@@ -1,0 +1,21 @@
+\begin{table}[!htbp]
+\centering
+\caption{Pemetaan kebutuhan fungsional F1--F5 ke komponen dan kriteria verifikasi.}
+\label{tab:checklist-f1-f5}
+\small
+\begin{tabular}{|c|p{0.27\textwidth}|p{0.25\textwidth}|p{0.32\textwidth}|}
+\hline
+\textbf{Kode} & \textbf{Kebutuhan} & \textbf{Komponen} & \textbf{Kriteria verifikasi} \\
+\hline
+F1 & Konstruksi \emph{knowledge graph} berbobot & Konstruksi KG berbobot (Subbab~\ref{subsec:struktur-kg}) & Simpul \texttt{Question}, \texttt{Answer}, \texttt{Tag} dan keenam tipe sisi terbentuk; setiap \texttt{Answer} memiliki \texttt{trustScore} dalam $[0,1]$ \\
+\hline
+F2 & Pengindeksan vektor teks & Indeks pertanyaan dan indeks jawaban (Subbab~\ref{subsec:gambaran-umum-arsitektur}) & Jumlah vektor sama dengan jumlah pertanyaan dan jawaban yang diindeks; pencarian mengembalikan identitas yang dapat dipetakan ke KG \\
+\hline
+F3 & Pemetaan kueri ke KG (\emph{anchoring}) & \emph{Anchoring} tingkat jawaban (Subbab~\ref{subsec:pengambilan-konteks}) & Setiap kueri memperoleh \emph{seed node}; kandidat awal identik dengan hasil Kondisi B \\
+\hline
+F4 & Pengambilan konteks berbobot & Penelusuran graf, \emph{semantic expansion}, fusi (Subbab~\ref{subsec:pengambilan-konteks}) & Konteks berisi $k{=}5$ jawaban berlabel sumber; pembobotan yang sama dapat diterapkan tanpa graf (B-Acc); irisan dengan himpunan pengecualian kosong \\
+\hline
+F5 & Protokol evaluasi komparatif & Desain evaluasi (Subbab~\ref{sec:rancangan-evaluasi}) & Lima kondisi dijalankan pada 384 pertanyaan yang sama; \emph{hallucination rate} dihitung oleh panel \emph{judge} \\
+\hline
+\end{tabular}
+\end{table}
