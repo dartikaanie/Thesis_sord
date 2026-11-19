@@ -118,16 +118,25 @@ Ruang lingkup penelitian ini mencakup: (1) representasi penilaian pengguna sebag
  
 \textbf{Batasan masalah:}
 \begin{enumerate}
-    \item Pengujian dibatasi pada satu studi kasus, yaitu data Stack Overflow pada domain pemrograman. Generalisasi ke sumber pengetahuan dan domain lain tidak diuji dan memerlukan adaptasi pada skema graf, ontologi domain, serta protokol evaluasi.
+    \item Pengujian dibatasi pada satu studi kasus, yaitu data Stack Overflow pada domain pemrograman. Generalisasi ke sumber pengetahuan dan domain lain tidak diuji dan memerlukan adaptasi pada skema graf dan protokol evaluasi.
  
-    \item Pembangunan graf pengetahuan dibatasi pada ekstraksi entitas dan relasi dari teks pertanyaan, jawaban, dan komentar yang tersedia dalam dataset SORD \autocite{Fatima2026}, tanpa menyertakan eksekusi atau validasi kode secara dinamis.
+    \item Bobot keandalan dibatasi pada dua sinyal penilaian pengguna, yaitu skor suara dan penanda jawaban yang diterima. Sinyal lain, seperti reputasi pengguna atau usia jawaban, tidak digunakan.
+
+    \item Graf pengetahuan dibangun dari data pertanyaan, jawaban, dan keterkaitannya yang tersedia dalam dataset SORD \autocite{Fatima2026}, tanpa menyertakan eksekusi atau validasi kode secara dinamis.
  
-    \item Penelitian ini tidak membahas aspek \emph{fine-tuning} LLM. Seluruh eksperimen menggunakan satu model generatif dalam mode \emph{inference} tanpa modifikasi parameter, sehingga perubahan kinerja yang diamati berasal dari mekanisme \emph{retrieval} dan \emph{grounding}.
+    \item Penelitian ini tidak membahas aspek \emph{fine-tuning} LLM. Seluruh eksperimen menggunakan satu model generatif dalam mode \emph{inference} tanpa modifikasi parameter, sehingga perubahan kinerja yang diamati berasal dari mekanisme pengambilan konteks.
  
-    \item Pengukuran halusinasi dibatasi pada dimensi kesetiaan terhadap konteks (\emph{faithfulness}) dan laju halusinasi (\emph{hallucination rate}), ditambah relevansi konteks (\emph{context relevance}), dan tidak mencakup dimensi bias, toksisitas, atau kesesuaian gaya bahasa.
+    \item Pengukuran halusinasi dibatasi pada laju halusinasi (\emph{hallucination rate}) dan tidak mencakup dimensi bias, toksisitas, atau kesesuaian gaya bahasa. Penilaian halusinasi dilakukan oleh panel tiga LLM penilai.
  
-    \item Penelitian ini tidak mencakup aspek skalabilitas infrastruktur dan \emph{deployment framework} ke lingkungan produksi. Seluruh eksperimen dilakukan dalam lingkungan penelitian yang terkontrol menggunakan subset data SORD dengan 384 pasang tanya jawab sebagai sampel \emph{benchmark} evaluasi (fase pengujian). 
+    \item Penelitian ini tidak mencakup aspek skalabilitas infrastruktur dan penerapan ke lingkungan produksi. Seluruh eksperimen dilakukan dalam lingkungan penelitian yang terkontrol menggunakan subset data SORD dengan 384 pasang tanya jawab sebagai sampel \emph{benchmark} evaluasi.
+
+    \item Setiap kondisi dijalankan satu kali dengan parameter bawaan API untuk model generatif, sehingga hasil memuat variasi pengambilan sampel oleh model dan selisih kecil antarkondisi tidak dapat dibedakan dari variasi tersebut.
+
 \end{enumerate}
+
+\subsection*{Syarat Penerapan pada Kasus Lain}
+
+Hasil penelitian ini diuji hanya pada satu studi kasus. Penerapan pada sumber pengetahuan lain diperkirakan memerlukan tiga syarat, yang ditetapkan oleh peneliti dan tidak diuji pada penelitian ini: (1) sumber memuat penilaian pengguna yang eksplisit terhadap suatu pengetahuan, (2) tersedia keterkaitan antarinformasi yang dapat dimodelkan sebagai graf, dan (3) penilaian pengguna cukup mencerminkan keandalan pengetahuan tersebut.
  
 % =========================================================
 \section{Hipotesis}
