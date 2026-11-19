@@ -20,13 +20,13 @@ Bab ditutup dengan ringkasan desain beserta keterlacakan antara masalah, kebutuh
 \label{sec:kondisi-saat-ini}
 %============================================================
 
-Bagian ini menguraikan kondisi sistem tanya jawab berbasis LLM yang ada saat ini sebagai dasar perumusan masalah penelitian. Analisis dimulai dari model konseptual empat kondisi sistem, yaitu LLM murni, RAG konvensional, GraphRAG, dan GraphRAG dengan pembobotan. Selanjutnya dianalisis keterbatasan pendekatan terdahulu, keterbatasan tersebut dirumuskan menjadi masalah yang ditangani, dan diajukan solusi yang diusulkan dalam penelitian ini.
+Bagian ini menguraikan kondisi sistem tanya jawab berbasis LLM yang ada saat ini sebagai dasar perumusan masalah penelitian. Analisis dimulai dari model konseptual empat pendekatan yaitu LLM murni, RAG konvensional, GraphRAG, dan GraphRAG dengan pembobotan. Selanjutnya dianalisis keterbatasan pendekatan terdahulu, keterbatasan tersebut dirumuskan menjadi masalah yang ditangani, dan diajukan solusi yang diusulkan dalam penelitian ini.
 
 \subsection{Model Konseptual Sistem Saat Ini}
 \label{subsec:model-konseptual}
 
 
-Sistem tanya jawab teknis berbasis \emph{Large Language Model} (LLM) saat ini dapat dikelompokkan ke dalam empat kondisi menurut cara sistem memperoleh pengetahuan untuk menjawab, yaitu LLM murni, RAG konvensional, GraphRAG, dan GraphRAG dengan pembobotan.
+Sistem tanya jawab teknis berbasis \emph{Large Language Model} (LLM) saat ini dapat dikelompokkan ke dalam empat pendekatan menurut cara sistem memperoleh pengetahuan untuk menjawab, yaitu LLM murni, RAG konvensional, GraphRAG, dan GraphRAG dengan pembobotan.
 
 LLM murni menghasilkan jawaban dari pengetahuan parametrik (\emph{parametric knowledge}), yaitu informasi yang dipelajari dan tersimpan dalam parameter model selama pelatihan \autocite{Huang2025}. Pengguna mengajukan pertanyaan, dan model menjawab langsung tanpa mengambil informasi dari sumber eksternal pada tahap inferensi. Kualitas jawaban sangat dipengaruhi oleh cakupan dan keterwakilan data pelatihan \autocite{YizhengHuang2026}. Ketika pertanyaan berkaitan dengan informasi yang tidak tercakup atau telah berubah sejak pelatihan, model berisiko menghasilkan jawaban yang tidak akurat atau mengandung halusinasi. Gambar~\ref{fig:model-konseptual-saat-ini} menunjukkan alur kerja sistem ini beserta titik terjadinya halusinasi.
 
@@ -76,15 +76,15 @@ Berdasarkan keterbatasan di atas, masalah yang ditangani dalam penelitian ini ad
     \item Halusinasi faktual pada LLM.
     LLM dapat menghasilkan jawaban yang terdengar meyakinkan tetapi tidak sesuai fakta, terutama pada informasi yang tidak tercakup dalam data pelatihan atau telah berubah sejak pelatihan (\emph{knowledge cutoff}). Kondisi ini merupakan bentuk \emph{factuality hallucination} sebagaimana diklasifikasikan oleh \textcite{Huang2025}. Menyediakan konteks eksternal merupakan salah satu cara mengatasinya.
 
-    \item Keandalan sumber tidak dipertimbangkan dalam pengambilan konteks.
-    Meskipun konteks eksternal dapat mengurangi halusinasi, pengambilan konteks yang hanya mengandalkan kemiripan semantik dan hubungan antarinformasi tidak membedakan informasi yang dinilai baik oleh pengguna dari informasi yang kurang dipercaya. Penilaian pengguna pada platform belum digunakan sebagai bobot dalam pengambilan konteks GraphRAG.
+    \item Penilaian pengguna belum dimanfaatkan sebagai dasar keandalan dalam pengambilan konteks.
+    Meskipun konteks eksternal dapat mengurangi halusinasi, pengambilan konteks yang hanya mengandalkan kemiripan semantik dan hubungan antarinformasi tidak membedakan informasi yang dinilai baik oleh pengguna dari informasi yang kurang dipercaya. Sejumlah penelitian menambahkan bobot kepercayaan (Subbab~\ref{subsec:model-konseptual}), tetapi bobot tersebut tidak berasal dari penilaian pengguna pada platform, dan penilaian pengguna belum digunakan sebagai bobot dalam pengambilan konteks GraphRAG.
 \end{enumerate}
 
 
 \subsection{Usulan Solusi}
 \label{subsec:usulan-solusi}
 
-Penilaian pengguna, seperti skor suara (\emph{upvote}) dan penanda jawaban yang diterima (\emph{accepted answer}), merupakan indikator kualitas yang diberikan pengguna dan tersedia pada platform tanya jawab. Berdasarkan masalah pada Subbab~\ref{subsec:identifikasi-masalah-kondisi}, penelitian ini mengusulkan pemanfaatan indikator tersebut sebagai dasar pembobotan keandalan pada graf pengetahuan, dan bobot tersebut diintegrasikan ke dalam proses pengambilan konteks GraphRAG. Melalui mekanisme ini, pemilihan konteks tidak hanya mempertimbangkan relevansi semantik dan hubungan antarinformasi, tetapi juga tingkat keandalan berdasarkan penilaian pengguna.
+Penilaian pengguna, seperti skor suara pengguna (\emph{vote score}) dan penanda jawaban yang diterima (\emph{accepted answer}), merupakan indikator kualitas yang diberikan pengguna dan tersedia pada platform tanya jawab. Berdasarkan masalah pada Subbab~\ref{subsec:identifikasi-masalah-kondisi}, penelitian ini mengusulkan pemanfaatan indikator tersebut sebagai dasar pembobotan keandalan pada graf pengetahuan, dan bobot tersebut diintegrasikan ke dalam proses pengambilan konteks GraphRAG. Melalui mekanisme ini, pemilihan konteks tidak hanya mempertimbangkan relevansi semantik dan hubungan antarinformasi, tetapi juga tingkat keandalan berdasarkan penilaian pengguna.
 
 Usulan ini terdiri atas tiga unsur, yaitu graf pengetahuan berbobot yang memuat penilaian pengguna sebagai bobot keandalan, pengambilan konteks berbobot yang memakai bobot tersebut, dan evaluasi komparatif untuk mengukur pengaruhnya terhadap laju halusinasi. Arsitektur dasar GraphRAG tidak diubah, sehingga yang dikembangkan adalah sumber bobot dan penggunaannya pada pengambilan konteks. Usulan ini menjawab M1 melalui penyediaan konteks eksternal dan menjawab M2 melalui pembobotan keandalan sumber. Hanya satu kelompok kondisi yang merupakan solusi yang dikembangkan, yaitu GraphRAG berbobot penilaian pengguna. Kondisi lainnya, yaitu LLM murni, RAG konvensional, dan RAG dengan pembobotan tanpa graf, menjadi pembanding dan kontrol untuk mengukur pengaruhnya (Subbab~\ref{sec:kondisi-eksperimen}).
 
@@ -99,7 +99,7 @@ Bagian ini menurunkan kebutuhan mekanisme dari masalah yang telah diidentifikasi
 \subsection{Identifikasi Kebutuhan Pengguna}
 \label{subsec:identifikasi-kebutuhan-pengguna}
 
-Pengguna utama mekanisme ini adalah pengguna sistem tanya jawab berbasis LLM yang mengandalkan jawaban sebagai dasar pengambilan keputusan atau penentuan tindakan, pada sumber pengetahuan yang memuat penilaian pengguna. Berdasarkan masalah pada Subbab~\ref{subsec:identifikasi-masalah-kondisi}, kebutuhan pengguna adalah jawaban yang sesuai dengan fakta (M1) dan konteks yang mempertimbangkan keandalan sumbernya (M2). Pada studi kasus penelitian ini, pengguna tersebut adalah penanya pada domain pemrograman. Tabel~\ref{tab:kebutuhan-pengguna} memetakan masalah pengguna ke kebutuhan solusi dan kebutuhan fungsional yang memenuhinya.
+Pengguna utama mekanisme ini adalah pengguna sistem tanya jawab berbasis LLM yang mengandalkan jawaban sebagai dasar pengambilan keputusan atau penentuan tindakan, pada sumber pengetahuan yang memuat penilaian pengguna. Berdasarkan masalah pada Subbab~\ref{subsec:identifikasi-masalah-kondisi}, kebutuhan pengguna adalah jawaban yang sesuai dengan fakta (M1) dan konteks yang mempertimbangkan keandalan sumbernya (M2). Pada studi kasus penelitian ini, pengguna tersebut adalah penanya pada domain pemrograman. Kebutuhan pengguna diturunkan dari analisis masalah dan studi literatur pada Subbab~\ref{sec:kondisi-saat-ini}. Tabel~\ref{tab:kebutuhan-pengguna} memetakan masalah pengguna ke kebutuhan solusi dan kebutuhan fungsional yang memenuhinya.
 \input{tables/bab3_kebutuhan_pengguna.tex}
 
 \FloatBarrier
@@ -110,7 +110,7 @@ Berdasarkan kebutuhan pengguna di atas, kebutuhan fungsional dirumuskan untuk su
 
 \begin{enumerate}[label=\textbf{F\arabic*.}]
     \item Konstruksi \emph{Knowledge Graph} Berbobot.
-    Sistem harus dapat membangun graf pengetahuan dari sumber pengetahuan yang memuat penilaian pengguna. Simpul dan relasi diturunkan dari metadata struktural sumber, sehingga tidak bergantung pada ekstraksi entitas dari teks bebas. Pada studi kasus penelitian ini, metadata struktural tersebut berupa struktur tanya jawab Stack Overflow, yaitu relasi pertanyaan--jawaban, penandaan tag, dan tautan antar-\emph{thread}. Bobot keandalan jawaban diturunkan dari penilaian pengguna, yaitu skor \emph{upvote} dan status \emph{accepted answer}. Bobot keterkaitan antarpertanyaan diturunkan dari tingkat validasi relasi, yaitu tautan \emph{Duplicate} yang divalidasi komunitas, kesamaan tag, dan kemiripan \emph{embedding}.
+    Sistem harus dapat membangun graf pengetahuan dari sumber pengetahuan yang memuat penilaian pengguna. Simpul dan relasi diturunkan dari metadata struktural sumber, sehingga tidak bergantung pada ekstraksi entitas dari teks bebas. Pada studi kasus penelitian ini, metadata struktural tersebut berupa struktur tanya jawab Stack Overflow, yaitu relasi pertanyaan--jawaban, penandaan tag, dan tautan antar-\emph{thread}. Bobot keandalan jawaban diturunkan dari penilaian pengguna, yaitu skor suara (\emph{vote score}) dan status \emph{accepted answer}. Bobot keterkaitan antarpertanyaan diturunkan dari tingkat validasi relasi, yaitu tautan \emph{Duplicate} yang divalidasi komunitas, kesamaan tag, dan kemiripan \emph{embedding}.
     \item Pengindeksan Vektor Teks.
     Sistem harus mengindeks teks pertanyaan dan jawaban ke dalam \emph{vector store} untuk mendukung pencarian semantik berbasis kemiripan kosinus. Indeks ini menjadi titik masuk ke graf dan sumber kandidat awal.
 
@@ -121,7 +121,7 @@ Berdasarkan kebutuhan pengguna di atas, kebutuhan fungsional dirumuskan untuk su
     Sistem harus menggabungkan kandidat dari tiga sumber, yaitu hasil pencarian vektor, jawaban yang ditemukan melalui penelusuran graf hingga dua \emph{hop}, dan jawaban hasil \emph{semantic expansion}. Setiap kandidat diberi bobot jalur berdasarkan penilaian pengguna, lalu diperingkat dengan menggabungkan bobot jalur dan kemiripan semantik. Kandidat dengan skor tertinggi disusun menjadi konteks bagi LLM. Pembobotan yang sama harus dapat diterapkan pada hasil pencarian vektor tanpa graf, sebagai kontrol untuk memisahkan pengaruh pembobotan dari pengaruh struktur graf. Kebutuhan ini menjawab M1 dan M2.
 
     \item Protokol Evaluasi Komparatif.
-    Sistem harus membandingkan lima kondisi pada sampel pertanyaan yang sama: (a) LLM murni sebagai \emph{baseline} \autocite{DaSilva2025}, (b) RAG konvensional, (c) RAG konvensional dengan pembobotan penilaian pengguna tanpa graf, (d) GraphRAG dengan pembobotan berdasarkan status \emph{accepted answer}, dan (e) GraphRAG dengan pembobotan berdasarkan status \emph{accepted answer} dan skor \emph{upvote}. Evaluasi mengukur laju halusinasi (\emph{hallucination rate}) menggunakan pendekatan \emph{LLM-as-a-Judge} \autocite{Gu2026}. Kebutuhan ini menjawab M1.
+    Sistem harus membandingkan lima kondisi pada sampel pertanyaan yang sama: (a) LLM murni sebagai \emph{baseline} \autocite{DaSilva2025}, (b) RAG konvensional, (c) RAG konvensional dengan pembobotan penilaian pengguna tanpa graf, (d) GraphRAG dengan pembobotan berdasarkan status \emph{accepted answer}, dan (e) GraphRAG dengan pembobotan berdasarkan status \emph{accepted answer} dan skor suara pengguna. Evaluasi mengukur laju halusinasi (\emph{hallucination rate}) menggunakan pendekatan \emph{LLM-as-a-Judge} \autocite{Gu2026}. Kebutuhan ini menjawab M1.
 \end{enumerate}
 
 \subsection{Kebutuhan Nonfungsional}
@@ -133,8 +133,8 @@ Kebutuhan nonfungsional menetapkan syarat mutu hasil dan keabsahan evaluasi. Tab
     \item Keterlacakan. Setiap jawaban yang tidak menolak menjawab menyertakan kutipan yang valid ke \emph{thread} sumber.
     \item Latensi. Waktu respons rata-rata dapat diterima untuk penggunaan interaktif.
     \item Keandalan kutipan. Kutipan pada jawaban benar-benar mendukung klaim yang dikaitkan dengannya.
-    \item Integritas evaluasi. Konteks yang diberikan kepada LLM tidak boleh berasal dari \emph{thread} pertanyaan uji, termasuk jawaban yang menjadi \emph{ground truth}.
-    \item Keterbandingan antarkondisi. Model generatif, model \emph{embedding}, sampel pertanyaan, struktur \emph{prompt}, dan jumlah konteks harus identik pada seluruh kondisi, sehingga perbedaan hasil berasal dari mekanisme pemilihan konteks.
+    \item Integritas evaluasi. Konteks yang diberikan kepada LLM tidak boleh berasal dari \emph{thread} pertanyaan uji, termasuk jawaban acuan (\emph{reference answer}).
+    \item Keterbandingan antarkondisi. Model generatif, model \emph{embedding}, sampel pertanyaan, dan struktur \emph{prompt} harus identik pada seluruh kondisi, dan jumlah konteks harus identik pada kondisi yang memakai konteks, sehingga perbedaan hasil berasal dari mekanisme pemilihan konteks.
 \end{enumerate}
 
 Kriteria sukses pada Tabel~\ref{tab:kebutuhan-nonfungsional} adalah ambang yang diuji pada bab evaluasi, sehingga hasilnya dapat memenuhi maupun tidak memenuhi kriteria tersebut.
@@ -146,7 +146,7 @@ Kriteria sukses pada Tabel~\ref{tab:kebutuhan-nonfungsional} adalah ambang yang 
 \label{sec:perancangan-mekanisme}
 %============================================================
 
-Bagian ini menjelaskan perancangan mekanisme pembobotan graf pengetahuan berbasis penilaian pengguna untuk memenuhi kebutuhan fungsional F1--F5 dan kebutuhan nonfungsional NF1--NF6 pada Subbab~\ref{sec:analisis-kebutuhan}. Uraian dimulai dari gambaran umum arsitektur solusi, kemudian dirinci menjadi struktur graf pengetahuan, bobot keandalan berbasis penilaian pengguna, mekanisme pengambilan dan pemeringkatan konteks, serta penyaringan dan pemilihan konteks. Pengembangan difokuskan pada sumber bobot dan pemanfaatan bobot dalam pengambilan konteks GraphRAG, tanpa mengubah arsitektur dasar GraphRAG yang digunakan. Kondisi eksperimen dan evaluasi dibahas pada Subbab~\ref{sec:kondisi-eksperimen} dan Subbab~\ref{sec:rancangan-evaluasi}.
+Bagian ini menjelaskan perancangan mekanisme pembobotan graf pengetahuan berbasis penilaian pengguna untuk memenuhi kebutuhan pada Subbab~\ref{sec:analisis-kebutuhan}. Kebutuhan fungsional F1--F4 dipenuhi oleh mekanisme ini, sedangkan F5 dan sebagian kebutuhan nonfungsional dipenuhi melalui rancangan kondisi eksperimen dan evaluasi. Uraian dimulai dari gambaran umum arsitektur solusi, kemudian dirinci menjadi struktur graf pengetahuan, bobot keandalan berbasis penilaian pengguna, mekanisme pengambilan dan pemeringkatan konteks, serta pemilihan dan penyusunan konteks. Pengembangan difokuskan pada sumber bobot dan pemanfaatan bobot dalam pengambilan konteks GraphRAG, tanpa mengubah arsitektur dasar GraphRAG yang digunakan. Kondisi eksperimen dan evaluasi dibahas pada Subbab~\ref{sec:kondisi-eksperimen} dan Subbab~\ref{sec:rancangan-evaluasi}.
 
 \subsection{Gambaran Umum Arsitektur Solusi}
 \label{subsec:gambaran-umum-arsitektur}
@@ -155,10 +155,10 @@ Mekanisme yang diusulkan terdiri atas dua blok utama, seperti pada Gambar~\ref{f
 
 \begin{enumerate}
     \item Konstruksi \emph{Knowledge Graph} Berbobot.
-    Dataset SORD \autocite{Fatima2026} diubah menjadi graf berbobot melalui lima tahap. Pertama, data mentah divalidasi, digabungkan, dan dideduplikasi. Kedua, simpul dan relasi dibangun dari metadata Stack Overflow, lalu setiap jawaban diberi skor kepercayaan (\texttt{trustScore}) dari jumlah \emph{upvote}-nya, sedangkan status \emph{accepted answer} disimpan sebagai atribut dan tipe sisi tersendiri. Ketiga, graf diperkaya dengan tautan antar-\emph{thread} dari data \texttt{PostLinks}. Keempat, pertanyaan diubah menjadi vektor dan disimpan dalam indeks FAISS. Kelima, graf didensifikasi dengan relasi antarpertanyaan berdasarkan kemiripan tag dan kemiripan \emph{embedding}. Rinciannya dijelaskan pada Subbab~\ref{subsec:struktur-kg} dan Subbab~\ref{subsec:bobot-keandalan}.
+    Dataset SORD \autocite{Fatima2026} diubah menjadi graf berbobot melalui lima tahap. Pertama, data mentah divalidasi, digabungkan, dan dideduplikasi. Kedua, simpul dan relasi dibangun dari metadata Stack Overflow, lalu setiap jawaban diberi skor kepercayaan (\texttt{trustScore}) dari skor suara pengguna (\emph{vote score}), sedangkan status \emph{accepted answer} disimpan sebagai atribut dan tipe sisi tersendiri. Ketiga, graf diperkaya dengan tautan antar-\emph{thread} dari data \texttt{PostLinks}. Keempat, pertanyaan diubah menjadi vektor dan disimpan dalam indeks FAISS. Kelima, graf didensifikasi dengan relasi antarpertanyaan berdasarkan kemiripan tag dan kemiripan \emph{embedding}. Rinciannya dijelaskan pada Subbab~\ref{subsec:struktur-kg} dan Subbab~\ref{subsec:bobot-keandalan}.
 
     \item Pengambilan Konteks Berbobot.
-    Saat pengguna mengajukan pertanyaan, sistem melalui tiga tahap. Tahap pertama adalah \emph{anchoring}, yaitu mencari jawaban paling mirip (pencarian yang sama dengan Kondisi B) dan memetakannya ke pertanyaan induk sebagai \emph{seed nodes}. Tahap kedua adalah penelusuran graf berbobot untuk mengumpulkan jawaban beserta bobot jalurnya. Tahap ketiga adalah \emph{semantic expansion}, yaitu mencari informasi tambahan melalui indeks vektor. Hasil ketiganya digabung menjadi satu \emph{pool}, diperingkat dengan skor yang menggabungkan kemiripan dan bobot jalur, disaring, lalu disusun menjadi konteks bagi LLM (Subbab~\ref{subsec:pengambilan-konteks} dan Subbab~\ref{subsec:penyaringan-konteks}).
+    Saat pengguna mengajukan pertanyaan, sistem melalui tiga tahap. Tahap pertama adalah \emph{anchoring}, yaitu mencari jawaban paling mirip (pencarian yang sama dengan Kondisi B) dan memetakannya ke pertanyaan induk sebagai \emph{seed nodes}. Tahap kedua adalah penelusuran graf berbobot untuk mengumpulkan jawaban beserta bobot jalurnya. Tahap ketiga adalah \emph{semantic expansion}, yaitu mencari informasi tambahan melalui indeks vektor. Hasil ketiganya digabung menjadi satu \emph{pool}, diperingkat dengan skor yang menggabungkan kemiripan dan bobot jalur, lalu disusun menjadi konteks bagi LLM (Subbab~\ref{subsec:pengambilan-konteks} dan Subbab~\ref{subsec:penyaringan-konteks}).
 
     Pembagian tiga tahap ini mengikuti alur umum GraphRAG yang dijelaskan oleh \textcite{Kamalipour2026}, yaitu pemetaan kueri ke simpul awal, penelusuran graf multi-\emph{hop}, dan penggabungan hasilnya dengan pencarian vektor.
 \end{enumerate}
