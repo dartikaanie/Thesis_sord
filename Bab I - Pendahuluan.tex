@@ -142,21 +142,22 @@ Hasil penelitian ini diuji hanya pada satu studi kasus. Penerapan pada sumber pe
 \section{Hipotesis}
 % =========================================================
  
-Hipotesis penelitian ini diturunkan dari dua premis yang diidentifikasi pada latar belakang dan rumusan masalah, dan dioperasionalkan terhadap tiga kesenjangan (G1, G2, G3) yang menjadi motivasi penelitian.
+Hipotesis penelitian ini disusun berdasarkan dua premis yang diperoleh dari latar belakang dan rumusan masalah.
  
 \begin{enumerate}
-    \item \textbf{Premis 1 : Keterbatasan LLM dan RAG Konvensional.}
-    LLM yang hanya mengandalkan pengetahuan parametrik rentan menghasilkan halusinasi karena pengetahuannya terbatas pada data pelatihan dan tidak mengikuti informasi yang berubah atau jarang dibahas \autocite{Huang2025, YizhengHuang2026, WangXL2026}. RAG konvensional mengurangi sebagian masalah ini, tetapi tidak sepenuhnya menghilangkan risiko halusinasi karena kegagalan \emph{retrieval}, dokumen yang tidak relevan atau menyesatkan, serta mutu basis pengetahuan dapat menurunkan keandalan jawaban \autocite{YizhengHuang2026, Huang2025, WangXL2026}, dan kemiripan tekstual belum menjamin bahwa informasi yang diambil dapat diandalkan (G1).
+    \item \textbf{Premis 1: Keterbatasan LLM dan RAG Konvensional.}
+    LLM yang mengandalkan pengetahuan parametrik rentan menghasilkan halusinasi akibat keterbatasan cakupan dan kemutakhiran data pelatihan \autocite{Huang2025, YizhengHuang2026, WangXL2026}. RAG konvensional dapat mengurangi keterbatasan tersebut dengan menyediakan informasi eksternal, tetapi masih berisiko menghasilkan halusinasi apabila konteks yang diambil tidak relevan, tidak akurat, atau menyesatkan \autocite{YizhengHuang2026, Huang2025, WangXL2026}. Oleh karena itu, relevansi semantik saja belum cukup untuk menjamin keandalan konteks yang diberikan kepada LLM.
  
-    \item \textbf{Premis 2 : Potensi Graf Pengetahuan Berbobot Penilaian Pengguna.}
-    Graf pengetahuan merepresentasikan keterkaitan antarinformasi secara eksplisit sehingga dapat menjadi landasan bagi pembangkitan jawaban \autocite{Syeda2026, WangXL2026}, meskipun keunggulannya terhadap RAG konvensional tidak selalu konsisten pada setiap tugas \autocite{Yang2025}. Pembobotan kepercayaan pada graf telah dilaporkan menghasilkan kinerja yang lebih tinggi dibandingkan GraphRAG tanpa pembobotan tersebut pada satu studi kasus \autocite{Shi2026}. Penilaian pengguna dipandang berpotensi menjadi dasar pembobotan yang belum dimanfaatkan dalam pengambilan konteks (G2) \autocite{Kleybolte2026}, sehingga konteks yang diambil diharapkan lebih dapat dipercaya dan jawaban yang dihasilkan lebih setia pada konteks tersebut (G3).
+    \item \textbf{Premis 2: Potensi Graf Pengetahuan Berbobot Penilaian Pengguna.}
+    Graf pengetahuan memungkinkan representasi dan penelusuran hubungan antarinformasi secara eksplisit \autocite{Syeda2026, WangXL2026}. Penelitian sebelumnya menunjukkan bahwa pembobotan kepercayaan pada graf dapat meningkatkan kinerja GraphRAG \autocite{Shi2026}. Sementara itu, penilaian pengguna telah direpresentasikan sebagai atribut graf pada konten buatan pengguna \autocite{Kleybolte2026}. Berdasarkan temuan tersebut, penilaian pengguna berpotensi dimanfaatkan sebagai dasar pembobotan graf untuk memprioritaskan konteks yang lebih andal dan mengurangi halusinasi LLM.
 \end{enumerate}
  
-Berdasarkan kedua premis tersebut, hipotesis penelitian dirumuskan sebagai berikut, dengan pengujian pada studi kasus data Stack Overflow.
+Berdasarkan kedua premis tersebut, penelitian ini merumuskan dua hipotesis yang diuji menggunakan data Stack Overflow sebagai studi kasus.
  
 \begin{enumerate}
-    \item[\textbf{H1}] \emph{GraphRAG Framework} dengan graf pengetahuan berbobot penilaian pengguna menghasilkan laju halusinasi (\emph{hallucination rate}) yang lebih rendah dibandingkan LLM murni dan RAG konvensional berbasis \emph{dense retrieval}.
-    \item[\textbf{H2}] Penambahan bobot penilaian pengguna pada graf pengetahuan menghasilkan laju halusinasi yang lebih rendah dibandingkan graf pengetahuan tanpa bobot tersebut.
+    \item[\textbf{H1}] GraphRAG dengan pembobotan graf pengetahuan berbasis penilaian pengguna menghasilkan laju halusinasi (\emph{hallucination rate}) yang lebih rendah dibandingkan LLM murni dan RAG konvensional berbasis \emph{dense retrieval}.
+
+    \item[\textbf{H2}] GraphRAG dengan pembobotan berdasarkan kombinasi \emph{accepted answer} dan \emph{upvote} menghasilkan laju halusinasi yang lebih rendah dibandingkan GraphRAG dengan pembobotan berdasarkan \emph{accepted answer} saja.
 \end{enumerate}
 
 % =========================================================
