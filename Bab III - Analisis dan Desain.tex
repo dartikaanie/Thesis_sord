@@ -121,7 +121,7 @@ Berdasarkan kebutuhan pengguna di atas, kebutuhan fungsional dirumuskan untuk su
     Sistem harus menggabungkan kandidat dari tiga sumber, yaitu hasil pencarian vektor, jawaban yang ditemukan melalui penelusuran graf hingga dua \emph{hop}, dan jawaban hasil \emph{semantic expansion}. Setiap kandidat diberi bobot jalur berdasarkan penilaian pengguna, lalu diperingkat dengan menggabungkan bobot jalur dan kemiripan semantik. Kandidat dengan skor tertinggi disusun menjadi konteks bagi LLM. Pembobotan yang sama harus dapat diterapkan pada hasil pencarian vektor tanpa graf, sebagai kontrol untuk memisahkan pengaruh pembobotan dari pengaruh struktur graf. Kebutuhan ini menjawab M1 dan M2.
 
     \item Protokol Evaluasi Komparatif.
-    Sistem harus membandingkan lima kondisi pada sampel pertanyaan yang sama: (a) LLM murni sebagai \emph{baseline} \autocite{DaSilva2025}, (b) RAG konvensional, (c) RAG konvensional dengan pembobotan penilaian pengguna tanpa graf, (d) GraphRAG dengan pembobotan berdasarkan status \emph{accepted answer}, dan (e) GraphRAG dengan pembobotan berdasarkan status \emph{accepted answer} dan skor suara pengguna. Evaluasi mengukur laju halusinasi (\emph{hallucination rate}) menggunakan pendekatan \emph{LLM-as-a-Judge} \autocite{Gu2026}. Kebutuhan ini menjawab M1.
+    Sistem harus mampu membandingkan tiga pendekatan utama, yaitu LLM murni, RAG berbasis vektor, dan GraphRAG berbobot penilaian pengguna, menggunakan sampel pertanyaan yang sama. Evaluasi juga harus memungkinkan perbandingan pengaruh pembobotan \emph{accepted answer} tanpa graf, penggunaan mekanisme pengambilan konteks berbasis graf, serta penambahan skor suara pengguna (\emph{vote score}). Konfigurasi eksperimen dijelaskan pada Subbab~\ref{sec:kondisi-eksperimen}.
 \end{enumerate}
 
 \subsection{Kebutuhan Nonfungsional}
@@ -134,7 +134,7 @@ Kebutuhan nonfungsional menetapkan syarat mutu hasil dan keabsahan evaluasi. Tab
     \item Latensi. Waktu respons rata-rata dapat diterima untuk penggunaan interaktif.
     \item Keandalan kutipan. Kutipan pada jawaban benar-benar mendukung klaim yang dikaitkan dengannya.
     \item Integritas evaluasi. Konteks yang diberikan kepada LLM tidak boleh berasal dari \emph{thread} pertanyaan uji, termasuk jawaban acuan (\emph{reference answer}).
-    \item Keterbandingan antarkondisi. Model generatif, model \emph{embedding}, sampel pertanyaan, dan struktur \emph{prompt} harus identik pada seluruh kondisi, dan jumlah konteks harus identik pada kondisi yang menggunakan konteks, sehingga perbedaan hasil berasal dari mekanisme pemilihan konteks.
+    \item Perbandingan antarkondisi. Seluruh kondisi menggunakan sampel pertanyaan, model generatif, konfigurasi generasi, dan struktur dasar \emph{prompt} yang sama. Kondisi eksperimen berbasis \emph{retrieval} menggunakan model \emph{embedding}, jumlah konteks ($k=5$), serta instruksi \emph{grounding} dan pengutipan sumber yang identik. Perbedaan mekanisme pengambilan dan pemeringkatan konteks menjadi perlakuan utama yang dibandingkan pada keempat varian tersebut.
 \end{enumerate}
 
 Kriteria sukses pada Tabel~\ref{tab:kebutuhan-nonfungsional} adalah ambang yang diuji pada bab evaluasi, sehingga hasilnya dapat memenuhi maupun tidak memenuhi kriteria tersebut.
@@ -158,7 +158,7 @@ Mekanisme yang diusulkan terdiri atas dua blok utama, seperti pada Gambar~\ref{f
     Dataset SORD \autocite{Fatima2026} diubah menjadi graf berbobot melalui lima tahap. Pertama, data mentah divalidasi, digabungkan, dan dideduplikasi. Kedua, simpul dan relasi dibangun dari metadata Stack Overflow, lalu setiap jawaban diberi skor kepercayaan (\texttt{trustScore}) dari skor suara pengguna (\emph{vote score}), sedangkan status \emph{accepted answer} disimpan sebagai atribut dan tipe sisi tersendiri. Ketiga, graf diperkaya dengan tautan antar-\emph{thread} dari data \texttt{PostLinks}. Keempat, pertanyaan diubah menjadi vektor dan disimpan dalam indeks FAISS. Kelima, graf didensifikasi dengan relasi antarpertanyaan berdasarkan kemiripan tag dan kemiripan \emph{embedding}. Rinciannya dijelaskan pada Subbab~\ref{subsec:struktur-kg} dan Subbab~\ref{subsec:bobot-keandalan}.
 
     \item Pengambilan Konteks Berbobot.
-    Saat pengguna mengajukan pertanyaan, sistem melalui tiga tahap. Tahap pertama adalah \emph{anchoring}, yaitu mencari jawaban paling mirip (pencarian yang sama dengan Kondisi B) dan memetakannya ke pertanyaan induk sebagai \emph{seed nodes}. Tahap kedua adalah penelusuran graf berbobot untuk mengumpulkan jawaban beserta bobot jalurnya. Tahap ketiga adalah \emph{semantic expansion}, yaitu mencari informasi tambahan melalui indeks vektor. Hasil ketiganya digabung menjadi satu \emph{pool}, diperingkat dengan skor yang menggabungkan kemiripan dan bobot jalur, lalu disusun menjadi konteks bagi LLM (Subbab~\ref{subsec:pengambilan-konteks} dan Subbab~\ref{subsec:penyaringan-konteks}).
+    Saat pengguna mengajukan pertanyaan, sistem menjalankan tiga tahap. Pertama, \emph{anchoring}, yaitu mencari jawaban berdasarkan kemiripan semantik dan memetakan pertanyaan induknya sebagai \emph{seed nodes}. Kedua, penelusuran graf berbobot untuk mengumpulkan kandidat jawaban beserta bobot jalurnya. Ketiga, \emph{semantic expansion}, yaitu memperluas kandidat melalui pencarian vektor. Hasil ketiga tahap digabungkan, diperingkat berdasarkan relevansi dan bobot jalur, lalu disusun menjadi konteks bagi LLM (Subbab~\ref{subsec:pengambilan-konteks} dan Subbab~\ref{subsec:penyaringan-konteks}).
 
     Pembagian tiga tahap ini mengikuti alur umum GraphRAG yang dijelaskan oleh \textcite{Kamalipour2026}, yaitu pemetaan kueri ke simpul awal, penelusuran graf multi-\emph{hop}, dan penggabungan hasilnya dengan pencarian vektor.
 \end{enumerate}
@@ -218,14 +218,14 @@ Gambar~\ref{fig:flowchart-konstruksi-kg} menunjukkan lima tahap pembangunan KG b
     \item Validasi dan konsolidasi data. File mentah SORD divalidasi terhadap jumlah baris dan ukuran yang dilaporkan oleh \textcite{Fatima2026}. Sumber data \emph{Contain} dan \emph{LikeMinusContain} digabungkan dan dideduplikasi berdasarkan identitas \emph{post}.
     \item Pembangunan graf struktural. Simpul \texttt{Question}, \texttt{Answer}, dan \texttt{Tag} serta sisi \texttt{HAS\_ACCEPTED\_ANSWER}, \texttt{HAS\_ANSWER}, dan \texttt{TAGGED\_WITH} dibangun dari metadata SORD. Pada tahap ini \texttt{trustScore} setiap jawaban dihitung dengan Persamaan~\eqref{eq:trust-answer}.
     \item Pengayaan tautan antar-\emph{thread}. Data \texttt{PostLinks} dari Stack Exchange Data dicocokkan dengan pertanyaan dalam SORD untuk membentuk sisi \texttt{IS\_RELATED\_TO} bertipe \emph{Linked} dan \emph{Duplicate}. Tahap ini hanya menambahkan sisi.
-    \item Pengindeksan vektor. Gabungan judul dan 1.000 karakter pertama isi setiap pertanyaan diubah menjadi vektor, dinormalisasi agar kemiripan kosinus setara dengan hasil kali dalam, lalu disimpan dalam indeks FAISS. Indeks jawaban untuk Kondisi B, B-Acc, dan \emph{anchoring} Kondisi C dibangun terpisah, tidak memengaruhi isi graf, dan karena itu tidak termasuk lima tahap konstruksi.
+    \item Pengindeksan vektor. Gabungan judul dan 1.000 karakter pertama isi setiap pertanyaan diubah menjadi vektor, dinormalisasi agar kemiripan kosinus setara dengan hasil kali dalam, lalu disimpan dalam indeks FAISS. Indeks jawaban untuk RAG berbasis vektor dan \emph{anchoring} GraphRAG dibangun secara terpisah, tidak memengaruhi isi graf, sehingga tidak termasuk dalam lima tahap konstruksi graf.
     \item Densifikasi graf. Graf struktural Stack Overflow sangat jarang karena sebagian besar pertanyaan tidak memiliki tautan eksplisit ke pertanyaan lain. Densifikasi menambahkan sisi \texttt{TAG\_COOCCUR}, yang menghubungkan pertanyaan dengan himpunan tag informatif yang mirip (koefisien Jaccard), dan sisi \texttt{EMBED\_SIM}, yang menghubungkan pertanyaan yang mirip secara semantik. Sisi \texttt{EMBED\_SIM} dibentuk dengan mencari tetangga terdekat pada indeks FAISS dari tahap~4.
 \end{enumerate}
 
 \paragraph{Indeks Vektor.}
-    Terdapat dua indeks vektor. Indeks pertanyaan dibuat dari \emph{embedding} \emph{all-MiniLM-L6-v2} atas gabungan judul dan 1.000 karakter pertama isi pertanyaan. Karena jumlah pertanyaan sangat besar (2,69 juta), digunakan \emph{IndexIVFFlat}, yaitu indeks yang membagi vektor ke dalam klaster dan hanya mencari pada klaster terdekat dengan kueri (\emph{approximate nearest neighbor}). Indeks ini dipakai untuk membentuk relasi kemiripan \emph{embedding} pada densifikasi dan untuk \emph{semantic expansion}. Indeks jawaban menyimpan satu vektor per jawaban dari teks judul pertanyaan induk diikuti isi jawaban. Indeks ini dipakai bersama oleh Kondisi B, B-Acc, dan kedua varian Kondisi C. Kedua indeks hanya menyimpan vektor dan pemetaan ke identitas, sedangkan teks, bobot, dan relasi tetap berada di \emph{graph database}.
+Terdapat dua indeks vektor. Indeks pertanyaan dibangun menggunakan model \emph{all-MiniLM-L6-v2} dari gabungan judul dan 1.000 karakter pertama isi pertanyaan. Karena jumlah pertanyaan mencapai 2,69 juta, digunakan \emph{IndexIVFFlat} untuk pencarian tetangga terdekat secara aproksimatif. Indeks ini digunakan dalam densifikasi graf dan \emph{semantic expansion}.
 
-Hasil proses konstruksi adalah KG berbobot di \emph{graph database} dan indeks vektor di FAISS. Keduanya digunakan bersama pada pengambilan konteks.
+Indeks jawaban menyimpan satu vektor per jawaban, yang dibentuk dari judul pertanyaan induk dan isi jawaban. Indeks ini digunakan bersama oleh RAG berbasis vektor dan GraphRAG berbobot sebagai sumber kandidat awal. Kedua indeks menyimpan vektor dan pemetaan identitas, sedangkan teks, bobot, dan relasi disimpan dalam \emph{graph database}.
 
 %------------------------------------------------------------
 \subsection{Perancangan Bobot Keandalan Berbasis Penilaian Pengguna}
@@ -264,33 +264,35 @@ dan keterangan sebagai berikut.
 \end{itemize}
 
 \paragraph{Bobot Jawaban.}
-Penilaian pengguna dimasukkan sebagai bobot jawaban $w_{\mathrm{ans}}(a)$, yang ditentukan oleh kondisi yang dijalankan dan didefinisikan berbeda pada kedua varian Kondisi C:
+Penilaian pengguna direpresentasikan sebagai bobot jawaban $w_{\mathrm{ans}}(a)$ melalui dua skema, yaitu pembobotan berdasarkan status \emph{accepted answer} dan pembobotan gabungan status \emph{accepted answer} dengan skor suara pengguna. Kedua skema didefinisikan sebagai berikut:
 \begin{equation}
 w_{\mathrm{ans}}(a) =
 \begin{cases}
-\mathbf{1}[\mathrm{acc}_a] & \text{Kondisi C-Acc},\\[4pt]
-w_{\mathrm{acc}}\,\mathbf{1}[\mathrm{acc}_a] + w_{\mathrm{vote}}\,\mathrm{trust}_A(a) & \text{Kondisi C-Acc+Vote},
+\mathbf{1}[\mathrm{acc}_a] & \text{Skema \emph{Accepted}},\\[4pt]
+w_{\mathrm{acc}}\,\mathbf{1}[\mathrm{acc}_a]
++ w_{\mathrm{vote}}\,\mathrm{trust}_A(a)
+& \text{Skema \emph{Accepted+Vote}}.
 \end{cases}
 \label{eq:w-ans}
 \end{equation}
-dengan $\mathbf{1}[\mathrm{acc}_a]$ bernilai 1 apabila jawaban $a$ berstatus \emph{accepted answer} dan 0 apabila tidak, $\mathrm{trust}_A(a)$ adalah skor pada Persamaan~\eqref{eq:trust-answer}, serta $w_{\mathrm{acc}}$ dan $w_{\mathrm{vote}}$ adalah koefisien tidak negatif dengan $w_{\mathrm{acc}}+w_{\mathrm{vote}}=1$ sehingga $w_{\mathrm{ans}}\in[0,1]$. Nilai koefisien dan dasar pemilihannya dijelaskan pada Subbab~\ref{sec:justifikasi-parameter} di Bab~\ref{chap:implementasi}.
+dengan $\mathbf{1}[\mathrm{acc}_a]$ bernilai 1 apabila jawaban $a$ berstatus \emph{accepted answer} dan 0 apabila tidak. Koefisien $w_{\mathrm{acc}}$ dan $w_{\mathrm{vote}}$ bernilai tidak negatif dengan jumlah 1, sehingga $w_{\mathrm{ans}}\in[0,1]$. Penerapan kedua skema pada konfigurasi eksperimen dijelaskan pada Subbab~\ref{sec:kondisi-eksperimen}.
 
 Kepercayaan terhadap jawaban diambil dari atribut simpul \texttt{Answer}, bukan dari bobot sisi pertanyaan--jawaban. Sisi \texttt{HAS\_ACCEPTED\_ANSWER} bernilai $1{,}0$. Sisi \texttt{HAS\_ANSWER} menyimpan hasil normalisasi \emph{min-max} skor jawaban dalam satu \emph{thread} sebagai atribut, tetapi atribut ini tidak digunakan pada pengambilan konteks. Nilai $\mathrm{trust}_A$ disimpan pada simpul \texttt{Answer} dan hanya dibaca saat kueri diproses, sehingga pengambilan konteks tidak mengubah graf.
 
 \paragraph{Bobot Sisi Antarpertanyaan.}
-Bobot sisi antarpertanyaan ($w_{qq'}$) ditetapkan berdasarkan tingkat validasi relasi. Tautan \emph{Duplicate} yang divalidasi komunitas diberi bobot tertinggi, yaitu $1{,}0$. Relasi berdasarkan kesamaan tag diberi bobot $0{,}6$, dan relasi berdasarkan kemiripan \emph{embedding} diberi bobot $0{,}4$ karena tidak melibatkan validasi komunitas. Sisi \texttt{IS\_RELATED\_TO} bertipe \emph{Linked} menggunakan $\max(0,\cos)$ dari \emph{embedding} kedua pertanyaan sebagai bobotnya, sehingga kosinus nonpositif menghasilkan bobot $0$ dan seluruh bobot sisi tetap berada pada $[0,1]$. Hierarki ini memprioritaskan jalur yang melewati relasi dengan tingkat validasi lebih tinggi. 
+Bobot sisi antarpertanyaan ($w_{qq'}$) ditentukan berdasarkan jenis relasi dan karakteristik keterkaitannya. Relasi \emph{Duplicate} yang divalidasi komunitas diberi bobot $1{,}0$, sedangkan relasi \texttt{TAG\_COOCCUR} dan \texttt{EMBED\_SIM} masing-masing diberi bobot tetap $0{,}6$ dan $0{,}4$. Nilai tersebut merupakan bobot yang ditetapkan berdasarkan pertimbangan jenis relasi. Sementara itu, relasi \texttt{IS\_RELATED\_TO} bertipe \emph{Linked} menggunakan nilai $\max(0,\cos)$ dari \emph{embedding} kedua pertanyaan. Perbedaan bobot digunakan untuk mengatur prioritas jalur pengambilan konteks, tanpa mengasumsikan urutan keandalan yang tetap pada seluruh jenis relasi.
 
 \paragraph{Ilustrasi.}
-Pertanyaan \texttt{Q\#1234} memiliki jawaban yang diterima \texttt{A\#9823} dan jawaban lain \texttt{A\#9901}. \texttt{Q\#2567} memiliki jawaban yang diterima \texttt{A\#9412}. Karena kedua jawaban yang diterima memiliki skor suara di atas $P_{99}$, \texttt{trustScore} keduanya $1{,}0$ dan $w_{\mathrm{ans}}=1{,}0$ pada kedua varian. Jawaban \texttt{A\#9901} memperoleh $w_{\mathrm{ans}}=0$ pada Kondisi C-Acc dan $w_{\mathrm{vote}}\times\mathrm{trust}_A$ pada Kondisi C-Acc+Vote. Ilustrasi bobot jalur diberikan pada Subbab~\ref{subsec:pengambilan-konteks}.
+Pertanyaan \texttt{Q\#1234} memiliki jawaban yang diterima \texttt{A\#9823} dan jawaban lain \texttt{A\#9901}, sedangkan \texttt{Q\#2567} memiliki jawaban yang diterima \texttt{A\#9412}. Karena kedua jawaban yang diterima memiliki skor suara di atas $P_{99}$, nilai \texttt{trustScore} keduanya adalah $1{,}0$ dan $w_{\mathrm{ans}}=1{,}0$ pada kedua skema. Sementara itu, jawaban \texttt{A\#9901} memperoleh bobot 0 pada skema \emph{Accepted} dan $w_{\mathrm{vote}}\times\mathrm{trust}_A$ pada skema \emph{Accepted+Vote}. Ilustrasi bobot jalur dijelaskan pada Subbab~\ref{subsec:pengambilan-konteks}.
 
 %------------------------------------------------------------
 \subsection{Mekanisme Pengambilan dan Pemeringkatan Konteks}
 \label{subsec:pengambilan-konteks}
 
-Mekanisme pengambilan konteks menggabungkan pencarian berbasis graf dan pencarian berbasis vektor. Pencarian berbasis graf baik dalam menemukan hubungan antarinformasi secara eksplisit, tetapi cakupannya terbatas pada informasi yang terhubung dalam graf. Pencarian berbasis vektor menemukan informasi yang relevan secara semantik, tetapi kurang efektif untuk pertanyaan yang memerlukan hubungan relasional \autocite{Kamalipour2026}. Penggabungan keduanya dilaporkan meningkatkan akurasi \emph{retrieval} dan kualitas jawaban dibandingkan salah satunya \autocite{sarmah2024hybridrag}. Penelitian ini menggabungkan keduanya melalui tiga tahap berurutan, yaitu \emph{anchoring}, penelusuran graf, dan \emph{semantic expansion}. Jawaban hasil ketiga tahap digabung dalam satu \emph{pool} kandidat yang kemudian difusikan dan diperingkat serta disusun menjadi konteks (Subbab~\ref{subsec:penyaringan-konteks}). Mekanisme ini sama pada kedua varian Kondisi C, dan keduanya hanya berbeda pada definisi bobot jawaban (Persamaan~\eqref{eq:w-ans}).
+Mekanisme pengambilan konteks menggabungkan pencarian berbasis graf dan pencarian berbasis vektor. Pencarian berbasis graf baik dalam menemukan hubungan antarinformasi secara eksplisit, tetapi cakupannya terbatas pada informasi yang terhubung dalam graf. Pencarian berbasis vektor menemukan informasi yang relevan secara semantik, tetapi kurang efektif untuk pertanyaan yang memerlukan hubungan relasional \autocite{Kamalipour2026}. Penggabungan keduanya dilaporkan meningkatkan akurasi \emph{retrieval} dan kualitas jawaban dibandingkan salah satunya \autocite{sarmah2024hybridrag}. Penelitian ini menggabungkan keduanya melalui tiga tahap berurutan, yaitu \emph{anchoring}, penelusuran graf, dan \emph{semantic expansion}. Jawaban hasil ketiga tahap digabung dalam satu \emph{pool} kandidat yang kemudian difusikan dan diperingkat serta disusun menjadi konteks (Subbab~\ref{subsec:penyaringan-konteks}). Mekanisme ini digunakan pada GraphRAG berbobot dengan dua skema pembobotan jawaban, yaitu \emph{Accepted} dan \emph{Accepted+Vote} (Persamaan~\eqref{eq:w-ans}). Kedua skema menggunakan tahapan pengambilan konteks yang sama dan hanya berbeda pada perhitungan bobot jawaban.
 
 \paragraph{Tahap 1: \emph{Anchoring}.}
-Tahap pertama memetakan pertanyaan pengguna ke simpul awal (\emph{seed nodes}) di KG. Pemetaan dilakukan pada tingkat jawaban dengan pencarian yang sama dengan Kondisi B, sehingga titik masuk kedua varian Kondisi C identik dengan kandidat awal Kondisi B. Langkahnya sebagai berikut.
+Tahap pertama memetakan pertanyaan pengguna ke simpul awal (\emph{seed nodes}) dalam KG. Pemetaan dilakukan melalui pencarian vektor pada tingkat jawaban, menggunakan indeks yang sama dengan RAG berbasis vektor. Dengan demikian, kedua pendekatan memiliki sumber kandidat awal yang sama sebelum GraphRAG melakukan perluasan melalui penelusuran graf. Langkah-langkahnya sebagai berikut.
 \begin{enumerate}
     \item Judul dan isi pertanyaan diubah menjadi vektor dengan model \emph{embedding} yang sama dengan indeks. Pada indeks jawaban dicari $K_B$ jawaban dengan kemiripan kosinus tertinggi setelah jawaban dan pertanyaan yang termasuk himpunan pengecualian dibuang. Kumpulan ini disebut $\mathcal{A}_B$ dan tetap dipertahankan sebagai kandidat awal.
     \item Setiap jawaban dipetakan ke pertanyaan induknya. Skor sebuah pertanyaan adalah kemiripan kosinus jawabannya yang paling tinggi.
@@ -306,7 +308,7 @@ Dari \emph{seed nodes}, sistem menelusuri graf untuk mengumpulkan simpul \texttt
 \end{enumerate}
 \end{sloppypar}
 
-Bobot jalur kandidat didefinisikan pada Persamaan~\eqref{eq:w-path} sebagai hasil kali $w_{qq'}$ dan $w_{\mathrm{ans}}(a)$. Karena kedua bobot tidak melebihi 1, jalur yang melewati relasi lebih lemah atau jawaban yang kurang dipercaya memperoleh bobot lebih rendah. Apabila suatu jawaban dicapai melalui lebih dari satu jalur, bobot jalur tertinggi yang dipertahankan. Seluruh jawaban satu \emph{hop} dipertahankan, sedangkan kandidat dua \emph{hop} dibatasi pada $N_{\mathrm{trav}}$ jalur dengan bobot jalur tertinggi untuk seluruh \emph{seed node}. Jika bobot sama, jalur dengan identitas jawaban lebih kecil didahulukan. Akibatnya, pada Kondisi C-Acc yang memberi bobot 0 pada seluruh jawaban yang tidak diterima, pemotongan di antara jalur yang semuanya berbobot 0 ditentukan oleh urutan identitas dan tidak mencerminkan sinyal apa pun. Ini merupakan batasan Kondisi C-Acc, dan dampaknya pada sampel uji dilaporkan pada Bab~\ref{chap:implementasi}.
+Bobot jalur kandidat didefinisikan pada Persamaan~\eqref{eq:w-path} sebagai hasil kali $w_{qq'}$ dan $w_{\mathrm{ans}}(a)$. Apabila suatu jawaban dicapai melalui lebih dari satu jalur, bobot tertinggi dipertahankan. Seluruh jawaban satu \emph{hop} dipertahankan, sedangkan kandidat dua \emph{hop} dibatasi pada $N_{\mathrm{trav}}$ jalur dengan bobot tertinggi. Jika bobot sama, jalur dengan identitas jawaban lebih kecil didahulukan. Pada skema \emph{Accepted}, jawaban yang tidak diterima memiliki bobot jalur 0, sehingga pemilihan di antara jalur berbobot sama ditentukan oleh identitas jawaban, bukan oleh relevansi. Keterbatasan ini dievaluasi pada Bab~\ref{chap:implementasi}.
 
 Sebagai ilustrasi, dari \texttt{Q\#1234} sistem mengikuti \texttt{HAS\_ACCEPTED\_ANSWER} menuju \texttt{A\#9823} sehingga $w_{\mathrm{path}}=1{,}0\times 1{,}0=1{,}0$ pada kedua varian. Secara paralel, sistem mengikuti \texttt{IS\_RELATED\_TO} ($w_{qq'}{=}0{,}41$) menuju \texttt{Q\#2567}, lalu \texttt{A\#9412} yang juga \emph{accepted}, sehingga $w_{\mathrm{path}}=0{,}41$.
 
@@ -333,13 +335,50 @@ Penilaian pengguna mengukur seberapa tervalidasi suatu jawaban oleh komunitas, b
 \mathrm{score}(c) = (1 - \alpha) \cdot \mathrm{sim}_{\mathrm{norm}}(q, c) + \alpha \cdot w_{\mathrm{path}}(c)
 \label{eq:final-score}
 \end{equation}
-dengan $\mathrm{sim}_{\mathrm{norm}}(q,c)$ adalah kemiripan kosinus antara kueri $q$ dan teks kandidat (dipotong pada batas 400 token) yang dinormalisasi \emph{min-max} atas seluruh kandidat \emph{pool} setiap pertanyaan. Parameter $\alpha \in [0,1]$ mengatur kontribusi bobot jalur. Nilai $\alpha$ dipilih pada \emph{development set}, bukan pada himpunan uji, dan identik pada setiap kondisi eksperimen. Ketika $\alpha=0$, pemeringkatan hanya didasarkan pada kemiripan, dan ketika $\alpha=1$ hanya didasarkan pada bobot jalur. Bentuk linear ini umum dipakai untuk menggabungkan skor relevansi dan skor kepercayaan, sehingga kebaruan penelitian ini terletak pada sumber bobotnya, yaitu penilaian pengguna yang nyata, bukan pada bentuk rumusnya.
+dengan $\mathrm{sim}_{\mathrm{norm}}(q,c)$ adalah kemiripan kosinus antara kueri $q$ dan teks kandidat (dipotong pada batas 400 token) yang dinormalisasi \emph{min-max} atas seluruh kandidat \emph{pool} setiap pertanyaan. Parameter $\alpha \in [0,1]$ mengatur kontribusi bobot jalur. Parameter $\alpha$ dipilih menggunakan himpunan pengembangan yang terpisah dari himpunan uji. Pemilihan dilakukan berdasarkan prosedur evaluasi parameter yang ditetapkan sebelum pengujian akhir. Nilai terpilih digunakan secara konsisten pada seluruh konfigurasi yang menerapkan pemeringkatan berbobot. Kandidat nilai, kriteria pemilihan, dan hasil seleksi dilaporkan pada Bab~\ref{chap:implementasi}.
+
+\paragraph{Parameter Pengambilan Konteks.}
+Nilai parameter yang digunakan pada pengambilan dan pemeringkatan konteks dirangkum pada Tabel~\ref{tab:parameter-pengambilan}. Seluruh nilai ditetapkan tetap dan identik pada varian yang memakai parameter tersebut. Parameter $\alpha$ dipilih pada \emph{development set}, bukan pada himpunan uji (Subbab~\ref{subsec:dataset-sampling}).
+
+\Parameter yang digunakan pada pengambilan dan pemeringkatan konteks dirangkum pada Tabel~\ref{tab:parameter-pengambilan}. Nilai setiap parameter ditetapkan tetap dan identik pada varian yang menggunakannya, dan dilaporkan beserta dasar pemilihannya pada Bab~\ref{chap:implementasi}.
+
+\begin{table}[!htbp]
+\centering
+\caption{Parameter pengambilan dan pemeringkatan konteks.}
+\label{tab:parameter-pengambilan}
+\small
+\begin{tabular}{|c|p{0.58\textwidth}|p{0.18\textwidth}|}
+\hline
+\textbf{Simbol} & \textbf{Makna} & \textbf{Penggunaan} \\
+\hline
+$K_B$ & Jumlah jawaban teratas dari pencarian vektor sebagai kandidat awal & B-Acc, C \\
+\hline
+$N_{\mathrm{anchor}}$ & Jumlah \emph{seed node} & C \\
+\hline
+$K_{\mathrm{scan}}$ & Batas pemindaian jawaban teratas bila pertanyaan berbeda kurang dari $N_{\mathrm{anchor}}$ & C \\
+\hline
+$N_{\mathrm{trav}}$ & Batas jalur dua \emph{hop} yang dipertahankan & C \\
+\hline
+$N_{\mathrm{exp}}$ & Jumlah pertanyaan asal yang dipakai sebagai kueri \emph{semantic expansion} & C \\
+\hline
+$n_{\mathrm{nb}}$ & Jumlah pertanyaan tetangga per kueri \emph{semantic expansion} & C \\
+\hline
+$w_{\mathrm{exp}}$ & Bobot antarpertanyaan kandidat \emph{semantic expansion} & C \\
+\hline
+$\alpha$ & Kontribusi bobot jalur pada skor akhir (Persamaan~\eqref{eq:final-score}) & B-Acc, C \\
+\hline
+$w_{\mathrm{acc}},\, w_{\mathrm{vote}}$ & Koefisien bobot jawaban (Persamaan~\eqref{eq:w-ans}) & C-Acc+Vote \\
+\hline
+$k$ & Jumlah konteks yang diberikan kepada LLM & B, C \\
+\hline
+\end{tabular}
+\end{table}
 
 %------------------------------------------------------------
 \subsection{Pemilihan dan Penyusunan Konteks}
 \label{subsec:penyaringan-konteks}
 
-Setelah skor akhir dihitung, kandidat diurutkan dari skor tertinggi ke terendah, dengan identitas jawaban sebagai urutan kedua jika skor sama. Pada kelima kondisi pengujian tidak ada jawaban yang dibuang berdasarkan status \emph{accepted} atau skor negatif, sehingga penilaian pengguna memengaruhi konteks hanya melalui bobot pada skor akhir. Pengecualian pertanyaan evaluasi diterapkan pada setiap tahap pengambilan kandidat, sebagaimana dijelaskan pada Subbab~\ref{subsec:leakage}.
+Setelah skor akhir dihitung, kandidat diurutkan berdasarkan skor tertinggi, dengan identitas jawaban sebagai pemutus seri. Tidak ada kandidat yang dikeluarkan berdasarkan status \emph{accepted answer} atau skor suara negatif. Penilaian pengguna memengaruhi pemeringkatan melalui bobot pada skor akhir. Pengecualian pertanyaan evaluasi diterapkan pada setiap tahap pengambilan kandidat untuk mencegah kebocoran data (Subbab~\ref{subsec:leakage}).
 
 Pada tahap \emph{packing}, $k$ kandidat teratas disusun menjadi satu konteks. Setiap item berisi judul pertanyaan asal dan isi jawaban, dipotong sesuai batas token, dan diberi label sumber \texttt{[SO-\textless id\textgreater]}.
 
@@ -349,9 +388,9 @@ Pada tahap \emph{packing}, $k$ kandidat teratas disusun menjadi satu konteks. Se
 \label{sec:kondisi-eksperimen}
 %============================================================
 
-Penelitian ini membandingkan tiga pendekatan utama, yaitu Kondisi A (LLM tanpa \emph{retrieval}), Kondisi B (RAG berbasis vektor), dan Kondisi C (GraphRAG berbobot sebagai mekanisme yang diusulkan). Kondisi A dan B digunakan sebagai pembanding, sedangkan Kondisi C merupakan pendekatan yang dikembangkan dalam penelitian ini.
+Penelitian ini membandingkan tiga pendekatan utama, yaitu LLM murni (Kondisi A), RAG berbasis vektor (Kondisi B), dan GraphRAG berbobot penilaian pengguna (Kondisi C). Kondisi A dan B digunakan sebagai pembanding, sedangkan Kondisi C merupakan mekanisme yang dikembangkan.
 
-Untuk mengevaluasi pengaruh setiap mekanisme, Kondisi B dan C masing-masing dibagi menjadi dua varian. Kondisi B terdiri atas B-Vec, yang mengambil konteks berdasarkan kemiripan semantik tanpa pembobotan, dan B-Acc, yang menambahkan pembobotan berdasarkan status \emph{accepted answer} tanpa penelusuran graf. Kondisi C terdiri atas C-Acc, yang memanfaatkan penelusuran graf dengan pembobotan berdasarkan status \emph{accepted answer}, dan C-Acc+Vote, yang menambahkan skor suara pengguna (\emph{vote score}) sebagai indikator pembobotan. Perbandingan A dengan B-Vec digunakan untuk mengevaluasi pengaruh penambahan konteks eksternal, B-Vec dengan B-Acc untuk mengevaluasi pengaruh pembobotan tanpa graf, B-Acc dengan C-Acc untuk mengevaluasi pengaruh mekanisme pengambilan konteks berbasis graf secara keseluruhan, serta C-Acc dengan C-Acc+Vote untuk mengevaluasi pengaruh penambahan skor suara pengguna.
+Untuk mengevaluasi pengaruh setiap mekanisme, Kondisi B dan C masing-masing dibagi menjadi dua varian. Kondisi B terdiri atas B-Vec, yaitu RAG tanpa pembobotan, dan B-Acc, yaitu RAG dengan pembobotan \emph{accepted answer} tanpa graf. Kondisi C terdiri atas C-Acc, yaitu GraphRAG dengan skema pembobotan \emph{Accepted}, dan C-Acc+Vote, yaitu GraphRAG dengan skema \emph{Accepted+Vote}. Dengan demikian, terdapat lima konfigurasi eksperimen yang digunakan untuk mengevaluasi pengaruh pengambilan konteks eksternal, pembobotan penilaian pengguna, dan mekanisme pengambilan konteks berbasis graf.
 
 Seluruh konfigurasi menggunakan sampel pertanyaan, model generatif, dan struktur dasar \emph{prompt} yang sama. Keempat konfigurasi berbasis \emph{retrieval} menggunakan model \emph{embedding}, jumlah konteks ($k=5$), dan instruksi generasi yang sama (Subbab~\ref{subsec:pengendalian-variabel}). Ringkasan konfigurasi disajikan pada Tabel~\ref{tab:perbandingan-kondisi}.
 
@@ -362,7 +401,7 @@ Seluruh konfigurasi menggunakan sampel pertanyaan, model generatif, dan struktur
 \small
 \begin{tabular}{|l|c|c|c|c|c|}
 \hline
-\textbf{Komponen} & \textbf{A} & \textbf{B} & \textbf{B-Acc} & \textbf{C-Acc} & \textbf{C-Acc+Vote} \\
+\textbf{Komponen} & \textbf{A} & \textbf{B-Vec} & \textbf{B-Acc} & \textbf{C-Acc} & \textbf{C-Acc+Vote} \\
 \hline
 Konteks eksternal & Tidak & Ya & Ya & Ya & Ya \\
 Pencarian vektor jawaban & -- & Ya & Ya & Ya & Ya \\
@@ -407,7 +446,7 @@ Karena hanya sebagian kecil pertanyaan di SORD yang memiliki \emph{accepted answ
 \subsection{Pengendalian Variabel Eksperimen}
 \label{subsec:pengendalian-variabel}
 
-Agar perbedaan hasil berasal dari mekanisme pemilihan konteks (NF6), variabel berikut dijaga identik pada seluruh kondisi dan varian.
+Untuk menjaga keterbandingan hasil eksperimen (NF6), variabel yang tidak menjadi bagian dari perlakuan dijaga tetap pada kondisi yang relevan. Seluruh kondisi menggunakan sampel pertanyaan, model generatif, dan konfigurasi generasi yang sama. Sementara itu, model \emph{embedding}, jumlah konteks, dan instruksi berbasis konteks dikendalikan secara identik pada keempat varian yang menggunakan \emph{retrieval}.
 \begin{enumerate}[(a)]
     \item Sampel pertanyaan uji, yaitu 384 pertanyaan yang sama (Subbab~\ref{subsec:dataset-sampling}).
     \item Model generatif, yaitu \texttt{gpt-4o-mini}, sehingga perbedaan hasil tidak dipengaruhi oleh kemampuan model.
@@ -427,7 +466,7 @@ Pada Kondisi B dan C, instruksi tambahan diterapkan pada pesan sistem dan gilira
 \label{sec:rancangan-evaluasi}
 %============================================================
 
-Evaluasi mengukur pengaruh mekanisme pembobotan terhadap laju halusinasi. Perbedaan antara Kondisi B, B-Acc, C-Acc, dan C-Acc+Vote terletak pada mekanisme pemilihan konteks, dengan variabel lain dikendalikan sebagaimana pada Subbab~\ref{subsec:pengendalian-variabel}, sehingga perbedaan hasil dapat dianalisis berdasarkan perbedaan mekanisme tersebut. Bagian ini menguraikan dataset dan pemilihan sampel, pencegahan kebocoran data, panel \emph{judge}, metrik, prosedur pengujian, serta rencana analisis hasil.
+Evaluasi mengukur pengaruh mekanisme pembobotan terhadap laju halusinasi. Perbedaan antara Kondisi B dan C terletak pada mekanisme pemilihan konteks, dengan variabel lain dikendalikan sebagaimana pada Subbab~\ref{subsec:pengendalian-variabel}, sehingga perbedaan hasil dapat dianalisis berdasarkan perbedaan mekanisme tersebut. Bagian ini menguraikan dataset dan pemilihan sampel, pencegahan kebocoran data, panel \emph{judge}, metrik, prosedur pengujian, serta rencana analisis hasil.
 
 \subsection{Dataset dan Pemilihan Sampel Pengujian}
 \label{subsec:dataset-sampling}
@@ -472,12 +511,14 @@ Penilaian oleh panel \emph{judge} tidak divalidasi oleh anotator manusia, sehing
 Setiap \emph{judge} menerima pertanyaan (judul, tag, dan isi), jawaban acuan, konteks hasil \emph{retrieval} yang diberi label netral \texttt{[K1]}--\texttt{[K5]}, peta kutipan, dan jawaban kandidat. Nama kondisi tidak diberikan, penanda sumber \texttt{[SO-\textless id\textgreater]} dan daftar sumber pada jawaban dihapus, dan kalimat yang merujuk secara eksplisit ke sumber yang diambil dinormalkan.
 
 Setiap \emph{judge} memberi vonis per klaim, yaitu didukung (\texttt{SUPPORTED}), bertentangan (\texttt{CONTRADICTED}), dikarang (\texttt{FABRICATED}), atau tidak dapat diverifikasi (\texttt{UNVERIFIABLE}), beserta tingkat keparahan inti (\texttt{CORE}) atau minor (\texttt{MINOR}). Klaim yang tidak dapat diverifikasi tidak dihitung sebagai kesalahan. Label per jawaban diturunkan oleh aturan tetap dari vonis klaim, bukan dari label yang ditulis \emph{judge}: \texttt{ABSTAIN} apabila jawaban tidak mencoba menjawab, \emph{penuh} apabila terdapat kesalahan inti, \emph{sebagian} apabila hanya terdapat kesalahan minor, dan faktual selain itu. Label panel ditentukan per jawaban: \texttt{ABSTAIN} apabila sedikitnya dua \emph{judge} memberi \texttt{ABSTAIN}, dan selain itu median skor ordinal, yang setara dengan suara mayoritas dua dari tiga pada penilaian berhalusinasi atau tidak. Apabila satu \emph{judge} gagal setelah dua kali percobaan ulang, hasil ditetapkan hanya jika dua \emph{judge} lainnya sepakat, dan jika tidak jawaban dilaporkan sebagai tidak terselesaikan (\texttt{UNRESOLVED}) tanpa dibuang.
+
 \subsection{Metrik Evaluasi}
 \label{subsec:metrik-evaluasi}
 
-Metrik utama adalah \emph{hallucination rate}, yaitu proporsi jawaban yang tidak sesuai fakta atau tidak didukung informasi yang tersedia \autocite{Syeda2026}. Metrik ini bersifat biner, yaitu sebuah jawaban dianggap berhalusinasi jika minimal satu klaimnya bertentangan dengan jawaban (\emph{contradicted}) atau dikarang (\emph{fabricated}). Label ditentukan oleh aturan tetap berdasarkan daftar klaim yang diekstraksi \emph{judge}, bukan oleh label yang diberikan \emph{judge} secara langsung. Jawaban yang menolak menjawab, misalnya karena konteks tidak cukup, diberi label \texttt{ABSTAIN} dan tidak dihitung sebagai halusinasi, karena mengakui keterbatasan konteks merupakan perilaku yang diharapkan. 
+Metrik evaluasi utama penelitian ini adalah \emph{hallucination rate}, yaitu proporsi jawaban yang mengandung sedikitnya satu klaim faktual yang dinilai salah atau dikarang. Penilaian dilakukan oleh panel \emph{judge} dengan mempertimbangkan pertanyaan, jawaban acuan, dan kesesuaian teknis solusi. Klaim berlabel \texttt{CONTRADICTED} atau \texttt{FABRICATED} dihitung sebagai halusinasi, sedangkan klaim \texttt{UNVERIFIABLE} tidak secara otomatis dianggap salah. Jawaban yang tidak mencoba menjawab diberi label \texttt{ABSTAIN}, sementara jawaban yang tidak dapat dinilai secara memadai dilaporkan secara terpisah.
 
-\emph{Hallucination rate} dihitung dalam dua versi:
+
+\emph{Hallucination rate} dihitung dalam dua versi sebagai berikut.
 \begin{enumerate}
     \item \texttt{ABSTAIN} dikeluarkan dari perhitungan. Versi ini menjadi metrik utama:
     \begin{equation}
@@ -489,11 +530,11 @@ Metrik utama adalah \emph{hallucination rate}, yaitu proporsi jawaban yang tidak
     \mathrm{FR}=\frac{H+A}{N-U}\times 100\%.
     \end{equation}
 \end{enumerate}
-Selain itu, tingkat keparahan halusinasi dilaporkan secara deskriptif. Halusinasi dikategorikan \emph{penuh} jika kesalahan menyangkut solusi utama dan \emph{sebagian} jika hanya menyangkut detail pendukung. Jika tidak ada mayoritas pada tingkat keparahan, label panel adalah median skor ordinal (faktual dan \texttt{ABSTAIN}~=~0, sebagian~=~1, penuh~=~2). Jawaban yang tidak dapat dinilai (tidak terselesaikan atau tidak lengkap) dilaporkan terpisah tanpa diganti estimasi.
 
-Metrik utama penelitian ini adalah \emph{hallucination rate}, yang mengukur tingkat halusinasi jawaban dengan menggunakan jawaban acuan sebagai referensi evaluasi dan menjadi dasar pengujian H1. Metrik pendukung meliputi \emph{faithfulness}, \emph{citation support}, relevansi konteks dan jawaban, ketertelusuran kutipan, serta latensi. Metrik tersebut digunakan untuk menjelaskan perilaku setiap kondisi secara deskriptif, bukan sebagai dasar pengujian hipotesis.
 
-\emph{Hallucination rate} dibedakan dari \emph{faithfulness}, yang mengukur kesesuaian jawaban dengan konteks hasil \emph{retrieval}. Jawaban dapat benar secara faktual tanpa didukung konteks, atau sesuai konteks yang mengandung informasi keliru. Oleh karena itu, kedua metrik dievaluasi secara terpisah dan hasilnya dilaporkan pada Bab~\ref{chap:evaluasi}.
+Tingkat keparahan halusinasi dilaporkan secara deskriptif, yaitu \emph{penuh} apabila kesalahan memengaruhi solusi utama dan \emph{sebagian} apabila kesalahan terbatas pada detail pendukung. Agregasi tingkat keparahan dilakukan pada jawaban yang tidak berstatus \texttt{ABSTAIN}, menggunakan skala ordinal faktual (0), sebagian (1), dan penuh (2). Jawaban yang tidak dapat dinilai dilaporkan secara terpisah sebagai \texttt{UNRESOLVED}.
+
+Selain metrik utama, penelitian ini menggunakan metrik pendukung untuk menjelaskan perilaku setiap konfigurasi secara deskriptif. \emph{Faithfulness} mengukur kesesuaian klaim jawaban dengan konteks hasil \emph{retrieval}, sedangkan \emph{citation support} mengukur dukungan sumber yang dikutip terhadap klaim terkait. Relevansi konteks menilai kesesuaian informasi yang diambil dengan pertanyaan, sementara relevansi jawaban menilai kesesuaian respons dengan kebutuhan pertanyaan. Keterlacakan kutipan mengukur keberadaan kutipan yang merujuk pada sumber valid dalam konteks, dan latensi mengukur waktu pemrosesan sistem. Metrik pendukung tidak digunakan sebagai dasar keputusan H1, tetapi dilaporkan untuk membantu interpretasi hasil evaluasi.
 
 \subsection{Prosedur Pengujian dan Perbandingan Kondisi}
 \label{subsec:prosedur-pengujian}
@@ -509,7 +550,7 @@ Tiga kondisi eksperimen dijalankan dalam lima varian. Setiap varian dijalankan s
 \hline
 \textbf{Kondisi} & \textbf{Varian} & \textbf{Konfigurasi} & \textbf{Peran} \\
 \hline
-A & A & LLM murni  tanpa \emph{retrieval} \\
+A & A & LLM murni  & tanpa \emph{retrieval} \\
 \hline
 \multirow{2}{*}{B} & B-Vec & RAG konvensional & \emph{Baseline retrieval} vektor \\
 \cline{2-4}
@@ -550,9 +591,7 @@ Pada RQ4, selisih B-Acc dan B-Vec mencerminkan pengaruh pembobotan karena keduan
 \subsection{Rencana Analisis dan Pengujian Hipotesis}
 \label{subsec:analisis-hipotesis}
 
-Hipotesis H1 menyatakan bahwa GraphRAG berbobot (C-Acc dan C-Acc+Vote) menghasilkan \emph{hallucination rate} lebih rendah dibandingkan Kondisi A dan B-Vec. H1 diuji melalui empat perbandingan, masing-masing varian C terhadap kedua pembanding, menggunakan \emph{hallucination rate} tanpa \texttt{ABSTAIN} (Subbab~\ref{subsec:metrik-evaluasi}). Perbandingan dinyatakan mendukung H1 apabila selisih \emph{hallucination rate} (varian C dikurangi pembanding) bernilai negatif. Sementara itu, perbandingan C-Acc+Vote terhadap C-Acc (RQ5) bersifat eksploratif.
-
-Hasil setiap varian dilaporkan melalui jumlah dan persentase halusinasi, jumlah \texttt{ABSTAIN}, serta selisih persentase antarkondisi. Karena pengecualian \texttt{ABSTAIN} menghasilkan penyebut yang berbeda, kedua versi persentase dilaporkan. Analisis sensitivitas juga dilakukan pada pertanyaan yang dijawab oleh seluruh varian untuk memeriksa konsistensi hasil (Bab~\ref{chap:implementasi}).
+Hipotesis H1 menyatakan bahwa GraphRAG berbobot (C-Acc dan C-Acc+Vote) menghasilkan \emph{hallucination rate} lebih rendah dibandingkan LLM murni (A) dan RAG konvensional tanpa pembobotan (B-Vec). Evaluasi H1 dilakukan melalui empat perbandingan, yaitu masing-masing varian C terhadap A dan B-Vec. Selisih \emph{hallucination rate} negatif menunjukkan hasil yang sejalan dengan arah H1 pada sampel uji, sedangkan selisih nol atau positif tidak mendukung arah tersebut. Hasil setiap kondisi dilaporkan melalui jumlah dan persentase halusinasi, jumlah \texttt{ABSTAIN}, serta selisih persentase antarkondisi. Karena pengecualian \texttt{ABSTAIN} menghasilkan penyebut yang berbeda, kedua versi persentase dilaporkan. Analisis sensitivitas juga dilakukan pada pertanyaan yang dijawab oleh seluruh varian untuk memeriksa konsistensi hasil (Bab~\ref{chap:implementasi}).
 
 
 %============================================================
@@ -561,7 +600,7 @@ Hasil setiap varian dilaporkan melalui jumlah dan persentase halusinasi, jumlah 
 \label{sec:ringkasan-desain}
 %============================================================
 
-Mekanisme yang dirancang terdiri atas konstruksi graf pengetahuan berbobot dari SORD, bobot keandalan berbasis penilaian pengguna, pengambilan konteks berbobot (\emph{anchoring}, penelusuran graf, \emph{semantic expansion}, fusi, dan pemilihan konteks), serta protokol evaluasi tiga kondisi (lima varian). Desain ini memenuhi kebutuhan fungsional F1--F5 dan kebutuhan nonfungsional NF1--NF6, serta terkait dengan kesenjangan penelitian pada Bab~\ref{chap:studi-literatur} dan hipotesis pada Bab~\ref{chap:pendahuluan}. Keterlacakan kebutuhan fungsional ke komponen desain dan kriteria verifikasinya disajikan pada Tabel~\ref{tab:checklist-f1-f5}, dan keterlacakan kebutuhan nonfungsional pada Tabel~\ref{tab:keterlacakan-nf}.
+Mekanisme yang dirancang mencakup konstruksi graf pengetahuan berbobot dari SORD, perhitungan bobot keandalan berdasarkan penilaian pengguna, serta pengambilan konteks melalui \emph{anchoring}, penelusuran graf, \emph{semantic expansion}, fusi, dan pemilihan kandidat. Evaluasi dirancang melalui tiga kelompok kondisi dengan lima konfigurasi eksperimen untuk membandingkan pengaruh penggunaan konteks eksternal, pembobotan penilaian pengguna, dan mekanisme pengambilan konteks berbasis graf. Rancangan ini ditujukan untuk memenuhi kebutuhan fungsional F1--F5 dan kebutuhan nonfungsional NF1--NF6. Pemenuhan kebutuhan tersebut diverifikasi melalui implementasi dan evaluasi pada bab berikutnya. Keterlacakan kebutuhan fungsional ke komponen desain dan kriteria verifikasinya disajikan pada Tabel~\ref{tab:checklist-f1-f5}, dan keterlacakan kebutuhan nonfungsional pada Tabel~\ref{tab:keterlacakan-nf}.
 \input{tables/bab3_checklist_f1_f5.tex}
 
 \begin{table}[!htbp]
