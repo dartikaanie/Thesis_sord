@@ -11,9 +11,9 @@ Bab ini menjelaskan implementasi \emph{GraphRAG Framework} usulan berdasarkan ra
     \item Lingkungan implementasi dan perangkat pendukung.
     \item Persiapan dan pengelolaan data, termasuk pengambilan sampel dan pencegahan kebocoran data.
     \item Konstruksi \emph{knowledge graph} berbobot dan indeks vektor.
-    \item Implementasi eksperimen (A, B, C).
+    \item Realisasi tiga kondisi eksperimen.
     \item Generasi jawaban menggunakan model LLM.
-    \item Penetapan parameter dan daftar pengujian yang dianalisis.
+    \item Penetapan parameter.
     \item Pemenuhan kebutuhan sistem dan batasan implementasi.
 \end{enumerate}
 
@@ -22,7 +22,7 @@ Bab ini menjelaskan implementasi \emph{GraphRAG Framework} usulan berdasarkan ra
 \label{sec:gambaran-implementasi}
 %============================================================
 
-\emph{GraphRAG Framework} diimplementasikan sebagai satu \emph{pipeline} yang terdiri atas empat tahap berurutan, yaitu persiapan data, konstruksi \emph{knowledge graph} (KG) dan indeks vektor, eksekusi kondisi eksperimen yang mencakup \emph{retrieval} dan generasi jawaban, serta evaluasi. Pada tahap persiapan data, dataset SORD divalidasi, digabungkan, dan dideduplikasi menjadi 2.685.814 pertanyaan dan 725.795 jawaban, lalu disusun sampel uji ($n{=}384$) beserta himpunan pengecualian kebocoran data untuk setiap pertanyaan. Pada tahap konstruksi KG dan indeks vektor, populasi tersebut dimuat ke Neo4j sebagai graf berbobot, didensifikasi dengan relasi antar-pertanyaan, dan diindeks ke FAISS (indeks pertanyaan dan indeks jawaban). Pada tahap eksekusi kondisi eksperimen, setiap pertanyaan uji diproses oleh Kondisi A, B, dan C. Konteks diambil sesuai mekanisme masing-masing kondisi, disusun ke dalam \emph{prompt} yang sama, dan dijawab oleh \emph{generator} yang sama. Pada tahap evaluasi, rekaman tersebut dinilai oleh panel \emph{judges} dan dihitung menjadi metrik yang dilaporkan.
+\emph{GraphRAG Framework} diimplementasikan sebagai satu \emph{pipeline} yang terdiri atas empat tahap berurutan, yaitu persiapan data, konstruksi \emph{knowledge graph} (KG) dan indeks vektor, eksekusi kondisi eksperimen yang mencakup \emph{retrieval} dan generasi jawaban, serta evaluasi. Pada tahap persiapan data, dataset SORD divalidasi, digabungkan, dan dideduplikasi menjadi 2.685.814 pertanyaan dan 725.795 jawaban, lalu disusun sampel uji ($n{=}384$) beserta himpunan pengecualian kebocoran data untuk setiap pertanyaan. Pada tahap konstruksi KG dan indeks vektor, populasi tersebut dimuat ke Neo4j sebagai graf berbobot, didensifikasi dengan relasi antarpertanyaan, dan diindeks ke FAISS (indeks pertanyaan dan indeks jawaban). Pada tahap eksekusi kondisi eksperimen, setiap pertanyaan uji diproses oleh tiga kondisi, yaitu Kondisi A (LLM Murni), Kondisi B (RAG KOnvensional), dan Kondisi C (GraphRAG dengan pembobotan). Konteks diambil sesuai mekanisme masing-masing kondisi, disusun ke dalam \emph{prompt} yang sama, dan dijawab oleh \emph{generator} yang sama. Pada tahap evaluasi, hasil jawaban dinilai oleh panel \emph{judge} dan dihitung menjadi metrik yang dilaporkan.
 
 %============================================================
 \section{Lingkungan dan Perangkat Pendukung}
@@ -62,7 +62,7 @@ Tokenisasi & \texttt{tiktoken}, \emph{encoding} \texttt{cl100k\_base} \\
 \subsection{Konfigurasi Layanan LLM}
 \label{subsec:konfigurasi-llm}
 
-LLM digunakan untuk dua peran, yaitu sebagai \emph{generator} jawaban dan sebagai \emph{judge} untuk evaluasi. Model \emph{generator} tidak pernah digunakan sebagai \emph{judge}, sesuai ketentuan pada Subbab~\ref{subsubsec:kontrol-judge}. Konfigurasi setiap peran ditunjukkan pada Tabel~\ref{tab:konfigurasi-llm}.
+LLM digunakan untuk dua peran, yaitu sebagai \emph{generator} jawaban dan sebagai \emph{judge} untuk evaluasi. Model \emph{generator} tidak pernah digunakan sebagai \emph{judge}, sesuai ketentuan pada Subbab~\ref{subsec:panel-judge}. Konfigurasi setiap peran ditunjukkan pada Tabel~\ref{tab:konfigurasi-llm}.
 
 \begin{table}[!htbp]
 \centering

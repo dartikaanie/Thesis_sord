@@ -134,7 +134,7 @@ Kebutuhan nonfungsional menetapkan syarat mutu hasil dan keabsahan evaluasi. Tab
     \item Latensi. Waktu respons rata-rata dapat diterima untuk penggunaan interaktif.
     \item Keandalan kutipan. Kutipan pada jawaban benar-benar mendukung klaim yang dikaitkan dengannya.
     \item Integritas evaluasi. Konteks yang diberikan kepada LLM tidak boleh berasal dari \emph{thread} pertanyaan uji, termasuk jawaban acuan (\emph{reference answer}).
-    \item Perbandingan antarkondisi. Seluruh kondisi menggunakan sampel pertanyaan, model generatif, konfigurasi generasi, dan struktur dasar \emph{prompt} yang sama. Kondisi eksperimen berbasis \emph{retrieval} menggunakan model \emph{embedding}, jumlah konteks ($k=5$), serta instruksi \emph{grounding} dan pengutipan sumber yang identik. Perbedaan mekanisme pengambilan dan pemeringkatan konteks menjadi perlakuan utama yang dibandingkan pada keempat varian tersebut.
+    \item Perbandingan antarkondisi. Seluruh kondisi menggunakan sampel pertanyaan, model generatif, konfigurasi generasi, dan struktur dasar \emph{prompt} yang sama. Kondisi eksperimen berbasis \emph{retrieval} menggunakan model \emph{embedding}, jumlah konteks ($k=5$), serta instruksi \emph{grounding} dan pengutipan sumber yang identik.
 \end{enumerate}
 
 Kriteria sukses pada Tabel~\ref{tab:kebutuhan-nonfungsional} adalah ambang yang diuji pada bab evaluasi, sehingga hasilnya dapat memenuhi maupun tidak memenuhi kriteria tersebut.
@@ -310,7 +310,7 @@ Dari \emph{seed nodes}, sistem menelusuri graf untuk mengumpulkan simpul \texttt
 
 Bobot jalur kandidat didefinisikan pada Persamaan~\eqref{eq:w-path} sebagai hasil kali $w_{qq'}$ dan $w_{\mathrm{ans}}(a)$. Apabila suatu jawaban dicapai melalui lebih dari satu jalur, bobot tertinggi dipertahankan. Seluruh jawaban satu \emph{hop} dipertahankan, sedangkan kandidat dua \emph{hop} dibatasi pada $N_{\mathrm{trav}}$ jalur dengan bobot tertinggi. Jika bobot sama, jalur dengan identitas jawaban lebih kecil didahulukan. Pada skema \emph{Accepted}, jawaban yang tidak diterima memiliki bobot jalur 0, sehingga pemilihan di antara jalur berbobot sama ditentukan oleh identitas jawaban, bukan oleh relevansi. Keterbatasan ini dievaluasi pada Bab~\ref{chap:implementasi}.
 
-Sebagai ilustrasi, dari \texttt{Q\#1234} sistem mengikuti \texttt{HAS\_ACCEPTED\_ANSWER} menuju \texttt{A\#9823} sehingga $w_{\mathrm{path}}=1{,}0\times 1{,}0=1{,}0$ pada kedua varian. Secara paralel, sistem mengikuti \texttt{IS\_RELATED\_TO} ($w_{qq'}{=}0{,}41$) menuju \texttt{Q\#2567}, lalu \texttt{A\#9412} yang juga \emph{accepted}, sehingga $w_{\mathrm{path}}=0{,}41$.
+Sebagai ilustrasi, dari \texttt{Q\#1234} sistem mengikuti \texttt{HAS\_ACCEPTED\_ANSWER} menuju \texttt{A\#9823} sehingga $w_{\mathrm{path}}=1{,}0\times 1{,}0=1{,}0$. Secara paralel, sistem mengikuti \texttt{IS\_RELATED\_TO} ($w_{qq'}{=}0{,}41$) menuju \texttt{Q\#2567}, lalu \texttt{A\#9412} yang juga \emph{accepted}, sehingga $w_{\mathrm{path}}=0{,}41$.
 
 \paragraph{Tahap 3: \emph{Semantic Expansion}.}
 Tahap ini memperluas pencarian secara semantik dari hasil penelusuran graf. Judul dari paling banyak $N_{\mathrm{exp}}$ pertanyaan asal pertama yang menghasilkan kandidat pada tahap penelusuran diubah menjadi vektor dan dipakai sebagai kueri pada indeks pertanyaan. Untuk setiap judul diambil paling banyak $n_{\mathrm{nb}}$ pertanyaan tetangga yang bukan \emph{seed node}, bukan pertanyaan evaluasi, dan belum diambil oleh judul sebelumnya. Jawaban dari pertanyaan tetangga menjadi kandidat. Perluasan dari judul pertanyaan asal kandidat penelusuran (bukan dari kueri pengguna) membuat kandidat tambahan terkait dengan konteks yang sudah ditemukan graf, dan penggabungan semacam ini sejalan dengan \textcite{sarmah2024hybridrag}, \textcite{Zhou2026}, dan pembahasan fusi skor oleh \textcite{Bruch2023}.
@@ -337,7 +337,7 @@ Penilaian pengguna mengukur seberapa tervalidasi suatu jawaban oleh komunitas, b
 \end{equation}
 dengan $\mathrm{sim}_{\mathrm{norm}}(q,c)$ adalah kemiripan kosinus antara kueri $q$ dan teks kandidat (dipotong pada batas 400 token) yang dinormalisasi \emph{min-max} atas seluruh kandidat \emph{pool} setiap pertanyaan. Parameter $\alpha \in [0,1]$ mengatur kontribusi bobot jalur. Parameter $\alpha$ dipilih pada \emph{development set}, bukan pada himpunan uji (Subbab~\ref{subsec:dataset-sampling}).
 
-Nilai parameter yang digunakan pada pengambilan dan pemeringkatan konteks dirangkum pada Tabel~\ref{tab:parameter-pengambilan}. Seluruh nilai ditetapkan tetap dan identik pada varian yang memakai parameter tersebut. 
+Nilai parameter yang digunakan pada pengambilan dan pemeringkatan konteks dirangkum pada Tabel~\ref{tab:parameter-pengambilan}. Seluruh nilai ditetapkan tetap dan identik pada eksperimen yang menggunakan parameter tersebut. 
 
 \begin{table}[!htbp]
 \centering
@@ -387,7 +387,7 @@ Pada tahap \emph{packing}, $k$ kandidat teratas disusun menjadi satu konteks. Se
 
 Penelitian ini membandingkan tiga pendekatan utama, yaitu LLM murni (Kondisi A), RAG berbasis vektor (Kondisi B), dan GraphRAG berbobot penilaian pengguna (Kondisi C). Kondisi A dan B digunakan sebagai pembanding, sedangkan Kondisi C merupakan mekanisme yang dikembangkan.
 
-Untuk mengevaluasi pengaruh setiap mekanisme, Kondisi B dan C masing-masing dibagi menjadi dua varian. Kondisi B terdiri atas B-Vec, yaitu RAG tanpa pembobotan, dan B-Acc, yaitu RAG dengan pembobotan \emph{accepted answer} tanpa graf. Kondisi C terdiri atas C-Acc, yaitu GraphRAG dengan skema pembobotan \emph{Accepted}, dan C-Acc+Vote, yaitu GraphRAG dengan skema \emph{Accepted+Vote}. Dengan demikian, terdapat lima konfigurasi eksperimen yang digunakan untuk mengevaluasi pengaruh pengambilan konteks eksternal, pembobotan penilaian pengguna, dan mekanisme pengambilan konteks berbasis graf.
+Untuk mengevaluasi pengaruh setiap mekanisme, Kondisi B dan C masing-masing dibagi menjadi dua konfigurasi. Kondisi B terdiri atas B-Vec, yaitu RAG tanpa pembobotan, dan B-Acc, yaitu RAG dengan pembobotan \emph{accepted answer} tanpa graf. Kondisi C terdiri atas C-Acc, yaitu GraphRAG dengan skema pembobotan \emph{Accepted}, dan C-Acc+Vote, yaitu GraphRAG dengan skema \emph{Accepted+Vote}. Dengan demikian, terdapat lima konfigurasi eksperimen yang digunakan untuk mengevaluasi pengaruh pengambilan konteks eksternal, pembobotan penilaian pengguna, dan mekanisme pengambilan konteks berbasis graf.
 
 Seluruh konfigurasi menggunakan sampel pertanyaan, model generatif, dan struktur dasar \emph{prompt} yang sama. Keempat konfigurasi berbasis \emph{retrieval} menggunakan model \emph{embedding}, jumlah konteks ($k=5$), dan instruksi generasi yang sama (Subbab~\ref{subsec:pengendalian-variabel}). Ringkasan konfigurasi disajikan pada Tabel~\ref{tab:perbandingan-kondisi}.
 
@@ -413,37 +413,37 @@ Jumlah konteks ke LLM & 0 & 5 & 5 & 5 & 5 \\
 \subsection{Konfigurasi Kondisi Pembanding}
 \label{subsec:kondisi-pembanding}
 
-Kondisi A dan Kondisi B menjadi pembanding tanpa graf. Kondisi A menjadi titik acuan tanpa \emph{retrieval}. Kondisi B menggunakan \emph{retrieval} vektor dan diuji dalam dua varian, yaitu B-Vec sebagai pembanding tanpa pembobotan, dan B-Acc sebagai kontrol yang menerapkan pembobotan \emph{accepted answer} yang sama dengan Kondisi C tanpa graf.
+Kondisi A dan Kondisi B menjadi pembanding tanpa graf. Kondisi A menjadi titik acuan tanpa \emph{retrieval}. Kondisi B menggunakan \emph{retrieval} vektor dan diuji dalam dua konfigurasi, yaitu B-Vec sebagai pembanding tanpa pembobotan, dan B-Acc sebagai kontrol yang menerapkan pembobotan \emph{accepted answer} yang sama dengan Kondisi C tanpa graf.
 
 \paragraph{Kondisi A: LLM Murni.}
 Kondisi A mereplikasi protokol \textcite{DaSilva2025}: setiap pertanyaan dijawab tanpa konteks eksternal menggunakan struktur \emph{prompt} empat giliran yang sama, dan setiap pertanyaan menghasilkan tepat satu jawaban yang langsung dievaluasi.
 
 \paragraph{Kondisi B: RAG Konvensional.}
-Kondisi B adalah \emph{retrieval} berbasis kemiripan vektor tanpa struktur graf, dan diuji dalam dua varian, yaitu B-Vec (tanpa pembobotan) dan B-Acc (dengan pembobotan \emph{accepted answer}). Kedua varian berbagi korpus, representasi, indeks, dan aturan pengecualian yang sama. Korpus \emph{retrieval} memuat seluruh populasi jawaban SORD yang juga dimuat dalam KG Kondisi C. Setiap jawaban direpresentasikan oleh satu vektor dari teks berupa judul pertanyaan induk diikuti isi jawaban, dipotong pada batas 400 token, tanpa pemecahan menjadi beberapa \emph{chunk}. Judul disertakan karena jawaban Stack Overflow sering ambigu tanpa konteks pertanyaannya. Vektor diindeks ke FAISS dengan model \emph{embedding} yang sama dengan Kondisi C, dan teks kueri dibentuk dengan cara yang sama. Kebocoran data dicegah dengan aturan pengecualian per kueri yang sama dengan Kondisi C (Subbab~\ref{subsec:leakage}). Kedua varian tidak menggunakan penelusuran graf maupun \emph{semantic expansion}.
+Kondisi B adalah \emph{retrieval} berbasis kemiripan vektor tanpa struktur graf, dan diuji dalam dua konfigurasi, yaitu B-Vec (tanpa pembobotan) dan B-Acc (dengan pembobotan \emph{accepted answer}). Kedua konfigurasi berbagi korpus, representasi, indeks, dan aturan pengecualian yang sama. Korpus \emph{retrieval} memuat seluruh populasi jawaban SORD yang juga dimuat dalam KG Kondisi C. Setiap jawaban direpresentasikan oleh satu vektor dari teks berupa judul pertanyaan induk diikuti isi jawaban, dipotong pada batas 400 token, tanpa pemecahan menjadi beberapa \emph{chunk}. Judul disertakan karena jawaban Stack Overflow sering ambigu tanpa konteks pertanyaannya. Vektor diindeks ke FAISS dengan model \emph{embedding} yang sama dengan Kondisi C, dan teks kueri dibentuk dengan cara yang sama. Kebocoran data dicegah dengan aturan pengecualian per kueri yang sama dengan Kondisi C (Subbab~\ref{subsec:leakage}). Kedua konfigurasi tidak menggunakan penelusuran graf maupun \emph{semantic expansion}.
 
-Perbedaan kedua varian terletak pada cara memilih lima jawaban yang diberikan ke \emph{prompt}:
+Perbedaan kedua konfigurasi terletak pada cara memilih lima jawaban yang diberikan ke \emph{prompt}:
 \begin{itemize}
     \item \textbf{B-Vec} mengambil $k{=}5$ jawaban dengan kemiripan kosinus tertinggi, tanpa pembobotan.
-    \item \textbf{B-Acc} mengurutkan ulang sepuluh jawaban teratas dari pencarian vektor yang sama dengan skor akhir pada Persamaan~\eqref{eq:final-score}, dengan $w_{qq'}=1$ dan $w_{\mathrm{ans}}(a)=\mathbf{1}[\mathrm{acc}_a]$, lalu mengambil lima jawaban teratas. Nilai $\alpha$ sama dengan yang dipakai kedua varian Kondisi C.
+    \item \textbf{B-Acc} mengurutkan ulang sepuluh jawaban teratas dari pencarian vektor yang sama dengan skor akhir pada Persamaan~\eqref{eq:final-score}, dengan $w_{qq'}=1$ dan $w_{\mathrm{ans}}(a)=\mathbf{1}[\mathrm{acc}_a]$, lalu mengambil lima jawaban teratas. Nilai $\alpha$ sama dengan yang dipakai kedua konfigurasi Kondisi C.
 \end{itemize}
-Dengan demikian, kedua varian bertolak dari hasil pencarian vektor yang sama. Selisih B-Acc terhadap B-Vec mencerminkan pengaruh pembobotan \emph{accepted answer} pada pemeringkatan ulang, dan selisih C-Acc terhadap B-Acc mencerminkan pengaruh mekanisme pengambilan konteks berbasis graf secara keseluruhan, yaitu penelusuran graf, \emph{semantic expansion}, dan \emph{pool} kandidat yang lebih luas.
+Dengan demikian, kedua konfigurasi bertolak dari hasil pencarian vektor yang sama. Selisih B-Acc terhadap B-Vec mencerminkan pengaruh pembobotan \emph{accepted answer} pada pemeringkatan ulang, dan selisih C-Acc terhadap B-Acc mencerminkan pengaruh mekanisme pengambilan konteks berbasis graf secara keseluruhan, yaitu penelusuran graf, \emph{semantic expansion}, dan \emph{pool} kandidat yang lebih luas.
 
 \subsection{Konfigurasi GraphRAG Berbobot Penilaian Pengguna}
 \label{subsec:konfigurasi-graphrag-berbobot}
 
 
 \paragraph{Kondisi C: GraphRAG Berbobot.}
-Kondisi C adalah mekanisme yang diusulkan, dan diuji dalam dua varian, yaitu C-Acc (bobot \emph{accepted answer}) dan C-Acc+Vote (bobot \emph{accepted answer} dan skor suara). Kedua varian menggunakan graf, indeks, rumus skor akhir, nilai $\alpha$, dan instruksi generasi yang sama, serta mekanisme pengambilan konteks tiga tahap pada Subbab~\ref{subsec:pengambilan-konteks}, yaitu \emph{anchoring} tingkat jawaban, penelusuran graf, dan \emph{semantic expansion}. \emph{Pool} kandidat diperingkat dengan skor akhir pada Persamaan~\eqref{eq:final-score}. Kedua varian hanya berbeda pada definisi bobot jawaban (Persamaan~\eqref{eq:w-ans}):
+Kondisi C adalah mekanisme yang diusulkan, dan diuji dalam dua konfigurasi, yaitu C-Acc (bobot \emph{accepted answer}) dan C-Acc+Vote (bobot \emph{accepted answer} dan skor suara). Kedua konfigurasi menggunakan graf, indeks, rumus skor akhir, nilai $\alpha$, dan instruksi generasi yang sama, serta mekanisme pengambilan konteks tiga tahap pada Subbab~\ref{subsec:pengambilan-konteks}, yaitu \emph{anchoring} tingkat jawaban, penelusuran graf, dan \emph{semantic expansion}. \emph{Pool} kandidat diperingkat dengan skor akhir pada Persamaan~\eqref{eq:final-score}. Kedua konfigurasi hanya berbeda pada definisi bobot jawaban (Persamaan~\eqref{eq:w-ans}):
 \begin{itemize}
     \item \textbf{C-Acc}: bobot jawaban hanya ditentukan oleh status \emph{accepted answer}, $w_{\mathrm{ans}}(a)=\mathbf{1}[\mathrm{acc}_a]$. Jawaban yang tidak diterima memperoleh bobot jalur 0, tetapi tetap dapat bersaing melalui komponen kemiripan pada skor akhir.
     \item \textbf{C-Acc+Vote}: bobot jawaban menggabungkan status \emph{accepted answer} dan skor kepercayaan berbasis skor suara, $w_{\mathrm{ans}}(a)=w_{\mathrm{acc}}\,\mathbf{1}[\mathrm{acc}_a]+w_{\mathrm{vote}}\,\mathrm{trust}_A(a)$.
 \end{itemize}
-Karena hanya sebagian kecil pertanyaan di SORD yang memiliki \emph{accepted answer}, pembeda utama kedua varian terletak pada urutan jawaban yang tidak diterima. Selisih C-Acc+Vote terhadap C-Acc mencerminkan pengaruh tambahan skor suara.
+Karena hanya sebagian kecil pertanyaan di SORD yang memiliki \emph{accepted answer}, pembeda utama kedua konfigurasi terletak pada urutan jawaban yang tidak diterima. Selisih C-Acc+Vote terhadap C-Acc mencerminkan pengaruh tambahan skor suara.
 
 \subsection{Pengendalian Variabel Eksperimen}
 \label{subsec:pengendalian-variabel}
 
-Untuk menjaga keterbandingan hasil eksperimen (NF6), variabel yang tidak menjadi bagian dari perlakuan dijaga tetap pada kondisi yang relevan. Seluruh kondisi menggunakan sampel pertanyaan, model generatif, dan konfigurasi generasi yang sama. Sementara itu, model \emph{embedding}, jumlah konteks, dan instruksi berbasis konteks dikendalikan secara identik pada keempat varian yang menggunakan \emph{retrieval}.
+Untuk menjaga keterbandingan hasil eksperimen (NF6), variabel yang tidak menjadi bagian dari perlakuan dijaga tetap pada kondisi yang relevan. Seluruh kondisi menggunakan sampel pertanyaan, model generatif, dan konfigurasi generasi yang sama. Sementara itu, model \emph{embedding}, jumlah konteks, dan instruksi berbasis konteks dikendalikan secara identik pada keempat konfigurasi yang menggunakan \emph{retrieval}.
 \begin{enumerate}[(a)]
     \item Sampel pertanyaan uji, yaitu 384 pertanyaan yang sama (Subbab~\ref{subsec:dataset-sampling}).
     \item Model generatif, yaitu \texttt{gpt-4o-mini}, sehingga perbedaan hasil tidak dipengaruhi oleh kemampuan model.
@@ -455,7 +455,7 @@ Untuk menjaga keterbandingan hasil eksperimen (NF6), variabel yang tidak menjadi
 
 Pembangkitan jawaban tidak dikembangkan dalam penelitian ini. Struktur \emph{prompt} diperlakukan sebagai variabel kontrol agar perbedaan hasil antarkondisi berasal dari mekanisme pemilihan konteks. Seluruh kondisi menggunakan struktur empat giliran percakapan yang mereplikasi \textcite{DaSilva2025}: (1) pesan sistem berisi persona umum \emph{software engineering}, (2) persona spesifik yang dibentuk dari tag pertanyaan, (3) konfirmasi persona oleh asisten, dan (4) pertanyaan beserta deskripsinya.
 
-Pada Kondisi B dan C, instruksi tambahan diterapkan pada pesan sistem dan giliran keempat. Pesan sistem memuat aturan \emph{grounding}, penolakan menjawab apabila konteks tidak mencukupi, serta kewajiban mencantumkan kutipan dengan label \texttt{[SO-\textless id\textgreater]}. Giliran keempat memuat konteks hasil \emph{retrieval} beserta pengingat instruksi tersebut. Seluruh varian B dan C menggunakan instruksi yang identik, sedangkan Kondisi A menggunakan struktur empat giliran tanpa instruksi tambahan.
+Pada Kondisi B dan C, instruksi tambahan diterapkan pada pesan sistem dan giliran keempat. Pesan sistem memuat aturan \emph{grounding}, penolakan menjawab apabila konteks tidak mencukupi, serta kewajiban mencantumkan kutipan dengan label \texttt{[SO-\textless id\textgreater]}. Giliran keempat memuat konteks hasil \emph{retrieval} beserta pengingat instruksi tersebut. Seluruh konfigurasi B dan C menggunakan instruksi yang identik, sedangkan Kondisi A menggunakan struktur empat giliran tanpa instruksi tambahan.
 
 %============================================================
 
@@ -488,7 +488,7 @@ Urutan tetap tersebut dibagi berdasarkan posisi menjadi himpunan yang saling lep
 
 KG dibangun dari seluruh populasi SORD, sehingga pertanyaan evaluasi beserta jawaban diterimanya, yang berperan sebagai jawaban acuan, berada dalam graf. Korpus Kondisi B yang memuat jawaban yang sama pun mengandung jawaban tersebut. Tanpa pencegahan, \emph{retrieval} dapat menemukan kembali jawaban ini sehingga kinerja menjadi bias, suatu bentuk kebocoran data yang merusak validitas hasil evaluasi \autocite{Kapoor2023}.
 
-Oleh karena itu, untuk setiap pertanyaan evaluasi ditetapkan satu himpunan pengecualian yang berisi pertanyaan itu sendiri beserta seluruh jawabannya (diterima maupun tidak). Pengecualian ditetapkan hanya berdasarkan identitas pertanyaan, bukan berdasarkan isi jawaban diterima. Aturan yang sama diterapkan per kueri pada seluruh varian Kondisi B dan Kondisi C, yaitu kandidat yang termasuk himpunan pengecualian dibuang, lalu hasilnya dipotong sesuai jumlah yang dibutuhkan. Pada Kondisi C, pengecualian diterapkan pada hasil pencarian jawaban, pada setiap simpul yang dilewati penelusuran, dan pada \emph{semantic expansion}. Setiap varian memeriksa per kueri bahwa irisan antara hasil \emph{retrieval} dan himpunan pengecualian kosong. Hasil pemeriksaan ini menjadi dasar pengujian kriteria NF5.
+Oleh karena itu, untuk setiap pertanyaan evaluasi ditetapkan satu himpunan pengecualian yang berisi pertanyaan itu sendiri beserta seluruh jawabannya (diterima maupun tidak). Pengecualian ditetapkan hanya berdasarkan identitas pertanyaan, bukan berdasarkan isi jawaban diterima. Aturan yang sama diterapkan per kueri pada seluruh konfigurasi Kondisi B dan Kondisi C, yaitu kandidat yang termasuk himpunan pengecualian dibuang, lalu hasilnya dipotong sesuai jumlah yang dibutuhkan. Pada Kondisi C, pengecualian diterapkan pada hasil pencarian jawaban, pada setiap simpul yang dilewati penelusuran, dan pada \emph{semantic expansion}. Setiap konfigurasi memeriksa per kueri bahwa irisan antara hasil \emph{retrieval} dan himpunan pengecualian kosong. Hasil pemeriksaan ini menjadi dasar pengujian kriteria NF5.
 
 Pengecualian ditetapkan berdasarkan identitas, sehingga \emph{thread} lain yang sangat mirip atau berduplikat dengan pertanyaan uji tidak dikecualikan, dan hal ini berlaku sama pada seluruh kondisi yang menggunakan konteks. Konstruksi graf dan normalisasi $P_{99}$ juga menggunakan seluruh populasi termasuk pertanyaan uji, sehingga pengaruh tidak langsung pertanyaan uji terhadap statistik normalisasi tidak dihilangkan. Klaim integritas evaluasi (NF5) karena itu dibatasi pada ketiadaan \emph{thread} uji beserta jawabannya dalam konteks.
 
@@ -533,10 +533,45 @@ Tingkat keparahan halusinasi dilaporkan secara deskriptif, yaitu \emph{penuh} ap
 
 Selain metrik utama, penelitian ini menggunakan metrik pendukung untuk menjelaskan perilaku setiap konfigurasi secara deskriptif. \emph{Faithfulness} mengukur kesesuaian klaim jawaban dengan konteks hasil \emph{retrieval}, sedangkan \emph{citation support} mengukur dukungan sumber yang dikutip terhadap klaim terkait. Relevansi konteks menilai kesesuaian informasi yang diambil dengan pertanyaan, sementara relevansi jawaban menilai kesesuaian respons dengan kebutuhan pertanyaan. Keterlacakan kutipan mengukur keberadaan kutipan yang merujuk pada sumber valid dalam konteks, dan latensi mengukur waktu pemrosesan sistem. Metrik pendukung tidak digunakan sebagai dasar keputusan H1, tetapi dilaporkan untuk membantu interpretasi hasil evaluasi.
 
+Ringkasan metrik evaluasi disajikan pada Tabel~\ref{tab:metrik-evaluasi}.
+
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\caption{Metrik evaluasi utama dan pendukung.}
+\label{tab:metrik-evaluasi}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{2.7cm}|>{\raggedright\arraybackslash}p{1.7cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{2.9cm}|>{\raggedright\arraybackslash}p{2.1cm}|}
+\hline
+\textbf{Metrik} & \textbf{Peran} & \textbf{Yang diukur} & \textbf{Perhitungan / satuan} & \textbf{Berlaku untuk} \\
+\hline
+\emph{Hallucination rate} (HR) & Utama (dasar H1) & Proporsi jawaban yang memuat sedikitnya satu klaim berlabel \texttt{CONTRADICTED} atau \texttt{FABRICATED}; \texttt{ABSTAIN} dan \texttt{UNRESOLVED} dikeluarkan dari penyebut & $\mathrm{HR}=\dfrac{H}{N-A-U}\times 100\%$ & A, B-Vec, B-Acc, C-Acc, C-Acc+Vote \\
+\hline
+\emph{Failure rate} (FR) & Pelengkap HR & Proporsi jawaban yang berhalusinasi atau menolak menjawab; menunjukkan apakah HR rendah disebabkan oleh tingginya \texttt{ABSTAIN} & $\mathrm{FR}=\dfrac{H+A}{N-U}\times 100\%$ & Semua konfigurasi \\
+\hline
+Tingkat keparahan halusinasi & Deskriptif & Dampak kesalahan: faktual (0), sebagian (1), penuh (2); dilaporkan pada jawaban bukan \texttt{ABSTAIN} & Median ordinal dan sebaran per kelas & Semua konfigurasi \\
+\hline
+Proporsi \texttt{UNRESOLVED} & Pelaporan terpisah & Jawaban yang tidak dapat dinilai secara memadai oleh panel \emph{judge} & $U/N\times 100\%$ & Semua konfigurasi \\
+\hline
+\emph{Faithfulness} & Pendukung & Kesesuaian klaim jawaban dengan konteks hasil \emph{retrieval} & Proporsi klaim yang didukung konteks & Konfigurasi berkonteks (B dan C) \\
+\hline
+\emph{Citation support} & Pendukung & Dukungan item konteks yang dikutip terhadap klaim terkait & Proporsi klaim berkutipan yang didukung item yang dikutip & Konfigurasi berkonteks (B dan C) \\
+\hline
+Relevansi konteks & Pendukung & Kesesuaian informasi hasil \emph{retrieval} dengan pertanyaan & Penilaian panel \emph{judge} per item konteks, dirata-ratakan & Konfigurasi berkonteks (B dan C) \\
+\hline
+Relevansi jawaban & Pendukung & Kesesuaian respons dengan kebutuhan pertanyaan & Penilaian panel \emph{judge} per jawaban, dirata-ratakan & Semua konfigurasi \\
+\hline
+Keterlacakan kutipan & Pendukung (NF2) & Keberadaan kutipan yang merujuk pada sumber valid dalam konteks yang diberikan & Proporsi jawaban dengan sedikitnya satu kutipan valid, atas seluruh jawaban dan atas jawaban bukan \texttt{ABSTAIN} & Konfigurasi berkonteks (B dan C) \\
+\hline
+Latensi & Pendukung (NF3) & Waktu pemrosesan per pertanyaan & Rata-rata waktu \emph{end-to-end} (detik) dan waktu \emph{retrieval}, dibandingkan batas 15 detik & Semua konfigurasi \\
+\hline
+\end{tabularx}
+\end{table}
+
 \subsection{Prosedur Pengujian dan Perbandingan Kondisi}
 \label{subsec:prosedur-pengujian}
 
-Tiga kondisi eksperimen dijalankan dalam lima varian. Setiap varian dijalankan satu kali pada 384 pertanyaan uji yang sama. Seluruh jawaban dinilai oleh panel \emph{judge} (Subbab~\ref{subsec:panel-judge}) dengan metrik utama \emph{hallucination rate} dan metrik pendukung yang sama (Subbab~\ref{subsec:metrik-evaluasi}). Matriks pengujian disajikan pada Tabel~\ref{tab:table-matriks-run}.
+Tiga kondisi eksperimen dijalankan dalam lima konfigurasi. Setiap konfigurasi dijalankan satu kali pada 384 pertanyaan uji yang sama. Seluruh jawaban dinilai oleh panel \emph{judge} (Subbab~\ref{subsec:panel-judge}) dengan metrik utama \emph{hallucination rate} dan metrik pendukung yang sama (Subbab~\ref{subsec:metrik-evaluasi}). Matriks pengujian disajikan pada Tabel~\ref{tab:table-matriks-run}.
 
 
 \begin{table}[!htbp]
@@ -545,17 +580,17 @@ Tiga kondisi eksperimen dijalankan dalam lima varian. Setiap varian dijalankan s
 \label{tab:table-matriks-run}
 \begin{tabular}{|c|l|l|l|}
 \hline
-\textbf{Kondisi} & \textbf{Varian} & \textbf{Konfigurasi} & \textbf{Peran} \\
+\textbf{Kondisi} & \textbf{Konfigurasi} &  \textbf{Peran} \\
 \hline
 A & A & LLM murni  & tanpa \emph{retrieval} \\
 \hline
-\multirow{2}{*}{B} & B-Vec & RAG konvensional & \emph{Baseline retrieval} vektor \\
+\multirow{2}{*}{B} & B-Vec & RAG konvensional. \emph{Baseline retrieval} vektor \\
 \cline{2-4}
- & B-Acc & RAG, bobot \emph{accepted}, tanpa graf & Kontrol pengaruh pembobotan tanpa graf \\
+ & B-Acc & RAG, bobot \emph{accepted}, tanpa graf.  Kontrol pengaruh pembobotan tanpa graf \\
 \hline
-\multirow{2}{*}{C} & C-Acc & GraphRAG, bobot \emph{accepted} & Varian mekanisme yang diusulkan \\
+\multirow{2}{*}{C} & C-Acc & GraphRAG, bobot \emph{accepted}. Konfigurasi mekanisme yang diusulkan \\
 \cline{2-4}
- & C-Acc+Vote & GraphRAG, bobot \emph{accepted} dan skor suara & Varian mekanisme yang diusulkan \\
+ & C-Acc+Vote & GraphRAG, bobot \emph{accepted} dan skor suara. Konfigurasi mekanisme yang diusulkan \\
 \hline
 \end{tabular}
 \end{table}
@@ -564,7 +599,7 @@ A & A & LLM murni  & tanpa \emph{retrieval} \\
 Pendekatan GraphRAG memiliki kompleksitas arsitektural lebih tinggi daripada Kondisi A dan B karena memerlukan konstruksi dan densifikasi KG serta penelusuran graf. Penelitian ini berfokus pada \emph{hallucination rate}. Latensi dilaporkan secara deskriptif sebagai metrik pendukung, tetapi penelitian ini tidak mengklaim keunggulan efisiensi.
 
 \paragraph{Pemetaan Perbandingan terhadap Pertanyaan Penelitian.}
-Kondisi A dan B-Vec menjadi pembanding tanpa pembobotan, B-Acc menjadi kontrol pembobotan tanpa graf, sedangkan C-Acc dan C-Acc+Vote merupakan varian mekanisme yang diusulkan. Pemetaan perbandingan terhadap pertanyaan penelitian disajikan pada Tabel~\ref{tab:pemetaan-perbandingan}. Hasil perbandingan didasarkan pada label mayoritas panel \emph{judge} dan diperiksa konsistensinya terhadap penilaian masing-masing \emph{judge}.
+Kondisi A dan B-Vec menjadi pembanding tanpa pembobotan, B-Acc menjadi kontrol pembobotan tanpa graf, sedangkan C-Acc dan C-Acc+Vote merupakan konfigurasi mekanisme yang diusulkan. Pemetaan perbandingan terhadap pertanyaan penelitian disajikan pada Tabel~\ref{tab:pemetaan-perbandingan}. Hasil perbandingan didasarkan pada label mayoritas panel \emph{judge} dan diperiksa konsistensinya terhadap penilaian masing-masing \emph{judge}.
 
 \begin{table}[!htbp]
 \centering
@@ -583,12 +618,12 @@ RQ5 & C-Acc+Vote terhadap C-Acc & Perbedaan akibat penambahan skor suara pada bo
 \end{tabular}
 \end{table}
 
-Pada RQ4, selisih B-Acc dan B-Vec mencerminkan pengaruh pembobotan karena keduanya menggunakan pencarian vektor yang sama. Selisih C-Acc dan B-Acc mencerminkan pengaruh mekanisme pengambilan konteks berbasis graf secara keseluruhan, yaitu penelusuran graf, \emph{semantic expansion}, dan \emph{pool} kandidat yang lebih luas, dan bukan pengaruh struktur graf saja. Normalisasi kemiripan juga dilakukan atas \emph{pool} yang berbeda, sehingga skor ternormalisasi kandidat yang sama dapat berbeda antarvarian. Pemisahan ini bersifat deskriptif karena setiap varian dijalankan satu kali.
+Pada RQ4, selisih B-Acc dan B-Vec mencerminkan pengaruh pembobotan karena keduanya menggunakan pencarian vektor yang sama. Selisih C-Acc dan B-Acc mencerminkan pengaruh mekanisme pengambilan konteks berbasis graf secara keseluruhan, yaitu penelusuran graf, \emph{semantic expansion}, dan \emph{pool} kandidat yang lebih luas, dan bukan pengaruh struktur graf saja. Normalisasi kemiripan juga dilakukan atas \emph{pool} yang berbeda, sehingga skor ternormalisasi kandidat yang sama dapat berbeda antarkonfigurasi. Pemisahan ini bersifat deskriptif karena setiap konfigurasi dijalankan satu kali.
 
 \subsection{Rencana Analisis dan Pengujian Hipotesis}
 \label{subsec:analisis-hipotesis}
 
-Hipotesis H1 menyatakan bahwa GraphRAG berbobot (C-Acc dan C-Acc+Vote) menghasilkan \emph{hallucination rate} lebih rendah dibandingkan LLM murni (A) dan RAG konvensional tanpa pembobotan (B-Vec). Evaluasi H1 dilakukan melalui empat perbandingan, yaitu masing-masing varian C terhadap A dan B-Vec. Selisih \emph{hallucination rate} negatif menunjukkan hasil yang sejalan dengan arah H1 pada sampel uji, sedangkan selisih nol atau positif tidak mendukung arah tersebut. Hasil setiap kondisi dilaporkan melalui jumlah dan persentase halusinasi, jumlah \texttt{ABSTAIN}, serta selisih persentase antarkondisi. Karena pengecualian \texttt{ABSTAIN} menghasilkan penyebut yang berbeda, kedua versi persentase dilaporkan. Analisis sensitivitas juga dilakukan pada pertanyaan yang dijawab oleh seluruh varian untuk memeriksa konsistensi hasil (Bab~\ref{chap:implementasi}).
+Hipotesis H1 menyatakan bahwa GraphRAG berbobot (C-Acc dan C-Acc+Vote) menghasilkan \emph{hallucination rate} lebih rendah dibandingkan LLM murni (A) dan RAG konvensional tanpa pembobotan (B-Vec). Evaluasi H1 dilakukan melalui empat perbandingan, yaitu masing-masing konfigurasi C terhadap A dan B-Vec. Selisih \emph{hallucination rate} negatif menunjukkan hasil yang sejalan dengan arah H1 pada sampel uji, sedangkan selisih nol atau positif tidak mendukung arah tersebut. Hasil setiap kondisi dilaporkan melalui jumlah dan persentase halusinasi, jumlah \texttt{ABSTAIN}, serta selisih persentase antarkondisi. Karena pengecualian \texttt{ABSTAIN} menghasilkan penyebut yang berbeda, kedua versi persentase dilaporkan. Analisis sensitivitas juga dilakukan pada pertanyaan yang dijawab oleh seluruh konfigurasi untuk memeriksa konsistensi hasil (Bab~\ref{chap:implementasi}).
 
 
 %============================================================
@@ -609,17 +644,17 @@ Mekanisme yang dirancang mencakup konstruksi graf pengetahuan berbobot dari SORD
 \hline
 \textbf{Kode} & \textbf{Kebutuhan} & \textbf{Komponen desain} & \textbf{Bukti verifikasi} \\
 \hline
-NF1 & Laju halusinasi & Subbab~\ref{subsec:metrik-evaluasi}, \ref{subsec:analisis-hipotesis} & \emph{Hallucination rate} setiap varian dan selisihnya \\
+NF1 & Laju halusinasi & Subbab~\ref{subsec:metrik-evaluasi}, \ref{subsec:analisis-hipotesis} & \emph{Hallucination rate} setiap konfigurasi dan selisihnya \\
 \hline
-NF2 & Keterlacakan & Subbab~\ref{subsec:penyaringan-konteks}, \ref{subsec:pengendalian-variabel} & Proporsi jawaban yang menyertakan kutipan valid (varian yang menggunakan konteks) \\
+NF2 & Keterlacakan & Subbab~\ref{subsec:penyaringan-konteks}, \ref{subsec:pengendalian-variabel} & Proporsi jawaban yang menyertakan kutipan valid (konfigurasi yang menggunakan konteks) \\
 \hline
-NF3 & Latensi & Subbab~\ref{subsec:metrik-evaluasi} & Waktu respons rata-rata setiap varian \\
+NF3 & Latensi & Subbab~\ref{subsec:metrik-evaluasi} & Waktu respons rata-rata setiap konfigurasi \\
 \hline
-NF4 & Keandalan kutipan & Subbab~\ref{subsec:pengendalian-variabel}, \ref{subsec:metrik-evaluasi} & \emph{Citation support} (varian yang menggunakan konteks) \\
+NF4 & Keandalan kutipan & Subbab~\ref{subsec:pengendalian-variabel}, \ref{subsec:metrik-evaluasi} & \emph{Citation support} (konfigurasi yang menggunakan konteks) \\
 \hline
 NF5 & Integritas evaluasi & Subbab~\ref{subsec:leakage} & Irisan hasil \emph{retrieval} dan himpunan pengecualian kosong pada setiap kueri \\
 \hline
-NF6 & Perbandingan antarkondisi & Subbab~\ref{subsec:pengendalian-variabel} & Variabel yang dikendalikan identik pada seluruh varian \\
+NF6 & Perbandingan antarkondisi & Subbab~\ref{subsec:pengendalian-variabel} & Variabel yang dikendalikan identik pada seluruh konfigurasi \\
 \hline
 \end{tabular}
 \end{table}
