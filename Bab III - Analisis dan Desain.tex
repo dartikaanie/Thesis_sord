@@ -155,7 +155,7 @@ Mekanisme yang diusulkan terdiri atas dua blok utama, seperti pada Gambar~\ref{f
 
 \begin{enumerate}
     \item Konstruksi \emph{Knowledge Graph} Berbobot.
-    Dataset SORD \autocite{Fatima2026} diubah menjadi graf berbobot melalui lima tahap. Pertama, data mentah divalidasi, digabungkan, dan dideduplikasi. Kedua, simpul dan relasi dibangun dari metadata Stack Overflow, lalu setiap jawaban diberi skor kepercayaan (\texttt{trustScore}) dari skor suara pengguna (\emph{vote score}), sedangkan status \emph{accepted answer} disimpan sebagai atribut dan tipe sisi tersendiri. Ketiga, graf diperkaya dengan tautan antar-\emph{thread} dari data \texttt{PostLinks}. Keempat, pertanyaan diubah menjadi vektor dan disimpan dalam indeks FAISS. Kelima, graf didensifikasi dengan relasi antarpertanyaan berdasarkan kemiripan tag dan kemiripan \emph{embedding}. Rinciannya dijelaskan pada Subbab~\ref{subsec:struktur-kg} dan Subbab~\ref{subsec:bobot-keandalan}.
+    Dataset SORD \autocite{Fatima2026} diubah menjadi graf berbobot melalui lima tahap. Pertama, data mentah divalidasi, digabungkan, dan dideduplikasi. Kedua, simpul dan relasi dibangun dari metadata Stack Overflow, dengan skor suara pengguna (\emph{vote score}) dan status \emph{accepted answer} disimpan sebagai atribut, serta status \emph{accepted answer} juga menjadi tipe sisi tersendiri. Ketiga, graf diperkaya dengan tautan antar-\emph{thread} dari data \texttt{PostLinks}. Keempat, pertanyaan diubah menjadi vektor dan disimpan dalam indeks FAISS. Kelima, graf didensifikasi dengan relasi antarpertanyaan berdasarkan kemiripan tag dan kemiripan \emph{embedding}. Rinciannya dijelaskan pada Subbab~\ref{subsec:struktur-kg} dan Subbab~\ref{subsec:bobot-keandalan}.
 
     \item Pengambilan Konteks Berbobot.
     Saat pengguna mengajukan pertanyaan, sistem menjalankan tiga tahap. Pertama, \emph{anchoring}, yaitu mencari jawaban berdasarkan kemiripan semantik dan memetakan pertanyaan induknya sebagai \emph{seed nodes}. Kedua, penelusuran graf berbobot untuk mengumpulkan kandidat jawaban beserta bobot jalurnya. Ketiga, \emph{semantic expansion}, yaitu memperluas kandidat melalui pencarian vektor. Hasil ketiga tahap digabungkan, diperingkat berdasarkan relevansi dan bobot jalur, lalu disusun menjadi konteks bagi LLM (Subbab~\ref{subsec:pengambilan-konteks} dan Subbab~\ref{subsec:penyaringan-konteks}).
@@ -185,7 +185,7 @@ Simpul dan relasi dasar dibangun dari metadata struktural Stack Overflow, sehing
 KG menggunakan tiga tipe simpul berikut, dengan atribut yang diambil langsung dari metadata SORD.
 \begin{enumerate}[(a)]
     \item \texttt{Question}, yaitu pertanyaan pada Stack Overflow, dengan atribut \texttt{id}, \texttt{title}, \texttt{body}, \texttt{score}, \texttt{viewCount}, \texttt{creationDate}, dan \texttt{domainTag}. Atribut \texttt{domainTag} adalah tag pertama pertanyaan.
-    \item \texttt{Answer}, yaitu jawaban terhadap suatu pertanyaan, dengan atribut \texttt{id}, \texttt{body}, \texttt{score}, \texttt{isAccepted}, dan \texttt{trustScore}. Isi \texttt{body} menjadi teks konteks yang diberikan kepada LLM. Atribut \texttt{trustScore} dihitung dengan Persamaan~\eqref{eq:trust-answer}.
+    \item \texttt{Answer}, yaitu jawaban terhadap suatu pertanyaan, dengan atribut \texttt{id}, \texttt{body}, \texttt{score}, dan \texttt{isAccepted}. Isi \texttt{body} menjadi teks konteks yang diberikan kepada LLM. Skor kepercayaan jawaban dihitung dari \texttt{score} saat kueri diproses (Persamaan~\eqref{eq:trust-answer}).
     \item \texttt{Tag}, yaitu label teknologi, bahasa pemrograman, atau \emph{library}, dengan atribut \texttt{name} dan \texttt{questionCount}.
 \end{enumerate}
 
@@ -216,7 +216,7 @@ Gambar~\ref{fig:contoh-subgraf-kg} menampilkan contoh subgraf dari domain autent
 Gambar~\ref{fig:flowchart-konstruksi-kg} menunjukkan lima tahap pembangunan KG berbobot. Setelah graf struktural terbentuk, pengayaan tautan (tahap~3) dan pengindeksan vektor (tahap~4) dapat dikerjakan terpisah, sedangkan densifikasi (tahap~5) membutuhkan indeks vektor dari tahap~4.
 \begin{enumerate}
     \item Validasi dan konsolidasi data. File mentah SORD divalidasi terhadap jumlah baris dan ukuran yang dilaporkan oleh \textcite{Fatima2026}. Sumber data \emph{Contain} dan \emph{LikeMinusContain} digabungkan dan dideduplikasi berdasarkan identitas \emph{post}.
-    \item Pembangunan graf struktural. Simpul \texttt{Question}, \texttt{Answer}, dan \texttt{Tag} serta sisi \texttt{HAS\_ACCEPTED\_ANSWER}, \texttt{HAS\_ANSWER}, dan \texttt{TAGGED\_WITH} dibangun dari metadata SORD. Pada tahap ini \texttt{trustScore} setiap jawaban dihitung dengan Persamaan~\eqref{eq:trust-answer}.
+    \item Pembangunan graf struktural. Simpul \texttt{Question}, \texttt{Answer}, dan \texttt{Tag} serta sisi \texttt{HAS\_ACCEPTED\_ANSWER}, \texttt{HAS\_ANSWER}, dan \texttt{TAGGED\_WITH} dibangun dari metadata SORD.
     \item Pengayaan tautan antar-\emph{thread}. Data \texttt{PostLinks} dari Stack Exchange Data dicocokkan dengan pertanyaan dalam SORD untuk membentuk sisi \texttt{IS\_RELATED\_TO} bertipe \emph{Linked} dan \emph{Duplicate}. Tahap ini hanya menambahkan sisi.
     \item Pengindeksan vektor. Gabungan judul dan 1.000 karakter pertama isi setiap pertanyaan diubah menjadi vektor, dinormalisasi agar kemiripan kosinus setara dengan hasil kali dalam, lalu disimpan dalam indeks FAISS. Indeks jawaban untuk RAG berbasis vektor dan \emph{anchoring} GraphRAG dibangun secara terpisah, tidak memengaruhi isi graf, sehingga tidak termasuk dalam lima tahap konstruksi graf.
     \item Densifikasi graf. Graf struktural Stack Overflow sangat jarang karena sebagian besar pertanyaan tidak memiliki tautan eksplisit ke pertanyaan lain. Densifikasi menambahkan sisi \texttt{TAG\_COOCCUR}, yang menghubungkan pertanyaan dengan himpunan tag informatif yang mirip (koefisien Jaccard), dan sisi \texttt{EMBED\_SIM}, yang menghubungkan pertanyaan yang mirip secara semantik. Sisi \texttt{EMBED\_SIM} dibentuk dengan mencari tetangga terdekat pada indeks FAISS dari tahap~4.
@@ -243,9 +243,9 @@ Kedua indikator tersebut digunakan sebagai dasar perhitungan bobot keandalan jaw
 Bobot hubungan antarpertanyaan diperoleh secara terpisah dari penilaian pengguna. Bobot ini merepresentasikan kekuatan keterkaitan berdasarkan jenis relasi, yaitu tautan antar-\emph{thread}, kesamaan tag, dan kemiripan \emph{embedding}. Pada proses pengambilan konteks, bobot relasi digabungkan dengan bobot keandalan jawaban untuk membentuk bobot jalur (\emph{path weight}). Bobot jalur selanjutnya dikombinasikan dengan relevansi semantik untuk menentukan skor akhir kandidat konteks.
 
 \paragraph{Skor Kepercayaan Jawaban.}
-Setiap simpul \texttt{Answer} memiliki skor kepercayaan (\texttt{trustScore}) dalam rentang $[0,1]$ yang dihitung dari skor suara bersih (\texttt{score}) pada jawaban. Skor tersebut dinormalisasi secara logaritmik terhadap persentil ke-99 ($P_{99}$) dari distribusi skor jawaban untuk mengurangi pengaruh nilai ekstrem. Skor negatif diperlakukan sebagai nol, sedangkan skor yang melebihi $P_{99}$ dibatasi menjadi satu setelah normalisasi. Transformasi ini digunakan agar perbedaan penilaian pengguna tetap dapat memengaruhi pemeringkatan tanpa didominasi oleh sejumlah kecil jawaban dengan skor sangat tinggi.
+Skor kepercayaan jawaban $\mathrm{trust}_A$ berada dalam rentang $[0,1]$ dan dihitung saat kueri diproses dari skor suara bersih (\texttt{score}) pada simpul \texttt{Answer}. Skor tersebut dinormalisasi secara logaritmik terhadap persentil ke-99 ($P_{99}$) dari distribusi skor jawaban untuk mengurangi pengaruh nilai ekstrem. Skor negatif diperlakukan sebagai nol, sedangkan skor yang melebihi $P_{99}$ dibatasi menjadi satu setelah normalisasi. Transformasi ini digunakan agar perbedaan penilaian pengguna tetap dapat memengaruhi pemeringkatan tanpa didominasi oleh sejumlah kecil jawaban dengan skor sangat tinggi.
 
-Skor kepercayaan hasil normalisasi merepresentasikan komponen penilaian komunitas melalui pemungutan suara. Status \emph{accepted answer} tidak dimasukkan ke dalam perhitungan \texttt{trustScore}, tetapi digunakan secara terpisah pada perhitungan bobot jawaban $w_{\mathrm{ans}}$ dalam Persamaan~\eqref{eq:w-ans}.
+Skor kepercayaan hasil normalisasi merepresentasikan komponen penilaian komunitas melalui pemungutan suara. Status \emph{accepted answer} tidak dimasukkan ke dalam perhitungan $\mathrm{trust}_A$, tetapi digunakan secara terpisah pada perhitungan bobot jawaban $w_{\mathrm{ans}}$ dalam Persamaan~\eqref{eq:w-ans}.
 
 \begin{equation}
 \mathrm{trust}_A(a) = \mathrm{normlog}\big(\mathrm{score}_a;\,P_{99}^{A}\big)
@@ -277,13 +277,13 @@ w_{\mathrm{acc}}\,\mathbf{1}[\mathrm{acc}_a]
 \end{equation}
 dengan $\mathbf{1}[\mathrm{acc}_a]$ bernilai 1 apabila jawaban $a$ berstatus \emph{accepted answer} dan 0 apabila tidak. Koefisien $w_{\mathrm{acc}}$ dan $w_{\mathrm{vote}}$ bernilai tidak negatif dengan jumlah 1, sehingga $w_{\mathrm{ans}}\in[0,1]$. Penerapan kedua skema pada konfigurasi eksperimen dijelaskan pada Subbab~\ref{sec:kondisi-eksperimen}.
 
-Kepercayaan terhadap jawaban diambil dari atribut simpul \texttt{Answer}, bukan dari bobot sisi pertanyaan--jawaban. Sisi \texttt{HAS\_ACCEPTED\_ANSWER} bernilai $1{,}0$. Sisi \texttt{HAS\_ANSWER} menyimpan hasil normalisasi \emph{min-max} skor jawaban dalam satu \emph{thread} sebagai atribut, tetapi atribut ini tidak digunakan pada pengambilan konteks. Nilai $\mathrm{trust}_A$ disimpan pada simpul \texttt{Answer} dan hanya dibaca saat kueri diproses, sehingga pengambilan konteks tidak mengubah graf.
+Kepercayaan terhadap jawaban dihitung dari atribut \texttt{score} pada simpul \texttt{Answer}, bukan dari bobot sisi pertanyaan--jawaban. Sisi \texttt{HAS\_ACCEPTED\_ANSWER} bernilai $1{,}0$. Sisi \texttt{HAS\_ANSWER} menyimpan hasil normalisasi \emph{min-max} skor jawaban dalam satu \emph{thread} sebagai atribut, tetapi atribut ini tidak digunakan pada pengambilan konteks. Nilai $\mathrm{trust}_A$ dihitung saat kueri diproses dan tidak disimpan, sehingga pengambilan konteks tidak mengubah graf.
 
 \paragraph{Bobot Sisi Antarpertanyaan.}
 Bobot sisi antarpertanyaan ($w_{qq'}$) ditentukan berdasarkan jenis relasi dan karakteristik keterkaitannya. Relasi \emph{Duplicate} yang divalidasi komunitas diberi bobot $1{,}0$, sedangkan relasi \texttt{TAG\_COOCCUR} dan \texttt{EMBED\_SIM} masing-masing diberi bobot tetap $0{,}6$ dan $0{,}4$. Nilai tersebut merupakan bobot yang ditetapkan berdasarkan pertimbangan jenis relasi. Sementara itu, relasi \texttt{IS\_RELATED\_TO} bertipe \emph{Linked} menggunakan nilai $\max(0,\cos)$ dari \emph{embedding} kedua pertanyaan. Perbedaan bobot digunakan untuk mengatur prioritas jalur pengambilan konteks, tanpa mengasumsikan urutan keandalan yang tetap pada seluruh jenis relasi.
 
 \paragraph{Ilustrasi.}
-Pertanyaan \texttt{Q\#1234} memiliki jawaban yang diterima \texttt{A\#9823} dan jawaban lain \texttt{A\#9901}, sedangkan \texttt{Q\#2567} memiliki jawaban yang diterima \texttt{A\#9412}. Karena kedua jawaban yang diterima memiliki skor suara di atas $P_{99}$, nilai \texttt{trustScore} keduanya adalah $1{,}0$ dan $w_{\mathrm{ans}}=1{,}0$ pada kedua skema. Sementara itu, jawaban \texttt{A\#9901} memperoleh bobot 0 pada skema \emph{Accepted} dan $w_{\mathrm{vote}}\times\mathrm{trust}_A$ pada skema \emph{Accepted+Vote}. Ilustrasi bobot jalur dijelaskan pada Subbab~\ref{subsec:pengambilan-konteks}.
+Pertanyaan \texttt{Q\#1234} memiliki jawaban yang diterima \texttt{A\#9823} dan jawaban lain \texttt{A\#9901}, sedangkan \texttt{Q\#2567} memiliki jawaban yang diterima \texttt{A\#9412}. Karena kedua jawaban yang diterima memiliki skor suara di atas $P_{99}$, nilai $\mathrm{trust}_A$ keduanya adalah $1{,}0$ dan $w_{\mathrm{ans}}=1{,}0$ pada kedua skema. Sementara itu, jawaban \texttt{A\#9901} memperoleh bobot 0 pada skema \emph{Accepted} dan $w_{\mathrm{vote}}\times\mathrm{trust}_A$ pada skema \emph{Accepted+Vote}. Ilustrasi bobot jalur dijelaskan pada Subbab~\ref{subsec:pengambilan-konteks}.
 
 %------------------------------------------------------------
 \subsection{Mekanisme Pengambilan dan Pemeringkatan Konteks}
@@ -308,7 +308,7 @@ Dari \emph{seed nodes}, sistem menelusuri graf untuk mengumpulkan simpul \texttt
 \end{enumerate}
 \end{sloppypar}
 
-Bobot jalur kandidat didefinisikan pada Persamaan~\eqref{eq:w-path} sebagai hasil kali $w_{qq'}$ dan $w_{\mathrm{ans}}(a)$. Apabila suatu jawaban dicapai melalui lebih dari satu jalur, bobot tertinggi dipertahankan. Seluruh jawaban satu \emph{hop} dipertahankan, sedangkan kandidat dua \emph{hop} dibatasi pada $N_{\mathrm{trav}}$ jalur dengan bobot tertinggi. Jika bobot sama, jalur dengan identitas jawaban lebih kecil didahulukan. Pada skema \emph{Accepted}, jawaban yang tidak diterima memiliki bobot jalur 0, sehingga pemilihan di antara jalur berbobot sama ditentukan oleh identitas jawaban, bukan oleh relevansi. Keterbatasan ini dievaluasi pada Bab~\ref{chap:implementasi}.
+Bobot jalur kandidat didefinisikan pada Persamaan~\eqref{eq:w-path} sebagai hasil kali $w_{qq'}$ dan $w_{\mathrm{ans}}(a)$. Apabila suatu jawaban dicapai melalui lebih dari satu jalur, bobot tertinggi dipertahankan. Seluruh jawaban satu \emph{hop} dipertahankan, sedangkan kandidat dua \emph{hop} dibatasi pada $N_{\mathrm{trav}}$ jalur dengan bobot tertinggi secara total untuk seluruh \emph{seed node}. Jika bobot sama, jalur dengan identitas jawaban lebih kecil didahulukan. Pada skema \emph{Accepted}, jawaban yang tidak diterima memiliki bobot jalur 0, sehingga pemilihan di antara jalur berbobot sama ditentukan oleh identitas jawaban, bukan oleh relevansi. Keterbatasan ini dievaluasi pada Bab~\ref{chap:implementasi}.
 
 Sebagai ilustrasi, dari \texttt{Q\#1234} sistem mengikuti \texttt{HAS\_ACCEPTED\_ANSWER} menuju \texttt{A\#9823} sehingga $w_{\mathrm{path}}=1{,}0\times 1{,}0=1{,}0$. Secara paralel, sistem mengikuti \texttt{IS\_RELATED\_TO} ($w_{qq'}{=}0{,}41$) menuju \texttt{Q\#2567}, lalu \texttt{A\#9412} yang juga \emph{accepted}, sehingga $w_{\mathrm{path}}=0{,}41$.
 
@@ -354,7 +354,7 @@ $N_{\mathrm{anchor}}$ & Jumlah \emph{seed node} & C \\
 \hline
 $K_{\mathrm{scan}}$ & Batas pemindaian jawaban teratas bila pertanyaan berbeda kurang dari $N_{\mathrm{anchor}}$ & C \\
 \hline
-$N_{\mathrm{trav}}$ & Batas jalur dua \emph{hop} yang dipertahankan & C \\
+$N_{\mathrm{trav}}$ & Batas total jalur dua \emph{hop} yang dipertahankan untuk seluruh \emph{seed node} & C \\
 \hline
 $N_{\mathrm{exp}}$ & Jumlah pertanyaan asal yang dipakai sebagai kueri \emph{semantic expansion} & C \\
 \hline
@@ -481,7 +481,7 @@ Ukuran sampel uji $n{=}384$ mengikuti \textcite{DaSilva2025}. Sampel disusun mel
     \item Kandidat yang lolos diacak sekali menjadi satu urutan tetap.
 \end{enumerate}
 
-Urutan tetap tersebut dibagi berdasarkan posisi menjadi himpunan yang saling lepas, yaitu 384 pertanyaan pertama sebagai himpunan uji, dan 50 pertanyaan berikutnya sebagai himpunan pengembangan (\emph{development set}). Parameter pemeringkatan dipilih pada himpunan pengembangan, bukan pada himpunan uji (Bab~\ref{chap:implementasi}).
+Urutan tetap tersebut dibagi berdasarkan posisi menjadi himpunan yang saling lepas, yaitu 384 pertanyaan pertama sebagai himpunan uji dan 150 pertanyaan pada posisi 435--584 sebagai himpunan pengembangan (\emph{development set}). Parameter pemeringkatan $\alpha$ dipilih pada himpunan pengembangan, bukan pada himpunan uji (Bab~\ref{chap:implementasi}).
 
 \subsection{Pencegahan Kebocoran Data (\emph{Leakage})}
 \label{subsec:leakage}
