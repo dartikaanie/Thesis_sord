@@ -77,7 +77,7 @@ LLM digunakan untuk dua peran, yaitu sebagai \emph{generator} jawaban dan sebaga
 \hline
 \emph{Generator} (seluruh konfigurasi) & \texttt{gpt-4o-mini}, API OpenAI & Satu panggilan per pertanyaan. Parameter \emph{temperature} dan batas token keluaran tidak dikirim sehingga nilai bawaan penyedia berlaku. \\
 \hline
-\emph{Judge} panel (halusinasi, relevansi konteks, relevansi jawaban) & \texttt{meta-llama/Llama-3.3-70B-Instruct-Turbo}, \texttt{deepseek-ai/DeepSeek-V3.2}, dan \texttt{Qwen/Qwen3-235B-A22B-Instruct-2507}, melalui DeepInfra & \emph{Temperature} 0, batas keluaran 2.000 token, format keluaran JSON; label akhir ditentukan dengan suara dua dari tiga \emph{judge} \\
+\emph{Judge} panel (halusinasi, relevansi konteks, relevansi jawaban, \emph{faithfulness}, dan \emph{citation support}) & \texttt{meta-llama/Llama-3.3-70B-Instruct-Turbo}, \texttt{deepseek-ai/DeepSeek-V3.2}, dan \texttt{Qwen/Qwen3-235B-A22B-Instruct-2507}, melalui DeepInfra & \emph{Temperature} 0, batas keluaran 2.000 token, format keluaran JSON; label akhir ditentukan dengan suara dua dari tiga \emph{judge} \\
 \hline
 \end{tabularx}
 \end{table}
@@ -183,7 +183,7 @@ Graf struktural dibangun dari data SORD yang telah dideduplikasi. Simpul \texttt
 \subsection{Implementasi Bobot Jawaban}
 \label{subsec:implementasi-bobot-jawaban}
 
-Bobot jawaban $w_{\mathrm{ans}}$ (Persamaan~\eqref{eq:w-ans}) dihitung saat kueri diproses, dari dua informasi pada simpul \texttt{Answer}, yaitu skor suara (\texttt{score}) dan status \emph{accepted answer}. Status \emph{accepted} diperoleh dari tipe sisi yang menuju jawaban (\texttt{HAS\_ACCEPTED\_ANSWER} atau \texttt{HAS\_ANSWER}), sedangkan $\mathrm{trust}_A$ dihitung dari \texttt{score} dengan Persamaan~\eqref{eq:trust-answer} dan \eqref{eq:normlog}, menggunakan $P_{99}^{A}=46$ yang dihitung dari seluruh 725.795 simpul \texttt{Answer}. Dengan cara ini, definisi bobot dapat diganti antar-konfigurasi tanpa mengubah graf. Atribut \texttt{trustScore} yang tersimpan pada simpul berasal dari skrip konstruksi graf awal, yang menggabungkan skor suara, status \emph{accepted}, dan bobot reputasi penulis, sehingga nilainya berbeda dari $\mathrm{trust}_A$ dan tidak digunakan pada kelima konfigurasi. Konfigurasi B-Acc menggunakan definisi bobot yang sama dengan C-Acc, sedangkan B-Vec tidak menggunakan bobot jawaban. Tabel~\ref{tab:bobot-jawaban} menunjukkan bobot jawaban pada beberapa nilai skor suara. Pada C-Acc dan B-Acc, bobot hanya bergantung pada status \emph{accepted}, sehingga skor suara tidak berpengaruh. Pada C-Acc+Vote, skor suara ikut menambah bobot, tetapi jawaban \emph{accepted} tetap lebih tinggi daripada jawaban non-\emph{accepted} yang berskor suara sama.
+Bobot jawaban $w_{\mathrm{ans}}$ (Persamaan~\eqref{eq:w-ans}) dihitung saat kueri diproses, dari dua informasi pada simpul \texttt{Answer}, yaitu skor suara (\texttt{score}) dan status \emph{accepted answer}. Status \emph{accepted} diperoleh dari tipe sisi yang menuju jawaban (\texttt{HAS\_ACCEPTED\_ANSWER} atau \texttt{HAS\_ANSWER}), sedangkan $\mathrm{trust}_A$ dihitung dari \texttt{score} dengan Persamaan~\eqref{eq:trust-answer} dan \eqref{eq:normlog}, menggunakan $P_{99}^{A}=46$ yang dihitung dari seluruh 725.795 simpul \texttt{Answer}. Dengan cara ini, definisi bobot dapat diganti antar-konfigurasi tanpa mengubah graf. Atribut \texttt{trustScore} yang tersimpan pada simpul berasal dari tahap konstruksi awal, nilainya berbeda dari $\mathrm{trust}_A$, dan tidak digunakan pada kelima konfigurasi. Konfigurasi B-Acc menggunakan definisi bobot yang sama dengan C-Acc, sedangkan B-Vec tidak menggunakan bobot jawaban. Tabel~\ref{tab:bobot-jawaban} menunjukkan bobot jawaban pada beberapa nilai skor suara. Pada C-Acc dan B-Acc, bobot hanya bergantung pada status \emph{accepted}, sehingga skor suara tidak berpengaruh. Pada C-Acc+Vote, skor suara ikut menambah bobot, tetapi jawaban \emph{accepted} tetap lebih tinggi daripada jawaban non-\emph{accepted} yang berskor suara sama.
 
 \begin{table}[!htbp]
 \centering
@@ -851,7 +851,7 @@ Filter jawaban dan \emph{refill} & Dinonaktifkan pada seluruh konfigurasi & Jawa
 \end{tabularx}
 \end{table}
 
-Nilai $\alpha=0{,}25$ dipilih pada himpunan pengembangan (150 pertanyaan) berdasarkan relevansi konteks dan laju halusinasi (22 dari 129 jawaban untuk $\alpha=0{,}25$ dibandingkan 29 dari 129 untuk $\alpha=0{,}1$), terpisah dari sampel uji.
+Nilai $\alpha=0{,}25$ dipilih pada himpunan pengembangan (150 pertanyaan) berdasarkan relevansi konteks dan laju halusinasi, terpisah dari sampel uji.
 
 %============================================================
 \section{Pemenuhan Kebutuhan Sistem}
