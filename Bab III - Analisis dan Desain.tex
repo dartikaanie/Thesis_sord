@@ -335,12 +335,9 @@ Penilaian pengguna mengukur seberapa tervalidasi suatu jawaban oleh komunitas, b
 \mathrm{score}(c) = (1 - \alpha) \cdot \mathrm{sim}_{\mathrm{norm}}(q, c) + \alpha \cdot w_{\mathrm{path}}(c)
 \label{eq:final-score}
 \end{equation}
-dengan $\mathrm{sim}_{\mathrm{norm}}(q,c)$ adalah kemiripan kosinus antara kueri $q$ dan teks kandidat (dipotong pada batas 400 token) yang dinormalisasi \emph{min-max} atas seluruh kandidat \emph{pool} setiap pertanyaan. Parameter $\alpha \in [0,1]$ mengatur kontribusi bobot jalur. Parameter $\alpha$ dipilih menggunakan himpunan pengembangan yang terpisah dari himpunan uji. Pemilihan dilakukan berdasarkan prosedur evaluasi parameter yang ditetapkan sebelum pengujian akhir. Nilai terpilih digunakan secara konsisten pada seluruh konfigurasi yang menerapkan pemeringkatan berbobot. Kandidat nilai, kriteria pemilihan, dan hasil seleksi dilaporkan pada Bab~\ref{chap:implementasi}.
+dengan $\mathrm{sim}_{\mathrm{norm}}(q,c)$ adalah kemiripan kosinus antara kueri $q$ dan teks kandidat (dipotong pada batas 400 token) yang dinormalisasi \emph{min-max} atas seluruh kandidat \emph{pool} setiap pertanyaan. Parameter $\alpha \in [0,1]$ mengatur kontribusi bobot jalur. Parameter $\alpha$ dipilih pada \emph{development set}, bukan pada himpunan uji (Subbab~\ref{subsec:dataset-sampling}).
 
-\paragraph{Parameter Pengambilan Konteks.}
-Nilai parameter yang digunakan pada pengambilan dan pemeringkatan konteks dirangkum pada Tabel~\ref{tab:parameter-pengambilan}. Seluruh nilai ditetapkan tetap dan identik pada varian yang memakai parameter tersebut. Parameter $\alpha$ dipilih pada \emph{development set}, bukan pada himpunan uji (Subbab~\ref{subsec:dataset-sampling}).
-
-\Parameter yang digunakan pada pengambilan dan pemeringkatan konteks dirangkum pada Tabel~\ref{tab:parameter-pengambilan}. Nilai setiap parameter ditetapkan tetap dan identik pada varian yang menggunakannya, dan dilaporkan beserta dasar pemilihannya pada Bab~\ref{chap:implementasi}.
+Nilai parameter yang digunakan pada pengambilan dan pemeringkatan konteks dirangkum pada Tabel~\ref{tab:parameter-pengambilan}. Seluruh nilai ditetapkan tetap dan identik pada varian yang memakai parameter tersebut. 
 
 \begin{table}[!htbp]
 \centering
@@ -407,7 +404,7 @@ Konteks eksternal & Tidak & Ya & Ya & Ya & Ya \\
 Pencarian vektor jawaban & -- & Ya & Ya & Ya & Ya \\
 Penelusuran graf dan \emph{semantic expansion} & -- & Tidak & Tidak & Ya & Ya \\
 Pembobotan \emph{accepted answer} & -- & Tidak & Ya & Ya & Ya \\
-Pembobotan \emph{upvote} & -- & Tidak & Tidak & Tidak & Ya \\
+Pembobotan skor suara & -- & Tidak & Tidak & Tidak & Ya \\
 Jumlah konteks ke LLM & 0 & 5 & 5 & 5 & 5 \\
 \hline
 \end{tabular}
@@ -622,7 +619,7 @@ NF4 & Keandalan kutipan & Subbab~\ref{subsec:pengendalian-variabel}, \ref{subsec
 \hline
 NF5 & Integritas evaluasi & Subbab~\ref{subsec:leakage} & Irisan hasil \emph{retrieval} dan himpunan pengecualian kosong pada setiap kueri \\
 \hline
-NF6 & Keterbandingan antarkondisi & Subbab~\ref{subsec:pengendalian-variabel} & Variabel yang dikendalikan identik pada seluruh varian \\
+NF6 & Perbandingan antarkondisi & Subbab~\ref{subsec:pengendalian-variabel} & Variabel yang dikendalikan identik pada seluruh varian \\
 \hline
 \end{tabular}
 \end{table}
