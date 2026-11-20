@@ -77,7 +77,7 @@ LLM digunakan untuk dua peran, yaitu sebagai \emph{generator} jawaban dan sebaga
 \hline
 \emph{Generator} (seluruh konfigurasi) & \texttt{gpt-4o-mini}, API OpenAI & Satu panggilan per pertanyaan. Parameter \emph{temperature} dan batas token keluaran tidak dikirim sehingga nilai bawaan penyedia berlaku. \\
 \hline
-\emph{Judge} panel (halusinasi, relevansi konteks, relevansi jawaban) & \texttt{meta-llama/Llama-3.3-70B-Instruct-Turbo}, \texttt{deepseek-ai/DeepSeek-V3.2}, dan \texttt{Qwen/Qwen3-235B-A22B-Instruct-2507}, melalui DeepInfra & \emph{Temperature} 0,label akhir ditentukan dengan suara dua dari tiga \emph{judge} \\
+\emph{Judge} panel (halusinasi, relevansi konteks, relevansi jawaban) & \texttt{meta-llama/Llama-3.3-70B-Instruct-Turbo}, \texttt{deepseek-ai/DeepSeek-V3.2}, dan \texttt{Qwen/Qwen3-235B-A22B-Instruct-2507}, melalui DeepInfra & \emph{Temperature} 0, batas keluaran 2.000 token, format keluaran JSON; label akhir ditentukan dengan suara dua dari tiga \emph{judge} \\
 \hline
 \end{tabularx}
 \end{table}
@@ -123,7 +123,7 @@ Tautan antar-\emph{thread} (\texttt{PostLinks}) & 6.552.590 & 160.647 berada dal
 Analisis eksploratif terhadap kualitas data dan sinyal kepercayaan dilakukan sebelum KG dibangun. Dua temuan berikut relevan bagi implementasi.
 \begin{enumerate}
     \item Sebanyak 47,5\% pertanyaan (1.275.276 dari 2.685.814) mencatat identitas \emph{accepted answer}, tetapi hanya 270.988 pertanyaan (10,1\%) yang jawabannya terdapat di data jawaban SORD. Hanya pertanyaan ini yang memiliki jawaban acuan (\emph{reference answer}) dan memenuhi syarat sebagai sampel evaluasi. Akibat lain dari temuan ini, sebagian besar \emph{thread} di KG tidak memiliki \emph{accepted answer}, sehingga sinyal status \emph{accepted} tidak tersedia untuk jawaban pada \emph{thread} tersebut.
-    \item Distribusi skor suara jawaban sangat condong. Skor terendah adalah $-26$ (jawaban yang lebih banyak ditolak) dan skor tertinggi 6.095, sedangkan separuh jawaban hanya memiliki skor 1 atau kurang. Sebanyak 99\% jawaban memiliki skor 46 atau kurang, sehingga hanya 1\% jawaban teratas yang skornya lebih tinggi dan memanjangkan rentang hingga ribuan. Jarak yang sangat lebar antara median (1) dan nilai maksimum (6.095) membuat normalisasi \emph{min-max} biasa memampatkan hampir seluruh jawaban ke sekitar nol (90\% jawaban bernilai di bawah 0,0052). Temuan ini menjadi dasar normalisasi logaritmik dengan batas atas pada persentil ke-99 pada Persamaan~\eqref{eq:normlog} (Subbab~\ref{subsec:implementasi-bobot-jawaban}).
+    \item Distribusi skor suara jawaban sangat condong. Skor terendah adalah $-26$ (jawaban yang lebih banyak ditolak) dan skor tertinggi 6.095, sedangkan separuh jawaban hanya memiliki skor 1 atau kurang dan 36,0\% jawaban berskor nol atau negatif. Sebanyak 99\% jawaban memiliki skor 46 atau kurang, sehingga hanya 1\% jawaban teratas yang skornya lebih tinggi dan memanjangkan rentang hingga ribuan. Jarak yang sangat lebar antara median (1) dan nilai maksimum (6.095) membuat normalisasi \emph{min-max} biasa memampatkan hampir seluruh jawaban ke sekitar nol (90\% jawaban bernilai di bawah 0,0052). Temuan ini menjadi dasar normalisasi logaritmik dengan batas atas pada persentil ke-99 pada Persamaan~\eqref{eq:normlog} (Subbab~\ref{subsec:implementasi-bobot-jawaban}).
 \end{enumerate}
 
 \subsection{Penarikan Sampel Uji}
@@ -133,7 +133,7 @@ Penarikan sampel mengikuti desain pada Subbab~\ref{subsec:dataset-sampling} dan 
 \begin{enumerate}
     \item Sebanyak 1.536 pertanyaan ($4 \times 384$) diambil dengan \emph{reservoir sampling} (\emph{seed} 42) dari pertanyaan yang \emph{accepted answer}-nya terdapat di data jawaban.
     \item Kandidat disaring dengan batas 2.048 token untuk gabungan judul, isi, dan tag pertanyaan. Sebanyak 65 pertanyaan gugur (panjang minimum 2.069 token, median 2.826 token), sehingga tersisa 1.471 pertanyaan.
-    \item Kandidat yang lolos diacak satu kali dengan \emph{seed} yang sama.
+    \item Kandidat yang lolos diacak satu kali dengan \emph{seed} yang sama. Posisi 1--384 menjadi sampel uji, dan 150 pertanyaan pada posisi 435--584 menjadi himpunan pengembangan (\emph{development set}) yang terpisah dari sampel uji dan digunakan untuk memilih nilai $\alpha$ (Subbab~\ref{sec:justifikasi-parameter}).
 \end{enumerate}
 Rangkuman jumlah pada setiap langkah disajikan pada Tabel~\ref{tab:ringkasan-sampel}.
 
@@ -151,6 +151,7 @@ Kumpulan kandidat (\emph{reservoir sampling}, \emph{seed} 42) & 1.536 \\
 Gugur pada penyaringan 2.048 token & 65 \\
 Kandidat yang lolos & 1.471 \\
 Sampel uji (posisi 1--384) & 384 \\
+Himpunan pengembangan (posisi 435--584) & 150 \\
 \hline
 \end{tabular}
 \end{table}
@@ -182,7 +183,7 @@ Graf struktural dibangun dari data SORD yang telah dideduplikasi. Simpul \texttt
 \subsection{Implementasi Bobot Jawaban}
 \label{subsec:implementasi-bobot-jawaban}
 
-Bobot jawaban $w_{\mathrm{ans}}$ (Persamaan~\eqref{eq:w-ans}) bersumber dari dua atribut simpul \texttt{Answer}, yaitu status \emph{accepted answer} (\texttt{isAccepted}) dan skor kepercayaan \texttt{trustScore}. Skor kepercayaan dihitung satu kali saat konstruksi graf dengan Persamaan~\eqref{eq:trust-answer} dan \eqref{eq:normlog}, menggunakan $P_{99}^{A}=46$ yang dihitung dari seluruh 725.795 simpul \texttt{Answer}, termasuk yang berskor negatif. Nilai tersebut disimpan pada simpul dan hanya dibaca saat kueri diproses, sehingga pengambilan konteks tidak mengubah graf. Status \emph{accepted} juga tersimpan sebagai tipe sisi \texttt{HAS\_ACCEPTED\_ANSWER}, sehingga pada kueri \emph{traversal} bobot jawaban konfigurasi C-Acc dapat ditentukan dari tipe sisi menuju jawaban. Konfigurasi B-Acc menggunakan definisi bobot yang sama dengan C-Acc, sedangkan B-Vec tidak menggunakan bobot jawaban. Tabel~\ref{tab:bobot-jawaban} menunjukkan bobot jawaban pada beberapa nilai skor suara. Pada C-Acc dan B-Acc, bobot hanya bergantung pada status \emph{accepted}, sehingga skor suara tidak berpengaruh. Pada C-Acc+Vote, skor suara ikut menambah bobot, tetapi jawaban \emph{accepted} tetap lebih tinggi daripada jawaban \emph{non-accepted} yang berskor suara sama.
+Bobot jawaban $w_{\mathrm{ans}}$ (Persamaan~\eqref{eq:w-ans}) dihitung saat kueri diproses, dari dua informasi pada simpul \texttt{Answer}, yaitu skor suara (\texttt{score}) dan status \emph{accepted answer}. Status \emph{accepted} diperoleh dari tipe sisi yang menuju jawaban (\texttt{HAS\_ACCEPTED\_ANSWER} atau \texttt{HAS\_ANSWER}), sedangkan $\mathrm{trust}_A$ dihitung dari \texttt{score} dengan Persamaan~\eqref{eq:trust-answer} dan \eqref{eq:normlog}, menggunakan $P_{99}^{A}=46$ yang dihitung dari seluruh 725.795 simpul \texttt{Answer}. Dengan cara ini, definisi bobot dapat diganti antar-konfigurasi tanpa mengubah graf. Atribut \texttt{trustScore} yang tersimpan pada simpul berasal dari skrip konstruksi graf awal, yang menggabungkan skor suara, status \emph{accepted}, dan bobot reputasi penulis, sehingga nilainya berbeda dari $\mathrm{trust}_A$ dan tidak digunakan pada kelima konfigurasi. Konfigurasi B-Acc menggunakan definisi bobot yang sama dengan C-Acc, sedangkan B-Vec tidak menggunakan bobot jawaban. Tabel~\ref{tab:bobot-jawaban} menunjukkan bobot jawaban pada beberapa nilai skor suara. Pada C-Acc dan B-Acc, bobot hanya bergantung pada status \emph{accepted}, sehingga skor suara tidak berpengaruh. Pada C-Acc+Vote, skor suara ikut menambah bobot, tetapi jawaban \emph{accepted} tetap lebih tinggi daripada jawaban non-\emph{accepted} yang berskor suara sama.
 
 \begin{table}[!htbp]
 \centering
@@ -499,7 +500,7 @@ Rata-rata $w_{\mathrm{path}}$ & --- & 0,566 & 0,754 & 0,605 \\
 \textsuperscript{c}Pada B-Acc dinormalisasi atas sepuluh kandidat, pada C atas seluruh \emph{pool} (sekitar 31 kandidat), sehingga tidak sebanding secara langsung.
 \end{table}
 
-Proporsi jawaban \emph{accepted} pada konteks meningkat dari 38,1\% (B-Vec) menjadi 56,6\% (B-Acc) dan 77,9\% (C-Acc), kemudian menurun menjadi 74,3\% pada C-Acc+Vote. Dibandingkan B-Vec, B-Acc menggantikan 354 jawaban non-\emph{accepted} dengan jawaban \emph{accepted}. Perbandingan B-Acc dan C-Acc menunjukkan pola serupa pada 410 item, yang mengindikasikan bahwa mekanisme GraphRAG berbobot meningkatkan proporsi jawaban \emph{accepted} dibandingkan pemeringkatan ulang berbasis vektor.
+Proporsi jawaban \emph{accepted} pada konteks meningkat dari 38,1\% (B-Vec) menjadi 56,6\% (B-Acc) dan 77,9\% (C-Acc), kemudian menurun menjadi 74,3\% pada C-Acc+Vote. Dibandingkan B-Vec, B-Acc menggantikan 354 jawaban non-\emph{accepted} dengan jawaban \emph{accepted}. Perbandingan B-Acc dan C-Acc menunjukkan pola serupa pada 410 item, jawaban \emph{accepted} tambahan pada C-Acc berasal dari penelusuran graf dan perluasan \emph{pool}.
 
 Pada C-Acc dan C-Acc+Vote, sebagian besar konteks berasal dari pencarian awal atau penelusuran satu \emph{hop}. Kontribusi penelusuran dua \emph{hop} dan \emph{semantic expansion} masing-masing hanya 4,5\% dan 1,7\%. Kedua konfigurasi menghasilkan himpunan konteks identik pada 240 dari 384 pertanyaan, dengan kumpulan kandidat identik pada 378 pertanyaan.
 
@@ -679,18 +680,120 @@ rank & Peringkat pada daftar akhir & B, C \\
 \hline
 score & Kosinus kueri terhadap teks jawaban pada indeks FAISS & B \\
 \hline
-sim, sim\_norm, w\_qq, w\_ans, w\_path, final\_score, alpha, refilled & Komponen skor akhir Kondisi C (Subbab~\ref{subsec:implementasi-kondisi-c}); \texttt{refilled} menandai item hasil \emph{refill} (bernilai 0 karena \emph{refill} dinonaktifkan) & C \\
+sim, sim\_norm, final\_score, alpha & Komponen skor akhir Kondisi C (Subbab~\ref{subsec:implementasi-kondisi-c}). Faktor $w_{qq'}$, $w_{\mathrm{ans}}$, dan $w_{\mathrm{path}}$ tidak disimpan terpisah; bobot gabungannya tersimpan pada \texttt{trust\_weight} & C \\
+\hline
+\end{tabularx}\\
 \hline
 \end{tabularx}
 \end{table}
 
-\begin{figure}[!htbp]
+Sebagai contoh, pertanyaan uji \texttt{29901703} (\emph{``Multiple dex files define error in android studio''}) dipilih karena konteks akhir C-Acc+Vote-nya memuat seluruh tipe pengambilan, yaitu jawaban satu \emph{hop}, dua \emph{hop}, dan \emph{semantic expansion}, serta campuran jawaban \emph{accepted} dan non-\emph{accepted}. Pertanyaan ini satu-satunya dari 384 pertanyaan uji yang memenuhi keempat ciri itu. Tabel~\ref{tab:contoh-provenance-pertanyaan} dan Tabel~\ref{tab:contoh-provenance-item1} sampai \ref{tab:contoh-provenance-item5} menunjukkan penelusuran \emph{provenance} kelima item konteks, mulai dari jalur pengambilan, bobot, sampai skor akhir. Jalur dibaca dari \emph{seed} menuju jawaban. Pada peringkat 3, jawaban dicapai dua \emph{hop} melalui sisi \texttt{EMBED\_SIM}, sehingga $w_{\mathrm{path}}=0{,}4\times w_{\mathrm{ans}}$. Peringkat 4 adalah jawaban non-\emph{accepted} berbobot 0 yang tetap masuk karena kemiripannya tertinggi pada \emph{pool}. Peringkat 5 berasal dari \emph{semantic expansion} dengan bobot $w_{\mathrm{exp}}=0{,}4$. Pada rekaman, jalur \emph{semantic expansion} diberi nama \texttt{SEMANTIC\_SIM}, yang merupakan label jalur dan bukan tipe sisi pada graf.
+
+% Contoh penelusuran provenance (C-Acc+Vote, pertanyaan uji 29901703)
+% Teks dikutip dari Stack Overflow (CC BY-SA); tag HTML dihapus dan teks dipotong.
+% Paket: tabularx, amsmath, xcolor (opsional: colortbl untuk \cellcolor)
+
+% Kartu satu item: 1 peringkat, 2 id jawaban, 3 jalur, 4 judul pertanyaan asal,
+% 5 isi jawaban, 6 penilaian pengguna, 7 bobot, 8 relevansi, 9 skor akhir
+\newcommand{\kartuitem}[9]{%
+\begin{table}[!htbp]
 \centering
-% \includegraphics[width=0.9\textwidth]{images/bab4_contoh_provenance.png}
-\todo{Gambar: contoh penelusuran provenance}
-\caption{Contoh keluaran penelusuran \emph{provenance} atas permintaan pengguna.}
-\label{fig:contoh-provenance}
-\end{figure}
+\small
+\caption{Item konteks peringkat #1 pada pertanyaan uji \texttt{29901703}.}
+\label{tab:contoh-provenance-item#1}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{3.2cm}|X|}
+\hline
+\multicolumn{2}{|l|}{\textbf{Peringkat #1 \quad (jawaban \texttt{#2})}} \\
+\hline
+Jalur pengambilan & #3 \\
+\hline
+Pertanyaan asal & #4 \\
+\hline
+Isi jawaban & #5 \\
+\hline
+Penilaian pengguna & #6 \\
+\hline
+Bobot & #7 \\
+\hline
+Relevansi & #8 \\
+\hline
+Skor akhir & #9 \\
+\hline
+\end{tabularx}
+\end{table}}
+
+% ---------------- Kartu pertanyaan uji ----------------
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Pertanyaan uji yang digunakan sebagai contoh penelusuran \emph{provenance}.}
+\label{tab:contoh-provenance-pertanyaan}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\bfseries\raggedright\arraybackslash}p{3.2cm}|X|}
+\hline
+Pertanyaan uji & \texttt{29901703} \\
+\hline
+Judul & Multiple dex files define error in android studio \\
+\hline
+Tag & \texttt{android}, \texttt{xml}, \texttt{android-studio} \\
+\hline
+Isi pertanyaan & \emph{im a begginer in android studio and im trying to perform a database sync with mysql and a android database. after following a guide (it makes no mention to gradle stuff however so im having to impr\ldots} (dipotong; total 2.269 karakter) \\
+\hline
+\emph{Pool} kandidat & 63 kandidat; 5 item masuk ke konteks \\
+\hline
+Jawaban acuan & Jawaban \emph{accepted} \texttt{29902000} (dikecualikan dari \emph{retrieval} oleh aturan pengecualian \emph{thread}) \\
+\hline
+\end{tabularx}
+\end{table}
+
+% ---------------- Lima kartu item ----------------
+\kartuitem{1}{24555502}
+{Seed \texttt{Q24527323} $\xrightarrow{\text{HAS\_ACCEPTED\_ANSWER}}$ \texttt{A24555502} (\emph{graph traversal}, 1 \emph{hop})}
+{UNEXPECTED TOP-LEVEL EXCEPTION: Multiple dex files define}
+{\emph{This can be caused by both your app project and the library project bringing the android-support-v4 jar. If the library project is already bringing this jar as dependency then you'll need to exclude it from your app project classpath.} (242 karakter, utuh)}
+{\emph{Accepted}; skor suara 6; $\mathrm{trust}_A=0{,}505$}
+{$w_{qq'}=1$; $w_{\mathrm{ans}}=0{,}7+0{,}3\times 0{,}505=0{,}8516$; $w_{\mathrm{path}}=0{,}8516$}
+{$\mathrm{sim}=0{,}7776$; $\mathrm{sim}_{\mathrm{norm}}=0{,}9958$}
+{$0{,}75\times 0{,}9958+0{,}25\times 0{,}8516=\mathbf{0{,}9598}$}
+
+\kartuitem{2}{46381168}
+{Seed \texttt{Q46378280} $\xrightarrow{\text{HAS\_ACCEPTED\_ANSWER}}$ \texttt{A46381168} (\emph{graph traversal}, 1 \emph{hop})}
+{Android Studio: Error converting bytecode to dex}
+{\emph{Check for duplicate libraries which are referring to the same jar, similar to what happened in this SO post. You can also read from this post:\ldots} (dipotong; total 876 karakter)}
+{\emph{Accepted}; skor suara 4; $\mathrm{trust}_A=0{,}418$}
+{$w_{qq'}=1$; $w_{\mathrm{ans}}=0{,}7+0{,}3\times 0{,}418=0{,}8254$; $w_{\mathrm{path}}=0{,}8254$}
+{$\mathrm{sim}=0{,}7752$; $\mathrm{sim}_{\mathrm{norm}}=0{,}9862$}
+{$0{,}75\times 0{,}9862+0{,}25\times 0{,}8254=\mathbf{0{,}9460}$}
+
+\kartuitem{3}{18301856}
+{Seed \texttt{Q24527323} $\xrightarrow{\text{EMBED\_SIM},\ \cos=0{,}8691}$ \texttt{Q18301764} $\xrightarrow{\text{HAS\_ACCEPTED\_ANSWER}}$ \texttt{A18301856} (\emph{graph traversal}, 2 \emph{hop})}
+{Android Studio build error - Multiple dex files define Landroid/support/v4/}
+{\emph{For anyone who is interested, I solved my own problem. My mistake was that I had pasted android-support-v4.jar and google-play-services.jar in all of my project's module lib folders (my project consists of 3 modules). What I had to do instead was to paste these jars only into my main module's lib folder, and t\ldots} (dipotong; total 407 karakter)}
+{\emph{Accepted}; skor suara 44; $\mathrm{trust}_A=0{,}989$}
+{$w_{qq'}=0{,}4$ (sisi \texttt{EMBED\_SIM}); $w_{\mathrm{ans}}=0{,}7+0{,}3\times 0{,}989=0{,}9966$; $w_{\mathrm{path}}=0{,}4\times 0{,}9966=0{,}3986$}
+{$\mathrm{sim}=0{,}7501$; $\mathrm{sim}_{\mathrm{norm}}=0{,}8863$}
+{$0{,}75\times 0{,}8863+0{,}25\times 0{,}3986=\mathbf{0{,}7644}$}
+
+\kartuitem{4}{35634562}
+{Seed \texttt{Q27787747} $\xrightarrow{\text{HAS\_ANSWER}}$ \texttt{A35634562} (\emph{graph traversal}, 1 \emph{hop})}
+{Android Studio: Error:Execution failed for task ':app:dexDebug'}
+{\emph{I had the below code on gradle file and same error.} \texttt{dependencies \{ compile fileTree(dir: 'libs', include: ['*.jar']) compile 'com.android.support:appcompat-v7:23.0.0' compile 'com.google.android.gms:play-services-ads:8.3.0' \}} \ldots (dipotong; total 524 karakter)}
+{Non-\emph{accepted}; skor suara 0; $\mathrm{trust}_A=0$}
+{$w_{qq'}=1$; $w_{\mathrm{ans}}=0$; $w_{\mathrm{path}}=0$}
+{$\mathrm{sim}=0{,}7787$; $\mathrm{sim}_{\mathrm{norm}}=1{,}0000$ (kemiripan tertinggi pada \emph{pool})}
+{$0{,}75\times 1{,}0000+0{,}25\times 0=\mathbf{0{,}7500}$}
+
+\kartuitem{5}{29366307}
+{\emph{Semantic expansion}: judul seed \texttt{Q27787747} dipakai sebagai kueri (kosinus 0,8542) $\rightarrow$ \texttt{Q29362983} $\xrightarrow{\text{HAS\_ACCEPTED\_ANSWER}}$ \texttt{A29366307}}
+{Android Studio Build failed with an exception Execution failed for task ':app:dexDebug'}
+{\emph{I found solution, just change} \texttt{compile 'com.android.support:support-v4:19.1.+'} \emph{to} \texttt{compile 'com.android.support:support-v4:22.0.0'} \emph{also change} \texttt{compile 'com.android.support:appcompat-v7:21.0.3'} \emph{to}\ldots (dipotong; total 662 karakter)}
+{\emph{Accepted}; skor suara 6; $\mathrm{trust}_A=0{,}505$}
+{$w_{\mathrm{exp}}=0{,}4$; $w_{\mathrm{ans}}=0{,}8516$; $w_{\mathrm{path}}=0{,}4\times 0{,}8516=0{,}3406$}
+{$\mathrm{sim}=0{,}7456$; $\mathrm{sim}_{\mathrm{norm}}=0{,}8684$}
+{$0{,}75\times 0{,}8684+0{,}25\times 0{,}3406=\mathbf{0{,}7365}$}
+
+\FloatBarrier
 
 %============================================================
 \section{Penetapan Parameter}
@@ -702,7 +805,7 @@ Parameter implementasi terbagi menjadi tiga kelompok menurut dasar penetapannya,
 \begin{table}[!htbp]
 \centering
 \footnotesize
-\caption{Parameter beku dan dasar penetapannya.}
+\caption{Parameter dan dasar penetapannya.}
 \label{tab:justifikasi-parameter}
 \renewcommand{\arraystretch}{1.25}
 \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.6cm}|>{\raggedright\arraybackslash}p{2.6cm}|>{\raggedright\arraybackslash}X|}
@@ -725,7 +828,7 @@ $P_{99}^{A}$ (skor suara jawaban) & 46 & Persentil ke-99 populasi KG (Subbab~\re
 \hline
 \multicolumn{3}{|l|}{\textit{Heuristik}} \\
 \hline
-Bobot $\alpha$ pada skor akhir (B-Acc, C-Acc, dan C-Acc+Vote) & 0,25 & Menyeimbangkan relevansi dan bobot jalur (Persamaan~\eqref{eq:final-score}); dipilih pada himpunan \emph{development-set}\\
+Bobot $\alpha$ pada skor akhir (B-Acc, C-Acc, dan C-Acc+Vote) & 0,25 & Menyeimbangkan relevansi dan bobot jalur (Persamaan~\eqref{eq:final-score}); dipilih pada himpunan pengembangan (150 pertanyaan), bukan himpunan uji \\
 \hline
 $w_{\mathrm{acc}}$ dan $w_{\mathrm{vote}}$ (C-Acc+Vote) & 0,7 dan 0,3 & Status \emph{accepted answer} (validasi penanya) diberi porsi lebih besar daripada skor suara; $w_{\mathrm{acc}}+w_{\mathrm{vote}}=1$ \\
 \hline
@@ -748,7 +851,7 @@ Filter jawaban dan \emph{refill} & Dinonaktifkan pada seluruh konfigurasi & Jawa
 \end{tabularx}
 \end{table}
 
-Nilai $\alpha=0{,}25$ dipilih pada himpunan \emph{development-set} berdasarkan relevansi konteks dan laju halusinasi (22 dari 129 jawaban untuk $\alpha=0{,}25$ dibandingkan 29 dari 129 untuk $\alpha=0{,}1$), terpisah dari sampel uji. 
+Nilai $\alpha=0{,}25$ dipilih pada himpunan pengembangan (150 pertanyaan) berdasarkan relevansi konteks dan laju halusinasi (22 dari 129 jawaban untuk $\alpha=0{,}25$ dibandingkan 29 dari 129 untuk $\alpha=0{,}1$), terpisah dari sampel uji.
 
 %============================================================
 \section{Pemenuhan Kebutuhan Sistem}
@@ -808,7 +911,7 @@ NF4 & Keandalan kutipan & Panel \emph{judge} melabeli setiap klaim jawaban terha
 \hline
 NF5 & Integritas evaluasi & Himpunan pengecualian per pertanyaan diterapkan pada seluruh titik \emph{retrieval}, dan irisan antara konteks serta kutipan dengan himpunan pengecualian dihitung untuk setiap kueri uji setelah \emph{run} selesai (Subbab~\ref{subsec:implementasi-leakage} dan \ref{subsec:verifikasi-kontrol}) \\
 \hline
-NF6 & Perbandaingan antarkondisi & Komponen yang identik pada seluruh konfigurasi (Tabel~\ref{tab:komponen-bersama}), \emph{prompt} dengan struktur dan instruksi yang sama (Subbab~\ref{subsec:struktur-prompt}), dan parameter generasi yang sama (Subbab~\ref{subsec:kutipan-generasi}) \\
+NF6 & Perbandingan antarkondisi & Komponen yang identik pada seluruh konfigurasi (Tabel~\ref{tab:komponen-bersama}), \emph{prompt} dengan struktur dan instruksi yang sama (Subbab~\ref{subsec:struktur-prompt}), dan parameter generasi yang sama (Subbab~\ref{subsec:kutipan-generasi}) \\
 \hline
 \end{tabularx}
 \end{table}
@@ -825,13 +928,13 @@ Beberapa batasan implementasi perlu dicatat karena memengaruhi interpretasi hasi
 \begin{enumerate}
     \item Pembaruan KG secara inkremental tidak diimplementasikan dan tidak dievaluasi, dan diposisikan sebagai pengembangan lanjutan.
     \item Seluruh penilaian halusinasi merupakan keluaran panel \emph{LLM-as-a-Judge}, sehingga angka halusinasi harus ditafsirkan sebagai keluaran panel, bukan label manusia. 
-    \item Koefisien heuristik pada bobot jawaban ($w_{\mathrm{acc}}$ dan $w_{\mathrm{vote}}$), skor akhir ($\alpha$), fusi, dan densifikasi tidak diuji sensitivitasnya. Nilai $\alpha=0{,}25$ dipilih pada \emph{development-set} dan digunakan pada kondisi B dan C.
+    \item Koefisien heuristik pada bobot jawaban ($w_{\mathrm{acc}}$ dan $w_{\mathrm{vote}}$), skor akhir ($\alpha$), fusi, dan densifikasi tidak diuji sensitivitasnya. Nilai $\alpha=0{,}25$ dipilih pada himpunan pengembangan.
     \item Selisih B-Acc terhadap C-Acc mencerminkan seluruh mekanisme pengambilan konteks berbasis graf, yaitu penelusuran graf, \emph{semantic expansion}, dan \emph{pool} kandidat yang lebih luas, bukan efek struktur graf saja. 
-    \item Pembobotan seragam tidak menghasilkan konteks yang berbeda dari B-Vec (Subbab~\ref{subsec:implementasi-eksploratif}), sehingga tidak ada pembanding GraphRAG tanpa pembobotan yang dijalankan terpisah.
-    \item Pada C-Acc, bobot jalur dua \emph{hop} jawaban non-\emph{accepted} bernilai 0. Pada 31 dari 384 pertanyaan sampel uji seluruh kandidat dua \emph{hop} berbobot 0, tetapi pemotongan $N_{\mathrm{trav}}$ tidak mengikat pada pertanyaan tersebut. Pemotongan hanya mengikat pada 8 pertanyaan, dan di sana pemotongan menurut identitas jawaban hanya mengisi slot sisa dengan kandidat berbobot 0. Pemotongan ini menyebabkan \emph{pool} kedua konfigurasi berbeda pada 6 dari 384 pertanyaan.
+    \item Pembobotan seragam tidak menghasilkan konteks yang berbeda dari B-Vec (dibahas pada Bab~\ref{chap:evaluasi}), sehingga tidak ada pembanding GraphRAG tanpa pembobotan yang dijalankan terpisah.
+    \item Pada C-Acc, bobot jalur dua \emph{hop} jawaban non-\emph{accepted} bernilai 0. Pada 31 dari 384 pertanyaan sampel uji terdapat kandidat dua \emph{hop}, tetapi tidak satu pun berstatus \emph{accepted} sehingga seluruhnya berbobot 0 (15 pertanyaan lain tidak memiliki kandidat dua \emph{hop}). Pemotongan $N_{\mathrm{trav}}$ tidak mengikat pada pertanyaan tersebut dan hanya mengikat pada 8 pertanyaan, dan di sana pemotongan menurut identitas jawaban hanya mengisi slot sisa dengan kandidat berbobot 0. Pemotongan ini menyebabkan \emph{pool} kedua konfigurasi berbeda pada 6 dari 384 pertanyaan.
     \item Karena penyaringan dinonaktifkan, jawaban non-\emph{accepted} berskor suara nol atau negatif dapat masuk ke konteks (40,3\% dari item non-\emph{accepted} pada C-Acc dan 26,3\% pada C-Acc+Vote; 42,1\% pada B-Vec).
     \item Evaluasi dilakukan pada satu \emph{dataset} dan satu model \emph{generator}, sehingga generalisasi ke domain atau model lain tidak diklaim.
-    \item Sampel uji hanya diambil dari pertanyaan yang jawaban terterimanya tersedia pada tabel jawaban (270.988 dari 2.685.814 pertanyaan, 10,09\%), sehingga hasil tidak digeneralisasi ke pertanyaan tanpa jawaban terterima.
+    \item Sampel uji hanya diambil dari pertanyaan yang jawaban diterimanya tersedia pada tabel jawaban (270.988 dari 2.685.814 pertanyaan, 10,09\%), sehingga hasil tidak digeneralisasi ke pertanyaan tanpa jawaban diterima.
     \item Setiap konfigurasi dijalankan satu kali dengan \emph{temperature} bawaan penyedia, sehingga variasi antarpengulangan generasi tidak diukur. Selisih kecil antarkonfigurasi, termasuk antara C-Acc dan C-Acc+Vote, dapat sebagian berasal dari variasi generasi dan variasi label panel.
 \end{enumerate}
 
