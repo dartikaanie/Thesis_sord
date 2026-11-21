@@ -573,28 +573,27 @@ Latensi & Pendukung (NF3) & Waktu pemrosesan per pertanyaan & Rata-rata waktu \e
 
 Tiga kondisi eksperimen dijalankan dalam lima konfigurasi. Setiap konfigurasi dijalankan satu kali pada 384 pertanyaan uji yang sama. Seluruh jawaban dinilai oleh panel \emph{judge} (Subbab~\ref{subsec:panel-judge}) dengan metrik utama \emph{hallucination rate} dan metrik pendukung yang sama (Subbab~\ref{subsec:metrik-evaluasi}). Matriks pengujian disajikan pada Tabel~\ref{tab:table-matriks-run}.
 
-
 \begin{table}[!htbp]
 \centering
 \caption{Matriks pengujian.}
 \label{tab:table-matriks-run}
-\begin{tabular}{|c|l|l|l|}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{|c|l|p{9cm}|}
 \hline
-\textbf{Kondisi} & \textbf{Konfigurasi} &  \textbf{Peran} \\
+\textbf{Kondisi} & \textbf{Konfigurasi} & \textbf{Peran} \\
 \hline
-A & A & LLM murni  & tanpa \emph{retrieval} \\
+A & A & LLM murni, tanpa \emph{retrieval}. \\
 \hline
-\multirow{2}{*}{B} & B-Vec & RAG konvensional. \emph{Baseline retrieval} vektor \\
-\cline{2-4}
- & B-Acc & RAG, bobot \emph{accepted}, tanpa graf.  Kontrol pengaruh pembobotan tanpa graf \\
+\multirow{2}{*}{B} & B-Vec & RAG konvensional. \emph{Baseline retrieval} vektor. \\
+\cline{2-3}
+ & B-Acc & RAG dengan bobot \emph{accepted} tanpa graf. Kontrol pengaruh pembobotan tanpa graf. \\
 \hline
-\multirow{2}{*}{C} & C-Acc & GraphRAG, bobot \emph{accepted}. Konfigurasi mekanisme yang diusulkan \\
-\cline{2-4}
- & C-Acc+Vote & GraphRAG, bobot \emph{accepted} dan skor suara. Konfigurasi mekanisme yang diusulkan \\
+\multirow{2}{*}{C} & C-Acc & GraphRAG dengan bobot \emph{accepted}. Konfigurasi mekanisme yang diusulkan. \\
+\cline{2-3}
+ & C-Acc+Vote & GraphRAG dengan bobot \emph{accepted} dan skor suara. Konfigurasi mekanisme yang diusulkan. \\
 \hline
 \end{tabular}
 \end{table}
-
 
 Pendekatan GraphRAG memiliki kompleksitas arsitektural lebih tinggi daripada Kondisi A dan B karena memerlukan konstruksi dan densifikasi KG serta penelusuran graf. Penelitian ini berfokus pada \emph{hallucination rate}. Latensi dilaporkan secara deskriptif sebagai metrik pendukung, tetapi penelitian ini tidak mengklaim keunggulan efisiensi.
 

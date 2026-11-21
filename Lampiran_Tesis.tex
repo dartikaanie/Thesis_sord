@@ -1,0 +1,650 @@
+\emergencystretch=3em
+%============================================================
+% LAMPIRAN (dihasilkan oleh gen_lampiran.py)
+% Letakkan di dalam lingkungan appendices pada Tesis.tex, mis.:
+%   \begin{appendices} ... \input{Lampiran_Tesis.tex} \end{appendices}
+% Label: lamp:prompt-judge, lamp:hasil-lengkap, lamp:kg, lamp:repro,
+%        lamp:kebocoran, lamp:id
+%============================================================
+
+\cleardoublepage
+\chapter{\textit{PROMPT JUDGE} DAN ATURAN PENURUNAN LABEL}
+\label{lamp:prompt-judge}
+
+Lampiran ini memuat teks lengkap \emph{prompt} yang dipakai panel \emph{judge} (Llama-3.3-70B, DeepSeek-V3.2, dan Qwen3-235B-A22B-Instruct-2507) serta kode yang menurunkan label akhir. Teks diambil langsung dari objek dan kode Python pada repositori (komit \texttt{1286769}, \emph{working tree} belum bersih, berkas \emph{prompt} tidak diubah), bukan diketik ulang. Placeholder \texttt{\{...\}} hanya diisi agar templat terlihat. Isi \emph{prompt} halusinasi identik dengan dokumen \texttt{docs/\allowbreak{}judge\_\allowbreak{}prompts\_\allowbreak{}panel-v2\_\allowbreak{}judge-v2.\allowbreak{}3.\allowbreak{}md}.
+
+Parameter permintaan untuk seluruh \emph{judge}: temperatur 0,0, \texttt{max\_tokens} 2000, dan keluaran JSON (\texttt{response\_\allowbreak{}format=\allowbreak{}json\_\allowbreak{}object}). Versi \emph{prompt} halusinasi \texttt{judge-v2.3}, \emph{parser} \texttt{pv2.3-1}, \emph{blinding} \texttt{blind-v3}, dan relevansi konteks \texttt{ctxrel-v2}.
+
+\emph{Faithfulness} dan \emph{citation support} tidak memiliki \emph{prompt} terpisah. Keduanya dibaca dari bidang \texttt{supported\_\allowbreak{}by\_\allowbreak{}context} dan \texttt{cited\_\allowbreak{}item\_\allowbreak{}supports} pada setiap klaim yang dikeluarkan \emph{prompt} halusinasi (Subbab~\ref{subsec:lamp-a1}).
+
+
+\section{\emph{Prompt} Halusinasi, Klaim, \emph{Faithfulness}, dan \emph{Citation Support}}
+\label{subsec:lamp-a1}
+
+\lstinputlisting[language={}, caption={\emph{System prompt} halusinasi dan klaim (\texttt{judge-v2.3}).}, label={lst:judge-system}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/judge-system.txt}
+
+\lstinputlisting[language={}, caption={\emph{User template} halusinasi.}, label={lst:judge-user}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/judge-user.txt}
+
+\section{\emph{Prompt} Relevansi Konteks (\texttt{ctxrel-v2})}
+\label{subsec:lamp-a2}
+
+Pesan dinilai per item konteks. Panel memberi label \texttt{RELEVANT}, \texttt{PARTIAL}, atau \texttt{IRRELEVANT}. Skor: 1; 0,5; dan 0.
+
+
+\lstinputlisting[language={}, caption={\emph{System prompt} relevansi konteks.}, label={lst:ctxrel-system}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/ctxrel-system.txt}
+
+\lstinputlisting[language={}, caption={\emph{User prompt} relevansi konteks.}, label={lst:ctxrel-user}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/ctxrel-user.txt}
+
+\section{\emph{Prompt} Relevansi Jawaban}
+\label{subsec:lamp-a3}
+
+Pesan hanya memuat pertanyaan dan jawaban, tanpa jawaban acuan dan tanpa informasi konfigurasi. Panel memberi label \texttt{MENJAWAB}, \texttt{MENJAWAB\_\allowbreak{}SEBAGIAN}, atau \texttt{TIDAK\_\allowbreak{}MENJAWAB}. Skor: 1; 0,5; dan 0.
+
+
+\lstinputlisting[language={}, caption={\emph{System prompt} relevansi jawaban.}, label={lst:ansrel-system}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/ansrel-system.txt}
+
+\lstinputlisting[language={}, caption={\emph{User prompt} relevansi jawaban.}, label={lst:ansrel-user}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/ansrel-user.txt}
+
+\section{Aturan Penurunan Label}
+\label{subsec:lamp-a4}
+
+Kode berikut menurunkan label per \emph{judge} dari klaim, kategori tiga nilai, tingkat keparahan, dan label panel dengan aturan dua dari tiga. Skor ordinal label \emph{judge}: \texttt{ABSTAIN} 0, \texttt{FAKTUAL} 0, \texttt{HALUSINASI\_\allowbreak{}SEBAGIAN} 1, \texttt{HALUSINASI\_\allowbreak{}PENUH} 2.
+
+
+\lstinputlisting[language=Python, caption={Penurunan label per \emph{judge} dari klaim (\texttt{derive\_label\_v2\_1}).}, label={lst:derive-label}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/derive-label.py}
+
+\lstinputlisting[language=Python, caption={Kategori, status halusinasi, dan keparahan (\texttt{judge\_binary}).}, label={lst:judge-binary}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/judge-binary.py}
+
+\lstinputlisting[language={}, caption={Dokumentasi agregasi panel (\texttt{judge\_panel\_aggregate.py}).}, label={lst:panel-doc}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/panel-doc.txt}
+
+\lstinputlisting[language=Python, caption={Agregasi tiga dan dua \emph{judge} (\texttt{judge\_panel\_aggregate}).}, label={lst:panel-agg}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/panel-agg.py}
+
+\lstinputlisting[language=Python, caption={Kategori panel (\texttt{panel\_category}).}, label={lst:panel-cat}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/panel-cat.py}
+
+\section{Statistik Klaim dan Agregasi Metrik Sekunder}
+\label{subsec:lamp-a5}
+
+\emph{Faithfulness} dan \emph{citation support} dihitung dari klaim dengan penyebut yang hanya memuat klaim berlabel \texttt{YES} atau \texttt{NO}. Klaim bernilai null tidak masuk penyebut dan tidak diimputasi.
+
+
+\lstinputlisting[language=Python, caption={Statistik klaim (\texttt{official\_report.claim\_stats}).}, label={lst:claim-stats}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/claim-stats.py}
+
+\lstinputlisting[language=Python, caption={Agregasi panel relevansi konteks dan jawaban (\texttt{secondary\_panel.build\_panel\_records}).}, label={lst:secondary-panel}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/secondary-panel.py}
+
+
+\cleardoublepage
+\chapter{HASIL EVALUASI LENGKAP}
+\label{lamp:hasil-lengkap}
+
+Lampiran ini memuat hasil yang melengkapi Bab~\ref{chap:evaluasi}. Seluruh angka dihitung ulang dari berkas hasil mentah, tanpa menjalankan ulang \emph{generator} maupun \emph{judge}.
+
+\section{Selisih terhadap B-Vec pada Tiap \emph{Judge}}
+\label{sec:lamp-b-judge}
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{\emph{Hallucination rate} versi (a) per \emph{judge} dan selisihnya terhadap B-Vec pada \emph{judge} yang sama (poin persentase, dalam kurung).}
+\label{tab:lamp-per-judge}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|l|*{3}{>{\centering\arraybackslash}X|}}
+\hline
+\textbf{Konfigurasi} & \textbf{Llama-3.3-70B} & \textbf{DeepSeek-V3.2} & \textbf{Qwen3-235B} \\
+\hline
+A & 6,0 ($+0{,}7$) & 36,2 ($-2{,}4$) & 37,2 ($+1{,}5$) \\
+B-Vec & 5,3 & 38,6 & 35,7 \\
+B-Acc & 3,6 ($-1{,}7$) & 30,0 ($-8{,}6$) & 32,8 ($-2{,}9$) \\
+C-Acc & 3,0 ($-2{,}3$) & 31,7 ($-6{,}9$) & 30,7 ($-5{,}1$) \\
+C-Acc+Vote & 3,6 ($-1{,}8$) & 29,4 ($-9{,}2$) & 32,7 ($-3{,}0$) \\
+\hline
+\end{tabularx}
+\end{table}
+
+Selisih panel terhadap B-Vec adalah $+1{,}0$ (A), $-5{,}4$ (B-Acc), $-5{,}9$ (C-Acc), dan $-7{,}8$ (C-Acc+Vote). Untuk ketiga konfigurasi berbobot, ketiga \emph{judge} searah dengan panel. Pada A, DeepSeek berlawanan arah dengan panel, Llama, dan Qwen. Urutan di antara ketiga konfigurasi berbobot juga berbeda antar-\emph{judge}. Llama dan Qwen menilai C-Acc terendah (3,0\% dan 30,7\%), sedangkan DeepSeek menilai C-Acc+Vote terendah (29,4\%). Selisih antar-konfigurasi berbobot pada tiap \emph{judge} paling besar 2,3 poin (DeepSeek, C-Acc terhadap C-Acc+Vote), sehingga urutan ini tidak ditafsirkan.
+
+\section{Selisih \emph{Hallucination Rate} Antarkonfigurasi}
+\label{sec:lamp-b-ci}
+
+Himpunan $S_{278}$ adalah pertanyaan yang bukan \texttt{ABSTAIN} pada B-Vec, C-Acc, dan C-Acc+Vote. Himpunan $S_{273}$ (disebut $S$ pada Bab~\ref{chap:evaluasi}) menambahkan syarat B-Acc bukan \texttt{ABSTAIN}. Selisih dilaporkan sebagai titik tanpa interval maupun uji inferensial.
+
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\caption{Selisih \emph{hallucination rate} antarkonfigurasi (poin persentase).}
+\label{tab:lamp-ci}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|c|c|c|}
+\hline
+\textbf{Perbandingan} & \textbf{Versi} & \textbf{Himpunan} & \textbf{Selisih} \\
+\hline
+C-Acc terhadap A & (a) & 384 & $-7{,}0$ \\
+C-Acc+Vote terhadap A & (a) & 384 & $-8{,}8$ \\
+C-Acc terhadap B-Vec & (a) & 384 & $-5{,}9$ \\
+C-Acc+Vote terhadap B-Vec & (a) & 384 & $-7{,}8$ \\
+B-Acc terhadap B-Vec & (a) & 384 & $-5{,}4$ \\
+C-Acc terhadap B-Acc & (a) & 384 & $-0{,}6$ \\
+C-Acc+Vote terhadap C-Acc & (a) & 384 & $-1{,}8$ \\
+\hline
+C-Acc terhadap A & (a) & $S_{273}$ & $-1{,}8$ \\
+C-Acc+Vote terhadap A & (a) & $S_{273}$ & $-4{,}0$ \\
+C-Acc terhadap B-Vec & (a) & $S_{273}$ & $-5{,}1$ \\
+C-Acc+Vote terhadap B-Vec & (a) & $S_{273}$ & $-7{,}3$ \\
+B-Acc terhadap B-Vec & (a) & $S_{273}$ & $-4{,}4$ \\
+C-Acc terhadap B-Acc & (a) & $S_{273}$ & $-0{,}7$ \\
+C-Acc+Vote terhadap C-Acc & (a) & $S_{273}$ & $-2{,}2$ \\
+\hline
+C-Acc+Vote terhadap C-Acc & (a) & $S_{278}$ & $-2{,}2$ \\
+C-Acc terhadap B-Acc & (a) & $S_{278}$ & $-1{,}1$ \\
+\hline
+C-Acc terhadap A & (b) & 384 & $+6{,}8$ \\
+C-Acc+Vote terhadap A & (b) & 384 & $+5{,}5$ \\
+\hline
+\end{tabularx}
+\end{table}
+
+Pada $S_{278}$, nilai (a) adalah 17,6\% (C-Acc+Vote) dan 19,8\% (C-Acc) untuk perbandingan pertama, dan 19,8\% (C-Acc) terhadap 20,9\% (B-Acc) untuk perbandingan kedua.
+
+\section{Latensi Lengkap}
+\label{sec:lamp-b-latensi}
+
+\begin{table}[!htbp]
+\centering
+\scriptsize
+\caption{Latensi per kueri (detik). Pencilan memakai aturan IQR (nilai $> Q_3 + 1{,}5\cdot\mathrm{IQR}$).}
+\label{tab:lamp-latensi}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|l|*{8}{>{\centering\arraybackslash}X|}}
+\hline
+ & \multicolumn{4}{c|}{\textbf{\emph{Retrieval}}} & \multicolumn{4}{c|}{\textbf{Total (\emph{end-to-end})}} \\
+\hline
+\textbf{Konfigurasi} & \textbf{Rata-rata} & \textbf{Median} & \textbf{Maks.} & \textbf{Pencilan} & \textbf{Rata-rata} & \textbf{Median} & \textbf{Maks.} & \textbf{Pencilan} \\
+\hline
+A & \multicolumn{4}{c|}{tidak ada bidang} & 7,55 & 7,26 & 20,45 & 13 \\
+B-Vec & 1,53 & 0,35 & 68,96 & 54 & 5,97 & 4,81 & 77,06 & 13 \\
+B-Acc & 0,23 & 0,17 & 2,43 & 5 & 5,66 & 5,47 & 22,53 & 6 \\
+C-Acc & 1,24 & 1,20 & 4,19 & 10 & 5,10 & 5,07 & 10,33 & 6 \\
+C-Acc+Vote & 0,99 & 0,94 & 5,01 & 6 & 5,93 & 5,74 & 13,44 & 5 \\
+\hline
+\end{tabularx}
+\end{table}
+
+Status \emph{cache} tidak tercatat per kueri. Manifest hanya memuat \texttt{corpus\_\allowbreak{}cache\_\allowbreak{}key}. Berkas \texttt{embedding\_\allowbreak{}cache.\allowbreak{}sqlite3} ada pada folder C, tetapi tidak ada penanda \emph{hit} atau \emph{miss}.
+
+\section{Pemilihan $\alpha$ pada Himpunan Pengembangan}
+\label{sec:lamp-b-alpha}
+
+Hasil pada himpunan pengembangan (150 pertanyaan, posisi 435 sampai 584) dilaporkan pada Tabel~\ref{tab:alpha-dev}. Hasil $\alpha=0{,}25$ dihitung ulang dari \texttt{results/\allowbreak{}panel\_\allowbreak{}devlarge\_\allowbreak{}stage2\_\allowbreak{}panel.\allowbreak{}jsonl} (\emph{run} \texttt{C-1aeed19bd3}). Pemetaan \emph{run} ke $\alpha$ diambil dari dokumen \texttt{DEVLARGE\_\allowbreak{}ALPHA\_\allowbreak{}SELECTION.\allowbreak{}md}, bukan dari bidang \emph{run}, karena bidang \texttt{run\_label} sama untuk kedua nilai $\alpha$.
+
+
+\cleardoublepage
+\chapter{KONSTRUKSI \textit{KNOWLEDGE GRAPH}}
+\label{lamp:kg}
+
+Hitungan simpul dan sisi dibaca langsung dari basis data Neo4j (hanya baca).
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Jumlah simpul dan sisi pada graf pengetahuan yang dipakai evaluasi.}
+\label{tab:lamp-kg}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|r|}
+\hline
+\textbf{Simpul atau sisi} & \textbf{Jumlah} \\
+\hline
+Simpul \texttt{Question} & 2.685.814 \\
+Simpul \texttt{Answer} & 725.795 \\
+Simpul \texttt{Tag} & 56.435 \\
+\hline
+\texttt{HAS\_\allowbreak{}ACCEPTED\_\allowbreak{}ANSWER} & 270.988 \\
+\texttt{HAS\_ANSWER} & 454.807 \\
+\texttt{TAGGED\_WITH} & 8.525.257 \\
+\texttt{IS\_\allowbreak{}RELATED\_\allowbreak{}TO} & 151.094 \\
+\texttt{TAG\_COOCCUR} & 11.841.429 \\
+\texttt{EMBED\_SIM} & 10.141.497 \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Parameter Densifikasi}
+\label{sec:lamp-kg-densifikasi}
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Parameter dan keluaran densifikasi.}
+\label{tab:lamp-densifikasi}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{2.6cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Sisi} & \textbf{Parameter dan keluaran} \\
+\hline
+\texttt{TAG\_COOCCUR} & \texttt{max\_df}~=~200, ambang Jaccard $\geq 0{,}6$, \texttt{top\_k}~=~20 per simpul, bobot 0,6. Pasangan awal 81.759.382; lolos Jaccard $\geq 0{,}6$ sebanyak 35.356.288; setelah pemotongan \texttt{top\_k} menjadi 11.841.429 sisi dari 749.699 pertanyaan sumber. Log: \texttt{01\_\allowbreak{}data\_\allowbreak{}cleaning/\allowbreak{}logs/\allowbreak{}20260830T073110Z\_\allowbreak{}densify\_\allowbreak{}tag\_\allowbreak{}cooccurrence.\allowbreak{}log}. \\
+\hline
+\texttt{EMBED\_SIM} & \texttt{top\_k}~=~10, ambang kosinus $\geq 0{,}7$, bobot 0,4. Hasil 10.141.497 sisi. Log: \texttt{20260831T040542Z\_\allowbreak{}densify\_\allowbreak{}embedding\_\allowbreak{}similarity.\allowbreak{}log}. \\
+\hline
+\end{tabularx}
+\end{table}
+
+\section{Keterhubungan Graf}
+\label{sec:lamp-kg-isolasi}
+
+Simpul terisolasi (derajat keluar 0) berjumlah 94,88\% sebelum densifikasi (2.548.248 dari 2.685.814) dan 23,10\% sesudahnya (620.542). Rata-rata derajat 8,2411 dan median 6. Kedua persentase dikutip dari \texttt{IMPLEMENTATION\_\allowbreak{}STATUS.\allowbreak{}md} (baris 228 sampai 232) dan log \texttt{20261013T145605Z\_\allowbreak{}validate\_\allowbreak{}densification.\allowbreak{}log}, dan tidak dihitung ulang karena kueri langsung memerlukan waktu lama.
+
+\section{Normalisasi Skor Jawaban}
+\label{sec:lamp-kg-p99}
+
+Persentil ke-99 skor jawaban ($P_{99,A}$) bernilai 46,0, dihitung dari 725.795 skor \texttt{Answer} dengan interpolasi linear (\texttt{numpy}) pada kuantil 0,99 (fungsi \texttt{compute\_p99} pada \texttt{trust\_\allowbreak{}formulas.\allowbreak{}py}). Nilai ini dihitung ulang langsung dari Neo4j. Log penerapannya adalah \texttt{20261014T085255Z\_\allowbreak{}apply\_\allowbreak{}logscore\_\allowbreak{}trust.\allowbreak{}log}.
+
+
+\cleardoublepage
+\chapter{QUERY \textit{CYPHER} DAN REPRODUKSIBILITAS}
+\label{lamp:repro}
+
+\section{Parameter \emph{Run}}
+\label{sec:lamp-d-param}
+
+Parameter berikut sama untuk kelima konfigurasi kecuali dicatat. Struktur \emph{prompt} generator ada pada Listing~\ref{lst:prompt-grounded} dan \ref{lst:prompt-kosong} (Bab~\ref{chap:implementasi}).
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Parameter \emph{run}.}
+\label{tab:lamp-param}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Parameter} & \textbf{Nilai} \\
+\hline
+Model \emph{generator} & \texttt{gpt-4o-mini} (\texttt{gpt-4o-mini-2024-07-18}) \\
+\hline
+\emph{Seed} & 42 \\
+\hline
+\texttt{oversample\_\allowbreak{}pool} & 1536 \\
+\hline
+$k$ (item konteks) & 5 \\
+\hline
+Panjang \emph{chunk} & 400 token \\
+\hline
+Parameter C & \texttt{n\_anchor}~=~3, \texttt{n\_\allowbreak{}semantic\_\allowbreak{}expansion}~=~3, $\alpha=0{,}25$, \emph{retrieval} v5, \texttt{semantic\_\allowbreak{}expansion\_\allowbreak{}trust\_\allowbreak{}cap}~=~0,4 \\
+\hline
+Permintaan ke \emph{generator} & \texttt{temperature=\allowbreak{}None}, yaitu bawaan API (tidak ditetapkan) \\
+\hline
+Permintaan ke \emph{judge} & temperatur 0,0, \texttt{max\_tokens} 2000, keluaran JSON \\
+\hline
+\end{tabularx}
+\end{table}
+
+\section{ID \emph{Run} dan Status Repositori}
+\label{sec:lamp-d-run}
+
+\begin{table}[!htbp]
+\centering
+\scriptsize
+\caption{ID \emph{run}, \emph{hash} konfigurasi, dan komit repositori. Kelima \emph{run} tercatat dengan \emph{working tree} yang belum bersih (\emph{dirty}).}
+\label{tab:lamp-run}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|l|>{\raggedright\arraybackslash}X|l|l|c|}
+\hline
+\textbf{Konfigurasi} & \textbf{ID \emph{run}} & \textbf{\emph{Hash}} & \textbf{Komit} & \textbf{\emph{Dirty}} \\
+\hline
+A & \texttt{cf5bb44a-\allowbreak{}e569-\allowbreak{}44a5-\allowbreak{}a090-\allowbreak{}bca53e732189} & \texttt{24bf2a629b} & \texttt{e1dd0471} & ya \\
+\hline
+B-Vec & \texttt{d558808c-\allowbreak{}2e6b-\allowbreak{}4ca3-\allowbreak{}8672-\allowbreak{}a78e0f500a18} & \texttt{4313f6c578} & \texttt{e1dd0471} & ya \\
+\hline
+B-Acc & \texttt{8860950a-\allowbreak{}8f05-\allowbreak{}440c-\allowbreak{}b935-\allowbreak{}86772e5d340d} & \texttt{66824f10e9} & \texttt{12867695} & ya \\
+\hline
+C-Acc & \texttt{73719917-\allowbreak{}739d-\allowbreak{}4b90-\allowbreak{}830a-\allowbreak{}96cdda9bdd56} & \texttt{7048606315} & \texttt{72d385d8} & ya \\
+\hline
+C-Acc+Vote & \texttt{be26cd03-\allowbreak{}dd51-\allowbreak{}4ed3-\allowbreak{}814a-\allowbreak{}15d37e87e9a9} & \texttt{b71a886f71} & \texttt{ea2cbcc6} & ya \\
+\hline
+\end{tabularx}
+\end{table}
+
+Pada \emph{run} B-Acc, berkas yang berubah dan belum di-\emph{commit} adalah \texttt{b\_\allowbreak{}condition\_\allowbreak{}b\_\allowbreak{}rag.\allowbreak{}py}, \texttt{c\_\allowbreak{}graphrag.\allowbreak{}py}, \texttt{official\_\allowbreak{}params.\allowbreak{}py}, \texttt{run\_\allowbreak{}registry.\allowbreak{}py}, dan \texttt{main\_\allowbreak{}cell\_\allowbreak{}gate.\allowbreak{}py}. Berkas pertama memuat kode pemeringkatan ulang, sehingga pengaruhnya terhadap reproduksibilitas B-Acc paling besar.
+
+Komit \texttt{e1dd0471} yang tercatat pada \emph{run} A dan B-Vec tidak ada di repositori (objek tidak ditemukan), sehingga kode \emph{retrieval}, \emph{prompt}, dan kutipan pada Lampiran~\ref{lamp:source-code} tidak dapat dibuktikan identik dengan versi saat kedua \emph{run} itu dijalankan. Untuk C-Acc, berkas yang berbeda dari \emph{working tree} saat ini adalah \texttt{c\_\allowbreak{}graphrag.\allowbreak{}py}, \texttt{official\_\allowbreak{}params.\allowbreak{}py}, \texttt{b\_\allowbreak{}condition\_\allowbreak{}b\_\allowbreak{}rag.\allowbreak{}py}, \texttt{judge\_\allowbreak{}panel.\allowbreak{}py}, dan \texttt{main\_\allowbreak{}cells\_\allowbreak{}report.\allowbreak{}py}. Untuk C-Acc+Vote dan B-Acc, berkas yang berbeda adalah tiga berkas pertama. Perbedaan pada jalur C hanya berupa penambahan (sel baru dan validasi parameter), dan cabang biner dan suara pada \texttt{\_\allowbreak{}qa\_\allowbreak{}weight\_\allowbreak{}cypher} serta rumus pada \texttt{fuse\_\allowbreak{}and\_\allowbreak{}rank} tidak berubah dibandingkan komit \texttt{ea2cbcc}. Kode pemeringkatan ulang B-Acc (\texttt{rerank\_\allowbreak{}by\_\allowbreak{}trust}) belum pernah di-\emph{commit}, sehingga kesamaannya dengan kode saat \emph{run} tidak dapat dipastikan.
+
+\section{Perintah Eksekusi}
+\label{sec:lamp-d-perintah}
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Sumber perintah eksekusi setiap konfigurasi.}
+\label{tab:lamp-perintah}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|l|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Konfigurasi} & \textbf{Sumber} \\
+\hline
+A dan B-Vec & \texttt{docs/\allowbreak{}OFFICIAL\_\allowbreak{}RUN\_\allowbreak{}MATRIX.\allowbreak{}md} (baris 35 dan 39) \\
+\hline
+B-Acc & \texttt{docs/\allowbreak{}c\_\allowbreak{}0\_\allowbreak{}b\_\allowbreak{}acc\_\allowbreak{}setup.\allowbreak{}md} (baris 96 sampai 99), dengan bendera \texttt{--rerank acc} \\
+\hline
+C-Acc & Tidak ditemukan sebagai perintah tertulis, dan tidak dituliskan ulang. Konfigurasinya direkonstruksi dari \emph{manifest} (\texttt{alpha=0.25}, \texttt{c\_\allowbreak{}retrieval\_\allowbreak{}version=v5}, \texttt{binary\_\allowbreak{}trust=True}) dan dari log \texttt{llm/\allowbreak{}c\_\allowbreak{}graphrag/\allowbreak{}logs/\allowbreak{}20261104T030605Z\_\allowbreak{}openai\_\allowbreak{}gpt-4o-mini.\allowbreak{}log}, yang memuat tujuh baris konfigurasi: \texttt{n\_\allowbreak{}sample=384}, \texttt{seed=42}, penyedia \texttt{openai}, model \texttt{gpt-4o-mini}, \texttt{top\_\allowbreak{}k=5}, \texttt{n\_\allowbreak{}anchor=3}, \texttt{n\_\allowbreak{}semantic\_\allowbreak{}expansion=3}, \texttt{token\_\allowbreak{}chunk\_\allowbreak{}limit=400}, \texttt{fusion\_\allowbreak{}mode=trust\_\allowbreak{}weighted}, \texttt{require\_\allowbreak{}grounding=True}, dan mode kebocoran \texttt{thread}. Bendera baris perintah aslinya tidak terlacak. \\
+\hline
+C-Acc+Vote & \texttt{docs/\allowbreak{}runbook\_\allowbreak{}cacc\_\allowbreak{}vote.\allowbreak{}md} (baris 119 sampai 125) \\
+\hline
+\end{tabularx}
+\end{table}
+
+\section{Kode Query dan Pembobot}
+\label{sec:lamp-d-cypher}
+
+Kode berikut diambil apa adanya dari \texttt{llm/\allowbreak{}c\_\allowbreak{}graphrag/\allowbreak{}c\_\allowbreak{}graphrag.\allowbreak{}py}.
+
+
+\lstinputlisting[language=Python, caption={Pembobot normalisasi suara (\texttt{\_vote\_norm\_cypher}, baris 230 sampai 233).}, label={lst:vote-norm}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/vote-norm.py}
+
+\lstinputlisting[language=Python, caption={Bobot jawaban (\texttt{\_qa\_weight\_cypher}, baris 236 sampai 244).}, label={lst:qa-weight}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/qa-weight.py}
+
+\lstinputlisting[language=Python, caption={Penelusuran graf satu dan dua \emph{hop} (\texttt{traverse\_graph}, baris 565 sampai 653).}, label={lst:traverse}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/traverse.py}
+
+\lstinputlisting[language=Python, caption={Kolam jawaban untuk jawaban teratas B (\texttt{fetch\_answer\_pool}, baris 656 sampai 685).}, label={lst:fetch-pool}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/fetch-pool.py}
+
+\lstinputlisting[language=Python, caption={\emph{Semantic expansion} (\texttt{semantic\_expansion}, baris 777 sampai 874).}, label={lst:sem-exp}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/sem-exp.py}
+
+\section{Pembobot yang Sudah Dirender}
+\label{sec:lamp-d-render}
+
+Hasil eksekusi \texttt{\_\allowbreak{}qa\_\allowbreak{}weight\_\allowbreak{}cypher} untuk C-Acc+Vote (relasi \texttt{r} dan \texttt{r3}) dan C-Acc (biner, \texttt{r3}).
+
+
+\lstinputlisting[language={}, caption={Pembobot C-Acc+Vote untuk satu \emph{hop} (relasi \texttt{r}).}, label={lst:w-vote-1}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/w-vote-1.txt}
+
+\lstinputlisting[language={}, caption={Pembobot C-Acc+Vote untuk dua \emph{hop} (relasi \texttt{r3}).}, label={lst:w-vote-2}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/w-vote-2.txt}
+
+\lstinputlisting[language={}, caption={Pembobot C-Acc (biner, relasi \texttt{r3}).}, label={lst:w-acc}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/w-acc.txt}
+
+
+\cleardoublepage
+\chapter{VERIFIKASI KEBOCORAN DATA}
+\label{lamp:kebocoran}
+
+Mode pengecualian yang dipakai adalah \texttt{thread} (\texttt{leakage.py}, baris 1 sampai 12 dan 117 sampai 129). Mode ini mengecualikan pertanyaan uji itu sendiri, seluruh jawaban pada \emph{thread}-nya, dan jawaban \emph{accepted}-nya, tanpa yang lain.
+
+Jumlah item yang dikecualikan, diverifikasi dari Neo4j dan rekaman, adalah 384 pertanyaan dan 498 jawaban \emph{thread} (rata-rata 1,30 per pertanyaan, maksimum 8). Total 498 sama persis dengan jumlah \texttt{n\_\allowbreak{}excluded\_\allowbreak{}a} pada rekaman.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Hasil verifikasi kebocoran pada sampel uji.}
+\label{tab:lamp-bocor}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Konfigurasi} & \textbf{Pertanyaan dengan kebocoran} & \textbf{Item bocor} \\
+\hline
+B-Vec & 0/384 & 0/1.920 \\
+B-Acc & 0/384 & 0/1.920 \\
+C-Acc & 0/384 & 0/1.920 \\
+C-Acc+Vote & 0/384 & 0/1.920 \\
+\hline
+\end{tabular}
+\end{table}
+
+A tidak memiliki konteks. Pemeriksaan mencakup \texttt{owner\_\allowbreak{}question\_\allowbreak{}id}, \texttt{via\_\allowbreak{}question\_\allowbreak{}id}, dan \texttt{anchor\_id}, selain \texttt{question\_id} dan \texttt{answer\_id}, dan seluruhnya bersih. Skrip verifikasi adalah \texttt{v15.py} (dihitung ulang) dan \texttt{results/\allowbreak{}p3\_\allowbreak{}indirect\_\allowbreak{}leakage.\allowbreak{}py} untuk kebocoran tidak langsung.
+
+Berkas \texttt{laporan\_\allowbreak{}hasil/\allowbreak{}csv/\allowbreak{}5a\_\allowbreak{}NF5\_\allowbreak{}irisan\_\allowbreak{}pengecualian.\allowbreak{}csv} memuat irisan pada mode pengecualian lain. Pada mode \texttt{dup+linked+neardup0.\allowbreak{}95} (duplikat, pertanyaan tertaut, dan hampir-duplikat dengan kemiripan 0,95) terdapat 13 pertanyaan beririsan pada B dan C. Pada mode \texttt{thread} yang dipakai pada evaluasi tidak ada irisan.
+
+
+
+\cleardoublepage
+\chapter{\textit{SOURCE CODE}}
+\label{lamp:source-code}
+
+Lampiran ini memuat kode sumber yang dipakai pada implementasi dan evaluasi. Kode \emph{prompt judge}, aturan penurunan label, dan kueri Cypher ada pada Lampiran~\ref{lamp:prompt-judge} dan \ref{lamp:repro}. Setiap berkas pada Tabel~\ref{tab:lamp-sumber-kode} disalin apa adanya dari repositori. Karena satu berkas memuat beberapa potongan, baris pertama tiap berkas mencatat seluruh potongan sumbernya (berkas dan rentang baris, dipisah titik koma), dan antarpotongan hanya ada baris kosong. Tidak ada rahasia pada kode ini. Kesamaan kode dengan versi saat \emph{run} dibahas pada Lampiran~\ref{sec:lamp-d-run}.
+
+\begin{table}[!htbp]
+\centering
+\scriptsize
+\caption{Sumber berkas kode pada lampiran ini (komit tempat potongan itu terakhir diambil).}
+\label{tab:lamp-sumber-kode}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{|l|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{2.3cm}|}
+\hline
+\textbf{Berkas} & \textbf{Sumber (baris)} & \textbf{Komit} \\
+\hline
+\texttt{kg-build.py} & \texttt{7\_\allowbreak{}build\_\allowbreak{}knowledge\_\allowbreak{}graph.\allowbreak{}py}: 317--360, 414--468, 590--607, 740--849; \texttt{trust\_\allowbreak{}formulas.\allowbreak{}py}: 1--88 & \texttt{864d9ad} \\
+\hline
+\texttt{densify.py} & \texttt{10\_\allowbreak{}densify\_\allowbreak{}tag\_\allowbreak{}cooccurrence.\allowbreak{}py}: 94--100, 217--319, 390--402; \texttt{11\_\allowbreak{}densify\_\allowbreak{}embedding\_\allowbreak{}similarity.\allowbreak{}py}: 100--107, 310--418 & \texttt{7da6fae}; \texttt{cc29b33} \\
+\hline
+\texttt{faiss-index.py} & \texttt{build\_\allowbreak{}kg\_\allowbreak{}answer\_\allowbreak{}index.\allowbreak{}py}: 246--316, 323--362; \texttt{kg\_\allowbreak{}corpus.\allowbreak{}py}: 132--140, 143--217; \texttt{common/\allowbreak{}text.\allowbreak{}py}: 1--42 & \texttt{d00b3a5}; \texttt{43e2f50} \\
+\hline
+\texttt{retrieval-b.py} & \texttt{b\_\allowbreak{}condition\_\allowbreak{}b\_\allowbreak{}rag.\allowbreak{}py}: 489--511, 522--528, 532--549, 552--565; \texttt{c\_\allowbreak{}graphrag.\allowbreak{}py}: 881--892; \texttt{official\_\allowbreak{}params.\allowbreak{}py}: 149 & \emph{working tree} \\
+\hline
+\texttt{c-score.py} & \texttt{c\_\allowbreak{}graphrag.\allowbreak{}py}: 230--233, 236--244, 656--685, 977--1192 & \emph{working tree} \\
+\hline
+\texttt{prompt-builder.py} & \texttt{prompts.\allowbreak{}py}: 153--164, 167--188, 215--231, 234--299, 356--425; \texttt{client\_\allowbreak{}factory.\allowbreak{}py}: 40--55 & \texttt{405d0cd} \\
+\hline
+\texttt{citation-check.py} & \texttt{citations.\allowbreak{}py}: 30--60, 72--98, 101--115, 118--175 & \texttt{405d0cd} \\
+\hline
+\texttt{leakage.py} & \texttt{common/\allowbreak{}leakage.\allowbreak{}py}: 105--188; \texttt{leakage/\allowbreak{}build\_\allowbreak{}exclusion\_\allowbreak{}sets.\allowbreak{}py}: 63--110 & \texttt{fba0b73}; \texttt{9424fed} \\
+\hline
+\texttt{judge-runner.py} & \texttt{judge\_\allowbreak{}panel.\allowbreak{}py}: 291--352, 355--391, 401--404, 507--523, 622--654; \texttt{judge\_\allowbreak{}panel\_\allowbreak{}aggregate.\allowbreak{}py}: 78--123 & \texttt{3fb62b1}; \texttt{9040e20} \\
+\hline
+\texttt{eval-hr.py} & \texttt{official\_\allowbreak{}report.\allowbreak{}py}: 81--92, 493--560; \texttt{main\_\allowbreak{}cells\_\allowbreak{}report.\allowbreak{}py}: 74--110; \texttt{six\_\allowbreak{}cell\_\allowbreak{}table.\allowbreak{}py}: 70--99, 159--202 & \texttt{bd64767}; \texttt{1c8372a}; \emph{working tree} \\
+\hline
+\texttt{eval-metrics.py} & \texttt{official\_\allowbreak{}report.\allowbreak{}py}: 104--151, 469--490; \texttt{latency\_\allowbreak{}report.\allowbreak{}py}: 34--61 & \texttt{bd64767}; \texttt{1b01a38} \\
+\hline
+\end{tabularx}
+\end{table}
+
+Fungsi yang panjang tidak disalin, yaitu \texttt{traverse\_graph} dan \texttt{semantic\_expansion} (sudah ada pada Lampiran~\ref{lamp:repro}), \texttt{process\_sample}, \texttt{main}, dan \texttt{build\_config}. Penyusunan pesan dan pemanggilan generator tetap tercakup oleh fungsi \texttt{build\_*\_messages} dan \texttt{call\_llm\_openai\_with\_meta}. Pembuatan indeks vektor untuk \emph{anchor} Kondisi C ada pada \texttt{densify.py}, bukan \texttt{faiss-index.py}.
+
+\section{Pembangunan Graf Struktural dan Bobot Jawaban}
+\IfFileExists{listings/kg-build.py}{\lstinputlisting[language=Python, caption={Pembangunan simpul dan sisi graf struktural serta penghitungan bobot jawaban.}, label={lst:kg-build}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/kg-build.py}}{\textcolor{red}{\textbf{[berkas listings/kg-build.py belum tersedia]}}}
+
+\section{Densifikasi Graf (\texttt{TAG\_COOCCUR} dan \texttt{EMBED\_SIM})}
+\IfFileExists{listings/densify.py}{\lstinputlisting[language=Python, caption={Pembuatan sisi densifikasi.}, label={lst:densify}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/densify.py}}{\textcolor{red}{\textbf{[berkas listings/densify.py belum tersedia]}}}
+
+\section{Pengindeksan Vektor FAISS}
+\IfFileExists{listings/faiss-index.py}{\lstinputlisting[language=Python, caption={Pembuatan indeks vektor.}, label={lst:faiss-index}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/faiss-index.py}}{\textcolor{red}{\textbf{[berkas listings/faiss-index.py belum tersedia]}}}
+
+\section{\emph{Retrieval} Kondisi B (B-Vec dan B-Acc)}
+\IfFileExists{listings/retrieval-b.py}{\lstinputlisting[language=Python, caption={Pencarian vektor dan pemeringkatan ulang B-Vec dan B-Acc.}, label={lst:retrieval-b}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/retrieval-b.py}}{\textcolor{red}{\textbf{[berkas listings/retrieval-b.py belum tersedia]}}}
+
+\section{Skor Akhir dan Pemilihan Konteks Kondisi C}
+\IfFileExists{listings/c-score.py}{\lstinputlisting[language=Python, caption={Fusi kandidat, skor akhir, dan pemilihan lima konteks teratas.}, label={lst:c-score}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/c-score.py}}{\textcolor{red}{\textbf{[berkas listings/c-score.py belum tersedia]}}}
+
+\section{Pembentukan \emph{Prompt} dan Generasi Jawaban}
+\IfFileExists{listings/prompt-builder.py}{\lstinputlisting[language=Python, caption={Penyusunan pesan Kondisi A dan Kondisi B/C serta pemanggilan generator.}, label={lst:prompt-builder}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/prompt-builder.py}}{\textcolor{red}{\textbf{[berkas listings/prompt-builder.py belum tersedia]}}}
+
+\section{Validasi Kutipan}
+\IfFileExists{listings/citation-check.py}{\lstinputlisting[language=Python, caption={Pemeriksaan kutipan \texttt{[SO-<id>]} terhadap konteks.}, label={lst:citation-check}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/citation-check.py}}{\textcolor{red}{\textbf{[berkas listings/citation-check.py belum tersedia]}}}
+
+\section{Pengecualian \emph{Thread} dan Pemeriksaan Kebocoran}
+\IfFileExists{listings/leakage.py}{\lstinputlisting[language=Python, caption={Himpunan pengecualian dan pemeriksaan kebocoran (NF5).}, label={lst:leakage}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/leakage.py}}{\textcolor{red}{\textbf{[berkas listings/leakage.py belum tersedia]}}}
+
+\section{Pemanggilan \emph{Judge} dan Panel}
+\IfFileExists{listings/judge-runner.py}{\lstinputlisting[language=Python, caption={Pemanggilan tiga \emph{judge} dan penyimpanan keluarannya.}, label={lst:judge-runner}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/judge-runner.py}}{\textcolor{red}{\textbf{[berkas listings/judge-runner.py belum tersedia]}}}
+
+\section{Penghitungan \emph{Hallucination Rate}}
+\IfFileExists{listings/eval-hr.py}{\lstinputlisting[language=Python, caption={Penghitungan HR versi (a) dan (b) per kasus dan hasil per \emph{judge}.}, label={lst:eval-hr}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/eval-hr.py}}{\textcolor{red}{\textbf{[berkas listings/eval-hr.py belum tersedia]}}}
+
+\section{Penghitungan Latensi dan Metrik Pendukung}
+\IfFileExists{listings/eval-metrics.py}{\lstinputlisting[language=Python, caption={Latensi, \emph{valid citation rate}, dan agregasi metrik pendukung.}, label={lst:eval-metrics}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/eval-metrics.py}}{\textcolor{red}{\textbf{[berkas listings/eval-metrics.py belum tersedia]}}}
+
+\cleardoublepage
+\chapter{DAFTAR ID PERTANYAAN}
+\label{lamp:id}
+
+Lampiran ini memuat \emph{id} pertanyaan Stack Overflow pada sampel uji dan himpunan pengembangan. Urutannya mengikuti permutasi bersama (bukan terurut menurut \emph{id}), dan kedua himpunan saling lepas. Sumber: \texttt{llm/\allowbreak{}sample\_\allowbreak{}ids/\allowbreak{}test\_\allowbreak{}ids\_\allowbreak{}v1.\allowbreak{}json} untuk sampel uji dan \texttt{devlarge\_\allowbreak{}ids\_\allowbreak{}v1.\allowbreak{}json} untuk himpunan pengembangan. Posisi 385 sampai 434 tidak termasuk dalam daftar ini.
+
+\section{Sampel Uji (Posisi 1 sampai 384)}
+\label{sec:lamp-id-uji}
+
+\scriptsize
+
+\begin{longtable}{|r|r|r|r|r|r|r|r|}
+\caption{Sampel uji: posisi dan \emph{id} pertanyaan.}\label{tab:lamp-id-uji}\\
+\hline
+\textbf{Pos.} & \textbf{ID} & \textbf{Pos.} & \textbf{ID} & \textbf{Pos.} & \textbf{ID} & \textbf{Pos.} & \textbf{ID} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Pos.} & \textbf{ID} & \textbf{Pos.} & \textbf{ID} & \textbf{Pos.} & \textbf{ID} & \textbf{Pos.} & \textbf{ID} \\
+\hline
+\endhead
+\hline
+\endfoot
+1 & 38118194 & 2 & 76224221 & 3 & 20443560 & 4 & 411756 \\
+5 & 2617170 & 6 & 56612920 & 7 & 3882147 & 8 & 26406581 \\
+9 & 11118023 & 10 & 51061836 & 11 & 3329222 & 12 & 25856908 \\
+13 & 37882086 & 14 & 56998713 & 15 & 59164737 & 16 & 58133039 \\
+17 & 43635941 & 18 & 14322480 & 19 & 78022374 & 20 & 59923382 \\
+21 & 58418666 & 22 & 36374178 & 23 & 21164127 & 24 & 6084718 \\
+25 & 4167718 & 26 & 416108 & 27 & 29003584 & 28 & 69176711 \\
+29 & 23173994 & 30 & 76694442 & 31 & 61698964 & 32 & 241991 \\
+33 & 63045323 & 34 & 77229428 & 35 & 41732060 & 36 & 33170210 \\
+37 & 26076959 & 38 & 48268212 & 39 & 9428064 & 40 & 8137575 \\
+41 & 7705733 & 42 & 52175918 & 43 & 70135243 & 44 & 40356770 \\
+45 & 44552472 & 46 & 74198021 & 47 & 43010991 & 48 & 36524724 \\
+49 & 48047337 & 50 & 62438652 & 51 & 10843100 & 52 & 35138161 \\
+53 & 79722918 & 54 & 39550114 & 55 & 26029402 & 56 & 17487473 \\
+57 & 37254353 & 58 & 39391343 & 59 & 17942333 & 60 & 63934382 \\
+61 & 75915802 & 62 & 18746841 & 63 & 10307223 & 64 & 33200184 \\
+65 & 45528512 & 66 & 59308414 & 67 & 42729059 & 68 & 1211491 \\
+69 & 65479664 & 70 & 42419204 & 71 & 22113990 & 72 & 56440066 \\
+73 & 40054787 & 74 & 33988487 & 75 & 76636987 & 76 & 35931435 \\
+77 & 54412009 & 78 & 14717007 & 79 & 78602745 & 80 & 72844940 \\
+81 & 44716681 & 82 & 43127034 & 83 & 50408135 & 84 & 10106804 \\
+85 & 62972346 & 86 & 14038074 & 87 & 48535040 & 88 & 21955207 \\
+89 & 41740734 & 90 & 47020276 & 91 & 8535519 & 92 & 7829430 \\
+93 & 63320999 & 94 & 54527943 & 95 & 58178210 & 96 & 24053671 \\
+97 & 14294830 & 98 & 57454529 & 99 & 60865431 & 100 & 777455 \\
+101 & 18309684 & 102 & 68809614 & 103 & 12797933 & 104 & 52723163 \\
+105 & 81104 & 106 & 9452854 & 107 & 32480267 & 108 & 52984173 \\
+109 & 37533291 & 110 & 28923244 & 111 & 4262483 & 112 & 40634865 \\
+113 & 62392775 & 114 & 2279646 & 115 & 64559981 & 116 & 50363191 \\
+117 & 56702129 & 118 & 32038020 & 119 & 70420820 & 120 & 70606547 \\
+121 & 19834982 & 122 & 55975155 & 123 & 12167581 & 124 & 68603561 \\
+125 & 14096116 & 126 & 39814960 & 127 & 46974080 & 128 & 35860385 \\
+129 & 42264064 & 130 & 10825926 & 131 & 26887131 & 132 & 40804393 \\
+133 & 27341939 & 134 & 56218265 & 135 & 29901703 & 136 & 11444578 \\
+137 & 28147169 & 138 & 13494938 & 139 & 13936168 & 140 & 12170271 \\
+141 & 50160748 & 142 & 77877019 & 143 & 20468454 & 144 & 54964432 \\
+145 & 11022616 & 146 & 18259098 & 147 & 53099327 & 148 & 32166791 \\
+149 & 14586569 & 150 & 52743253 & 151 & 43043351 & 152 & 35606349 \\
+153 & 30438159 & 154 & 78607102 & 155 & 845265 & 156 & 46709158 \\
+157 & 71769408 & 158 & 47389202 & 159 & 59020654 & 160 & 72691645 \\
+161 & 2010746 & 162 & 76920841 & 163 & 35890180 & 164 & 55154364 \\
+165 & 12993316 & 166 & 72638867 & 167 & 34345734 & 168 & 7174887 \\
+169 & 48894172 & 170 & 65706387 & 171 & 13367810 & 172 & 14891387 \\
+173 & 48652510 & 174 & 15465867 & 175 & 36587126 & 176 & 23378932 \\
+177 & 65668554 & 178 & 47750045 & 179 & 65930192 & 180 & 41656678 \\
+181 & 60998890 & 182 & 6850081 & 183 & 10043401 & 184 & 19896928 \\
+185 & 74847804 & 186 & 58903419 & 187 & 21152452 & 188 & 63794755 \\
+189 & 6898635 & 190 & 55036479 & 191 & 56335097 & 192 & 43801949 \\
+193 & 33736047 & 194 & 5828957 & 195 & 12474491 & 196 & 75375140 \\
+197 & 45180021 & 198 & 28291182 & 199 & 14247142 & 200 & 25044388 \\
+201 & 25760770 & 202 & 58254853 & 203 & 64057889 & 204 & 45546616 \\
+205 & 31435661 & 206 & 73272235 & 207 & 7692713 & 208 & 32173898 \\
+209 & 37863974 & 210 & 48897453 & 211 & 39312836 & 212 & 77792490 \\
+213 & 812945 & 214 & 10209021 & 215 & 73405232 & 216 & 37813074 \\
+217 & 45148327 & 218 & 46860197 & 219 & 2072812 & 220 & 12713232 \\
+221 & 6503057 & 222 & 59175375 & 223 & 73440004 & 224 & 4612659 \\
+225 & 55633603 & 226 & 43809688 & 227 & 69053706 & 228 & 6108432 \\
+229 & 48416802 & 230 & 41152052 & 231 & 20711466 & 232 & 58081035 \\
+233 & 22177915 & 234 & 59157364 & 235 & 2836515 & 236 & 8033495 \\
+237 & 17386179 & 238 & 26289173 & 239 & 60216530 & 240 & 8670234 \\
+241 & 71097445 & 242 & 14528967 & 243 & 43174502 & 244 & 42030271 \\
+245 & 6930094 & 246 & 72022205 & 247 & 56237729 & 248 & 8237958 \\
+249 & 60405015 & 250 & 52387886 & 251 & 52224948 & 252 & 37452300 \\
+253 & 25247409 & 254 & 18904280 & 255 & 28961941 & 256 & 58941764 \\
+257 & 60580674 & 258 & 35416823 & 259 & 5917610 & 260 & 61812445 \\
+261 & 1888411 & 262 & 68722934 & 263 & 55056802 & 264 & 75361328 \\
+265 & 38499202 & 266 & 2201058 & 267 & 63497365 & 268 & 19477784 \\
+269 & 44322592 & 270 & 20208142 & 271 & 39237769 & 272 & 20629294 \\
+273 & 57771364 & 274 & 79761984 & 275 & 76821539 & 276 & 42022132 \\
+277 & 17862629 & 278 & 36000817 & 279 & 33902718 & 280 & 35815615 \\
+281 & 61139346 & 282 & 41430638 & 283 & 43898834 & 284 & 9390590 \\
+285 & 67596144 & 286 & 6067799 & 287 & 54524535 & 288 & 9430682 \\
+289 & 3728507 & 290 & 3261540 & 291 & 24920900 & 292 & 4690569 \\
+293 & 4030462 & 294 & 75338059 & 295 & 47896990 & 296 & 52516584 \\
+297 & 8511176 & 298 & 61137802 & 299 & 33117 & 300 & 56193318 \\
+301 & 62534577 & 302 & 61872888 & 303 & 62832082 & 304 & 69656262 \\
+305 & 17801270 & 306 & 50358170 & 307 & 51190966 & 308 & 7387956 \\
+309 & 15873302 & 310 & 22296991 & 311 & 28633147 & 312 & 41877918 \\
+313 & 64270057 & 314 & 37242704 & 315 & 34059457 & 316 & 58550954 \\
+317 & 46308484 & 318 & 8516239 & 319 & 20255227 & 320 & 10549310 \\
+321 & 26494671 & 322 & 52030222 & 323 & 70868297 & 324 & 1666588 \\
+325 & 13073148 & 326 & 64754720 & 327 & 23296403 & 328 & 10549131 \\
+329 & 36337063 & 330 & 21364253 & 331 & 32479996 & 332 & 4841647 \\
+333 & 78025629 & 334 & 12707990 & 335 & 6420371 & 336 & 63290521 \\
+337 & 8448866 & 338 & 6128168 & 339 & 39551736 & 340 & 77922448 \\
+341 & 44953125 & 342 & 831300 & 343 & 68885154 & 344 & 75016678 \\
+345 & 61446971 & 346 & 60192381 & 347 & 70693691 & 348 & 22847672 \\
+349 & 1345677 & 350 & 50100052 & 351 & 69866058 & 352 & 15936370 \\
+353 & 8262587 & 354 & 46936195 & 355 & 9469021 & 356 & 36478158 \\
+357 & 28524224 & 358 & 73988256 & 359 & 54593528 & 360 & 56862004 \\
+361 & 15677156 & 362 & 37522082 & 363 & 15232682 & 364 & 55463357 \\
+365 & 3418748 & 366 & 60194863 & 367 & 41602216 & 368 & 19639497 \\
+369 & 46758690 & 370 & 45712173 & 371 & 15167575 & 372 & 38256304 \\
+373 & 25715021 & 374 & 12344289 & 375 & 18113909 & 376 & 43707115 \\
+377 & 33238732 & 378 & 5925097 & 379 & 29415352 & 380 & 60721576 \\
+381 & 18080102 & 382 & 23247190 & 383 & 37514614 & 384 & 52558999 \\
+\end{longtable}
+
+
+\normalsize
+\section{Himpunan Pengembangan (Posisi 435 sampai 584)}
+\label{sec:lamp-id-dev}
+
+\scriptsize
+
+\begin{longtable}{|r|r|r|r|r|r|r|r|}
+\caption{Himpunan pengembangan: posisi dan \emph{id} pertanyaan.}\label{tab:lamp-id-dev}\\
+\hline
+\textbf{Pos.} & \textbf{ID} & \textbf{Pos.} & \textbf{ID} & \textbf{Pos.} & \textbf{ID} & \textbf{Pos.} & \textbf{ID} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Pos.} & \textbf{ID} & \textbf{Pos.} & \textbf{ID} & \textbf{Pos.} & \textbf{ID} & \textbf{Pos.} & \textbf{ID} \\
+\hline
+\endhead
+\hline
+\endfoot
+435 & 31400425 & 436 & 70563825 & 437 & 708584 & 438 & 67594496 \\
+439 & 15108151 & 440 & 10092074 & 441 & 35354527 & 442 & 35522791 \\
+443 & 14232764 & 444 & 69491010 & 445 & 13298201 & 446 & 58933871 \\
+447 & 31791719 & 448 & 56071975 & 449 & 57347624 & 450 & 22271993 \\
+451 & 16214839 & 452 & 78848851 & 453 & 45810352 & 454 & 729612 \\
+455 & 2480139 & 456 & 42880030 & 457 & 69508266 & 458 & 61956386 \\
+459 & 13295382 & 460 & 29622298 & 461 & 66905345 & 462 & 44345317 \\
+463 & 57103753 & 464 & 38284517 & 465 & 41893240 & 466 & 22901589 \\
+467 & 9733146 & 468 & 2646185 & 469 & 25837941 & 470 & 39682366 \\
+471 & 19692516 & 472 & 14442786 & 473 & 28580677 & 474 & 73953638 \\
+475 & 28017816 & 476 & 63985173 & 477 & 72869861 & 478 & 32452928 \\
+479 & 30097639 & 480 & 30684075 & 481 & 15151889 & 482 & 11824913 \\
+483 & 50978115 & 484 & 33264064 & 485 & 6222456 & 486 & 31610809 \\
+487 & 31168968 & 488 & 29108116 & 489 & 66195879 & 490 & 43723307 \\
+491 & 28830040 & 492 & 56779127 & 493 & 33166612 & 494 & 56537962 \\
+495 & 73921070 & 496 & 9398650 & 497 & 48788785 & 498 & 78461484 \\
+499 & 31464063 & 500 & 11899616 & 501 & 53479 & 502 & 77160202 \\
+503 & 34340144 & 504 & 74264733 & 505 & 18596972 & 506 & 30036333 \\
+507 & 62042317 & 508 & 40091965 & 509 & 37181535 & 510 & 76055936 \\
+511 & 801377 & 512 & 12765470 & 513 & 12253503 & 514 & 72403392 \\
+515 & 15538056 & 516 & 13409210 & 517 & 22604814 & 518 & 40946526 \\
+519 & 22735962 & 520 & 51765288 & 521 & 58188044 & 522 & 38200452 \\
+523 & 43403810 & 524 & 15408715 & 525 & 63116951 & 526 & 4469780 \\
+527 & 43087953 & 528 & 18725039 & 529 & 65885210 & 530 & 2438048 \\
+531 & 31892302 & 532 & 73804120 & 533 & 70516718 & 534 & 43457053 \\
+535 & 39130419 & 536 & 41470958 & 537 & 31173363 & 538 & 5327672 \\
+539 & 8075324 & 540 & 9851830 & 541 & 816719 & 542 & 59213198 \\
+543 & 60155081 & 544 & 65910793 & 545 & 55517224 & 546 & 38101502 \\
+547 & 47223145 & 548 & 35900179 & 549 & 23834179 & 550 & 12867000 \\
+551 & 33101047 & 552 & 23210530 & 553 & 60937827 & 554 & 73989761 \\
+555 & 48504914 & 556 & 44599053 & 557 & 77239611 & 558 & 46547658 \\
+559 & 64980049 & 560 & 79536915 & 561 & 15266 & 562 & 67731865 \\
+563 & 63106854 & 564 & 15220246 & 565 & 29799435 & 566 & 697118 \\
+567 & 16438539 & 568 & 50422481 & 569 & 34922385 & 570 & 47378960 \\
+571 & 51705052 & 572 & 61923151 & 573 & 51510497 & 574 & 74067185 \\
+575 & 51056835 & 576 & 23028086 & 577 & 3016072 & 578 & 21016906 \\
+579 & 13327220 & 580 & 27117133 & 581 & 56712169 & 582 & 66491495 \\
+583 & 55415985 & 584 & 37279424 &  &  &  &  \\
+\end{longtable}
+
+
+\normalsize

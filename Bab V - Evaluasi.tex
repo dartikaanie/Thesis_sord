@@ -37,9 +37,9 @@ Sebelum membandingkan jawaban, pelaksanaan diperiksa terhadap kontrol yang diran
     \item \textbf{Pembobotan seragam (C-0).} Ketika graf digunakan tanpa bobot (semua jawaban berbobot sama), GraphRAG menghasilkan konteks yang identik dengan B-Vec pada seluruh 384 pertanyaan (1.920 item), semuanya berasal dari satu \emph{hop}. Pemeriksaan C-0 hanya dilakukan pada tahap \emph{retrieval}, tanpa generasi atau evaluasi jawaban. Konfigurasi ini hanya dicatat pada tahap \emph{retrieval}, sehingga tidak ada jawaban atau penilaian terpisah untuk C-0.
 \end{itemize}
 
-Perbedaan konteks antarkonfigurasi pada sampel uji dirangkum pada Tabel~\ref{tab:konteks-identik}. Konteks C-Acc berbeda dari B-Vec pada hampir semua pertanyaan (hanya 30 dari 384 identik). C-Acc dan C-Acc+Vote memiliki himpunan konteks identik pada 240 pertanyaan, dengan kandidat graf yang sama pada seluruh 384 pertanyaan.
+Perbedaan konteks antarkonfigurasi pada sampel uji dirangkum pada Tabel~\ref{tab:konteks-identik}. Konteks C-Acc berbeda dari B-Vec pada hampir semua pertanyaan (hanya 30 dari 384 identik).  Kandidat C lebih luas, rata-rata 17,4 kandidat per pertanyaan dari penelusuran graf, sedangkan B hanya sepuluh jawaban teratas pencarian vektor (Subbab~\ref{subsec:analisis-graf} dan \ref{subsec:analisis-eksploratif}). Bobot $\alpha=0{,}25$ pada rumus skor akhir memberi keunggulan pada jawaban \emph{accepted}, sehingga jawaban \emph{accepted} yang dibawa graf dari pertanyaan \emph{seed} dapat menggantikan jawaban yang lebih mirip. C-Acc dan C-Acc+Vote memiliki himpunan konteks identik pada 240 pertanyaan, dengan kandidat graf yang sama pada seluruh 384 pertanyaan.
 
-Konteks C-Acc berbeda dari B-Vec pada hampir semua pertanyaan. Kandidat C lebih luas, rata-rata 17,4 kandidat per pertanyaan dari penelusuran graf, sedangkan B hanya sepuluh jawaban teratas pencarian vektor (Subbab~\ref{subsec:analisis-graf} dan \ref{subsec:analisis-eksploratif}). Bobot $\alpha=0{,}25$ pada rumus skor akhir memberi keunggulan pada jawaban \emph{accepted}, sehingga jawaban \emph{accepted} yang dibawa graf dari pertanyaan \emph{seed} dapat menggantikan jawaban yang lebih mirip. 
+
 
 \begin{table}[!htbp]
 \centering
@@ -238,9 +238,9 @@ RQ5 & C-Acc+Vote terhadap C-Acc & $-1{,}8$ & $-2{,}2$ \\
 
 \paragraph{H1 (RQ3).} Hipotesis H1 menyatakan bahwa kedua konfigurasi C menghasilkan \emph{hallucination rate} lebih rendah daripada A dan B-Vec. Pada seluruh 384 pertanyaan, keempat selisih negatif: $-7{,}0$ dan $-8{,}8$ terhadap A, serta $-5{,}9$ dan $-7{,}8$ terhadap B-Vec. Pada $S$, keempat selisih tetap negatif, tetapi terhadap A mengecil menjadi $-1{,}8$ dan $-4{,}0$, sedangkan terhadap B-Vec $-5{,}1$ dan $-7{,}3$. Pada versi (b), kedua konfigurasi C lebih tinggi daripada A (32,6\% dan 31,2\% terhadap 25,8\%, selisih $+6{,}8$ dan $+5{,}5$), dan lebih rendah daripada B-Vec ($-7{,}3$ dan $-8{,}6$). Jadi arah H1 terpenuhi terhadap B-Vec pada kedua versi, dan terhadap A hanya pada versi (a). Terhadap A, hasilnya bergantung pada perlakuan \texttt{ABSTAIN}.
 
-\paragraph{RQ4.} Pembobotan \emph{accepted answer} pada pemeringkatan ulang vektor (B-Acc terhadap B-Vec) menurunkan \emph{hallucination rate} 5,4 poin (4,4 poin pada $S$), yang berada dalam kisaran variasi antar-pengulangan. Menambahkan mekanisme berbasis graf di atas pembobotan itu (C-Acc terhadap B-Acc) menurunkannya hanya 0,6 poin, jauh di bawah kisaran variasi. Selisih total C-Acc terhadap B-Vec ($-5{,}9$) hampir seluruhnya sudah dicapai B-Acc. Jadi penurunan yang teramati berasal dari pembobotan, dan tambahan dari graf belum terbukti pada data ini. Selisih C-Acc terhadap B-Acc mencerminkan seluruh mekanisme berbasis graf, yaitu penelusuran graf, \emph{semantic expansion}, dan \emph{pool} kandidat yang lebih luas (Subbab~\ref{subsec:batasan-implementasi}).
+\paragraph{RQ4.} Pembobotan \emph{accepted answer} pada pemeringkatan ulang vektor (B-Acc terhadap B-Vec) menurunkan \emph{hallucination rate} 5,4 poin (4,4 poin pada $S$). Menambahkan mekanisme berbasis graf di atas pembobotan itu (C-Acc terhadap B-Acc) menurunkannya hanya 0,6 poin. Selisih total C-Acc terhadap B-Vec ($-5{,}9$) hampir seluruhnya sudah dicapai B-Acc. Jadi penurunan yang teramati berasal dari pembobotan, dan tambahan dari graf belum terbukti pada data ini. Selisih C-Acc terhadap B-Acc mencerminkan seluruh mekanisme berbasis graf, yaitu penelusuran graf, \emph{semantic expansion}, dan \emph{pool} kandidat yang lebih luas (Subbab~\ref{subsec:batasan-implementasi}).
 
-\paragraph{H2 dan RQ5.} C-Acc+Vote (17,0\%) lebih rendah daripada C-Acc (18,8\%) sebesar 1,8 poin, dan pada $S$ sebesar 2,2 poin. Selisih 1 sampai 3 poin berada dalam kisaran variasi antar-pengulangan yang terukur (Subbab~\ref{subsec:hasil-h1}). Karena itu penambahan skor suara pada bobot \emph{accepted} menghasilkan angka lebih rendah.
+\paragraph{H2 dan RQ5.} C-Acc+Vote (17,0\%) lebih rendah daripada C-Acc (18,8\%) sebesar 1,8 poin, dan pada $S$ sebesar 2,2 poin. Arahnya sejalan dengan H2.
 
 %============================================================
 \section{Hasil Metrik Pendukung}
@@ -439,9 +439,9 @@ B-Acc dan B-Vec mengambil konteks dari pencarian vektor yang sama dan hanya berb
 \subsection{Pengaruh Mekanisme Berbasis Graf}
 \label{subsec:analisis-graf}
 
-Konteks C-Acc berbeda dari B-Acc pada 269 pertanyaan, tetapi \emph{hallucination rate} keduanya hampir sama (18,8\% terhadap 19,4\%, selisih $-0{,}6$ poin, jauh di bawah kisaran variasi). Tabel~\ref{tab:profil-retrieval} menunjukkan bahwa 95,5\% item konteks C-Acc berasal dari pencarian awal atau penelusuran satu \emph{hop}, 2,5\% dari penelusuran dua \emph{hop}, dan 2,0\% dari \emph{semantic expansion}.
+Konteks C-Acc berbeda dari B-Acc pada 269 pertanyaan, tetapi \emph{hallucination rate} keduanya hampir sama (18,8\% terhadap 19,4\%, selisih $-0{,}6$ poin). Tabel~\ref{tab:profil-retrieval} menunjukkan bahwa 95,5\% item konteks C-Acc berasal dari pencarian awal atau penelusuran satu \emph{hop}, 2,5\% dari penelusuran dua \emph{hop}, dan 2,0\% dari \emph{semantic expansion}.
 
-Gambar~\ref{fig:kolam-graf} memperlihatkan kolam kandidat graf, yang sama untuk C-Acc dan C-Acc+Vote. Rata-rata kolam berisi 17,4 kandidat per pertanyaan (median 14, maksimum 73), terdiri atas rata-rata 4,5 kandidat satu \emph{hop} (median 4) dan 13,2 kandidat dua \emph{hop} sebelum pembatasan (median 10, maksimum 113). Batas $N_{\mathrm{trav}}=50$ kandidat dua \emph{hop} mengikat pada 9 pertanyaan, dan 8 di antaranya memiliki lebih dari 50 kandidat. Sebanyak 46 pertanyaan (12,0\%) tidak memiliki jawaban \emph{accepted} pada kolam kandidat graf. Pada 15 di antaranya tidak ada kandidat dua \emph{hop} sama sekali, dan pada 31 lainnya kandidat dua \emph{hop} ada tetapi tidak satu pun \emph{accepted}. Pada pertanyaan ini seluruh kandidat berbobot jawaban nol pada C-Acc, sehingga pemeringkatan hanya ditentukan kemiripan.
+Gambar~\ref{fig:kolam-graf} memperlihatkan kolam kandidat graf, yang sama untuk C-Acc dan C-Acc+Vote. Rata-rata kolam berisi 17,4 kandidat per pertanyaan (median 14, maksimum 73), terdiri atas rata-rata 4,5 kandidat satu \emph{hop} (median 4) dan 13,2 kandidat dua \emph{hop} sebelum pembatasan (median 10, maksimum 113). Batas $N_{\mathrm{trav}}=50$ kandidat dua \emph{hop} memotong kandidat pada 8 pertanyaan (kandidat dua \emph{hop} sebelum pembatasan 51 sampai 113), dan tepat 50 pada satu pertanyaan lain sehingga tidak ada kandidat yang terbuang. Kandidat yang terbuang adalah yang berbobot sisi terendah. Sebanyak 46 pertanyaan (12,0\%) tidak memiliki jawaban \emph{accepted} pada kolam kandidat graf. Pada 15 di antaranya tidak ada kandidat dua \emph{hop} sama sekali, dan pada 31 lainnya kandidat dua \emph{hop} ada tetapi tidak satu pun \emph{accepted}. Pada pertanyaan ini seluruh kandidat berbobot jawaban nol pada C-Acc, sehingga pemeringkatan hanya ditentukan kemiripan.
 
 \begin{figure}[!htbp]
 \centering
@@ -457,7 +457,7 @@ Dengan demikian, peran graf pada rancangan ini terutama menyediakan jawaban \emp
 \subsection{Pengaruh Skor Suara}
 \label{subsec:analisis-vote}
 
-C-Acc dan C-Acc+Vote memiliki konteks identik pada 240 dari 384 pertanyaan dan kumpulan kandidat identik pada 378 pertanyaan (Subbab~\ref{subsec:profil-retrieval}). Pada pertanyaan lainnya, C-Acc+Vote memasukkan jawaban non-\emph{accepted} yang berskor suara lebih tinggi (rata-rata 4,90 terhadap 2,56). \emph{Hallucination rate} C-Acc+Vote lebih rendah 1,8 poin, \emph{faithfulness} dan \emph{citation support} sedikit lebih rendah (57,2\% terhadap 57,8\% dan 89,6\% terhadap 90,9\%), serta \emph{valid citation rate} pada seluruh jawaban lebih tinggi 4,9 poin (pada jawaban bukan \texttt{ABSTAIN}, 1,5 poin; Subbab~\ref{subsec:hasil-nf2}). Selisih sekecil ini tidak dapat dibedakan dari variasi (Subbab~\ref{subsec:hasil-h1}).
+C-Acc dan C-Acc+Vote memiliki konteks identik pada 240 dari 384 pertanyaan dan kumpulan kandidat identik pada 378 pertanyaan (Subbab~\ref{subsec:profil-retrieval}). Pada pertanyaan lainnya, C-Acc+Vote memasukkan jawaban non-\emph{accepted} yang berskor suara lebih tinggi (rata-rata 4,90 terhadap 2,56). \emph{Hallucination rate} C-Acc+Vote lebih rendah 1,8 poin, \emph{faithfulness} dan \emph{citation support} sedikit lebih rendah (57,2\% terhadap 57,8\% dan 89,6\% terhadap 90,9\%), serta \emph{valid citation rate} pada seluruh jawaban lebih tinggi 4,9 poin (pada jawaban bukan \texttt{ABSTAIN}, 1,5 poin; Subbab~\ref{subsec:hasil-nf2}).
 
 \subsection{Analisis Eksploratif: Join dan Dua \emph{Hop} tanpa \emph{Expansion}}
 \label{subsec:analisis-eksploratif}
@@ -480,7 +480,7 @@ Join & 21,7 & 35,2 & $-3{,}1$ \\
 \end{tabularx}
 \end{table}
 
-Join lebih rendah daripada B-Vec sebesar 3,1 poin, dan 2-hop tanpa \emph{expansion} sebesar 6,8 poin. Selisih Join masih dalam kisaran variasi antar-pengulangan, sedangkan selisih 2-hop berada di dalamnya pada batas atas. Selisih keduanya (3,7 poin) tidak diuji. Arahnya sedikit mendukung penelusuran dua \emph{hop}, dan ditulis sebagai pola, bukan sebagai temuan. Karena jawaban sebagian besar digunakan ulang dari konfigurasi lain, hasil ini lebih lemah daripada lima konfigurasi utama.
+Join lebih rendah daripada B-Vec sebesar 3,1 poin, dan 2-hop tanpa \emph{expansion} sebesar 6,8 poin. Arahnya sedikit mendukung penelusuran dua \emph{hop}, dan ditulis sebagai pola, bukan sebagai temuan. Karena jawaban sebagian besar digunakan ulang dari konfigurasi lain, hasil ini lebih lemah daripada lima konfigurasi utama.
 
 %============================================================
 \section{Analisis Kasus}
@@ -546,7 +546,7 @@ Konteks B-Vec memuat lima jawaban yang sama dengan urutan berbeda. Perbedaan lab
 \subsection{Temuan dari Kedua Kasus}
 \label{subsec:temuan-kasus}
 
-Secara agregat, himpunan konteks C-Acc+Vote identik dengan B-Vec hanya pada 4 dari 43 pertanyaan X dan 2 dari 23 pertanyaan Y, dan urutannya identik pada nol pertanyaan. Pada konteks C-Acc+Vote untuk X dan Y, masing-masing 212 dan 113 item adalah satu \emph{hop}, dan hanya 2 dan 0 item dua \emph{hop}. Jadi sebagian besar perbedaan label sulit dijelaskan oleh jalur graf. Perbedaan label juga dapat berasal dari variasi generasi (temperatur tidak ditetapkan; Subbab~\ref{subsec:hasil-h1}) dan variasi \emph{judge}. Kedua kasus menunjukkan mekanisme pemilihan konteks, bukan bukti sebab-akibat.
+Secara agregat, himpunan konteks C-Acc+Vote identik dengan B-Vec hanya pada 4 dari 43 pertanyaan X dan 2 dari 23 pertanyaan Y, dan urutannya identik pada nol pertanyaan. Pada konteks C-Acc+Vote untuk X dan Y, masing-masing 212 dan 113 item adalah satu \emph{hop}, dan hanya 2 dan 0 item dua \emph{hop}. Jadi sebagian besar perbedaan label sulit dijelaskan oleh jalur graf. Perbedaan label juga dapat berasal dari variasi generasi (temperatur tidak ditetapkan) dan variasi \emph{judge}. Kedua kasus menunjukkan mekanisme pemilihan konteks, bukan bukti sebab-akibat.
 
 %============================================================
 \section{Pembahasan}
@@ -588,11 +588,11 @@ NF6 & Variabel kontrol identik & Tabel~\ref{tab:komponen-bersama} & Terpenuhi \\
 
 Subbab ini mengikuti pemetaan pada Tabel~\ref{tab:pemetaan-perbandingan}. Bab ini menjawab RQ3 sampai RQ5, sedangkan RQ1 dan RQ2 dijawab pada Bab~\ref{chap:analisis-desain} dan \ref{chap:implementasi}. \todo{penomoran RQ pada Bab~\ref{chap:pendahuluan} (revisi 18 November) berbeda: di sana RQ4 menanyakan RAG terhadap LLM murni, RQ5 pembobotan terhadap struktur graf, dan terdapat RQ6. Samakan penomoran Bab~\ref{chap:pendahuluan} dengan Tabel~\ref{tab:pemetaan-perbandingan} atau sebaliknya sebelum subbab ini difinalkan}
 
-\textbf{RQ3 (H1).} Kedua konfigurasi C memiliki \emph{hallucination rate} lebih rendah daripada A dan B-Vec pada versi utama (25,8\% dan 24,8\% menjadi 18,8\% dan 17,0\%), dengan selisih sebanding atau sedikit di atas kisaran variasi antar-pengulangan. Terhadap B-Vec, arahnya sama pada versi (b). Terhadap A, versi (b) berbalik karena A tidak menolak menjawab. Pada himpunan bersama $S$, selisih terhadap A mengecil menjadi $-1{,}8$ dan $-4{,}0$, dalam kisaran variasi.
+\textbf{RQ3 (H1).} Kedua konfigurasi C memiliki \emph{hallucination rate} lebih rendah daripada A dan B-Vec pada versi utama (25,8\% dan 24,8\% menjadi 18,8\% dan 17,0\%), Terhadap B-Vec, arahnya sama pada versi (b). Terhadap A, versi (b) berbalik karena A tidak menolak menjawab. Pada himpunan bersama $S$, selisih terhadap A mengecil menjadi $-1{,}8$ dan $-4{,}0$.
 
-\textbf{RQ4.} Pembobotan \emph{accepted answer} pada pemeringkatan vektor menurunkan \emph{hallucination rate} 5,4 poin. Tambahan dari mekanisme berbasis graf hanya 0,6 poin dan belum terpisah dari variasi. Graf menyuplai jawaban \emph{accepted} dari pertanyaan \emph{seed}, tetapi satu \emph{hop} graf setara dengan penggabungan tabel (Join), sehingga belum terbukti menambah penurunan di atas pemeringkatan ulang vektor berbobot.
+\textbf{RQ4.} Pembobotan \emph{accepted answer} pada pemeringkatan vektor menurunkan \emph{hallucination rate} 5,4 poin. Tambahan dari mekanisme berbasis graf hanya 0,6 poin. Graf menyuplai jawaban \emph{accepted} dari pertanyaan \emph{seed}, tetapi satu \emph{hop} graf setara dengan penggabungan tabel (Join), sehingga belum terbukti menambah penurunan di atas pemeringkatan ulang vektor berbobot.
 
-\textbf{RQ5 dan H2.} Penambahan skor suara menghasilkan angka lebih rendah (17,0\% terhadap 18,8\%), tetapi selisih 1,8 poin berada dalam kisaran variasi yang terukur. Tidak ada metrik pendukung yang berbeda jelas.
+\textbf{RQ5 dan H2.} Penambahan skor suara menghasilkan angka lebih rendah (17,0\% terhadap 18,8\%), yaitu selisih 1,8 poin.
 
 \subsection{Penjelasan atas Pola yang Teramati}
 \label{subsec:pembahasan-sebab}
@@ -621,7 +621,7 @@ Kontribusi yang diklaim adalah (i) mekanisme pembobotan graf pengetahuan berbasi
 
 \begin{enumerate}
     \item \textbf{Validitas konstruk.} Seluruh label berasal dari panel \emph{LLM-as-a-Judge} tanpa validasi oleh anotator manusia, sehingga angka halusinasi adalah keluaran panel. Arah A terhadap B-Vec tidak konsisten antar-\emph{judge}. Klaim yang tidak dapat diverifikasi tidak dihitung sebagai halusinasi. \texttt{ABSTAIN} dapat menurunkan versi (a) tanpa meningkatkan kebenaran.
-    \item \textbf{Validitas internal.} Setiap konfigurasi dijalankan satu kali dengan parameter bawaan API (temperatur tidak ditetapkan), dan variasi antar-pengulangan pada konteks identik cukup besar (Subbab~\ref{subsec:hasil-h1}).
+    \item \textbf{Validitas internal.} Setiap konfigurasi dijalankan satu kali dengan parameter bawaan API (temperatur tidak ditetapkan).
     \item \textbf{Kebocoran dan kontrol.} Pengecualian \emph{thread} (384 pertanyaan dan 498 jawaban; Lampiran~\ref{lamp:kebocoran}) mencegah kebocoran langsung dan tidak menyisakan irisan pada keempat konfigurasi berkonteks. Namun mode pengecualian yang lebih ketat (duplikat, pertanyaan tertaut, dan hampir-duplikat dengan kemiripan 0,95) mencatat 13 pertanyaan beririsan pada konteks B dan C, sehingga duplikat atau pertanyaan hampir identik di luar \emph{thread} yang sama tidak sepenuhnya tertutup. Normalisasi $P_{99}$ menggunakan seluruh populasi termasuk pertanyaan uji. Latensi tidak dikontrol terhadap status \emph{cache}.
 \end{enumerate}
 
@@ -630,4 +630,4 @@ Kontribusi yang diklaim adalah (i) mekanisme pembobotan graf pengetahuan berbasi
 \label{sec:ringkasan-evaluasi}
 %============================================================
 
-Dengan \texttt{ABSTAIN} dikeluarkan, \emph{hallucination rate} adalah 25,8\% (A), 24,8\% (B-Vec), 19,4\% (B-Acc), 18,8\% (C-Acc), dan 17,0\% (C-Acc+Vote). Kedua konfigurasi C lebih rendah daripada A dan B-Vec,  dengan selisih sebanding atau sedikit di atas kisaran variasi antar-pengulangan. Terhadap A, arah ini berbalik bila \texttt{ABSTAIN} dihitung sebagai kegagalan. Pembobotan \emph{accepted answer} pada pemeringkatan ulang vektor (B-Acc) sudah menurunkan \emph{hallucination rate} 5,4 poin, dan mekanisme berbasis graf menambah hanya 0,6 poin. Satu \emph{hop} graf setara dengan penggabungan tabel. Penambahan skor suara menurunkan angka 1,8 poin lagi, tetapi selisih ini berada dalam kisaran variasi yang terukur. \emph{Faithfulness} dan \emph{context relevance} konfigurasi berbobot sedikit lebih rendah daripada B-Vec. NF3, NF5, dan NF6 terpenuhi, NF4 terpenuhi pada C-Acc tetapi tidak pada C-Acc+Vote, dan NF2 tidak terpenuhi pada kedua konfigurasi C (81,2\% dan 82,7\%). Keterbatasan utamanya adalah penilaian tanpa validasi manusia dengan tingkat halusinasi yang berbeda jauh antar-\emph{judge}, satu \emph{run} per konfigurasi dengan variasi yang besar, dan satu studi kasus.
+Dengan \texttt{ABSTAIN} dikeluarkan, \emph{hallucination rate} adalah 25,8\% (A), 24,8\% (B-Vec), 19,4\% (B-Acc), 18,8\% (C-Acc), dan 17,0\% (C-Acc+Vote). Kedua konfigurasi C lebih rendah daripada A dan B-Vec,  Terhadap A, arah ini berbalik bila \texttt{ABSTAIN} dihitung sebagai kegagalan. Pembobotan \emph{accepted answer} pada pemeringkatan ulang vektor (B-Acc) sudah menurunkan \emph{hallucination rate} 5,4 poin, dan mekanisme berbasis graf menambah hanya 0,6 poin. Satu \emph{hop} graf setara dengan penggabungan tabel. Penambahan skor suara menurunkan angka 1,8 poin. \emph{Faithfulness} dan \emph{context relevance} konfigurasi berbobot sedikit lebih rendah daripada B-Vec. NF3, NF5, dan NF6 terpenuhi, NF4 terpenuhi pada C-Acc tetapi tidak pada C-Acc+Vote, dan NF2 tidak terpenuhi pada kedua konfigurasi C (81,2\% dan 82,7\%). 

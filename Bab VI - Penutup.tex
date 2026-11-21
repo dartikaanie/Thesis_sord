@@ -1,0 +1,69 @@
+% ==========================================
+% BAB VI PENUTUP
+% ==========================================
+\cleardoublepage
+\chapter{PENUTUP}
+\label{chap:penutup}
+
+Bab ini menyimpulkan hasil penelitian dari Bab~\ref{chap:analisis-desain}, Bab~\ref{chap:implementasi}, dan Bab~\ref{chap:evaluasi}, lalu menyampaikan saran untuk penelitian selanjutnya.
+
+\section{Kesimpulan}
+\label{sec:kesimpulan}
+
+Penelitian ini mengembangkan \emph{GraphRAG Framework} yang memodelkan penilaian pengguna, yaitu status \emph{accepted answer} dan skor suara, sebagai bobot pada graf pengetahuan, dan menguji pengaruhnya terhadap halusinasi LLM dengan data Stack Overflow (SORD) sebagai studi kasus. Kesimpulan berikut berlaku pada sampel uji 384 pertanyaan, satu model generatif, satu \emph{run} per konfigurasi, dan label dari panel tiga \emph{judge}. Selisih yang dilaporkan bersifat deskriptif karena tidak diuji secara statistik.
+
+\subsection{Kesimpulan Perancangan dan Implementasi}
+\label{subsec:kesimpulan-implementasi}
+
+\begin{enumerate}
+    \item Graf pengetahuan berbobot berhasil dibangun dari seluruh populasi SORD, dengan simpul pertanyaan, jawaban, dan tag serta sisi antarpertanyaan hasil densifikasi \todo{isi ukuran graf dari Bab IV}. Bobot jawaban diturunkan dari status \emph{accepted} dan skor suara yang dinormalisasi secara logaritmik terhadap persentil ke-99 ($P_{99}^{A}=46$).
+    \item Mekanisme pengambilan konteks tiga tahap, yaitu \emph{anchoring} tingkat jawaban, penelusuran graf hingga dua \emph{hop}, dan \emph{semantic expansion}, dengan pemeringkatan skor akhir $(1-\alpha)\,\mathrm{sim}_{\mathrm{norm}}+\alpha\,w_{\mathrm{path}}$ dan $\alpha=0{,}25$ yang dipilih pada himpunan pengembangan, berhasil diimplementasikan dalam dua skema bobot (C-Acc dan C-Acc+Vote). Konfigurasi B-Acc ditambahkan sebagai kontrol yang menerapkan bobot \emph{accepted} yang sama tanpa graf.
+    \item Pembangkitan jawaban berlandaskan konteks dengan instruksi \emph{grounding}, kewajiban kutipan, validasi kutipan, dan pencatatan \emph{provenance} berhasil diimplementasikan dengan struktur \emph{prompt} yang sama pada seluruh konfigurasi. Tidak ditemukan konteks atau kutipan dari \emph{thread} pertanyaan uji pada keempat konfigurasi berkonteks (NF5), dan variabel kontrol identik (NF6).
+\end{enumerate}
+
+\subsection{Kesimpulan Hasil Evaluasi}
+\label{subsec:kesimpulan-evaluasi}
+
+Dengan \texttt{ABSTAIN} dikeluarkan dari penyebut, \emph{hallucination rate} adalah 25,8\% (A), 24,8\% (B-Vec), 19,4\% (B-Acc), 18,8\% (C-Acc), dan 17,0\% (C-Acc+Vote). Terhadap B-Vec, konfigurasi berbobot lebih rendah 5,4 sampai 7,8 poin. Penurunan ini terutama berasal dari pembobotan \emph{accepted answer}, bukan dari struktur graf. Rincian kesimpulannya sebagai berikut.
+
+\begin{enumerate}
+    \item \textbf{Penambahan \emph{retrieval}.} RAG vektor biasa (B-Vec) hampir tidak menurunkan \emph{hallucination rate} dibandingkan LLM murni (24,8\% terhadap 25,8\%), dan pada himpunan bersama $S$ justru lebih tinggi (25,3\% terhadap 22,0\%). Nilai tambah \emph{retrieval} terlihat pada keterlacakan kutipan dan kemampuan menolak menjawab (\texttt{ABSTAIN} pada 20,1\% pertanyaan).
+    \item \textbf{Pembobotan penilaian pengguna.} Pembobotan \emph{accepted answer} pada pemeringkatan ulang vektor (B-Acc) menurunkan \emph{hallucination rate} 5,4 poin terhadap B-Vec (4,4 poin pada $S$) tanpa menaikkan penolakan menjawab. Penurunan sejalan dengan naiknya proporsi item \emph{accepted} pada konteks, yaitu 38,1\% (B-Vec), 56,6\% (B-Acc), dan 77,9\% (C-Acc). Penurunan terjadi pada kategori halusinasi penuh, sedangkan peran jawaban \emph{accepted} belum dapat dipisahkan dari perbedaan konteks lainnya.
+    \item \textbf{Struktur graf.} C-Acc hanya 0,6 poin lebih rendah daripada B-Acc. Penelusuran graf terutama menambah jawaban \emph{accepted} satu \emph{hop} (88,6\% item tambahan), dan analisis eksploratori menunjukkan \emph{hop} tunggal pada graf setara dengan Join (21,7\%, sedangkan dua \emph{hop} 18,0\%). Karena itu tambahan manfaat graf di atas pemeringkatan vektor berbobot belum terbukti pada data ini.
+    \item \textbf{Skor suara.} C-Acc+Vote lebih rendah 1,8 poin daripada C-Acc (2,2 poin pada $S$). Selisih ini kecil, tidak diuji, dan tidak disertai perbedaan yang jelas pada metrik pendukung, sehingga pengaruh skor suara tidak dapat disimpulkan.
+    \item \textbf{Hipotesis.} H1 terpenuhi terhadap B-Vec pada kedua versi \emph{hallucination rate}, tetapi terhadap A hanya pada versi dengan \texttt{ABSTAIN} dikeluarkan. Bila \texttt{ABSTAIN} dihitung sebagai kegagalan, kedua konfigurasi C lebih tinggi daripada A (32,6\% dan 31,2\% terhadap 25,8\%) karena A tidak pernah menolak menjawab. Arah H2 sejalan secara numerik, tetapi selisihnya tidak cukup untuk menyimpulkan bahwa dua sinyal penilaian lebih baik daripada satu sinyal.
+    \item \textbf{Metrik pendukung dan kebutuhan nonfungsional.} \emph{Faithfulness} konfigurasi berbobot (57,2 sampai 59,5\%) dan relevansi konteks (0,317 sampai 0,336) lebih rendah daripada B-Vec (61,3\% dan 0,342). Jadi \emph{hallucination rate} yang lebih rendah tidak disertai konteks yang lebih relevan terhadap pertanyaan. NF3 terpenuhi, NF5 dan NF6 terpenuhi, NF4 terpenuhi pada C-Acc tetapi tidak pada C-Acc+Vote, dan NF2 tidak terpenuhi pada kedua konfigurasi C (81,2\% dan 82,7\% jawaban bukan \texttt{ABSTAIN} memuat kutipan valid).
+\end{enumerate}
+
+\subsection{Prinsip Desain}
+\label{subsec:prinsip-desain}
+
+Dari pengalaman perancangan dan temuan evaluasi, penelitian ini merumuskan empat prinsip desain yang berlaku pada sumber pengetahuan yang memuat penilaian pengguna.
+
+\begin{enumerate}
+    \item Status penerimaan jawaban (\emph{accepted}) dapat dipakai sebagai bobot pemeringkatan konteks tanpa mengubah arsitektur dasar, asalkan digabung dengan kemiripan semantik dan tidak dipakai sebagai satu-satunya dasar pemilihan.
+    \item Kontrol pembobotan tanpa graf (B-Acc) diperlukan untuk memisahkan kontribusi bobot dari kontribusi struktur graf. Tanpa kontrol ini, penurunan pada GraphRAG berbobot akan terbaca sebagai pengaruh graf.
+    \item Pelaporan \emph{hallucination rate} dalam dua versi, dengan \texttt{ABSTAIN} dikeluarkan dan dihitung sebagai kegagalan, diperlukan agar penurunan angka tidak keliru dibaca sebagai peningkatan mutu ketika penolakan menjawab berubah.
+    \item Pengecualian \emph{thread} pertanyaan uji pada setiap tahap pengambilan konteks, beserta pemeriksaan irisan setelah \emph{run}, perlu diterapkan seragam pada seluruh konfigurasi agar integritas evaluasi dapat ditunjukkan.
+\end{enumerate}
+
+\subsection{Keterbatasan Penelitian}
+\label{subsec:keterbatasan-penelitian}
+
+Kesimpulan di atas dibatasi oleh beberapa hal. Seluruh label berasal dari panel \emph{LLM-as-a-Judge} tanpa validasi anotator manusia. Setiap konfigurasi dijalankan satu kali pada satu \emph{dataset} dan satu model generatif, sehingga generalisasi tidak diklaim. Selisih antarkonfigurasi tidak diuji secara statistik, dan latensi tidak dikontrol terhadap status \emph{cache}.
+
+\section{Saran}
+\label{sec:saran}
+
+Saran untuk penelitian selanjutnya adalah sebagai berikut.
+
+\begin{enumerate}
+    \item Menjalankan setiap konfigurasi berulang kali dengan temperatur dan \emph{seed} yang ditetapkan, agar variasi antar-pengulangan dapat diukur dan selisih antarkonfigurasi dapat diuji secara statistik.
+    \item Memvalidasi label panel dengan anotator manusia pada subsampel, serta mengkaji perbedaan ambang antar-\emph{judge}.
+    \item Menguji sensitivitas $\alpha$, $w_{\mathrm{acc}}$, dan $w_{\mathrm{vote}}$ pada lebih dari dua nilai, serta menjalankan B-Acc dengan skor suara untuk menilai pengaruh skor suara pada sisi vektor.
+    \item Memperbaiki kepatuhan \emph{generator} terhadap instruksi mengutip, misalnya dengan format keluaran terstruktur atau verifikasi kutipan setelah generasi, karena NF2 tidak terpenuhi pada kedua konfigurasi C.
+    \item Memperkaya relasi antarpertanyaan agar penelusuran multi-\emph{hop} berkontribusi, mengingat sebagian besar konteks C-Acc berasal dari satu \emph{hop}.
+    \item Mempertimbangkan bobot yang memperhitungkan kemiripan pertanyaan asal dengan pertanyaan uji, karena status \emph{accepted} menandai jawaban yang diterima untuk pertanyaan asalnya, karena relevansi konteks konfigurasi berbobot lebih rendah daripada B-Vec.
+    \item Menguji \emph{framework} pada sumber pengetahuan dan model generatif lain yang memenuhi syarat penerapan pada Bab~\ref{chap:pendahuluan}.
+    \item Mencatat panjang keluaran dan status \emph{cache} per kueri, serta menelusuri perpindahan label per pertanyaan, agar penjelasan latensi dan perubahan kategori halusinasi dapat diuji.
+\end{enumerate}

@@ -683,8 +683,6 @@ score & Kosinus kueri terhadap teks jawaban pada indeks FAISS & B \\
 sim, sim\_norm, final\_score, alpha & Komponen skor akhir Kondisi C (Subbab~\ref{subsec:implementasi-kondisi-c}). Faktor $w_{qq'}$, $w_{\mathrm{ans}}$, dan $w_{\mathrm{path}}$ tidak disimpan terpisah; bobot gabungannya tersimpan pada \texttt{trust\_weight} & C \\
 \hline
 \end{tabularx}\\
-\hline
-\end{tabularx}
 \end{table}
 
 Sebagai contoh, pertanyaan uji \texttt{29901703} (\emph{``Multiple dex files define error in android studio''}) dipilih karena konteks akhir C-Acc+Vote-nya memuat seluruh tipe pengambilan, yaitu jawaban satu \emph{hop}, dua \emph{hop}, dan \emph{semantic expansion}, serta campuran jawaban \emph{accepted} dan non-\emph{accepted}. Pertanyaan ini satu-satunya dari 384 pertanyaan uji yang memenuhi keempat ciri itu. Tabel~\ref{tab:contoh-provenance-pertanyaan} dan Tabel~\ref{tab:contoh-provenance-item1} sampai \ref{tab:contoh-provenance-item5} menunjukkan penelusuran \emph{provenance} kelima item konteks, mulai dari jalur pengambilan, bobot, sampai skor akhir. Jalur dibaca dari \emph{seed} menuju jawaban. Pada peringkat 3, jawaban dicapai dua \emph{hop} melalui sisi \texttt{EMBED\_SIM}, sehingga $w_{\mathrm{path}}=0{,}4\times w_{\mathrm{ans}}$. Peringkat 4 adalah jawaban non-\emph{accepted} berbobot 0 yang tetap masuk karena kemiripannya tertinggi pada \emph{pool}. Peringkat 5 berasal dari \emph{semantic expansion} dengan bobot $w_{\mathrm{exp}}=0{,}4$. Pada rekaman, jalur \emph{semantic expansion} diberi nama \texttt{SEMANTIC\_SIM}, yang merupakan label jalur dan bukan tipe sisi pada graf.
@@ -932,7 +930,7 @@ NF3 & Latensi & Pencatatan waktu \emph{retrieval} dan \emph{end-to-end} per pert
 \hline
 NF4 & Keandalan kutipan & Panel \emph{judge} melabeli setiap klaim jawaban terhadap konteks yang diberikan, dan \emph{citation support} dihitung dari klaim berkutipan yang didukung item konteks yang dikutip (B-Vec, B-Acc, C-Acc, dan C-Acc+Vote) \\
 \hline
-NF5 & Integritas evaluasi & Himpunan pengecualian per pertanyaan diterapkan pada seluruh titik \emph{retrieval}, dan irisan antara konteks serta kutipan dengan himpunan pengecualian dihitung untuk setiap kueri uji setelah \emph{run} selesai (Subbab~\ref{subsec:implementasi-leakage} dan \ref{subsec:verifikasi-kontrol}) \\
+NF5 & Integritas evaluasi & Himpunan pengecualian per pertanyaan diterapkan pada seluruh titik \emph{retrieval}, dan irisan antara konteks serta kutipan dengan himpunan pengecualian dihitung untuk setiap kueri uji setelah \emph{run} selesai (Subbab~\ref{subsec:implementasi-leakage} dan \ref{sec:hasil-pelaksanaan}) \\
 \hline
 NF6 & Perbandingan antarkondisi & Komponen yang identik pada seluruh konfigurasi (Tabel~\ref{tab:komponen-bersama}), \emph{prompt} dengan struktur dan instruksi yang sama (Subbab~\ref{subsec:struktur-prompt}), dan parameter generasi yang sama (Subbab~\ref{subsec:kutipan-generasi}) \\
 \hline
