@@ -25,9 +25,6 @@ Seluruh angka berasal dari label mayoritas panel \emph{judge} (dua dari tiga) pa
 \label{sec:hasil-pelaksanaan}
 %============================================================
 
-\subsection{Verifikasi Kontrol Eksperimen}
-\label{subsec:verifikasi-kontrol}
-
 Sebelum membandingkan jawaban, pelaksanaan diperiksa terhadap kontrol yang dirancang pada Subbab~\ref{subsec:pengendalian-variabel} dan \ref{subsec:leakage}. Hasilnya sebagai berikut.
 \begin{itemize}
     \item \textbf{Integritas evaluasi (NF5).} Pada seluruh 384 pertanyaan uji, tidak ditemukan kebocoran data pada B-Vec, B-Acc, C-Acc, maupun C-Acc+Vote (0 dari 1.920 item konteks per konfigurasi). Pemeriksaan mencakup identitas pertanyaan dan jawaban pada konteks serta kutipan, termasuk pertanyaan asal, pertanyaan perantara, dan \emph{anchor}, terhadap himpunan pengecualian. Rincian hasil disajikan pada Lampiran~\ref{lamp:kebocoran}.
@@ -41,6 +38,8 @@ Sebelum membandingkan jawaban, pelaksanaan diperiksa terhadap kontrol yang diran
 \end{itemize}
 
 Perbedaan konteks antarkonfigurasi pada sampel uji dirangkum pada Tabel~\ref{tab:konteks-identik}. Konteks C-Acc berbeda dari B-Vec pada hampir semua pertanyaan (hanya 30 dari 384 identik). C-Acc dan C-Acc+Vote memiliki himpunan konteks identik pada 240 pertanyaan, dengan kandidat graf yang sama pada seluruh 384 pertanyaan.
+
+Konteks C-Acc berbeda dari B-Vec pada hampir semua pertanyaan. Kandidat C lebih luas, rata-rata 17,4 kandidat per pertanyaan dari penelusuran graf, sedangkan B hanya sepuluh jawaban teratas pencarian vektor (Subbab~\ref{subsec:analisis-graf} dan \ref{subsec:analisis-eksploratif}). Bobot $\alpha=0{,}25$ pada rumus skor akhir memberi keunggulan pada jawaban \emph{accepted}, sehingga jawaban \emph{accepted} yang dibawa graf dari pertanyaan \emph{seed} dapat menggantikan jawaban yang lebih mirip. 
 
 \begin{table}[!htbp]
 \centering
@@ -248,7 +247,7 @@ RQ5 & C-Acc+Vote terhadap C-Acc & $-1{,}8$ & $-2{,}2$ \\
 \label{sec:hasil-pendukung}
 %============================================================
 
-Metrik pendukung terdiri atas evaluasi \emph{faithfulness}, \emph{citation support}, \emph{valid citation rate} (NF2), relevansi konteks, dan relevansi jawaban. \emph{Faithfulness}, \emph{citation support}, \emph{valid citation rate}, dan relevansi konteks hanya berlaku untuk konfigurasi berkonteks (B-Vec, B-Acc, C-Acc, dan C-Acc+Vote), sedangkan relevansi jawaban juga dihitung untuk A. Gambar~\ref{fig:grounding-retrieval} merangkum \emph{faithfulness}, \emph{citation support}, \emph{valid citation rate}, dan relevansi konteks pada keempat konfigurasi berkonteks, sedangkan relevansi jawaban disajikan pada Gambar~\ref{fig:relevansi}. \emph{Prompt judge} yang dipakai untuk seluruh metrik ada pada Lampiran~\ref{lamp:prompt-judge}.
+Metrik pendukung terdiri atas evaluasi \emph{faithfulness}, \emph{citation support}, \emph{valid citation rate} (NF2), relevansi konteks, dan relevansi jawaban. \emph{Faithfulness}, \emph{citation support}, \emph{valid citation rate}, dan relevansi konteks hanya berlaku untuk konfigurasi berkonteks (B-Vec, B-Acc, C-Acc, dan C-Acc+Vote), sedangkan relevansi jawaban juga dihitung untuk A. Gambar~\ref{fig:grounding-retrieval} merangkum \emph{faithfulness}, \emph{citation support}, \emph{valid citation rate}, dan relevansi konteks pada keempat konfigurasi berkonteks, sedangkan relevansi jawaban disajikan pada Gambar~\ref{fig:relevansi}. \emph{Prompt judge} yang digunakan untuk seluruh metrik ada pada Lampiran~\ref{lamp:prompt-judge}.
 
 \begin{figure}[!htbp]
 \centering
@@ -264,7 +263,7 @@ Metrik pendukung terdiri atas evaluasi \emph{faithfulness}, \emph{citation suppo
 
 \emph{Citation support} adalah proporsi klaim berkutipan yang didukung item konteks yang dikutip. Nilainya 90,2\% (B-Vec), 91,7\% (B-Acc), 90,9\% (C-Acc), dan 89,6\% (C-Acc+Vote). Selisih antarkonfigurasi paling besar 2,1 poin.
 
-Penurunan \emph{faithfulness} pada konfigurasi berbobot mengindikasikan bahwa konteks berbobot memberi dukungan yang lebih sedikit bagi klaim jawaban. Indikasi penyebabnya adalah relevansi konteks yang lebih rendah (Subbab~\ref{subsec:hasil-retrieval}), karena pembobotan menaikkan jawaban \emph{accepted} yang diterima untuk pertanyaan lain meskipun kemiripannya terhadap pertanyaan uji lebih rendah, sehingga \emph{generator} lebih sering memakai pengetahuan di luar konteks. Klaim yang tidak didukung konteks tidak otomatis salah, karena label halusinasi ditentukan oleh klaim berlabel \texttt{CONTRADICTED} atau \texttt{FABRICATED}. Hal ini sejalan dengan \emph{hallucination rate} yang tetap lebih rendah pada konfigurasi berbobot. Sebaliknya, \emph{citation support} stabil di sekitar 90\% karena hanya menilai klaim yang menyertakan kutipan, yaitu kesesuaian klaim dengan item yang dikutip, bukan relevansi konteks. 
+Penurunan \emph{faithfulness} pada konfigurasi berbobot mengindikasikan bahwa konteks berbobot memberi dukungan yang lebih sedikit bagi klaim jawaban. Indikasi penyebabnya adalah relevansi konteks yang lebih rendah (Subbab~\ref{subsec:hasil-retrieval}), karena pembobotan menaikkan jawaban \emph{accepted} yang diterima untuk pertanyaan lain meskipun kemiripannya terhadap pertanyaan uji lebih rendah, sehingga \emph{generator} lebih sering menggunakan pengetahuan di luar konteks. Klaim yang tidak didukung konteks tidak otomatis salah, karena label halusinasi ditentukan oleh klaim berlabel \texttt{CONTRADICTED} atau \texttt{FABRICATED}. Hal ini sejalan dengan \emph{hallucination rate} yang tetap lebih rendah pada konfigurasi berbobot. Sebaliknya, \emph{citation support} stabil di sekitar 90\% karena hanya menilai klaim yang menyertakan kutipan, yaitu kesesuaian klaim dengan item yang dikutip, bukan relevansi konteks. 
 
 \subsection{\emph{Valid Citation Rate} (NF2)}
 \label{subsec:hasil-nf2}
@@ -432,31 +431,6 @@ Rata-rata \emph{retrieval} B-Vec (1,53 detik) jauh di atas mediannya (0,35 detik
 \label{sec:analisis-komponen}
 %============================================================
 
-\subsection{Pemilihan $\alpha$ pada Himpunan Pengembangan}
-\label{subsec:pemilihan-alpha}
-
-Nilai $\alpha$ dipilih pada himpunan pengembangan (150 pertanyaan pada posisi 435 sampai 584, terpisah dari sampel uji; Lampiran~\ref{lamp:id}), bukan pada sampel uji. Tabel~\ref{tab:alpha-dev} melaporkan hasil untuk $\alpha=0{,}1$ dan $\alpha=0{,}25$ pada konfigurasi C-Acc.
-
-\begin{table}[!htbp]
-\centering
-\small
-\caption{Hasil pada himpunan pengembangan (150 pertanyaan).}
-\label{tab:alpha-dev}
-\renewcommand{\arraystretch}{1.2}
-\begin{tabular}{|c|c|c|c|}
-\hline
-\textbf{$\alpha$} & \textbf{\texttt{ABSTAIN}} & \textbf{(a) \texttt{ABSTAIN} dikeluarkan} & \textbf{(b) \texttt{ABSTAIN} gagal} \\
-\hline
-0,10 & 26 & 29/124 (23,4\%) & 55/150 (36,7\%) \\
-0,25 & 21 & 22/129 (17,1\%) & 43/150 (28,7\%) \\
-\hline
-\end{tabular}
-\end{table}
-
-$\alpha=0{,}25$ lebih rendah pada kedua versi dan dipakai untuk seluruh konfigurasi C. Selisihnya (6,3 poin pada versi (a)) berasal dari satu \emph{run} dengan 129 dan 124 jawaban dan tidak diuji, jadi pemilihan ini bersifat pragmatis.
-
-\paragraph{Diskusi.} $\alpha=0{,}25$ memberi bobot lebih besar pada penilaian pengguna, sehingga lebih banyak jawaban \emph{accepted} masuk ke lima konteks teratas. Pada himpunan pengembangan, hal ini diikuti penolakan yang lebih sedikit (21 terhadap 26 pertanyaan) dan \emph{hallucination rate} yang lebih rendah pada kedua versi. Kemungkinan penjelasannya, jawaban \emph{accepted} yang lebih banyak memberi \emph{generator} solusi yang sudah divalidasi penanya sehingga lebih jarang menolak menjawab. Penjelasan ini tidak diuji, dan hanya dua nilai $\alpha$ yang dibandingkan, sehingga nilai optimum tidak diketahui.
-
 \subsection{Pengaruh Pembobotan pada Pemeringkatan Vektor}
 \label{subsec:analisis-pembobotan}
 
@@ -478,7 +452,7 @@ Gambar~\ref{fig:kolam-graf} memperlihatkan kolam kandidat graf, yang sama untuk 
 
 Dari item baru yang dibawa graf (item yang tidak ada pada konteks B-Vec), 88,6\% adalah jawaban \emph{accepted} dari pertanyaan \emph{seed} melalui langkah satu \emph{hop}. Item baru satu \emph{hop} (677 item) kurang topikal daripada item yang dipertahankan dari lima teratas B (1.156 item): skor relevansi konteks panel rata-ratanya 0,258 terhadap 0,354 (\texttt{RELEVANT}~=~1, \texttt{PARTIAL}~=~0,5, \texttt{IRRELEVANT}~=~0; angka dikutip dari berkas analisis nilai graf dan tidak dihitung ulang). Konteks C-Acc juga lebih sering berubah dari B-Vec (Jaccard@5 sebesar 0,463).
 
-Dengan demikian, peran graf pada rancangan ini terutama menyediakan jawaban \emph{accepted} dari pertanyaan \emph{seed}. Penelusuran multi-\emph{hop} hampir tidak berkontribusi. Konfigurasi Join, yang tidak memakai graf, menghasilkan konteks akhir identik dengan varian satu \emph{hop} graf pada 384 dari 384 pertanyaan (Subbab~\ref{subsec:analisis-eksploratif}), sehingga satu \emph{hop} graf setara dengan penggabungan tabel relasional. Bila graf dipakai tanpa bobot (C-0), konteksnya identik dengan B-Vec pada seluruh pertanyaan (Subbab~\ref{subsec:verifikasi-kontrol}). Jadi pengaruh yang terukur berasal dari bobot penilaian pengguna, bukan dari struktur graf saja.
+Dengan demikian, peran graf pada rancangan ini terutama menyediakan jawaban \emph{accepted} dari pertanyaan \emph{seed}. Penelusuran multi-\emph{hop} hampir tidak berkontribusi. Konfigurasi Join, yang tidak menggunakan graf, menghasilkan konteks akhir identik dengan varian satu \emph{hop} graf pada 384 dari 384 pertanyaan (Subbab~\ref{subsec:analisis-eksploratif}), sehingga satu \emph{hop} graf setara dengan penggabungan tabel relasional. Bila graf digunakan tanpa bobot (C-0), konteksnya identik dengan B-Vec pada seluruh pertanyaan. Jadi pengaruh yang terukur berasal dari bobot penilaian pengguna, bukan dari struktur graf saja.
 
 \subsection{Pengaruh Skor Suara}
 \label{subsec:analisis-vote}
@@ -488,7 +462,7 @@ C-Acc dan C-Acc+Vote memiliki konteks identik pada 240 dari 384 pertanyaan dan k
 \subsection{Analisis Eksploratif: Join dan Dua \emph{Hop} tanpa \emph{Expansion}}
 \label{subsec:analisis-eksploratif}
 
-Dua konfigurasi tambahan dijalankan untuk melihat peran struktur. \textbf{Join} adalah konfigurasi tanpa graf: kolam B (sepuluh jawaban teratas dari pencarian vektor) ditambah seluruh jawaban dari pertanyaan \emph{anchor}, yang dibaca dari tabel jawaban dan tabel pertanyaan melalui penggabungan \texttt{ParentId = Id}, lalu diurutkan ulang dengan rumus yang sama dengan C ($0{,}75\cdot\text{sim}_{\text{norm}} + 0{,}25\cdot w$, $w=1$ untuk jawaban \emph{accepted} dan $0$ untuk lainnya). \textbf{2-hop tanpa \emph{expansion}} adalah konfigurasi graf dengan penelusuran satu dan dua \emph{hop} tanpa \emph{semantic expansion}, dengan bobot dan pemeringkatan yang sama. Jawaban untuk pertanyaan yang konteksnya identik dengan konfigurasi lain dipakai ulang. Hanya 85 pertanyaan (Join) dan 51 pertanyaan (2-hop) yang konteksnya baru dan dijawab ulang.
+Dua konfigurasi tambahan dijalankan untuk melihat peran struktur. \textbf{Join} adalah konfigurasi tanpa graf: kolam B (sepuluh jawaban teratas dari pencarian vektor) ditambah seluruh jawaban dari pertanyaan \emph{anchor}, yang dibaca dari tabel jawaban dan tabel pertanyaan melalui penggabungan \texttt{ParentId = Id}, lalu diurutkan ulang dengan rumus yang sama dengan C ($0{,}75\cdot\text{sim}_{\text{norm}} + 0{,}25\cdot w$, $w=1$ untuk jawaban \emph{accepted} dan $0$ untuk lainnya). \textbf{2-hop tanpa \emph{expansion}} adalah konfigurasi graf dengan penelusuran satu dan dua \emph{hop} tanpa \emph{semantic expansion}, dengan bobot dan pemeringkatan yang sama. Jawaban untuk pertanyaan yang konteksnya identik dengan konfigurasi lain digunakan ulang. Hanya 85 pertanyaan (Join) dan 51 pertanyaan (2-hop) yang konteksnya baru dan dijawab ulang.
 
 \begin{table}[!htbp]
 \centering
@@ -506,7 +480,7 @@ Join & 21,7 & 35,2 & $-3{,}1$ \\
 \end{tabularx}
 \end{table}
 
-Join lebih rendah daripada B-Vec sebesar 3,1 poin, dan 2-hop tanpa \emph{expansion} sebesar 6,8 poin. Selisih Join masih dalam kisaran variasi antar-pengulangan, sedangkan selisih 2-hop berada di dalamnya pada batas atas. Selisih keduanya (3,7 poin) tidak diuji. Arahnya sedikit mendukung penelusuran dua \emph{hop}, dan ditulis sebagai pola, bukan sebagai temuan. Karena jawaban sebagian besar dipakai ulang dari konfigurasi lain, hasil ini lebih lemah daripada lima konfigurasi utama.
+Join lebih rendah daripada B-Vec sebesar 3,1 poin, dan 2-hop tanpa \emph{expansion} sebesar 6,8 poin. Selisih Join masih dalam kisaran variasi antar-pengulangan, sedangkan selisih 2-hop berada di dalamnya pada batas atas. Selisih keduanya (3,7 poin) tidak diuji. Arahnya sedikit mendukung penelusuran dua \emph{hop}, dan ditulis sebagai pola, bukan sebagai temuan. Karena jawaban sebagian besar digunakan ulang dari konfigurasi lain, hasil ini lebih lemah daripada lima konfigurasi utama.
 
 %============================================================
 \section{Analisis Kasus}
@@ -515,7 +489,7 @@ Join lebih rendah daripada B-Vec sebesar 3,1 poin, dan 2-hop tanpa \emph{expansi
 
 Analisis kasus menelusuri contoh konkret untuk menjelaskan angka pada bagian sebelumnya. Penelusuran \emph{provenance} satu pertanyaan (29901703) telah ditunjukkan pada Subbab~\ref{subsec:implementasi-provenance} untuk memperlihatkan jalur pengambilan, bobot, dan skor akhir. Contoh itu menunjukkan mekanisme, bukan bukti pengaruh.
 
-Kriteria kasus ditetapkan sebelum isi jawaban dibaca, dan hanya label panel yang dipakai. Kasus berhasil (X) adalah pertanyaan yang C-Acc+Vote-nya faktual dan B-Vec-nya berhalusinasi. Kasus gagal (Y) adalah kebalikannya. Dilaporkan pertanyaan dengan \emph{id} terkecil yang memenuhi kriteria. Jumlahnya 43 pertanyaan untuk X dan 23 untuk Y. Terdapat pula 27 pertanyaan yang C-Acc+Vote-nya faktual dan B-Vec-nya \texttt{ABSTAIN}, dan 3 pertanyaan yang C-Acc+Vote-nya berhalusinasi dan B-Vec-nya \texttt{ABSTAIN}. Jadi sebagian keuntungan C-Acc+Vote berasal dari pertanyaan yang tidak dijawab B-Vec. Isi jawaban tidak dibahas pada bab ini.
+Kriteria kasus ditetapkan sebelum isi jawaban dibaca, dan hanya label panel yang digunakan. Kasus berhasil (X) adalah pertanyaan yang C-Acc+Vote-nya faktual dan B-Vec-nya berhalusinasi. Kasus gagal (Y) adalah kebalikannya. Dilaporkan pertanyaan dengan \emph{id} terkecil yang memenuhi kriteria. Jumlahnya 43 pertanyaan untuk X dan 23 untuk Y. Terdapat pula 27 pertanyaan yang C-Acc+Vote-nya faktual dan B-Vec-nya \texttt{ABSTAIN}, dan 3 pertanyaan yang C-Acc+Vote-nya berhalusinasi dan B-Vec-nya \texttt{ABSTAIN}. Jadi sebagian keuntungan C-Acc+Vote berasal dari pertanyaan yang tidak dijawab B-Vec. Isi jawaban tidak dibahas pada bab ini.
 
 \subsection{Kasus Berhasil: Pertanyaan 2010746}
 \label{subsec:kasus-berhasil}
@@ -604,7 +578,7 @@ NF4 & \emph{Citation support} tidak lebih rendah daripada B-Vec & C-Acc 90,9\% d
 \hline
 NF5 & Tidak ada konteks atau kutipan dari \emph{thread} kueri uji & 0 dari 384 pertanyaan pada keempat konfigurasi berkonteks & Terpenuhi \\
 \hline
-NF6 & Variabel kontrol identik & Tabel~\ref{tab:komponen-bersama}, Subbab~\ref{subsec:verifikasi-kontrol} & Terpenuhi \\
+NF6 & Variabel kontrol identik & Tabel~\ref{tab:komponen-bersama} & Terpenuhi \\
 \hline
 \end{tabularx}
 \end{table}
@@ -627,13 +601,13 @@ Bagian ini memuat dugaan penjelas. Dugaan di bawah tidak diuji kecuali bila dise
 \begin{enumerate}
     \item \textbf{Jawaban \emph{accepted} di konteks.} Jumlah item \emph{accepted} naik dari 1,91 menjadi 3,71 sampai 3,90 (terukur), dan \emph{hallucination rate} turun bersamanya. Namun di dalam setiap konfigurasi, \emph{hallucination rate} tidak menunjukkan tren monoton menurut jumlah item \emph{accepted} (terukur; Tabel~\ref{tab:hr-accepted}). Jadi mekanisme yang menghubungkan keduanya belum terisolasi.
     \item \textbf{Item graf yang kurang topikal.} Item baru dari graf kurang topikal (terukur, 0,258 terhadap 0,354), dan \emph{context relevance} serta \emph{faithfulness} C lebih rendah daripada B-Vec (terukur). Hal ini sejalan dengan temuan bahwa keunggulan GraphRAG terhadap RAG tidak selalu konsisten \autocite{Yang2025}.
-    \item \textbf{Bias pengetahuan parametrik.} \emph{Faithfulness} yang menurun walau konteks lebih banyak berisi jawaban \emph{accepted} dapat berkaitan dengan kecenderungan model memakai pengetahuan parametriknya \autocite{Patil2024}. Dugaan ini tidak diuji.
+    \item \textbf{Bias pengetahuan parametrik.} \emph{Faithfulness} yang menurun walau konteks lebih banyak berisi jawaban \emph{accepted} dapat berkaitan dengan kecenderungan model menggunakan pengetahuan parametriknya \autocite{Patil2024}. Dugaan ini tidak diuji.
 \end{enumerate}
 
 \subsection{Posisi terhadap Penelitian Terdahulu}
 \label{subsec:pembahasan-penelitian-terdahulu}
 
-\textcite{DaSilva2025} dan \textcite{Kabir2024} melaporkan bahwa LLM murni tidak menyertakan referensi dan sering salah pada pertanyaan Stack Overflow. Hasil A sejalan dengan hal itu: seperempat jawaban (25,8\%) dinilai berhalusinasi dan tidak ada kutipan. Angka ini tidak dibandingkan langsung dengan hasil \textcite{Kabir2024} karena penilaian studi itu manual, sedangkan penilaian di sini memakai panel LLM tanpa validasi manusia. \textcite{Nashid2023} melaporkan peningkatan dari pemilihan contoh berbasis \emph{retrieval}. Pada penelitian ini, RAG vektor biasa (B-Vec) hampir tidak menurunkan \emph{hallucination rate} dibandingkan A (24,8\% terhadap 25,8\%), dan pada $S$ justru lebih tinggi (25,3\% terhadap 22,0\%). Nilai RAG vektor ada pada keterlacakan kutipan dan kemampuan menolak menjawab, sedangkan A unggul pada relevansi jawaban dan biaya. Penurunan yang lebih besar pada konfigurasi berbobot menambah bukti bahwa penilaian pengguna berguna sebagai sinyal pemilihan konteks. Perbandingan kuantitatif dengan studi GraphRAG berbobot lain tidak dilakukan karena metrik, data, dan kondisi pengujiannya tidak sepadan.
+\textcite{DaSilva2025} dan \textcite{Kabir2024} melaporkan bahwa LLM murni tidak menyertakan referensi dan sering salah pada pertanyaan Stack Overflow. Hasil A sejalan dengan hal itu: seperempat jawaban (25,8\%) dinilai berhalusinasi dan tidak ada kutipan. Angka ini tidak dibandingkan langsung dengan hasil \textcite{Kabir2024} karena penilaian studi itu manual, sedangkan penilaian di sini menggunakan panel LLM tanpa validasi manusia. \textcite{Nashid2023} melaporkan peningkatan dari pemilihan contoh berbasis \emph{retrieval}. Pada penelitian ini, RAG vektor biasa (B-Vec) hampir tidak menurunkan \emph{hallucination rate} dibandingkan A (24,8\% terhadap 25,8\%), dan pada $S$ justru lebih tinggi (25,3\% terhadap 22,0\%). Nilai RAG vektor ada pada keterlacakan kutipan dan kemampuan menolak menjawab, sedangkan A unggul pada relevansi jawaban dan biaya. Penurunan yang lebih besar pada konfigurasi berbobot menambah bukti bahwa penilaian pengguna berguna sebagai sinyal pemilihan konteks. Perbandingan kuantitatif dengan studi GraphRAG berbobot lain tidak dilakukan karena metrik, data, dan kondisi pengujiannya tidak sepadan.
 
 \subsection{Implikasi dan Klaim Kontribusi}
 \label{subsec:pembahasan-implikasi}
@@ -646,11 +620,9 @@ Kontribusi yang diklaim adalah (i) mekanisme pembobotan graf pengetahuan berbasi
 %============================================================
 
 \begin{enumerate}
-    \item \textbf{Validitas konstruk.} Seluruh label berasal dari panel \emph{LLM-as-a-Judge} tanpa validasi oleh anotator manusia, sehingga angka halusinasi adalah keluaran panel. Tingkat halusinasi antar-\emph{judge} berbeda jauh (Llama 3,0 sampai 6,0\%, DeepSeek dan Qwen 29 sampai 39\%), sehingga label panel sebagian besar ditentukan oleh persetujuan DeepSeek dan Qwen. Arah A terhadap B-Vec tidak konsisten antar-\emph{judge}. Klaim yang tidak dapat diverifikasi tidak dihitung sebagai halusinasi. \texttt{ABSTAIN} dapat menurunkan versi (a) tanpa meningkatkan kebenaran. Penilaian dilakukan tanpa nama konfigurasi, tetapi \emph{judge} tidak sepenuhnya buta terhadap gaya jawaban berkonteks.
-    \item \textbf{Validitas internal.} Setiap konfigurasi dijalankan satu kali dengan parameter bawaan API (temperatur tidak ditetapkan), dan variasi antar-pengulangan pada konteks identik cukup besar (Subbab~\ref{subsec:hasil-h1}). Konfigurasi C-Acc dan C-Acc+Vote ditetapkan setelah hasil awal Kondisi C sebelumnya diketahui, sehingga seluruh selisih pada bab ini bersifat deskriptif. Nilai $\alpha$ dipilih pada himpunan pengembangan dan hanya dua nilainya dilaporkan (Subbab~\ref{subsec:pemilihan-alpha}). Kelima \emph{run} tercatat dengan status repositori yang belum bersih (\emph{dirty}). Pada B-Acc, berkas kode pemeringkatan ulang dan beberapa berkas lain belum di-\emph{commit} saat \emph{run}. Perintah eksekusi C-Acc tidak tersimpan (Lampiran~\ref{lamp:repro}).
-    \item \textbf{Validitas statistik.} Banyak perbandingan dilaporkan tanpa koreksi atas jumlah perbandingan. Himpunan $S$ dipilih setelah label diketahui. Pada $n{=}384$, selisih kecil tidak dapat dibedakan. Konfigurasi Join dan 2-hop memakai ulang sebagian besar jawaban konfigurasi lain.
-    \item \textbf{Validitas eksternal.} Evaluasi memakai satu \emph{dataset} (SORD), satu \emph{generator}, dan hanya pertanyaan yang jawaban diterimanya tersedia pada tabel jawaban (10,09\% pertanyaan), sehingga generalisasi tidak diklaim. B-Acc+Vote tidak dijalankan, sehingga pengaruh skor suara pada sisi vektor tidak diuji.
-    \item \textbf{Kebocoran dan kontrol.} Pengecualian \emph{thread} (384 pertanyaan dan 498 jawaban; Lampiran~\ref{lamp:kebocoran}) mencegah kebocoran langsung dan tidak menyisakan irisan pada keempat konfigurasi berkonteks. Namun mode pengecualian yang lebih ketat (duplikat, pertanyaan tertaut, dan hampir-duplikat dengan kemiripan 0,95) mencatat 13 pertanyaan beririsan pada konteks B dan C, sehingga duplikat atau pertanyaan hampir identik di luar \emph{thread} yang sama tidak sepenuhnya tertutup. Normalisasi $P_{99}$ memakai seluruh populasi termasuk pertanyaan uji. Latensi tidak dikontrol terhadap status \emph{cache}.
+    \item \textbf{Validitas konstruk.} Seluruh label berasal dari panel \emph{LLM-as-a-Judge} tanpa validasi oleh anotator manusia, sehingga angka halusinasi adalah keluaran panel. Arah A terhadap B-Vec tidak konsisten antar-\emph{judge}. Klaim yang tidak dapat diverifikasi tidak dihitung sebagai halusinasi. \texttt{ABSTAIN} dapat menurunkan versi (a) tanpa meningkatkan kebenaran.
+    \item \textbf{Validitas internal.} Setiap konfigurasi dijalankan satu kali dengan parameter bawaan API (temperatur tidak ditetapkan), dan variasi antar-pengulangan pada konteks identik cukup besar (Subbab~\ref{subsec:hasil-h1}).
+    \item \textbf{Kebocoran dan kontrol.} Pengecualian \emph{thread} (384 pertanyaan dan 498 jawaban; Lampiran~\ref{lamp:kebocoran}) mencegah kebocoran langsung dan tidak menyisakan irisan pada keempat konfigurasi berkonteks. Namun mode pengecualian yang lebih ketat (duplikat, pertanyaan tertaut, dan hampir-duplikat dengan kemiripan 0,95) mencatat 13 pertanyaan beririsan pada konteks B dan C, sehingga duplikat atau pertanyaan hampir identik di luar \emph{thread} yang sama tidak sepenuhnya tertutup. Normalisasi $P_{99}$ menggunakan seluruh populasi termasuk pertanyaan uji. Latensi tidak dikontrol terhadap status \emph{cache}.
 \end{enumerate}
 
 %============================================================

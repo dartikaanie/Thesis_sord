@@ -851,7 +851,30 @@ Filter jawaban dan \emph{refill} & Dinonaktifkan pada seluruh konfigurasi & Jawa
 \end{tabularx}
 \end{table}
 
-Nilai $\alpha=0{,}25$ dipilih pada himpunan pengembangan (150 pertanyaan) berdasarkan relevansi konteks dan laju halusinasi, terpisah dari sampel uji.
+\subsection{Pemilihan $\alpha$ pada Himpunan Pengembangan}
+\label{subsec:pemilihan-alpha}
+
+Nilai $\alpha$ dipilih pada himpunan pengembangan (150 pertanyaan pada posisi 435 sampai 584, terpisah dari sampel uji; Lampiran~\ref{lamp:id}), bukan pada sampel uji. Tabel~\ref{tab:alpha-dev} melaporkan hasil untuk $\alpha=0{,}1$ dan $\alpha=0{,}25$ pada konfigurasi C-Acc.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Hasil pada himpunan pengembangan (150 pertanyaan).}
+\label{tab:alpha-dev}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{$\alpha$} & \textbf{\texttt{ABSTAIN}} & \textbf{(a) \texttt{ABSTAIN} dikeluarkan} & \textbf{(b) \texttt{ABSTAIN} gagal} \\
+\hline
+0,10 & 26 & 29/124 (23,4\%) & 55/150 (36,7\%) \\
+0,25 & 21 & 22/129 (17,1\%) & 43/150 (28,7\%) \\
+\hline
+\end{tabular}
+\end{table}
+
+$\alpha=0{,}25$ lebih rendah pada kedua versi dan dipakai untuk B-Acc, C-Acc, dan C-Acc+Vote. Selisihnya (6,3 poin pada versi (a)) berasal dari satu \emph{run} dengan 129 dan 124 jawaban dan tidak diuji, jadi pemilihan ini bersifat pragmatis. Nilai $\alpha$ dipilih pada konfigurasi C-Acc dan dipakai juga pada B-Acc tanpa pemilihan terpisah.
+
+\paragraph{Diskusi.} $\alpha=0{,}25$ memberi bobot lebih besar pada penilaian pengguna, sehingga lebih banyak jawaban \emph{accepted} masuk ke lima konteks teratas. Pada himpunan pengembangan, hal ini diikuti penolakan yang lebih sedikit (21 terhadap 26 pertanyaan) dan \emph{hallucination rate} yang lebih rendah pada kedua versi. Kemungkinan penjelasannya, jawaban \emph{accepted} yang lebih banyak memberi \emph{generator} solusi yang sudah divalidasi penanya sehingga lebih jarang menolak menjawab. Penjelasan ini tidak diuji, dan hanya dua nilai $\alpha$ yang dibandingkan, sehingga nilai optimum tidak diketahui.
 
 %============================================================
 \section{Pemenuhan Kebutuhan Sistem}
