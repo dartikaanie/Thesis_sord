@@ -1,18 +1,29 @@
 [0] Config.pm:328> INFO - This is Biber 2.21
 [0] Config.pm:331> INFO - Logfile is 'Tesis.blg'
-[37] biber-darwin:342> INFO - === Tue Oct 27, 2026, 11:40:31
-[48] Biber.pm:421> INFO - Reading 'Tesis.bcf'
-[162] Biber.pm:1002> INFO - Found 41 citekeys in bib section 0
-[170] Biber.pm:4487> INFO - Processing section 0
-[175] Biber.pm:4678> INFO - Looking for bibtex file 'daftar-pustaka.bib' for section 0
-[176] bibtex.pm:1713> INFO - LaTeX decoding ...
-[198] bibtex.pm:1519> INFO - Found BibTeX data source 'daftar-pustaka.bib'
-[398] UCollate.pm:68> INFO - Overriding locale 'indonesian' defaults 'variable = shifted' with 'variable = non-ignorable'
-[398] UCollate.pm:68> INFO - Overriding locale 'indonesian' defaults 'level = 4' with 'level = 2'
-[398] UCollate.pm:68> INFO - Overriding locale 'indonesian' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[398] Biber.pm:4307> INFO - Sorting list 'cms/global//global/global/global' of type 'entry' with template 'cms' and locale 'indonesian'
-[398] Biber.pm:4313> INFO - No sort tailoring available for locale 'indonesian'
-[430] bbl.pm:676> INFO - Writing 'Tesis.bbl' with encoding 'UTF-8'
-[446] bbl.pm:779> INFO - Output to Tesis.bbl
-[446] Biber.pm:132> WARN - I didn't find a database entry for 'Kapoor2023' (section 0)
-[446] Biber.pm:134> INFO - WARNINGS: 1
+[52] biber-darwin:342> INFO - === Sat Nov 21, 2026, 19:37:48
+[66] Biber.pm:421> INFO - Reading 'Tesis.bcf'
+[203] Biber.pm:1002> INFO - Found 58 citekeys in bib section 0
+[212] Biber.pm:4487> INFO - Processing section 0
+[218] Biber.pm:4678> INFO - Looking for bibtex file 'daftar-pustaka.bib' for section 0
+[220] bibtex.pm:1713> INFO - LaTeX decoding ...
+[253] bibtex.pm:1519> INFO - Found BibTeX data source 'daftar-pustaka.bib'
+[516] UCollate.pm:68> INFO - Overriding locale 'indonesian' defaults 'variable = shifted' with 'variable = non-ignorable'
+[516] UCollate.pm:68> INFO - Overriding locale 'indonesian' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[516] UCollate.pm:68> INFO - Overriding locale 'indonesian' defaults 'level = 4' with 'level = 2'
+[516] Biber.pm:4307> INFO - Sorting list 'cms/global//global/global/global' of type 'entry' with template 'cms' and locale 'indonesian'
+[516] Biber.pm:4313> INFO - No sort tailoring available for locale 'indonesian'
+[553] bbl.pm:676> INFO - Writing 'Tesis.bbl' with encoding 'UTF-8'
+[573] bbl.pm:779> INFO - Output to Tesis.bbl
+[573] Biber.pm:132> WARN - Duplicate entry key: 'Shi2026' in file 'daftar-pustaka.bib', skipping ...
+[573] Biber.pm:132> WARN - Duplicate entry key: 'Yang2025' in file 'daftar-pustaka.bib', skipping ...
+[573] Biber.pm:132> WARN - I didn't find a database entry for 'Patil2024' (section 0)
+[573] Biber.pm:132> WARN - I didn't find a database entry for 'Wang2025CRAG' (section 0)
+[573] Biber.pm:132> WARN - I didn't find a database entry for 'Asghari2026' (section 0)
+[573] Biber.pm:132> WARN - I didn't find a database entry for 'LiTrustProp2026' (section 0)
+[573] Biber.pm:132> WARN - I didn't find a database entry for 'Kleybolte2026' (section 0)
+[573] Biber.pm:132> WARN - I didn't find a database entry for 'Banerjee2024' (section 0)
+[573] Biber.pm:132> WARN - I didn't find a database entry for 'Kapoor2023' (section 0)
+[573] Biber.pm:132> WARN - I didn't find a database entry for 'Filho2026' (section 0)
+[573] Biber.pm:132> WARN - I didn't find a database entry for 'LiChenDolata2026' (section 0)
+[573] Biber.pm:132> WARN - I didn't find a database entry for 'ZhuHydro2026' (section 0)
+[573] Biber.pm:134> INFO - WARNINGS: 12

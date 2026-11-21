@@ -2,8 +2,7 @@
 \addcontentsline{toc}{chapter}{ABSTRAK}
 
 \begin{center}
-
-    \textbf{Pengembangan \emph{GraphRAG Framework} dengan Pembobotan Graf Pengetahuan Berbasis Penilaian Pengguna untuk Mengurangi Halusinasi pada Large Language Model} \\
+    \textbf{Pengembangan GraphRAG dengan Pembobotan Graf Pengetahuan Berbasis Penilaian Pengguna untuk Mengurangi Halusinasi pada \emph{Large Language Model}} \\
     \vspace{0.4cm}
     oleh \\
     \vspace{0.4cm}
@@ -11,12 +10,9 @@
     23524319\\
 \end{center}
 
-
 \begin{spacing}{1.0}
-Large Language Model (LLM) telah menjadi alat bantu pengembang perangkat lunak, namun masih rentan menghasilkan halusinasi yang tampak meyakinkan tetapi tidak akurat secara faktual. Studi empiris menunjukkan bahwa 52\% jawaban ChatGPT terhadap pertanyaan pemrograman mengandung informasi tidak benar, dengan tingkat akurasi LLM murni pada domain Frameworks and Libraries hanya mencapai 48–60\%. Di sisi lain, komunitas Stack Overflow memiliki lebih dari 58 juta pasang pertanyaan-jawaban yang telah tervalidasi melalui mekanisme \emph{upvote}, \emph{accepted answer}, dan \emph{reputasi kontributor} sebagai sumber pengetahuan tervalidasi yang belum dimanfaatkan secara optimal oleh sistem berbasis LLM. Penelitian ini mengidentifikasi kesenjangan metodologi yaitu belum adanya arsitektur yang mengintegrasikan pengetahuan komunitas Stack Overflow ke dalam LLM dengan pendekatan \emph{graph-based} RAG. Untuk menjawab kesenjangan tersebut, penelitian ini merancang dan mengembangkan sebuah \emph{framework Retrieval-Augmented Generation} berbasis graf menggunakan metodologi Design Science Research (DSRM). Framework terdiri atas tiga komponen utama, yaitu konstruksi \emph{knowledge graph berbobot} dari dataset SORD, mekanisme \emph{hybrid retrieval}, dan modul \emph{grounded generation} dengan mekanisme \emph{dual-constraint} yang menghasilkan jawaban faktual. Evaluasi dilakukan dengan menggunakan dataset dan LLM yang sama melalui protokol komparatif tiga kondisi yaitu LLM murni, RAG konvensional, dan framework yang diusulkan.  Hasil evaluasi diharapkan menunjukkan bahwa framework yang diusulkan mampu meningkatkan skor \textit{faithfulness} secara signifikan dibandingkan LLM murni maupun RAG konvensional, serta menurunkan \textit{hallucination rate} pada jawaban yang dihasilkan. Pengetahuan komunitas yang terstruktur dalam
-\textit{knowledge graph} berbobot kepercayaan diharapkan memberikan konteks yang lebih relevan dan terverifikasi, sehingga jawaban yang dihasilkan memiliki \textit{provenance} yang dapat ditelusuri ke sumber Stack Overflow. Evaluasi
-dilakukan terhadap sampel uji yang bersumber dari dataset SORD (Stack Overflow Recommendations Dataset) menggunakan model bahasa GPT-4o-mini yang dikontrol secara konsisten pada ketiga kondisi pembanding.
+\emph{Large Language Model} (LLM) rentan menghasilkan halusinasi, yaitu keluaran yang tampak meyakinkan tetapi tidak sesuai fakta. \emph{Retrieval-Augmented Generation} (RAG) dan \emph{Graph-based RAG} (GraphRAG) mengurangi masalah ini tanpa mengubah parameter model, tetapi keandalan sumber pengetahuan yang diambil umumnya belum dipertimbangkan. Pada pendekatan GraphRAG yang ditelaah, bobot keandalan diturunkan dari asal-usul atau otoritas dokumen, dan belum ditemukan penggunaan penilaian pengguna terhadap suatu pengetahuan sebagai dasar bobot dalam pengambilan konteks. Penelitian ini merancang dan mengembangkan mekanisme pembobotan graf pengetahuan berbasis penilaian pengguna, yaitu status \emph{accepted answer} dan skor suara, pada GraphRAG menggunakan \emph{Design Science Research Methodology}. Pengujian dilakukan pada satu studi kasus, yaitu data Stack Overflow, dengan 384 pertanyaan uji, model generatif GPT-4o-mini, dan penilaian halusinasi oleh panel tiga LLM \emph{judge} tanpa validasi anotator manusia. Lima konfigurasi dibandingkan, yaitu LLM murni (A), RAG vektor (B-Vec), RAG vektor dengan bobot \emph{accepted} tanpa graf (B-Acc), GraphRAG dengan bobot \emph{accepted} (C-Acc), dan GraphRAG dengan bobot \emph{accepted} dan skor suara (C-Acc+Vote). Dengan penolakan menjawab dikeluarkan dari penyebut, \emph{hallucination rate} masing-masing adalah 25,8\%; 24,8\%; 19,4\%; 18,8\%; dan 17,0\%. Penurunan terutama berasal dari pembobotan \emph{accepted answer}, yang pada B-Acc tanpa graf sudah menurunkan angka 5,4 poin terhadap B-Vec, sedangkan tambahan dari struktur graf hanya 0,6 poin sehingga kontribusinya belum terbukti pada data ini. Penambahan skor suara menurunkan angka 1,8 poin lagi. Konteks berbobot memuat lebih banyak jawaban \emph{accepted}, tetapi relevansi konteks dan \emph{faithfulness} sedikit lebih rendah daripada B-Vec. Terhadap LLM murni, penurunan berbalik bila penolakan menjawab dihitung sebagai kegagalan. Hasil ini berlaku pada satu studi kasus dan tidak digeneralisasi.
 
-Kata kunci: halusinasi LLM, \emph{knowledge graph berbobot}, \emph{retrieval-augmented generation}, \emph{grounded generation}, Stack Overflow, domain pemrograman
+\vspace{0.3cm}
+\noindent Kata kunci: halusinasi LLM, GraphRAG, penilaian pengguna, pembobotan graf pengetahuan, \emph{retrieval-augmented generation}, Stack Overflow
 \end{spacing}
-
