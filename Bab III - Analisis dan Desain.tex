@@ -519,12 +519,12 @@ Metrik evaluasi utama penelitian ini adalah \emph{hallucination rate}, yaitu pro
 \begin{enumerate}
     \item \texttt{ABSTAIN} dikeluarkan dari perhitungan. Versi ini menjadi metrik utama:
     \begin{equation}
-    \mathrm{HR}=\frac{H}{N-A-U}\times 100\%,
+    \mathrm{HR}=\frac{H}{N-N_{\mathrm{abs}}-U}\times 100\%,
     \end{equation}
-    dengan $H$ jumlah jawaban berhalusinasi, $N$ jumlah seluruh jawaban, $A$ jumlah \texttt{ABSTAIN}, dan $U$ jumlah jawaban yang tidak dapat dinilai.
+    dengan $H$ jumlah jawaban berhalusinasi, $N$ jumlah seluruh jawaban, $N_{\mathrm{abs}}$ jumlah \texttt{ABSTAIN}, dan $U$ jumlah jawaban yang tidak dapat dinilai.
     \item \texttt{ABSTAIN} dihitung sebagai jawaban yang gagal. Versi ini dinamai laju kegagalan (\emph{failure rate}), karena penolakan menjawab bukan informasi yang salah, dan dilaporkan sebagai pelengkap untuk menunjukkan apakah laju halusinasi yang rendah disebabkan oleh tingginya proporsi \texttt{ABSTAIN}:
     \begin{equation}
-    \mathrm{FR}=\frac{H+A}{N-U}\times 100\%.
+    \mathrm{FR}=\frac{H+N_{\mathrm{abs}}}{N-U}\times 100\%.
     \end{equation}
 \end{enumerate}
 

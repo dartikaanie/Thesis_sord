@@ -9,96 +9,74 @@
 \setcounter{section}{0}
 \vspace{2em}
 
-
-
+% Kolom "Pemakaian pertama kali" berisi nomor halaman pertama kali simbol
+% dipakai di badan tesis. Tanda ? harus diganti setelah build final.
 
 \begin{longtable}{@{} l >{\raggedright\arraybackslash}p{6.5cm} c @{}}
 \multicolumn{1}{l}{\textbf{Notasi}} & \multicolumn{1}{l}{\textbf{Deskripsi}} & \multicolumn{1}{l}{\parbox[c]{3.5cm}{\raggedright \textbf{Pemakaian pertama kali}}} \\
+\endfirsthead
+\multicolumn{1}{l}{\textbf{Notasi}} & \multicolumn{1}{l}{\textbf{Deskripsi}} & \multicolumn{1}{l}{\parbox[c]{3.5cm}{\raggedright \textbf{Pemakaian pertama kali}}} \\
+\endhead
 
+% ------------------------------------------------------------
+% Objek dan himpunan
+% ------------------------------------------------------------
 
+$q$, $q'$ & Pertanyaan (kueri) dan pertanyaan lain yang terhubung dengannya pada graf & ? \\
+$a$ & Jawaban (simpul \texttt{Answer}) & ? \\
+$c$ & Kandidat konteks, yaitu jawaban beserta judul pertanyaan induknya & ? \\
+$\mathcal{A}_B$ & Kumpulan $K_B$ jawaban teratas hasil pencarian vektor, dipakai sebagai kandidat awal & ? \\
+$\mathcal{S}$ & Himpunan pertanyaan yang dijawab oleh keempat konfigurasi berkonteks ($n=273$) & ? \\[1ex]
 
-% \multicolumn{2}{l}{\textbf{Huruf Yunani (Parameter Model)}} \\
+% ------------------------------------------------------------
+% Penilaian pengguna dan bobot
+% ------------------------------------------------------------
 
-$\alpha$ & Koefisien bobot untuk \textit{loss function}, tingkat signifikansi statistik & 75 \\
-$\beta$ & Koefisien bobot untuk \textit{Binary Cross-Entropy loss} & 75 \\
-$\lambda$ & Koefisien bobot untuk CTC \textit{loss}, parameter regularisasi & 75 \\
-$\theta$ & Parameter model \textit{neural network} & 75 \\
-$\sigma$ & Deviasi standar & 75 \\
-$\mu$ & Rata-rata (\textit{mean}) & 75 \\
-$\epsilon$ & \textit{Token blank}/kosong dalam CTC, konstanta kecil untuk stabilitas numerik & 75 \\
-$\Delta$ & Delta (selisih/perubahan nilai) & 75 \\
-$\pi$ & \textit{Alignment path} dalam CTC & 75 \\
-$\pi_t$ & \textit{Token} pada \textit{timestep} $t$ dalam \textit{alignment path} & 76 \\[1ex]
+$\mathrm{score}_a$ & Skor suara bersih jawaban $a$ (selisih \emph{upvote} dan \emph{downvote}) & ? \\
+$\mathbf{1}[\mathrm{acc}_a]$ & Fungsi indikator: 1 bila jawaban $a$ berstatus \emph{accepted answer}, 0 bila tidak & ? \\
+$P_{99}$, $P_{99}^{A}$ & Persentil ke-99 skor suara; $P_{99}^{A}=46$ dihitung dari seluruh simpul \texttt{Answer} & ? \\
+$\mathrm{normlog}(x;P_{99})$ & Normalisasi logaritmik $x$ terhadap $P_{99}$, dibatasi pada $[0,1]$ & ? \\
+$\mathrm{trust}_A(a)$ & Skor kepercayaan jawaban $a$ dari skor suara, $\mathrm{normlog}(\mathrm{score}_a;P_{99}^{A})\in[0,1]$ & ? \\
+$w_{\mathrm{ans}}(a)$ & Bobot jawaban $a$ dari penilaian pengguna, $\in[0,1]$ & ? \\
+$w_{\mathrm{acc}}$, $w_{\mathrm{vote}}$ & Porsi status \emph{accepted} dan skor suara pada bobot jawaban C-Acc+Vote ($0{,}7$ dan $0{,}3$; jumlahnya 1) & ? \\
+$w$ & Bobot sisi pada graf pengetahuan, $w\in[0,1]$ & ? \\
+$w_{qq'}$ & Bobot sisi antarpertanyaan $q$ ke $q'$; bernilai 1 pada jawaban pencarian awal dan satu \emph{hop} & ? \\
+$w_{\mathrm{exp}}$ & Bobot antarpertanyaan untuk kandidat \emph{semantic expansion} ($0{,}4$) & ? \\
+$w_{\mathrm{path}}(c)$ & Bobot jalur kandidat $c$, $w_{qq'}(c)\cdot w_{\mathrm{ans}}(a)$ & ? \\[1ex]
 
-% \multicolumn{2}{l}{\textbf{Operator Matematis}} \\
+% ------------------------------------------------------------
+% Skor akhir
+% ------------------------------------------------------------
 
-$\nabla$ atau $\partial$ & Operator gradien atau turunan parsial & 75 \\
-$\sum$ & Operator penjumlahan & 75 \\
-$\prod$ & Operator perkalian & 75 \\
-$\int$ & Operator integral & 75 \\
-argmax & Argumen yang memaksimalkan fungsi & 76 \\
-$\sim$ & Terdistribusi menurut & 75 \\
-$\to$ & Menuju atau konvergen ke & 75 \\[1ex]
+$\mathrm{sim}(q,c)$ & Kemiripan kosinus antara kueri $q$ dan teks kandidat $c$ & ? \\
+$\mathrm{sim}_{\mathrm{norm}}(q,c)$ & Kemiripan yang dinormalisasi \emph{min-max} atas seluruh kandidat \emph{pool} satu pertanyaan & ? \\
+$\alpha$ & Kontribusi bobot jalur pada skor akhir, $\alpha\in[0,1]$ ($\alpha=0{,}25$) & ? \\
+$\mathrm{score}(c)$ & Skor akhir kandidat $c$, $(1-\alpha)\,\mathrm{sim}_{\mathrm{norm}}(q,c)+\alpha\,w_{\mathrm{path}}(c)$ & ? \\[1ex]
 
-% \multicolumn{2}{l}{\textbf{Fungsi \textit{Loss} dan Kerugian}} \\
+% ------------------------------------------------------------
+% Parameter pengambilan konteks
+% ------------------------------------------------------------
 
-$\mathcal{L}$ & Fungsi \textit{loss} (kerugian) & 75 \\
-$\mathcal{L}_{total}$ & Total \textit{loss function} & 75 \\
-$\mathcal{L}_{adversarial}$ atau $\mathcal{L}_{adv}$ & \textit{Adversarial loss} & 75 \\
-$\mathcal{L}_{reconstruction}$ & \textit{Reconstruction loss} & 75 \\
-$\mathcal{L}_{L1}$ & L1 \textit{loss} (\textit{Mean Absolute Error}) & 75 \\
-$\mathcal{L}_{L2}$ & L2 \textit{loss} (\textit{Mean Squared Error}) & 75 \\
-$\mathcal{L}_{CTC}$ & CTC (\textit{Connectionist Temporal Classification}) \textit{loss} & 75 \\
-$\mathcal{L}_{perceptual}$ & \textit{Perceptual loss} & 75 \\
-$\mathcal{L}_{pixel}$ & \textit{Pixel-wise loss} & 75 \\
-$\mathcal{L}_{BCE}$ & \textit{Binary Cross-Entropy loss} & 75 \\
-$\mathcal{L}_{GAN}$ & GAN \textit{loss} & 75 \\
-$\mathcal{L}_{cycle}$ & \textit{Cycle consistency loss} & 75 \\[1ex]
+$k$ & Jumlah item konteks yang diberikan kepada LLM ($k=5$) & ? \\
+$K_B$ & Jumlah jawaban teratas pencarian vektor sebagai kandidat awal ($K_B=10$) & ? \\
+$N_{\mathrm{anchor}}$ & Jumlah \emph{seed node} ($=3$) & ? \\
+$K_{\mathrm{scan}}$ & Batas pemindaian jawaban teratas bila pertanyaan berbeda kurang dari $N_{\mathrm{anchor}}$ ($=50$) & ? \\
+$N_{\mathrm{trav}}$ & Batas total jalur dua \emph{hop} yang dipertahankan untuk seluruh \emph{seed node} ($=50$) & ? \\
+$N_{\mathrm{exp}}$ & Jumlah pertanyaan asal yang dipakai sebagai kueri \emph{semantic expansion} ($=3$) & ? \\
+$n_{\mathrm{nb}}$ & Jumlah pertanyaan tetangga per kueri \emph{semantic expansion} ($=3$) & ? \\
+$n_{\mathrm{probe}}$ & Jumlah klaster yang diperiksa pada indeks FAISS \texttt{IndexIVFFlat} ($=32$) & ? \\[1ex]
 
-% \multicolumn{2}{l}{\textbf{Variabel Model dan Komponen GAN}} \\
+% ------------------------------------------------------------
+% Evaluasi
+% ------------------------------------------------------------
 
-$G$ & \textit{Generator} dalam GAN & 75 \\
-$D$ & \textit{Discriminator} dalam GAN & 75 \\
-$G(z)$ & \textit{Output} dari \textit{generator} dengan \textit{input} $z$ & 75 \\
-$D(x)$ & \textit{Output} dari \textit{discriminator} dengan \textit{input} $x$ & 75 \\
-$G_{A \to B}$ & \textit{Generator} dari domain $A$ ke $B$ & 75 \\
-$G_{B \to A}$ & \textit{Generator} dari domain $B$ ke $A$ & 75 \\
-$V(D, G)$ & Fungsi nilai (\textit{value function}) dalam GAN & 75 \\
-$x$ & Sampel data asli, \textit{input} citra & 75 \\
-$y$ & Label atau \textit{ground truth}, kondisi dalam \textit{conditional GAN} & 75 \\
-$z$ & \textit{Noise vector} atau representasi laten \\[1ex]
-
-% \multicolumn{2}{l}{\textbf{Distribusi Probabilitas}} \\
-
-$\mathbb{E}$ & Ekspektasi atau nilai harapan & 75 \\
-$p_{data}$ & Distribusi data asli & 75 \\
-$p_z$ & Distribusi \textit{prior} (\textit{noise}) & 75 \\
-$p(y|x)$ & Probabilitas bersyarat \textit{output} $y$ \textit{given input} $x$ & 75 \\
-$p_t(\pi_t|x)$ & Probabilitas \textit{token} pada \textit{timestep} $t$ \\[1ex]
-
-% \multicolumn{2}{l}{\textbf{Fungsi dan Transformasi CTC}} \\
-
-$\mathcal{B}$ & Fungsi penciutan (\textit{collapse function}) dalam CTC & 75 \\
-$\mathcal{B}^{-1}$ & Fungsi invers penciutan dalam CTC & 75 \\
-$T$ & Jumlah \textit{timestep} atau panjang \textit{sequence} \\[1ex]
-
-% \multicolumn{2}{l}{\textbf{Metrik Jarak dan Norma}} \\
-
-$|x - G(y)|_1$ & L1 \textit{distance} antara \textit{ground truth} dan \textit{generated image} & 75 \\
-$|x - G(y)|_2$ & L2 \textit{distance} antara \textit{ground truth} dan \textit{generated image} & 75 \\
-$N \times N$ & Ukuran \textit{patch} dalam PatchGAN \\[1ex]
-
-% \multicolumn{2}{l}{\textbf{Statistik dan Analisis}} \\
-
-$d$ & Cohen's $d$ (\textit{effect size}) & 75 \\
-$n$ & Jumlah sampel & 75 \\
-$p$ & \textit{p-value} (nilai probabilitas statistik) & 75 \\
-$r$ & Koefisien korelasi & 75 \\
-$R^2$ & Koefisien determinasi \\[1ex]
-
-% \multicolumn{2}{l}{\textbf{Notasi Kompleksitas Komputasi}} \\
-
-$O(n)$ & Notasi Big-O untuk kompleksitas linear & 75 \\
-$O(n^2)$ & Notasi Big-O untuk kompleksitas kuadratik & 75 \\
+$n$ & Jumlah pertanyaan pada sampel uji ($n=384$) atau pada himpunan yang disebut & ? \\
+$N$ & Jumlah seluruh jawaban yang dinilai (rumus HR dan FR); pada tabel hasil per strata (Bab V), jumlah pertanyaan pada strata & ? \\
+$H$ & Jumlah jawaban berhalusinasi & ? \\
+$A$ & Jumlah jawaban berlabel \texttt{ABSTAIN} (berbeda dari subskrip $A$ pada $\mathrm{trust}_A$ dan $P_{99}^{A}$, yang berarti \emph{answer}) & ? \\
+$U$ & Jumlah jawaban yang tidak dapat dinilai (\texttt{UNRESOLVED}) & ? \\
+$\mathrm{HR}$ & \emph{Hallucination rate}, $H/(N-A-U)\times 100\%$ & ? \\
+$\mathrm{FR}$ & \emph{Failure rate}, $(H+A)/(N-U)\times 100\%$ & ? \\
+M, S, T & Label relevansi jawaban: \texttt{MENJAWAB}, \texttt{MENJAWAB\_SEBAGIAN}, \texttt{TIDAK\_MENJAWAB} (S di sini bukan himpunan $\mathcal{S}$) & ? \\
 
 \end{longtable}

@@ -1,644 +1,478 @@
-\cleardoublepage % memastikan bab baru dimulai di halaman ganjil (kanan)
+% =========================================================
+% BAB II - STUDI LITERATUR 
+% =========================================================
+\cleardoublepage
 \chapter{STUDI LITERATUR}
 \label{chap:studi-literatur}
-Bab ini menyajikan landasan teori, kajian penelitian terdahulu, serta analisis kesenjangan penelitian (\emph{research gap}) yang menjadi dasar ilmiah dalam pengembangan \emph{GraphRAG Framework} pada penelitian ini. Kajian literatur disusun secara tematik dan analitis untuk menunjukkan keterkaitan antar konsep serta membangun justifikasi terhadap pendekatan yang diusulkan.
 
-Pembahasan diawali dengan permasalahan utama penelitian, yaitu fenomena halusinasi pada \emph{Large Language Model} (LLM) dalam domain pemrograman. Selanjutnya dibahas teori-teori yang mendukung solusi penelitian, meliputi keterbatasan pengetahuan parametrik pada LLM, paradigma \emph{Retrieval-Augmented Generation} (RAG), \emph{knowledge graph}, dan \emph{Graph-based Retrieval-Augmented Generation} (GraphRAG) beserta mekanisme \emph{hybrid retrieval}-nya. Setelah itu dibahas karakteristik Stack Overflow sebagai basis pengetahuan yang tervalidasi secara sosial, konsep \emph{grounded generation} untuk menghasilkan jawaban yang dapat dipertanggungjawabkan, serta metode evaluasi untuk menilai keandalan keluaran LLM. Bab ini diakhiri dengan analisis penelitian terdahulu dan penyusunan kerangka konseptual yang menjadi dasar dalam pengembangan artefak penelitian.
+Bab ini membahas teori dan penelitian terdahulu yang menjadi dasar penelitian. Pembahasan dimulai dari \emph{Large Language Model} (LLM) dan masalah halusinasi (Subbab~\ref{sec:llm-halusinasi}), pendekatan dalam mengurangi halusinasi (Subbab~\ref{sec:mitigasi}), lalu \emph{Retrieval-Augmented Generation} (RAG) dan \emph{GraphRAG} (Subbab~\ref{sec:rag} dan~\ref{sec:graphrag}). Setelah itu, bab ini menelaah penelitian yang menggunakan keandalan sumber sebagai bobot (Subbab~\ref{sec:keandalan}), penilaian pengguna pada platform tanya jawab (Subbab~\ref{sec:penilaian-pengguna}), dan cara mengevaluasi halusinasi (Subbab~\ref{sec:evaluasi}). Subbab terakhir merangkum kesenjangan penelitian dan posisi penelitian ini (Subbab~\ref{sec:sintesis}).
 
 % =========================================================
-\section{Halusinasi pada \emph{Large Language Model}}
+\section{\emph{Large Language Model} dan Halusinasi}
+\label{sec:llm-halusinasi}
 % =========================================================
 
-\subsection{Definisi dan Taksonomi Halusinasi}
+\subsection{\emph{Large Language Model}}
+\label{sec:llm}
 
-Halusinasi pada \emph{Large Language Model} (LLM) merupakan kondisi ketika model menghasilkan jawaban yang terlihat benar dan meyakinkan, tetapi tidak sesuai dengan fakta, tidak konsisten dengan konteks yang diberikan, atau bahkan berisi informasi yang dibuat oleh model itu sendiri \autocite{Ji2023}. Menurut \textcite{Ji2023}, halusinasi dibagi menjadi dua kategori utama. Pertama, \emph{intrinsic hallucination}, yaitu kondisi ketika keluaran model bertentangan dengan informasi yang tersedia pada sumber masukan. Kedua, \emph{extrinsic hallucination}, yaitu kondisi ketika model menghasilkan informasi yang tidak dapat diverifikasi dari sumber mana pun.
+LLM adalah model bahasa berukuran besar yang dilatih untuk memahami dan menghasilkan teks. Hampir semua LLM saat ini dibangun dengan arsitektur \emph{Transformer}, yang menggunakan mekanisme \emph{attention} agar model dapat menimbang hubungan antarkata dalam sebuah kalimat \autocite{Vaswani2017}. Ukuran model terus bertambah, dari beberapa juta parameter hingga triliunan parameter \autocite{Patil2024}.
 
-Selanjutnya, \textcite{Huang2025} mengembangkan klasifikasi halusinasi yang lebih rinci berdasarkan bentuk kesalahannya, yaitu: (1) \emph{factual hallucination}, yaitu kesalahan pada informasi atau fakta yang dapat diverifikasi; (2) \emph{faithfulness hallucination}, yaitu ketidaksesuaian antara jawaban model dengan konteks atau instruksi yang diberikan; dan (3) \emph{logical hallucination}, yaitu ketidakkonsistenan dalam proses penalaran yang dilakukan model.
+Cara kerja dasar LLM adalah memprediksi token berikutnya. Pada tahap pelatihan awal (\emph{pretraining}), model membaca korpus teks yang sangat besar dan belajar menebak token yang paling mungkin muncul setelah rangkaian token sebelumnya. Dari proses ini model menyimpan pengetahuan di dalam parameternya. Pengetahuan ini disebut pengetahuan parametrik. Pengetahuan parametrik memiliki dua batas. Pertama, isinya berhenti pada tanggal data latih terakhir (\emph{knowledge cutoff}), sehingga informasi yang lebih baru tidak diketahui. Kedua, isinya tidak dapat diperiksa sumbernya, karena model tidak menyimpan rujukan ke dokumen asal.
 
-Selain itu, \textcite{Chang2026} mengidentifikasi tiga kelemahan utama LLM yang dapat meningkatkan terjadinya halusinasi. Kelemahan tersebut meliputi: (1) kemampuan memahami instruksi yang masih terbatas pada konteks panjang dan percakapan multi-gilir, (2) ketidakkonsistenan dalam memahami maksud pengguna ketika instruksi bersifat ambigu, dan (3) proses generasi jawaban yang kurang stabil (\emph{unreliable dialogue generation}), sehingga \emph{prompt} yang mirip dapat menghasilkan jawaban yang berbeda.
+Setelah pelatihan awal, model biasanya disesuaikan agar mengikuti instruksi pengguna. Penyesuaian ini dilakukan dengan \emph{instruction tuning} dan pembelajaran dari umpan balik manusia (\emph{reinforcement learning from human feedback}, RLHF) \autocite{Ouyang2022, Chang2026}. Gambar~\ref{fig:tahap-llm} menunjukkan tahapan pelatihan tersebut pada ChatGPT.
 
-\subsection{Akar Penyebab Halusinasi}
-
-Menurut \textcite{Huang2025}, halusinasi pada LLM dipengaruhi oleh tiga lapisan
-penyebab yang saling berkaitan. Lapisan pertama berkaitan dengan kualitas data pelatihan. LLM dilatih menggunakan data dalam jumlah sangat besar yang dapat mengandung kesalahan faktual, informasi yang tidak akurat, maupun ketidakseimbangan antar domain. Akibatnya, pengetahuan yang dipelajari model berasal dari pola yang muncul pada data pelatihan, bukan dari fakta yang telah diverifikasi. Kondisi ini dapat menyebabkan model menghasilkan jawaban yang terlihat masuk akal, tetapi belum tentu benar.
- 
-Lapisan kedua adalah keterbatasan proses penyelarasan (\emph{alignment}). Salah satu teknik yang umum digunakan adalah \emph{Reinforcement Learning from Human Feedback} (RLHF), yaitu metode yang digunakan untuk menyesuaikan keluaran model dengan preferensi manusia. Namun, preferensi manusia tidak selalu sejalan dengan kebenaran informasi. Model dapat belajar menghasilkan jawaban yang lancar, meyakinkan, dan terlihat benar, meskipun tidak didukung oleh pengetahuan yang memadai \autocite{Ji2023}.
- 
-Lapisan ketiga berasal dari mekanisme inferensi pada LLM itu sendiri. Proses generasi autoregresif dirancang untuk menghasilkan teks yang koheren dan saling berkaitan, tetapi tidak secara langsung menjamin kebenaran informasi \autocite{Chang2026}. Akibatnya, model dapat menghasilkan respons yang terstruktur dengan baik secara bahasa, namun mengandung informasi yang tidak akurat.
- 
-Gambar \ref{fig:chang_misinfo} menunjukkan contoh kegagalan yang disebabkan oleh ketidaksesuaian waktu informasi (\emph{temporal misalignment}) dan data yang mengandung informasi keliru. Kedua kondisi ini sangat relevan pada domain
-pemrograman karena teknologi, \emph{library}, dan dokumentasi terus berkembang.
- 
 \begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.8\textwidth]{images/haque2025_fig2_chatgpt_training.png}
+  \caption{Tahapan pelatihan ChatGPT: pelatihan awal, penyesuaian terarah, dan
+  pembelajaran dari umpan balik manusia. Diadaptasi dari \textcite{Haque2025}.}
+  \label{fig:tahap-llm}
+\end{figure}
+
+Kemampuan LLM tidak hanya berasal dari pelatihan. Model besar juga dapat mengerjakan tugas baru hanya dari contoh atau petunjuk yang ditulis di dalam \emph{prompt}, tanpa mengubah parameter. Kemampuan ini disebut \emph{in-context learning} \autocite{Brown2020, Patil2024}. Jumlah teks yang dapat dibaca model dalam satu \emph{prompt} dibatasi oleh ukuran jendela konteks. Batas ini penting karena konteks tambahan dari sumber luar harus muat di dalamnya.
+
+Penelitian ini menggunakan LLM sebagai pembangkit jawaban (\emph{generator}), yaitu \emph{gpt-4o-mini}. Jawaban yang dihasilkan sering dipakai pengguna sebagai dasar keputusan, sehingga kebenarannya menjadi penting \autocite{Syeda2026, WangXL2026}.
+
+\subsection{Definisi dan Jenis Halusinasi}
+\label{sec:definisi-halusinasi}
+
+Halusinasi adalah keluaran LLM yang tampak meyakinkan tetapi tidak benar. \textcite{Ji2023} menyebut halusinasi sebagai keluaran yang tidak dapat diverifikasi secara faktual, tidak konsisten dengan konteks yang diberikan, atau tidak memiliki dasar yang jelas. \textcite{Huang2025} membagi halusinasi menjadi dua jenis:
+\begin{itemize}
+  \item \emph{factuality hallucination}: keluaran tidak sesuai dengan fakta
+dunia nyata;
+  \item \emph{faithfulness hallucination}: keluaran menyimpang dari instruksi
+atau konteks yang diberikan.
+\end{itemize}
+Pembagian ini berguna untuk penelitian ini. Jika model diberi konteks dari luar, jawaban dapat salah karena tidak setia pada konteks (\emph{faithfulness}), atau karena konteks itu sendiri tidak benar (\emph{factuality}). Perbedaan ini dibahas kembali pada Subbab~\ref{sec:evaluasi}.
+
+\subsection{Penyebab Halusinasi}
+\label{sec:penyebab-halusinasi}
+
+Beberapa survei mengelompokkan penyebab halusinasi ke dalam tiga tahap \autocite{Huang2025, Patil2024}:
+\begin{enumerate}
+  \item \textbf{Data latih.} Data berisi informasi yang salah, usang, atau
+bias, dan model mempelajarinya apa adanya \autocite{Huang2025, Chang2026}. Pengetahuan yang jarang muncul di data latih juga lebih sulit diingat dengan benar.
+  \item \textbf{Pelatihan.} Model dilatih untuk menghasilkan teks yang lancar,
+bukan untuk memeriksa kebenaran. Akibatnya model tetap menjawab meskipun tidak tahu \autocite{Huang2025}.
+  \item \textbf{Saat jawaban dibuat.} Model memilih token satu per satu, dan satu
+kesalahan awal dapat terbawa ke token-token berikutnya \autocite{Huang2025}.
+\end{enumerate}
+Karena pengetahuan parametrik dapat usang dan tidak dapat ditelusuri, halusinasi sulit dihilangkan hanya dengan memperbaiki modelnya \autocite{YizhengHuang2026}. Hal ini mendorong penggunaan pengetahuan dari luar model, yang dibahas pada subbab berikut.
+
+% =========================================================
+\section{Mitigasi Halusinasi}
+\label{sec:mitigasi}
+% =========================================================
+
+\subsection{Pengelompokan Pendekatan Mitigasi}
+
+Pendekatan untuk mengurangi halusinasi dapat dikelompokkan menurut tahap penerapannya \autocite{Huang2025}: sebelum model dipakai (data dan pelatihan), saat model diberi masukan (\emph{prompting}), saat model menghasilkan jawaban (dekode), sesudah jawaban jadi (verifikasi), dan dengan menambahkan pengetahuan dari luar model. Bagian berikut menjelaskan kelompok tersebut satu per satu. Tabel~\ref{tab:kelompok-mitigasi} merangkum perbandingannya.
+
+\subsection{Mitigasi pada Data dan Pelatihan}
+
+Cara pertama adalah memperbaiki model itu sendiri. Data latih dapat dikurasi agar lebih bersih, dan model dapat dilatih lanjut dengan data khusus (\emph{fine-tuning}) agar lebih tepat pada domain tertentu \autocite{Patil2024, Hendawi2026}. \textcite{Hendawi2026} misalnya mengusulkan alur otomatis rekayasa \emph{prompt} yang digabungkan dengan \emph{fine-tuning} untuk meningkatkan ketepatan jawaban. RLHF juga dipakai agar jawaban lebih sesuai dengan harapan pengguna \autocite{Ouyang2022}.
+
+Cara ini mengubah perilaku model secara langsung, tetapi memerlukan data berlabel, daya komputasi, dan pelatihan ulang setiap kali pengetahuan berubah \autocite{WangXL2026}. Pengetahuan yang sudah ditanamkan juga tetap tidak memiliki sumber yang dapat ditelusuri.
+
+\subsection{Mitigasi lewat \emph{Prompting}}
+
+Cara kedua tidak mengubah model, hanya cara bertanya. Contoh yang umum:
+\begin{itemize}
+  \item memberi contoh jawaban di dalam \emph{prompt} (\emph{few-shot})
+\autocite{Brown2020};
+  \item meminta model menuliskan langkah penalaran sebelum menjawab
+(\emph{chain-of-thought}) \autocite{Wei2022};
+  \item mengizinkan model menolak menjawab bila tidak yakin. Misalnya,
+\textcite{Abedu2026} menginstruksikan model untuk menjawab ``I don't know'' bila tidak yakin, dan menghitung jawaban seperti itu terpisah dari jawaban yang salah.
+\end{itemize}
+Cara ini murah dan cepat dicoba. Namun \emph{prompt} hanya mengatur cara model menggunakan pengetahuan yang ia punya. Jika pengetahuan itu tidak ada atau salah, \emph{prompt} saja tidak cukup. Izin menolak menjawab juga mengubah cara hasil dibaca: model yang sering menolak dapat tampak jarang salah tanpa benar-benar lebih berguna (Subbab~\ref{sec:abstain}).
+
+\subsection{Mitigasi saat Dekode}
+
+Cara ketiga mengatur proses pemilihan token, misalnya dengan membatasi keacakan atau mengarahkan pilihan token agar lebih sesuai dengan bukti \autocite{Huang2025}. Pendekatan ini bekerja pada saat jawaban dibuat, jadi tidak memerlukan pelatihan ulang. Pengaruhnya terbatas pada pilihan token dan tidak menambah pengetahuan baru kepada model.
+
+\subsection{Mitigasi sesudah Jawaban Dibuat}
+
+Cara keempat memeriksa jawaban setelah jadi, misalnya dengan meminta model yang sama atau model lain memeriksa klaim dalam jawaban, atau dengan mencocokkan klaim terhadap sumber luar \autocite{Huang2025}. Cara ini dapat menangkap kesalahan yang sudah terjadi, tetapi menambah biaya komputasi dan tetap bergantung pada kualitas pemeriksanya.
+
+\subsection{Mitigasi dengan Pengetahuan Eksternal}
+
+Cara kelima memberi model pengetahuan dari luar saat menjawab. Dokumen yang relevan dicari lebih dulu, lalu dimasukkan ke \emph{prompt} sebagai konteks. Pendekatan ini dikenal sebagai \emph{Retrieval-Augmented Generation} (RAG) \autocite{Lewis2020}. Pengetahuan luar dapat diperbarui tanpa melatih ulang model, dan jawaban dapat ditelusuri ke dokumen yang diambil \autocite{YizhengHuang2026, WangXL2026}. Karena itu pendekatan ini dipilih dalam penelitian ini. Subbab~\ref{sec:rag} membahasnya lebih rinci.
+
+\begin{table}[!htbp]
 \centering
-\includegraphics[width=\textwidth]{images/chang2026_fig7_misinformation}
-\caption{Contoh kegagalan penalaran akibat ketidaksesuaian waktu informasi
-dan penggunaan data yang mengandung informasi keliru  \autocite{Chang2026}}
-\label{fig:chang_misinfo}
+\caption{Perbandingan kelompok pendekatan mitigasi halusinasi
+\autocite{Huang2025, Patil2024, WangXL2026}}
+\label{tab:kelompok-mitigasi}
+\small
+\begin{tabular}{|p{2.4cm}|p{3.6cm}|p{3.4cm}|p{3.4cm}|}
+\hline
+\textbf{Kelompok} & \textbf{Cara kerja} & \textbf{Kelebihan} & \textbf{Keterbatasan} \\
+\hline
+Data dan pelatihan &
+Kurasi data, \emph{fine-tuning}, RLHF &
+Mengubah perilaku model langsung &
+Perlu data, biaya pelatihan, dan pelatihan ulang saat pengetahuan berubah \\
+\hline
+\emph{Prompting} &
+Contoh, penalaran bertahap, izin menolak menjawab &
+Murah dan cepat dicoba &
+Tidak menambah pengetahuan baru \\
+\hline
+Dekode &
+Mengatur pemilihan token &
+Tanpa pelatihan ulang &
+Hanya memengaruhi pilihan token \\
+\hline
+Sesudah jawaban &
+Memeriksa klaim pada jawaban &
+Menangkap kesalahan yang sudah terjadi &
+Biaya tambahan; bergantung pada pemeriksa \\
+\hline
+Pengetahuan eksternal (RAG) &
+Mengambil dokumen lalu memberikannya sebagai konteks &
+Mudah diperbarui; dapat ditelusuri ke sumber &
+Bergantung pada mutu dokumen dan pengambilannya \\
+\hline
+\end{tabular}
+\end{table}
+
+% =========================================================
+\section{\emph{Retrieval-Augmented Generation}}
+\label{sec:rag}
+% =========================================================
+
+\subsection{Konsep dan Alur RAG}
+
+RAG menggabungkan pencarian dokumen dengan pembangkitan jawaban oleh LLM \autocite{Lewis2020}. Alurnya terdiri dari tiga tahap \autocite{Vizniuk2024, Kamalipour2026}:
+\begin{enumerate}
+  \item \textbf{Pengindeksan.} Dokumen dipecah menjadi potongan teks, diubah
+menjadi vektor (\emph{embedding}), dan disimpan.
+  \item \textbf{Pengambilan (\emph{retrieval}).} Pertanyaan diubah menjadi vektor
+dengan cara yang sama, lalu potongan teks yang paling mirip diambil.
+  \item \textbf{Generasi.} Potongan teks yang diambil dimasukkan ke \emph{prompt}
+bersama pertanyaan, dan LLM menjawab berdasarkan konteks itu.
+\end{enumerate}
+Gambar~\ref{fig:rag-pipeline} menunjukkan alur ini.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.85\textwidth]{images/Vizniuk_rag_pipeline.png}
+  \caption{Alur RAG: pengindeksan, pengambilan, dan generasi.
+  Diadaptasi dari \textcite{Vizniuk2024}.}
+  \label{fig:rag-pipeline}
 \end{figure}
 
-\subsection{Dampak Halusinasi pada Domain Pemrograman}
+Kondisi B-Vec pada penelitian ini mengikuti alur tersebut: lima potongan teratas dari pencarian vektor dijadikan konteks.
 
-Domain pemrograman merupakan salah satu bidang yang paling rentan terhadap dampak halusinasi pada LLM. Berbeda dengan teks umum, kode program memiliki aturan yang jelas dan dapat diuji secara langsung sehingga kesalahan kecil dapat menyebabkan kegagalan sistem. Halusinasi pada kode dapat muncul dalam berbagai bentuk, seperti penggunaan fungsi atau metode yang tidak tersedia, pemakaian parameter API yang sudah usang atau tidak valid, kesalahan logika yang benar secara sintaksis tetapi salah secara makna, serta rekomendasi pustaka yang tidak memiliki fungsi sebagaimana diklaim \autocite{Alomari2026}.
+\subsection{Pencarian Vektor, Pemeringkatan Ulang, dan Fusi Skor}
 
-Melalui tinjauan literatur sistematis terhadap 49 studi, \textcite{Alomari2026} menemukan bahwa kode yang dihasilkan maupun direfaktorisasi oleh LLM masih menghadapi tantangan pada aspek keandalan dan optimasi. Salah satu temuan utama menunjukkan bahwa sebanyak 76,3% rekomendasi refaktorisasi yang dihasilkan LLM mengandung halusinasi, sementara 57,4% di antaranya bahkan tidak valid secara sintaksis sehingga memerlukan proses verifikasi tambahan sebelum dapat digunakan. Beberapa studi lain dalam tinjauan tersebut juga melaporkan bahwa proporsi kode yang gagal dikompilasi masih tergolong tinggi.
+Pencarian vektor mengukur kemiripan makna antara pertanyaan dan dokumen, biasanya dengan kemiripan kosinus. Hasilnya dapat diurutkan ulang (\emph{re-ranking}) menggunakan skor tambahan sebelum diambil. Dua skor yang berbeda skala perlu digabung dengan fungsi fusi. \textcite{Bruch2023} menganalisis fungsi fusi untuk pencarian hibrida dan menunjukkan bahwa kombinasi linear dari skor yang sudah dinormalisasi dapat bekerja dengan baik. Bentuk kombinasi linear inilah yang dipakai penelitian ini untuk menggabungkan skor kemiripan dengan skor bobot (Subbab~\ref{sec:sintesis}). Kondisi B-Acc menggunakan pemeringkatan ulang seperti ini pada kandidat dari pencarian vektor.
 
-\textcite{Alomari2026} menjelaskan bahwa kondisi tersebut berkaitan dengan keterbatasan LLM dalam menghasilkan kode yang akurat ketika model hanya mengandalkan pendekatan \emph{prompting}. Pendekatan ini bergantung sepenuhnya pada informasi yang diberikan melalui \emph{prompt} tanpa didukung mekanisme \emph{grounding} menggunakan sumber pengetahuan eksternal. Akibatnya, model lebih rentan menghasilkan kode yang tidak tepat, tidak relevan, atau tidak konsisten dengan konteks teknis yang dibutuhkan. Distribusi teknik dalam studi tersebut juga menunjukkan bahwa sebagian besar pendekatan peningkatan kualitas kode masih didominasi oleh strategi \emph{prompting} tanpa dukungan mekanisme \emph{grounding} yang memadai.
+\subsection{Keterbatasan RAG Konvensional}
 
-\textcite{DaSilva2025} melakukan studi komparatif antara ChatGPT-3.5 dan LLaMA-2 menggunakan pertanyaan dari Stack Overflow. Hasil penelitian menunjukkan bahwa kedua model masih mengalami kesulitan pada pertanyaan di domain \emph{Frameworks and Libraries}, yang menjadi domain paling menantang bagi keduanya. Domain ini mendominasi pertanyaan dengan kemiripan rendah sebesar 39,6\% pada ChatGPT dan 34,9\% pada LLaMA-2. Temuan ini mengkonfirmasi bahwa LLM paling rentan pada domain yang berkaitan erat dengan \emph{framework} dan dependensi pihak ketiga yaitu domain yang paling banyak ditanyakan oleh pengembang dalam praktik sehari-hari.
-
-Dari perspektif industri, \textcite{Ronanki2026} melalui studi multi-kasus pada tiga organisasi pengembang perangkat lunak menemukan bahwa \emph{extrinsic hallucination} merupakan salah satu hambatan utama dalam adopsi LLM di lingkungan industri, selain isu privasi data dan belum tersedianya praktik implementasi yang jelas. Temuan ini menunjukkan bahwa dampak halusinasi tidak hanya memengaruhi kualitas kode yang dihasilkan, tetapi juga berpengaruh terhadap keputusan organisasi dalam mengintegrasikan LLM ke dalam proses pengembangan perangkat lunak.
-
-Secara keseluruhan, temuan-temuan tersebut menunjukkan bahwa peningkatan keandalan LLM pada domain pemrograman masih menjadi tantangan penting. Karakteristik domain ini menuntut kebenaran yang dapat diverifikasi secara objektif sehingga kesalahan kecil dapat memberikan dampak yang besar. Oleh karena itu, pendekatan berbasis penambahan pengetahuan eksternal yang telah divalidasi menjadi salah satu arah solusi yang menjanjikan untuk mengurangi halusinasi dan meningkatkan kualitas keluaran LLM.
-
-% =========================================================
-\section{\emph{Large Language Model}: Pengetahuan Parametrik dan Keterbatasannya}
-% =========================================================
-
-\subsection{Sifat Parametrik LLM dan Mekanisme Generasi}
-
-\emph{Large Language Model} (LLM) modern dibangun menggunakan arsitektur \emph{Transformer} yang memungkinkan model memahami hubungan antar kata dalam suatu konteks secara efektif \autocite{Kumar2024}. Berbagai model populer seperti GPT, LLaMA, dan turunannya dikembangkan dari arsitektur ini, khususnya varian berbasis dekoder yang dilatih menggunakan pendekatan \emph{next token prediction} \autocite{Haque2025}. Melalui proses tersebut, LLM mempelajari pola bahasa, hubungan antar konsep, serta berbagai informasi yang terdapat pada data pelatihan berskala besar.
-
-Pengetahuan yang dipelajari selama proses pelatihan disimpan di dalam parameter model dan dikenal sebagai \emph{parametric knowledge}. Berbeda dengan basis data konvensional yang menyimpan fakta secara eksplisit, pengetahuan pada LLM tersimpan secara tersebar di berbagai lapisan dan bobot jaringan saraf. Mekanisme ini memungkinkan model menghasilkan respons yang tampak natural dan kontekstual, tetapi sekaligus menimbulkan sejumlah keterbatasan mendasar.
-
-\subsection{Keterbatasan Pengetahuan Parametrik}
-
-Keterbatasan pertama adalah sifat pengetahuan parametrik yang statis. Setelah proses pelatihan selesai, model tidak dapat memperoleh informasi baru tanpa dilakukan pelatihan ulang \autocite{YizhengHuang2026}. Akibatnya, model berpotensi menghasilkan jawaban yang tidak sesuai dengan perkembangan terbaru, seperti perubahan versi pustaka, pembaruan API, maupun solusi baru yang berkembang di komunitas pengembang. Keterbatasan ini menjadi penting dalam domain pemrograman karena teknologi perangkat lunak berkembang dengan sangat cepat. \textcite{Moia2026} menunjukkan bahwa keterbatasan pembaruan pengetahuan merupakan salah satu kelemahan utama LLM pada penggunaan nyata.
-Keterbatasan kedua adalah tidak adanya mekanisme bawaan bagi LLM untuk mengetahui batas pengetahuannya sendiri. Model tidak dapat membedakan secara jelas antara informasi yang benar-benar didukung pengetahuan dan informasi yang hanya tampak masuk akal berdasarkan pola statistik data pelatihan \autocite{Ji2023}. Kondisi ini dikenal sebagai ketidakpastian epistemik dan menjadi salah satu penyebab utama munculnya halusinasi (\emph{hallucination}). Dalam konteks pengembangan perangkat lunak, \textcite{Malamas2025} menemukan bahwa LLM dapat menghasilkan kode yang terlihat meyakinkan dan benar secara struktur, tetapi sebenarnya mengandung kesalahan logika atau penggunaan komponen yang tidak valid.
-Berbagai keterbatasan tersebut menunjukkan bahwa peningkatan ukuran model saja belum cukup untuk meningkatkan keandalan LLM. Oleh karena itu, pendekatan berbasis penambahan pengetahuan eksternal pada saat proses inferensi, seperti \emph{Retrieval-Augmented Generation} (RAG), dipandang lebih menjanjikan untuk meningkatkan akurasi sekaligus mengurangi halusinasi \autocite{Lewis2020}.
+RAG mengurangi halusinasi, tetapi memiliki keterbatasan:
+\begin{itemize}
+  \item \textbf{Kemiripan tidak sama dengan kebenaran.} Potongan yang mirip
+secara makna belum tentu benar atau sesuai konteks pertanyaan \autocite{Kamalipour2026}.
+  \item \textbf{Hubungan antardokumen tidak terlihat.} Potongan diperlakukan
+sebagai teks yang berdiri sendiri, sehingga informasi yang tersebar di beberapa dokumen sulit dikumpulkan \autocite{YizhengHuang2026, Zhu2026}.
+  \item \textbf{Semua dokumen dianggap sama andal.} Mutu, kemutakhiran, dan cakupan
+sumber luar berbeda-beda \autocite{WangXL2026}, dan informasi yang keliru atau usang dapat menaikkan risiko halusinasi \autocite{Huang2025}. Keandalan dan keberlanjutan data juga masih menjadi tantangan \autocite{Yang2025}.
+\end{itemize}
+Keterbatasan kedua dijawab oleh \emph{GraphRAG} (Subbab~\ref{sec:graphrag}), sedangkan keterbatasan ketiga adalah fokus penelitian ini.
 
 % =========================================================
-\section{\emph{Retrieval-Augmented Generation} (RAG)}
+\section{Graf Pengetahuan dan \emph{GraphRAG}}
+\label{sec:graphrag}
 % =========================================================
- 
-\subsection{Konsep Dasar dan Motivasi}
- 
-\emph{Retrieval-Augmented Generation} (RAG) diperkenalkan oleh \textcite{Lewis2020} sebagai pendekatan yang menggabungkan proses pengambilan informasi (\emph{retrieval}) dengan kemampuan generatif pada \emph{Large Language Model} (LLM). Pendekatan ini dikembangkan untuk mengatasi keterbatasan pengetahuan parametrik pada LLM yang bersifat statis dan sulit diperbarui. Menurut \textcite{YizhengHuang2026}, RAG memisahkan proses penyimpanan pengetahuan dan proses pembangkitan jawaban. Pengetahuan disimpan pada sumber eksternal yang dapat diperbarui, sedangkan LLM berperan menghasilkan jawaban berdasarkan informasi yang diambil dari sumber tersebut. Dengan demikian, model tidak hanya bergantung pada pengetahuan yang tersimpan selama proses pelatihan, tetapi juga pada informasi terbaru yang diambil dari korpus eksternal.
- 
-Secara formal, mekanisme RAG dapat dituliskan sebagai berikut.
- 
-\begin{equation}
-    a = \mathcal{G}\bigl(q,\, \mathcal{R}(q,\mathcal{D})\bigr)
-    \label{eq:rag}
-\end{equation}
- 
-\noindent
-dengan $\mathcal{R}$ sebagai komponen \emph{retriever}, $\mathcal{D}$ sebagai sumber pengetahuan, $\mathcal{G}$ sebagai komponen \emph{generator}, dan $a$ sebagai jawaban yang dihasilkan berdasarkan kueri $q$ serta konteks yang diperoleh dari proses pengambilan informasi.
- 
-Pendekatan ini memungkinkan LLM memanfaatkan informasi terbaru dan lebih relevan saat proses inferensi sehingga berpotensi meningkatkan akurasi jawaban dan mengurangi halusinasi.
- 
-\subsection{Komponen Utama RAG}
 
-\textcite{Vizniuk2024} menjelaskan bahwa keterbatasan basis pengetahuan internal \emph{Large Language Model} (LLM) yang statis dan rentan terhadap informasi usang dapat diatasi secara dinamis melalui arsitektur \emph{Retrieval-Augmented Generation} (RAG). Kerangka kerja RAG secara garis besar terdiri atas tiga komponen utama, yaitu pengambilan informasi (\emph{retrieval}) dari sumber eksternal, menggabungkannya ke dalam
-prompt(\emph{augmentation}), kemudian menghasilkan respons berdasarkan konteks tambahan tersebut (\emph{generation}). Alur kerja atau \emph{inference pipeline} dari sistem RAG ini dimulai dari masukan kueri pengguna hingga dihasilkannya jawaban akhir oleh model seperti yang diilustrasikan pada Gambar~\ref{fig:vizniuk_rag_pipeline}.
- 
+\subsection{Graf Pengetahuan}
+
+Graf pengetahuan (\emph{knowledge graph}, KG) menyimpan pengetahuan sebagai simpul (entitas) dan sisi (hubungan antarentitas), umumnya dalam bentuk tripel (subjek, relasi, objek) \autocite{Hogan2022}. Karena hubungan disimpan secara eksplisit, graf dapat ditelusuri dari satu simpul ke simpul lain. \textcite{Pan2024} memetakan tiga cara menggabungkan KG dan LLM, salah satunya menggunakan KG untuk memperkaya masukan LLM.
+
+Membangun KG dari teks bebas biasanya memerlukan ekstraksi entitas dan relasi, sering kali dengan bantuan LLM \autocite{Zhou2026, Cong2026, Oarga2026, Syeda2026}. Cara ini rawan memasukkan kesalahan ekstraksi ke dalam graf. Pada data yang sudah terstruktur, graf dapat dibangun langsung dari metadata. Misalnya, \textcite{Kleybolte2026} membangun graf Stack Overflow dari tabel pertanyaan, jawaban, komentar, \emph{tag}, dan tautan antarposting; \textcite{Abedu2026} membangun graf dari metadata repositori Git (pengguna, \emph{commit}, \emph{issue}, dan berkas). Penelitian ini juga membangun graf dari metadata yang sudah terstruktur, sehingga tidak memerlukan tahap ekstraksi dari teks.
+
+\subsection{Alur GraphRAG}
+
+\emph{GraphRAG} adalah RAG yang menggunakan graf pada tahap pengindeksan atau pengambilan \autocite{Zhu2026}. Pada tahap pengambilan, graf dipakai untuk menemukan simpul awal yang relevan lalu menelusuri simpul di sekitarnya, termasuk penelusuran beberapa lompatan (\emph{multi-hop}) yang tidak dapat dilakukan pencarian vektor biasa \autocite{Zhu2026, Kamalipour2026}. Gambar~\ref{fig:graphrag-pipeline} menunjukkan alur umum GraphRAG, dan Gambar~\ref{fig:taksonomi-rag} menunjukkan taksonomi arsitektur RAG dari vektor hingga graf. Tabel~\ref{tab:rag_vs_graphrag} membandingkan RAG vektor dan GraphRAG.
+
 \begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.85\textwidth]{images/Graph_RAG_pipeline.png}
+  \caption{Alur umum GraphRAG. Diadaptasi dari \textcite{Zhu2026}.}
+  \label{fig:graphrag-pipeline}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.85\textwidth]{images/kamalipour_rag_taxonomy.png}
+  \caption{Taksonomi arsitektur RAG. Diadaptasi dari \textcite{Kamalipour2026}.}
+  \label{fig:taksonomi-rag}
+\end{figure}
+
+\input{tables/rag_vs_graphrag}
+
+\subsection{\emph{Hybrid Retrieval} dan Penelusuran Multi-\emph{hop}}
+
+Banyak penelitian menggabungkan pencarian vektor dengan penelusuran graf. \textcite{sarmah2024hybridrag} memadukan KG dan pencarian vektor untuk mengekstrak informasi dari dokumen keuangan. \textcite{Guo2025} dan \textcite{Wang2026} mengembangkan pengambilan berbasis graf yang dibuat lebih efisien, sedangkan \textcite{Zhou2026} menggunakan KG yang dibangun dengan LLM bersama pengambilan hibrida untuk domain manufaktur. Penelitian ini mengikuti pola yang sama: konteks diambil lewat tiga tahap, yaitu penentuan simpul awal pada tingkat jawaban, penelusuran graf paling banyak dua lompatan, dan perluasan semantik (Bab~III).
+
+\subsection{Bukti Efektivitas GraphRAG}
+
+GraphRAG telah diterapkan pada berbagai domain, misalnya data multimodal \autocite{Ali2026}, analisis lisensi perangkat lunak \autocite{BenKhalifa2026}, dan manufaktur \autocite{Zhou2026}. Pada pertanyaan seputar repositori perangkat lunak, \textcite{Abedu2026} menunjukkan bahwa LLM yang menyusun kueri graf mencapai akurasi eksekusi 0,65 pada pengujian awal, dan sebagian besar kegagalannya berasal dari kesalahan LLM dalam memodelkan relasi, bukan dari ketiadaan fakta di graf.
+
+Bukti keunggulan GraphRAG tidak seragam. \textcite{Pandilova2026} membandingkan RAG biasa dan GraphRAG pada pertanyaan keamanan siber dan mengukur dua hal terpisah: apakah jawaban didukung konteks (\emph{grounding}) dan apakah jawaban benar (\emph{factual correctness}). Hasilnya, GraphRAG menaikkan \emph{grounding} tetapi kenaikan kebenarannya lebih kecil. Pesan pentingnya, jawaban yang sesuai konteks belum tentu benar. Karena itu graf saja tidak menjamin berkurangnya halusinasi, terutama bila isi graf tidak seluruhnya dapat dipercaya.
+
+% =========================================================
+\section{Keandalan Sumber dan Pembobotan Kepercayaan}
+\label{sec:keandalan}
+% =========================================================
+
+\subsection{Keandalan Sumber sebagai Faktor Mutu RAG}
+
+RAG dan GraphRAG bergantung pada mutu sumber pengetahuannya \autocite{WangXL2026}. Jika graf berisi informasi yang salah atau bertentangan, penelusuran graf dapat membawa informasi itu ke konteks dan memperbesar risiko halusinasi \autocite{Huang2025}. Karena itu, sejumlah penelitian menambahkan bobot kepercayaan pada graf agar informasi yang lebih andal diprioritaskan. Subbab berikut mengelompokkan penelitian tersebut menurut asal bobotnya.
+
+\subsection{Bobot dari Sifat Sumber, Keyakinan Informasi, dan Sinyal Terprogram}
+
+\textbf{Trust-Aware KG-RAG (TAG).} \textcite{Shi2026} memberi bobot kepercayaan pada entitas dan relasi untuk menjawab pertanyaan tentang peralatan teknik. Bobot berasal dari tingkat otoritas dokumen, urutan versi standar, dan koreksi kondisi. Bobot relasi menggabungkan keyakinan hasil ekstraksi dengan bobot dua entitas yang dihubungkannya. Bobot ini dipakai saat ekstraksi, saat penggabungan graf dari berbagai sumber, dan saat pengambilan. Pada bagian jawaban, bukti dari jalur berbobot tinggi digabungkan dengan \emph{evidence voting}, yaitu penjumlahan bobot kepercayaan bukti. Istilah ini tidak berkaitan dengan suara pengguna. Pada tolok ukur tanya jawab yang dibuat dari laporan pengujian trafo daya, TAG mencapai F1 sebesar 0,785, yaitu 54,5\% lebih tinggi daripada \emph{Vanilla GraphRAG}.
+
+\textbf{Reliabilitas jalur lewat optimisasi koloni semut.} \textcite{Asghari2026} mengusulkan HA-MOACO untuk model bahasa kecil. Graf domain dibangun lebih dulu, lalu algoritma koloni semut mencari jalur bukti dengan menimbang relevansi semantik, keterhubungan, dan indikator keandalan. Indikator keandalan itu berasal dari hubungan kontradiksi antarbukti: sisi dengan sinyal kontradiksi kuat mendapat bobot keandalan lebih rendah. Pada BioASQ dan HotpotQA, abstraknya melaporkan kenaikan akurasi sekitar 6\% dibanding \emph{baseline} berbasis graf, penurunan laju halusinasi sekitar 40\%, dan latensi pengambilan sekitar 20\% lebih rendah.
+
+\textbf{Sinyal deterministik.} \textcite{TAMRplus2026} menyusun TAMR+, yaitu alur pengambilan dokumen untuk domain regulasi Uni Eropa. Alur ini menggunakan lima sinyal deterministik untuk menyaring dokumen, dan minimal 60\% skor pengambilan berasal dari sinyal struktural. Uji ablasi pada tolok ukur regulasi menunjukkan skor 38,8\% lebih rendah bila hanya menggunakan pencarian vektor. Naskah ini masih berupa pracetak.
+
+\textbf{Keyakinan pada setiap tripel.} \textcite{Yu2026DoG} menggunakan \emph{uncertain knowledge graph}, yaitu graf yang setiap tripelnya memiliki skor keyakinan. Keyakinan satu jalur dihitung sebagai hasil kali keyakinan tripel-tripelnya, dan skor jalur menggabungkan relevansi semantik dengan keyakinan jalur. Jalur yang dipilih kemudian diuji oleh beberapa agen yang berdebat. Eksperimen dilakukan pada empat tolok ukur tanya jawab dengan ConceptNet dan graf medis sebagai graf latar. \textcite{Ren2026Ca2KG} menangani masalah yang berdekatan: KG-RAG sering terlalu percaya diri walaupun subgraf yang diambil tidak lengkap. Mereka mengusulkan Ca2KG, yang mengkalibrasi keyakinan prediksi menggunakan \emph{counterfactual prompting} dan penilaian ulang oleh beberapa panel.
+
+Pada keempat penelitian di atas, bobot berasal dari sifat dokumen atau dari model, bukan dari penilaian pengguna.
+
+\subsection{Bobot dari Umpan Balik Manusia}
+
+\textcite{LiTrustProp2026} mengusulkan TrustPropRAG. Dokumen disusun sebagai graf relasi, lalu sejumlah kecil umpan balik manusia tentang keandalan dokumen disebarkan ke seluruh graf melalui penyelesaian masalah optimisasi untuk menghasilkan skor kepercayaan tiap dokumen. Skor itu dipakai untuk memilih dokumen dan disertakan di \emph{prompt}. Metode ini meningkatkan kualitas pengambilan dan \emph{exact match}, serta tetap bertahan saat umpan balik jarang atau berderau. Pada eksperimennya, dokumen yang bertentangan dibuat secara sintetis dan umpan balik disimulasikan, sehingga tidak berasal dari penilaian pengguna pada platform nyata.
+
+\subsection{Graf dari Konten Buatan Pengguna dan Platform Tanya Jawab}
+
+Beberapa penelitian menggunakan data platform tanya jawab komunitas sebagai graf. \textcite{Banerjee2024} membangun graf dari AskUbuntu, Unix, dan ServerFault. Pada graf itu, pertanyaan yang mirip dihubungkan, lalu \emph{personalized PageRank} dipakai untuk memilih pertanyaan terkait. Jawaban yang diterima dipakai sebagai kunci jawaban. Metodenya mengungguli sistem pengambilan berbasis teks, tetapi jawaban yang diterima tidak dipakai sebagai bobot.
+
+\textcite{Kleybolte2026} membangun Stack2Graph, yaitu graf pengetahuan Stack Overflow yang digabung dengan basis data vektor. Skor jawaban, jumlah \emph{upvote} dan \emph{downvote}, serta penanda jawaban yang diterima disimpan sebagai properti simpul. Dari properti tersebut, graf menurunkan label seperti \texttt{PossibleBetterAnswer} untuk jawaban dengan skor lebih tinggi daripada jawaban yang diterima. Pada percobaannya, pengambilan dibatasi pada pertanyaan yang punya jawaban diterima. Bagian keterbatasan paper ini menyebut bahwa mutu konten komunitas beragam, dan bahwa penaksiran kredibilitas, pembobotan berdasarkan suara, atau peluruhan waktu dapat dipertimbangkan sebagai pengembangan lanjutan. Pernyataan ini sejalan dengan fokus penelitian ini.
+
+\subsection{Fusi Relevansi dan Bobot}
+
+Penelitian yang menggunakan bobot harus menentukan bagaimana bobot digabung dengan relevansi. \textcite{LiSKER2026} memberi contoh pada prediksi graf temporal: skor dari model graf dan skor dari peringkat ulang LLM digabung secara linear dengan satu parameter bobot yang dicari di antara 0 dan 1, dan ablasi menunjukkan gabungan lebih baik daripada masing-masing sumber. Pola ``skor akhir = campuran linear dua skor'' ini sama dengan fusi skor di Subbab~\ref{sec:rag}, dan dipakai penelitian ini untuk menggabungkan kemiripan semantik dengan bobot jalur.
+
+\begin{table}[!htbp]
 \centering
-\includegraphics[width=0.5\textwidth]{images/vizniuk_rag_pipeline.png}
-\caption{\emph{Inference Pipeline} RAG modular berdasarkan taksonomi \autocite{Vizniuk2024}.}
-\label{fig:vizniuk_rag_pipeline}
-\end{figure}
- 
-Sementara itu, \textcite{Kamalipour2026} memformulasikan proses RAG ke dalam empat tahap utama, yaitu \emph{Indexing}, \emph{Retrieval},
-\emph{Fusion}, dan \emph{Generation}. Keempat tahap ini dapat dipandang sebagai pengembangan yang lebih rinci terhadap alur modular RAG yang dijelaskan oleh \textcite{Vizniuk2024}. Integrasi kedua pandangan tersebut menghasilkan alur RAG yang dimulai dari pembangunan basis pengetahuan, pengambilan informasi yang relevan, penggabungan konteks, hingga proses generasi jawaban. Semua tahapan ini saling berhubungan, sebagaimana ditunjukkan pada Gambar~\ref{fig:kamalipour_rag_taxonomy}.
- 
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=\textwidth]{images/kamalipour_rag_taxonomy}
-    \caption{Taksonomi RAG yang terdiri atas tahap \emph{Indexing}, \emph{Retrieval}, \emph{Fusion}, dan \emph{Generation} \autocite{Kamalipour2026}}.
-    \label{fig:kamalipour_rag_taxonomy}
-\end{figure}
- 
-\subsubsection{Pengindeksan Basis Pengetahuan (\emph{Indexing}).}
-
-Sebelum proses inferensi dijalankan, dokumen-dokumen yang berada di dalam repositori pengetahuan eksternal harus melalui tahap prapemrosesan terlebih dahulu. Tahap pertama adalah \emph{Indexing}, yaitu proses persiapan repositori pengetahuan sebelum inferensi dilakukan. Dokumen eksternal terlebih dahulu dipraproses dengan memecah teks menjadi unit-unit kecil (\emph{chunks}), kemudian setiap \emph{chunk} dikonversi menjadi representasi vektor menggunakan model \emph{embedding} dan disimpan pada \emph{vector database}. Tahap ini membentuk fondasi bagi proses pencarian semantik. Proses \emph{Indexing} direpresntasikan pada pada Gambar~\ref{fig:indexing_process_in_a_RAG}.
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=\textwidth]{images/The_indexing_ process_in_a_RAG_pipeline.png}
-    \caption{Proses pengindeksan pada pipeline RAG \autocite{Kamalipour2026}.}
-    \label{fig:indexing_process_in_a_RAG}
-\end{figure}
-
-\subsubsection{Pengambilan Informasi (\emph{Retrieval}).}
-
-Tahap kedua adalah \emph{Retrieval}. Menurut \textcite{Vizniuk2024}, proses ini dimulai ketika pengguna memasukkan kueri yang dapat melalui tahap \emph{query refinement} secara opsional untuk memperbaiki ambiguitas, kesalahan penulisan, atau memperluas istilah pencarian. Selanjutnya kueri dikonversi menjadi vektor dan digunakan untuk mencari dokumen yang paling relevan pada basis pengetahuan.
-
-Kueri yang telah disempurnaan kemudian diubah menjadi vektor kueri oleh model \emph{encoder} yang sama. Sistem selanjutnya mengeksekusi pencarian untuk mengidentifikasi sejumlah \emph{chunks} dokumen yang paling relevan dengan kueri. \textcite{Vizniuk2024} menekankan bahwa implementasi modern kerap memanfaatkan pendekatan \emph{hybrid retrieval} yang menggabungkan metode pencarian berbasis kata kunci (\emph{sparse retrieval} seperti BM25) dengan pencarian berbasis kedekatan semantik (\emph{dense retrieval}). Salah satu metrik matematis yang umum digunakan untuk mengukur tingkat kemiripan semantik antar-vektor di dalam ruang multidimensi adalah kemiripan kosinus (\emph{cosine similarity}):
- 
-\begin{equation}
-\text{sim}(\mathbf{q},\mathbf{d})= \frac{\mathbf{q}\cdot\mathbf{d}} {\|\mathbf{q}\|\,\|\mathbf{d}\|}
-\label{eq:cosine}
-\end{equation}
- 
-\noindent
-dengan $\mathbf{q}$ menyatakan vektor kueri dan $\mathbf{d}$ menyatakan vektor dokumen (\emph{chunk}). Semakin tinggi nilai kosinus yang dihasilkan, semakin dekat pula hubungan semantik antara potongan informasi tersebut dengan pertanyaan pengguna.
-
-\subsubsection{\emph{Fusion}(\emph{Pre-filtering \& Reranking}).}
-Setelah kandidat dokumen terkumpul dari proses pencarian, sistem dapat menjalankan tahap ketiga yaitu \emph{Fusion}. Pada tahap ini hasil pencarian yang telah diperoleh mengalami proses optimasi seperti \emph{pre-filtering}, \emph{reranking}, atau penggabungan hasil pencarian dari berbagai metode untuk memastikan kualitas informasi.
-\begin{enumerate}
-    \item \emph{Pre-filtering}, Berfungsi untuk mengeliminasi secara langsung \emph{chunks} informasi yang terdeteksi tidak relevan atau memiliki skor kemiripan di bawah ambang batas tertentu sebelum masuk ke tahap pemrosesan berikutnya.
-    \item \emph{Rerank}, Berperan mengurutkan ulang \emph{chunks} dokumen yang lolos saringan demi menempatkan informasi yang paling bernilai tinggi pada prioritas teratas. Pendekatan ini dapat diselesaikan melalui metode \emph{Reciprocal Rank Fusion} (RRF) yang efisien karena hanya mengevaluasi posisi peringkat mentah hasil pencarian, atau menggunakan model \emph{Cross-Encoder} yang menghitung ulang skor kemiripan kueri-dokumen secara mendalam (lebih presisi namun membutuhkan beban komputasi yang lebih besar).
-\end{enumerate}
- 
-\subsubsection{Augmentasi Konteks dan Generasi respons (\emph{Augmentation \& Generation}).}
-
-Tahap akhir dari \emph{pipeline} ini adalah proses sintesis jawaban. Sejumlah potongan teks eksternal yang menempati peringkat teratas digabungkan ke dalam satu templat instruksi bersama dengan kueri asli pengguna untuk membentuk sebuah \emph{augmented prompt}. Prompt yang kaya akan konteks faktual ini kemudian dikirimkan ke \emph{Large Language Model} (biasanya berbasis arsitektur \emph{Decoder-only} atau \emph{Encoder-Decoder}). Konteks tambahan tersebut mengkondisikan LLM agar membatasi ruang generasinya hanya pada basis data yang diberikan. Melalui mekanisme augmentasi ini, LLM mampu menghasilkan jawaban yang akurat, sesuai konteks domain spesifik, serta secara signifikan meminimalkan risiko terjadinya halusinasi informasi (\emph{hallucination}).
-
-\subsection{Penerapan RAG pada Domain Pemrograman}
-
-Sebelum membahas keterbatasannya, penting untuk memahami bagaimana RAG telah diterapkan secara konkret di domain pemrograman dan rekayasa perangkat lunak. Penerapan-penerapan ini menunjukkan nilai nyata RAG sekaligus mengungkap batas-batas yang perlu diatasi.
-
-\subsubsection{Peningkatan kualitas kode (\emph{code generation} dan \emph{refactoring}).}
-\textcite{Kamalipour2026} mendokumentasikan bahwa dalam alur kerja \emph{code generation}, \emph{embedding} repositori dan dokumentasi
-API memungkinkan \emph{retriever} mengambil potongan kode relevan yang kemudian diumpankan ke LLM pada waktu inferensi. Sistem
-CodeRAG membangun \emph{requirement-code bi-graph} untuk mengambil fungsi-fungsi pendukung, yang terbukti meningkatkan kebenaran program yang dihasilkan. Sistem lanjutannya seperti \emph{context-augmented generation with programming-knowledge graphs} lebih jauh mengurangi halusinasi API dan meningkatkan akurasi fungsional. \textcite{Haque2025} mencatat bahwa alat bantu berbasis LLM seperti GitHub Copilot dan Amazon CodeWhisperer memanfaatkan prinsip pengambilan konteks serupa RAG untuk menghasilkan saran kode yang relevan secara kontekstual. CodeWhisperer secara spesifik dilaporkan mengurangi waktu pengodean berulang sebesar 40--50\% pada tim pengembang AWS.
-
-\subsubsection{Deteksi anomali \emph{log} sistem (\emph{AIOps}).}
-\textcite{DelaCruzCabello2025} mendokumentasikan dua implementasi RAG yang berhasil pada deteksi anomali log: LogExpert yang mengambil
-pengetahuan domain-spesifik secara dinamis dari forum teknis termasuk Stack Overflow, dan RAPID yang merupakan metode berbasis pengambilan (\emph{training-free}) untuk deteksi anomali log menggunakan LLM. RAPID mencapai F1-score sebesar 0,97 pada \emph{benchmark} dataset BGL, Thunderbird, dan HDFS tanpa memerlukan pelatihan domain-spesifik. Kedua sistem ini menunjukkan bahwa RAG dapat mengintegrasikan pengetahuan operasional terkini ke dalam LLM untuk menghasilkan output yang lebih akurat dan dapat diinterpretasikan.
-
-\subsubsection{Pembuatan kode SQL dan integrasi basis data domain-spesifik.}
-\textcite{Awotunde2026} mendemonstrasikan penerapan RAG hibrid (kombinasi KG + vektor) untuk \emph{text-to-SQL generation} pada
-infrastruktur basis data domain-spesifik. Pendekatan ini mengatasi keterbatasan adaptasi domain yang tidak dapat diselesaikan oleh
-\emph{fine-tuning} atau RAG konvensional, dengan memungkinkan LLM mengakses skema relasional dan konteks domain-spesifik secara
-dinamis pada waktu inferensi.
-
-\subsubsection{Adopsi RAG pada pengembangan perangkat lunak industri.}
-\textcite{Ronanki2026} melalui studi multi-kasus pada tiga organisasi SE industri melaporkan implementasi alat \emph{RAG-POC} yang
-digunakan untuk pembuatan artefak rekayasa kebutuhan perangkat lunak (termasuk \emph{user story} dan analisis \emph{stakeholder}).
-Studi ini mengidentifikasi RAG sebagai strategi utama industri untuk mengatasi halusinasi LLM pada tugas SE yang memerlukan pengetahuan
-spesifik perusahaan, sekaligus mencatat tantangan terkait kualitas basis pengetahuan dan kompleksitas pemeliharaan arsitektur RAG.
-
-\subsection{Keterbatasan RAG Konvensional dalam Domain Pemrograman}
- 
-Meskipun RAG telah menunjukkan kinerja yang baik pada berbagai bidang, implementasi RAG konvensional masih memiliki beberapa keterbatasan, khususnya pada domain pemrograman. Menurut \textcite{Kamalipour2026}, pendekatan \emph{retrieval} berbasis kemiripan vektor cenderung berfokus pada kesamaan teks, tetapi belum mampu menangkap hubungan semantik yang kompleks antar konsep.
-
-Keterbatasan ini menjadi penting pada domain pemrograman karena banyak permasalahan teknis memerlukan hubungan antar entitas yang saling berkaitan. Sebagai contoh, pertanyaan mengenai penanganan \texttt{AttributeError} pada operasi \emph{dataframe} di Pandas tidak hanya membutuhkan informasi mengenai objek \texttt{DataFrame}, tetapi juga hubungan dengan metode yang digunakan, penyebab munculnya \emph{exception}, solusi yang telah divalidasi komunitas, serta keterkaitan dengan konsep lain yang relevan.
-
-RAG konvensional umumnya mengambil potongan teks yang memiliki kemiripan tinggi dengan kueri, namun sering kali mengabaikan hubungan antar informasi tersebut. \textcite{Hendawi2026} menunjukkan bahwa penambahan konteks yang lebih kaya secara relasional mampu meningkatkan akurasi respons LLM, mengindikasikan bahwa representasi pengetahuan berbasis relasi antar entitas menjadi penting untuk permasalahan pemrograman yang memerlukan penalaran bertahap.
- 
-Keterbatasan ini menunjukkan bahwa RAG konvensional membutuhkan lapisan representasi yang mampu memodelkan \emph{entitas}, \emph{relasi}, dan \emph{hierarki}, bukan hanya kemiripan teks permukaan. Kebutuhan inilah yang menjadi motivasi utama penggunaan \emph{knowledge graph} sebagai komponen inti dalam sistem yang diusulkan, sebagaimana dibahas pada bagian berikutnya.
+\caption{Perbandingan penelitian yang menggunakan bobot kepercayaan pada RAG berbasis graf}
+\label{tab:penelitian-bobot}
+\footnotesize
+\begin{tabular}{|p{2.5cm}|p{3.4cm}|p{3.5cm}|p{3.3cm}|}
+\hline
+\textbf{Penelitian} & \textbf{Sumber bobot} & \textbf{Bobot dipakai pada} & \textbf{Domain} \\
+\hline
+\textcite{Shi2026} &
+Otoritas dokumen, versi, kondisi &
+Ekstraksi, penggabungan graf, pengambilan &
+Peralatan teknik \\
+\hline
+\textcite{Asghari2026} &
+Sinyal kontradiksi antarbukti &
+Pemilihan jalur bukti &
+Biomedis dan multi-\emph{hop} umum \\
+\hline
+\textcite{TAMRplus2026} &
+Lima sinyal deterministik &
+Penyaringan dan skor pengambilan &
+Regulasi Uni Eropa \\
+\hline
+\textcite{Yu2026DoG} &
+Skor keyakinan tripel &
+Pemilihan jalur &
+Tanya jawab umum dan medis \\
+\hline
+\textcite{LiTrustProp2026} &
+Umpan balik manusia yang disimulasikan &
+Pemilihan dokumen dan \emph{prompt} &
+Tanya jawab domain terbuka \\
+\hline
+\textcite{Banerjee2024} &
+Tidak ada (jawaban diterima sebagai kunci jawaban) &
+Tidak ada &
+Tanya jawab komunitas \\
+\hline
+\textcite{Kleybolte2026} &
+Tidak ada (skor disimpan sebagai properti) &
+Tidak ada &
+Stack Overflow \\
+\hline
+\end{tabular}
+\end{table}
 
 % =========================================================
-\section{\emph{Knowledge Graph}}
+\section{Penilaian Pengguna pada Platform Tanya Jawab}
+\label{sec:penilaian-pengguna}
 % =========================================================
- 
-\subsection{Definisi dan Representasi Formal}
- 
-\emph{Knowledge graph} (KG) adalah alat yang kuat untuk merepresentasikan informasi terstruktur, memungkinkan inferensi, pengambilan, dan analisis atas data dalam jumlah besar \autocite{Oarga2026}. KG memodelkan dunia nyata dalam bentuk representasi graf di mana simpul (\emph{node}) merepresentasikan entitas dan sisi (\emph{edge}) merepresentasikan relasi antar entitas \autocite{Oarga2026, Hogan2022}.
 
-Secara formal, sebuah KG $G$ mengkodekan pengetahuan faktual sebagai himpunan tripel \autocite{Wang2026}:
+\subsection{Struktur Data dan Sinyal Penilaian}
 
-\begin{equation}
-    G = \{(e_x,\, r,\, e_y) \mid e_x, e_y \in \mathcal{E},\ r \in \mathcal{R}\}
-    \label{eq:kg}
-\end{equation}
+Stack Overflow adalah platform tanya jawab pemrograman. Pengetahuan disusun dalam utas: satu pertanyaan, satu atau lebih jawaban, komentar, \emph{tag}, dan tautan ke posting lain \autocite{Kleybolte2026}. Komunitas memberi dua penilaian atas jawaban:
+\begin{itemize}
+  \item \textbf{skor jawaban}, yaitu selisih \emph{upvote} dan \emph{downvote}
+dari pengguna lain;
+  \item \textbf{jawaban yang diterima} (\emph{accepted answer}), yaitu jawaban
+yang ditandai oleh penanya sebagai solusi.
+\end{itemize}
+Kedua sinyal ini tersedia secara alami di platform dan tidak perlu dibuat atau disimulasikan. Tabel~\ref{tab:so_signals} merangkumnya.
 
-\noindent
-di mana $\mathcal{E}$ dan $\mathcal{R}$ masing-masing menyatakan himpunan entitas dan himpunan relasi \autocite{Wang2026}. Setiap tripel $(e_x, r, e_y)$ menyatakan bahwa entitas $e_x$ berhubungan dengan entitas $e_y$ melalui relasi $r$. Notasi ini dikenal pula dalam literatur sebagai tripel \emph{subject-predicate-object} (SPO) atau \emph{head-relation-tail} \autocite{Oarga2026, Cui2026}.
-
-Contoh dalam domain pemrograman dapat berupa tripel seperti:
-
-\begin{enumerate}
-    \item $({\tt pandas.DataFrame},\ {\tt has\_method},\ {\tt groupby()})$,
-    \item $({\tt MemoryError},\ {\tt caused\_by},\ {\tt large\_dataframe\_load})$,
-    \item $({\tt chunked\_reading},\ {\tt solves},\ {\tt MemoryError})$.
-\end{enumerate}
-
-\textcite{Pan2024} menegaskan bahwa representasi berbasis tripel ini memberikan semantik relasional yang mendukung penalaran komposisional (\emph{compositional reasoning}) dan penalaran \emph{multi-hop} yang dapat diinterpretasikan. Keunggulan ini yang menjadikan KG unggul dibandingkan representasi vektor datar dalam menjawab pertanyaan yang memerlukan penggabungan fakta dari beberapa sumber yang terhubung.
-
-Di sisi lain, \textcite{Oarga2026} mencatat bahwa KG yang hanya berbasis tripel sering kali belum mencukupi untuk domain yang kompleks seperti domain ilmiah atau teknis, karena belum mampu memodelkan hierarkikelas dan hubungan yang lebih kaya. Keterbatasan ini mendorong penggunaan \emph{ontologi} sebagai skema konseptual yang mendefinisikan tipe entitas dan tipe relasi yang diperbolehkan dalam KG. Dengan kata lain, ontologi berfungsi sebagai lapisan schema yang memberikan konsistensi dan kosakata baku bagi seluruh tripel dalam graf.
-
-Keunggulan mendasar KG dalam konteks sistem berbasis LLM adalah kemampuannya menyediakan pengetahuan faktual berkualitas tinggi untuk mengurangi halusinasi pada LLM \autocite{Cui2026}. Mengintegrasikan KG pada tahap inferensi memungkinkan LLM mengakses pengetahuan faktual terkini tanpa pelatihan ulang \autocite{Cui2026, Pan2024}, sebuah sifat yang secara langsung relevan untuk domain pemrograman di mana pengetahuan tentang pustaka, API, dan praktik terbaik terus berkembang.
- 
-\subsection{Konstruksi \emph{Knowledge Graph} dari Teks Tidak Terstruktur}
-
-Pembangunan \emph{Knowledge Graph} (KG) dari teks tidak terstruktur merupakan proses bertahap yang telah banyak diteliti dalam beberapa tahun terakhir. Menurut \textcite{Zhou2026}, terdapat dua pendekatan utama dalam konstruksi KG, yaitu \emph{schema-based} dan \emph{schema-free}. Pendekatan \emph{schema-based} menggunakan ontologi atau skema domain yang telah ditentukan sebelumnya sebagai acuan, sedangkan pendekatan \emph{schema-free} mengekstraksi entitas dan relasi secara langsung tanpa struktur awal.
-
-Pada domain teknis yang membutuhkan konsistensi semantik tinggi, pendekatan \emph{schema-based} lebih sering digunakan karena mampu mengontrol tipe entitas dan relasi yang diperbolehkan sehingga struktur KG menjadi lebih konsisten. Pembangunan KG dari teks tidak terstruktur merupakan proses bertahap yang melibatkan lima tahap inti: penyusunan ontologi domain, praproses dokumen, pengenalan entitas (NER), ekstraksi relasi dan pembentukan tripel, serta peningkatan kualitas graf \autocite{Cong2026, Zhou2026}.
-
-Pada tahap ontologi, \textcite{Cong2026} menyusun skema domain melalui akuisisi pengetahuan, konseptualisasi kelas entitas, dan penentuan batasan relasional yang kemudian dimasukkan ke dalam \emph{prompt} LLM sebagai panduan ekstraksi. \textcite{Oarga2026} menunjukkan bahwa ontologi dan KG dapat dibangun secara otomatis melalui \emph{pipeline} LLM \emph{zero-shot} dengan akurasi struktur hierarki di atas 80\% tanpa memerlukan anotasi manual. Setelah ontologi tersedia, dokumen mentah dipraproses menggunakan metode \emph{sliding window} untuk mempertahankan konteks semantik antar potongan teks \autocite{Cong2026}.
- 
-Entitas kemudian diekstraksi melalui NER dan direpresentasikan sebagai:
- 
-\begin{equation}
-\mathcal{E} = \{e_i \mid e_i=(\mathit{name},\mathit{type},\mathit{span})\}
-\label{eq:ner}
-\end{equation}
- 
-\noindent
-diikuti ekstraksi relasi yang menghasilkan himpunan tripel $\mathcal{R} = \{(e_i, r_{ij}, e_j)\}$ \autocite{Cong2026}. Untuk meningkatkan presisi, \textcite{Tao2026} mengusulkan \emph{Entity Confidence Filtering} (ECF) yang menyaring entitas ambigu, dengan hasil NER F1 sebesar 0,926 dan RE F1 sebesar 0,929 pada domain yang kompleks.
- 
-Tahap akhir adalah peningkatan kualitas KG. \textcite{Zhou2026} mengusulkan disambiguasi entitas menggunakan representasi semantik RoBERTa dan \emph{graph completion} untuk memprediksi relasi yang hilang. Keduanya mencapai akurasi sekitar 85\%. Pendekatan perbaikan iteratif berbasis \emph{competency questions} \autocite{Li2026} juga terbukti meningkatkan akurasi sistem \emph{question answering} dari 86,18\% menjadi 93,09\%.
- 
-NER dan ekstraksi relasi saja tidak cukup untuk membangun KG yang akurat pada domain pemrograman. \emph{Entity linking} diperlukan untuk memetakan setiap \emph{mention} ke simpul yang tepat di dalam KG. Tantangan ini signifikan pada domain Stack Overflow karena satu nama identifier teknis dapat bersifat ambigu seperti metode \texttt{apply()} muncul pada banyak kelas berbeda, nama paket sering berubah lintas versi, dan terminologi serupa dapat merujuk konsep berbeda bergantung konteks \autocite{Kamalipour2026}. Oleh karena itu, sistem \emph{entity linking} perlu mempertimbangkan konteks sekitar entitas, versi pustaka yang dirujuk, dan hierarki ontologi domain.
-
-\subsection{Keunggulan Representasi Berbasis Graf dan Integrasi dengan LLM}
- 
-Menurut \textcite{Pan2024}, integrasi antara LLM dan KG membentuk pendekatan baru yang menggabungkan kemampuan penalaran bahasa alami dari LLM dengan pengetahuan terstruktur dari KG. Kombinasi ini membantu mengurangi halusinasi karena model memperoleh informasi yang dapat ditelusuri dan
-diverifikasi.
- \begin{enumerate}
-    \item Mendukung penalaran multi-hop
-    KG memungkinkan sistem mengikuti hubungan antar entitas secara
-    bertahap. Sebagai contoh:
-
-  \texttt{DataFrame.apply() $\to$ row\_by\_row\_processing $\to$ high\_memory\_usage $\to$ MemoryError}
-
-    Rantai hubungan tersebut membantu sistem memahami penyebab masalah  secara lebih lengkap. Mekanisme seperti ini sulit dicapai hanya    menggunakan pencarian berbasis kemiripan vektor.
-
-    \item Mampu merepresentasikan struktur hierarki domain
-    Sebagai contoh:
-
-    \[
-    {\tt pandas.DataFrame}
-    \rightarrow
-    {\tt pandas.NDFrame}
-    \rightarrow
-    {\tt numpy.ndarray}
-    \]
-
-    Hubungan hierarkis tersebut penting untuk memahami keterkaitan antarobjek dalam domain pemrograman.
-
-    \item Mendukung pemberian bobot kualitas informasi
-
-    Berbeda dengan representasi vektor biasa, KG memungkinkan setiap simpul dan relasi memiliki bobot tertentu yang menunjukkan tingkat kepercayaan atau kepentingan informasi.
-\end{enumerate}
-
-\textcite{Tao2026} menunjukkan bahwa penambahan KG pada sistem RAG dapat meningkatkan performa secara bertahap, mulai dari RAG konvensional
-menuju KG-RAG hingga pendekatan yang menggabungkan struktur relasional dan preferensi semantik. Temuan tersebut menunjukkan bahwa KG menjadi
-komponen penting untuk meningkatkan keandalan sistem berbasis LLM, terutama pada domain teknis seperti pemrograman.
-
-% =========================================================
-\section{\emph{Graph-based Retrieval-Augmented Generation}}
-% =========================================================
- 
-\subsection{Motivasi dan Definisi}
- 
-\emph{Graph-based Retrieval-Augmented Generation} (GraphRAG) berkembang sebagai respons terhadap keterbatasan \emph{Vector RAG} dalam menangani kueri yang memerlukan penalaran relasional dan hubungan antar entitas. Pada RAG konvensional, proses pengambilan informasi umumnya bergantung pada kemiripan vektor sehingga lebih efektif untuk menemukan dokumen yang relevan secara topikal, tetapi masih terbatas dalam menangkap hubungan semantik yang kompleks.
- 
-\textcite{Kamalipour2026} mendefinisikan GraphRAG sebagai paradigma yang mengintegrasikan proses \emph{retrieve-then-generate} dengan representasi pengetahuan berbasis graf. Dalam pendekatan ini, simpul (\emph{nodes}) merepresentasikan entitas atau konsep, sedangkan sisi
-(\emph{edges}) menggambarkan relasi di antara entitas tersebut. Struktur ini memungkinkan proses pengambilan informasi yang lebih presisi, mudah dijelaskan (\emph{explainable}), dan kaya konteks, khususnya untuk pertanyaan yang memerlukan penalaran multi-hop.
- 
-\textcite{Pan2024} menjelaskan bahwa integrasi antara LLM dan \emph{knowledge graph} membentuk paradigma baru yang meningkatkan kemampuan
-penalaran berbasis pengetahuan sekaligus membantu mengurangi halusinasi faktual. Sejalan dengan itu, \textcite{Zhu2026} mengidentifikasi tiga komponen utama GraphRAG, yaitu: (1) representasi pengetahuan berbasis graf, (2) mekanisme \emph{retrieval} yang mendukung penalaran multi-hop, dan (3) integrasi pengetahuan yang mempertahankan struktur relasional.
- 
-\subsection{Arsitektur \emph{Pipeline} GraphRAG}
- 
-\textcite{Kamalipour2026} mendeskripsikan GraphRAG sebagai serangkaian proses yang dimulai dari pembangunan \emph{knowledge graph}, pengambilan informasi berbasis graf, hingga generasi jawaban menggunakan LLM. Alur umum tersebut ditunjukkan pada Gambar~\ref{fig:graphrag_pipeline}.
- 
-\begin{figure}[!htbp]
+\begin{table}[!htbp]
 \centering
-\includegraphics[width=\textwidth]{images/Graph_RAG_pipeline}
-\caption{Gambaran umum \emph{pipeline} Graph-RAG \autocite{Kamalipour2026}}
-\label{fig:graphrag_pipeline}
-\end{figure}
- 
-\subsubsection{Konstruksi \emph{Knowledge Graph}.}
-Tahap awal dilakukan dengan membagi korpus sumber menjadi beberapa segmen yang lebih kecil dan mudah diproses. Selanjutnya, LLM atau pendekatan \emph{Open Information Extraction} (OpenIE) digunakan untuk mengekstraksi tripel \emph{subject-predicate-object} (SPO). Tripel-tripel tersebut kemudian ditransformasikan menjadi simpul dan relasi dalam graf, lalu disimpan pada \emph{graph database} seperti Neo4j. Selain itu, representasi vektor (\emph{embedding}) untuk setiap simpul dapat ditambahkan untuk mendukung mekanisme pengambilan hibrid antara graf dan vektor \autocite{Kamalipour2026}.
- 
-\subsubsection{\emph{Retrieval} dan Penalaran Berbasis Graf.}
-Pada tahap ini, sistem memetakan entitas yang muncul pada kueri pengguna ke simpul yang sesuai melalui proses \emph{Named Entity Recognition} (NER) dan \emph{entity linking}. Setelah entitas awal diperoleh, proses pengambilan informasi dilakukan menggunakan tiga mekanisme utama \autocite{Kamalipour2026}.
+\caption{Sinyal penilaian pengguna Stack Overflow dan penggunaannya dalam penelitian ini}
+\label{tab:so_signals}
+\small
+\begin{tabular}{|p{3.2cm}|p{4.4cm}|p{2.3cm}|p{3.2cm}|}
+\hline
+\textbf{Sinyal} & \textbf{Asal} & \textbf{Dipakai?} & \textbf{Peran} \\
+\hline
+Jawaban diterima &
+Pilihan penanya &
+Ya &
+Bobot jawaban (kondisi B-Acc, C-Acc, C-Acc+Vote) \\
+\hline
+Skor jawaban &
+\emph{Upvote} dikurangi \emph{downvote} dari komunitas &
+Ya &
+Tambahan bobot pada kondisi C-Acc+Vote \\
+\hline
+Reputasi kontributor, skor pertanyaan, jumlah tampilan &
+Rekam jejak dan aktivitas pengguna &
+Tidak &
+Di luar cakupan penelitian \\
+\hline
+\end{tabular}
+\end{table}
 
-Pertama, \emph{Multi-hop Traversal}, yaitu penelusuran rantai relasi antar entitas untuk membangun konteks yang lebih lengkap. Kedua,
-\emph{Subgraph Extraction}, yaitu pengambilan subgraf lokal di sekitar entitas yang relevan. Ketiga, \emph{Community Detection}, yaitu identifikasi kelompok entitas yang saling terhubung untuk mendukung pertanyaan global atau proses ringkasan. Pendekatan ini memungkinkan sistem menangkap hubungan semantik yang tidak dapat direpresentasikan hanya melalui kemiripan vektor.
- 
-\subsubsection{Integrasi Konteks Berbasis Struktur.}
-Subgraf hasil proses \emph{retrieval} selanjutnya dikonversi menjadi representasi tekstual yang tetap mempertahankan hubungan antar entitas. Representasi tersebut disusun menjadi \emph{structured prompt} sebelum dikirimkan ke LLM. Dengan mempertahankan struktur relasional, LLM memperoleh konteks yang lebih kaya dibandingkan ketika hanya menerima potongan teks tidak terstruktur. Akibatnya, jawaban yang dihasilkan menjadi lebih konsisten, dapat ditelusuri, dan berpotensi mengurangi halusinasi.
- 
-\subsubsection{Perbandingan \emph{Vector RAG} dan \emph{GraphRAG}}
- 
-Perbedaan utama antara Vector RAG dan GraphRAG terletak pada mekanisme pengambilan informasi. Vector RAG mengandalkan pencarian berbasis kemiripan vektor, sedangkan GraphRAG memanfaatkan struktur relasional melalui traversal graf. Ringkasan perbandingan keduanya disajikan pada
-Tabel~\ref{tab:rag_vs_graphrag}.
+Kedua sinyal punya kelemahan yang perlu diingat. Jawaban yang diterima dipilih oleh satu orang, dan ada jawaban lain yang skornya lebih tinggi daripada jawaban yang diterima \autocite{Kleybolte2026}. Skor suara muncul dari penilaian banyak orang, tetapi dapat dipengaruhi oleh waktu posting dan popularitas. Karena itu penelitian ini memperlakukan kedua sinyal sebagai indikator kepercayaan, bukan jaminan kebenaran, dan menguji efeknya secara terpisah (Bab~III dan V).
 
-\input tables/rag_vs_graphrag.tex
- 
-\textcite{Kamalipour2026} menunjukkan bahwa GraphRAG memberikan keunggulan yang lebih nyata pada pertanyaan kompleks yang memerlukan penalaran multi-hop. Pada beberapa eksperimen di domain keuangan, kesehatan, dan hukum, penambahan \emph{knowledge graph} meningkatkan proporsi jawaban benar sekitar 30\% dibandingkan pendekatan berbasis pengambilan vektor saja.
- 
-Meskipun demikian, GraphRAG juga memiliki keterbatasan. Kualitas hasil sangat bergantung pada akurasi konstruksi graf dan keberhasilan proses \emph{entity linking}. Kesalahan pada tahap ini dapat menyebabkan hilangnya jalur penalaran sehingga informasi penting tidak ikut diambil.
+\subsection{Pemanfaatan Stack Overflow untuk LLM}
 
-% =========================================================
-\subsection{Hybrid Retrieval pada GraphRAG: Penalaran Simbolik dan Semantik}
-% =========================================================
+Sejumlah penelitian menggunakan Stack Overflow untuk membantu LLM. \textcite{Nashid2023} menunjukkan bahwa memilih contoh \emph{few-shot} lewat pencarian dapat membantu tugas terkait kode. \textcite{Mereu2026} menggunakan Stack Overflow bersama sumber komunitas lain sebagai basis pengetahuan RAG untuk domain yang dokumentasinya sedikit. Mereka menemukan bahwa metrik kemiripan teks hampir tidak berubah saat jumlah dokumen ditambah, sedangkan skor dari LLM sebagai penilai naik. \textcite{Weng2026} menggunakan pasangan tanya jawab Stack Overflow dengan jawaban yang diterima untuk membangun penilai kepercayaan atas jawaban kode, dan melaporkan hasil yang lebih baik daripada bertanya langsung ke LLM. Dari penelitian-penelitian ini terlihat bahwa Stack Overflow layak dipakai sebagai sumber pengetahuan dan bahwa penilaian pengguna dapat dipakai sebagai sinyal mutu, tetapi bobot dari penilaian tersebut belum dimasukkan ke dalam pengambilan konteks GraphRAG.
 
-Salah satu komponen utama dalam GraphRAG adalah mekanisme \emph{hybrid retrieval}, yaitu pendekatan pengambilan informasi yang mengombinasikan dua paradigma berbeda, yakni \emph{semantic retrieval} berbasis vektor dan \emph{symbolic retrieval} berbasis traversal graf. Kombinasi kedua pendekatan tersebut menjadi penting karena masing-masing memiliki karakteristik, kelebihan, dan keterbatasan yang saling melengkapi. Pemahaman terhadap hubungan keduanya menjadi landasan konseptual utama dalam pendekatan yang diusulkan pada penelitian ini.
+\subsection{Dataset SORD}
 
-\subsubsection{\emph{Semantic Retrieval}}
-
-\emph{Semantic retrieval} atau \emph{dense retrieval} bekerja dengan mengukur kemiripan semantik antara kueri dan dokumen menggunakan representasi \emph{embedding} dalam ruang vektor kontinu. Pendekatan ini unggul dalam menemukan informasi yang relevan secara makna meskipun menggunakan istilah atau struktur kalimat yang berbeda. Selain itu, metode ini memiliki skalabilitas yang baik untuk korpus data berukuran besar.
-
-Meskipun demikian, pendekatan berbasis vektor tidak merepresentasikan hubungan eksplisit antar entitas. Akibatnya, metode ini kurang efektif untuk menjawab pertanyaan yang memerlukan penalaran relasional atau hubungan bertahap antar konsep \autocite{Kamalipour2026}. Sebagai contoh, kueri seperti ``\emph{mengapa} \texttt{pandas.merge()} \emph{menghasilkan} \texttt{NaN}'' tidak hanya memerlukan kemiripan teks, tetapi juga pemahaman terhadap hubungan kausal antar operasi dan struktur data.
-
-\subsubsection{\emph{Symbolic Retrieval}}
-
-Berbeda dengan \emph{semantic retrieval}, \emph{symbolic retrieval} bekerja menggunakan representasi pengetahuan yang eksplisit dalam bentuk graf. Pendekatan ini memanfaatkan proses \emph{graph traversal} untuk mengikuti hubungan antar entitas secara terstruktur. Keunggulan utama pendekatan ini adalah kemampuannya dalam melakukan penalaran \emph{multi-hop}, yaitu menelusuri hubungan bertingkat dari satu entitas ke entitas lain \autocite{Wang2026}.
-
-Traversal berbobot juga memungkinkan sistem memprioritaskan jalur tertentu berdasarkan atribut pada simpul maupun sisi graf, misalnya tingkat kepercayaan, reputasi komunitas, atau frekuensi kemunculan relasi. Namun, pendekatan ini memiliki keterbatasan karena hanya dapat menjangkau entitas yang memang terhubung secara eksplisit di dalam graf. Informasi yang relevan tetapi tidak memiliki hubungan struktural langsung berpotensi tidak ditemukan.
-
-\subsubsection{\emph{Multi-hop Reasoning} sebagai Justifikasi Pendekatan Hibrid}
-
-Permasalahan teknis dalam domain pemrograman umumnya memerlukan penalaran bertahap yang tidak dapat diselesaikan hanya dengan satu mekanisme retrieval. Sebagai contoh:
-
-\[
-\underbrace{\text{\texttt{KeyError}}}_{\text{entitas kueri}}
-\xrightarrow{\text{\texttt{raised\_by}}}
-\text{\texttt{dict.\_\_getitem\_\_}}
-\xrightarrow{\text{\texttt{similar\_to}}}
-\text{\texttt{DataFrame.loc}}
-\xrightarrow{\text{\texttt{solved\_by}}}
-\underbrace{\text{\texttt{.get() pattern}}}_{\text{konteks jawaban}}
-\]
-
-
-Rantai penalaran tersebut menunjukkan bahwa sistem perlu mengikuti hubungan eksplisit antar entitas melalui \emph{graph traversal}, sekaligus menemukan konsep lain yang serupa secara semantik meskipun tidak terhubung langsung di dalam graf. Dalam contoh tersebut, relasi antara \texttt{dict.\_\_getitem\_\_} dan \texttt{DataFrame.loc} lebih mudah ditemukan melalui pencarian semantik dibandingkan hubungan struktural eksplisit.
-
-\subsubsection{\emph{Trade-off} antara Presisi Retrieval dan Cakupan Kontekstual}
-
-\textcite{Kamalipour2026} menjelaskan bahwa terdapat trade-off mendasar antara pendekatan simbolik dan semantik. \emph{Symbolic retrieval} cenderung memberikan presisi yang lebih tinggi karena hubungan antar entitas bersifat eksplisit dan dapat ditelusuri. Namun, cakupan konteksnya relatif terbatas. Sebaliknya, \emph{semantic retrieval} memiliki cakupan informasi yang lebih luas, tetapi presisinya dapat menurun pada pertanyaan yang memerlukan hubungan relasional yang kompleks. GraphRAG mengintegrasikan kedua pendekatan tersebut melalui beberapa tahap utama sebagai berikut:
-
-\begin{enumerate}
-    \item \emph{Entity anchoring}, yaitu mengidentifikasi entitas pada kueri melalui mekanisme NER dan \emph{entity linking} untuk menentukan simpul awal pada KG,
-    \item \emph{Graph traversal}, yaitu membangun subgraf kontekstual melalui penelusuran relasi secara bertahap dan berbobot,
-    \item \emph{Semantic expansion}, yaitu menggunakan simpul pada subgraf sebagai acuan pencarian vektor untuk menemukan informasi relevan lain yang tidak terhubung secara langsung dalam graf.
-\end{enumerate}
-
-Kombinasi tersebut memungkinkan sistem mempertahankan keterlacakan (\emph{traceability}) yang dihasilkan oleh traversal graf sekaligus memanfaatkan kemampuan \emph{dense retrieval} dalam menemukan informasi relevan di luar hubungan eksplisit. Dengan demikian, GraphRAG tidak hanya menggabungkan RAG dengan \emph{knowledge graph}, tetapi mengintegrasikan penalaran simbolik dan semantik secara langsung pada mekanisme retrieval.
-
- % =========================================================
-\subsection{Hasil Penelitian tentang Efektivitas GraphRAG}
- % =========================================================
-
-Berbagai penelitian menunjukkan bahwa integrasi \emph{knowledge graph} (KG) ke dalam sistem \emph{Retrieval-Augmented Generation} (RAG) mampu meningkatkan akurasi jawaban sekaligus mengurangi tingkat halusinasi pada LLM. Secara umum, studi-studi tersebut memperlihatkan bahwa KG tidak hanya membantu proses retrieval menjadi lebih relevan, tetapi juga menjaga agar proses generasi tetap terikat pada fakta yang dapat diverifikasi. Temuan ini menjadi penting untuk domain pemrograman yang menuntut ketepatan informasi dan kejelasan hubungan antar konsep teknis.
-
-\subsubsection{Pengurangan Halusinasi melalui \emph{Grounded Generation}}
-
-Studi Pythia-RAG \autocite{Ali2026} membangun \emph{Multimodal Knowledge Graph} (MMKG) dari sumber tekstual dan visual, kemudian mengambil subgraf yang relevan menggunakan algoritma \emph{Prize-Collecting Steiner Tree}. Evaluasi pada dataset ScienceQA dan MultiModalQA menunjukkan peningkatan akurasi masing-masing sebesar 5,4\% dan 4,8\%.
-
-Temuan yang paling relevan dalam penelitian tersebut adalah penurunan \emph{hallucination rate} dari 17,6\% pada GPT-4o menjadi 8,3\%. Penurunan ini menunjukkan bahwa KG dapat berfungsi sebagai mekanisme \emph{grounding} yang menjaga agar jawaban LLM tetap sesuai dengan fakta yang tersedia. Hasil serupa juga ditemukan pada sistem IC-HRAG \autocite{Zhou2026}. Sistem tersebut mencapai akurasi 90,57\% ketika LLM dikombinasikan dengan KG terstruktur, lebih tinggi dibandingkan RAG konvensional yang memperoleh 86,95\% maupun LLM tanpa pengetahuan eksternal yang hanya mencapai 55,79\%. Temuan ini menunjukkan bahwa kualitas dan struktur pengetahuan yang diberikan kepada LLM memiliki pengaruh besar terhadap kualitas jawaban yang dihasilkan.
-
-\subsubsection{Kemampuan \emph{Multi-hop Reasoning} pada Pertanyaan Relasional}
-
-Studi PRIME \autocite{Wang2026} mengembangkan mekanisme penalaran bertahap berbasis subgraf yang memungkinkan sistem menelusuri hubungan antar entitas secara progresif. Metode tersebut memperoleh performa 91,6\% Hit@1 pada WebQSP dan 78,3\% F1 pada CWQ tanpa memerlukan pelatihan tambahan. Temuan ini menunjukkan bahwa traversal pada KG dapat digunakan untuk melakukan \emph{multi-hop reasoning} secara efisien. Dalam domain pemrograman, kemampuan tersebut penting karena pertanyaan teknis sering kali memerlukan beberapa tahap penalaran, misalnya mulai dari identifikasi kesalahan, penelusuran penyebab, hingga penemuan solusi yang sesuai.
-
-\subsubsection{\emph{Knowledge Graph} sebagai Sumber Pengetahuan Otoritatif}
-
-Studi LARK \autocite{BenKhalifa2026} menerapkan GraphRAG dengan mekanisme \emph{dual-constraint} pada analisis lisensi perangkat lunak. Domain tersebut memiliki karakteristik yang mirip dengan domain pemrograman karena pengetahuan bersifat eksplisit, terstruktur, dan dapat diverifikasi secara objektif. Evaluasi terhadap sekitar 4.000 proyek Python sumber terbuka menunjukkan akurasi deteksi lisensi sebesar 98,1\% dan nilai F1 kompatibilitas sebesar 96,2\%, dengan tingkat halusinasi hanya 2,1\%. Rendahnya halusinasi dicapai karena KG digunakan sebagai sumber pengetahuan utama, sementara LLM hanya berperan dalam memahami kueri dan menyusun penjelasan. Pendekatan tersebut relevan dengan penelitian ini karena menunjukkan bahwa pemisahan peran antara KG dan LLM dapat meningkatkan keandalan jawaban. Dalam penelitian ini, Stack Overflow diposisikan sebagai sumber pengetahuan utama yang telah melalui proses validasi komunitas.
+Penelitian ini menggunakan \emph{Stack Overflow Recommendations Dataset} (SORD) \autocite{Fatima2026}. Dataset ini memuat pertanyaan, jawaban, dan komentar Stack Overflow, sehingga skor jawaban dan penanda jawaban yang diterima tersedia untuk membangun bobot. Rincian pengolahan dataset dibahas pada Bab~III.
 
 % =========================================================
-
-\subsection{Aplikasi GraphRAG pada Domain Pemrograman dan Rekayasa Perangkat Lunak}
-
-Selain efektif pada berbagai domain teknis, GraphRAG juga mulai diterapkan secara khusus pada bidang pemrograman dan rekayasa perangkat lunak. Domain ini sangat cocok untuk pendekatan berbasis KG karena memiliki hubungan antar entitas yang jelas, struktur pengetahuan yang hierarkis, serta jawaban yang dapat diverifikasi secara objektif.
-
-\subsubsection{Penyelesaian Kode Berbasis Graf Dependensi}
-
-Studi GraphCoder \autocite{Kamalipour2026} menerapkan GraphRAG untuk meningkatkan kualitas \emph{code completion} pada tingkat repositori. Sistem tersebut membangun \emph{Code Context Graph} (CCG), yaitu representasi graf yang memodelkan hubungan \emph{control flow}, dependensi data, dan pemanggilan fungsi antar komponen kode. Pendekatan ini menggunakan dua tahap retrieval. Tahap pertama melakukan penyaringan awal untuk menemukan kandidat potongan kode yang relevan, sedangkan tahap kedua melakukan \emph{re-ranking} berdasarkan hubungan dependensi dalam graf.
-
-Hasil penelitian menunjukkan bahwa pendekatan berbasis graf menghasilkan kode yang lebih tepat secara semantik dibandingkan pendekatan berbasis kemiripan teks saja. Temuan ini menunjukkan bahwa hubungan struktural antar entitas kode memiliki peran penting dalam menghasilkan jawaban yang akurat pada domain pemrograman.
-
-\subsubsection{Generasi SQL dan Penalaran Relasional}
-
-Studi IC-HRAG \autocite{Zhou2026} menunjukkan bagaimana KG domain-spesifik dapat meningkatkan performa tugas \emph{text-to-SQL generation}. Sistem tersebut membangun KG dari skema basis data dan dokumentasi domain, kemudian menggunakan graf tersebut untuk mengambil konteks relasional yang relevan ketika kueri bahasa alami diterjemahkan menjadi SQL. Hasil evaluasi menunjukkan bahwa sistem mencapai akurasi 90,57\% ketika menggunakan kombinasi LLM dan KG. Peningkatan performa terutama terlihat pada kueri yang memerlukan penalaran terhadap relasi antar tabel. Kondisi ini memiliki kesamaan dengan domain pemrograman Stack Overflow yang juga membutuhkan penalaran atas hubungan antar entitas teknis.
-
-\subsubsection{Analisis Lisensi sebagai Representasi Domain Teknis}
-
-Sistem LARK \autocite{BenKhalifa2026} juga menunjukkan bahwa arsitektur GraphRAG efektif digunakan pada domain teknis yang memiliki struktur pengetahuan eksplisit. Dalam sistem tersebut, hubungan antar entitas seperti lisensi, pustaka, dan proyek direpresentasikan dalam bentuk relasi yang jelas di dalam KG. Karakteristik tersebut serupa dengan domain Stack Overflow yang memiliki hubungan eksplisit antara API, error, solusi, dan pustaka perangkat lunak. Keberhasilan LARK dalam menurunkan tingkat halusinasi menunjukkan bahwa KG dapat berfungsi sebagai lapisan kendali (\emph{constraint layer}) yang menjaga konsistensi jawaban LLM.
-
-\subsubsection{Implikasi terhadap Penelitian Berbasis Stack Overflow}
-
-Secara umum, penelitian-penelitian sebelumnya menunjukkan bahwa GraphRAG memberikan manfaat paling besar pada domain yang memiliki tiga karakteristik utama. Pertama, pengetahuan dapat direpresentasikan sebagai hubungan eksplisit antar entitas. Kedua, pertanyaan memerlukan penalaran bertahap untuk menemukan jawaban. Ketiga, jawaban dapat diverifikasi secara objektif.
-
-Ketiga karakteristik tersebut sesuai dengan domain pemrograman pada Stack Overflow. Namun, penelitian ini menambahkan aspek yang belum banyak dibahas pada studi sebelumnya, yaitu penggunaan sinyal validasi komunitas sebagai bobot pada KG. Dengan pendekatan tersebut, simpul dan relasi dalam graf tidak hanya merepresentasikan pengetahuan teknis, tetapi juga tingkat kepercayaan kolektif dari komunitas pengembang perangkat lunak.
- 
-\subsection{Sintesis dan Posisi Penelitian}
- 
-Berdasarkan kajian literatur, Vector RAG memiliki keunggulan pada skalabilitas dan kemampuan pengambilan informasi berbasis topik. Namun, pendekatan ini masih terbatas dalam menangani hubungan relasional dan penalaran multi-hop. Sebaliknya, GraphRAG menyediakan struktur pengetahuan yang dapat dijelaskan, mendukung penalaran bertingkat, dan menghasilkan konteks yang lebih kaya. Kelemahannya terletak pada kebutuhan konstruksi KG dan sensitivitas terhadap kesalahan \emph{entity linking}.
- 
-Penelitian ini memposisikan diri sebagai pengembangan lebih lanjut dari GraphRAG dengan menambahkan sinyal kepercayaan komunitas Stack Overflow sebagai bobot pada \emph{knowledge graph}. Pendekatan tersebut diharapkan mampu meningkatkan kualitas \emph{retrieval}, memperkuat proses \emph{grounding}, dan mengurangi halusinasi pada LLM untuk domain pemrograman.
- 
+\section{Evaluasi Halusinasi pada RAG dan GraphRAG}
+\label{sec:evaluasi}
 % =========================================================
-\section{Stack Overflow sebagai Basis Pengetahuan Tervalidasi Sosial}
-% =========================================================
- 
-\subsection{Struktur dan Mekanisme Kurasi Komunitas}
- 
-Stack Overflow adalah platform \emph{question and answer} (Q\&A) yang berfokus pada pemrograman dan pengembangan perangkat lunak. Per 2024, platform ini menyimpan lebih dari 58 juta pasang pertanyaan dan jawaban \autocite{DaSilva2025}. Yang membedakan Stack Overflow dari repositori teks biasa adalah mekanisme kurasi sosial bawaan yang menghasilkan sinyal kualitas terukur dengan sistem \emph{upvote/downvote}, status \emph{accepted answer}, dan sistem reputasi kontributor.
- 
-\textcite{DaSilva2025} merancang studi empiris yang secara eksplisit memanfaatkan tiga mekanisme ini sebagai proksi kualitas jawaban (Gambar~\ref{fig:dasilva_setup}). Studi tersebut mengonfirmasi bahwa jawaban dengan skor tinggi dan status \emph{accepted} memiliki korelasi positif dengan akurasi teknis yang terverifikasi. Hal ini menjadikan Stack Overflow sebagai basis pengetahuan tervalidasi secara sosial (\emph{socially-validated knowledge base}).
+
+\subsection{Laju Halusinasi dan Metrik Pendukung}
+
+Ukuran utama evaluasi adalah laju halusinasi (\emph{hallucination rate}), yaitu proporsi jawaban yang tidak sesuai fakta atau tidak didukung informasi yang tersedia \autocite{Syeda2026}. Selain itu dipakai metrik pendukung untuk sistem RAG, yaitu \emph{faithfulness}, relevansi jawaban, dan relevansi konteks \autocite{Kamalipour2026}. Tabel~\ref{tab:metrik-evaluasi} menjelaskan metrik yang dipakai. Definisi rumus lengkap ada pada Bab~III.
+
+\begin{table}[!htbp]
+\centering
+\caption{Metrik evaluasi yang dipakai dalam penelitian}
+\label{tab:metrik-evaluasi}
+\small
+\begin{tabular}{|p{3.2cm}|p{10.2cm}|}
+\hline
+\textbf{Metrik} & \textbf{Arti} \\
+\hline
+HR(a) &
+Laju halusinasi di antara jawaban yang benar-benar diberikan (tidak termasuk penolakan menjawab) \\
+\hline
+HR(b) &
+Laju kegagalan yang juga menghitung penolakan menjawab sebagai kegagalan \\
+\hline
+Laju \emph{ABSTAIN} &
+Proporsi pertanyaan yang ditolak dijawab oleh model \\
+\hline
+\emph{Faithfulness} &
+Seberapa jauh jawaban didukung oleh konteks yang diberikan \\
+\hline
+Relevansi jawaban &
+Seberapa sesuai jawaban dengan pertanyaan \\
+\hline
+Relevansi konteks &
+Seberapa relevan konteks yang diambil terhadap pertanyaan \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Pelaporan Penolakan Menjawab (\emph{Abstain})}
+\label{sec:abstain}
+
+Jika model boleh menolak menjawab, satu angka akurasi atau laju halusinasi tidak cukup. \textcite{Cetinkaya2026} menguji sepuluh LLM dengan izin menjawab ``tidak tahu''. Model dengan akurasi mentah tertinggi ternyata hampir tidak pernah menolak dan salah pada sekitar seperempat soal, sedangkan model yang paling andal menolak sekitar setengah soal tetapi jarang salah. Korelasi peringkat antara akurasi mentah dan keandalan hampir nol. Kesimpulannya, akurasi, akurasi pada jawaban yang diberikan, laju penolakan, dan laju kesalahan perlu dilaporkan bersama. Prinsip ini sejalan dengan HR(a), HR(b), dan laju \emph{ABSTAIN} yang dilaporkan pada Bab~V. Penolakan menjawab juga dapat berarti model sadar tidak tahu atau terlalu berhati-hati \autocite{Cetinkaya2026}, sehingga banyaknya penolakan tidak otomatis berarti lebih baik.
+
+\subsection{Terpijak pada Konteks dan Benar}
+
+Seperti dibahas pada Subbab~\ref{sec:graphrag}, jawaban yang sesuai konteks belum tentu benar \autocite{Pandilova2026}. Hal ini sejalan dengan dua jenis halusinasi pada Subbab~\ref{sec:definisi-halusinasi}. Karena itu evaluasi perlu menilai kebenaran jawaban dan kesetiaan pada konteks secara terpisah.
+
+\subsection{\emph{LLM-as-a-Judge}}
+
+Menilai ribuan jawaban secara manual mahal. Alternatifnya adalah menggunakan LLM sebagai penilai (\emph{LLM-as-a-Judge}) \autocite{Gu2026, Zheng2023}. Gambar~\ref{fig:judge-pipeline} menunjukkan alurnya. Cara ini cepat dan skalabel, tetapi punya beberapa bias:
+\begin{itemize}
+  \item \textbf{Menyukai keluaran sendiri.} LLM cenderung memberi nilai lebih
+baik pada jawaban yang dihasilkan model yang sama atau mirip \autocite{Panickssery2024}.
+  \item \textbf{Terlalu longgar atau terlalu ketat.} \textcite{Solca2026}
+menunjukkan bahwa penilai yang longgar tampak menyukai diri sendiri, padahal sebagian sebabnya adalah kecenderungan memberi nilai tinggi pada semua jawaban. Mereka juga menemukan bahwa para penilai lebih sepakat tentang urutan jawaban daripada tentang besar nilainya.
+  \item \textbf{Belum tentu sejalan dengan manusia.} Validasi dengan label manusia
+diperlukan \autocite{Gu2026, Thakur2025}.
+\end{itemize}
+Cara yang disarankan adalah menggunakan beberapa penilai dari keluarga model yang berbeda dan tidak mengikutsertakan keluarga model pembangkit jawaban \autocite{Solca2026}, serta membandingkan urutan kondisi, bukan hanya nilai mutlaknya. Penelitian ini mengikuti saran tersebut dengan tiga penilai dari keluarga model yang berbeda (Llama, DeepSeek, dan Qwen) dan \emph{gpt-4o-mini} sebagai pembangkit jawaban. Keputusan akhir diambil dengan suara terbanyak. \textcite{Mereu2026} dan \textcite{Weng2026} juga menggunakan LLM sebagai penilai pada tugas yang menggunakan data Stack Overflow. \textcite{Farzi2025} menguji apakah penilai relevansi berbasis LLM tetap bekerja bila model penilainya diganti, yang menjadi alasan tambahan menggunakan lebih dari satu penilai. Penilai yang belum divalidasi manusia tetap menjadi keterbatasan, dan akan dibahas pada Bab~V.
 
 \begin{figure}[!htbp]
-\centering
-\includegraphics[width=\textwidth]{images/bab2_rancangan_empiris}
-\caption{Gambaran umum rancangan empiris yang digunakan untuk menguji korelasi antara sinyal kepercayaan komunitas Stack Overflow dengan akurasi jawaban LLM. \autocite{DaSilva2025}}
-\label{fig:dasilva_setup}
-\end{figure}
- 
-\subsection{Sinyal Kepercayaan sebagai Proksi Kualitas}
- 
-Dalam konteks \emph{knowledge graph} berbobot, sinyal kepercayaan yang tersedia pada Stack Overflow dapat dimanfaatkan sebagai bobot pada simpul dan relasi graf. Dengan demikian, kualitas informasi tidak hanya ditentukan oleh keberadaan entitas dan hubungan, tetapi juga oleh tingkat kepercayaan komunitas terhadap informasi tersebut. Tabel~\ref{tab:so_signals} menunjukkan sinyal kepercayaan yang digunakan beserta interpretasinya pada KG berbobot.
-
-\input{tables/so_signals.tex}
- % =========================================================
-\subsection{Pemanfaatan Konten Stack Overflow dalam Sistem AI}
- % =========================================================
-
-Beberapa penelitian telah memanfaatkan Stack Overflow sebagai sumber pengetahuan untuk meningkatkan kualitas keluaran model AI. \textcite{Nashid2023} menunjukkan bahwa penggunaan konten Stack Overflow sebagai sumber konteks dapat meningkatkan kualitas jawaban LLM pada tugas pemrograman. Namun, pendekatan tersebut masih menggunakan RAG konvensional berbasis kemiripan vektor sehingga belum memanfaatkan struktur relasional maupun sinyal kepercayaan komunitas.
-
-Selain itu, \textcite{DaSilva2025} menunjukkan bahwa tingkat kesesuaian antara jawaban LLM dan jawaban komunitas tidak sama pada semua domain pemrograman (Gambar~\ref{fig:dasilva_domain}). Beberapa domain menghasilkan kemiripan tinggi, sementara domain lain menunjukkan perbedaan yang cukup besar. Temuan ini mengindikasikan bahwa halusinasi LLM bersifat tidak merata antar domain dan perlu dipertimbangkan pada proses evaluasi.
-
- 
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=\textwidth]{images/dasilva_domain}
-\caption{Distribusi domain pertanyaan untuk jawaban LLM dengan kemiripan tinggi dan rendah terhadap komunitas Stack Overflow. \autocite{DaSilva2025}}
-\label{fig:dasilva_domain}
+  \centering
+  \includegraphics[width=0.85\textwidth]{images/gu2026_fig2_judge_pipeline.png}
+  \caption{Alur umum \emph{LLM-as-a-Judge}. Diadaptasi dari \textcite{Gu2026}.}
+  \label{fig:judge-pipeline}
 \end{figure}
 
-Temuan tersebut diperkuat oleh \textcite{Kabir2024}, yang melakukan studi terhadap jawaban ChatGPT pada pertanyaan Stack Overflow. Penelitian ini menunjukkan bahwa keluaran LLM masih mengandung ketidakakuratan faktual yang cukup signifikan sehingga aspek keandalan perlu menjadi perhatian utama pada penerapan sistem berbasis LLM.
-% =========================================================
-\subsection{\emph{Stack Overflow Recommendations Dataset} (SORD) sebagai Sumber Data Penelitian}
-\label{subsec:sord}
-% =========================================================
- 
-Penelitian ini menggunakan \emph{Stack Overflow Recommendations Dataset} (SORD) \autocite{Fatima2026}, yaitu dataset berskala besar yang dikurasi secara empiris dari diskusi Stack Overflow dengan penekanan pada penambangan wawasan terkait rekomendasi perangkat lunak antar-pengembang. Dataset ini dipublikasikan secara terbuka (\emph{open access}) pada jurnal \emph{Data in Brief} dan mencakup empat jenis entitas utama: (1)pertanyaan (\emph{question}) beserta judul, isi, skor, jumlah tampilan, dan tanggal pembuatan; (2)jawaban (\emph{answer}) beserta isi, skor, status \emph{accepted answer}, dan reputasi kontributor; (3)tag teknologi yang merepresentasikan domain atau pustaka yang dirujuk; serta (4)komentar yang mengandung konteks diskusi tambahan antar pengembang.
- 
-Pemilihan SORD sebagai sumber data penelitian ini didasarkan pada tiga pertimbangan utama. Pertama, SORD dibangun dari \emph{Stack Exchange Data Dump} publik sehingga seluruh metadata sinyal kepercayaan komunitas, skor \emph{upvote}, status \emph{accepted answer}, dan reputasi kontributor tersedia sebagai atribut terstruktur yang melekat pada setiap entitas. Berbeda dengan pendekatan \textcite{Nashid2023} yang mengindeks konten Stack Overflow sebagai potongan teks datar (\emph{flat chunks}) ke dalam \emph{vector store}, SORD memungkinkan hubungan antar entitas direpresentasikan secara eksplisit sebagai sisi berbobot pada \emph{knowledge graph}. Kedua, SORD bersifat publik dan tersedia secara terbuka, sehingga mendukung reprodusibilitas hasil evaluasi dan perbandingan langsung dengan studi-studi sebelumnya yang menggunakan sumber data serupa \autocite{DaSilva2025}. Ketiga, cakupan SORD yang mencakup pertanyaan, jawaban, komentar, dan tag secara relasional menjadikannya cocok sebagai fondasi pembangunan \emph{knowledge graph} domain pemrograman yang kaya secara struktural.
- 
-Karakteristik pembeda utama SORD terhadap dataset Stack Overflow pada penelitian sebelumnya terletak pada ketersediaan sinyal kepercayaan komunitas sebagai metadata terstruktur. Sinyal-sinyal tersebut tidak dibuang sebagai \emph{noise}, melainkan dipertahankan dan dioperasionalisasikan sebagai bobot eksplisit pada simpul dan sisi \emph{knowledge graph} sebagaimana diuraikan pada Tabel~\ref{tab:so_signals}. Dengan demikian, SORD menjadi fondasi empiris yang memungkinkan penelitian ini menjawab kesenjangan G2 (pemanfaatan sinyal kepercayaan komunitas) dan G3 (penerapan GraphRAG pada sumber pengetahuan komunitas teknis bervalidasi sosial).
- 
-% =========================================================
-\section{\emph{Grounded Generation} dan \emph{Faithfulness} pada LLM}
-% =========================================================
+\subsection{Kebocoran Data pada Evaluasi}
 
-\subsection{Definisi dan Motivasi}
-
-Pembahasan mengenai halusinasi pada bagian sebelumnya menunjukkan bahwa permasalahan utama LLM tidak hanya terletak pada kemampuan menghasilkan informasi yang salah, tetapi juga pada ketidakmampuan sistem menjelaskan asal-usul informasi yang dihasilkan. Dalam banyak kasus, model dapat menghasilkan jawaban yang terlihat meyakinkan, tetapi tidak memiliki sumber yang jelas dan sulit diverifikasi. Untuk mengatasi permasalahan tersebut, konsep \emph{faithful generation} dan \emph{grounded generation} dikembangkan sebagai pendekatan untuk memastikan bahwa keluaran LLM tetap konsisten dengan sumber pengetahuan yang digunakan.
-
-\emph{Faithful generation} mengacu pada kondisi ketika jawaban yang dihasilkan LLM sesuai dan konsisten dengan informasi yang diberikan melalui konteks \autocite{Ji2023}. Sebuah jawaban disebut \emph{faithful} apabila setiap klaim yang dihasilkan model didukung oleh informasi yang terdapat dalam konteks yang diberikan, bukan semata-mata berasal dari pengetahuan parametrik model yang tidak dapat diverifikasi. \textcite{Huang2025} membedakan dua jenis halusinasi, yaitu \emph{faithfulness hallucination} dan \emph{factual hallucination}. \emph{Faithfulness hallucination} terjadi ketika jawaban tidak sesuai dengan konteks yang diberikan, sedangkan \emph{factual hallucination} terjadi ketika model menghasilkan fakta yang salah meskipun dapat diverifikasi secara independen.
-
-\emph{Grounded generation} merupakan pengembangan lebih lanjut dari konsep \emph{faithful generation}. Pada pendekatan ini, setiap klaim dalam jawaban tidak hanya harus konsisten dengan konteks, tetapi juga harus dapat ditelusuri kembali ke sumber pengetahuan tertentu \autocite{BenKhalifa2026}. Dengan demikian, sistem tidak hanya menghasilkan jawaban yang relevan, tetapi juga menyediakan dasar yang jelas mengenai dari mana informasi tersebut diperoleh.
-
-\subsection{\emph{Provenance} sebagai Mekanisme Keterlacakan}
-
-Dalam sistem berbasis \emph{knowledge graph} (KG), konsep \emph{grounded generation} diwujudkan melalui mekanisme \emph{provenance}. \emph{Provenance} merupakan kemampuan sistem untuk menyimpan dan menampilkan informasi mengenai asal-usul fakta yang digunakan dalam proses pembentukan jawaban \autocite{Ali2026}. Pada GraphRAG, mekanisme ini dapat diimplementasikan dengan menyertakan referensi ke simpul dan relasi pada KG yang menjadi sumber konteks bagi jawaban yang dihasilkan.
-
-Mekanisme \emph{provenance} memberikan beberapa manfaat penting dalam penelitian ini. Pertama, setiap klaim pada jawaban dapat diverifikasi kembali dengan menelusuri sumbernya pada KG. Kedua, pada KG berbobot berbasis Stack Overflow, \emph{provenance} juga membawa informasi tingkat kepercayaan komunitas. Sebagai contoh, jawaban yang berasal dari posting dengan skor tinggi atau berstatus \emph{accepted answer} dapat dianggap lebih terpercaya dibandingkan sumber yang tidak memiliki validasi komunitas. Ketiga, \emph{provenance} meningkatkan \emph{explainability} sistem karena pengguna dapat memahami alasan mengapa suatu jawaban dihasilkan berdasarkan sumber tertentu.
-
-\subsection{\emph{Dual-Constraint} sebagai Mekanisme \emph{Grounded Generation}}
-
-Untuk memastikan bahwa jawaban yang dihasilkan tetap \emph{grounded}, penelitian ini mengadopsi mekanisme \emph{dual-constraint} yang terdiri atas dua lapisan kendali yang bekerja secara bersamaan \autocite{BenKhalifa2026}.
-
-Lapisan pertama adalah kendala berbasis KG (\emph{graph-based constraint}). Pada tahap ini, LLM diarahkan untuk menghasilkan jawaban sesuai fakta yang direpresentasikan oleh subgraf yang diberikan. Setiap tripel pada subgraf direpresentasikan dalam bentuk pasangan \texttt{(Entitas-Relasi-Entitas) + segmen teks sumber} untuk memperjelas batas faktual yang harus diikuti model.
-
-Lapisan kedua adalah mekanisme \emph{RAG grounding}, yaitu proses yang menghubungkan jawaban dengan segmen teks sumber yang dapat diverifikasi dari Stack Overflow. Melalui kombinasi kedua lapisan tersebut, sistem mendorong LLM agar tetap menghasilkan jawaban sesuai konteks pengetahuan yang tersedia, sekaligus menyediakan jalur \emph{provenance} yang dapat ditelusuri kembali ke simpul KG berbasis Stack Overflow \autocite{Ali2026}.
+Kebocoran data (\emph{data leakage}) terjadi ketika informasi dari data uji ikut masuk ke proses yang seharusnya hanya melihat data latih, sehingga hasil tampak lebih baik dari kenyataan \autocite{Kapoor2023}. Pada penelitian ini, kebocoran dapat terjadi bila jawaban dari utas yang sama dengan pertanyaan uji ikut diambil ke dalam konteks. Karena itu, utas dari pertanyaan uji dikeluarkan dari graf dan indeks saat pengambilan konteks (Bab~III).
 
 % =========================================================
-\section{Evaluasi Keandalan \emph{Large Language Model}}
+\section{Sintesis dan Kesenjangan Penelitian}
+\label{sec:sintesis}
 % =========================================================
 
-\subsection{Tantangan Evaluasi pada Sistem GraphRAG}
+\subsection{Sintesis Telaah}
 
-Evaluasi keandalan \emph{Large Language Model} (LLM), khususnya pada sistem berbasis GraphRAG, merupakan proses yang kompleks karena melibatkan dua komponen utama yang saling berkaitan, yaitu kualitas pengambilan informasi (\emph{retrieval}) dan kualitas generasi jawaban. Evaluasi tidak hanya bertujuan menilai benar atau salahnya jawaban, tetapi juga mengidentifikasi sumber kesalahan dalam sistem, misalnya apakah kesalahan berasal dari proses \emph{retrieval}, \emph{entity linking}, atau proses generasi yang tidak \emph{grounded} \autocite{Kamalipour2026}.
-
-Evaluasi berbasis anotasi manusia umumnya menghasilkan penilaian yang lebih akurat karena melibatkan pertimbangan pakar. Namun, pendekatan ini sulit diterapkan dalam skala besar karena membutuhkan waktu dan biaya yang tinggi. Sebaliknya, evaluasi berbasis \emph{benchmark} lebih mudah diskalakan, tetapi memiliki risiko kontaminasi data apabila dataset evaluasi pernah digunakan pada proses pelatihan model \autocite{Gu2026}.
-
-Pada domain pemrograman, proses evaluasi memiliki karakteristik yang berbeda dibandingkan domain umum. Jawaban teknis umumnya dapat diverifikasi secara objektif karena kode yang benar dapat dijalankan, sedangkan kode yang salah akan menghasilkan kesalahan atau gagal dikompilasi. Selain itu, Stack Overflow menyediakan referensi jawaban yang telah divalidasi komunitas melalui mekanisme \emph{upvote} dan \emph{accepted answer}. Karakteristik tersebut menjadikan Stack Overflow sebagai sumber \emph{ground truth} yang relatif reliabel untuk mengevaluasi kualitas jawaban sistem \autocite{DaSilva2025}.
-
-\subsection{Dimensi Evaluasi pada Sistem GraphRAG}
-
-Evaluasi sistem GraphRAG perlu dilakukan secara berlapis karena kualitas sistem tidak dapat diukur hanya dari satu aspek. Secara umum, terdapat empat dimensi utama yang digunakan untuk mengevaluasi sistem GraphRAG \autocite{Kamalipour2026}.
-
+Telaah di atas menghasilkan empat hal:
 \begin{enumerate}
-    \item \textbf{Relevansi Retrieval (\emph{Retrieval Relevance})}
-
-    Dimensi ini mengukur kemampuan sistem dalam mengambil informasi yang relevan terhadap pertanyaan pengguna. Pada GraphRAG berbasis Stack Overflow, evaluasi dilakukan dengan menilai sejauh mana subgraf yang diambil memuat entitas dan relasi yang sesuai dengan kueri pemrograman.
-
-    Metrik yang umum digunakan meliputi Precision@K dan Recall@K. Precision@K mengukur proporsi dokumen relevan dari sejumlah K hasil teratas yang diambil sistem, sedangkan Recall@K mengukur seberapa banyak informasi relevan yang berhasil ditemukan dari seluruh informasi yang tersedia. Selain itu, metrik seperti \emph{Mean Reciprocal Rank} (MRR) dan \emph{Normalized Discounted Cumulative Gain} (nDCG) digunakan untuk mempertimbangkan kualitas peringkat hasil retrieval \autocite{Kamalipour2026}.
-
-    \item \textbf{Keterlacakan Konteks (\emph{Groundedness} dan \emph{Faithfulness})}
-
-    Dimensi ini mengevaluasi apakah jawaban yang dihasilkan benar-benar didukung oleh konteks yang diberikan kepada model. Jawaban yang memiliki tingkat \emph{groundedness} tinggi berarti seluruh klaim dalam jawaban dapat ditelusuri kembali ke informasi yang terdapat pada KG atau dokumen sumber \autocite{Kamalipour2026}.
-
-    Dalam penelitian ini, \emph{faithfulness} diukur dengan membandingkan isi jawaban LLM terhadap triple dan konteks yang terdapat pada subgraf hasil retrieval. Semakin tinggi nilai \emph{faithfulness}, semakin kecil kemungkinan model menghasilkan informasi yang tidak didukung oleh sumber yang diberikan.
-
-    \item \textbf{Relevansi Jawaban (\emph{Answer Relevance})}
-
-    Dimensi ini mengukur kesesuaian jawaban terhadap kebutuhan informasi pengguna. Jawaban dapat saja konsisten dengan konteks yang diberikan, tetapi tetap tidak relevan terhadap pertanyaan pengguna apabila retrieval yang dilakukan tidak tepat.
-
-    Dalam domain pemrograman, relevansi jawaban dapat dilihat dari sejauh mana solusi yang diberikan mampu menyelesaikan permasalahan teknis yang ditanyakan, misalnya melalui ketepatan penggunaan API, kelengkapan solusi, atau kemampuan menangani kesalahan yang muncul.
-
-    \item \textbf{Kebenaran Faktual (\emph{Factual Correctness})}
-
-    Dimensi ini mengukur kesesuaian jawaban terhadap fakta atau referensi yang diketahui benar. Dalam penelitian ini, jawaban Stack Overflow dengan skor tinggi dan status \emph{accepted answer} digunakan sebagai referensi \emph{ground truth}.
-
-    Pada level kode, evaluasi faktual juga dapat dilakukan melalui pengujian otomatis, misalnya dengan menjalankan unit test atau memeriksa keberhasilan kompilasi kode. Pendekatan ini menjadi keunggulan evaluasi pada domain pemrograman karena kebenaran jawaban dapat diuji secara deterministik \autocite{Alomari2026}.
+  \item LLM menyimpan pengetahuan parametrik yang dapat usang dan tidak dapat
+ditelusuri, sehingga halusinasi sulit dihilangkan hanya dari sisi model (Subbab~\ref{sec:llm-halusinasi}).
+  \item Pengetahuan eksternal lewat RAG dan GraphRAG mengurangi masalah itu,
+tetapi bergantung pada mutu sumber. Graf membantu mengumpulkan informasi yang saling berhubungan, tetapi tidak menjamin kebenaran isinya (Subbab~\ref{sec:rag} dan~\ref{sec:graphrag}).
+  \item Penelitian yang menggunakan bobot kepercayaan mengambil bobot dari sifat
+dokumen, keyakinan informasi, sinyal terprogram, atau umpan balik manusia yang disimulasikan (Tabel~\ref{tab:penelitian-bobot}).
+  \item Platform tanya jawab seperti Stack Overflow menyediakan penilaian pengguna
+yang alami, tetapi penelitian yang ditelaah hanya menyimpannya sebagai atribut atau menggunakannya untuk memilih data, bukan sebagai bobot saat mengambil konteks.
 \end{enumerate}
 
-\subsection{Kerangka RAGAS sebagai Protokol Evaluasi}
+\subsection{Kesenjangan Penelitian}
 
-Untuk mengukur kualitas sistem secara konsisten, penelitian ini mengacu pada kerangka RAGAS (\textit{Retrieval-Augmented Generation 
-Assessment}) sebagai landasan konseptual dalam merancang dimensi evaluasi. RAGAS merupakan kerangka evaluasi yang dirancang khusus  untuk sistem RAG dan memungkinkan evaluasi dilakukan tanpa memerlukan jawaban referensi untuk setiap pertanyaan \autocite{Kamalipour2026}. RAGAS menyediakan beberapa metrik utama yang sesuai dengan kebutuhan evaluasi pada penelitian ini. Tabel~\ref{tab:ragas_metrics} menunjukkan metrik-metrik tersebut beserta interpretasinya dalam konteks GraphRAG berbasis Stack Overflow.
-\input{tables/bab2_ragas_metrik.tex}
-Nilai RAGAS yang mendekati 1,0 menunjukkan bahwa sistem mampu mengambil konteks yang relevan sekaligus menghasilkan jawaban yang sesuai dan dapat diverifikasi. Dalam penelitian ini, evaluasi dilakukan terhadap tiga pendekatan, yaitu LLM murni, RAG konvensional, dan GraphRAG berbasis Stack Overflow, menggunakan protokol evaluasi yang sama agar hasil dapat dibandingkan secara adil.
+Dalam telaah kami, penelitian yang ditinjau belum memanfaatkan penilaian pengguna yang tersedia pada platform sebagai dasar pembobotan graf pengetahuan dalam proses pengambilan konteks GraphRAG. Penelitian sebelumnya menggunakan karakteristik dokumen atau tingkat keyakinan informasi sebagai dasar bobot \autocite{Shi2026, Asghari2026, TAMRplus2026, Yu2026DoG}. Umpan balik manusia pada \textcite{LiTrustProp2026} disimulasikan, sehingga tidak berasal dari penilaian pengguna pada platform. Penilaian pengguna pada graf pengetahuan telah disimpan sebagai atribut, tetapi belum dipakai sebagai bobot dalam pengambilan konteks \autocite{Kleybolte2026, Banerjee2024}.
 
-\subsection{Paradigma \emph{LLM-as-a-Judge}}
-Evaluasi manual terhadap ratusan jawaban pemrograman memerlukan sumber daya yang besar. Oleh karena itu, penelitian ini memanfaatkan paradigma \emph{LLM-as-a-Judge}, yaitu pendekatan yang menggunakan LLM sebagai penilai otomatis terhadap keluaran model lain \autocite{Gu2026}. Pendekatan ini memungkinkan evaluasi dilakukan secara lebih cepat dan skalabel, khususnya untuk menilai kualitas seperti \emph{faithfulness}, relevansi jawaban, dan kegunaan solusi yang dihasilkan.
+\subsection{Posisi dan Kerangka Konseptual Penelitian}
 
-% \begin{figure}[!htbp]
-% \centering
-% \includegraphics[width=\textwidth]{images/gu2026_fig2_judge_pipeline}
-% \caption{Tahapan evaluasi \emph{LLM-as-a-Judge} yang meliputi pemberian konteks, inferensi model penilai, \emph{post-processing}, dan agregasi skor \autocite{Gu2026}.}
-% \label{fig:gu_judge_pipeline}
-% \end{figure}
-
-Secara umum, proses evaluasi \emph{LLM-as-a-Judge} terdiri atas empat tahap, yaitu pemberian konteks dan instruksi evaluasi, inferensi model penilai, \emph{post-processing}, dan agregasi skor hasil evaluasi. Untuk meningkatkan reliabilitas penilaian, beberapa strategi dapat diterapkan, seperti penggunaan rubrik evaluasi terstruktur, pendekatan \emph{Chain-of-Thought}, dan kombinasi beberapa model penilai (\emph{ensemble}) \autocite{Gu2026}.
-
-Keandalan sistem penilai otomatis perlu dibandingkan dengan penilaian manusia menggunakan metrik seperti Cohen’s $\kappa$ dan korelasi Spearman. Nilai Cohen’s $\kappa \geq 0{,}6$ umumnya dianggap menunjukkan tingkat kesepakatan yang baik antara penilai otomatis dan penilai manusia.
-
-Dalam konteks penelitian ini, paradigma \emph{LLM-as-a-Judge} menjadi relevan karena memungkinkan evaluasi \emph{faithfulness} dilakukan pada skala besar. Selain itu, rubrik penilaian dapat disesuaikan dengan karakteristik domain pemrograman, misalnya dengan mengevaluasi ketepatan penggunaan API, kesesuaian versi pustaka, dan penanganan \emph{exception}, yang merupakan sumber umum terjadinya halusinasi pada LLM \autocite{Alomari2026}.
-
-Meskipun demikian, paradigma LLM-as-a-Judge memiliki keterbatasan yang perlu diperhatikan. Model penilai dapat menunjukkan bias sistematis, misalnya kecenderungan memberikan skor lebih tinggi pada jawaban yang lebih panjang atau yang ditulis dengan gaya bahasa tertentu, serta inkonsistensi penilaian antar pengulangan (run-to-run variance) \autocite{Gu2026}. Pada domain pemrograman, model penilai juga berpotensi tidak mendeteksi kesalahan teknis yang halus, seperti penggunaan parameter API yang sudah deprecated atau kesalahan logika yang secara sintaksis tetap valid. Oleh karena itu, penelitian ini tidak menggunakan LLM-as-a-Judge sebagai satu-satunya sumber penilaian, melainkan melengkapinya dengan validasi manual oleh evaluator berlatar belakang pemrograman terhadap subset jawaban yang dipilih secara acak, sebagai bentuk pemeriksaan reliabilitas (Cohen's κ) terhadap skor yang dihasilkan model penilai.
-
-% =========================================================
-\section{Sintesis Penelitian Terkait dan \emph{Research Gap}}
-% =========================================================
-\subsection{Analisis Penelitian Terkait}
-
-Tinjauan terhadap penelitian terdahulu menunjukkan bahwa penelitian terkait dapat dikelompokkan ke dalam empat area utama, yaitu evaluasi kemampuan LLM pada domain pemrograman, pemanfaatan LLM untuk kualitas kode, penggunaan Stack Overflow sebagai sumber konteks, dan penerapan GraphRAG pada domain teknis. Tabel~\ref{tab:penelitian_terkait} merangkum posisi masing-masing penelitian terhadap tiga dimensi utama dalam penelitian ini.
-\input{tables/bab2_penelitian_terkait.tex}
-\begin{enumerate}
-    \item Evaluasi Komparatif LLM dan Stack Overflow
-    
-    \textcite{DaSilva2025} dan \textcite{Kabir2024} menunjukkan bahwa LLM masih memiliki keterbatasan pada domain pemrograman jika dibandingkan dengan pengetahuan komunitas Stack Overflow. Hasil penelitian menunjukkan bahwa jawaban LLM masih sering mengandung ketidakakuratan teknis dan belum mampu melampaui kualitas solusi yang divalidasi komunitas. Meskipun demikian, kedua penelitian tersebut hanya berfokus pada evaluasi performa dan belum menawarkan mekanisme integrasi pengetahuan komunitas ke dalam sistem LLM.
-    
-    \item LLM untuk Kualitas Kode
-    
-    Penelitian oleh \textcite{Alomari2026} dan \textcite{Jiang2026} menunjukkan bahwa LLM rentan menghasilkan halusinasi dan jawaban yang tidak konsisten pada tugas rekayasa perangkat lunak, seperti refaktorisasi dan deteksi duplikasi kode. Strategi yang digunakan masih berfokus pada \emph{prompting} dan \emph{fine-tuning}. Hingga saat ini, belum banyak penelitian yang memanfaatkan GraphRAG maupun pengetahuan komunitas tervalidasi sebagai mekanisme \emph{grounding} untuk mengurangi halusinasi pada domain pemrograman.
-
-    \item RAG Berbasis Konten Stack Overflow
-    
-    \textcite{Nashid2023} menunjukkan bahwa penggunaan konteks dari Stack Overflow dapat meningkatkan kualitas jawaban LLM pada tugas pemrograman. Namun, pendekatan tersebut masih menggunakan \emph{dense retrieval} berbasis kemiripan vektor tanpa memanfaatkan struktur relasional maupun sinyal kepercayaan komunitas seperti \emph{upvote} dan \emph{accepted answer}. Akibatnya, seluruh informasi diperlakukan dengan bobot yang sama meskipun tingkat validasinya berbeda.
-    
-    \item GraphRAG pada Domain Teknis
-    Penelitian seperti PRIME \autocite{Wang2026}, PythiaRAG \autocite{Ali2026}, dan IC-HRAG \autocite{Zhou2026} membuktikan bahwa GraphRAG mampu meningkatkan akurasi retrieval sekaligus menurunkan halusinasi pada berbagai domain teknis. Namun, \emph{knowledge graph} yang digunakan umumnya dibangun dari dokumen teknis biasa dan belum memanfaatkan sumber pengetahuan komunitas dengan validasi sosial yang kuat seperti Stack Overflow.
-
-\end{enumerate}
-
-\subsection{Identifikasi Kesenjangan}
-% =========================================================
-Sintesis dari empat area literatur menunjukkan adanya tiga kesenjangan metodologis utama yang menjadi dasar pengembangan penelitian ini.
-
-\begin{enumerate}
-    \item Tidak adanya mekanisme \emph{grounding} arsitektural berbasis komunitas Stack Overflow. 
-    
-    Studi evaluatif oleh \textcite{DaSilva2025} dan \textcite{Kabir2024} telah menunjukkan keterbatasan LLM dibandingkan komunitas Stack Overflow dalam menjawab pertanyaan pemrograman. Namun, penelitian tersebut hanya berfokus pada evaluasi performa dan belum mengusulkan solusi pada tingkat arsitektur sistem. Dengan demikian, pertanyaan mengenai bagaimana merancang sistem yang mampu mengintegrasikan pengetahuan komunitas Stack Overflow ke dalam mekanisme kerja LLM masih belum terjawab. Kondisi ini menunjukkan adanya kesenjangan antara hasil evaluasi empiris dan implementasi arsitektur solusi.
-    
-    \item RAG berbasis Stack Overflow belum memanfaatkan struktur relasional dan sinyal kepercayaan komunitas.
-    
-    \textcite{Nashid2023} menunjukkan bahwa konten Stack Overflow dapat meningkatkan kualitas jawaban LLM ketika digunakan sebagai sumber konteks. Namun, pendekatan yang digunakan masih berupa RAG konvensional berbasis \emph{dense retrieval}, sehingga hanya mempertimbangkan kemiripan vektor. Pendekatan tersebut belum memanfaatkan hubungan relasional antar entitas maupun sinyal kepercayaan komunitas seperti \emph{upvote}, \emph{accepted answer}, dan reputasi kontributor. Padahal, sinyal-sinyal tersebut merupakan karakteristik unik Stack Overflow yang tidak dimiliki oleh repositori teks biasa. Studi \textcite{Zhou2026} juga menunjukkan bahwa keterbatasan representasi relasional menyebabkan akurasi RAG konvensional berhenti pada tingkat 86,95\%.
-    
-    \item GraphRAG belum diterapkan pada \emph{knowledge graph} berbasis komunitas teknis tervalidasi sosial di domain pemrograman. 
-    
-    Penelitian oleh \textcite{Wang2026}, \textcite{Ali2026}, dan \textcite{Zhou2026} membuktikan bahwa GraphRAG mampu meningkatkan kemampuan penalaran dan akurasi pada berbagai domain teknis. Namun, sumber pengetahuan yang digunakan masih berasal dari dokumen teknis atau korpus umum tanpa memasukkan sinyal kualitas sosial. Berdasarkan tinjauan literatur, belum ditemukan penelitian yang secara khusus:
-
-    \begin{enumerate}
-        \item membangun \emph{knowledge graph} dari konten Stack Overflow,
-        \item merepresentasikan sinyal kepercayaan komunitas sebagai bobot eksplisit pada simpul dan relasi graf, dan
-        \item menggunakan graf berbobot tersebut sebagai sumber pengetahuan utama dalam GraphRAG untuk domain pemrograman.
-    \end{enumerate}
-\end{enumerate}
-
-Ketiga kesenjangan tersebut menjadi dasar pengembangan penelitian ini, yaitu membangun \emph{GraphRAG Framework} yang mengintegrasikan \emph{knowledge graph} berbobot dari komunitas Stack Overflow ke dalam \emph{pipeline} generasi jawaban LLM pada domain pemrograman. Pendekatan ini diharapkan dapat menggabungkan keunggulan struktur relasional GraphRAG dengan validasi sosial yang dimiliki oleh komunitas Stack Overflow.
-
-Berdasarkan analisis kesenjangan di atas, kontribusi utama penelitian ini dapat dirumuskan sebagai berikut. Penelitian ini merancang dan mengimplementasikan sebuah GraphRAG Framework yang membangun knowledge graph berbobot dari Stack Overflow, di mana sinyal validasi komunitas (\emph{upvote}, \emph{accepted answer}, dan reputasi kontributor)diintegrasikan sebagai bobot eksplisit pada simpul dan relasi graf, sehingga mekanisme hybrid retrieval dan grounded generation secara langsung memprioritaskan pengetahuan yang telah tervalidasi secara sosial, dengan tujuan meningkatkan \emph{faithfulness} dan menurunkan \emph{hallucination} rate pada LLM untuk domain pemrograman. Pada sisi representasi pengetahuan, sinyal sosial komunitas digunakan sebagai bobot KG. Hal ini belum dilakukan pada GraphRAG sebelumnya. Pada sisi mekanisme retrieval, traversal berbobot komunitas diintegrasikan ke dalam \emph{hybrid retrieval} sehingga jalur penelusuran yang dihasilkan tidak hanya relevan secara semantik tetapi juga terpercaya secara komunitas.
-
-% =========================================================
-\subsection{Kerangka Konseptual Penelitian}
-% =========================================================
-
-Berdasarkan studi literatur, kerangka konseptual penelitian ini (Gambar~\ref{fig:kerangka_konseptual}) mengorganisasi komponen-komponen teoritis ke dalam empat jalur yang saling terhubung secara sekuensial, yaitu (1) konstruksi pengetahuan, (2) pengambilan konteks, (3) generasi berbasis graf, dan (4) evaluasi.
+Penelitian ini mengisi kesenjangan tersebut dengan mekanisme pembobotan graf pengetahuan berbasis penilaian pengguna, yang diintegrasikan ke dalam pengambilan konteks GraphRAG. Efeknya diuji lewat lima konfigurasi yang ditambah bertahap, sehingga sumbangan tiap komponen dapat dilihat (Gambar~\ref{fig:kerangka-konseptual}):
+\begin{itemize}
+  \item \textbf{A}: LLM tanpa konteks;
+  \item \textbf{B-Vec}: RAG dengan pencarian vektor lima teratas;
+  \item \textbf{B-Acc}: RAG dengan pemeringkatan ulang menggunakan penanda jawaban yang diterima;
+  \item \textbf{C-Acc}: GraphRAG dengan bobot jawaban yang diterima;
+  \item \textbf{C-Acc+Vote}: GraphRAG dengan bobot jawaban yang diterima dan skor suara.
+\end{itemize}
+Rancangan lengkap konfigurasi dan pengujiannya dibahas pada Bab~III.
 
 \begin{figure}[!htbp]
-\centering
-\includegraphics[width=\textwidth]{images/bab2_kerangka_konseptual.png}
-\caption{Kerangka konseptual penelitian}
-\label{fig:kerangka_konseptual}
+  \centering
+  \includegraphics[width=0.9\textwidth]{images/bab2_kerangka_konseptual.png}
+  \caption{Kerangka konseptual penelitian.}
+  \label{fig:kerangka-konseptual}
+  \todo{Perbarui gambar: tampilkan lima konfigurasi A, B-Vec, B-Acc, C-Acc, C-Acc+Vote
+  menggantikan versi lama (kerangka empat jalur dan tiga kondisi).}
 \end{figure}
 
-\textbf{Jalur 1 - Konstruksi pengetahuan.}
-Jalur pertama membangun fondasi pengetahuan terstruktur melalui tiga aktivitas berurutan. Pertama, data diekstraksi dari SORD \autocite{Fatima2026} yang bersumber dari \textit{Stack Exchange Data Dump} dan mencakup pertanyaan, jawaban, komentar, tag, serta metadata sinyal kepercayaan komunitas. Kedua, data tersebut diproses melalui \emph{pipeline} konstruksi KG berbasis LLM menggunakan pendekatan \emph{schema-based}. Proses ini meliputi NER, \emph{entity linking}, dan ekstraksi tripel (subjek-predikat-objek). Pada tahap ini, bobot komunitas seperti \emph{upvote}, \emph{accepted answer}, dan reputasi kontributor diintegrasikan sebagai atribut eksplisit dalam graf. Ketiga, seluruh tripel yang dihasilkan disimpan ke dalam \emph{graph database} Neo4j disertai \emph{vector embedding} pada setiap simpul untuk mendukung mekanisme pencarian hibrid. KG berbobot yang tersimpan kemudian menjadi indeks pengetahuan tunggal bagi seluruh jalur berikutnya.
-
-\textbf{Jalur 2 - Pengambilan konteks.}
-Jalur kedua merupakan inti teknis yang membedakan sistem ini dari GraphRAG konvensional, dan secara langsung mengoperasionalkan mekanisme \emph{hybrid retrieval}. Proses dimulai dari kueri pengguna yang diproses melalui NER dan \emph{entity linking} untuk memetakan entitas teknis ke simpul yang relevan di dalam KG. Tahap ini merupakan tahap yang krusial karena sifat ambigu terminologi teknis pada Stack Overflow. Selanjutnya, dua mekanisme retrieval dijalankan secara terintegrasi: 
-\begin{enumerate}
-  \item \emph{graph traversal} berbobot secara \emph{multi-hop} yang mengikuti jalur relasi dari entitas awal sambil memprioritaskan simpul dengan bobot komunitas tinggi, sehingga rantai penalaran seperti \texttt{KeyError} $\xrightarrow{\text{raised\_by}}$ \texttt{dict.\_\_getitem\_\_} $\xrightarrow{\text{similar\_to}}$ \texttt{DataFrame.loc} $\xrightarrow{\text{solved\_by}}$ \texttt{.get()\ pattern} dapat ditelusuri secara terstruktur \autocite{Wang2026}.   \item \emph{semantic expansion} berbasis \emph{embedding} vektor yang menemukan simpul relevan yang tidak terhubung secara eksplisit dalam graf.
-\end{enumerate}
-
-Hasilnya adalah subgraf yang sekaligus kaya secara relasional, presisi secara semantik, dan terpercaya secara komunitas~\autocite{Zhou2026}. Subgraf inilah yang menjadi satu-satunya sumber konteks bagi proses generasi di Jalur 3.
-
-\textbf{Jalur 3 - Generasi berbasis graf.}
-Subgraf yang dihasilkan pada Jalur 2 diproses melalui mekanisme \emph{grounded generation}. Setiap \emph{triple} pada subgraf direpresentasikan dalam bentuk pasangan \texttt{(Entitas-Relasi-Entitas) + segmen teks sumber} dan disertakan sebagai \emph{structured prompt} ke LLM. Mekanisme \emph{dual-constraint} diterapkan melalui dua lapisan kendali yang bekerja bersamaan. Lapisan pertama adalah kendala berbasis KG yang mengharuskan LLM menghasilkan jawaban sesuai fakta yang direpresentasikan oleh subgraf. Lapisan kedua adalah mekanisme \textit{RAG grounding} yang mengaitkan setiap klaim dengan sumber tekstual Stack Overflow yang dapat diverifikasi \autocite{BenKhalifa2026}. Hasilnya adalah jawaban yang tidak hanya akurat secara faktual, tetapi juga menyediakan jalur \emph{provenance} yang dapat ditelusuri kembali ke simpul KG beserta informasi bobot komunitas sumber. Pendekatan ini memungkinkan pengguna mengetahui bahwa jawaban berasal dari solusi yang telah divalidasi komunitas pengembang~\autocite{Ali2026}.
-
-\textbf{Jalur 4 - Evaluasi dan validasi.}
-Jawaban yang dihasilkan pada Jalur 3 dievaluasi melalui tiga skenario perbandingan bertingkat: (1) LLM murni tanpa mekanisme \emph{grounding}, (2) RAG konvensional berbasis \emph{dense retrieval}, dan (3) GraphRAG Framework yang diusulkan dengan KG berbobot dari Stack Overflow. Desain tiga skenario ini memungkinkan isolasi kontribusi masing-masing komponen yaitu mengukur kontribusi RAG secara umum dan mengukur kontribusi struktur relasional KG dan bobot komunitas yang merupakan novelty utama penelitian ini. Evaluasi dilakukan menggunakan protokol \emph{LLM-as-a-Judge} yang reliabilitasnya divalidasi melalui Cohen's~$\kappa \geq 0{,}6$~\autocite{Gu2026}, dengan metrik meliputi \emph{hallucination rate} (H-Rate), \emph{faithfulness}, \emph{context relevance}, dan \emph{answer relevance} melalui kerangka RAGAS~\autocite{Kamalipour2026}.
-
-Keempat jalur tersebut membentuk suatu sistem yang terintegrasi secara kohesif. KG yang dibangun pada Jalur 1 berfungsi sebagai indeks pengetahuan bagi proses retrieval pada Jalur 2, subgraf hasil retrieval menjadi konteks bagi proses generasi pada Jalur 3, sedangkan jawaban yang dihasilkan LLM menjadi objek evaluasi pada Jalur 4. Konsistensi antara permasalahan penelitian, solusi yang diusulkan, dan artefak yang dirancang merupakan prasyarat penting dalam menjaga kualitas metodologis penelitian berbasis desain \autocite{Peffers2007}.
+\todo{Gambar baru yang disarankan: (1) taksonomi mitigasi halusinasi (Subbab II.2),
+(2) perbandingan konteks yang diambil RAG vektor, GraphRAG, dan GraphRAG berbobot (Subbab II.4), (3) contoh utas Stack Overflow dengan skor dan jawaban diterima (Subbab II.6).}
