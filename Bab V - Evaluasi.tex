@@ -1,59 +1,76 @@
 %============================================================
 % BAB V - EVALUASI DAN HASIL
+%============================================================
+\providecommand{\nd}{\textcolor{red}{\textbf{[isi]}}}
+\emergencystretch=3em
 
 \chapter{EVALUASI DAN HASIL}
 \label{chap:evaluasi}
 
 Bab ini melaporkan hasil evaluasi pada sampel uji ($n{=}384$) berdasarkan desain pada Bab~\ref{chap:analisis-desain} dan implementasi pada Bab~\ref{chap:implementasi}. Pembahasan disusun sebagai berikut.
-\begin{enumerate}[1.]
-    \item Hasil kualitas jawaban: \emph{cosine similarity}, \emph{hallucination rate}, dan \emph{answer relevance}.
-    \item Hasil kualitas \emph{grounding} dan keterlacakan: \emph{faithfulness}, \emph{citation support}, dan \emph{valid citation rate} (NF2).
-    \item Hasil kualitas \emph{retrieval}: \emph{context relevance}.
+\begin{enumerate}
+    \item Hasil pelaksanaan dan verifikasi kontrol eksperimen.
+    \item Hasil utama, yaitu \emph{hallucination rate}, himpunan pertanyaan bersama, dan pengujian hipotesis.
+    \item Hasil metrik pendukung: \emph{faithfulness}, \emph{citation support}, keterlacakan kutipan (NF2), relevansi konteks, dan relevansi jawaban.
     \item Hasil latensi (NF3).
-    \item Analisis perbandingan antarkondisi.
+    \item Analisis pengaruh setiap komponen, termasuk analisis eksploratif.
     \item Analisis kasus.
     \item Pembahasan.
     \item Ancaman terhadap validitas.
 \end{enumerate}
+Seluruh angka berasal dari label mayoritas panel \emph{judge} (dua dari tiga) pada sampel uji. Kelima konfigurasi adalah A, B-Vec, B-Acc, C-Acc, dan C-Acc+Vote (Tabel~\ref{tab:daftar-run}). Selisih dinyatakan dalam persentase.
 
 %============================================================
-\section{Hasil Kualitas Jawaban}
-\label{sec:hasil-kualitas-jawaban}
+\section{Hasil Pelaksanaan dan Verifikasi Kontrol}
+\label{sec:hasil-pelaksanaan}
 %============================================================
 
-\subsection{\emph{Cosine Similarity}}
-\label{subsec:hasil-cosine}
+\subsection{Verifikasi Kontrol Eksperimen}
+\label{subsec:verifikasi-kontrol}
 
-Subbab ini melaporkan kemiripan semantik antara jawaban yang dihasilkan tiap kondisi dan \emph{accepted answer} sebagai jawaban rujukan. Kemiripan dihitung sebagai \emph{cosine similarity} antarvektor \emph{embedding} dengan model \texttt{all-MiniLM-L6-v2}, atas seluruh 384 jawaban per kondisi termasuk jawaban \texttt{ABSTAIN}. Tabel~\ref{tab:cosine-deskriptif} menyajikan statistik deskriptif per kondisi.
+Sebelum membandingkan jawaban, pelaksanaan diperiksa terhadap kontrol yang dirancang pada Subbab~\ref{subsec:pengendalian-variabel} dan \ref{subsec:leakage}. Hasilnya sebagai berikut.
+\begin{itemize}
+    \item \textbf{Integritas evaluasi (NF5).} Pada seluruh 384 pertanyaan uji, tidak ditemukan kebocoran data pada B-Vec, B-Acc, C-Acc, maupun C-Acc+Vote (0 dari 1.920 item konteks per konfigurasi). Pemeriksaan mencakup identitas pertanyaan dan jawaban pada konteks serta kutipan, termasuk pertanyaan asal, pertanyaan perantara, dan \emph{anchor}, terhadap himpunan pengecualian. Rincian hasil disajikan pada Lampiran~\ref{lamp:kebocoran}.
+    \item \textbf{Jumlah konteks.} Keempat konfigurasi berbasis \emph{retrieval} menghasilkan lima item konteks untuk setiap pertanyaan, tanpa konteks kosong (1.920 item per konfigurasi).
+
+    \item \textbf{Perbandingan antarkondisi (NF6).} Seluruh konfigurasi menggunakan sampel, \emph{generator}, dan struktur dasar \emph{prompt} yang sama. Model \emph{embedding}, jumlah konteks ($k=5$), dan batas teks item identik pada keempat konfigurasi berbasis \emph{retrieval} (Tabel~\ref{tab:komponen-bersama}). Metadata \emph{retrieval} tidak disertakan dalam \emph{prompt}. 
+
+    \item \textbf{Pemeriksaan $\alpha=0$.} Tanpa kontribusi bobot pada skor akhir, C-Acc dan C-Acc+Vote menghasilkan lima konteks teratas yang identik dengan B-Vec pada seluruh 384 pertanyaan, termasuk urutannya. \emph{Pool} kedua varian identik pada 378 pertanyaan. Pada $\alpha=0{,}25$, konteks berubah pada 354 pertanyaan untuk C-Acc dan 364 pertanyaan untuk C-Acc+Vote, dengan masing-masing 764 dan 735 item berbeda dibandingkan B-Vec. Hasil ini menunjukkan bahwa pembobotan memengaruhi pemilihan konteks, meskipun pengaruh perbedaan \emph{pool} tidak sepenuhnya dapat dikesampingkan.
+
+    \item \textbf{Pembobotan seragam (C-0).} Ketika graf digunakan tanpa bobot (semua jawaban berbobot sama), GraphRAG menghasilkan konteks yang identik dengan B-Vec pada seluruh 384 pertanyaan (1.920 item), semuanya berasal dari satu \emph{hop}. Pemeriksaan C-0 hanya dilakukan pada tahap \emph{retrieval}, tanpa generasi atau evaluasi jawaban. Konfigurasi ini hanya dicatat pada tahap \emph{retrieval}, sehingga tidak ada jawaban atau penilaian terpisah untuk C-0.
+\end{itemize}
+
+Perbedaan konteks antarkonfigurasi pada sampel uji dirangkum pada Tabel~\ref{tab:konteks-identik}. Konteks C-Acc berbeda dari B-Vec pada hampir semua pertanyaan (hanya 30 dari 384 identik). C-Acc dan C-Acc+Vote memiliki himpunan konteks identik pada 240 pertanyaan, dengan kandidat graf yang sama pada seluruh 384 pertanyaan.
 
 \begin{table}[!htbp]
 \centering
 \small
-\caption{Statistik deskriptif \emph{cosine similarity} jawaban terhadap \emph{accepted answer} ($n{=}384$ per kondisi).}
-\label{tab:cosine-deskriptif}
+\caption{Jumlah pertanyaan (dari 384) yang himpunan konteks akhirnya identik antara dua konfigurasi.}
+\label{tab:konteks-identik}
 \renewcommand{\arraystretch}{1.2}
-\begin{tabular}{|c|c|c|c|}
+\begin{tabular}{|l|c|}
 \hline
-\textbf{Kondisi} & \textbf{Rata-rata} & \textbf{Median} & \textbf{Proporsi $>0{,}5$ (\%)} \\
+\textbf{Pasangan konfigurasi} & \textbf{Pertanyaan dengan konteks identik} \\
 \hline
-A & 0,6137 & 0,6339 & 81,8 \\
-\hline
-B & 0,6015 & 0,6215 & 77,3 \\
-\hline
-C & 0,5999 & 0,6150 & 78,1 \\
-\hline
-D & 0,6008 & 0,6153 & 78,4 \\
+B-Acc dan B-Vec & 108 \\
+B-Acc dan C-Acc & 115 \\
+B-Acc dan C-Acc+Vote & 100 \\
+C-Acc dan B-Vec & 30 \\
+C-Acc+Vote dan B-Vec & 20 \\
+C-Acc dan C-Acc+Vote & 240 \\
 \hline
 \end{tabular}
 \end{table}
 
-Rata-rata \emph{cosine similarity} berkisar antara 0,5999 dan 0,6137. Selisih antara B, C, dan D tidak lebih dari 0,0016 sehingga ketiganya praktis setara, sedangkan Kondisi A sedikit lebih tinggi.
+%============================================================
+\section{Hasil Utama: \emph{Hallucination Rate}}
+\label{sec:hasil-utama}
+%============================================================
 
-
-\subsection{\emph{Hallucination Rate}}
+\subsection{\emph{Hallucination Rate} per Konfigurasi}
 \label{subsec:hasil-halusinasi}
 
-Tabel~\ref{tab:hasil-halusinasi} melaporkan \emph{hallucination rate} dalam dua versi, yaitu versi utama dengan \texttt{ABSTAIN} dikeluarkan dari penyebut, dan versi kedua dengan \texttt{ABSTAIN} dihitung sebagai jawaban gagal.
+Tabel~\ref{tab:hasil-halusinasi} melaporkan \emph{hallucination rate} dalam dua versi. Versi (a) mengeluarkan \texttt{ABSTAIN} dari penyebut dan menjadi metrik utama. Versi (b) menghitung \texttt{ABSTAIN} sebagai kegagalan.
 
 \begin{table}[!htbp]
 \centering
@@ -61,87 +78,123 @@ Tabel~\ref{tab:hasil-halusinasi} melaporkan \emph{hallucination rate} dalam dua 
 \caption{\emph{Hallucination rate} pada sampel uji ($n{=}384$, label panel).}
 \label{tab:hasil-halusinasi}
 \renewcommand{\arraystretch}{1.2}
-\begin{tabular}{|l|c|c|c|}
+\begin{tabularx}{\textwidth}{|l|*{4}{>{\centering\arraybackslash}X|}}
 \hline
-\textbf{Kondisi} & \textbf{(a) \texttt{ABSTAIN} dikeluarkan} & \textbf{(b) \texttt{ABSTAIN} gagal} & \textbf{\texttt{ABSTAIN}} \\
+\textbf{Konfigurasi} & \textbf{Berhalusinasi ($H$)} & \textbf{(a) \texttt{ABSTAIN} dikeluarkan} & \textbf{\texttt{ABSTAIN}} & \textbf{(b) \texttt{ABSTAIN} gagal} \\
 \hline
-A & 25,8\% (99/384) & 25,8\% (99/384) & 0\% (0) \\
-B & 24,8\% (76/307) & 39,8\% (153/384) & 20,1\% (77) \\
-C & 19,2\% (59/308) & 35,2\% (135/384) & 19,8\% (76) \\
-D & 17,7\% (52/293) & 37,2\% (143/384) & 23,7\% (91) \\
+A & 99 & 25,8\% (99/384) & 0\% (0) & 25,8\% (99/384) \\
+B-Vec & 76 & 24,8\% (76/307) & 20,1\% (77) & 39,8\% (153/384) \\
+B-Acc & 62 & 19,4\% (62/320) & 16,7\% (64) & 32,8\% (126/384) \\
+C-Acc & 60 & 18,8\% (60/319) & 16,9\% (65) & 32,6\% (125/384) \\
+C-Acc+Vote & 54 & 17,0\% (54/318) & 17,2\% (66) & 31,2\% (120/384) \\
 \hline
-\end{tabular}
+\end{tabularx}
 \end{table}
 
 \begin{figure}[!htbp]
 \centering
-% \includegraphics[width=0.85\textwidth]{images/bab5_hasil_halusinasi.png}
-\todo{Gambar G1: diagram batang \emph{hallucination rate} per kondisi pada sampel uji}
-\caption{\emph{Hallucination rate} per kondisi pada sampel uji.}
+\includegraphics[width=0.95\textwidth]{images/bab5_hasil_halusinasi.png}
+\caption{\emph{Hallucination rate} per konfigurasi pada sampel uji: (a) \texttt{ABSTAIN} dikeluarkan dari penyebut, (b) \texttt{ABSTAIN} dihitung sebagai kegagalan.}
 \label{fig:hasil-halusinasi}
 \end{figure}
 
-Pada versi utama, Kondisi D memiliki \emph{hallucination rate} terendah (17,7\%), disusul Kondisi C (19,2\%), Kondisi B (24,8\%), dan Kondisi A (25,8\%). Kondisi C lebih rendah 6,6 poin persentase daripada A dan 5,6 poin daripada B, dan lebih tinggi 1,5 poin daripada D. 
+Pada versi (a), A 25,8\%, B-Vec 24,8\%, B-Acc 19,4\%, C-Acc 18,8\%, dan C-Acc+Vote 17,0\%. Urutan dari tertinggi ke terendah adalah A, B-Vec, B-Acc, C-Acc, C-Acc+Vote. Pada versi (a), ketiga konfigurasi berbobot lebih rendah daripada A dan B-Vec.
 
-Pada versi kedua, urutannya berubah. Kondisi A terendah (25,8\%) karena tidak pernah memilih \texttt{ABSTAIN}, sedangkan seluruh kondisi ber-\emph{grounding} lebih tinggi, yaitu C 35,2\%, D 37,2\%, dan B 39,8\%. Di antara kondisi ber-\emph{grounding}, C terendah. Penurunan pada versi (a) karena itu perlu dibaca bersama proporsi \texttt{ABSTAIN}. Kondisi B, C, dan D menolak menjawab pada 19,8 sampai 23,7\% pertanyaan, sedangkan A menjawab seluruhnya. Perbandingan C dengan B tidak terpengaruh oleh hal ini karena jumlah \texttt{ABSTAIN} keduanya hampir sama (76 dan 77), sehingga selisih pada versi utama dan kedua berasal dari lebih sedikitnya jawaban berhalusinasi (59 terhadap 76), bukan dari lebih banyaknya penolakan. Sebaliknya, Kondisi D menolak lebih sering (91 jawaban), sehingga sebagian keunggulannya pada versi (a) berasal dari penyebut yang lebih kecil.
+Pada versi (b), urutannya berbeda. A terendah (25,8\%) karena tidak pernah menolak menjawab. Di antara keempat konfigurasi berkonteks, B-Vec tertinggi (39,8\%) dan C-Acc+Vote terendah (31,2\%). Penolakan menjawab terjadi pada 16,7 sampai 20,1\% pertanyaan, dan lebih rendah pada konfigurasi berbobot (16,7 sampai 17,2\%) daripada pada B-Vec (20,1\%). Jadi penurunan pada versi (a) tidak berasal dari penolakan yang lebih banyak. Hitungan jawaban berhalusinasi sendiri juga turun, dari 76 (B-Vec) menjadi 62, 60, dan 54.
 
-Keparahan ditentukan dari klaim yang salah (\texttt{CONTRADICTED} atau \texttt{FABRICATED}), yaitu halusinasi penuh berarti sedikitnya satu klaim salah menyangkut solusi utama, dan halusinasi sebagian berarti seluruh klaim salah bersifat minor. Label panel Kondisi C terdiri atas 249 jawaban faktual, 6 halusinasi sebagian, 53 halusinasi penuh, dan 76 \texttt{ABSTAIN} (Tabel~\ref{tab:komposisi-label} dan~\ref{tab:keparahan}). Halusinasi penuh mencakup 53 dari 59 jawaban berhalusinasi (89,8\%) pada C, dan proporsinya serupa pada kondisi lain, yaitu 87 dari 99 pada A (87,9\%), 70 dari 76 pada B (92,1\%), dan 43 dari 52 pada D (82,7\%). Jadi perbedaan antarkondisi terutama terletak pada jumlah jawaban berhalusinasi, bukan pada keparahannya.
-
-\begin{table}[!htbp]
-\centering
-\small
-\caption{Tingkat keparahan halusinasi.}
-\label{tab:keparahan}
-\renewcommand{\arraystretch}{1.2}
-\begin{tabular}{|l|c|c|c|}
-\hline
-\textbf{Kondisi} & \textbf{Penuh} & \textbf{Sebagian} & \textbf{Klaim tak terverifikasi} \\
-\hline
-A & 87 (22,7\%) & 12 (3,1\%) & 4.053 dari 7.864 (51,5\%) \\
-B & 70 (22,8\%) & 6 (2,0\%) & 1.977 dari 5.108 (38,7\%) \\
-C & 53 (17,2\%) & 6 (1,9\%) & 1.925 dari 5.015 (38,4\%) \\
-D & 43 (14,7\%) & 9 (3,1\%) & 1.882 dari 4.690 (40,1\%) \\
-\hline
-\end{tabular}
-\end{table}
-
-Setiap \emph{judge} mengekstrak daftar klaimnya sendiri, sehingga jumlah klaim pada Tabel~\ref{tab:keparahan} adalah gabungan tiga daftar. Separuh klaim jawaban A (51,5\%) tidak dapat diverifikasi terhadap rujukan, dibandingkan 38,4 sampai 40,1\% pada kondisi ber-\emph{grounding}. Klaim yang tidak dapat diverifikasi tidak dihitung sebagai halusinasi, sehingga angka halusinasi A dapat bernilai terlalu rendah.
-
-\begin{table}[!htbp]
-\centering
-\small
-\caption{Komposisi label panel pada sampel uji ($n{=}384$ per kondisi).}
-\label{tab:komposisi-label}
-\renewcommand{\arraystretch}{1.2}
-\begin{tabular}{|l|c|c|c|c|}
-\hline
-\textbf{Kondisi} & \textbf{Faktual} & \textbf{Halusinasi sebagian} & \textbf{Halusinasi penuh} & \textbf{\texttt{ABSTAIN}} \\
-\hline
-A & 285 & 12 & 87 & 0 \\
-B & 231 & 6 & 70 & 77 \\
-C & 249 & 6 & 53 & 76 \\
-D & 241 & 9 & 43 & 91 \\
-\hline
-\end{tabular}
-\end{table}
+Gambar~\ref{fig:komposisi-label} memperlihatkan komposisi 384 jawaban per konfigurasi. Jawaban faktual naik dari 231 (B-Vec) menjadi 258 (B-Acc), 259 (C-Acc), dan 264 (C-Acc+Vote), yaitu 27 sampai 33 jawaban. Kenaikan ini berasal dari dua perubahan sekaligus, yaitu jumlah \texttt{ABSTAIN} turun 11 sampai 13 jawaban (dari 77 menjadi 64 sampai 66), dan jumlah jawaban berhalusinasi turun 14 sampai 22 jawaban (dari 76 menjadi 54 sampai 62). Jadi konteks berbobot diikuti oleh lebih sedikit kesalahan dan lebih sedikit penolakan sekaligus. A memiliki 285 jawaban faktual, lebih banyak daripada konfigurasi berkonteks, karena A tidak pernah menolak menjawab (0 \texttt{ABSTAIN}). Karena itu jumlah jawaban faktual tidak dibandingkan langsung antara A dan konfigurasi berkonteks. 
 
 \begin{figure}[!htbp]
 \centering
-% \includegraphics[width=0.85\textwidth]{images/bab5_komposisi_label.png}
-\todo{Gambar G3: diagram batang bertumpuk label panel (faktual, halusinasi sebagian, halusinasi penuh, \texttt{ABSTAIN}) per kondisi}
-\caption{Komposisi label panel per kondisi.}
+\includegraphics[width=0.95\textwidth]{images/bab5_komposisi_label.png}
+\caption{Komposisi label panel per konfigurasi (jawaban faktual, berhalusinasi, dan \texttt{ABSTAIN}).}
 \label{fig:komposisi-label}
 \end{figure}
 
-Gambar~\ref{fig:halusinasi-judge} memperlihatkan bahwa arah C lebih rendah daripada A dan B pada versi (a) searah pada ketiga \emph{judge}, walaupun besarnya berbeda (misalnya terhadap B: 1,6 poin menurut Llama, 7,6 poin menurut DeepSeek, dan 1,7 poin menurut Qwen).
+Pola penurunan sejalan dengan keandalan sumber konteks, yaitu seberapa besar bagian konteks yang berasal dari jawaban yang dinilai andal oleh pengguna, terutama jawaban berstatus \emph{accepted}. Pada B-Vec, konteks dipilih hanya berdasarkan kemiripan dan hanya 38,1\% item konteks berstatus \emph{accepted} (Tabel~\ref{tab:profil-retrieval}), dan angkanya hampir tidak berubah terhadap A (25,8\% menjadi 24,8\%). Pada B-Acc, status \emph{accepted} masuk pada pemeringkatan ulang, proporsi item \emph{accepted} naik menjadi 56,6\%, dan angka \emph{hallucination rate} turun menjadi 19,4\%. Pada C-Acc proporsi item \emph{accepted} 77,9\% dengan angka \emph{hallucination rate} 18,8\%.  
+
+
+\subsection{Kategori Halusinasi}
+\label{subsec:hasil-keparahan}
+
+Halusinasi dikategorikan berdasarkan klaim berlabel \texttt{CONTRADICTED} atau \texttt{FABRICATED}.
+Halusinasi penuh terjadi apabila sedikitnya satu klaim salah berkaitan dengan solusi utama, sedangkan halusinasi sebagian terjadi apabila seluruh klaim salah hanya menyangkut aspek minor (Tabel~\ref{tab:kategori_halusinasi}).
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Distribusi kategori halusinasi berdasarkan label panel.}
+\label{tab:kategori_halusinasi}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Konfigurasi} & \textbf{Berhalusinasi ($H$)} & \textbf{Penuh} & \textbf{Sebagian} \\
+\hline
+A & 99 & 87 & 12 \\
+B-Vec & 76 & 70 & 6 \\
+B-Acc & 62 & 49 & 13 \\
+C-Acc & 60 & 45 & 15 \\
+C-Acc+Vote & 54 & 47 & 7 \\
+\hline
+\end{tabular}
+\end{table}
+
+Gambar~\ref{fig:kategori-halusinasi} memperlihatkan kategori yang sama sebagai persentase dengan penyebut versi (a), sehingga tinggi tiap bar sama dengan \emph{hallucination rate} versi (a) pada Tabel~\ref{tab:hasil-halusinasi}.
 
 \begin{figure}[!htbp]
 \centering
-% \includegraphics[width=0.9\textwidth]{images/bab5_halusinasi_judge.png}
-\todo{Gambar G2: diagram batang berkelompok \emph{hallucination rate} (a) per \emph{judge} (Llama, DeepSeek, Qwen) dan panel untuk A, B, C, D }
-\caption{\emph{Hallucination rate} per \emph{judge} dan panel (\texttt{ABSTAIN} dikeluarkan).}
-\label{fig:halusinasi-judge}
+\includegraphics[width=0.95\textwidth]{images/bab5_kategori_halusinasi.png}
+\caption{Kategori halusinasi per konfigurasi. Tinggi bar adalah \emph{hallucination rate} versi (a), terdiri atas halusinasi penuh dan sebagian. Belah ketupat adalah versi (b), yaitu \texttt{ABSTAIN} dihitung sebagai kegagalan (sama dengan versi (a) pada A).}
+\label{fig:kategori-halusinasi}
 \end{figure}
+
+Halusinasi penuh turun dari 70 (B-Vec) menjadi 49 (B-Acc), 45 (C-Acc), dan 47 (C-Acc+Vote), yaitu 21 sampai 25 jawaban. Halusinasi sebagian justru naik pada B-Acc (13) dan C-Acc (15) dibandingkan B-Vec (6), dan kembali rendah pada C-Acc+Vote (7). Proporsi halusinasi sebagian terhadap seluruh halusinasi mengikuti pola yang sama, yaitu 8\% (B-Vec), 21\% (B-Acc), 25\% (C-Acc), dan 13\% (C-Acc+Vote). Jadi penurunan jumlah halusinasi seluruhnya berasal dari halusinasi penuh, sedangkan jumlah halusinasi sebagian bertambah. Angka ini adalah selisih jumlah bersih per konfigurasi, bukan perpindahan label per pertanyaan, dan perpindahan itu tidak diselidiki per kasus.
+
+Penurunan halusinasi pada konteks yang lebih banyak memuat jawaban \emph{accepted} terjadi pada kategori halusinasi penuh, yaitu klaim salah yang menyangkut solusi utama. Hal ini sejalan dengan keandalan sumber konteks, karena status \emph{accepted} menandai jawaban yang diterima penanya.
+
+
+\subsection{Hasil per \emph{Judge}}
+\label{subsec:hasil-per-judge}
+
+Label panel adalah suara mayoritas dua dari tiga \emph{judge}. Sebagai pemeriksaan ketahanan, \emph{hallucination rate} versi (a) dihitung juga pada tiap \emph{judge} (Tabel~\ref{tab:per-judge}). Arah selisih setiap konfigurasi terhadap B-Vec dibandingkan dengan arah pada label panel.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{\emph{Hallucination rate} versi (a) per \emph{judge} dan panel (\%). Selisih terhadap B-Vec pada tiap \emph{judge} ada di Lampiran~\ref{lamp:hasil-lengkap}.}
+\label{tab:per-judge}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Konfigurasi} & \textbf{Llama-3.3-70B} & \textbf{DeepSeek-V3.2} & \textbf{Qwen3-235B} & \textbf{Panel} \\
+\hline
+A & 6,0 & 36,2 & 37,2 & 25,8 \\
+B-Vec & 5,3 & 38,6 & 35,7 & 24,8 \\
+B-Acc & 3,6 & 30,0 & 32,8 & 19,4 \\
+C-Acc & 3,0 & 31,7 & 30,7 & 18,8 \\
+C-Acc+Vote & 3,6 & 29,4 & 32,7 & 17,0 \\
+\hline
+\end{tabular}
+\end{table}
+
+Untuk B-Acc, C-Acc, dan C-Acc+Vote, ketiga \emph{judge} searah dengan label panel: ketiganya menilai konfigurasi tersebut lebih rendah daripada B-Vec. Selisih terhadap B-Vec berkisar $-1{,}7$ sampai $-2{,}3$ poin pada Llama, $-6{,}9$ sampai $-9{,}2$ poin pada DeepSeek, dan $-2{,}9$ sampai $-5{,}1$ poin pada Qwen. Pengecualian ada pada A. Panel, Llama, dan Qwen menilai A lebih tinggi daripada B-Vec ($+1{,}0$; $+0{,}7$; $+1{,}5$), sedangkan DeepSeek menilai A lebih rendah ($-2{,}4$). Jadi arah A terhadap B-Vec tidak konsisten antar-\emph{judge}.
+
+
+\subsection{Himpunan Pertanyaan Bersama}
+\label{subsec:hasil-himpunan-s}
+
+Versi (a) membandingkan konfigurasi pada penyebut yang berbeda. Untuk melihat selisih pada pertanyaan yang sama, dibentuk himpunan bersama $S$, yaitu 273 pertanyaan yang bukan \texttt{ABSTAIN} pada B-Vec, B-Acc, C-Acc, dan C-Acc+Vote. A tidak pernah \texttt{ABSTAIN}, sehingga seluruh pertanyaan $S$ ikut dinilai pada A. Himpunan ini dipilih setelah label diketahui dan membuang pertanyaan yang gagal diambil konteksnya oleh salah satu konfigurasi, sehingga hasilnya dibaca sebagai analisis tambahan.
+
+Pada $S$, \emph{hallucination rate} adalah A 22,0\%, B-Vec 25,3\%, B-Acc 20,9\%, C-Acc 20,1\%, dan C-Acc+Vote 17,9\% (Gambar~\ref{fig:hr-himpunan-s}). Urutannya sama dengan versi (a) kecuali A, yang kini lebih rendah daripada B-Vec.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.75\textwidth]{images/bab5_hr_himpunan_s.png}
+\caption{\emph{Hallucination rate} versi (a) pada himpunan bersama $S$ ($n{=}273$).}
+\label{fig:hr-himpunan-s}
+\end{figure}
+
+Dari A ke B-Vec, 37 pertanyaan tidak lagi berhalusinasi dan 46 mulai berhalusinasi (bersih $+9$). Dari B-Vec ke B-Acc, angkanya 34 dan 22 (bersih $-12$). Dari B-Vec ke C-Acc+Vote, 42 dan 22 (bersih $-20$). Jadi konteks berbobot memperbaiki lebih banyak pertanyaan daripada yang dirusaknya, sedangkan konteks vektor biasa terhadap A justru sebaliknya. Perpindahan dua arah yang besar juga menunjukkan bahwa label tiap pertanyaan tidak stabil (Subbab~\ref{subsec:variasi}).
 
 
 \subsection{\emph{Answer Relevance}}
