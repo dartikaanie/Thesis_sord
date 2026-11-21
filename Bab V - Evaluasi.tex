@@ -194,33 +194,54 @@ Pada $S$, \emph{hallucination rate} adalah A 22,0\%, B-Vec 25,3\%, B-Acc 20,9\%,
 \label{fig:hr-himpunan-s}
 \end{figure}
 
-Dari A ke B-Vec, 37 pertanyaan tidak lagi berhalusinasi dan 46 mulai berhalusinasi (bersih $+9$). Dari B-Vec ke B-Acc, angkanya 34 dan 22 (bersih $-12$). Dari B-Vec ke C-Acc+Vote, 42 dan 22 (bersih $-20$). Jadi konteks berbobot memperbaiki lebih banyak pertanyaan daripada yang dirusaknya, sedangkan konteks vektor biasa terhadap A justru sebaliknya. Perpindahan dua arah yang besar juga menunjukkan bahwa label tiap pertanyaan tidak stabil (Subbab~\ref{subsec:variasi}).
+Dari A ke B-Vec, 37 pertanyaan tidak lagi berhalusinasi dan 46 mulai berhalusinasi (bersih $+9$). Dari B-Vec ke B-Acc, angkanya 34 dan 22 (bersih $-12$). Dari B-Vec ke C-Acc+Vote, 42 dan 22 (bersih $-20$). Jadi konteks berbobot memperbaiki lebih banyak pertanyaan daripada yang dirusaknya, sedangkan konteks vektor biasa terhadap A justru sebaliknya. 
 
+\subsection{Pengujian Hipotesis dan Pertanyaan Penelitian}
+\label{subsec:hasil-h1}
 
-\subsection{\emph{Answer Relevance}}
-\label{subsec:hasil-answer-relevance}
-
-Skor rata-rata \emph{answer relevance} (\texttt{MENJAWAB}~=~1, \texttt{MENJAWAB\_SEBAGIAN}~=~0,5, \texttt{TIDAK\_MENJAWAB}~=~0) adalah 0,969 pada Kondisi A, 0,664 pada B, 0,641 pada C, dan 0,616 pada D (Tabel~\ref{tab:answer-relevance}). Skor Kondisi A mendekati 1 karena A selalu mencoba menjawab, sedangkan kondisi ber-\emph{grounding} memuat jawaban \texttt{ABSTAIN} yang tidak menjawab pertanyaan. Sebagian besar jawaban \texttt{ABSTAIN} memang berlabel \texttt{TIDAK\_MENJAWAB} (57 dari 77 pada B, 55 dari 76 pada C, dan 63 dari 91 pada D), dan sisanya \texttt{MENJAWAB\_SEBAGIAN}. Dengan jawaban \texttt{ABSTAIN} dikeluarkan, skor menjadi 0,798 (B), 0,763 (C), dan 0,759 (D), sehingga selisih besar terhadap A terutama berasal dari penolakan, sedangkan selisih antar-kondisi ber-\emph{grounding} yang tersisa kecil.
+Tabel~\ref{tab:rq-selisih} merangkum perbandingan yang dirancang pada Tabel~\ref{tab:pemetaan-perbandingan}. Selisih dihitung sebagai konfigurasi pertama dikurangi kedua, sehingga selisih negatif berarti konfigurasi pertama lebih rendah.
 
 \begin{table}[!htbp]
 \centering
-\small
-\caption{\emph{Answer relevance} (label panel).}
-\label{tab:answer-relevance}
+\footnotesize
+\caption{Selisih \emph{hallucination rate} versi (a) antarkonfigurasi (persentase).}
+\label{tab:rq-selisih}
 \renewcommand{\arraystretch}{1.2}
-\begin{tabularx}{\textwidth}{|l|*{4}{>{\centering\arraybackslash}X|}}
+\begin{tabularx}{\textwidth}{|l|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash}p{3.0cm}|>{\centering\arraybackslash}p{3.0cm}|}
 \hline
-\textbf{Kondisi} & \textbf{Skor rata-rata} & \textbf{\texttt{MENJAWAB}} & \textbf{\texttt{MENJAWAB\_SEBAGIAN}} & \textbf{\texttt{TIDAK\_MENJAWAB}} \\
+\textbf{RQ} & \textbf{Perbandingan} & \textbf{Seluruh 384 pertanyaan} & \textbf{Himpunan $S$ ($n{=}273$)} \\
 \hline
-A & 0,969 & 360 (93,8\%) & 24 (6,2\%) & 0 (0,0\%) \\
-B & 0,664 & 183 (47,7\%) & 144 (37,5\%) & 57 (14,8\%) \\
-C & 0,641 & 166 (43,2\%) & 160 (41,7\%) & 58 (15,1\%) \\
-D & 0,616 & 153 (39,8\%) & 167 (43,5\%) & 64 (16,7\%) \\
+RQ3 (H1) & C-Acc terhadap A & $-7{,}0$ & $-1{,}8$ \\
+\hline
+RQ3 (H1) & C-Acc terhadap B-Vec & $-5{,}9$ & $-5{,}1$ \\
+\hline
+RQ3 (H1) & C-Acc+Vote terhadap A & $-8{,}8$ & $-4{,}0$ \\
+\hline
+RQ3 (H1) & C-Acc+Vote terhadap B-Vec & $-7{,}8$ & $-7{,}3$ \\
+\hline
+RQ4 & B-Acc terhadap B-Vec & $-5{,}4$ & $-4{,}4$ \\
+\hline
+RQ4 & C-Acc terhadap B-Acc & $-0{,}6$ & $-0{,}7$ \\
+\hline
+RQ4 & C-Acc terhadap B-Vec & $-5{,}9$ & $-5{,}1$ \\
+\hline
+RQ5 & C-Acc+Vote terhadap C-Acc & $-1{,}8$ & $-2{,}2$ \\
 \hline
 \end{tabularx}
 \end{table}
 
-Di antara kondisi ber-\emph{grounding}, Kondisi C berada di antara B (lebih tinggi 0,023) dan D (lebih rendah 0,025).
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.98\textwidth]{images/bab5_selisih_bvec.png}
+\caption{Matriks selisih \emph{hallucination rate} versi (a) antarkonfigurasi (\%): (a) seluruh 384 pertanyaan, (b) himpunan bersama $S$.}
+\label{fig:selisih-bvec}
+\end{figure}
+
+\paragraph{H1 (RQ3).} Hipotesis H1 menyatakan bahwa kedua konfigurasi C menghasilkan \emph{hallucination rate} lebih rendah daripada A dan B-Vec. Pada seluruh 384 pertanyaan, keempat selisih negatif: $-7{,}0$ dan $-8{,}8$ terhadap A, serta $-5{,}9$ dan $-7{,}8$ terhadap B-Vec. Pada $S$, keempat selisih tetap negatif, tetapi terhadap A mengecil menjadi $-1{,}8$ dan $-4{,}0$, sedangkan terhadap B-Vec $-5{,}1$ dan $-7{,}3$. Pada versi (b), kedua konfigurasi C lebih tinggi daripada A (32,6\% dan 31,2\% terhadap 25,8\%, selisih $+6{,}8$ dan $+5{,}5$), dan lebih rendah daripada B-Vec ($-7{,}3$ dan $-8{,}6$). Jadi arah H1 terpenuhi terhadap B-Vec pada kedua versi, dan terhadap A hanya pada versi (a). Terhadap A, hasilnya bergantung pada perlakuan \texttt{ABSTAIN}.
+
+\paragraph{RQ4.} Pembobotan \emph{accepted answer} pada pemeringkatan ulang vektor (B-Acc terhadap B-Vec) menurunkan \emph{hallucination rate} 5,4 poin (4,4 poin pada $S$), yang berada dalam kisaran variasi antar-pengulangan. Menambahkan mekanisme berbasis graf di atas pembobotan itu (C-Acc terhadap B-Acc) menurunkannya hanya 0,6 poin, jauh di bawah kisaran variasi. Selisih total C-Acc terhadap B-Vec ($-5{,}9$) hampir seluruhnya sudah dicapai B-Acc. Jadi penurunan yang teramati berasal dari pembobotan, dan tambahan dari graf belum terbukti pada data ini. Selisih C-Acc terhadap B-Acc mencerminkan seluruh mekanisme berbasis graf, yaitu penelusuran graf, \emph{semantic expansion}, dan \emph{pool} kandidat yang lebih luas (Subbab~\ref{subsec:batasan-implementasi}).
+
+\paragraph{H2 dan RQ5.} C-Acc+Vote (17,0\%) lebih rendah daripada C-Acc (18,8\%) sebesar 1,8 poin, dan pada $S$ sebesar 2,2 poin. Selisih 1 sampai 3 poin berada dalam kisaran variasi antar-pengulangan yang terukur (Subbab~\ref{subsec:variasi}). Karena itu penambahan skor suara pada bobot \emph{accepted} menghasilkan angka lebih rendah.
 
 %============================================================
 \section{Hasil Kualitas \emph{Grounding} dan Keterlacakan}
