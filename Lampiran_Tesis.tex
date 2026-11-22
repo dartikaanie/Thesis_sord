@@ -172,10 +172,15 @@ Hasil pada himpunan pengembangan (150 pertanyaan, posisi 435 sampai 584) dilapor
 
 
 
-\section{Perbedaan Tingkat Antar-\emph{Judge}}
+\section{Hasil Panel per \emph{Judge}}
 \label{sec:lamp-b-panel}
 
-Bagian ini merangkum perbedaan tingkat penilaian antar-\emph{judge} dari Tabel~\ref{tab:lamp-per-judge}. Angkanya tidak dihitung ulang.
+Bagian ini memuat hasil tiap \emph{judge} untuk metrik yang pada Bab~\ref{chap:evaluasi} dilaporkan sebagai angka panel. Seluruh angka dihitung ulang dari rekaman penilaian yang sudah ada tanpa memanggil \emph{judge} lagi, dengan penyebut yang sama dengan Bab~\ref{chap:evaluasi}. Kelima konfigurasi diuji pada 384 pertanyaan yang sama. Ketiga \emph{judge} menilai semua metrik pada semua konfigurasi, termasuk relevansi konteks dan relevansi jawaban. Panel belum divalidasi anotator manusia, sehingga seluruh hasil ini adalah estimasi berbasis \emph{LLM-as-a-Judge}.
+
+\subsection{Perbedaan Tingkat Antar-\emph{Judge}}
+\label{sec:lamp-b-rentang}
+
+Tabel~\ref{tab:lamp-rentang-judge} merangkum rentang \emph{hallucination rate} versi (a) dari Tabel~\ref{tab:lamp-per-judge}. Angkanya tidak dihitung ulang.
 
 \begin{table}[!htbp]
 \centering
@@ -196,7 +201,218 @@ Qwen3-235B & 30,7 (C-Acc) & 37,2 (A) & A \\
 \end{tabularx}
 \end{table}
 
-Llama menilai halusinasi jauh lebih jarang daripada DeepSeek dan Qwen pada semua konfigurasi, sedangkan DeepSeek dan Qwen berada pada tingkat yang berdekatan. Perbedaan tingkat ini tidak mengubah arah selisih konfigurasi berbobot terhadap B-Vec (Subbab~\ref{sec:lamp-b-judge}). Hasil per \emph{judge} untuk kesepakatan, label halusinasi sebagian dan \texttt{ABSTAIN}, \emph{faithfulness}, \emph{citation support}, relevansi, dan statistik klaim tidak dihitung per \emph{judge}, sehingga tidak dimuat. Bab~\ref{chap:evaluasi} melaporkan metrik tersebut sebagai angka panel. Panel belum divalidasi anotator manusia, sehingga hasil ini adalah estimasi berbasis \emph{LLM-as-a-Judge}.
+Llama menilai halusinasi jauh lebih jarang daripada DeepSeek dan Qwen pada semua konfigurasi, sedangkan DeepSeek dan Qwen berada pada tingkat yang berdekatan. Perbedaan tingkat ini tidak mengubah arah selisih konfigurasi berbobot terhadap B-Vec (Subbab~\ref{sec:lamp-b-judge}).
+
+\subsection{Kesepakatan Antar-\emph{Judge}}
+\label{sec:lamp-b-sepakat}
+
+Tiga kolom pertama Tabel~\ref{tab:lamp-sepakat-judge} menghitung persentase dari 384 pertanyaan menurut jumlah \emph{judge} yang memberi label empat kelas yang sama (\texttt{FAKTUAL}, \texttt{HALUSINASI\_\allowbreak{}SEBAGIAN}, \texttt{HALUSINASI\_\allowbreak{}PENUH}, \texttt{ABSTAIN}). Tiga kolom terakhir memuat Cohen's $\kappa$ dan kesepakatan mentah (dalam kurung, \%) tiap pasangan \emph{judge} pada label biner versi (a), yaitu halusinasi atau bukan. Jawaban yang diberi \texttt{ABSTAIN} oleh salah satu \emph{judge} dalam pasangan itu dikeluarkan dari pasangan tersebut. Jumlah pasangan yang tersisa adalah 384 pada A dan 296 sampai 317 pada empat konfigurasi lain.
+
+\begin{table}[!htbp]
+\centering
+\scriptsize
+\caption{Kesepakatan tiga \emph{judge} (\%) dan Cohen\textquotesingle s $\kappa$ (kesepakatan mentah \%) per pasangan.}
+\label{tab:lamp-sepakat-judge}
+\renewcommand{\arraystretch}{1.2}
+\setlength{\tabcolsep}{1.5pt}
+\begin{tabularx}{\textwidth}{|l|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
+\hline
+\textbf{Konfigurasi} & \textbf{Tiga sama} & \textbf{Dua sama} & \textbf{Tiga beda} & \textbf{Llama--DeepSeek} & \textbf{Llama--Qwen} & \textbf{DeepSeek--Qwen} \\
+\hline
+A & 53,6 & 43,8 & 2,6 & 0,13 (67,2) & 0,10 (65,1) & 0,48 (76,0) \\
+\hline
+B-Vec & 56,8 & 41,9 & 1,3 & 0,11 (64,8) & 0,15 (68,2) & 0,42 (73,0) \\
+\hline
+B-Acc & 58,1 & 38,5 & 3,4 & 0,03 (69,4) & 0,11 (69,7) & 0,40 (74,0) \\
+\hline
+C-Acc & 57,0 & 38,3 & 4,7 & 0,02 (67,9) & 0,03 (69,2) & 0,42 (75,1) \\
+\hline
+C-Acc+Vote & 56,3 & 40,6 & 3,1 & 0,10 (71,9) & 0,09 (69,0) & 0,34 (71,8) \\
+\hline
+\end{tabularx}
+\end{table}
+
+Ketiga \emph{judge} memberi label yang sama pada 53,6\% sampai 58,1\% pertanyaan, dan hanya 1,3\% sampai 4,7\% pertanyaan yang diberi tiga label berbeda. Pasangan DeepSeek--Qwen memiliki $\kappa$ sedang (0,34 sampai 0,48), sedangkan pasangan yang melibatkan Llama memiliki $\kappa$ rendah (0,02 sampai 0,15) walaupun kesepakatan mentahnya 64,8\% sampai 71,9\%. Pola ini sejalan dengan tingkat halusinasi Llama yang jauh lebih rendah daripada dua \emph{judge} lain.
+
+\subsection{Label per \emph{Judge}}
+\label{sec:lamp-b-label}
+
+\begin{table}[!htbp]
+\centering
+\scriptsize
+\caption{Persentase halusinasi penuh (P), halusinasi sebagian (S), dan \texttt{ABSTAIN} (X) per \emph{judge} dari 384 jawaban.}
+\label{tab:lamp-label-judge}
+\renewcommand{\arraystretch}{1.2}
+\setlength{\tabcolsep}{1.5pt}
+\begin{tabularx}{\textwidth}{|l|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
+\hline
+\textbf{Konfigurasi} & \textbf{Llama P} & \textbf{Llama S} & \textbf{Llama X} & \textbf{DeepSeek P} & \textbf{DeepSeek S} & \textbf{DeepSeek X} & \textbf{Qwen P} & \textbf{Qwen S} & \textbf{Qwen X} \\
+\hline
+A & 4,9 & 1,0 & 0,0 & 33,6 & 2,6 & 0,0 & 30,2 & 7,0 & 0,0 \\
+\hline
+B-Vec & 3,6 & 0,8 & 16,9 & 27,3 & 2,6 & 22,4 & 24,2 & 4,2 & 20,6 \\
+\hline
+B-Acc & 2,9 & 0,3 & 13,8 & 20,3 & 3,6 & 20,1 & 21,6 & 5,5 & 17,4 \\
+\hline
+C-Acc & 2,1 & 0,5 & 14,3 & 22,1 & 2,9 & 21,1 & 19,5 & 5,5 & 18,5 \\
+\hline
+C-Acc+Vote & 2,9 & 0,3 & 12,5 & 21,4 & 1,8 & 21,1 & 23,7 & 3,4 & 17,2 \\
+\hline
+\end{tabularx}
+\end{table}
+
+Seluruh persentase di sini memakai 384 sebagai penyebut, sedangkan \emph{hallucination rate} versi (a) memakai $(P+S)/(384-X)$. Llama paling jarang memberi label halusinasi dan paling jarang memberi \texttt{ABSTAIN} pada konfigurasi berkonteks (12,5\% sampai 16,9\%). DeepSeek paling sering memberi \texttt{ABSTAIN} (20,1\% sampai 22,4\%), dan Qwen berada di antaranya (17,2\% sampai 20,6\%). Pada A tidak ada \texttt{ABSTAIN} dari ketiga \emph{judge}.
+
+\subsection{\emph{Faithfulness} dan \emph{Citation Support} per \emph{Judge}}
+\label{sec:lamp-b-faith}
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{\emph{Faithfulness} (\%) per \emph{judge}. Kolom Panel sama dengan Bab~\ref{chap:evaluasi}.}
+\label{tab:lamp-faith-judge}
+\renewcommand{\arraystretch}{1.2}
+
+\begin{tabularx}{\textwidth}{|l|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
+\hline
+\textbf{Konfigurasi} & \textbf{Llama} & \textbf{DeepSeek} & \textbf{Qwen} & \textbf{Panel} \\
+\hline
+B-Vec & 62,1 & 49,6 & 74,2 & 61,3 \\
+\hline
+B-Acc & 60,3 & 45,6 & 75,8 & 59,5 \\
+\hline
+C-Acc & 57,7 & 46,0 & 71,8 & 57,8 \\
+\hline
+C-Acc+Vote & 55,6 & 46,2 & 71,3 & 57,2 \\
+\hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{\emph{Citation support} (\%) per \emph{judge}. Kolom Panel sama dengan Bab~\ref{chap:evaluasi}.}
+\label{tab:lamp-cites-judge}
+\renewcommand{\arraystretch}{1.2}
+
+\begin{tabularx}{\textwidth}{|l|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
+\hline
+\textbf{Konfigurasi} & \textbf{Llama} & \textbf{DeepSeek} & \textbf{Qwen} & \textbf{Panel} \\
+\hline
+B-Vec & 93,2 & 82,6 & 93,2 & 90,2 \\
+\hline
+B-Acc & 93,0 & 84,2 & 95,9 & 91,7 \\
+\hline
+C-Acc & 93,4 & 81,9 & 95,1 & 90,9 \\
+\hline
+C-Acc+Vote & 90,9 & 84,0 & 92,5 & 89,6 \\
+\hline
+\end{tabularx}
+\end{table}
+
+Kolom Panel dihitung dari gabungan klaim ketiga \emph{judge} (mikro atas klaim), bukan rata-rata tiga kolom di sebelah kirinya. A tidak dilaporkan karena tidak memiliki konteks. Tingkat antar-\emph{judge} sangat berbeda: \emph{faithfulness} DeepSeek 45,6\% sampai 49,6\%, Llama 55,6\% sampai 62,1\%, dan Qwen 71,3\% sampai 75,8\%. Urutan antar-konfigurasi juga tidak sama pada ketiga \emph{judge}, sehingga selisih kecil antar-konfigurasi pada kolom Panel tidak ditafsirkan.
+
+\subsection{Relevansi Konteks dan Relevansi Jawaban per \emph{Judge}}
+\label{sec:lamp-b-rel}
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Skor relevansi konteks per \emph{judge} (\texttt{RELEVANT}~=~1, \texttt{PARTIAL}~=~0,5, \texttt{IRRELEVANT}~=~0). Kolom Panel sama dengan Bab~\ref{chap:evaluasi}.}
+\label{tab:lamp-ctxrel-judge}
+\renewcommand{\arraystretch}{1.2}
+
+\begin{tabularx}{\textwidth}{|l|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
+\hline
+\textbf{Konfigurasi} & \textbf{Llama} & \textbf{DeepSeek} & \textbf{Qwen} & \textbf{Panel} \\
+\hline
+B-Vec & 0,407 & 0,276 & 0,354 & 0,342 \\
+\hline
+B-Acc & 0,402 & 0,270 & 0,351 & 0,336 \\
+\hline
+C-Acc & 0,384 & 0,256 & 0,328 & 0,317 \\
+\hline
+C-Acc+Vote & 0,388 & 0,261 & 0,333 & 0,322 \\
+\hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Skor relevansi jawaban per \emph{judge} (\texttt{MENJAWAB}~=~1, \texttt{MENJAWAB\_\allowbreak{}SEBAGIAN}~=~0,5, \texttt{TIDAK\_\allowbreak{}MENJAWAB}~=~0). Kolom Panel sama dengan Bab~\ref{chap:evaluasi}.}
+\label{tab:lamp-ansrel-judge}
+\renewcommand{\arraystretch}{1.2}
+
+\begin{tabularx}{\textwidth}{|l|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
+\hline
+\textbf{Konfigurasi} & \textbf{Llama} & \textbf{DeepSeek} & \textbf{Qwen} & \textbf{Panel} \\
+\hline
+A & 0,997 & 0,898 & 0,965 & 0,969 \\
+\hline
+B-Vec & 0,762 & 0,582 & 0,645 & 0,664 \\
+\hline
+B-Acc & 0,767 & 0,590 & 0,651 & 0,663 \\
+\hline
+C-Acc & 0,755 & 0,576 & 0,632 & 0,650 \\
+\hline
+C-Acc+Vote & 0,764 & 0,572 & 0,634 & 0,651 \\
+\hline
+\end{tabularx}
+\end{table}
+
+Skor tiap \emph{judge} adalah rata-rata skor label \emph{judge} itu atas 1.920 item konteks per konfigurasi berkonteks (lima item untuk tiap pertanyaan) atau atas 384 jawaban. Skor Panel adalah rata-rata skor label panel pada item yang sama, dengan label dua dari tiga (median bila ketiganya berbeda), sehingga Panel bukan rata-rata tiga kolom di sebelah kirinya. Llama memberi skor tertinggi dan DeepSeek terendah pada kedua metrik. Pada relevansi konteks, urutan konfigurasi sama pada ketiga \emph{judge} (B-Vec tertinggi, C-Acc terendah). Relevansi jawaban tertinggi pada A untuk ketiga \emph{judge}.
+
+\subsection{Statistik Klaim per \emph{Judge}}
+\label{sec:lamp-b-klaim}
+
+\begin{table}[!htbp]
+\centering
+\scriptsize
+\caption{Jumlah klaim yang dikeluarkan tiap \emph{judge} (n), persentase klaim \texttt{UNVERIFIABLE} (U), dan persentase klaim bernilai null (N) pada \emph{faithfulness}. Klaim dihitung dari jawaban yang tidak diberi \texttt{ABSTAIN} oleh \emph{judge} itu.}
+\label{tab:lamp-klaim-judge}
+\renewcommand{\arraystretch}{1.2}
+\setlength{\tabcolsep}{1.5pt}
+\begin{tabularx}{\textwidth}{|l|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
+\hline
+\textbf{Konfigurasi} & \textbf{Llama n} & \textbf{Llama U} & \textbf{Llama N} & \textbf{DeepSeek n} & \textbf{DeepSeek U} & \textbf{DeepSeek N} & \textbf{Qwen n} & \textbf{Qwen U} & \textbf{Qwen N} \\
+\hline
+A & 2.127 & 52,5 & -- & 3.090 & 56,3 & -- & 2.647 & 45,2 & -- \\
+\hline
+B-Vec & 1.400 & 42,8 & 0,8 & 2.021 & 45,2 & 6,8 & 1.687 & 27,6 & 3,9 \\
+\hline
+B-Acc & 1.436 & 41,9 & 0,6 & 2.095 & 44,4 & 2,1 & 1.734 & 24,7 & 3,2 \\
+\hline
+C-Acc & 1.406 & 44,2 & 1,1 & 1.987 & 42,8 & 4,3 & 1.648 & 28,4 & 1,9 \\
+\hline
+C-Acc+Vote & 1.482 & 41,8 & 0,7 & 2.033 & 44,6 & 5,8 & 1.721 & 25,0 & 2,5 \\
+\hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Persentase klaim bernilai null pada \emph{citation support} per \emph{judge}.}
+\label{tab:lamp-klaim-null-cite}
+\renewcommand{\arraystretch}{1.2}
+
+\begin{tabularx}{\textwidth}{|l|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
+\hline
+\textbf{Konfigurasi} & \textbf{Llama} & \textbf{DeepSeek} & \textbf{Qwen} \\
+\hline
+B-Vec & 45,1 & 69,4 & 52,8 \\
+\hline
+B-Acc & 44,0 & 71,1 & 53,3 \\
+\hline
+C-Acc & 47,0 & 71,0 & 53,8 \\
+\hline
+C-Acc+Vote & 47,1 & 71,7 & 55,1 \\
+\hline
+\end{tabularx}
+\end{table}
+
+Pada A tidak ada konteks, sehingga klaim tidak dapat dinilai terhadap konteks dan kolom N bernilai ``--''. Persentase null pada \emph{citation support} tinggi (44,0\% sampai 71,7\%) karena klaim tanpa kutipan memang bernilai null, sehingga angka ini tidak menunjukkan kegagalan \emph{judge}. DeepSeek mengeluarkan klaim paling banyak pada semua konfigurasi (1.987 sampai 3.090), Llama paling sedikit (1.400 sampai 2.127). Qwen memberi persentase \texttt{UNVERIFIABLE} paling rendah pada konfigurasi berkonteks (24,7\% sampai 28,4\%).
 
 
 \cleardoublepage
