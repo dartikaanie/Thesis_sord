@@ -93,7 +93,7 @@ C-Acc+Vote & 54 & 17,0\% (54/318) & 17,2\% (66) & 31,2\% (120/384) \\
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.95\textwidth]{images/bab5_hasil_halusinasi.png}
+\includegraphics[width=\textwidth]{images/bab5_hasil_halusinasi.png}
 \caption{\emph{Hallucination rate} per konfigurasi pada sampel uji: (a) \texttt{ABSTAIN} dikeluarkan dari penyebut, (b) \texttt{ABSTAIN} dihitung sebagai kegagalan.}
 \label{fig:hasil-halusinasi}
 \end{figure}
@@ -106,7 +106,7 @@ Gambar~\ref{fig:komposisi-label} memperlihatkan komposisi 384 jawaban per konfig
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.95\textwidth]{images/bab5_komposisi_label.png}
+\includegraphics[width=\textwidth]{images/bab5_komposisi_label.png}
 \caption{Komposisi label panel per konfigurasi (jawaban faktual, berhalusinasi, dan \texttt{ABSTAIN}).}
 \label{fig:komposisi-label}
 \end{figure}
@@ -141,7 +141,7 @@ Gambar~\ref{fig:kategori-halusinasi} memperlihatkan kategori yang sama sebagai p
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.95\textwidth]{images/bab5_kategori_halusinasi.png}
+\includegraphics[width=\textwidth]{images/bab5_kategori_halusinasi.png}
 \caption{Kategori halusinasi per konfigurasi. Tinggi bar adalah \emph{hallucination rate} versi (a), terdiri atas halusinasi penuh dan sebagian. Belah ketupat adalah versi (b), yaitu \texttt{ABSTAIN} dihitung sebagai kegagalan (sama dengan versi (a) pada A).}
 \label{fig:kategori-halusinasi}
 \end{figure}
@@ -184,7 +184,7 @@ Pada himpunan $\mathcal{S}$, \emph{hallucination rate} adalah 22,0\% (A), 25,3\%
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.95\textwidth]{images/bab5_hr_himpunan_s.png}
+\includegraphics[width=\textwidth]{images/bab5_hr_himpunan_s.png}
 \caption{\emph{Hallucination rate} versi (a) pada himpunan bersama $\mathcal{S}$ ($n{=}273$).}
 \label{fig:hr-himpunan-s}
 \end{figure}
@@ -226,17 +226,19 @@ RQ5 & C-Acc+Vote terhadap C-Acc & $-1{,}8$ & $-2{,}2$ \\
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.98\textwidth]{images/bab5_selisih_bvec.png}
+\includegraphics[width=\textwidth]{images/bab5_selisih_bvec.png}
 \caption{Matriks selisih \emph{hallucination rate} versi (a) antarkonfigurasi (selisih, \%): (a) seluruh 384 pertanyaan, (b) himpunan bersama $\mathcal{S}$.}
 
 \label{fig:selisih-bvec}
 \end{figure}
 
-\paragraph{H1 (RQ3).} Hipotesis H1 menyatakan bahwa kedua konfigurasi C menghasilkan \emph{hallucination rate} lebih rendah daripada A dan B-Vec. Pada seluruh 384 pertanyaan, keempat selisih negatif: $-7{,}0$ dan $-8{,}8$ terhadap A, serta $-5{,}9$ dan $-7{,}8$ terhadap B-Vec. Pada $\mathcal{S}$, keempat selisih tetap negatif, tetapi terhadap A mengecil menjadi $-1{,}8$ dan $-4{,}0$, sedangkan terhadap B-Vec $-5{,}1$ dan $-7{,}3$. Pada versi (b), kedua konfigurasi C lebih tinggi daripada A (32,6\% dan 31,2\% terhadap 25,8\%, selisih $+6{,}8$ dan $+5{,}5$), dan lebih rendah daripada B-Vec ($-7{,}3$ dan $-8{,}6$). Jadi arah H1 terpenuhi terhadap B-Vec pada kedua versi, dan terhadap A hanya pada versi (a). Terhadap A, hasilnya bergantung pada perlakuan \texttt{ABSTAIN}.
+\begin{enumerate}
+    \item[\textbf{H1 (RQ3).}] Hipotesis H1 menyatakan bahwa kedua konfigurasi C menghasilkan \emph{hallucination rate} lebih rendah daripada A dan B-Vec. Pada seluruh 384 pertanyaan, keempat selisih negatif: $-7{,}0\%$ dan $-8{,}8\%$ terhadap A, serta $-5{,}9\%$ dan $-7{,}8\%$ terhadap B-Vec. Pada $\mathcal{S}$, keempat selisih tetap negatif, tetapi terhadap A mengecil menjadi $-1{,}8\%$ dan $-4{,}0\%$, sedangkan terhadap B-Vec $-5{,}1\%$ dan $-7{,}3\%$. Pada versi (b), kedua konfigurasi C lebih tinggi daripada A (32,6\% dan 31,2\% terhadap 25,8\%, selisih $+6{,}8\%$ dan $+5{,}5\%$), dan lebih rendah daripada B-Vec ($-7{,}3\%$ dan $-8{,}6\%$). Jadi arah H1 terpenuhi terhadap B-Vec pada kedua versi, dan terhadap A hanya pada versi (a). Terhadap A, hasilnya bergantung pada perlakuan \texttt{ABSTAIN}.
 
-\paragraph{RQ4.} Pembobotan \emph{accepted answer} pada pemeringkatan ulang vektor (B-Acc terhadap B-Vec) menurunkan \emph{hallucination rate} 5,4\% (4,4\% pada $\mathcal{S}$). Menambahkan mekanisme berbasis graf di atas pembobotan itu (C-Acc terhadap B-Acc) menurunkannya hanya 0,6\%. Selisih total C-Acc terhadap B-Vec ($-5{,}9$) hampir seluruhnya sudah dicapai B-Acc. Dengan demikian, sebagian besar penurunan yang teramati sudah muncul pada B-Acc.  Selisih C-Acc terhadap B-Acc mencerminkan seluruh mekanisme berbasis graf, yaitu penelusuran graf, \emph{semantic expansion}, dan \emph{pool} kandidat yang lebih luas (Subbab~\ref{subsec:batasan-implementasi}).
+    \item[\textbf{RQ4.}] Pembobotan \emph{accepted answer} pada pemeringkatan ulang vektor (B-Acc terhadap B-Vec) menurunkan \emph{hallucination rate} 5,4\% (4,4\% pada $\mathcal{S}$). Menambahkan mekanisme berbasis graf di atas pembobotan itu (C-Acc terhadap B-Acc) menurunkannya hanya 0,6\%. Selisih total C-Acc terhadap B-Vec ($-5{,}9\%$) hampir seluruhnya sudah dicapai B-Acc. Dengan demikian, sebagian besar penurunan yang teramati sudah muncul pada B-Acc. Selisih C-Acc terhadap B-Acc mencerminkan seluruh mekanisme berbasis graf, yaitu penelusuran graf, \emph{semantic expansion}, dan \emph{pool} kandidat yang lebih luas (Subbab~\ref{subsec:batasan-implementasi}).
 
-\paragraph{RQ5 (eksploratif).} Pada label panel, C-Acc+Vote (17,0\%) lebih rendah daripada C-Acc (18,8\%) sebesar 1,8\%, dan pada $\mathcal{S}$ sebesar 2,2\%. 
+    \item[\textbf{RQ5 (eksploratif).}] Pada label panel, C-Acc+Vote (17,0\%) lebih rendah daripada C-Acc (18,8\%) sebesar 1,8\%, dan pada $\mathcal{S}$ sebesar 2,2\%.
+\end{enumerate}
 
 %============================================================
 \section{Hasil Metrik Pendukung}
@@ -247,7 +249,7 @@ Metrik pendukung terdiri atas evaluasi \emph{faithfulness}, \emph{citation suppo
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.95\textwidth]{images/bab5_grounding_retrieval.png}
+\includegraphics[width=\textwidth]{images/bab5_grounding_retrieval.png}
 \caption{\emph{Faithfulness}, \emph{citation support}, \emph{valid citation rate} (seluruh jawaban), dan \emph{context relevance} pada konfigurasi berkonteks.}
 \label{fig:grounding-retrieval}
 \end{figure}
@@ -320,7 +322,7 @@ Konteks berbobot tidak lebih relevan terhadap pertanyaan daripada konteks vektor
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.7\textwidth]{images/bab5_accepted_vs_hr.png}
+\includegraphics[width=\textwidth]{images/bab5_accepted_vs_hr.png}
 \caption{Rata-rata item \emph{accepted} per konteks dan \emph{hallucination rate} versi (a) pada keempat konfigurasi berkonteks.}
 \label{fig:accepted-hr}
 \end{figure}
@@ -373,7 +375,7 @@ C-Acc+Vote & 165 / 170 / 49 & 0,651 & 318; 165 / 151 / 2 & 0,756 \\
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.98\textwidth]{images/bab5_relevansi.png}
+\includegraphics[width=\textwidth]{images/bab5_relevansi.png}
 \caption{Sebaran label (a) relevansi konteks per item dan (b) relevansi jawaban pada konfigurasi berkonteks (persentase).}
 \label{fig:relevansi}
 \end{figure}
@@ -405,7 +407,7 @@ C-Acc+Vote & 0,99 (0,94) & 5,93 (5,74) & 13,44 \\
 \end{table}
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.98\textwidth]{images/bab5_latensi.png}
+\includegraphics[width=\textwidth]{images/bab5_latensi.png}
 \caption{Latensi rata-rata per kueri (batang) dan median (belah ketupat): (a) total, dengan batas NF3 15 detik, (b) \emph{retrieval}.}
 \label{fig:latensi}
 \end{figure}
@@ -431,7 +433,7 @@ Sebanyak 46 pertanyaan (12,0\%) tidak memiliki jawaban berstatus \emph{accepted}
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.98\textwidth]{images/bab5_kolam_graf.png}
+\includegraphics[width=\textwidth]{images/bab5_kolam_graf.png}
 \caption{Distribusi kandidat graf pada 384 pertanyaan uji: (a) jumlah kandidat satu dan dua \emph{hop} setelah pembatasan, serta (b) jumlah jawaban \emph{accepted} dalam kumpulan kandidat.}
 \label{fig:kolam-graf}
 \end{figure}
@@ -477,7 +479,7 @@ Join lebih rendah daripada B-Vec sebesar 3,1\%, dan 2-hop tanpa \emph{expansion}
 Analisis kasus menelusuri contoh konkret untuk menjelaskan angka pada bagian sebelumnya. Penelusuran \emph{provenance} satu pertanyaan (29901703) telah ditunjukkan pada Subbab~\ref{subsec:implementasi-provenance} untuk memperlihatkan jalur pengambilan, bobot, dan skor akhir. Contoh itu menunjukkan mekanisme, bukan bukti pengaruh.
 
 Kriteria kasus ditetapkan sebelum isi jawaban dibaca, dan hanya label panel yang digunakan. Kasus berhasil (X) adalah pertanyaan yang C-Acc+Vote-nya faktual dan B-Vec-nya berhalusinasi. Kasus gagal (Y) adalah kebalikannya. Dilaporkan pertanyaan dengan \emph{id} terkecil yang memenuhi kriteria. Jumlahnya 43 pertanyaan untuk X dan 23 untuk Y. Terdapat pula 27 pertanyaan yang C-Acc+Vote-nya faktual dan B-Vec-nya \texttt{ABSTAIN}, dan 3 pertanyaan yang C-Acc+Vote-nya berhalusinasi dan B-Vec-nya \texttt{ABSTAIN}. Jadi sebagian keuntungan C-Acc+Vote berasal dari pertanyaan yang tidak dijawab B-Vec. Isi jawaban tidak dibahas pada bab ini.
-\subsection{Kasus Berhasil: Pertanyaan 2010746}
+\subsection{Kasus Berhasil}
 \label{subsec:kasus-berhasil}
 Pada pertanyaan 2010746, jawaban C-Acc+Vote faktual dan jawaban B-Vec berhalusinasi. Konteks C-Acc+Vote terdiri atas lima jawaban satu \emph{hop} (Tabel~\ref{tab:kasus-x}). Dua di antaranya \emph{accepted}. Jawaban peringkat ketiga bukan \emph{accepted} dan memiliki bobot jawaban nol, tetapi berada di tiga teratas karena kemiripan ternormalisasinya paling tinggi (1,0).
 \begin{table}[!htbp]
@@ -499,7 +501,7 @@ Pada pertanyaan 2010746, jawaban C-Acc+Vote faktual dan jawaban B-Vec berhalusin
 \end{tabularx}
 \end{table}
 Konteks B-Vec untuk pertanyaan yang sama memuat himpunan item yang hampir sama (4 dari 5 identik) dengan urutan berbeda. Jadi perbedaan label pada pertanyaan ini sulit dijelaskan oleh perbedaan konteks.
-\subsection{Kasus Gagal: Pertanyaan 5917610}
+\subsection{Kasus Gagal}
 \label{subsec:kasus-gagal}
 Pada pertanyaan 5917610, jawaban C-Acc+Vote berhalusinasi dan jawaban B-Vec faktual. Konteks C-Acc+Vote terdiri atas lima jawaban satu \emph{hop} dari kolam B (Tabel~\ref{tab:kasus-y}), dan hanya peringkat pertama yang \emph{accepted}. Peringkat kedua dan ketiga berasal dari pertanyaan yang sama (Q15214762).
 \begin{table}[!htbp]

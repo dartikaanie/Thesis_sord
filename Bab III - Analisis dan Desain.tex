@@ -41,14 +41,14 @@ RAG menyediakan konteks dari dokumen eksternal pada tahap inferensi \autocite{Le
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.85\textwidth]{images/bab3_arsitektur_rag_konvensional.png}
+\includegraphics[width=\textwidth]{images/bab3_arsitektur_rag_konvensional.png}
 \caption{Arsitektur RAG konvensional, diadaptasi dari taksonomi empat tahap \autocite{Kamalipour2026}.}
 \label{fig:arsitektur-rag-konvensional}
 \end{figure}
 
 GraphRAG merepresentasikan pengetahuan sebagai graf pengetahuan dan mengambil konteks melalui penelusuran graf, sehingga hubungan antarinformasi dapat dimanfaatkan secara eksplisit \autocite{WangXL2026, Syeda2026, Zhu2026}. Penelusuran multi-\emph{hop} memungkinkan sistem menemukan informasi terkait yang tidak ditemukan hanya melalui kemiripan semantik \autocite{Kamalipour2026}. Dalam GraphRAG konvensional, sisi graf menyatakan keterkaitan antarinformasi, dan semua simpul diperlakukan setara dalam hal keandalan.
 
-Sejumlah penelitian menambahkan bobot kepercayaan pada graf atau pada proses pengambilan konteks. Bobot tersebut berasal dari asal-usul dan kualitas dokumen \autocite{Shi2026}, tingkat keyakinan informasi dan keandalan sumber \autocite{Wang2025CRAG}, indikator keandalan \autocite{Asghari2026}, atau umpan balik manusia yang disimulasikan dan dirambatkan melalui graf \autocite{LiTrustProp2026}.
+Sejumlah penelitian menambahkan bobot kepercayaan pada graf atau pada proses pengambilan konteks. Bobot tersebut berasal dari asal-usul dan kualitas dokumen \autocite{Shi2026}, tingkat keyakinan informasi dan keandalan sumber, indikator keandalan \autocite{Asghari2026}, atau umpan balik manusia yang disimulasikan dan dirambatkan melalui graf \autocite{LiTrustProp2026}.
 
 
 \FloatBarrier
@@ -64,7 +64,7 @@ Keempat pendekatan tersebut memiliki keterbatasan yang menjadi dasar pengembanga
 
     \item GraphRAG memanfaatkan hubungan antarinformasi dalam pengambilan konteks, tetapi belum menjamin keandalan informasi karena tetap bergantung pada kualitas sumber pengetahuan \autocite{WangXL2026, Yang2025}.
 
-    \item GraphRAG berbobot mempertimbangkan keandalan informasi, tetapi penelitian yang ditinjau menggunakan bobot dari karakteristik dokumen atau umpan balik simulasi, bukan dari penilaian pengguna \autocite{Shi2026, Wang2025CRAG, LiTrustProp2026}.
+    \item GraphRAG berbobot mempertimbangkan keandalan informasi, tetapi penelitian yang ditinjau menggunakan bobot dari karakteristik dokumen atau umpan balik simulasi, bukan dari penilaian pengguna \autocite{Shi2026, LiTrustProp2026}.
 \end{enumerate}
 
 
@@ -166,10 +166,9 @@ Mekanisme yang diusulkan terdiri atas dua blok utama, seperti pada Gambar~\ref{f
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\textwidth]{images/bab3_arsitektur_framework.png}
-\caption{Arsitektur mekanisme pembobotan graf pengetahuan berbasis penilaian pengguna, terdiri atas dua blok utama, yaitu Konstruksi \emph{Knowledge Graph} Berbobot dan Pengambilan Konteks Berbobot.}
+\caption{Arsitektur mekanisme pembobotan graf pengetahuan berbasis penilaian pengguna}
 \label{fig:arsitektur-framework}
 \end{figure}
-\todo{UPDATE GAMBAR ARSITEKTUR: dua blok utama saja, hapus blok Grounded Generation dan blok evaluasi}
 
 Kondisi yang dibandingkan untuk menguji mekanisme ini dirancang pada Subbab~\ref{sec:kondisi-eksperimen}, dan protokol evaluasinya pada Subbab~\ref{sec:rancangan-evaluasi}. Seluruh kondisi yang menggunakan konteks menerima instruksi generasi yang sama (Subbab~\ref{subsec:pengendalian-variabel}).
 
@@ -181,7 +180,7 @@ Graf pengetahuan berbobot merupakan komponen utama mekanisme yang diusulkan. Sum
 
 Simpul dan relasi dasar dibangun dari metadata struktural Stack Overflow, sehingga tidak memerlukan ekstraksi entitas dari teks bebas. Relasi tambahan antarpertanyaan diturunkan pada tahap densifikasi dari kesamaan tag dan kemiripan \emph{embedding}.
 
-\paragraph{Tipe Simpul.}
+\subsubsection{Tipe Simpul.}
 KG menggunakan tiga tipe simpul berikut, dengan atribut yang diambil langsung dari metadata SORD.
 \begin{enumerate}[(a)]
     \item \texttt{Question}, yaitu pertanyaan pada Stack Overflow, dengan atribut \texttt{id}, \texttt{title}, \texttt{body}, \texttt{score}, \texttt{viewCount}, \texttt{creationDate}, dan \texttt{domainTag}. Atribut \texttt{domainTag} adalah tag pertama pertanyaan.
@@ -189,7 +188,7 @@ KG menggunakan tiga tipe simpul berikut, dengan atribut yang diambil langsung da
     \item \texttt{Tag}, yaitu label teknologi, bahasa pemrograman, atau \emph{library}, dengan atribut \texttt{name} dan \texttt{questionCount}.
 \end{enumerate}
 
-\paragraph{Tipe Sisi.}
+\subsubsection{Tipe Sisi.}
 Hubungan antarsimpul direpresentasikan dalam sisi berbobot $w \in [0,1]$. Enam tipe sisi dibagi menjadi tiga kelompok, yaitu sisi struktural dari SORD, sisi pengayaan dari tautan antar-\emph{thread}, dan sisi densifikasi dari kemiripan antarpertanyaan. Operasionalisasinya dijelaskan pada Tabel~\ref{tab:bobot-kepercayaan}.
 \input{tables/bab3_bobot_kepercayaan.tex}
 
@@ -197,22 +196,20 @@ Sisi \texttt{TAGGED\_WITH} tidak dilalui dalam penelusuran. Pengaruh tag terhada
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.9\textwidth]{images/bab3_contoh_subgraf_kg.png}
+\includegraphics[width=\textwidth]{images/bab3_contoh_subgraf_kg.png}
 \caption{Contoh ilustratif subgraf KG berbobot yang memuat simpul \texttt{Question}, \texttt{Answer}, dan \texttt{Tag} beserta keenam tipe sisi. Nilai bersifat ilustratif.}
 \label{fig:contoh-subgraf-kg}
 \end{figure}
 
 Gambar~\ref{fig:contoh-subgraf-kg} menampilkan contoh subgraf dari domain autentikasi FastAPI. Subgraf memuat tiga simpul \texttt{Question}: \texttt{Q\#1234} (validasi token OAuth2), \texttt{Q\#2567} (penanganan \emph{refresh token expired}), dan \texttt{Q\#3188} (dekode JWT dengan \texttt{python-jose}). Sisi \texttt{IS\_RELATED\_TO} bertipe \emph{Linked} antara \texttt{Q\#1234} dan \texttt{Q\#2567} berbobot kosinus \emph{embedding} $w_{qq'}{=}0{,}41$. Antara \texttt{Q\#2567} dan \texttt{Q\#3188} terbentuk dua sisi densifikasi, yaitu \texttt{TAG\_COOCCUR} ($w_{qq'}{=}0{,}6$) karena kedua pertanyaan berbagi tag informatif \texttt{python-jose}, dan \texttt{EMBED\_SIM} ($w_{qq'}{=}0{,}4$) karena kosinus \emph{embedding} (0,81) melampaui ambang 0,7. Pada kedua sisi densifikasi, bobot bersifat kategoris tetap dan nilai kemiripan hanya digunakan sebagai ambang.
 
-\paragraph{Proses Konstruksi \emph{Knowledge Graph}.}
+\subsubsection{Proses Konstruksi \emph{Knowledge Graph}.}
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.8\textwidth]{images/bab3_flowchart_konstruksi_kg}
+\includegraphics[width=\textwidth]{images/bab3_flowchart_konstruksi_kg}
 \caption{\emph{Flowchart} konstruksi \emph{knowledge graph} berbobot dari dataset SORD.}
 \label{fig:flowchart-konstruksi-kg}
-\end{figure}
-\todo{periksa Gambar~\ref{fig:flowchart-konstruksi-kg}: hapus simpul \texttt{User}, data reputasi pengguna, dan sisi \texttt{AUTHOR\_TRUST} bila masih ada}
-
+\end{figure}'
 Gambar~\ref{fig:flowchart-konstruksi-kg} menunjukkan lima tahap pembangunan KG berbobot. Setelah graf struktural terbentuk, pengayaan tautan (tahap~3) dan pengindeksan vektor (tahap~4) dapat dikerjakan terpisah, sedangkan densifikasi (tahap~5) membutuhkan indeks vektor dari tahap~4.
 \begin{enumerate}
     \item Validasi dan konsolidasi data. File mentah SORD divalidasi terhadap jumlah baris dan ukuran yang dilaporkan oleh \textcite{Fatima2026}. Sumber data \emph{Contain} dan \emph{LikeMinusContain} digabungkan dan dideduplikasi berdasarkan identitas \emph{post}.
@@ -222,7 +219,7 @@ Gambar~\ref{fig:flowchart-konstruksi-kg} menunjukkan lima tahap pembangunan KG b
     \item Densifikasi graf. Graf struktural Stack Overflow sangat jarang karena sebagian besar pertanyaan tidak memiliki tautan eksplisit ke pertanyaan lain. Densifikasi menambahkan sisi \texttt{TAG\_COOCCUR}, yang menghubungkan pertanyaan dengan himpunan tag informatif yang mirip (koefisien Jaccard), dan sisi \texttt{EMBED\_SIM}, yang menghubungkan pertanyaan yang mirip secara semantik. Sisi \texttt{EMBED\_SIM} dibentuk dengan mencari tetangga terdekat pada indeks FAISS dari tahap~4.
 \end{enumerate}
 
-\paragraph{Indeks Vektor.}
+\subsubsection{Indeks Vektor.}
 Terdapat dua indeks vektor. Indeks pertanyaan dibangun menggunakan model \emph{all-MiniLM-L6-v2} dari gabungan judul dan 1.000 karakter pertama isi pertanyaan. Karena jumlah pertanyaan mencapai 2,69 juta, digunakan \emph{IndexIVFFlat} untuk pencarian tetangga terdekat secara aproksimatif. Indeks ini digunakan dalam densifikasi graf dan \emph{semantic expansion}.
 
 Indeks jawaban menyimpan satu vektor per jawaban, yang dibentuk dari judul pertanyaan induk dan isi jawaban. Indeks ini digunakan bersama oleh RAG berbasis vektor dan GraphRAG berbobot sebagai sumber kandidat awal. Kedua indeks menyimpan vektor dan pemetaan identitas, sedangkan teks, bobot, dan relasi disimpan dalam \emph{graph database}.
@@ -233,7 +230,7 @@ Indeks jawaban menyimpan satu vektor per jawaban, yang dibentuk dari judul perta
 
 Bobot keandalan pada mekanisme ini terdiri atas dua jenis. Bobot jawaban berasal dari penilaian pengguna, yaitu skor suara pengguna dan status \emph{accepted answer}, dan menjadi kontribusi utama penelitian ini. Bobot sisi antarpertanyaan berasal dari tingkat validasi relasi. Keduanya digabung menjadi bobot jalur saat pengambilan konteks (Subbab~\ref{subsec:pengambilan-konteks}).
 
-\paragraph{Sumber dan Makna Bobot.}
+\subsubsection{Sumber dan Makna Bobot.}
 Pembobotan pada graf pengetahuan menggunakan dua sumber informasi, yaitu penilaian pengguna terhadap jawaban dan karakteristik hubungan antarpertanyaan. Penilaian pengguna diperoleh dari metadata Stack Overflow dalam dataset SORD \autocite{Fatima2026}, sedangkan bobot hubungan antarpertanyaan ditentukan berdasarkan jenis relasi dan kemiripan informasi. Kedua sumber bobot tersebut memiliki fungsi berbeda dalam pengambilan konteks.
 
 Penilaian pengguna direpresentasikan melalui dua atribut pada simpul \texttt{Answer}, yaitu \texttt{score} dan \texttt{isAccepted}. Atribut \texttt{score} merupakan skor suara (\emph{vote score}) pengguna, yaitu selisih antara jumlah suara positif (\emph{upvote}) dan suara negatif (\emph{downvote}) yang diberikan pengguna terhadap suatu jawaban. Skor ini mencerminkan penilaian kolektif pengguna terhadap kualitas dan kegunaan jawaban. Sementara itu, atribut \texttt{isAccepted} menunjukkan apakah jawaban telah ditandai oleh penanya sebagai solusi yang menjawab permasalahannya (\emph{accepted answer}). Dengan demikian, kedua atribut merepresentasikan bentuk penilaian yang berbeda, yaitu penilaian komunitas melalui pemungutan suara dan penerimaan solusi oleh penanya.
@@ -242,7 +239,7 @@ Kedua indikator tersebut digunakan sebagai dasar perhitungan bobot keandalan jaw
 
 Bobot hubungan antarpertanyaan diperoleh secara terpisah dari penilaian pengguna. Bobot ini merepresentasikan kekuatan keterkaitan berdasarkan jenis relasi, yaitu tautan antar-\emph{thread}, kesamaan tag, dan kemiripan \emph{embedding}. Pada proses pengambilan konteks, bobot relasi digabungkan dengan bobot keandalan jawaban untuk membentuk bobot jalur (\emph{path weight}). Bobot jalur selanjutnya dikombinasikan dengan relevansi semantik untuk menentukan skor akhir kandidat konteks.
 
-\paragraph{Skor Kepercayaan Jawaban.}
+\subsubsection{Skor Kepercayaan Jawaban.}
 Skor kepercayaan jawaban $\mathrm{trust}_A$ berada dalam rentang $[0,1]$ dan dihitung saat kueri diproses dari skor suara bersih (\texttt{score}) pada simpul \texttt{Answer}. Skor tersebut dinormalisasi secara logaritmik terhadap persentil ke-99 ($P_{99}$) dari distribusi skor jawaban untuk mengurangi pengaruh nilai ekstrem. Skor negatif diperlakukan sebagai nol, sedangkan skor yang melebihi $P_{99}$ dibatasi menjadi satu setelah normalisasi. Transformasi ini digunakan agar perbedaan penilaian pengguna tetap dapat memengaruhi pemeringkatan tanpa didominasi oleh sejumlah kecil jawaban dengan skor sangat tinggi.
 
 Skor kepercayaan hasil normalisasi merepresentasikan komponen penilaian komunitas melalui pemungutan suara. Status \emph{accepted answer} tidak dimasukkan ke dalam perhitungan $\mathrm{trust}_A$, tetapi digunakan secara terpisah pada perhitungan bobot jawaban $w_{\mathrm{ans}}$ dalam Persamaan~\eqref{eq:w-ans}.
@@ -263,7 +260,7 @@ dan keterangan sebagai berikut.
     \item Status \emph{accepted answer} digunakan pada bobot jawaban $w_{\mathrm{ans}}$ (Persamaan~\eqref{eq:w-ans}).
 \end{itemize}
 
-\paragraph{Bobot Jawaban.}
+\subsubsection{Bobot Jawaban.}
 Penilaian pengguna direpresentasikan sebagai bobot jawaban $w_{\mathrm{ans}}(a)$ melalui dua skema, yaitu pembobotan berdasarkan status \emph{accepted answer} dan pembobotan gabungan status \emph{accepted answer} dengan skor suara pengguna. Kedua skema didefinisikan sebagai berikut:
 \begin{equation}
 w_{\mathrm{ans}}(a) =
@@ -279,10 +276,10 @@ dengan $\mathbf{1}[\mathrm{acc}_a]$ bernilai 1 apabila jawaban $a$ berstatus \em
 
 Kepercayaan terhadap jawaban dihitung dari atribut \texttt{score} pada simpul \texttt{Answer}, bukan dari bobot sisi pertanyaan--jawaban. Sisi \texttt{HAS\_ACCEPTED\_ANSWER} bernilai $1{,}0$. Sisi \texttt{HAS\_ANSWER} menyimpan hasil normalisasi \emph{min-max} skor jawaban dalam satu \emph{thread} sebagai atribut, tetapi atribut ini tidak digunakan pada pengambilan konteks. Nilai $\mathrm{trust}_A$ dihitung saat kueri diproses dan tidak disimpan, sehingga pengambilan konteks tidak mengubah graf.
 
-\paragraph{Bobot Sisi Antarpertanyaan.}
+\subsubsection{Bobot Sisi Antarpertanyaan.}
 Bobot sisi antarpertanyaan ($w_{qq'}$) ditentukan berdasarkan jenis relasi dan karakteristik keterkaitannya. Relasi \emph{Duplicate} yang divalidasi komunitas diberi bobot $1{,}0$, sedangkan relasi \texttt{TAG\_COOCCUR} dan \texttt{EMBED\_SIM} masing-masing diberi bobot tetap $0{,}6$ dan $0{,}4$. Nilai tersebut merupakan bobot yang ditetapkan berdasarkan pertimbangan jenis relasi. Sementara itu, relasi \texttt{IS\_RELATED\_TO} bertipe \emph{Linked} menggunakan nilai $\max(0,\cos)$ dari \emph{embedding} kedua pertanyaan. Perbedaan bobot digunakan untuk mengatur prioritas jalur pengambilan konteks, tanpa mengasumsikan urutan keandalan yang tetap pada seluruh jenis relasi.
 
-\paragraph{Ilustrasi.}
+\subsubsection{Ilustrasi.}
 Pertanyaan \texttt{Q\#1234} memiliki jawaban yang diterima \texttt{A\#9823} dan jawaban lain \texttt{A\#9901}, sedangkan \texttt{Q\#2567} memiliki jawaban yang diterima \texttt{A\#9412}. Karena kedua jawaban yang diterima memiliki skor suara di atas $P_{99}$, nilai $\mathrm{trust}_A$ keduanya adalah $1{,}0$ dan $w_{\mathrm{ans}}=1{,}0$ pada kedua skema. Sementara itu, jawaban \texttt{A\#9901} memperoleh bobot 0 pada skema \emph{Accepted} dan $w_{\mathrm{vote}}\times\mathrm{trust}_A$ pada skema \emph{Accepted+Vote}. Ilustrasi bobot jalur dijelaskan pada Subbab~\ref{subsec:pengambilan-konteks}.
 
 %------------------------------------------------------------
@@ -291,7 +288,7 @@ Pertanyaan \texttt{Q\#1234} memiliki jawaban yang diterima \texttt{A\#9823} dan 
 
 Mekanisme pengambilan konteks menggabungkan pencarian berbasis graf dan pencarian berbasis vektor. Pencarian berbasis graf baik dalam menemukan hubungan antarinformasi secara eksplisit, tetapi cakupannya terbatas pada informasi yang terhubung dalam graf. Pencarian berbasis vektor menemukan informasi yang relevan secara semantik, tetapi kurang efektif untuk pertanyaan yang memerlukan hubungan relasional \autocite{Kamalipour2026}. Penggabungan keduanya dilaporkan meningkatkan akurasi \emph{retrieval} dan kualitas jawaban dibandingkan salah satunya \autocite{sarmah2024hybridrag}. Penelitian ini menggabungkan keduanya melalui tiga tahap berurutan, yaitu \emph{anchoring}, penelusuran graf, dan \emph{semantic expansion}. Jawaban hasil ketiga tahap digabung dalam satu \emph{pool} kandidat yang kemudian difusikan dan diperingkat serta disusun menjadi konteks (Subbab~\ref{subsec:penyaringan-konteks}). Mekanisme ini digunakan pada GraphRAG berbobot dengan dua skema pembobotan jawaban, yaitu \emph{Accepted} dan \emph{Accepted+Vote} (Persamaan~\eqref{eq:w-ans}). Kedua skema menggunakan tahapan pengambilan konteks yang sama dan hanya berbeda pada perhitungan bobot jawaban.
 
-\paragraph{Tahap 1: \emph{Anchoring}.}
+\subsubsection{Tahap 1: \emph{Anchoring}.}
 Tahap pertama memetakan pertanyaan pengguna ke simpul awal (\emph{seed nodes}) dalam KG. Pemetaan dilakukan melalui pencarian vektor pada tingkat jawaban, menggunakan indeks yang sama dengan RAG berbasis vektor. Dengan demikian, kedua pendekatan memiliki sumber kandidat awal yang sama sebelum GraphRAG melakukan perluasan melalui penelusuran graf. Langkah-langkahnya sebagai berikut.
 \begin{enumerate}
     \item Judul dan isi pertanyaan diubah menjadi vektor dengan model \emph{embedding} yang sama dengan indeks. Pada indeks jawaban dicari $K_B$ jawaban dengan kemiripan kosinus tertinggi setelah jawaban dan pertanyaan yang termasuk himpunan pengecualian dibuang. Kumpulan ini disebut $\mathcal{A}_B$ dan tetap dipertahankan sebagai kandidat awal.
@@ -299,7 +296,7 @@ Tahap pertama memetakan pertanyaan pengguna ke simpul awal (\emph{seed nodes}) d
     \item Sebanyak $N_{\mathrm{anchor}}$ pertanyaan berbeda dengan skor tertinggi dipilih sebagai \emph{seed nodes}. Jika skor sama, pertanyaan dengan identitas lebih kecil didahulukan. Apabila pertanyaan berbeda yang ditemukan kurang dari $N_{\mathrm{anchor}}$, pemindaian diperluas hingga $K_{\mathrm{scan}}$ jawaban teratas.
 \end{enumerate}
 
-\paragraph{Tahap 2: Penelusuran Graf.}
+\subsubsection{Tahap 2: Penelusuran Graf.}
 Dari \emph{seed nodes}, sistem menelusuri graf untuk mengumpulkan simpul \texttt{Answer} dalam dua pola. Penelusuran graf berbobot secara multi-\emph{hop} dari simpul awal sejalan dengan pendekatan eksplorasi graf pada Graph-RAG \autocite{Wang2026,Guo2025}.
 \begin{sloppypar}
 \begin{enumerate}
@@ -312,7 +309,7 @@ Bobot jalur kandidat didefinisikan pada Persamaan~\eqref{eq:w-path} sebagai hasi
 
 Sebagai ilustrasi, dari \texttt{Q\#1234} sistem mengikuti \texttt{HAS\_ACCEPTED\_ANSWER} menuju \texttt{A\#9823} sehingga $w_{\mathrm{path}}=1{,}0\times 1{,}0=1{,}0$. Secara paralel, sistem mengikuti \texttt{IS\_RELATED\_TO} ($w_{qq'}{=}0{,}41$) menuju \texttt{Q\#2567}, lalu \texttt{A\#9412} yang juga \emph{accepted}, sehingga $w_{\mathrm{path}}=0{,}41$.
 
-\paragraph{Tahap 3: \emph{Semantic Expansion}.}
+\subsubsection{Tahap 3: \emph{Semantic Expansion}.}
 Tahap ini memperluas pencarian secara semantik dari hasil penelusuran graf. Judul dari paling banyak $N_{\mathrm{exp}}$ pertanyaan asal pertama yang menghasilkan kandidat pada tahap penelusuran diubah menjadi vektor dan dipakai sebagai kueri pada indeks pertanyaan. Untuk setiap judul diambil paling banyak $n_{\mathrm{nb}}$ pertanyaan tetangga yang bukan \emph{seed node}, bukan pertanyaan evaluasi, dan belum diambil oleh judul sebelumnya. Jawaban dari pertanyaan tetangga menjadi kandidat. Perluasan dari judul pertanyaan asal kandidat penelusuran (bukan dari kueri pengguna) membuat kandidat tambahan terkait dengan konteks yang sudah ditemukan graf, dan penggabungan semacam ini sejalan dengan \textcite{sarmah2024hybridrag}, \textcite{Zhou2026}, dan pembahasan fusi skor oleh \textcite{Bruch2023}.
 
 Sebagian besar pertanyaan di SORD tidak memiliki jawaban. Oleh sebab itu tetangga dibatasi pada pertanyaan yang memiliki sedikitnya satu jawaban, dan penyaringan dilakukan sebelum jumlah tetangga ditentukan agar setiap slot ekspansi terisi. Kandidat pada tahap ini ditemukan melalui kemiripan vektor, bukan sisi KG, sehingga bobot antarpertanyaan diganti nilai tetap $w_{\mathrm{exp}}$ yang setara dengan sisi \texttt{EMBED\_SIM}:
@@ -320,7 +317,7 @@ Sebagian besar pertanyaan di SORD tidak memiliki jawaban. Oleh sebab itu tetangg
 w_{\mathrm{path}} = w_{\mathrm{exp}} \cdot w_{\mathrm{ans}}(a) \leq w_{\mathrm{exp}}.
 \end{equation}
 
-\paragraph{Fusi dan Pemeringkatan.}
+\subsubsection{Fusi dan Pemeringkatan.}
 Kandidat dari tiga sumber, yaitu $\mathcal{A}_B$, jawaban hasil penelusuran, dan jawaban hasil \emph{semantic expansion}, digabung menjadi satu \emph{pool}. \emph{Pool} diproses melalui deduplikasi, pemberian bobot jalur, penghitungan skor akhir, pemilihan, dan \emph{packing}. Pada deduplikasi, setiap jawaban hanya dipertahankan satu kali, yaitu kemunculan dengan bobot jalur tertinggi.
 
 Bobot jalur kandidat $c$ yang berupa jawaban $a$ adalah
@@ -371,6 +368,18 @@ $k$ & Jumlah konteks yang diberikan kepada LLM & B, C \\
 \end{tabular}
 \end{table}
 
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth]{images/bab3_hybrid_retrieval.png}
+\caption{Ilustrasi pengambilan dan pemeringkatan konteks pada skema \emph{Accepted}: \emph{entity anchoring}, \emph{graph traversal}, \emph{semantic expansion}, dan fusi. Nilai kosinus, $\mathrm{sim}_{\mathrm{norm}}$, dan skor pada tabel hanya ilustrasi ($\alpha=0{,}25$).}
+\label{fig:bab3_hybrid_retrieval}
+\end{figure}
+
+Gambar~\ref{fig:bab3_hybrid_retrieval} memperlihatkan satu kueri contoh melalui keempat tahap pada skema \emph{Accepted} (C-Acc), dengan $\alpha=0{,}25$. Pada \emph{entity anchoring}, tiga pertanyaan paling mirip menjadi \emph{seed node}, yaitu \texttt{Q\#1234}, \texttt{Q\#2645}, dan \texttt{Q\#3081}. Pada penelusuran graf, \texttt{Q\#1234} mencapai \texttt{A\#9823} dalam satu \emph{hop} melalui \texttt{HAS\_ACCEPTED\_ANSWER}, sehingga $w_{\mathrm{path}}=1{,}0\times 1{,}0=1{,}0$. Dari \texttt{Q\#1234} juga ada sisi \texttt{IS\_RELATED\_TO} ($w_{qq'}=0{,}41$) menuju \texttt{Q\#2567}, yang jawaban \emph{accepted}-nya \texttt{A\#9412} dicapai pada dua \emph{hop} dengan $w_{\mathrm{path}}=0{,}41\times 1{,}0=0{,}41$. Pada \emph{semantic expansion}, pencarian vektor dari judul pertanyaan hasil penelusuran menemukan \texttt{Q\#4410}, yang tidak terhubung ke \emph{seed node} di graf. Jawaban \emph{accepted}-nya, \texttt{A\#7302}, mendapat $w_{\mathrm{path}}=w_{\mathrm{exp}}\times 1{,}0=0{,}4\times 1{,}0=0{,}4$.
+
+Ketiga kandidat masuk ke \emph{pool} fusi. Dengan Persamaan~\eqref{eq:final-score} dan nilai $\mathrm{sim}_{\mathrm{norm}}$ pada gambar, skor akhirnya adalah 0,91 untuk \texttt{A\#9823}, 0,70 untuk \texttt{A\#7302}, dan 0,63 untuk \texttt{A\#9412}. \texttt{A\#7302} berada di atas \texttt{A\#9412} walaupun bobot jalurnya sedikit lebih rendah (0,40 terhadap 0,41), karena kemiripannya dengan kueri lebih tinggi (0,80 terhadap 0,70). Contoh ini menunjukkan bahwa pemeringkatan tidak ditentukan oleh bobot jalur saja. Angka kosinus dan $\mathrm{sim}_{\mathrm{norm}}$ pada gambar hanyalah ilustrasi, bukan hasil eksperimen. Pada skema \emph{Accepted+Vote}, $w_{\mathrm{ans}}$ jawaban \emph{accepted} tidak lagi 1,0 karena ditambah komponen skor suara (Persamaan~\eqref{eq:w-ans}), sehingga bobot jalurnya ikut berubah.
+
+
 %------------------------------------------------------------
 \subsection{Pemilihan dan Penyusunan Konteks}
 \label{subsec:penyaringan-konteks}
@@ -415,10 +424,10 @@ Jumlah konteks ke LLM & 0 & 5 & 5 & 5 & 5 \\
 
 Kondisi A dan Kondisi B menjadi pembanding tanpa graf. Kondisi A menjadi titik acuan tanpa \emph{retrieval}. Kondisi B menggunakan \emph{retrieval} vektor dan diuji dalam dua konfigurasi, yaitu B-Vec sebagai pembanding tanpa pembobotan, dan B-Acc sebagai kontrol yang menerapkan pembobotan \emph{accepted answer} yang sama dengan Kondisi C tanpa graf.
 
-\paragraph{Kondisi A: LLM Murni.}
+\subsubsection{Kondisi A: LLM Murni.}
 Kondisi A mereplikasi protokol \textcite{DaSilva2025}: setiap pertanyaan dijawab tanpa konteks eksternal menggunakan struktur \emph{prompt} empat giliran yang sama, dan setiap pertanyaan menghasilkan tepat satu jawaban yang langsung dievaluasi.
 
-\paragraph{Kondisi B: RAG Konvensional.}
+\subsubsection{Kondisi B: RAG Konvensional.}
 Kondisi B adalah \emph{retrieval} berbasis kemiripan vektor tanpa struktur graf, dan diuji dalam dua konfigurasi, yaitu B-Vec (tanpa pembobotan) dan B-Acc (dengan pembobotan \emph{accepted answer}). Kedua konfigurasi berbagi korpus, representasi, indeks, dan aturan pengecualian yang sama. Korpus \emph{retrieval} memuat seluruh populasi jawaban SORD yang juga dimuat dalam KG Kondisi C. Setiap jawaban direpresentasikan oleh satu vektor dari teks berupa judul pertanyaan induk diikuti isi jawaban, dipotong pada batas 400 token, tanpa pemecahan menjadi beberapa \emph{chunk}. Judul disertakan karena jawaban Stack Overflow sering ambigu tanpa konteks pertanyaannya. Vektor diindeks ke FAISS dengan model \emph{embedding} yang sama dengan Kondisi C, dan teks kueri dibentuk dengan cara yang sama. Kebocoran data dicegah dengan aturan pengecualian per kueri yang sama dengan Kondisi C (Subbab~\ref{subsec:leakage}). Kedua konfigurasi tidak menggunakan penelusuran graf maupun \emph{semantic expansion}.
 
 Perbedaan kedua konfigurasi terletak pada cara memilih lima jawaban yang diberikan ke \emph{prompt}:
@@ -428,11 +437,11 @@ Perbedaan kedua konfigurasi terletak pada cara memilih lima jawaban yang diberik
 \end{itemize}
 Dengan demikian, kedua konfigurasi bertolak dari hasil pencarian vektor yang sama. Selisih B-Acc terhadap B-Vec mencerminkan pengaruh pembobotan \emph{accepted answer} pada pemeringkatan ulang, dan selisih C-Acc terhadap B-Acc mencerminkan pengaruh mekanisme pengambilan konteks berbasis graf secara keseluruhan, yaitu penelusuran graf, \emph{semantic expansion}, dan \emph{pool} kandidat yang lebih luas.
 
-\subsection{Konfigurasi GraphRAG Berbobot Penilaian Pengguna}
+\subsubsection{Konfigurasi GraphRAG Berbobot Penilaian Pengguna}
 \label{subsec:konfigurasi-graphrag-berbobot}
 
 
-\paragraph{Kondisi C: GraphRAG Berbobot.}
+\subsubsection{Kondisi C: GraphRAG Berbobot.}
 Kondisi C adalah mekanisme yang diusulkan, dan diuji dalam dua konfigurasi, yaitu C-Acc (bobot \emph{accepted answer}) dan C-Acc+Vote (bobot \emph{accepted answer} dan skor suara). Kedua konfigurasi menggunakan graf, indeks, rumus skor akhir, nilai $\alpha$, dan instruksi generasi yang sama, serta mekanisme pengambilan konteks tiga tahap pada Subbab~\ref{subsec:pengambilan-konteks}, yaitu \emph{anchoring} tingkat jawaban, penelusuran graf, dan \emph{semantic expansion}. \emph{Pool} kandidat diperingkat dengan skor akhir pada Persamaan~\eqref{eq:final-score}. Kedua konfigurasi hanya berbeda pada definisi bobot jawaban (Persamaan~\eqref{eq:w-ans}):
 \begin{itemize}
     \item \textbf{C-Acc}: bobot jawaban hanya ditentukan oleh status \emph{accepted answer}, $w_{\mathrm{ans}}(a)=\mathbf{1}[\mathrm{acc}_a]$. Jawaban yang tidak diterima memperoleh bobot jalur 0, tetapi tetap dapat bersaing melalui komponen kemiripan pada skor akhir.
@@ -597,7 +606,6 @@ A & A & LLM murni, tanpa \emph{retrieval}. \\
 
 Pendekatan GraphRAG memiliki kompleksitas arsitektural lebih tinggi daripada Kondisi A dan B karena memerlukan konstruksi dan densifikasi KG serta penelusuran graf. Penelitian ini berfokus pada \emph{hallucination rate}. Latensi dilaporkan secara deskriptif sebagai metrik pendukung, tetapi penelitian ini tidak mengklaim keunggulan efisiensi.
 
-\paragraph{Pemetaan Perbandingan terhadap Pertanyaan Penelitian.}
 Kondisi A dan B-Vec menjadi pembanding tanpa pembobotan, B-Acc menjadi kontrol pembobotan tanpa graf, sedangkan C-Acc dan C-Acc+Vote merupakan konfigurasi mekanisme yang diusulkan. Pemetaan perbandingan terhadap pertanyaan penelitian disajikan pada Tabel~\ref{tab:pemetaan-perbandingan}. Hasil perbandingan didasarkan pada label mayoritas panel \emph{judge} dan diperiksa konsistensinya terhadap penilaian masing-masing \emph{judge}.
 
 \begin{table}[!htbp]

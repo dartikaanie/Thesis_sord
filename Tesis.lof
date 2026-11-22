@@ -215,7 +215,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {II.1}{\ignorespaces Tahapan pelatihan ChatGPT: pelatihan awal, penyesuaian terarah, dan pembelajaran dari umpan balik manusia. Diadaptasi dari \blx@tocontentsinit {0}\textcite {Haque2025}.}}{16}{figure.caption.10}%
+\contentsline {figure}{\numberline {II.1}{\ignorespaces Tahapan pelatihan ChatGPT: pelatihan awal, penyesuaian terarah, dan pembelajaran dari umpan balik manusia. Diadaptasi dari \blx@tocontentsinit {0}\textcite {Haque2025}.}}{16}{figure.caption.11}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -294,7 +294,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {II.2}{\ignorespaces Alur RAG: pengindeksan, pengambilan, dan generasi. Diadaptasi dari \blx@tocontentsinit {0}\textcite {Vizniuk2024}.}}{20}{figure.caption.12}%
+\contentsline {figure}{\numberline {II.2}{\ignorespaces Alur RAG: pengindeksan, pengambilan, dan generasi. Diadaptasi dari \blx@tocontentsinit {0}\textcite {Vizniuk2024}.}}{20}{figure.caption.13}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -343,7 +343,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {II.3}{\ignorespaces Alur umum GraphRAG. Diadaptasi dari \blx@tocontentsinit {0}\textcite {Zhu2026}.}}{22}{figure.caption.13}%
+\contentsline {figure}{\numberline {II.3}{\ignorespaces Alur umum GraphRAG. Diadaptasi dari \blx@tocontentsinit {0}\textcite {Zhu2026}.}}{22}{figure.caption.14}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -364,7 +364,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {II.4}{\ignorespaces Taksonomi arsitektur RAG. Diadaptasi dari \blx@tocontentsinit {0}\textcite {Kamalipour2026}.}}{23}{figure.caption.14}%
+\contentsline {figure}{\numberline {II.4}{\ignorespaces Taksonomi arsitektur RAG. Diadaptasi dari \blx@tocontentsinit {0}\textcite {Kamalipour2026}.}}{23}{figure.caption.15}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -511,7 +511,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {II.5}{\ignorespaces Alur umum \emph {LLM-as-a-Judge}. Diadaptasi dari \blx@tocontentsinit {0}\textcite {Gu2026}.}}{30}{figure.caption.19}%
+\contentsline {figure}{\numberline {II.5}{\ignorespaces Alur umum \emph {LLM-as-a-Judge}. Diadaptasi dari \blx@tocontentsinit {0}\textcite {Gu2026}.}}{30}{figure.caption.20}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -534,13 +534,13 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {II.6}{\ignorespaces Kerangka konseptual penelitian.}}{32}{figure.caption.20}%
+\contentsline {figure}{\numberline {II.6}{\ignorespaces Kerangka konseptual penelitian.}}{32}{figure.caption.21}%
 \addvspace {10\p@ }
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {III.1}{\ignorespaces Model konseptual sistem tanya-jawab berbasis LLM tanpa mekanisme pengambilan konteks eksternal. Titik potensi kegagalan yang menjadi fokus penelitian ditandai dengan lingkaran merah.}}{34}{figure.caption.21}%
+\contentsline {figure}{\numberline {III.1}{\ignorespaces Model konseptual sistem tanya-jawab berbasis LLM tanpa mekanisme pengambilan konteks eksternal. Titik potensi kegagalan yang menjadi fokus penelitian ditandai dengan lingkaran merah.}}{34}{figure.caption.22}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -556,7 +556,7 @@
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
-\contentsline {figure}{\numberline {III.2}{\ignorespaces Arsitektur RAG konvensional, diadaptasi dari taksonomi empat tahap \blx@tocontentsinit {0}\autocite {Kamalipour2026}.}}{35}{figure.caption.22}%
+\contentsline {figure}{\numberline {III.2}{\ignorespaces Arsitektur RAG konvensional, diadaptasi dari taksonomi empat tahap \blx@tocontentsinit {0}\autocite {Kamalipour2026}.}}{35}{figure.caption.23}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {indonesian}{}\relax 
@@ -598,9 +598,9 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {III.3}{\ignorespaces Arsitektur mekanisme pembobotan graf pengetahuan berbasis penilaian pengguna, terdiri atas dua blok utama, yaitu Konstruksi \emph {Knowledge Graph} Berbobot dan Pengambilan Konteks Berbobot.}}{43}{figure.caption.25}%
-\contentsline {figure}{\numberline {III.4}{\ignorespaces Contoh ilustratif subgraf KG berbobot yang memuat simpul \texttt {Question}, \texttt {Answer}, dan \texttt {Tag} beserta keenam tipe sisi. Nilai bersifat ilustratif.}}{46}{figure.caption.27}%
-\contentsline {figure}{\numberline {III.5}{\ignorespaces \emph {Flowchart} konstruksi \emph {knowledge graph} berbobot dari dataset SORD.}}{46}{figure.caption.28}%
+\contentsline {figure}{\numberline {III.3}{\ignorespaces Arsitektur mekanisme pembobotan graf pengetahuan berbasis penilaian pengguna}}{43}{figure.caption.26}%
+\contentsline {figure}{\numberline {III.4}{\ignorespaces Contoh ilustratif subgraf KG berbobot yang memuat simpul \texttt {Question}, \texttt {Answer}, dan \texttt {Tag} beserta keenam tipe sisi. Nilai bersifat ilustratif.}}{45}{figure.caption.28}%
+\contentsline {figure}{\numberline {III.5}{\ignorespaces \emph {Flowchart} konstruksi \emph {knowledge graph} berbobot dari dataset SORD.}}{46}{figure.caption.29}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -627,6 +627,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {figure}{\numberline {III.6}{\ignorespaces Ilustrasi pengambilan dan pemeringkatan konteks pada skema \emph {Accepted}: \emph {entity anchoring}, \emph {graph traversal}, \emph {semantic expansion}, dan fusi. Nilai kosinus, $\mathrm {sim}_{\mathrm {norm}}$, dan skor pada tabel hanya ilustrasi ($\alpha =0{,}25$).}}{54}{figure.caption.31}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -653,42 +654,6 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\addvspace {10\p@ }
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\contentsline {figure}{\numberline {IV.1}{\ignorespaces Contoh subgraf pada \emph {knowledge graph} hasil konstruksi untuk pertanyaan \texttt {17239006}.}}{74}{figure.caption.42}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -718,20 +683,52 @@
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {V.1}{\ignorespaces \emph {Hallucination rate} per konfigurasi pada sampel uji: (a) \texttt {ABSTAIN} dikeluarkan dari penyebut, (b) \texttt {ABSTAIN} dihitung sebagai kegagalan.}}{99}{figure.caption.62}%
-\contentsline {figure}{\numberline {V.2}{\ignorespaces Komposisi label panel per konfigurasi (jawaban faktual, berhalusinasi, dan \texttt {ABSTAIN}).}}{100}{figure.caption.63}%
-\contentsline {figure}{\numberline {V.3}{\ignorespaces Kategori halusinasi per konfigurasi. Tinggi bar adalah \emph {hallucination rate} versi (a), terdiri atas halusinasi penuh dan sebagian. Belah ketupat adalah versi (b), yaitu \texttt {ABSTAIN} dihitung sebagai kegagalan (sama dengan versi (a) pada A).}}{101}{figure.caption.65}%
-\contentsline {figure}{\numberline {V.4}{\ignorespaces \emph {Hallucination rate} versi (a) pada himpunan bersama $\mathcal {S}$ ($n{=}273$).}}{103}{figure.caption.67}%
-\contentsline {figure}{\numberline {V.5}{\ignorespaces Matriks selisih \emph {hallucination rate} versi (a) antarkonfigurasi (poin persentase): (a) seluruh 384 pertanyaan, (b) himpunan bersama $\mathcal {S}$.}}{104}{figure.caption.69}%
-\contentsline {figure}{\numberline {V.6}{\ignorespaces \emph {Faithfulness}, \emph {citation support}, \emph {valid citation rate} (seluruh jawaban), dan \emph {context relevance} pada konfigurasi berkonteks.}}{105}{figure.caption.70}%
-\contentsline {figure}{\numberline {V.7}{\ignorespaces Rata-rata item \emph {accepted} per konteks dan \emph {hallucination rate} versi (a) pada keempat konfigurasi berkonteks.}}{108}{figure.caption.73}%
-\contentsline {figure}{\numberline {V.8}{\ignorespaces Sebaran label (a) relevansi konteks per item dan (b) relevansi jawaban pada konfigurasi berkonteks (persentase).}}{110}{figure.caption.76}%
-\contentsline {figure}{\numberline {V.9}{\ignorespaces Latensi rata-rata per kueri (batang) dan median (belah ketupat): (a) total, dengan batas NF3 15 detik, (b) \emph {retrieval}.}}{110}{figure.caption.78}%
-\contentsline {figure}{\numberline {V.10}{\ignorespaces Kolam kandidat graf pada 384 pertanyaan uji: (a) jumlah kandidat graf (satu \emph {hop} ditambah dua \emph {hop} setelah pembatasan 50) dan (b) jumlah jawaban \emph {accepted} pada kolam.}}{112}{figure.caption.79}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\contentsline {figure}{\numberline {IV.1}{\ignorespaces Contoh subgraf pada \emph {knowledge graph} hasil konstruksi.}}{76}{figure.caption.44}%
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {V.1}{\ignorespaces \emph {Hallucination rate} per konfigurasi pada sampel uji: (a) \texttt {ABSTAIN} dikeluarkan dari penyebut, (b) \texttt {ABSTAIN} dihitung sebagai kegagalan.}}{101}{figure.caption.64}%
+\contentsline {figure}{\numberline {V.2}{\ignorespaces Komposisi label panel per konfigurasi (jawaban faktual, berhalusinasi, dan \texttt {ABSTAIN}).}}{102}{figure.caption.65}%
+\contentsline {figure}{\numberline {V.3}{\ignorespaces Kategori halusinasi per konfigurasi. Tinggi bar adalah \emph {hallucination rate} versi (a), terdiri atas halusinasi penuh dan sebagian. Belah ketupat adalah versi (b), yaitu \texttt {ABSTAIN} dihitung sebagai kegagalan (sama dengan versi (a) pada A).}}{103}{figure.caption.67}%
+\contentsline {figure}{\numberline {V.4}{\ignorespaces \emph {Hallucination rate} versi (a) pada himpunan bersama $\mathcal {S}$ ($n{=}273$).}}{105}{figure.caption.69}%
+\contentsline {figure}{\numberline {V.5}{\ignorespaces Matriks selisih \emph {hallucination rate} versi (a) antarkonfigurasi (selisih, \%): (a) seluruh 384 pertanyaan, (b) himpunan bersama $\mathcal {S}$.}}{106}{figure.caption.71}%
+\contentsline {figure}{\numberline {V.6}{\ignorespaces \emph {Faithfulness}, \emph {citation support}, \emph {valid citation rate} (seluruh jawaban), dan \emph {context relevance} pada konfigurasi berkonteks.}}{108}{figure.caption.72}%
+\contentsline {figure}{\numberline {V.7}{\ignorespaces Rata-rata item \emph {accepted} per konteks dan \emph {hallucination rate} versi (a) pada keempat konfigurasi berkonteks.}}{111}{figure.caption.75}%
+\contentsline {figure}{\numberline {V.8}{\ignorespaces Sebaran label (a) relevansi konteks per item dan (b) relevansi jawaban pada konfigurasi berkonteks (persentase).}}{113}{figure.caption.78}%
+\contentsline {figure}{\numberline {V.9}{\ignorespaces Latensi rata-rata per kueri (batang) dan median (belah ketupat): (a) total, dengan batas NF3 15 detik, (b) \emph {retrieval}.}}{114}{figure.caption.80}%
+\contentsline {figure}{\numberline {V.10}{\ignorespaces Distribusi kandidat graf pada 384 pertanyaan uji: (a) jumlah kandidat satu dan dua \emph {hop} setelah pembatasan, serta (b) jumlah jawaban \emph {accepted} dalam kumpulan kandidat.}}{115}{figure.caption.81}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -873,6 +870,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

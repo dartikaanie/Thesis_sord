@@ -1,19 +1,15 @@
+\providecommand{\isi}[1]{\textcolor{red}{\textbf{[#1]}}} % hapus semua \isi sebelum final
 \emergencystretch=3em
 %============================================================
-% LAMPIRAN (dihasilkan oleh gen_lampiran.py)
-% Letakkan di dalam lingkungan appendices pada Tesis.tex, mis.:
-%   \begin{appendices} ... \input{Lampiran_Tesis.tex} \end{appendices}
-% Label: lamp:prompt-judge, lamp:hasil-lengkap, lamp:kg, lamp:repro,
-%        lamp:kebocoran, lamp:id
 %============================================================
 
 \cleardoublepage
 \chapter{\textit{PROMPT JUDGE} DAN ATURAN PENURUNAN LABEL}
 \label{lamp:prompt-judge}
 
-Lampiran ini memuat teks lengkap \emph{prompt} yang dipakai panel \emph{judge} (Llama-3.3-70B, DeepSeek-V3.2, dan Qwen3-235B-A22B-Instruct-2507) serta kode yang menurunkan label akhir. Teks diambil langsung dari objek dan kode Python pada repositori (komit \texttt{1286769}, \emph{working tree} belum bersih, berkas \emph{prompt} tidak diubah), bukan diketik ulang. Placeholder \texttt{\{...\}} hanya diisi agar templat terlihat. Isi \emph{prompt} halusinasi identik dengan dokumen \texttt{docs/\allowbreak{}judge\_\allowbreak{}prompts\_\allowbreak{}panel-v2\_\allowbreak{}judge-v2.\allowbreak{}3.\allowbreak{}md}.
+Lampiran ini memuat teks lengkap \emph{prompt} yang dipakai panel \emph{judge} (Llama-3.3-70B, DeepSeek-V3.2, dan Qwen3-235B-A22B-Instruct-2507) serta kode yang menurunkan label akhir. Teks diambil langsung dari objek dan kode Python pada repositori (komit \texttt{1286769}, \emph{working tree} belum bersih, berkas \emph{prompt} tidak diubah), bukan diketik ulang. Placeholder \texttt{\{...\}} hanya diisi agar templat terlihat. Isi \emph{prompt} halusinasi identik dengan dokumen \emph{prompt judge} pada repositori.
 
-Parameter permintaan untuk seluruh \emph{judge}: temperatur 0,0, \texttt{max\_tokens} 2000, dan keluaran JSON (\texttt{response\_\allowbreak{}format=\allowbreak{}json\_\allowbreak{}object}). Versi \emph{prompt} halusinasi \texttt{judge-v2.3}, \emph{parser} \texttt{pv2.3-1}, \emph{blinding} \texttt{blind-v3}, dan relevansi konteks \texttt{ctxrel-v2}.
+Parameter permintaan untuk seluruh \emph{judge}: temperatur 0,0, \texttt{max\_tokens} 2000, dan keluaran JSON (\texttt{response\_\allowbreak{}format=\allowbreak{}json\_\allowbreak{}object}).
 
 \emph{Faithfulness} dan \emph{citation support} tidak memiliki \emph{prompt} terpisah. Keduanya dibaca dari bidang \texttt{supported\_\allowbreak{}by\_\allowbreak{}context} dan \texttt{cited\_\allowbreak{}item\_\allowbreak{}supports} pada setiap klaim yang dikeluarkan \emph{prompt} halusinasi (Subbab~\ref{subsec:lamp-a1}).
 
@@ -21,11 +17,11 @@ Parameter permintaan untuk seluruh \emph{judge}: temperatur 0,0, \texttt{max\_to
 \section{\emph{Prompt} Halusinasi, Klaim, \emph{Faithfulness}, dan \emph{Citation Support}}
 \label{subsec:lamp-a1}
 
-\lstinputlisting[language={}, caption={\emph{System prompt} halusinasi dan klaim (\texttt{judge-v2.3}).}, label={lst:judge-system}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/judge-system.txt}
+\lstinputlisting[language={}, caption={\emph{System prompt} halusinasi dan klaim.}, label={lst:judge-system}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/judge-system.txt}
 
 \lstinputlisting[language={}, caption={\emph{User template} halusinasi.}, label={lst:judge-user}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/judge-user.txt}
 
-\section{\emph{Prompt} Relevansi Konteks (\texttt{ctxrel-v2})}
+\section{\emph{Prompt} Relevansi Konteks}
 \label{subsec:lamp-a2}
 
 Pesan dinilai per item konteks. Panel memberi label \texttt{RELEVANT}, \texttt{PARTIAL}, atau \texttt{IRRELEVANT}. Skor: 1; 0,5; dan 0.
@@ -51,7 +47,7 @@ Pesan hanya memuat pertanyaan dan jawaban, tanpa jawaban acuan dan tanpa informa
 Kode berikut menurunkan label per \emph{judge} dari klaim, kategori tiga nilai, tingkat keparahan, dan label panel dengan aturan dua dari tiga. Skor ordinal label \emph{judge}: \texttt{ABSTAIN} 0, \texttt{FAKTUAL} 0, \texttt{HALUSINASI\_\allowbreak{}SEBAGIAN} 1, \texttt{HALUSINASI\_\allowbreak{}PENUH} 2.
 
 
-\lstinputlisting[language=Python, caption={Penurunan label per \emph{judge} dari klaim (\texttt{derive\_label\_v2\_1}).}, label={lst:derive-label}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/derive-label.py}
+\lstinputlisting[language=Python, caption={Penurunan label per \emph{judge} dari klaim (\texttt{derive\_label}).}, label={lst:derive-label}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/derive-label.py}
 
 \lstinputlisting[language=Python, caption={Kategori, status halusinasi, dan keparahan (\texttt{judge\_binary}).}, label={lst:judge-binary}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/judge-binary.py}
 
@@ -84,7 +80,7 @@ Lampiran ini memuat hasil yang melengkapi Bab~\ref{chap:evaluasi}. Seluruh angka
 \begin{table}[!htbp]
 \centering
 \small
-\caption{\emph{Hallucination rate} versi (a) per \emph{judge} dan selisihnya terhadap B-Vec pada \emph{judge} yang sama (poin persentase, dalam kurung).}
+\caption{\emph{Hallucination rate} versi (a) per \emph{judge} dan selisihnya terhadap B-Vec pada \emph{judge} yang sama (selisih dalam \%, dalam kurung).}
 \label{tab:lamp-per-judge}
 \renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\textwidth}{|l|*{3}{>{\centering\arraybackslash}X|}}
@@ -100,7 +96,7 @@ C-Acc+Vote & 3,6 ($-1{,}8$) & 29,4 ($-9{,}2$) & 32,7 ($-3{,}0$) \\
 \end{tabularx}
 \end{table}
 
-Selisih panel terhadap B-Vec adalah $+1{,}0$ (A), $-5{,}4$ (B-Acc), $-5{,}9$ (C-Acc), dan $-7{,}8$ (C-Acc+Vote). Untuk ketiga konfigurasi berbobot, ketiga \emph{judge} searah dengan panel. Pada A, DeepSeek berlawanan arah dengan panel, Llama, dan Qwen. Urutan di antara ketiga konfigurasi berbobot juga berbeda antar-\emph{judge}. Llama dan Qwen menilai C-Acc terendah (3,0\% dan 30,7\%), sedangkan DeepSeek menilai C-Acc+Vote terendah (29,4\%). Selisih antar-konfigurasi berbobot pada tiap \emph{judge} paling besar 2,3 poin (DeepSeek, C-Acc terhadap C-Acc+Vote), sehingga urutan ini tidak ditafsirkan.
+Selisih panel terhadap B-Vec adalah $+1{,}0$ (A), $-5{,}4$ (B-Acc), $-5{,}9$ (C-Acc), dan $-7{,}8$ (C-Acc+Vote). Untuk ketiga konfigurasi berbobot, ketiga \emph{judge} searah dengan panel. Pada A, DeepSeek berlawanan arah dengan panel, Llama, dan Qwen. Urutan di antara ketiga konfigurasi berbobot juga berbeda antar-\emph{judge}. Llama dan Qwen menilai C-Acc terendah (3,0\% dan 30,7\%), sedangkan DeepSeek menilai C-Acc+Vote terendah (29,4\%). Selisih antar-konfigurasi berbobot pada tiap \emph{judge} paling besar 2,3\% (DeepSeek, C-Acc terhadap C-Acc+Vote), sehingga urutan ini tidak ditafsirkan.
 
 \section{Selisih \emph{Hallucination Rate} Antarkonfigurasi}
 \label{sec:lamp-b-ci}
@@ -110,7 +106,7 @@ Himpunan $S_{278}$ adalah pertanyaan yang bukan \texttt{ABSTAIN} pada B-Vec, C-A
 \begin{table}[!htbp]
 \centering
 \footnotesize
-\caption{Selisih \emph{hallucination rate} antarkonfigurasi (poin persentase).}
+\caption{Selisih \emph{hallucination rate} antarkonfigurasi (selisih, \%).}
 \label{tab:lamp-ci}
 \renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|c|c|c|}
@@ -174,6 +170,220 @@ Status \emph{cache} tidak tercatat per kueri. Manifest hanya memuat \texttt{corp
 \label{sec:lamp-b-alpha}
 
 Hasil pada himpunan pengembangan (150 pertanyaan, posisi 435 sampai 584) dilaporkan pada Tabel~\ref{tab:alpha-dev}. Hasil $\alpha=0{,}25$ dihitung ulang dari \texttt{results/\allowbreak{}panel\_\allowbreak{}devlarge\_\allowbreak{}stage2\_\allowbreak{}panel.\allowbreak{}jsonl} (\emph{run} \texttt{C-1aeed19bd3}). Pemetaan \emph{run} ke $\alpha$ diambil dari dokumen \texttt{DEVLARGE\_\allowbreak{}ALPHA\_\allowbreak{}SELECTION.\allowbreak{}md}, bukan dari bidang \emph{run}, karena bidang \texttt{run\_label} sama untuk kedua nilai $\alpha$.
+
+
+
+\section{Metrik Lain pada Panel \emph{Judge}}
+\label{sec:lamp-b-panel}
+
+Bagian ini memuat hasil panel \emph{judge} untuk metrik yang pada Bab~\ref{chap:evaluasi} hanya dilaporkan sebagai angka panel. Semua angka dihitung ulang dari berkas hasil mentah, tanpa menjalankan ulang \emph{judge}. Penyebut tiap metrik sama dengan pada Bab~\ref{chap:evaluasi}.
+
+\subsection{Kesepakatan Antar-\emph{Judge}}
+\label{sec:lamp-b-agree}
+
+Label panel ditentukan dengan suara dua dari tiga \emph{judge}. Tabel~\ref{tab:lamp-agree} memperlihatkan seberapa sering ketiga \emph{judge} sepakat, dan Tabel~\ref{tab:lamp-kappa} memperlihatkan kesepakatan tiap pasangan \emph{judge}.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Kesepakatan tiga \emph{judge} pada label empat kelas (persentase dari 384 jawaban).}
+\label{tab:lamp-agree}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|l|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
+\hline
+\textbf{Konfigurasi} & \textbf{Ketiganya sama} & \textbf{Dua sama, satu beda} & \textbf{Ketiganya beda} \\
+\hline
+A & \isi{} & \isi{} & \isi{} \\
+\hline
+B-Vec & \isi{} & \isi{} & \isi{} \\
+\hline
+B-Acc & \isi{} & \isi{} & \isi{} \\
+\hline
+C-Acc & \isi{} & \isi{} & \isi{} \\
+\hline
+C-Acc+Vote & \isi{} & \isi{} & \isi{} \\
+\hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Kesepakatan pasangan \emph{judge} (Cohen's $\kappa$ dan kesepakatan mentah, \%) pada label biner halusinasi (versi (a), \texttt{ABSTAIN} dikeluarkan).}
+\label{tab:lamp-kappa}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|l|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
+\hline
+\textbf{Konfigurasi} & \textbf{Llama--DeepSeek} & \textbf{Llama--Qwen} & \textbf{DeepSeek--Qwen} \\
+\hline
+A & \isi{} (\isi{}\%) & \isi{} (\isi{}\%) & \isi{} (\isi{}\%) \\
+\hline
+B-Vec & \isi{} (\isi{}\%) & \isi{} (\isi{}\%) & \isi{} (\isi{}\%) \\
+\hline
+B-Acc & \isi{} (\isi{}\%) & \isi{} (\isi{}\%) & \isi{} (\isi{}\%) \\
+\hline
+C-Acc & \isi{} (\isi{}\%) & \isi{} (\isi{}\%) & \isi{} (\isi{}\%) \\
+\hline
+C-Acc+Vote & \isi{} (\isi{}\%) & \isi{} (\isi{}\%) & \isi{} (\isi{}\%) \\
+\hline
+\end{tabularx}
+\end{table}
+
+\subsection{Label per \emph{Judge}}
+\label{sec:lamp-b-label}
+
+\begin{table}[!htbp]
+\centering
+\scriptsize
+\caption{Persentase halusinasi penuh (P), halusinasi sebagian (S), dan \texttt{ABSTAIN} (X) per \emph{judge} dari 384 jawaban.}
+\label{tab:lamp-label-judge}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|l|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
+\hline
+\textbf{Konfigurasi} & \textbf{Llama P} & \textbf{Llama S} & \textbf{Llama X} & \textbf{DeepSeek P} & \textbf{DeepSeek S} & \textbf{DeepSeek X} & \textbf{Qwen P} & \textbf{Qwen S} & \textbf{Qwen X} \\
+\hline
+A & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} \\
+\hline
+B-Vec & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} \\
+\hline
+B-Acc & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} \\
+\hline
+C-Acc & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} \\
+\hline
+C-Acc+Vote & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} \\
+\hline
+\end{tabularx}
+\end{table}
+
+\subsection{\emph{Faithfulness} dan \emph{Citation Support} per \emph{Judge}}
+\label{sec:lamp-b-faith}
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{\emph{Faithfulness} (\%) per \emph{judge}. Kolom panel sama dengan Bab~\ref{chap:evaluasi}.}
+\label{tab:lamp-faith-judge}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|l|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
+\hline
+\textbf{Konfigurasi} & \textbf{Llama} & \textbf{DeepSeek} & \textbf{Qwen} & \textbf{Panel} \\
+\hline
+B-Vec & \isi{} & \isi{} & \isi{} & 61,3 \\
+\hline
+B-Acc & \isi{} & \isi{} & \isi{} & 59,5 \\
+\hline
+C-Acc & \isi{} & \isi{} & \isi{} & 57,8 \\
+\hline
+C-Acc+Vote & \isi{} & \isi{} & \isi{} & 57,2 \\
+\hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{\emph{Citation support} (\%) per \emph{judge}. Kolom panel sama dengan Bab~\ref{chap:evaluasi}.}
+\label{tab:lamp-cites-judge}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|l|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
+\hline
+\textbf{Konfigurasi} & \textbf{Llama} & \textbf{DeepSeek} & \textbf{Qwen} & \textbf{Panel} \\
+\hline
+B-Vec & \isi{} & \isi{} & \isi{} & 90,2 \\
+\hline
+B-Acc & \isi{} & \isi{} & \isi{} & 91,7 \\
+\hline
+C-Acc & \isi{} & \isi{} & \isi{} & 90,9 \\
+\hline
+C-Acc+Vote & \isi{} & \isi{} & \isi{} & 89,6 \\
+\hline
+\end{tabularx}
+\end{table}
+
+\subsection{Relevansi Konteks dan Relevansi Jawaban per \emph{Judge}}
+\label{sec:lamp-b-rel}
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Skor relevansi konteks per \emph{judge} (\texttt{RELEVANT}~=~1, \texttt{PARTIAL}~=~0,5, \texttt{IRRELEVANT}~=~0).}
+\label{tab:lamp-ctxrel-judge}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|l|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
+\hline
+\textbf{Konfigurasi} & \textbf{Llama} & \textbf{DeepSeek} & \textbf{Qwen} & \textbf{Panel} \\
+\hline
+B-Vec & \isi{} & \isi{} & \isi{} & 0,342 \\
+\hline
+B-Acc & \isi{} & \isi{} & \isi{} & 0,336 \\
+\hline
+C-Acc & \isi{} & \isi{} & \isi{} & 0,317 \\
+\hline
+C-Acc+Vote & \isi{} & \isi{} & \isi{} & 0,322 \\
+\hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Skor relevansi jawaban per \emph{judge} (\texttt{MENJAWAB}~=~1, \texttt{MENJAWAB\_\allowbreak{}SEBAGIAN}~=~0,5, \texttt{TIDAK\_\allowbreak{}MENJAWAB}~=~0).}
+\label{tab:lamp-ansrel-judge}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|l|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
+\hline
+\textbf{Konfigurasi} & \textbf{Llama} & \textbf{DeepSeek} & \textbf{Qwen} & \textbf{Panel} \\
+\hline
+A & \isi{} & \isi{} & \isi{} & 0,969 \\
+\hline
+B-Vec & \isi{} & \isi{} & \isi{} & \isi{} \\
+\hline
+B-Acc & \isi{} & \isi{} & \isi{} & \isi{} \\
+\hline
+C-Acc & \isi{} & \isi{} & \isi{} & \isi{} \\
+\hline
+C-Acc+Vote & \isi{} & \isi{} & \isi{} & \isi{} \\
+\hline
+\end{tabularx}
+\end{table}
+
+\subsection{Statistik Klaim per \emph{Judge}}
+\label{sec:lamp-b-klaim}
+
+\begin{table}[!htbp]
+\centering
+\scriptsize
+\caption{Jumlah klaim yang dikeluarkan tiap \emph{judge} dan persentase klaim \texttt{UNVERIFIABLE} (U) serta bernilai null (N) pada \emph{faithfulness} dan \emph{citation support}.}
+\label{tab:lamp-klaim-judge}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|l|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
+\hline
+\textbf{Konfigurasi} & \textbf{Llama klaim} & \textbf{Llama U} & \textbf{Llama N} & \textbf{DeepSeek klaim} & \textbf{DeepSeek U} & \textbf{DeepSeek N} & \textbf{Qwen klaim} & \textbf{Qwen U} & \textbf{Qwen N} \\
+\hline
+A & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} \\
+\hline
+B-Vec & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} \\
+\hline
+B-Acc & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} \\
+\hline
+C-Acc & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} \\
+\hline
+C-Acc+Vote & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} & \isi{} \\
+\hline
+\end{tabularx}
+\end{table}
+
+\subsection{Kesimpulan Data Panel \emph{Judge}}
+\label{sec:lamp-b-panel-kes}
+
+\begin{enumerate}
+    \item \textbf{Kesepakatan.} Ketiga \emph{judge} sepakat penuh pada \isi{kisaran \%} jawaban. Kesepakatan pasangan paling tinggi pada \isi{pasangan} ($\kappa=\isi{}$) dan paling rendah pada \isi{pasangan} ($\kappa=\isi{}$). Label panel yang ditentukan dua dari tiga \emph{judge} karena itu \isi{seberapa stabil}.
+    \item \textbf{Tingkat kelonggaran.} \isi{Judge yang paling longgar dan paling ketat pada halusinasi penuh, sebagian, dan \texttt{ABSTAIN}.} Perbedaan tingkat ini sejalan dengan Tabel~\ref{tab:per-judge}.
+    \item \textbf{\emph{Faithfulness} dan \emph{citation support}.} Urutan konfigurasi \isi{sama atau berbeda} antar-\emph{judge}. Selisih terbesar antar-\emph{judge} pada satu konfigurasi adalah \isi{\%}. Arah penurunan \emph{faithfulness} pada konfigurasi berbobot \isi{terlihat pada semua judge atau sebagian}.
+    \item \textbf{Relevansi.} Skor relevansi konteks dan jawaban \isi{konsisten atau tidak} antar-\emph{judge}. Konfigurasi dengan skor relevansi konteks tertinggi pada tiap \emph{judge} adalah \isi{konfigurasi}.
+    \item \textbf{Klaim.} Proporsi klaim \texttt{UNVERIFIABLE} berkisar \isi{\%} sampai \isi{\%} dan nilai null \isi{\%}, sehingga penyebut \emph{faithfulness} dan \emph{citation support} \isi{tidak/ cukup} berbeda antar-\emph{judge}.
+    \item \textbf{Implikasi.} Kesimpulan pada Bab~\ref{chap:evaluasi} yang \isi{bergantung atau tidak bergantung} pada satu \emph{judge}: \isi{daftar}. Karena panel belum divalidasi anotator manusia, hasil ini adalah estimasi berbasis \emph{LLM-as-a-Judge}.
+\end{enumerate}
 
 
 \cleardoublepage
@@ -266,7 +476,7 @@ $k$ (item konteks) & 5 \\
 \hline
 Panjang \emph{chunk} & 400 token \\
 \hline
-Parameter C & \texttt{n\_anchor}~=~3, \texttt{n\_\allowbreak{}semantic\_\allowbreak{}expansion}~=~3, $\alpha=0{,}25$, \emph{retrieval} v5, \texttt{semantic\_\allowbreak{}expansion\_\allowbreak{}trust\_\allowbreak{}cap}~=~0,4 \\
+Parameter C & \texttt{n\_anchor}~=~3, \texttt{n\_\allowbreak{}semantic\_\allowbreak{}expansion}~=~3, $\alpha=0{,}25$, \texttt{semantic\_\allowbreak{}expansion\_\allowbreak{}trust\_\allowbreak{}cap}~=~0,4 \\
 \hline
 Permintaan ke \emph{generator} & \texttt{temperature=\allowbreak{}None}, yaitu bawaan API (tidak ditetapkan) \\
 \hline
@@ -303,7 +513,7 @@ C-Acc+Vote & \texttt{be26cd03-\allowbreak{}dd51-\allowbreak{}4ed3-\allowbreak{}8
 
 Pada \emph{run} B-Acc, berkas yang berubah dan belum di-\emph{commit} adalah \texttt{b\_\allowbreak{}condition\_\allowbreak{}b\_\allowbreak{}rag.\allowbreak{}py}, \texttt{c\_\allowbreak{}graphrag.\allowbreak{}py}, \texttt{official\_\allowbreak{}params.\allowbreak{}py}, \texttt{run\_\allowbreak{}registry.\allowbreak{}py}, dan \texttt{main\_\allowbreak{}cell\_\allowbreak{}gate.\allowbreak{}py}. Berkas pertama memuat kode pemeringkatan ulang, sehingga pengaruhnya terhadap reproduksibilitas B-Acc paling besar.
 
-Komit \texttt{e1dd0471} yang tercatat pada \emph{run} A dan B-Vec tidak ada di repositori (objek tidak ditemukan), sehingga kode \emph{retrieval}, \emph{prompt}, dan kutipan pada Lampiran~\ref{lamp:source-code} tidak dapat dibuktikan identik dengan versi saat kedua \emph{run} itu dijalankan. Untuk C-Acc, berkas yang berbeda dari \emph{working tree} saat ini adalah \texttt{c\_\allowbreak{}graphrag.\allowbreak{}py}, \texttt{official\_\allowbreak{}params.\allowbreak{}py}, \texttt{b\_\allowbreak{}condition\_\allowbreak{}b\_\allowbreak{}rag.\allowbreak{}py}, \texttt{judge\_\allowbreak{}panel.\allowbreak{}py}, dan \texttt{main\_\allowbreak{}cells\_\allowbreak{}report.\allowbreak{}py}. Untuk C-Acc+Vote dan B-Acc, berkas yang berbeda adalah tiga berkas pertama. Perbedaan pada jalur C hanya berupa penambahan (sel baru dan validasi parameter), dan cabang biner dan suara pada \texttt{\_\allowbreak{}qa\_\allowbreak{}weight\_\allowbreak{}cypher} serta rumus pada \texttt{fuse\_\allowbreak{}and\_\allowbreak{}rank} tidak berubah dibandingkan komit \texttt{ea2cbcc}. Kode pemeringkatan ulang B-Acc (\texttt{rerank\_\allowbreak{}by\_\allowbreak{}trust}) belum pernah di-\emph{commit}, sehingga kesamaannya dengan kode saat \emph{run} tidak dapat dipastikan.
+Komit \texttt{e1dd0471} yang tercatat pada \emph{run} A dan B-Vec tidak ada di repositori (objek tidak ditemukan; kemungkinan telah ditulis ulang atau dibuat di klon lain), sehingga kode \emph{retrieval}, \emph{prompt}, dan kutipan pada repositori (Lampiran~\ref{lamp:source-code}) tidak dapat dibuktikan identik dengan versi saat kedua \emph{run} itu dijalankan. Untuk C-Acc, berkas yang berbeda dari \emph{working tree} saat ini adalah \texttt{c\_\allowbreak{}graphrag.\allowbreak{}py}, \texttt{official\_\allowbreak{}params.\allowbreak{}py}, \texttt{b\_\allowbreak{}condition\_\allowbreak{}b\_\allowbreak{}rag.\allowbreak{}py}, \texttt{judge\_\allowbreak{}panel.\allowbreak{}py}, dan \texttt{main\_\allowbreak{}cells\_\allowbreak{}report.\allowbreak{}py}. Untuk C-Acc+Vote dan B-Acc, berkas yang berbeda adalah tiga berkas pertama. Perbedaan pada jalur C hanya berupa penambahan (sel baru dan validasi parameter), dan cabang biner dan suara pada \texttt{\_\allowbreak{}qa\_\allowbreak{}weight\_\allowbreak{}cypher} serta rumus pada \texttt{fuse\_\allowbreak{}and\_\allowbreak{}rank} tidak berubah dibandingkan komit \texttt{ea2cbcc}. Kode pemeringkatan ulang B-Acc (\texttt{rerank\_\allowbreak{}by\_\allowbreak{}trust}) belum pernah di-\emph{commit}, sehingga kesamaannya dengan kode saat \emph{run} tidak dapat dipastikan.
 
 \section{Perintah Eksekusi}
 \label{sec:lamp-d-perintah}
@@ -322,7 +532,7 @@ A dan B-Vec & \texttt{docs/\allowbreak{}OFFICIAL\_\allowbreak{}RUN\_\allowbreak{
 \hline
 B-Acc & \texttt{docs/\allowbreak{}c\_\allowbreak{}0\_\allowbreak{}b\_\allowbreak{}acc\_\allowbreak{}setup.\allowbreak{}md} (baris 96 sampai 99), dengan bendera \texttt{--rerank acc} \\
 \hline
-C-Acc & Tidak ditemukan sebagai perintah tertulis, dan tidak dituliskan ulang. Konfigurasinya direkonstruksi dari \emph{manifest} (\texttt{alpha=0.25}, \texttt{c\_\allowbreak{}retrieval\_\allowbreak{}version=v5}, \texttt{binary\_\allowbreak{}trust=True}) dan dari log \texttt{llm/\allowbreak{}c\_\allowbreak{}graphrag/\allowbreak{}logs/\allowbreak{}20261104T030605Z\_\allowbreak{}openai\_\allowbreak{}gpt-4o-mini.\allowbreak{}log}, yang memuat tujuh baris konfigurasi: \texttt{n\_\allowbreak{}sample=384}, \texttt{seed=42}, penyedia \texttt{openai}, model \texttt{gpt-4o-mini}, \texttt{top\_\allowbreak{}k=5}, \texttt{n\_\allowbreak{}anchor=3}, \texttt{n\_\allowbreak{}semantic\_\allowbreak{}expansion=3}, \texttt{token\_\allowbreak{}chunk\_\allowbreak{}limit=400}, \texttt{fusion\_\allowbreak{}mode=trust\_\allowbreak{}weighted}, \texttt{require\_\allowbreak{}grounding=True}, dan mode kebocoran \texttt{thread}. Bendera baris perintah aslinya tidak terlacak. \\
+C-Acc & Tidak ditemukan sebagai perintah tertulis, dan tidak dituliskan ulang. Konfigurasinya direkonstruksi dari \emph{manifest} (\texttt{alpha=0.25}, \texttt{binary\_\allowbreak{}trust=True}) dan dari log \texttt{llm/\allowbreak{}c\_\allowbreak{}graphrag/\allowbreak{}logs/\allowbreak{}20261104T030605Z\_\allowbreak{}openai\_\allowbreak{}gpt-4o-mini.\allowbreak{}log}, yang memuat tujuh baris konfigurasi: \texttt{n\_\allowbreak{}sample=384}, \texttt{seed=42}, penyedia \texttt{openai}, model \texttt{gpt-4o-mini}, \texttt{top\_\allowbreak{}k=5}, \texttt{n\_\allowbreak{}anchor=3}, \texttt{n\_\allowbreak{}semantic\_\allowbreak{}expansion=3}, \texttt{token\_\allowbreak{}chunk\_\allowbreak{}limit=400}, \texttt{fusion\_\allowbreak{}mode=trust\_\allowbreak{}weighted}, \texttt{require\_\allowbreak{}grounding=True}, dan mode kebocoran \texttt{thread}. Bendera baris perintah aslinya tidak terlacak. \\
 \hline
 C-Acc+Vote & \texttt{docs/\allowbreak{}runbook\_\allowbreak{}cacc\_\allowbreak{}vote.\allowbreak{}md} (baris 119 sampai 125) \\
 \hline
@@ -391,86 +601,339 @@ Berkas \texttt{laporan\_\allowbreak{}hasil/\allowbreak{}csv/\allowbreak{}5a\_\al
 
 
 \cleardoublepage
-\chapter{\textit{SOURCE CODE}}
-\label{lamp:source-code}
+\chapter{DETAIL KASUS BERHASIL DAN KASUS GAGAL}
+\label{lamp:kasus}
 
-Lampiran ini memuat kode sumber yang dipakai pada implementasi dan evaluasi. Kode \emph{prompt judge}, aturan penurunan label, dan kueri Cypher ada pada Lampiran~\ref{lamp:prompt-judge} dan \ref{lamp:repro}. Setiap berkas pada Tabel~\ref{tab:lamp-sumber-kode} disalin apa adanya dari repositori. Karena satu berkas memuat beberapa potongan, baris pertama tiap berkas mencatat seluruh potongan sumbernya (berkas dan rentang baris, dipisah titik koma), dan antarpotongan hanya ada baris kosong. Tidak ada rahasia pada kode ini. Kesamaan kode dengan versi saat \emph{run} dibahas pada Lampiran~\ref{sec:lamp-d-run}.
+Lampiran ini memuat data lengkap dua kasus pada Subbab~\ref{sec:analisis-kasus}. Kriteria kasus ditetapkan sebelum isi jawaban dibaca, dan hanya label panel yang digunakan. Pertanyaan dan jawaban Stack Overflow dikutip dari simpul graf, dipotong sekitar 300 karakter (tanda [\ldots]), dan berlisensi CC BY-SA; teks lengkap ada pada pranala pertanyaan. Jawaban \emph{generator} dan alasan \emph{judge} dikutip utuh dari berkas hasil. Label \texttt{[SO-id]} pada jawaban adalah \emph{id} pertanyaan asal, bukan \emph{id} jawaban. Tahun jawaban tidak tersedia karena simpul \texttt{Answer} tidak memiliki properti tanggal. Catatan data pada tiap kasus hanya memuat fakta dari berkas hasil dan tidak menambah tafsir terhadap Bab~\ref{chap:evaluasi}.
+
+\section{Kasus Berhasil: Pertanyaan 2010746}
+\label{sec:lamp-kasus-x}
 
 \begin{table}[!htbp]
 \centering
-\scriptsize
-\caption{Sumber berkas kode pada lampiran ini (komit tempat potongan itu terakhir diambil).}
-\label{tab:lamp-sumber-kode}
-\renewcommand{\arraystretch}{1.25}
-\begin{tabularx}{\textwidth}{|l|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{2.3cm}|}
+\small
+\caption{Identitas pertanyaan 2010746.}
+\label{tab:lamp-x-id}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{4.2cm}|>{\raggedright\arraybackslash}X|}
 \hline
-\textbf{Berkas} & \textbf{Sumber (baris)} & \textbf{Komit} \\
+\textbf{Bidang} & \textbf{Nilai} \\
 \hline
-\texttt{kg-build.py} & \texttt{7\_\allowbreak{}build\_\allowbreak{}knowledge\_\allowbreak{}graph.\allowbreak{}py}: 317--360, 414--468, 590--607, 740--849; \texttt{trust\_\allowbreak{}formulas.\allowbreak{}py}: 1--88 & \texttt{864d9ad} \\
+\emph{ID} dan pranala & 2010746 (\texttt{stackoverflow.com/q/2010746}) \\
 \hline
-\texttt{densify.py} & \texttt{10\_\allowbreak{}densify\_\allowbreak{}tag\_\allowbreak{}cooccurrence.\allowbreak{}py}: 94--100, 217--319, 390--402; \texttt{11\_\allowbreak{}densify\_\allowbreak{}embedding\_\allowbreak{}similarity.\allowbreak{}py}: 100--107, 310--418 & \texttt{7da6fae}; \texttt{cc29b33} \\
+Judul & What's the suggested way of importing modules within a django project \\
 \hline
-\texttt{faiss-index.py} & \texttt{build\_\allowbreak{}kg\_\allowbreak{}answer\_\allowbreak{}index.\allowbreak{}py}: 246--316, 323--362; \texttt{kg\_\allowbreak{}corpus.\allowbreak{}py}: 132--140, 143--217; \texttt{common/\allowbreak{}text.\allowbreak{}py}: 1--42 & \texttt{d00b3a5}; \texttt{43e2f50} \\
+\emph{Tag} & \texttt{python}, \texttt{django} \\
 \hline
-\texttt{retrieval-b.py} & \texttt{b\_\allowbreak{}condition\_\allowbreak{}b\_\allowbreak{}rag.\allowbreak{}py}: 489--511, 522--528, 532--549, 552--565; \texttt{c\_\allowbreak{}graphrag.\allowbreak{}py}: 881--892; \texttt{official\_\allowbreak{}params.\allowbreak{}py}: 149 & \emph{working tree} \\
+Skor dan jumlah jawaban & 0; 1 \\
 \hline
-\texttt{c-score.py} & \texttt{c\_\allowbreak{}graphrag.\allowbreak{}py}: 230--233, 236--244, 656--685, 977--1192 & \emph{working tree} \\
+Tahun diajukan & 2010 \\
 \hline
-\texttt{prompt-builder.py} & \texttt{prompts.\allowbreak{}py}: 153--164, 167--188, 215--231, 234--299, 356--425; \texttt{client\_\allowbreak{}factory.\allowbreak{}py}: 40--55 & \texttt{405d0cd} \\
+Posisi pada sampel uji & 161 \\
 \hline
-\texttt{citation-check.py} & \texttt{citations.\allowbreak{}py}: 30--60, 72--98, 101--115, 118--175 & \texttt{405d0cd} \\
-\hline
-\texttt{leakage.py} & \texttt{common/\allowbreak{}leakage.\allowbreak{}py}: 105--188; \texttt{leakage/\allowbreak{}build\_\allowbreak{}exclusion\_\allowbreak{}sets.\allowbreak{}py}: 63--110 & \texttt{fba0b73}; \texttt{9424fed} \\
-\hline
-\texttt{judge-runner.py} & \texttt{judge\_\allowbreak{}panel.\allowbreak{}py}: 291--352, 355--391, 401--404, 507--523, 622--654; \texttt{judge\_\allowbreak{}panel\_\allowbreak{}aggregate.\allowbreak{}py}: 78--123 & \texttt{3fb62b1}; \texttt{9040e20} \\
-\hline
-\texttt{eval-hr.py} & \texttt{official\_\allowbreak{}report.\allowbreak{}py}: 81--92, 493--560; \texttt{main\_\allowbreak{}cells\_\allowbreak{}report.\allowbreak{}py}: 74--110; \texttt{six\_\allowbreak{}cell\_\allowbreak{}table.\allowbreak{}py}: 70--99, 159--202 & \texttt{bd64767}; \texttt{1c8372a}; \emph{working tree} \\
-\hline
-\texttt{eval-metrics.py} & \texttt{official\_\allowbreak{}report.\allowbreak{}py}: 104--151, 469--490; \texttt{latency\_\allowbreak{}report.\allowbreak{}py}: 34--61 & \texttt{bd64767}; \texttt{1b01a38} \\
+\emph{ID} jawaban \emph{accepted} & 2010765 \\
 \hline
 \end{tabularx}
 \end{table}
 
-Fungsi yang panjang tidak disalin, yaitu \texttt{traverse\_graph} dan \texttt{semantic\_expansion} (sudah ada pada Lampiran~\ref{lamp:repro}), \texttt{process\_sample}, \texttt{main}, dan \texttt{build\_config}. Penyusunan pesan dan pemanggilan generator tetap tercakup oleh fungsi \texttt{build\_*\_messages} dan \texttt{call\_llm\_openai\_with\_meta}. Pembuatan indeks vektor untuk \emph{anchor} Kondisi C ada pada \texttt{densify.py}, bukan \texttt{faiss-index.py}.
+\subsubsection{Cuplikan pertanyaan.}
+\begin{quote}\small This has always bothered me,\allowbreak{} and I've never really come up with my own preferred way of doing this.\allowbreak{} \newline When importing something from one of your own applications in a django project,\allowbreak{} do you import with:\allowbreak{} \newline from myproject.\allowbreak{}mymodule.\allowbreak{}model import SomeModel \newline from myproject.\allowbreak{}anotherone.\allowbreak{}model import AnotherModel [\ldots]\end{quote}
 
-\section{Pembangunan Graf Struktural dan Bobot Jawaban}
-\IfFileExists{listings/kg-build.py}{\lstinputlisting[language=Python, caption={Pembangunan simpul dan sisi graf struktural serta penghitungan bobot jawaban.}, label={lst:kg-build}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/kg-build.py}}{\textcolor{red}{\textbf{[berkas listings/kg-build.py belum tersedia]}}}
+\subsubsection{Cuplikan jawaban \emph{accepted} (jawaban acuan).}
+\begin{quote}\small I would recommend using the second alternative:\allowbreak{} \newline from mymodule.\allowbreak{}model import SomeModel \newline from anotherone.\allowbreak{}model import AnotherModel \newline In Django,\allowbreak{} it's recommended to write reusable applications,\allowbreak{} that you may deploy in multiple projects.\allowbreak{} Specifying the name of the project would hinder this possibility.\allowbreak{} It [\ldots]\end{quote}
 
-\section{Densifikasi Graf (\texttt{TAG\_COOCCUR} dan \texttt{EMBED\_SIM})}
-\IfFileExists{listings/densify.py}{\lstinputlisting[language=Python, caption={Pembuatan sisi densifikasi.}, label={lst:densify}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/densify.py}}{\textcolor{red}{\textbf{[berkas listings/densify.py belum tersedia]}}}
+\begin{table}[!htbp]
+\centering
+\scriptsize
+\caption{Label per \emph{judge} dan label panel untuk pertanyaan 2010746.}
+\label{tab:lamp-x-judge}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|l|*{4}{>{\centering\arraybackslash}X|}}
+\hline
+\textbf{Konfigurasi} & \textbf{Llama} & \textbf{DeepSeek} & \textbf{Qwen} & \textbf{Panel} \\
+\hline
+B-Vec & \texttt{FAKTUAL} & \texttt{HALUSINASI\_\allowbreak{}PENUH} & \texttt{HALUSINASI\_\allowbreak{}PENUH} & \texttt{HALUSINASI\_\allowbreak{}PENUH} \\
+\hline
+C-Acc+Vote & \texttt{FAKTUAL} & \texttt{FAKTUAL} & \texttt{HALUSINASI\_\allowbreak{}PENUH} & \texttt{FAKTUAL} \\
+\hline
+\end{tabularx}
+\end{table}
 
-\section{Pengindeksan Vektor FAISS}
-\IfFileExists{listings/faiss-index.py}{\lstinputlisting[language=Python, caption={Pembuatan indeks vektor.}, label={lst:faiss-index}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/faiss-index.py}}{\textcolor{red}{\textbf{[berkas listings/faiss-index.py belum tersedia]}}}
+\begin{table}[!htbp]
+\centering
+\scriptsize
+\caption{Item konteks C-Acc+Vote untuk pertanyaan 2010746 (melengkapi Tabel~\ref{tab:kasus-x}). Kolom \emph{Hop} adalah jarak penelusuran graf dari \emph{anchor}.}
+\label{tab:lamp-x-konteks}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{|c|l|>{\raggedright\arraybackslash}X|c|c|c|c|}
+\hline
+\textbf{Peringkat} & \textbf{ID jawaban} & \textbf{Pertanyaan asal} & \textbf{Skor SO} & \textbf{\emph{Accepted}} & \textbf{\emph{Hop}} & \textbf{Kosinus} \\
+\hline
+1 & 32769244 & Q32767362: Import a module from a directory (package) one level up & 12 & ya & 1 & 0,6764 \\
+\hline
+2 & 68892578 & Q68892006: How can I import python modules from outside the module's project structure without getting a ModuleNotFoundError? & 1 & ya & 1 & 0,6540 \\
+\hline
+3 & 63341626 & Q63340913: how to access models from another project in django? & 0 & tidak & 1 & 0,7604 \\
+\hline
+4 & 69861300 & Q69860283: Best way to declare additional data and modules in a Django project & 2 & tidak & 1 & 0,6956 \\
+\hline
+5 & 14964174 & Q14963755: Django apps: installing system-wide vs project-wide & 1 & tidak & 1 & 0,6848 \\
+\hline
+\end{tabularx}
+\end{table}
+\subsubsection{Cuplikan jawaban pada konteks C-Acc+Vote.}
+\begin{description}\small
+\item[1.] \texttt{32769244}: In your main file recipe.\allowbreak{}py add pkg1 path to the PYTHONPATH sys.\allowbreak{}path.\allowbreak{}append('/\allowbreak{}path/\allowbreak{}to/\allowbreak{}pkg1')\allowbreak{} Or use a relative path sys.\allowbreak{}path.\allowbreak{}append('.\allowbreak{}.\allowbreak{}/\allowbreak{}.\allowbreak{}.\allowbreak{}')\allowbreak{} This should allow importing pkg1 from any where in your program.\allowbreak{} There is always the option of using relative imports as suggested here,\allowbreak{} I find using [\ldots]
+\item[2.] \texttt{68892578}: Before entering the hell of sys.\allowbreak{}path-\allowbreak{}patching,\allowbreak{} I would suggest to wrap your code that currently lives in module\_\allowbreak{}example into a package\_\allowbreak{}example directory,\allowbreak{} add a setup.\allowbreak{}py and throw a number of \_\allowbreak{}\_\allowbreak{}init\_\allowbreak{}\_\allowbreak{}.\allowbreak{}py in.\allowbreak{} Make package\_\allowbreak{}example a git repo.\allowbreak{} In every other project where you want to use [\ldots]
+\item[3.] \texttt{63341626}: I would suggest to just create 1 project with 2 apps inside.\allowbreak{} This way the structure is nice you would not have to play around with python paths and importing from one app to the other is easy to do.\allowbreak{} example [\ldots]
+\item[4.] \texttt{69861300}: As per my suggestions for both your issues you should create one constants.\allowbreak{}py and one utils.\allowbreak{}py file.\allowbreak{} Now depends on your use case if you want to use the same constants in multiple apps within your project then define it at the root next to manage.\allowbreak{}py or if the constants are specific to app then [\ldots]
+\item[5.] \texttt{14964174}: The recommended approach is not to copy any reusable app inside you project.\allowbreak{} They provide extension points and settings to customize.\allowbreak{} Also,\allowbreak{} it is recommended to use virtualenv for projects and install any project specific python modules there.\allowbreak{} This will protect you from different versions conflicts.\allowbreak{} [\ldots]
+\end{description}
 
-\section{\emph{Retrieval} Kondisi B (B-Vec dan B-Acc)}
-\IfFileExists{listings/retrieval-b.py}{\lstinputlisting[language=Python, caption={Pencarian vektor dan pemeringkatan ulang B-Vec dan B-Acc.}, label={lst:retrieval-b}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/retrieval-b.py}}{\textcolor{red}{\textbf{[berkas listings/retrieval-b.py belum tersedia]}}}
+\begin{table}[!htbp]
+\centering
+\scriptsize
+\caption{Item konteks B-Vec untuk pertanyaan 2010746.}
+\label{tab:lamp-x-konteks-b}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{|c|l|>{\raggedright\arraybackslash}X|c|c|c|}
+\hline
+\textbf{Peringkat} & \textbf{ID jawaban} & \textbf{Pertanyaan asal} & \textbf{Skor SO} & \textbf{\emph{Accepted}} & \textbf{Kosinus} \\
+\hline
+1 & 63341626 & Q63340913: how to access models from another project in django? & 0 & tidak & 0,7604 \\
+\hline
+2 & 69861300 & Q69860283: Best way to declare additional data and modules in a Django project & 2 & tidak & 0,6956 \\
+\hline
+3 & 14964174 & Q14963755: Django apps: installing system-wide vs project-wide & 1 & tidak & 0,6848 \\
+\hline
+4 & 32769244 & Q32767362: Import a module from a directory (package) one level up & 12 & ya & 0,6764 \\
+\hline
+5 & 32556202 & Q32553589: How can I create imports that always work? & 0 & tidak & 0,6706 \\
+\hline
+\end{tabularx}
+\end{table}
+\subsubsection{Cuplikan jawaban pada konteks B-Vec.}
+\begin{description}\small
+\item[1.] \texttt{63341626}: cuplikan sama dengan pada konteks C-Acc+Vote.
+\item[2.] \texttt{69861300}: cuplikan sama dengan pada konteks C-Acc+Vote.
+\item[3.] \texttt{14964174}: cuplikan sama dengan pada konteks C-Acc+Vote.
+\item[4.] \texttt{32769244}: cuplikan sama dengan pada konteks C-Acc+Vote.
+\item[5.] \texttt{32556202}: Unfortunately relative imports and direct running of submodules don't mix.\allowbreak{} Add the parent directory of mypackage to your PYTHONPATH or always cd into the parent directory when you want to run a submodule.\allowbreak{} Then you have two possibilities:\allowbreak{} Use absolute (from mypackage import utils)\allowbreak{} instead of relative [\ldots]
+\end{description}
 
-\section{Skor Akhir dan Pemilihan Konteks Kondisi C}
-\IfFileExists{listings/c-score.py}{\lstinputlisting[language=Python, caption={Fusi kandidat, skor akhir, dan pemilihan lima konteks teratas.}, label={lst:c-score}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/c-score.py}}{\textcolor{red}{\textbf{[berkas listings/c-score.py belum tersedia]}}}
+\subsubsection{Jawaban C-Acc+Vote.} Kutipan yang dipakai: \texttt{[SO-32767362]}, \texttt{[SO-63340913]}, \texttt{[SO-69860283]}; seluruh kutipan valid.
+\begin{quote}\small The retrieved sources provide some insights into importing modules within a Django project:  1. It is generally recommended to use absolute imports rather than relative imports. Absolute imports improve code readability and reduce the chances of bugs, especially in large projects. This is because with absolute imports, you reference a clear root directory, while relative imports can lead to confusion and complications in understanding module hierarchy [SO-32767362].  2. An additional suggestion is to create a single project with multiple apps. This way, the structure remains organized, and importing from one app to another becomes straightforward. While this is not directly about how to import, it emphasizes the structural organization that can lead to easier imports [SO-63340913].  3. The suggestion to organize utility files like \texttt{constants.\allowbreak{}py} or \texttt{utils.\allowbreak{}py} either at the project root or within specific apps also enhances the clarity of imports. Defining utility functions in a single file helps streamline using them across different apps in your project [SO-69860283].  Overall, using absolute imports is generally preferred for clarity and ease of management in a Django project, and organizing your project structure with a single project and multiple apps simplifies the importing process. The exact methods you mentioned (absolute vs. relative imports) are valid, but the preference leans toward absolute imports for maintaining clean and understandable code.   The retrieved sources do not specifically address preferences between the two forms you listed but suggest best practices that lean towards absolute imports.\end{quote}
 
-\section{Pembentukan \emph{Prompt} dan Generasi Jawaban}
-\IfFileExists{listings/prompt-builder.py}{\lstinputlisting[language=Python, caption={Penyusunan pesan Kondisi A dan Kondisi B/C serta pemanggilan generator.}, label={lst:prompt-builder}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/prompt-builder.py}}{\textcolor{red}{\textbf{[berkas listings/prompt-builder.py belum tersedia]}}}
+\subsubsection{Jawaban B-Vec.} Kutipan yang dipakai: \texttt{[SO-32767362]}, \texttt{[SO-69860283]}; seluruh kutipan valid.
+\begin{quote}\small To address your issue with importing modules within a Django project, the context provides some useful insights for structuring imports.  1. \textbf{Use Absolute Imports}: It is generally recommended to use absolute imports, such as \texttt{from myproject.\allowbreak{}mymodule.\allowbreak{}model import SomeModel}, because they are clearer and reduce the likelihood of ambiguity regarding which module is being referenced. Absolute imports also make it easier to understand the project structure without needing to calculate directory hierarchies [SO-32767362].  2. \textbf{Avoid Relative Imports}: While you can theoretically use relative imports (e.g., \texttt{from .\allowbreak{}model import SomeModel}), their use can lead to confusion, especially in larger projects. It is noted that relying on relative imports can cause complications in maintaining the code since a reader may struggle to discern the correct module being imported [SO-32767362].  3. \textbf{Structure of Utilities}: If you're dealing with a utility module like \texttt{utils.\allowbreak{}py}, it is advisable to keep this at the project root if its functions are reusable across multiple apps. This way, you can use absolute paths without causing confusion [SO-69860283].  In conclusion, the best practice in Django projects is to prefer absolute imports for clarity and maintainability, which aligns with the recommendation to avoid relative imports unless specifically needed. Using your project structure effectively with absolute paths will lead to cleaner and more understandable code.\end{quote}
+\subsubsection{Klaim yang ditandai pada B-Vec.} Teks klaim, bukti, dan alasan \emph{judge} dikutip apa adanya (bahasa Inggris).
+\begin{itemize}\small
+\item \textbf{DeepSeek}, \texttt{CONTRADICTED}, \texttt{CORE}. Klaim: \emph{In Django projects, it is generally recommended to use absolute imports, such as `from myproject.mymodule.model import SomeModel`.} Bukti: [R] “I would recommend using the second alternative: from mymodule.model import SomeModel”
+\item \textbf{DeepSeek}, \texttt{CONTRADICTED}, \texttt{CORE}. Klaim: \emph{The best practice in Django projects is to prefer absolute imports for clarity and maintainability.} Bukti: [R] “I would recommend using the second alternative: from mymodule.model import SomeModel”
+\item \textbf{Qwen}, \texttt{CONTRADICTED}, \texttt{CORE}. Klaim: \emph{It is generally recommended to use absolute imports such as from myproject.mymodule.model import SomeModel} Bukti: [R] “I would recommend using the second alternative: from mymodule.model import SomeModel”
+\item \textbf{Qwen}, \texttt{CONTRADICTED}, \texttt{CORE}. Klaim: \emph{The best practice in Django projects is to prefer absolute imports for clarity and maintainability} Bukti: [R] “I would recommend using the second alternative: from mymodule.model import SomeModel”
+\end{itemize}
+\begin{quote}\small\textbf{Alasan DeepSeek:} The candidate answer attempts a solution, addressing the question fully. Its main recommendation (use absolute imports with the project name) directly contradicts the reference answer, which recommends the second alternative (imports without the project name). This contradiction is CORE because it reverses the central advice. Other claims about clarity, confusion, and utility placement are not addressed by the reference and are UNVERIFIABLE. Since there is at least one CORE CONTRADICTED claim, the label is HALUSINASI\_PENUH.\end{quote}
+\begin{quote}\small\textbf{Alasan Qwen:} The candidate recommends absolute imports (e.g., from myproject.mymodule...), but the reference explicitly recommends the relative form (from mymodule...) to support reusable apps and ease of project renaming. This is a direct contradiction on the core recommendation. While some supporting claims about clarity and maintenance are unverifiable, the central advice on import style is contradicted by the reference.\end{quote}
+\subsubsection{Klaim yang ditandai pada C-Acc+Vote.} Teks klaim, bukti, dan alasan \emph{judge} dikutip apa adanya (bahasa Inggris).
+\begin{itemize}\small
+\item \textbf{Qwen}, \texttt{CONTRADICTED}, \texttt{CORE}. Klaim: \emph{It is generally recommended to use absolute imports rather than relative imports in a Django project} Bukti: [R] 'I would recommend using the second alternative: from mymodule.model import SomeModel' — this uses project-root-relative imports, not full absolute imports including the project name. The reference promotes relative imports from the project root, not absolute imports in the sense of fully qualified paths.
+\item \textbf{Qwen}, \texttt{CONTRADICTED}, \texttt{MINOR}. Klaim: \emph{Relative imports can lead to confusion and complications in understanding module hierarchy} Bukti: [R] 'This is the tradition that most django applications use' — the reference endorses the common Django practice of using project-root-relative imports (e.g. from mymodule.model), which are technically relative to the project root, contradicting the idea that such imports are problematic.
+\end{itemize}
+\begin{quote}\small\textbf{Alasan Qwen:} The candidate recommends absolute imports (e.g. from mymodule.model) as best practice, which aligns with the reference answer. However, the candidate frames this as 'absolute imports' in contrast to relative imports, while the reference does not make this distinction and instead promotes project-root-relative imports. The candidate's claim that relative imports cause confusion contradicts the reference's endorsement of common Django practices. The core recommendation is thus misaligned in framing, leading to a CONTRADICTED CORE claim. Other claims about project structure and utility files are supported by context and consistent with the reference.\end{quote}
+\subsubsection{Catatan data.}
+\begin{itemize}\small
+\item Label panel B-Vec ditentukan oleh DeepSeek dan Qwen (keduanya \texttt{HALUSINASI\_\allowbreak{}PENUH}), sedangkan Llama memberi \texttt{FAKTUAL}.
+\item Label panel C-Acc+Vote ditentukan oleh Llama dan DeepSeek (keduanya \texttt{FAKTUAL}), sedangkan Qwen memberi \texttt{HALUSINASI\_\allowbreak{}PENUH}. Jadi label kasus ini tidak bulat pada kedua konfigurasi.
+\item Pada C-Acc+Vote, alasan Qwen menyebut rekomendasi jawaban \emph{selaras} dengan jawaban acuan, tetapi klaim yang sama diberi \texttt{CONTRADICTED} dengan keparahan \texttt{CORE}.
+\item Empat dari lima item konteks identik pada kedua konfigurasi (\texttt{63341626} dan tiga lainnya). Item yang berbeda adalah \texttt{32556202} pada B-Vec dan \texttt{68892578} pada C-Acc+Vote.
+\item Tidak ada item konteks yang berasal dari pertanyaan yang membahas gaya impor pada proyek Django secara langsung.
+\end{itemize}
 
-\section{Validasi Kutipan}
-\IfFileExists{listings/citation-check.py}{\lstinputlisting[language=Python, caption={Pemeriksaan kutipan \texttt{[SO-<id>]} terhadap konteks.}, label={lst:citation-check}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/citation-check.py}}{\textcolor{red}{\textbf{[berkas listings/citation-check.py belum tersedia]}}}
+\section{Kasus Gagal: Pertanyaan 5917610}
+\label{sec:lamp-kasus-y}
 
-\section{Pengecualian \emph{Thread} dan Pemeriksaan Kebocoran}
-\IfFileExists{listings/leakage.py}{\lstinputlisting[language=Python, caption={Himpunan pengecualian dan pemeriksaan kebocoran (NF5).}, label={lst:leakage}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/leakage.py}}{\textcolor{red}{\textbf{[berkas listings/leakage.py belum tersedia]}}}
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Identitas pertanyaan 5917610.}
+\label{tab:lamp-y-id}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Bidang} & \textbf{Nilai} \\
+\hline
+\emph{ID} dan pranala & 5917610 (\texttt{stackoverflow.com/q/5917610}) \\
+\hline
+Judul & How to auto-post math markup on my github repo's page(s)? \\
+\hline
+\emph{Tag} & \texttt{github}, \texttt{math}, \texttt{markdown} \\
+\hline
+Skor dan jumlah jawaban & 1; 1 \\
+\hline
+Tahun diajukan & 2011 \\
+\hline
+Posisi pada sampel uji & 259 \\
+\hline
+\emph{ID} jawaban \emph{accepted} & 5918140 \\
+\hline
+\end{tabularx}
+\end{table}
 
-\section{Pemanggilan \emph{Judge} dan Panel}
-\IfFileExists{listings/judge-runner.py}{\lstinputlisting[language=Python, caption={Pemanggilan tiga \emph{judge} dan penyimpanan keluarannya.}, label={lst:judge-runner}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/judge-runner.py}}{\textcolor{red}{\textbf{[berkas listings/judge-runner.py belum tersedia]}}}
+\subsubsection{Cuplikan pertanyaan.}
+\begin{quote}\small I'm not sure if this is possible,\allowbreak{} but this is what I'd like to do:\allowbreak{} \newline I'd like to create a literate program,\allowbreak{} hosted on github,\allowbreak{} and have the resulting human-\allowbreak{}friendly literature automatically published on my github's project page.\allowbreak{} By “automatically published,\allowbreak{}” I mean that I can run a script on my local [\ldots]\end{quote}
 
-\section{Penghitungan \emph{Hallucination Rate}}
-\IfFileExists{listings/eval-hr.py}{\lstinputlisting[language=Python, caption={Penghitungan HR versi (a) dan (b) per kasus dan hasil per \emph{judge}.}, label={lst:eval-hr}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/eval-hr.py}}{\textcolor{red}{\textbf{[berkas listings/eval-hr.py belum tersedia]}}}
+\subsubsection{Cuplikan jawaban \emph{accepted} (jawaban acuan).}
+\begin{quote}\small The wikis are backed by their own git repo,\allowbreak{} so you can push to it and have it automatically update.\allowbreak{} That's a different repo than the main one though.\allowbreak{} As far as I know that stuff is only supported in the wikis,\allowbreak{} not in the main repo markdown processor.\allowbreak{}\end{quote}
 
-\section{Penghitungan Latensi dan Metrik Pendukung}
-\IfFileExists{listings/eval-metrics.py}{\lstinputlisting[language=Python, caption={Latensi, \emph{valid citation rate}, dan agregasi metrik pendukung.}, label={lst:eval-metrics}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/eval-metrics.py}}{\textcolor{red}{\textbf{[berkas listings/eval-metrics.py belum tersedia]}}}
+\begin{table}[!htbp]
+\centering
+\scriptsize
+\caption{Label per \emph{judge} dan label panel untuk pertanyaan 5917610.}
+\label{tab:lamp-y-judge}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|l|*{4}{>{\centering\arraybackslash}X|}}
+\hline
+\textbf{Konfigurasi} & \textbf{Llama} & \textbf{DeepSeek} & \textbf{Qwen} & \textbf{Panel} \\
+\hline
+B-Vec & \texttt{FAKTUAL} & \texttt{FAKTUAL} & \texttt{HALUSINASI\_\allowbreak{}SEBAGIAN} & \texttt{FAKTUAL} \\
+\hline
+C-Acc+Vote & \texttt{HALUSINASI\_\allowbreak{}PENUH} & \texttt{HALUSINASI\_\allowbreak{}PENUH} & \texttt{FAKTUAL} & \texttt{HALUSINASI\_\allowbreak{}PENUH} \\
+\hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\scriptsize
+\caption{Item konteks C-Acc+Vote untuk pertanyaan 5917610 (melengkapi Tabel~\ref{tab:kasus-y}). Kolom \emph{Hop} adalah jarak penelusuran graf dari \emph{anchor}.}
+\label{tab:lamp-y-konteks}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{|c|l|>{\raggedright\arraybackslash}X|c|c|c|c|}
+\hline
+\textbf{Peringkat} & \textbf{ID jawaban} & \textbf{Pertanyaan asal} & \textbf{Skor SO} & \textbf{\emph{Accepted}} & \textbf{\emph{Hop}} & \textbf{Kosinus} \\
+\hline
+1 & 30640885 & Q30640718: Resource has a non-consistent extension with its actual content? & 1 & ya & 1 & 0,6196 \\
+\hline
+2 & 16294980 & Q15214762: How can I sync documentation with Github Pages? & 3 & tidak & 1 & 0,6624 \\
+\hline
+3 & 16330934 & Q15214762: How can I sync documentation with Github Pages? & 3 & tidak & 1 & 0,6398 \\
+\hline
+4 & 79302884 & Q31534084: How can I get github to display inline math in README.org file & 0 & tidak & 1 & 0,6530 \\
+\hline
+5 & 6312309 & Q6309389: Python documentation in wiki-like environment (with some autodoc features) & 1 & tidak & 1 & 0,6356 \\
+\hline
+\end{tabularx}
+\end{table}
+\subsubsection{Cuplikan jawaban pada konteks C-Acc+Vote.}
+\begin{description}\small
+\item[1.] \texttt{30640885}: As a completion to what Quentin said,\allowbreak{} there are some services which offer raw github files with the proper Content-\allowbreak{}Type.\allowbreak{} https:\allowbreak{}/\allowbreak{}/\allowbreak{}rawgit.\allowbreak{}com/\allowbreak{} is one of them.\allowbreak{} RawGit serves raw files directly from GitHub with proper Content-\allowbreak{}Type headers.\allowbreak{} And of course you can keep it free,\allowbreak{} or if you want stability [\ldots]
+\item[2.] \texttt{16294980}: I have a couple ideas for sharing a single readme file between your documentation site and main github repo:\allowbreak{} You could use only a single gh-\allowbreak{}pages branch that contains both your code and a jekyll documentation site.\allowbreak{} Your repository could get a bit cluttered and you will need to put a YAML header at [\ldots]
+\item[3.] \texttt{16330934}: Another route to consider is setting up a pre-\allowbreak{}commit hook which builds the relevant pages.\allowbreak{} I do this in one of my repositories.\allowbreak{} You'd probably have to ditch the automatic page generator and just push to the gh-\allowbreak{}pages branch yourself,\allowbreak{} though,\allowbreak{} as well as doing something fancy to turn your docs into [\ldots]
+\item[4.] \texttt{79302884}: There are enough limitations,\allowbreak{} but you can use LaTeX fragments surrounded by dollars:\allowbreak{} \$f(x)\allowbreak{}\$ or \$\$ e\^{}\{2\textbackslash{}pi i\} =\allowbreak{} 1 \$\$ Likely you want to add to the document \#+options:\allowbreak{} \^{}:\allowbreak{}nil GitHub added support of MathJax in 2022,\allowbreak{} for MarkDown the feature is documented in Writing mathematical expressions.\allowbreak{} It seems,\allowbreak{} [\ldots]
+\item[5.] \texttt{6312309}: GitHub's Gollum which is a “A simple,\allowbreak{} Git-\allowbreak{}powered wiki with a sweet API and local frontend” could be a possible solution.\allowbreak{} It supports reStructured Text,\allowbreak{} which as you probably know,\allowbreak{} is the same markup used by Sphinx.\allowbreak{}
+\end{description}
+
+\begin{table}[!htbp]
+\centering
+\scriptsize
+\caption{Item konteks B-Vec untuk pertanyaan 5917610.}
+\label{tab:lamp-y-konteks-b}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{|c|l|>{\raggedright\arraybackslash}X|c|c|c|}
+\hline
+\textbf{Peringkat} & \textbf{ID jawaban} & \textbf{Pertanyaan asal} & \textbf{Skor SO} & \textbf{\emph{Accepted}} & \textbf{Kosinus} \\
+\hline
+1 & 16294980 & Q15214762: How can I sync documentation with Github Pages? & 3 & tidak & 0,6624 \\
+\hline
+2 & 79302884 & Q31534084: How can I get github to display inline math in README.org file & 0 & tidak & 0,6530 \\
+\hline
+3 & 16330934 & Q15214762: How can I sync documentation with Github Pages? & 3 & tidak & 0,6398 \\
+\hline
+4 & 6312309 & Q6309389: Python documentation in wiki-like environment (with some autodoc features) & 1 & tidak & 0,6356 \\
+\hline
+5 & 30640885 & Q30640718: Resource has a non-consistent extension with its actual content? & 1 & ya & 0,6196 \\
+\hline
+\end{tabularx}
+\end{table}
+\subsubsection{Cuplikan jawaban pada konteks B-Vec.}
+\begin{description}\small
+\item[1.] \texttt{16294980}: cuplikan sama dengan pada konteks C-Acc+Vote.
+\item[2.] \texttt{79302884}: cuplikan sama dengan pada konteks C-Acc+Vote.
+\item[3.] \texttt{16330934}: cuplikan sama dengan pada konteks C-Acc+Vote.
+\item[4.] \texttt{6312309}: cuplikan sama dengan pada konteks C-Acc+Vote.
+\item[5.] \texttt{30640885}: cuplikan sama dengan pada konteks C-Acc+Vote.
+\end{description}
+
+\subsubsection{Jawaban C-Acc+Vote.} Kutipan yang dipakai: \texttt{[SO-15214762]}, \texttt{[SO-31534084]}; seluruh kutipan valid.
+\begin{quote}\small To auto-post math markup on your GitHub repo's page(s), you can follow several approaches given the context. Here are some recommendations based on the potential needs of your setup:  1. \textbf{Use Markdown with MathJax Support}: GitHub supports writing mathematical expressions using LaTeX fragments. You can use \texttt{\$.\allowbreak{}.\allowbreak{}.\allowbreak{}\$} for inline math and \texttt{\$\$.\allowbreak{}.\allowbreak{}.\allowbreak{}\$\$} for block math. This feature is enabled in GitHub Markdown as of 2022, so you can include mathematical representations directly in your markdown files, such as README.md. You can refer to the GitHub documentation for writing mathematical expressions for further guidance [SO-31534084].  2. \textbf{Auto-Publishing with a Script}: To automatically generate a user-friendly document (like README.md) containing your written explanations and math, you could utilize a pre-commit hook that builds the relevant pages or transforms your literate programming output into the appropriate format. Although this setup may require some additional scripting, it can be done to ensure that every time you push to \texttt{master}, your \texttt{gh-\allowbreak{}pages} branch (or other branches) is updated accordingly [SO-15214762].  3. \textbf{Considerations for Generated Content}: When you generate a document from your literate programming, ensure that the output is compatible with GitHub Markdown for math support to work effectively. Using a straightforward preprocessing step in your script can help format your output correctly.  The context does not cover specific tools or libraries to facilitate the conversion from your literate programming content to GitHub-flavored Markdown, so you might need to research or create tools that suit your specific requirements. Additionally, it may not be possible to generate GitHub wikis directly through a \texttt{git push} command as they operate somewhat separately unless you integrate them into your workflow effectively.   Overall, leveraging Markdown's math capabilities alongside a good build process will help you achieve your goal.\end{quote}
+
+\subsubsection{Jawaban B-Vec.} Kutipan yang dipakai: \texttt{[SO-15214762]}, \texttt{[SO-31534084]}; seluruh kutipan valid.
+\begin{quote}\small To achieve automatic posting of math markup on your GitHub repository's page, you might consider the following steps based on the retrieved sources:  1. \textbf{Using Markdown with Math Support}: GitHub's Markdown supports inline math using LaTeX fragments. You can surround your mathematical expressions with single dollar signs for inline math (e.g., \texttt{\$f(x)\allowbreak{}\$}) and double dollar signs for block math (e.g., \texttt{\$\$ e\^{}\{2\textbackslash{}pi i\} =\allowbreak{} 1 \$\$}) [SO-31534084]. This means that if your literate programming output includes these markdown formats for math, they should render correctly when viewed on GitHub.  2. \textbf{Script for Automatic Updates}: To automate the process of pushing your changes, you can create a script that generates the appropriate markdown document (e.g., a README.md file) from your literate programming output. At the end of the script, include a command that executes \texttt{git push origin master}, which will update the master branch of your repository with the newly generated markdown document [SO-15214762].   3. \textbf{Webhook or Git Hook}: If you're looking for a more sophisticated solution, you could implement a pre-commit hook that automatically generates the documentation or a post-receive hook on GitHub that processes updates. This way, every time you push changes, the operations to regenerate the documents could be automated [SO-15214762].   Unfortunately, the retrieved sources do not provide specific details about syncing your work with GitHub wikis or methods to handle automatic updates to the wiki directly upon pushing changes from your local machine. Thus, that part of your question remains unsupported by the provided context.\end{quote}
+\subsubsection{Klaim yang ditandai pada B-Vec.} Teks klaim, bukti, dan alasan \emph{judge} dikutip apa adanya (bahasa Inggris).
+\begin{itemize}\small
+\item \textbf{Qwen}, \texttt{CONTRADICTED}, \texttt{MINOR}. Klaim: \emph{A post-receive hook on GitHub can automate regeneration of documents upon push} Bukti: [R] “As far as I know that stuff is only supported in the wikis, not in the main repo markdown processor.” The reference does not mention hooks or automation via GitHub-side post-receive hooks, and GitHub does not support user-defined post-receive hooks in public repositories; this is a well-known limitation of GitHub's platform.
+\end{itemize}
+\begin{quote}\small\textbf{Alasan Qwen:} The candidate provides a valid alternative approach using Markdown math support and automation via scripts and git hooks. Most claims are supported by context or reference, except for the mention of a 'post-receive hook on GitHub', which is CONTRADICTED because GitHub does not allow users to set up post-receive hooks on public repositories. This is a minor error as it is an additional suggestion, not the core solution. The main solution (using Markdown with math and pushing to master) aligns with supported practices.\end{quote}
+\subsubsection{Klaim yang ditandai pada C-Acc+Vote.} Teks klaim, bukti, dan alasan \emph{judge} dikutip apa adanya (bahasa Inggris).
+\begin{itemize}\small
+\item \textbf{Llama}, \texttt{CONTRADICTED}, \texttt{CORE}. Klaim: \emph{GitHub wikis can be generated directly through a git push command.} Bukti: [R] The wikis are backed by their own git repo, implying a separate process.
+\item \textbf{DeepSeek}, \texttt{CONTRADICTED}, \texttt{CORE}. Klaim: \emph{You can include mathematical representations directly in your markdown files, such as README.md.} Bukti: [R] “As far as I know that stuff is only supported in the wikis, not in the main repo markdown processor.”
+\item \textbf{DeepSeek}, \texttt{CONTRADICTED}, \texttt{CORE}. Klaim: \emph{It may not be possible to generate GitHub wikis directly through a git push command as they operate somewhat separately unless you integrate them into your workflow effectively.} Bukti: [R] “The wikis are backed by their own git repo, so you can push to it and have it automatically update.”
+\end{itemize}
+\begin{quote}\small\textbf{Alasan Llama:} The candidate answer provides several approaches to auto-posting math markup on GitHub repo pages, including using Markdown with MathJax support and auto-publishing with a script. While some claims are supported by the context and reference, others are unverifiable or contradicted. The claim about generating GitHub wikis directly through a git push command is contradicted by the reference, which states that wikis are backed by their own git repo. Despite this, the answer attempts to address the question and provides useful information, making it partially factual.\end{quote}
+\begin{quote}\small\textbf{Alasan DeepSeek:} The candidate attempted an answer with technical claims. Two claims are CONTRADICTED and CORE: (1) that math can be included directly in README.md (the reference says math is only supported in wikis), and (2) that generating wikis via git push may not be possible (the reference says wikis have their own git repo and can be pushed to). These are central to the solution. Since there is at least one CORE CONTRADICTED claim, the label is HALUSINASI\_PENUH.\end{quote}
+\subsubsection{Catatan data.}
+\begin{itemize}\small
+\item Label panel B-Vec ditentukan oleh Llama dan DeepSeek (keduanya \texttt{FAKTUAL}), sedangkan Qwen memberi \texttt{HALUSINASI\_\allowbreak{}SEBAGIAN}.
+\item Label panel C-Acc+Vote ditentukan oleh Llama dan DeepSeek (keduanya \texttt{HALUSINASI\_\allowbreak{}PENUH}), sedangkan Qwen memberi \texttt{FAKTUAL}.
+\item Jawaban acuan (\emph{accepted}) berasal dari tahun pertanyaan (2011). Item peringkat 4 pada kedua konteks (\texttt{79302884}) menyebut bahwa GitHub menambahkan dukungan MathJax pada 2022.
+\item DeepSeek menandai klaim ``rumus matematika dapat ditulis langsung pada \texttt{README.md}'' pada C-Acc+Vote sebagai \texttt{CONTRADICTED} berdasarkan jawaban acuan. Jawaban B-Vec memuat klaim serupa (sintaks \texttt{\$...\$} dan \texttt{\$\$...\$\$} pada \emph{Markdown} GitHub) dan tidak ditandai oleh DeepSeek.
+\item Lima item konteks identik pada kedua konfigurasi dengan urutan berbeda.
+\end{itemize}
+
+\cleardoublepage
+\chapter{KETERSEDIAAN KODE DAN DATA}
+\label{lamp:source-code}
+
+Kode implementasi dan evaluasi tersedia pada repositori \url{https://github.com/dartikaanie/graphrag} (komit \isi{hash}, \emph{tag} \texttt{tesis-final}). Kelima \emph{run} dijalankan dari \emph{working tree} yang belum bersih (Tabel~\ref{tab:lamp-run}), sehingga repositori ini adalah pembekuan kode setelah \emph{run}, bukan kode persis saat \emph{run}. Bagian yang menentukan hasil dimuat pada Lampiran~\ref{lamp:prompt-judge} dan \ref{lamp:repro}. Tidak ada rahasia (kunci API atau kredensial basis data) pada repositori.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Peta modul pada repositori.}
+\label{tab:lamp-peta-kode}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{5.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Berkas} & \textbf{Fungsi} \\
+\hline
+\texttt{7\_\allowbreak{}build\_\allowbreak{}knowledge\_\allowbreak{}graph.\allowbreak{}py}, \texttt{trust\_\allowbreak{}formulas.\allowbreak{}py} & Pembangunan graf struktural dan bobot jawaban \\
+\hline
+\texttt{10\_\allowbreak{}densify\_\allowbreak{}tag\_\allowbreak{}cooccurrence.\allowbreak{}py}, \texttt{11\_\allowbreak{}densify\_\allowbreak{}embedding\_\allowbreak{}similarity.\allowbreak{}py} & Sisi \texttt{TAG\_COOCCUR} dan \texttt{EMBED\_SIM}, serta indeks vektor \emph{anchor} \\
+\hline
+\texttt{build\_\allowbreak{}kg\_\allowbreak{}answer\_\allowbreak{}index.\allowbreak{}py}, \texttt{kg\_\allowbreak{}corpus.\allowbreak{}py} & Korpus dan indeks FAISS jawaban untuk B \\
+\hline
+\texttt{b\_\allowbreak{}condition\_\allowbreak{}b\_\allowbreak{}rag.\allowbreak{}py} & \emph{Retrieval} B-Vec dan B-Acc \\
+\hline
+\texttt{c\_\allowbreak{}graphrag.\allowbreak{}py} & \emph{Retrieval}, skor akhir, dan pemilihan konteks C-Acc dan C-Acc+Vote \\
+\hline
+\texttt{prompts.\allowbreak{}py}, \texttt{citations.\allowbreak{}py} & Penyusunan \emph{prompt} generator dan validasi kutipan \\
+\hline
+\texttt{common/\allowbreak{}leakage.\allowbreak{}py} & Pengecualian \emph{thread} dan pemeriksaan kebocoran \\
+\hline
+\texttt{judge\_\allowbreak{}panel.\allowbreak{}py}, \texttt{judge\_\allowbreak{}panel\_\allowbreak{}aggregate.\allowbreak{}py} & Panel \emph{judge} dan agregasi label \\
+\hline
+\texttt{official\_\allowbreak{}report.\allowbreak{}py}, \texttt{latency\_\allowbreak{}report.\allowbreak{}py} & Penghitungan metrik dan latensi \\
+\hline
+\end{tabularx}
+\end{table}
 
 \cleardoublepage
 \chapter{DAFTAR ID PERTANYAAN}
 \label{lamp:id}
 
-Lampiran ini memuat \emph{id} pertanyaan Stack Overflow pada sampel uji dan himpunan pengembangan. Urutannya mengikuti permutasi bersama (bukan terurut menurut \emph{id}), dan kedua himpunan saling lepas. Sumber: \texttt{llm/\allowbreak{}sample\_\allowbreak{}ids/\allowbreak{}test\_\allowbreak{}ids\_\allowbreak{}v1.\allowbreak{}json} untuk sampel uji dan \texttt{devlarge\_\allowbreak{}ids\_\allowbreak{}v1.\allowbreak{}json} untuk himpunan pengembangan. Posisi 385 sampai 434 tidak termasuk dalam daftar ini.
+Lampiran ini memuat \emph{id} pertanyaan Stack Overflow pada sampel uji dan himpunan pengembangan. Urutannya mengikuti permutasi bersama (bukan terurut menurut \emph{id}), dan kedua himpunan saling lepas. Sumber: folder \texttt{llm/\allowbreak{}sample\_\allowbreak{}ids/} pada repositori (berkas sampel uji dan himpunan pengembangan). Posisi 385 sampai 434 tidak termasuk dalam daftar ini.
 
 \section{Sampel Uji (Posisi 1 sampai 384)}
 \label{sec:lamp-id-uji}

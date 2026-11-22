@@ -1,18 +1,16 @@
 [0] Config.pm:328> INFO - This is Biber 2.21
 [0] Config.pm:331> INFO - Logfile is 'Tesis.blg'
-[34] biber-darwin:342> INFO - === Sun Nov 22, 2026, 00:11:58
-[44] Biber.pm:421> INFO - Reading 'Tesis.bcf'
-[139] Biber.pm:1002> INFO - Found 63 citekeys in bib section 0
-[148] Biber.pm:4487> INFO - Processing section 0
-[152] Biber.pm:4678> INFO - Looking for bibtex file 'daftar-pustaka.bib' for section 0
-[154] bibtex.pm:1713> INFO - LaTeX decoding ...
-[190] bibtex.pm:1519> INFO - Found BibTeX data source 'daftar-pustaka.bib'
-[487] UCollate.pm:68> INFO - Overriding locale 'indonesian' defaults 'level = 4' with 'level = 2'
-[487] UCollate.pm:68> INFO - Overriding locale 'indonesian' defaults 'variable = shifted' with 'variable = non-ignorable'
-[487] UCollate.pm:68> INFO - Overriding locale 'indonesian' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[487] Biber.pm:4307> INFO - Sorting list 'cms/global//global/global/global' of type 'entry' with template 'cms' and locale 'indonesian'
-[487] Biber.pm:4313> INFO - No sort tailoring available for locale 'indonesian'
-[535] bbl.pm:676> INFO - Writing 'Tesis.bbl' with encoding 'UTF-8'
-[557] bbl.pm:779> INFO - Output to Tesis.bbl
-[558] Biber.pm:132> WARN - I didn't find a database entry for 'Wang2025CRAG' (section 0)
-[558] Biber.pm:134> INFO - WARNINGS: 1
+[35] biber-darwin:342> INFO - === Sun Nov 22, 2026, 12:28:32
+[46] Biber.pm:421> INFO - Reading 'Tesis.bcf'
+[140] Biber.pm:1002> INFO - Found 62 citekeys in bib section 0
+[147] Biber.pm:4487> INFO - Processing section 0
+[163] Biber.pm:4678> INFO - Looking for bibtex file 'daftar-pustaka.bib' for section 0
+[171] bibtex.pm:1713> INFO - LaTeX decoding ...
+[212] bibtex.pm:1519> INFO - Found BibTeX data source 'daftar-pustaka.bib'
+[508] UCollate.pm:68> INFO - Overriding locale 'indonesian' defaults 'variable = shifted' with 'variable = non-ignorable'
+[508] UCollate.pm:68> INFO - Overriding locale 'indonesian' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[508] UCollate.pm:68> INFO - Overriding locale 'indonesian' defaults 'level = 4' with 'level = 2'
+[508] Biber.pm:4307> INFO - Sorting list 'cms/global//global/global/global' of type 'entry' with template 'cms' and locale 'indonesian'
+[508] Biber.pm:4313> INFO - No sort tailoring available for locale 'indonesian'
+[554] bbl.pm:676> INFO - Writing 'Tesis.bbl' with encoding 'UTF-8'
+[575] bbl.pm:779> INFO - Output to Tesis.bbl

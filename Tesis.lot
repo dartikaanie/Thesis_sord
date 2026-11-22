@@ -206,6 +206,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {table}{\numberline {I.1}{\ignorespaces Tahap DSRM, aktivitas, luaran, dan bukti.}}{12}{table.caption.10}%
 \addvspace {10\p@ }
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
@@ -287,7 +288,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {II.1}{\ignorespaces Perbandingan kelompok pendekatan mitigasi halusinasi \blx@tocontentsinit {0}\autocite {Huang2025, Patil2024, WangXL2026}}}{19}{table.caption.11}%
+\contentsline {table}{\numberline {II.1}{\ignorespaces Perbandingan kelompok pendekatan mitigasi halusinasi \blx@tocontentsinit {0}\autocite {Huang2025, Patil2024, WangXL2026}}}{19}{table.caption.12}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -368,7 +369,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {II.2}{\ignorespaces Perbandingan antara Vector RAG dan GraphRAG berdasarkan dimensi teknis yang relevan untuk pengembangan \emph {framework}. \blx@tocontentsinit {0}\autocite {Kamalipour2026}}}{23}{table.caption.15}%
+\contentsline {table}{\numberline {II.2}{\ignorespaces Perbandingan antara Vector RAG dan GraphRAG berdasarkan dimensi teknis yang relevan untuk pengembangan \emph {framework}. \blx@tocontentsinit {0}\autocite {Kamalipour2026}}}{23}{table.caption.16}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -425,7 +426,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {II.3}{\ignorespaces Perbandingan penelitian yang menggunakan bobot kepercayaan pada RAG berbasis graf}}{27}{table.caption.16}%
+\contentsline {table}{\numberline {II.3}{\ignorespaces Perbandingan penelitian yang menggunakan bobot kepercayaan pada RAG berbasis graf}}{27}{table.caption.17}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -454,7 +455,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {II.4}{\ignorespaces Sinyal penilaian pengguna Stack Overflow dan penggunaannya dalam penelitian ini}}{27}{table.caption.17}%
+\contentsline {table}{\numberline {II.4}{\ignorespaces Sinyal penilaian pengguna Stack Overflow dan penggunaannya dalam penelitian ini}}{27}{table.caption.18}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -479,7 +480,7 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {II.5}{\ignorespaces Metrik evaluasi yang dipakai dalam penelitian}}{29}{table.caption.18}%
+\contentsline {table}{\numberline {II.5}{\ignorespaces Metrik evaluasi yang dipakai dalam penelitian}}{29}{table.caption.19}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -585,23 +586,19 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {III.1}{\ignorespaces Pemetaan masalah pengguna ke kebutuhan solusi.}}{38}{table.caption.23}%
+\contentsline {table}{\numberline {III.1}{\ignorespaces Pemetaan masalah pengguna ke kebutuhan solusi.}}{38}{table.caption.24}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {III.2}{\ignorespaces Kebutuhan nonfungsional.}}{41}{table.caption.24}%
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
+\contentsline {table}{\numberline {III.2}{\ignorespaces Kebutuhan nonfungsional.}}{41}{table.caption.25}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {III.3}{\ignorespaces Operasionalisasi sinyal kepercayaan Stack Overflow sebagai bobot sisi pada \emph {knowledge graph}.}}{45}{table.caption.26}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {table}{\numberline {III.3}{\ignorespaces Operasionalisasi sinyal kepercayaan Stack Overflow sebagai bobot sisi pada \emph {knowledge graph}.}}{44}{table.caption.27}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -624,12 +621,12 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {III.4}{\ignorespaces Parameter pengambilan dan pemeringkatan konteks.}}{54}{table.caption.29}%
-\contentsline {table}{\numberline {III.5}{\ignorespaces Perbandingan kondisi eksperimen.}}{55}{table.caption.30}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
+\contentsline {table}{\numberline {III.4}{\ignorespaces Parameter pengambilan dan pemeringkatan konteks.}}{55}{table.caption.30}%
+\contentsline {table}{\numberline {III.5}{\ignorespaces Perbandingan kondisi eksperimen.}}{56}{table.caption.32}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -680,58 +677,54 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {III.6}{\ignorespaces Metrik evaluasi utama dan pendukung.}}{62}{table.caption.31}%
-\contentsline {table}{\numberline {III.7}{\ignorespaces Matriks pengujian.}}{63}{table.caption.32}%
-\contentsline {table}{\numberline {III.8}{\ignorespaces Pemetaan perbandingan kondisi terhadap pertanyaan penelitian.}}{64}{table.caption.33}%
-\contentsline {table}{\numberline {III.9}{\ignorespaces Pemetaan kebutuhan fungsional F1--F5 ke komponen dan kriteria verifikasi.}}{65}{table.caption.34}%
-\contentsline {table}{\numberline {III.10}{\ignorespaces Keterlacakan kebutuhan nonfungsional ke komponen desain dan bukti verifikasi.}}{66}{table.caption.35}%
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\contentsline {table}{\numberline {III.6}{\ignorespaces Metrik evaluasi utama dan pendukung.}}{64}{table.caption.33}%
+\contentsline {table}{\numberline {III.7}{\ignorespaces Matriks pengujian.}}{65}{table.caption.34}%
+\contentsline {table}{\numberline {III.8}{\ignorespaces Pemetaan perbandingan kondisi terhadap pertanyaan penelitian.}}{65}{table.caption.35}%
+\contentsline {table}{\numberline {III.9}{\ignorespaces Pemetaan kebutuhan fungsional F1--F5 ke komponen dan kriteria verifikasi.}}{67}{table.caption.36}%
+\contentsline {table}{\numberline {III.10}{\ignorespaces Keterlacakan kebutuhan nonfungsional ke komponen desain dan bukti verifikasi.}}{67}{table.caption.37}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {IV.1}{\ignorespaces Lingkungan implementasi penelitian.}}{68}{table.caption.36}%
-\contentsline {table}{\numberline {IV.2}{\ignorespaces Konfigurasi LLM untuk \emph {generator} dan \emph {judge}.}}{68}{table.caption.37}%
+\contentsline {table}{\numberline {IV.1}{\ignorespaces Lingkungan implementasi penelitian.}}{70}{table.caption.38}%
+\contentsline {table}{\numberline {IV.2}{\ignorespaces Konfigurasi LLM untuk \emph {generator} dan \emph {judge}.}}{70}{table.caption.39}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {IV.3}{\ignorespaces Jumlah data SORD yang digunakan setelah validasi dan deduplikasi.}}{69}{table.caption.38}%
-\contentsline {table}{\numberline {IV.4}{\ignorespaces Ringkasan penarikan sampel evaluasi.}}{71}{table.caption.39}%
-\contentsline {table}{\numberline {IV.5}{\ignorespaces Bobot jawaban $w_{\mathrm {ans}}$ menurut status dan skor suara ($P_{99}^{A}=46$, $w_{\mathrm {acc}}=0{,}7$, $w_{\mathrm {vote}}=0{,}3$).}}{72}{table.caption.40}%
-\contentsline {table}{\numberline {IV.6}{\ignorespaces Hasil validasi densifikasi pada tingkat korpus (2.685.814 simpul \texttt {Question}).}}{74}{table.caption.41}%
-\contentsline {table}{\numberline {IV.7}{\ignorespaces Hasil konstruksi \emph {knowledge graph}.}}{75}{table.caption.43}%
+\contentsline {table}{\numberline {IV.3}{\ignorespaces Jumlah data SORD yang digunakan setelah validasi dan deduplikasi.}}{71}{table.caption.40}%
+\contentsline {table}{\numberline {IV.4}{\ignorespaces Ringkasan penarikan sampel evaluasi.}}{73}{table.caption.41}%
+\contentsline {table}{\numberline {IV.5}{\ignorespaces Bobot jawaban $w_{\mathrm {ans}}$ menurut status dan skor suara ($P_{99}^{A}=46$, $w_{\mathrm {acc}}=0{,}7$, $w_{\mathrm {vote}}=0{,}3$).}}{74}{table.caption.42}%
+\contentsline {table}{\numberline {IV.6}{\ignorespaces Hasil validasi densifikasi pada tingkat korpus (2.685.814 simpul \texttt {Question}).}}{76}{table.caption.43}%
+\contentsline {table}{\numberline {IV.7}{\ignorespaces Hasil konstruksi \emph {knowledge graph}.}}{77}{table.caption.45}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {IV.8}{\ignorespaces Komponen yang identik pada kelima konfigurasi eksperimen.}}{76}{table.caption.44}%
-\contentsline {table}{\numberline {IV.9}{\ignorespaces \emph {Run} resmi per konfigurasi.}}{80}{table.caption.45}%
-\contentsline {table}{\numberline {IV.10}{\ignorespaces Profil konteks akhir B-Vec, B-Acc, C-Acc, dan C-Acc+Vote pada sampel uji ($n{=}384$ pertanyaan, 1.920 item per konfigurasi).}}{81}{table.caption.46}%
+\contentsline {table}{\numberline {IV.8}{\ignorespaces Komponen yang identik pada kelima konfigurasi eksperimen.}}{78}{table.caption.46}%
+\contentsline {table}{\numberline {IV.9}{\ignorespaces \emph {Run} resmi per konfigurasi.}}{82}{table.caption.47}%
+\contentsline {table}{\numberline {IV.10}{\ignorespaces Profil konteks akhir B-Vec, B-Acc, C-Acc, dan C-Acc+Vote pada sampel uji ($n{=}384$ pertanyaan, 1.920 item per konfigurasi).}}{83}{table.caption.48}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {IV.11}{\ignorespaces Struktur empat giliran \emph {prompt} pada Kondisi A, B dan C.}}{82}{table.caption.47}%
-\contentsline {table}{\numberline {IV.12}{\ignorespaces Teknik \emph {prompting} yang digunakan.}}{83}{table.caption.48}%
+\contentsline {table}{\numberline {IV.11}{\ignorespaces Struktur empat giliran \emph {prompt} pada Kondisi A, B dan C.}}{84}{table.caption.49}%
+\contentsline {table}{\numberline {IV.12}{\ignorespaces Teknik \emph {prompting} yang digunakan.}}{85}{table.caption.50}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {IV.13}{\ignorespaces Metadata \emph {provenance} per item konteks.}}{87}{table.caption.49}%
-\contentsline {table}{\numberline {IV.14}{\ignorespaces Pertanyaan uji yang digunakan sebagai contoh penelusuran \emph {provenance}.}}{87}{table.caption.50}%
-\contentsline {table}{\numberline {IV.15}{\ignorespaces Item konteks peringkat 1 pada pertanyaan uji \texttt {29901703}.}}{88}{table.caption.51}%
-\contentsline {table}{\numberline {IV.16}{\ignorespaces Item konteks peringkat 2 pada pertanyaan uji \texttt {29901703}.}}{88}{table.caption.52}%
-\contentsline {table}{\numberline {IV.17}{\ignorespaces Item konteks peringkat 3 pada pertanyaan uji \texttt {29901703}.}}{89}{table.caption.53}%
-\contentsline {table}{\numberline {IV.18}{\ignorespaces Item konteks peringkat 4 pada pertanyaan uji \texttt {29901703}.}}{89}{table.caption.54}%
-\contentsline {table}{\numberline {IV.19}{\ignorespaces Item konteks peringkat 5 pada pertanyaan uji \texttt {29901703}.}}{90}{table.caption.55}%
-\contentsline {table}{\numberline {IV.20}{\ignorespaces Parameter dan dasar penetapannya.}}{91}{table.caption.56}%
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
+\contentsline {table}{\numberline {IV.13}{\ignorespaces Metadata \emph {provenance} per item konteks.}}{88}{table.caption.51}%
+\contentsline {table}{\numberline {IV.14}{\ignorespaces Pertanyaan uji yang digunakan sebagai contoh penelusuran \emph {provenance}.}}{89}{table.caption.52}%
+\contentsline {table}{\numberline {IV.15}{\ignorespaces Item konteks peringkat 1 pada pertanyaan uji \texttt {29901703}.}}{90}{table.caption.53}%
+\contentsline {table}{\numberline {IV.16}{\ignorespaces Item konteks peringkat 2 pada pertanyaan uji \texttt {29901703}.}}{90}{table.caption.54}%
+\contentsline {table}{\numberline {IV.17}{\ignorespaces Item konteks peringkat 3 pada pertanyaan uji \texttt {29901703}.}}{91}{table.caption.55}%
+\contentsline {table}{\numberline {IV.18}{\ignorespaces Item konteks peringkat 4 pada pertanyaan uji \texttt {29901703}.}}{91}{table.caption.56}%
+\contentsline {table}{\numberline {IV.19}{\ignorespaces Item konteks peringkat 5 pada pertanyaan uji \texttt {29901703}.}}{92}{table.caption.57}%
+\contentsline {table}{\numberline {IV.20}{\ignorespaces Parameter dan dasar penetapannya.}}{93}{table.caption.58}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -740,24 +733,32 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\contentsline {table}{\numberline {IV.21}{\ignorespaces Hasil pada himpunan pengembangan (150 pertanyaan).}}{91}{table.caption.57}%
-\contentsline {table}{\numberline {IV.22}{\ignorespaces Status implementasi kebutuhan fungsional.}}{92}{table.caption.58}%
-\contentsline {table}{\numberline {IV.23}{\ignorespaces Mekanisme implementasi untuk kebutuhan nonfungsional.}}{93}{table.caption.59}%
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {indonesian}{}\relax 
+\contentsline {table}{\numberline {IV.21}{\ignorespaces Hasil pada himpunan pengembangan (150 pertanyaan).}}{93}{table.caption.59}%
+\contentsline {table}{\numberline {IV.22}{\ignorespaces Status implementasi kebutuhan fungsional.}}{94}{table.caption.60}%
+\contentsline {table}{\numberline {IV.23}{\ignorespaces Mekanisme implementasi untuk kebutuhan nonfungsional.}}{95}{table.caption.61}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {V.1}{\ignorespaces Jumlah pertanyaan (dari 384) yang himpunan konteks akhirnya identik antara dua konfigurasi.}}{98}{table.caption.60}%
-\contentsline {table}{\numberline {V.2}{\ignorespaces \emph {Hallucination rate} pada sampel uji ($n{=}384$, label panel).}}{99}{table.caption.61}%
-\contentsline {table}{\numberline {V.3}{\ignorespaces Distribusi kategori halusinasi berdasarkan label panel.}}{101}{table.caption.64}%
-\contentsline {table}{\numberline {V.4}{\ignorespaces \emph {Hallucination rate} versi (a) per \emph {judge} dan panel (\%). Selisih terhadap B-Vec pada tiap \emph {judge} ada di Lampiran~\ref {lamp:hasil-lengkap}.}}{102}{table.caption.66}%
-\contentsline {table}{\numberline {V.5}{\ignorespaces Selisih \emph {hallucination rate} versi (a) antarkonfigurasi (poin persentase).}}{103}{table.caption.68}%
-\contentsline {table}{\numberline {V.6}{\ignorespaces Keterlacakan kutipan (NF2) pada sampel uji.}}{106}{table.caption.71}%
-\contentsline {table}{\numberline {V.7}{\ignorespaces Relevansi konteks per item (1.920 item per konfigurasi) dan proporsi pertanyaan dengan sedikitnya satu item \texttt {RELEVANT}.}}{107}{table.caption.72}%
-\contentsline {table}{\numberline {V.8}{\ignorespaces \emph {Hallucination rate} versi (a) (\%) menurut jumlah item \emph {accepted} di lima konteks teratas; $N$ adalah jumlah pertanyaan pada strata tersebut.}}{108}{table.caption.74}%
-\contentsline {table}{\numberline {V.9}{\ignorespaces Relevansi jawaban (M = \texttt {MENJAWAB}, S = \texttt {MENJAWAB\_SEBAGIAN}, T = \texttt {TIDAK\_MENJAWAB}).}}{109}{table.caption.75}%
-\contentsline {table}{\numberline {V.10}{\ignorespaces Latensi per kueri pada sampel uji (detik).}}{110}{table.caption.77}%
-\contentsline {table}{\numberline {V.11}{\ignorespaces Konfigurasi eksploratif pada sampel uji (\emph {hallucination rate}, \%).}}{113}{table.caption.80}%
-\contentsline {table}{\numberline {V.12}{\ignorespaces Konteks C-Acc+Vote untuk pertanyaan 2010746. Seluruh item satu \emph {hop}; sisi \texttt {HAS\_ACCEPTED\_ANSWER} untuk jawaban \emph {accepted} dan \texttt {HAS\_ANSWER} untuk lainnya.}}{114}{table.caption.81}%
-\contentsline {table}{\numberline {V.13}{\ignorespaces Konteks C-Acc+Vote untuk pertanyaan 5917610. Seluruh item satu \emph {hop} dari kolam B.}}{115}{table.caption.82}%
-\contentsline {table}{\numberline {V.14}{\ignorespaces Status kriteria sukses kebutuhan nonfungsional.}}{116}{table.caption.83}%
+\contentsline {table}{\numberline {V.1}{\ignorespaces Jumlah pertanyaan (dari 384) yang himpunan konteks akhirnya identik antara dua konfigurasi.}}{100}{table.caption.62}%
+\contentsline {table}{\numberline {V.2}{\ignorespaces \emph {Hallucination rate} pada sampel uji ($n{=}384$, label panel).}}{101}{table.caption.63}%
+\contentsline {table}{\numberline {V.3}{\ignorespaces Distribusi kategori halusinasi berdasarkan label panel.}}{103}{table.caption.66}%
+\contentsline {table}{\numberline {V.4}{\ignorespaces \emph {Hallucination rate} versi (a) per \emph {judge} dan panel (\%). Selisih terhadap B-Vec pada tiap \emph {judge} ada di Lampiran~\ref {lamp:hasil-lengkap}.}}{104}{table.caption.68}%
+\contentsline {table}{\numberline {V.5}{\ignorespaces Selisih \emph {hallucination rate} versi (a) antarkonfigurasi (selisih, \%).}}{106}{table.caption.70}%
+\contentsline {table}{\numberline {V.6}{\ignorespaces Keterlacakan kutipan (NF2) pada sampel uji.}}{109}{table.caption.73}%
+\contentsline {table}{\numberline {V.7}{\ignorespaces Relevansi konteks per item (1.920 item per konfigurasi) dan proporsi pertanyaan dengan sedikitnya satu item \texttt {RELEVANT}.}}{110}{table.caption.74}%
+\contentsline {table}{\numberline {V.8}{\ignorespaces \emph {Hallucination rate} versi (a) (\%) menurut jumlah item \emph {accepted} di lima konteks teratas; $N$ adalah jumlah pertanyaan pada strata tersebut.}}{111}{table.caption.76}%
+\contentsline {table}{\numberline {V.9}{\ignorespaces Relevansi jawaban (M = \texttt {MENJAWAB}, S = \texttt {MENJAWAB\_SEBAGIAN}, T = \texttt {TIDAK\_MENJAWAB}).}}{112}{table.caption.77}%
+\contentsline {table}{\numberline {V.10}{\ignorespaces Latensi per kueri pada sampel uji (detik).}}{113}{table.caption.79}%
+\contentsline {table}{\numberline {V.11}{\ignorespaces Konfigurasi eksploratif pada sampel uji (\emph {hallucination rate}, \%).}}{116}{table.caption.82}%
+\contentsline {table}{\numberline {V.12}{\ignorespaces Konteks C-Acc+Vote untuk pertanyaan 2010746. Seluruh item satu \emph {hop}; sisi \texttt {HAS\_ACCEPTED\_ANSWER} untuk jawaban \emph {accepted} dan \texttt {HAS\_ANSWER} untuk lainnya.}}{117}{table.caption.83}%
+\contentsline {table}{\numberline {V.13}{\ignorespaces Konteks C-Acc+Vote untuk pertanyaan 5917610. Seluruh item satu \emph {hop} dari kolam B.}}{118}{table.caption.84}%
+\contentsline {table}{\numberline {V.14}{\ignorespaces Status kriteria sukses kebutuhan nonfungsional.}}{119}{table.caption.85}%
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
@@ -774,10 +775,8 @@
 \babel@toc {indonesian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {indonesian}{}\relax 
+\contentsline {table}{\numberline {V.15}{\ignorespaces Matriks tujuan, pertanyaan penelitian, metrik, hasil, dan kesimpulan.}}{121}{table.caption.86}%
+\contentsline {table}{\numberline {V.16}{\ignorespaces Ringkasan hasil seluruh metrik antarkonfigurasi (\%, kecuali dinyatakan lain).}}{122}{table.caption.87}%
 \addvspace {10\p@ }
 \babel@toc {english}{}\relax 
 \babel@toc {indonesian}{}\relax 
@@ -905,20 +904,37 @@
 \babel@toc {indonesian}{}\relax 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {B.1}{\ignorespaces \emph {Hallucination rate} versi (a) per \emph {judge} dan selisihnya terhadap B-Vec pada \emph {judge} yang sama (poin persentase, dalam kurung).}}{145}{table.caption.85}%
-\contentsline {table}{\numberline {B.2}{\ignorespaces Selisih \emph {hallucination rate} antarkonfigurasi (poin persentase).}}{146}{table.caption.86}%
-\contentsline {table}{\numberline {B.3}{\ignorespaces Latensi per kueri (detik). Pencilan memakai aturan IQR (nilai $> Q_3 + 1{,}5\cdot \mathrm {IQR}$).}}{146}{table.caption.87}%
+\contentsline {table}{\numberline {B.1}{\ignorespaces \emph {Hallucination rate} versi (a) per \emph {judge} dan selisihnya terhadap B-Vec pada \emph {judge} yang sama (selisih dalam \%, dalam kurung).}}{151}{table.caption.89}%
+\contentsline {table}{\numberline {B.2}{\ignorespaces Selisih \emph {hallucination rate} antarkonfigurasi (selisih, \%).}}{152}{table.caption.90}%
+\contentsline {table}{\numberline {B.3}{\ignorespaces Latensi per kueri (detik). Pencilan memakai aturan IQR (nilai $> Q_3 + 1{,}5\cdot \mathrm {IQR}$).}}{152}{table.caption.91}%
+\contentsline {table}{\numberline {B.4}{\ignorespaces Kesepakatan tiga \emph {judge} pada label empat kelas (persentase dari 384 jawaban).}}{153}{table.caption.92}%
+\contentsline {table}{\numberline {B.5}{\ignorespaces Kesepakatan pasangan \emph {judge} (Cohen's $\kappa $ dan kesepakatan mentah, \%) pada label biner halusinasi (versi (a), \texttt {ABSTAIN} dikeluarkan).}}{153}{table.caption.93}%
+\contentsline {table}{\numberline {B.6}{\ignorespaces Persentase halusinasi penuh (P), halusinasi sebagian (S), dan \texttt {ABSTAIN} (X) per \emph {judge} dari 384 jawaban.}}{154}{table.caption.94}%
+\contentsline {table}{\numberline {B.7}{\ignorespaces \emph {Faithfulness} (\%) per \emph {judge}. Kolom panel sama dengan Bab~\ref {chap:evaluasi}.}}{154}{table.caption.95}%
+\contentsline {table}{\numberline {B.8}{\ignorespaces \emph {Citation support} (\%) per \emph {judge}. Kolom panel sama dengan Bab~\ref {chap:evaluasi}.}}{154}{table.caption.96}%
+\contentsline {table}{\numberline {B.9}{\ignorespaces Skor relevansi konteks per \emph {judge} (\texttt {RELEVANT}~=~1, \texttt {PARTIAL}~=~0,5, \texttt {IRRELEVANT}~=~0).}}{154}{table.caption.97}%
+\contentsline {table}{\numberline {B.10}{\ignorespaces Skor relevansi jawaban per \emph {judge} (\texttt {MENJAWAB}~=~1, \texttt {MENJAWAB\_\allowbreak {}SEBAGIAN}~=~0,5, \texttt {TIDAK\_\allowbreak {}MENJAWAB}~=~0).}}{155}{table.caption.98}%
+\contentsline {table}{\numberline {B.11}{\ignorespaces Jumlah klaim yang dikeluarkan tiap \emph {judge} dan persentase klaim \texttt {UNVERIFIABLE} (U) serta bernilai null (N) pada \emph {faithfulness} dan \emph {citation support}.}}{155}{table.caption.99}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {C.1}{\ignorespaces Jumlah simpul dan sisi pada graf pengetahuan yang dipakai evaluasi.}}{149}{table.caption.88}%
-\contentsline {table}{\numberline {C.2}{\ignorespaces Parameter dan keluaran densifikasi.}}{149}{table.caption.89}%
+\contentsline {table}{\numberline {C.1}{\ignorespaces Jumlah simpul dan sisi pada graf pengetahuan yang dipakai evaluasi.}}{157}{table.caption.100}%
+\contentsline {table}{\numberline {C.2}{\ignorespaces Parameter dan keluaran densifikasi.}}{157}{table.caption.101}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {D.1}{\ignorespaces Parameter \emph {run}.}}{151}{table.caption.90}%
-\contentsline {table}{\numberline {D.2}{\ignorespaces ID \emph {run}, \emph {hash} konfigurasi, dan komit repositori. Kelima \emph {run} tercatat dengan \emph {working tree} yang belum bersih (\emph {dirty}).}}{151}{table.caption.91}%
-\contentsline {table}{\numberline {D.3}{\ignorespaces Sumber perintah eksekusi setiap konfigurasi.}}{152}{table.caption.92}%
+\contentsline {table}{\numberline {D.1}{\ignorespaces Parameter \emph {run}.}}{159}{table.caption.102}%
+\contentsline {table}{\numberline {D.2}{\ignorespaces ID \emph {run}, \emph {hash} konfigurasi, dan komit repositori. Kelima \emph {run} tercatat dengan \emph {working tree} yang belum bersih (\emph {dirty}).}}{159}{table.caption.103}%
+\contentsline {table}{\numberline {D.3}{\ignorespaces Sumber perintah eksekusi setiap konfigurasi.}}{160}{table.caption.104}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {E.1}{\ignorespaces Hasil verifikasi kebocoran pada sampel uji.}}{159}{table.caption.93}%
+\contentsline {table}{\numberline {E.1}{\ignorespaces Hasil verifikasi kebocoran pada sampel uji.}}{167}{table.caption.105}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {F.1}{\ignorespaces Sumber berkas kode pada lampiran ini (komit tempat potongan itu terakhir diambil).}}{161}{table.caption.94}%
+\contentsline {table}{\numberline {F.1}{\ignorespaces Identitas pertanyaan 2010746.}}{169}{table.caption.106}%
+\contentsline {table}{\numberline {F.2}{\ignorespaces Label per \emph {judge} dan label panel untuk pertanyaan 2010746.}}{170}{table.caption.107}%
+\contentsline {table}{\numberline {F.3}{\ignorespaces Item konteks C-Acc+Vote untuk pertanyaan 2010746 (melengkapi Tabel~\ref {tab:kasus-x}). Kolom \emph {Hop} adalah jarak penelusuran graf dari \emph {anchor}.}}{170}{table.caption.108}%
+\contentsline {table}{\numberline {F.4}{\ignorespaces Item konteks B-Vec untuk pertanyaan 2010746.}}{171}{table.caption.109}%
+\contentsline {table}{\numberline {F.5}{\ignorespaces Identitas pertanyaan 5917610.}}{174}{table.caption.110}%
+\contentsline {table}{\numberline {F.6}{\ignorespaces Label per \emph {judge} dan label panel untuk pertanyaan 5917610.}}{175}{table.caption.111}%
+\contentsline {table}{\numberline {F.7}{\ignorespaces Item konteks C-Acc+Vote untuk pertanyaan 5917610 (melengkapi Tabel~\ref {tab:kasus-y}). Kolom \emph {Hop} adalah jarak penelusuran graf dari \emph {anchor}.}}{175}{table.caption.112}%
+\contentsline {table}{\numberline {F.8}{\ignorespaces Item konteks B-Vec untuk pertanyaan 5917610.}}{176}{table.caption.113}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {G.1}{\ignorespaces Sampel uji: posisi dan \emph {id} pertanyaan.}}{163}{table.1.G.1}%
-\contentsline {table}{\numberline {G.2}{\ignorespaces Himpunan pengembangan: posisi dan \emph {id} pertanyaan.}}{165}{table.1.G.2}%
+\contentsline {table}{\numberline {G.1}{\ignorespaces Peta modul pada repositori.}}{181}{table.caption.114}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {H.1}{\ignorespaces Sampel uji: posisi dan \emph {id} pertanyaan.}}{183}{table.1.H.1}%
+\contentsline {table}{\numberline {H.2}{\ignorespaces Himpunan pengembangan: posisi dan \emph {id} pertanyaan.}}{185}{table.1.H.2}%
