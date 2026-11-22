@@ -581,16 +581,28 @@ Subbab ini mengikuti pemetaan pada Tabel~\ref{tab:pemetaan-perbandingan}. Bab in
 
 Tabel~\ref{tab:matriks-tujuan} menautkan tiap tujuan penelitian (Subbab~\ref{sec:tujuan}) dengan pertanyaan penelitian, metrik, hasil, dan kesimpulan.
 
-\begin{table}[!htbp]
-\centering
-\scriptsize
+\begingroup
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{longtable}{|>{\raggedright\arraybackslash}p{0.14\textwidth}
+                  |>{\centering\arraybackslash}p{0.06\textwidth}
+                  |>{\raggedright\arraybackslash}p{0.15\textwidth}
+                  |>{\raggedright\arraybackslash}p{0.30\textwidth}
+                  |>{\raggedright\arraybackslash}p{0.17\textwidth}|}
 \caption{Matriks tujuan, pertanyaan penelitian, metrik, hasil, dan kesimpulan.}
-\label{tab:matriks-tujuan}
-\renewcommand{\arraystretch}{1.25}
-\begin{tabularx}{\textwidth}{|c|c|>{\raggedright\arraybackslash}p{2.6cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{3.0cm}|}
+\label{tab:matriks-tujuan}\\
 \hline
 \textbf{Tujuan} & \textbf{RQ} & \textbf{Metrik} & \textbf{Hasil} & \textbf{Kesimpulan} \\
 \hline
+\endfirsthead
+\caption[]{Matriks tujuan, pertanyaan penelitian, metrik, hasil, dan kesimpulan (lanjutan).}\\
+\hline
+\textbf{Tujuan} & \textbf{RQ} & \textbf{Metrik} & \textbf{Hasil} & \textbf{Kesimpulan} \\
+\hline
+\endhead
+\hline
+\endfoot
+
 1. Representasi bobot & RQ1 & Graf terbentuk; validasi densifikasi & Graf berbobot terbangun dari seluruh SORD; pertanyaan tanpa sisi keluar turun dari 94,88\% menjadi 23,10\% & Tercapai (artefak) \\
 \hline
 2. Integrasi bobot & RQ2 & NF2, NF3, NF5, NF6 & NF3, NF5, NF6 terpenuhi; NF2 tidak terpenuhi (81,2\% dan 82,7\%) & Tercapai sebagian: kepatuhan kutipan belum memadai \\
@@ -601,8 +613,9 @@ Tabel~\ref{tab:matriks-tujuan} menautkan tiap tujuan penelitian (Subbab~\ref{sec
 \hline
 5. Satu sinyal vs dua sinyal & RQ5 (eksploratif) & Selisih C-Acc+Vote--C-Acc, per \emph{judge} & $-1{,}8$\% pada panel; Llama $+0{,}6$, Qwen $+2{,}0$, DeepSeek $-2{,}3$ & Belum dapat disimpulkan \\
 \hline
-\end{tabularx}
-\end{table}
+
+\end{longtable}
+
 
 %============================================================
 \subsection{Ringkasan Hasil Seluruh Metrik}

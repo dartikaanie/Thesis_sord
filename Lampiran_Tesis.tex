@@ -206,28 +206,6 @@ C-Acc+Vote & \isi{} & \isi{} & \isi{} \\
 \end{tabularx}
 \end{table}
 
-\begin{table}[!htbp]
-\centering
-\small
-\caption{Kesepakatan pasangan \emph{judge} (Cohen's $\kappa$ dan kesepakatan mentah, \%) pada label biner halusinasi (versi (a), \texttt{ABSTAIN} dikeluarkan).}
-\label{tab:lamp-kappa}
-\renewcommand{\arraystretch}{1.2}
-\begin{tabularx}{\textwidth}{|l|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
-\hline
-\textbf{Konfigurasi} & \textbf{Llama--DeepSeek} & \textbf{Llama--Qwen} & \textbf{DeepSeek--Qwen} \\
-\hline
-A & \isi{} (\isi{}\%) & \isi{} (\isi{}\%) & \isi{} (\isi{}\%) \\
-\hline
-B-Vec & \isi{} (\isi{}\%) & \isi{} (\isi{}\%) & \isi{} (\isi{}\%) \\
-\hline
-B-Acc & \isi{} (\isi{}\%) & \isi{} (\isi{}\%) & \isi{} (\isi{}\%) \\
-\hline
-C-Acc & \isi{} (\isi{}\%) & \isi{} (\isi{}\%) & \isi{} (\isi{}\%) \\
-\hline
-C-Acc+Vote & \isi{} (\isi{}\%) & \isi{} (\isi{}\%) & \isi{} (\isi{}\%) \\
-\hline
-\end{tabularx}
-\end{table}
 
 \subsection{Label per \emph{Judge}}
 \label{sec:lamp-b-label}
@@ -636,10 +614,10 @@ Posisi pada sampel uji & 161 \\
 \end{tabularx}
 \end{table}
 
-\subsubsection{Cuplikan pertanyaan.}
+\subsection{Cuplikan pertanyaan.}
 \begin{quote}\small This has always bothered me,\allowbreak{} and I've never really come up with my own preferred way of doing this.\allowbreak{} \newline When importing something from one of your own applications in a django project,\allowbreak{} do you import with:\allowbreak{} \newline from myproject.\allowbreak{}mymodule.\allowbreak{}model import SomeModel \newline from myproject.\allowbreak{}anotherone.\allowbreak{}model import AnotherModel [\ldots]\end{quote}
 
-\subsubsection{Cuplikan jawaban \emph{accepted} (jawaban acuan).}
+\subsection{Cuplikan jawaban \emph{accepted} (jawaban acuan).}
 \begin{quote}\small I would recommend using the second alternative:\allowbreak{} \newline from mymodule.\allowbreak{}model import SomeModel \newline from anotherone.\allowbreak{}model import AnotherModel \newline In Django,\allowbreak{} it's recommended to write reusable applications,\allowbreak{} that you may deploy in multiple projects.\allowbreak{} Specifying the name of the project would hinder this possibility.\allowbreak{} It [\ldots]\end{quote}
 
 \begin{table}[!htbp]
@@ -681,7 +659,7 @@ C-Acc+Vote & \texttt{FAKTUAL} & \texttt{FAKTUAL} & \texttt{HALUSINASI\_\allowbre
 \hline
 \end{tabularx}
 \end{table}
-\subsubsection{Cuplikan jawaban pada konteks C-Acc+Vote.}
+\subsection{Cuplikan jawaban pada konteks C-Acc+Vote.}
 \begin{description}\small
 \item[1.] \texttt{32769244}: In your main file recipe.\allowbreak{}py add pkg1 path to the PYTHONPATH sys.\allowbreak{}path.\allowbreak{}append('/\allowbreak{}path/\allowbreak{}to/\allowbreak{}pkg1')\allowbreak{} Or use a relative path sys.\allowbreak{}path.\allowbreak{}append('.\allowbreak{}.\allowbreak{}/\allowbreak{}.\allowbreak{}.\allowbreak{}')\allowbreak{} This should allow importing pkg1 from any where in your program.\allowbreak{} There is always the option of using relative imports as suggested here,\allowbreak{} I find using [\ldots]
 \item[2.] \texttt{68892578}: Before entering the hell of sys.\allowbreak{}path-\allowbreak{}patching,\allowbreak{} I would suggest to wrap your code that currently lives in module\_\allowbreak{}example into a package\_\allowbreak{}example directory,\allowbreak{} add a setup.\allowbreak{}py and throw a number of \_\allowbreak{}\_\allowbreak{}init\_\allowbreak{}\_\allowbreak{}.\allowbreak{}py in.\allowbreak{} Make package\_\allowbreak{}example a git repo.\allowbreak{} In every other project where you want to use [\ldots]
@@ -712,7 +690,7 @@ C-Acc+Vote & \texttt{FAKTUAL} & \texttt{FAKTUAL} & \texttt{HALUSINASI\_\allowbre
 \hline
 \end{tabularx}
 \end{table}
-\subsubsection{Cuplikan jawaban pada konteks B-Vec.}
+\subsection{Cuplikan jawaban pada konteks B-Vec.}
 \begin{description}\small
 \item[1.] \texttt{63341626}: cuplikan sama dengan pada konteks C-Acc+Vote.
 \item[2.] \texttt{69861300}: cuplikan sama dengan pada konteks C-Acc+Vote.
@@ -721,12 +699,12 @@ C-Acc+Vote & \texttt{FAKTUAL} & \texttt{FAKTUAL} & \texttt{HALUSINASI\_\allowbre
 \item[5.] \texttt{32556202}: Unfortunately relative imports and direct running of submodules don't mix.\allowbreak{} Add the parent directory of mypackage to your PYTHONPATH or always cd into the parent directory when you want to run a submodule.\allowbreak{} Then you have two possibilities:\allowbreak{} Use absolute (from mypackage import utils)\allowbreak{} instead of relative [\ldots]
 \end{description}
 
-\subsubsection{Jawaban C-Acc+Vote.} Kutipan yang dipakai: \texttt{[SO-32767362]}, \texttt{[SO-63340913]}, \texttt{[SO-69860283]}; seluruh kutipan valid.
+\subsection{Jawaban C-Acc+Vote.} Kutipan yang dipakai: \texttt{[SO-32767362]}, \texttt{[SO-63340913]}, \texttt{[SO-69860283]}; seluruh kutipan valid.
 \begin{quote}\small The retrieved sources provide some insights into importing modules within a Django project:  1. It is generally recommended to use absolute imports rather than relative imports. Absolute imports improve code readability and reduce the chances of bugs, especially in large projects. This is because with absolute imports, you reference a clear root directory, while relative imports can lead to confusion and complications in understanding module hierarchy [SO-32767362].  2. An additional suggestion is to create a single project with multiple apps. This way, the structure remains organized, and importing from one app to another becomes straightforward. While this is not directly about how to import, it emphasizes the structural organization that can lead to easier imports [SO-63340913].  3. The suggestion to organize utility files like \texttt{constants.\allowbreak{}py} or \texttt{utils.\allowbreak{}py} either at the project root or within specific apps also enhances the clarity of imports. Defining utility functions in a single file helps streamline using them across different apps in your project [SO-69860283].  Overall, using absolute imports is generally preferred for clarity and ease of management in a Django project, and organizing your project structure with a single project and multiple apps simplifies the importing process. The exact methods you mentioned (absolute vs. relative imports) are valid, but the preference leans toward absolute imports for maintaining clean and understandable code.   The retrieved sources do not specifically address preferences between the two forms you listed but suggest best practices that lean towards absolute imports.\end{quote}
 
-\subsubsection{Jawaban B-Vec.} Kutipan yang dipakai: \texttt{[SO-32767362]}, \texttt{[SO-69860283]}; seluruh kutipan valid.
+\subsection{Jawaban B-Vec.} Kutipan yang dipakai: \texttt{[SO-32767362]}, \texttt{[SO-69860283]}; seluruh kutipan valid.
 \begin{quote}\small To address your issue with importing modules within a Django project, the context provides some useful insights for structuring imports.  1. \textbf{Use Absolute Imports}: It is generally recommended to use absolute imports, such as \texttt{from myproject.\allowbreak{}mymodule.\allowbreak{}model import SomeModel}, because they are clearer and reduce the likelihood of ambiguity regarding which module is being referenced. Absolute imports also make it easier to understand the project structure without needing to calculate directory hierarchies [SO-32767362].  2. \textbf{Avoid Relative Imports}: While you can theoretically use relative imports (e.g., \texttt{from .\allowbreak{}model import SomeModel}), their use can lead to confusion, especially in larger projects. It is noted that relying on relative imports can cause complications in maintaining the code since a reader may struggle to discern the correct module being imported [SO-32767362].  3. \textbf{Structure of Utilities}: If you're dealing with a utility module like \texttt{utils.\allowbreak{}py}, it is advisable to keep this at the project root if its functions are reusable across multiple apps. This way, you can use absolute paths without causing confusion [SO-69860283].  In conclusion, the best practice in Django projects is to prefer absolute imports for clarity and maintainability, which aligns with the recommendation to avoid relative imports unless specifically needed. Using your project structure effectively with absolute paths will lead to cleaner and more understandable code.\end{quote}
-\subsubsection{Klaim yang ditandai pada B-Vec.} Teks klaim, bukti, dan alasan \emph{judge} dikutip apa adanya (bahasa Inggris).
+\subsection{Klaim yang ditandai pada B-Vec.} Teks klaim, bukti, dan alasan \emph{judge} dikutip apa adanya (bahasa Inggris).
 \begin{itemize}\small
 \item \textbf{DeepSeek}, \texttt{CONTRADICTED}, \texttt{CORE}. Klaim: \emph{In Django projects, it is generally recommended to use absolute imports, such as `from myproject.mymodule.model import SomeModel`.} Bukti: [R] “I would recommend using the second alternative: from mymodule.model import SomeModel”
 \item \textbf{DeepSeek}, \texttt{CONTRADICTED}, \texttt{CORE}. Klaim: \emph{The best practice in Django projects is to prefer absolute imports for clarity and maintainability.} Bukti: [R] “I would recommend using the second alternative: from mymodule.model import SomeModel”
@@ -735,13 +713,13 @@ C-Acc+Vote & \texttt{FAKTUAL} & \texttt{FAKTUAL} & \texttt{HALUSINASI\_\allowbre
 \end{itemize}
 \begin{quote}\small\textbf{Alasan DeepSeek:} The candidate answer attempts a solution, addressing the question fully. Its main recommendation (use absolute imports with the project name) directly contradicts the reference answer, which recommends the second alternative (imports without the project name). This contradiction is CORE because it reverses the central advice. Other claims about clarity, confusion, and utility placement are not addressed by the reference and are UNVERIFIABLE. Since there is at least one CORE CONTRADICTED claim, the label is HALUSINASI\_PENUH.\end{quote}
 \begin{quote}\small\textbf{Alasan Qwen:} The candidate recommends absolute imports (e.g., from myproject.mymodule...), but the reference explicitly recommends the relative form (from mymodule...) to support reusable apps and ease of project renaming. This is a direct contradiction on the core recommendation. While some supporting claims about clarity and maintenance are unverifiable, the central advice on import style is contradicted by the reference.\end{quote}
-\subsubsection{Klaim yang ditandai pada C-Acc+Vote.} Teks klaim, bukti, dan alasan \emph{judge} dikutip apa adanya (bahasa Inggris).
+\subsection{Klaim yang ditandai pada C-Acc+Vote.} Teks klaim, bukti, dan alasan \emph{judge} dikutip apa adanya (bahasa Inggris).
 \begin{itemize}\small
 \item \textbf{Qwen}, \texttt{CONTRADICTED}, \texttt{CORE}. Klaim: \emph{It is generally recommended to use absolute imports rather than relative imports in a Django project} Bukti: [R] 'I would recommend using the second alternative: from mymodule.model import SomeModel' — this uses project-root-relative imports, not full absolute imports including the project name. The reference promotes relative imports from the project root, not absolute imports in the sense of fully qualified paths.
 \item \textbf{Qwen}, \texttt{CONTRADICTED}, \texttt{MINOR}. Klaim: \emph{Relative imports can lead to confusion and complications in understanding module hierarchy} Bukti: [R] 'This is the tradition that most django applications use' — the reference endorses the common Django practice of using project-root-relative imports (e.g. from mymodule.model), which are technically relative to the project root, contradicting the idea that such imports are problematic.
 \end{itemize}
 \begin{quote}\small\textbf{Alasan Qwen:} The candidate recommends absolute imports (e.g. from mymodule.model) as best practice, which aligns with the reference answer. However, the candidate frames this as 'absolute imports' in contrast to relative imports, while the reference does not make this distinction and instead promotes project-root-relative imports. The candidate's claim that relative imports cause confusion contradicts the reference's endorsement of common Django practices. The core recommendation is thus misaligned in framing, leading to a CONTRADICTED CORE claim. Other claims about project structure and utility files are supported by context and consistent with the reference.\end{quote}
-\subsubsection{Catatan data.}
+\subsection{Catatan data.}
 \begin{itemize}\small
 \item Label panel B-Vec ditentukan oleh DeepSeek dan Qwen (keduanya \texttt{HALUSINASI\_\allowbreak{}PENUH}), sedangkan Llama memberi \texttt{FAKTUAL}.
 \item Label panel C-Acc+Vote ditentukan oleh Llama dan DeepSeek (keduanya \texttt{FAKTUAL}), sedangkan Qwen memberi \texttt{HALUSINASI\_\allowbreak{}PENUH}. Jadi label kasus ini tidak bulat pada kedua konfigurasi.
@@ -780,10 +758,10 @@ Posisi pada sampel uji & 259 \\
 \end{tabularx}
 \end{table}
 
-\subsubsection{Cuplikan pertanyaan.}
+\subsection{Cuplikan pertanyaan.}
 \begin{quote}\small I'm not sure if this is possible,\allowbreak{} but this is what I'd like to do:\allowbreak{} \newline I'd like to create a literate program,\allowbreak{} hosted on github,\allowbreak{} and have the resulting human-\allowbreak{}friendly literature automatically published on my github's project page.\allowbreak{} By “automatically published,\allowbreak{}” I mean that I can run a script on my local [\ldots]\end{quote}
 
-\subsubsection{Cuplikan jawaban \emph{accepted} (jawaban acuan).}
+\subsection{Cuplikan jawaban \emph{accepted} (jawaban acuan).}
 \begin{quote}\small The wikis are backed by their own git repo,\allowbreak{} so you can push to it and have it automatically update.\allowbreak{} That's a different repo than the main one though.\allowbreak{} As far as I know that stuff is only supported in the wikis,\allowbreak{} not in the main repo markdown processor.\allowbreak{}\end{quote}
 
 \begin{table}[!htbp]
@@ -825,7 +803,7 @@ C-Acc+Vote & \texttt{HALUSINASI\_\allowbreak{}PENUH} & \texttt{HALUSINASI\_\allo
 \hline
 \end{tabularx}
 \end{table}
-\subsubsection{Cuplikan jawaban pada konteks C-Acc+Vote.}
+\subsection{Cuplikan jawaban pada konteks C-Acc+Vote.}
 \begin{description}\small
 \item[1.] \texttt{30640885}: As a completion to what Quentin said,\allowbreak{} there are some services which offer raw github files with the proper Content-\allowbreak{}Type.\allowbreak{} https:\allowbreak{}/\allowbreak{}/\allowbreak{}rawgit.\allowbreak{}com/\allowbreak{} is one of them.\allowbreak{} RawGit serves raw files directly from GitHub with proper Content-\allowbreak{}Type headers.\allowbreak{} And of course you can keep it free,\allowbreak{} or if you want stability [\ldots]
 \item[2.] \texttt{16294980}: I have a couple ideas for sharing a single readme file between your documentation site and main github repo:\allowbreak{} You could use only a single gh-\allowbreak{}pages branch that contains both your code and a jekyll documentation site.\allowbreak{} Your repository could get a bit cluttered and you will need to put a YAML header at [\ldots]
@@ -856,7 +834,7 @@ C-Acc+Vote & \texttt{HALUSINASI\_\allowbreak{}PENUH} & \texttt{HALUSINASI\_\allo
 \hline
 \end{tabularx}
 \end{table}
-\subsubsection{Cuplikan jawaban pada konteks B-Vec.}
+\subsection{Cuplikan jawaban pada konteks B-Vec.}
 \begin{description}\small
 \item[1.] \texttt{16294980}: cuplikan sama dengan pada konteks C-Acc+Vote.
 \item[2.] \texttt{79302884}: cuplikan sama dengan pada konteks C-Acc+Vote.
@@ -865,17 +843,17 @@ C-Acc+Vote & \texttt{HALUSINASI\_\allowbreak{}PENUH} & \texttt{HALUSINASI\_\allo
 \item[5.] \texttt{30640885}: cuplikan sama dengan pada konteks C-Acc+Vote.
 \end{description}
 
-\subsubsection{Jawaban C-Acc+Vote.} Kutipan yang dipakai: \texttt{[SO-15214762]}, \texttt{[SO-31534084]}; seluruh kutipan valid.
+\subsection{Jawaban C-Acc+Vote.} Kutipan yang dipakai: \texttt{[SO-15214762]}, \texttt{[SO-31534084]}; seluruh kutipan valid.
 \begin{quote}\small To auto-post math markup on your GitHub repo's page(s), you can follow several approaches given the context. Here are some recommendations based on the potential needs of your setup:  1. \textbf{Use Markdown with MathJax Support}: GitHub supports writing mathematical expressions using LaTeX fragments. You can use \texttt{\$.\allowbreak{}.\allowbreak{}.\allowbreak{}\$} for inline math and \texttt{\$\$.\allowbreak{}.\allowbreak{}.\allowbreak{}\$\$} for block math. This feature is enabled in GitHub Markdown as of 2022, so you can include mathematical representations directly in your markdown files, such as README.md. You can refer to the GitHub documentation for writing mathematical expressions for further guidance [SO-31534084].  2. \textbf{Auto-Publishing with a Script}: To automatically generate a user-friendly document (like README.md) containing your written explanations and math, you could utilize a pre-commit hook that builds the relevant pages or transforms your literate programming output into the appropriate format. Although this setup may require some additional scripting, it can be done to ensure that every time you push to \texttt{master}, your \texttt{gh-\allowbreak{}pages} branch (or other branches) is updated accordingly [SO-15214762].  3. \textbf{Considerations for Generated Content}: When you generate a document from your literate programming, ensure that the output is compatible with GitHub Markdown for math support to work effectively. Using a straightforward preprocessing step in your script can help format your output correctly.  The context does not cover specific tools or libraries to facilitate the conversion from your literate programming content to GitHub-flavored Markdown, so you might need to research or create tools that suit your specific requirements. Additionally, it may not be possible to generate GitHub wikis directly through a \texttt{git push} command as they operate somewhat separately unless you integrate them into your workflow effectively.   Overall, leveraging Markdown's math capabilities alongside a good build process will help you achieve your goal.\end{quote}
 
-\subsubsection{Jawaban B-Vec.} Kutipan yang dipakai: \texttt{[SO-15214762]}, \texttt{[SO-31534084]}; seluruh kutipan valid.
+\subsection{Jawaban B-Vec.} Kutipan yang dipakai: \texttt{[SO-15214762]}, \texttt{[SO-31534084]}; seluruh kutipan valid.
 \begin{quote}\small To achieve automatic posting of math markup on your GitHub repository's page, you might consider the following steps based on the retrieved sources:  1. \textbf{Using Markdown with Math Support}: GitHub's Markdown supports inline math using LaTeX fragments. You can surround your mathematical expressions with single dollar signs for inline math (e.g., \texttt{\$f(x)\allowbreak{}\$}) and double dollar signs for block math (e.g., \texttt{\$\$ e\^{}\{2\textbackslash{}pi i\} =\allowbreak{} 1 \$\$}) [SO-31534084]. This means that if your literate programming output includes these markdown formats for math, they should render correctly when viewed on GitHub.  2. \textbf{Script for Automatic Updates}: To automate the process of pushing your changes, you can create a script that generates the appropriate markdown document (e.g., a README.md file) from your literate programming output. At the end of the script, include a command that executes \texttt{git push origin master}, which will update the master branch of your repository with the newly generated markdown document [SO-15214762].   3. \textbf{Webhook or Git Hook}: If you're looking for a more sophisticated solution, you could implement a pre-commit hook that automatically generates the documentation or a post-receive hook on GitHub that processes updates. This way, every time you push changes, the operations to regenerate the documents could be automated [SO-15214762].   Unfortunately, the retrieved sources do not provide specific details about syncing your work with GitHub wikis or methods to handle automatic updates to the wiki directly upon pushing changes from your local machine. Thus, that part of your question remains unsupported by the provided context.\end{quote}
-\subsubsection{Klaim yang ditandai pada B-Vec.} Teks klaim, bukti, dan alasan \emph{judge} dikutip apa adanya (bahasa Inggris).
+\subsection{Klaim yang ditandai pada B-Vec.} Teks klaim, bukti, dan alasan \emph{judge} dikutip apa adanya (bahasa Inggris).
 \begin{itemize}\small
 \item \textbf{Qwen}, \texttt{CONTRADICTED}, \texttt{MINOR}. Klaim: \emph{A post-receive hook on GitHub can automate regeneration of documents upon push} Bukti: [R] “As far as I know that stuff is only supported in the wikis, not in the main repo markdown processor.” The reference does not mention hooks or automation via GitHub-side post-receive hooks, and GitHub does not support user-defined post-receive hooks in public repositories; this is a well-known limitation of GitHub's platform.
 \end{itemize}
 \begin{quote}\small\textbf{Alasan Qwen:} The candidate provides a valid alternative approach using Markdown math support and automation via scripts and git hooks. Most claims are supported by context or reference, except for the mention of a 'post-receive hook on GitHub', which is CONTRADICTED because GitHub does not allow users to set up post-receive hooks on public repositories. This is a minor error as it is an additional suggestion, not the core solution. The main solution (using Markdown with math and pushing to master) aligns with supported practices.\end{quote}
-\subsubsection{Klaim yang ditandai pada C-Acc+Vote.} Teks klaim, bukti, dan alasan \emph{judge} dikutip apa adanya (bahasa Inggris).
+\subsection{Klaim yang ditandai pada C-Acc+Vote.} Teks klaim, bukti, dan alasan \emph{judge} dikutip apa adanya (bahasa Inggris).
 \begin{itemize}\small
 \item \textbf{Llama}, \texttt{CONTRADICTED}, \texttt{CORE}. Klaim: \emph{GitHub wikis can be generated directly through a git push command.} Bukti: [R] The wikis are backed by their own git repo, implying a separate process.
 \item \textbf{DeepSeek}, \texttt{CONTRADICTED}, \texttt{CORE}. Klaim: \emph{You can include mathematical representations directly in your markdown files, such as README.md.} Bukti: [R] “As far as I know that stuff is only supported in the wikis, not in the main repo markdown processor.”
@@ -883,7 +861,7 @@ C-Acc+Vote & \texttt{HALUSINASI\_\allowbreak{}PENUH} & \texttt{HALUSINASI\_\allo
 \end{itemize}
 \begin{quote}\small\textbf{Alasan Llama:} The candidate answer provides several approaches to auto-posting math markup on GitHub repo pages, including using Markdown with MathJax support and auto-publishing with a script. While some claims are supported by the context and reference, others are unverifiable or contradicted. The claim about generating GitHub wikis directly through a git push command is contradicted by the reference, which states that wikis are backed by their own git repo. Despite this, the answer attempts to address the question and provides useful information, making it partially factual.\end{quote}
 \begin{quote}\small\textbf{Alasan DeepSeek:} The candidate attempted an answer with technical claims. Two claims are CONTRADICTED and CORE: (1) that math can be included directly in README.md (the reference says math is only supported in wikis), and (2) that generating wikis via git push may not be possible (the reference says wikis have their own git repo and can be pushed to). These are central to the solution. Since there is at least one CORE CONTRADICTED claim, the label is HALUSINASI\_PENUH.\end{quote}
-\subsubsection{Catatan data.}
+\subsection{Catatan data.}
 \begin{itemize}\small
 \item Label panel B-Vec ditentukan oleh Llama dan DeepSeek (keduanya \texttt{FAKTUAL}), sedangkan Qwen memberi \texttt{HALUSINASI\_\allowbreak{}SEBAGIAN}.
 \item Label panel C-Acc+Vote ditentukan oleh Llama dan DeepSeek (keduanya \texttt{HALUSINASI\_\allowbreak{}PENUH}), sedangkan Qwen memberi \texttt{FAKTUAL}.
@@ -895,8 +873,6 @@ C-Acc+Vote & \texttt{HALUSINASI\_\allowbreak{}PENUH} & \texttt{HALUSINASI\_\allo
 \cleardoublepage
 \chapter{KETERSEDIAAN KODE DAN DATA}
 \label{lamp:source-code}
-
-Kode implementasi dan evaluasi tersedia pada repositori \url{https://github.com/dartikaanie/graphrag} (komit \isi{hash}, \emph{tag} \texttt{tesis-final}). Kelima \emph{run} dijalankan dari \emph{working tree} yang belum bersih (Tabel~\ref{tab:lamp-run}), sehingga repositori ini adalah pembekuan kode setelah \emph{run}, bukan kode persis saat \emph{run}. Bagian yang menentukan hasil dimuat pada Lampiran~\ref{lamp:prompt-judge} dan \ref{lamp:repro}. Tidak ada rahasia (kunci API atau kredensial basis data) pada repositori.
 
 \begin{table}[!htbp]
 \centering
@@ -935,7 +911,7 @@ Kode implementasi dan evaluasi tersedia pada repositori \url{https://github.com/
 
 Lampiran ini memuat \emph{id} pertanyaan Stack Overflow pada sampel uji dan himpunan pengembangan. Urutannya mengikuti permutasi bersama (bukan terurut menurut \emph{id}), dan kedua himpunan saling lepas. Sumber: folder \texttt{llm/\allowbreak{}sample\_\allowbreak{}ids/} pada repositori (berkas sampel uji dan himpunan pengembangan). Posisi 385 sampai 434 tidak termasuk dalam daftar ini.
 
-\section{Sampel Uji (Posisi 1 sampai 384)}
+\section{Sampel Uji}
 \label{sec:lamp-id-uji}
 
 \scriptsize
@@ -1052,7 +1028,7 @@ Lampiran ini memuat \emph{id} pertanyaan Stack Overflow pada sampel uji dan himp
 
 
 \normalsize
-\section{Himpunan Pengembangan (Posisi 435 sampai 584)}
+\section{Himpunan Pengembangan}
 \label{sec:lamp-id-dev}
 
 \scriptsize
