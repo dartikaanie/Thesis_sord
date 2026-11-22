@@ -157,7 +157,7 @@ Gambar~\ref{fig:rag-pipeline} menunjukkan alur ini.
 
 \begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.85\textwidth]{images/Vizniuk_rag_pipeline.png}
+  \includegraphics[width=0.75\textwidth]{images/Vizniuk_rag_pipeline.png}
   \caption{Alur RAG: pengindeksan, pengambilan, dan generasi.
   Diadaptasi dari \textcite{Vizniuk2024}.}
   \label{fig:rag-pipeline}
@@ -376,10 +376,10 @@ Ukuran utama evaluasi adalah laju halusinasi (\emph{hallucination rate}), yaitu 
 \hline
 \textbf{Metrik} & \textbf{Arti} \\
 \hline
-HR(a) &
+\emph{Hallucination Rate}(a) &
 Laju halusinasi di antara jawaban yang benar-benar diberikan (tidak termasuk penolakan menjawab) \\
 \hline
-HR(b) &
+\emph{Hallucination Rate}(b) &
 Laju kegagalan yang juga menghitung penolakan menjawab sebagai kegagalan \\
 \hline
 Laju \emph{ABSTAIN} &
@@ -400,7 +400,7 @@ Seberapa relevan konteks yang diambil terhadap pertanyaan \\
 \subsection{Pelaporan Penolakan Menjawab (\emph{Abstain})}
 \label{sec:abstain}
 
-Jika model boleh menolak menjawab, satu angka akurasi atau laju halusinasi tidak cukup. \textcite{Cetinkaya2026} menguji sepuluh LLM dengan izin menjawab ``tidak tahu''. Model dengan akurasi mentah tertinggi ternyata hampir tidak pernah menolak dan salah pada sekitar seperempat soal, sedangkan model yang paling andal menolak sekitar setengah soal tetapi jarang salah. Korelasi peringkat antara akurasi mentah dan keandalan hampir nol. Kesimpulannya, akurasi, akurasi pada jawaban yang diberikan, laju penolakan, dan laju kesalahan perlu dilaporkan bersama. Prinsip ini sejalan dengan HR(a), HR(b), dan laju \emph{ABSTAIN} yang dilaporkan pada Bab~V. Penolakan menjawab juga dapat berarti model sadar tidak tahu atau terlalu berhati-hati \autocite{Cetinkaya2026}, sehingga banyaknya penolakan tidak otomatis berarti lebih baik.
+Jika model boleh menolak menjawab, satu angka akurasi atau laju halusinasi tidak cukup. \textcite{Cetinkaya2026} menguji sepuluh LLM dengan izin menjawab ``tidak tahu''. Model dengan akurasi mentah tertinggi ternyata hampir tidak pernah menolak dan salah pada sekitar seperempat soal, sedangkan model yang paling andal menolak sekitar setengah soal tetapi jarang salah. Korelasi peringkat antara akurasi mentah dan keandalan hampir nol. Kesimpulannya, akurasi, akurasi pada jawaban yang diberikan, laju penolakan, dan laju kesalahan perlu dilaporkan bersama. Prinsip ini sejalan dengan \emph{Hallucination Rate}(a), \emph{Hallucination Rate}(b), dan laju \emph{ABSTAIN} yang dilaporkan pada Bab~V. Penolakan menjawab juga dapat berarti model sadar tidak tahu atau terlalu berhati-hati \autocite{Cetinkaya2026}, sehingga banyaknya penolakan tidak otomatis berarti lebih baik.
 
 \subsection{Terpijak pada Konteks dan Benar}
 
@@ -454,8 +454,9 @@ yang alami, tetapi penelitian yang ditelaah hanya menyimpannya sebagai atribut a
 Dalam telaah kami, penelitian yang ditinjau belum memanfaatkan penilaian pengguna yang tersedia pada platform sebagai dasar pembobotan graf pengetahuan dalam proses pengambilan konteks GraphRAG. Penelitian sebelumnya menggunakan karakteristik dokumen atau tingkat keyakinan informasi sebagai dasar bobot \autocite{Shi2026, Asghari2026, TAMRplus2026, Yu2026DoG}. Umpan balik manusia pada \textcite{LiTrustProp2026} disimulasikan, sehingga tidak berasal dari penilaian pengguna pada platform. Penilaian pengguna pada graf pengetahuan telah disimpan sebagai atribut, tetapi belum dipakai sebagai bobot dalam pengambilan konteks \autocite{Kleybolte2026, Banerjee2024}.
 
 \subsection{Posisi dan Kerangka Konseptual Penelitian}
+\label{subsec:kerangka-konseptual}
 
-Penelitian ini mengisi kesenjangan tersebut dengan mekanisme pembobotan graf pengetahuan berbasis penilaian pengguna, yang diintegrasikan ke dalam pengambilan konteks GraphRAG. Efeknya diuji lewat lima konfigurasi yang ditambah bertahap, sehingga sumbangan tiap komponen dapat dilihat (Gambar~\ref{fig:kerangka-konseptual}):
+Penelitian ini mengisi kesenjangan tersebut dengan mekanisme pembobotan graf pengetahuan berbasis penilaian pengguna yang diintegrasikan ke dalam pengambilan konteks GraphRAG. Efeknya diuji melalui lima konfigurasi yang ditambah bertahap, sehingga sumbangan tiap komponen dapat dilihat (Gambar~\ref{fig:kerangka-konseptual}):
 \begin{itemize}
   \item \textbf{A}: LLM tanpa konteks;
   \item \textbf{B-Vec}: RAG dengan pencarian vektor lima teratas;
@@ -463,16 +464,13 @@ Penelitian ini mengisi kesenjangan tersebut dengan mekanisme pembobotan graf pen
   \item \textbf{C-Acc}: GraphRAG dengan bobot jawaban yang diterima;
   \item \textbf{C-Acc+Vote}: GraphRAG dengan bobot jawaban yang diterima dan skor suara.
 \end{itemize}
-Rancangan lengkap konfigurasi dan pengujiannya dibahas pada Bab~III.
+Rancangan lengkap konfigurasi dan pengujiannya dibahas pada Bab~\ref{chap:analisis-desain}.
+
+Kerangka pada Gambar~\ref{fig:kerangka-konseptual} menjadi dasar hipotesis dan pertanyaan penelitian pada Subbab~\ref{sec:hipotesis}. Hipotesis H1 (konfigurasi C lebih rendah daripada A dan B-Vec) berasal dari hubungan antara konteks berbobot dan halusinasi pada kerangka. Pengaruh pembobotan dibandingkan struktur graf (RQ4) dan pengaruh skor suara (RQ5) bersifat eksploratif dan tidak dirumuskan sebagai hipotesis.
 
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.9\textwidth]{images/bab2_kerangka_konseptual.png}
   \caption{Kerangka konseptual penelitian.}
   \label{fig:kerangka-konseptual}
-  \todo{Perbarui gambar: tampilkan lima konfigurasi A, B-Vec, B-Acc, C-Acc, C-Acc+Vote
-  menggantikan versi lama (kerangka empat jalur dan tiga kondisi).}
 \end{figure}
-
-\todo{Gambar baru yang disarankan: (1) taksonomi mitigasi halusinasi (Subbab II.2),
-(2) perbandingan konteks yang diambil RAG vektor, GraphRAG, dan GraphRAG berbobot (Subbab II.4), (3) contoh utas Stack Overflow dengan skor dan jawaban diterima (Subbab II.6).}

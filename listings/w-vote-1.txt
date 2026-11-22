@@ -1,0 +1,1 @@
+(0.7 * CASE WHEN type(r) = 'HAS_ACCEPTED_ANSWER' THEN 1.0 ELSE 0.0 END + 0.3 * (CASE WHEN a.score IS NULL OR a.score <= 0 THEN 0.0 WHEN log(1.0 + a.score) >= log(1.0 + 46.0) THEN 1.0 ELSE log(1.0 + a.score) / log(1.0 + 46.0) END))

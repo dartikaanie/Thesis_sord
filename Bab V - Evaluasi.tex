@@ -232,7 +232,7 @@ RQ5 & C-Acc+Vote terhadap C-Acc & $-1{,}8$ & $-2{,}2$ \\
 
 \paragraph{RQ4.} Pembobotan \emph{accepted answer} pada pemeringkatan ulang vektor (B-Acc terhadap B-Vec) menurunkan \emph{hallucination rate} 5,4 poin (4,4 poin pada $\mathcal{S}$). Menambahkan mekanisme berbasis graf di atas pembobotan itu (C-Acc terhadap B-Acc) menurunkannya hanya 0,6 poin. Selisih total C-Acc terhadap B-Vec ($-5{,}9$) hampir seluruhnya sudah dicapai B-Acc. Dengan demikian, sebagian besar penurunan yang teramati sudah muncul pada B-Acc.  Selisih C-Acc terhadap B-Acc mencerminkan seluruh mekanisme berbasis graf, yaitu penelusuran graf, \emph{semantic expansion}, dan \emph{pool} kandidat yang lebih luas (Subbab~\ref{subsec:batasan-implementasi}).
 
-\paragraph{H2 dan RQ5.} C-Acc+Vote (17,0\%) lebih rendah daripada C-Acc (18,8\%) sebesar 1,8 poin, dan pada $\mathcal{S}$ sebesar 2,2 poin. Arahnya sejalan dengan H2.
+\paragraph{RQ5.} C-Acc+Vote (17,0\%) lebih rendah daripada C-Acc (18,8\%) sebesar 1,8 poin, dan pada $\mathcal{S}$ sebesar 2,2 poin.
 
 %============================================================
 \section{Hasil Metrik Pendukung}
@@ -430,7 +430,7 @@ Gambar~\ref{fig:kolam-graf} memperlihatkan kolam kandidat graf, yang sama untuk 
 
 Dari item baru yang dibawa graf (item yang tidak ada pada konteks B-Vec), 88,6\% adalah jawaban \emph{accepted} dari pertanyaan \emph{seed} melalui langkah satu \emph{hop}. Item baru satu \emph{hop} (677 item) kurang topikal daripada item yang dipertahankan dari lima teratas B (1.156 item): skor relevansi konteks panel rata-ratanya 0,258 terhadap 0,354 (\texttt{RELEVANT}~=~1, \texttt{PARTIAL}~=~0,5, \texttt{IRRELEVANT}~=~0; angka dikutip dari berkas analisis nilai graf dan tidak dihitung ulang). Konteks C-Acc juga lebih sering berubah dari B-Vec (Jaccard\@5 sebesar 0,463).
 
-Dengan demikian, peran graf pada rancangan ini terutama menyediakan jawaban \emph{accepted} dari pertanyaan \emph{seed}. Penelusuran dua \emph{hop} hanya menyumbang sebagian kecil konteks akhir; kontribusinya pada pembentukan kandidat tidak dapat disimpulkan dari angka tersebut saja. Konfigurasi Join, yang tidak menggunakan graf, menghasilkan konteks akhir identik dengan varian satu \emph{hop} graf pada 384 dari 384 pertanyaan (Subbab~\ref{subsec:analisis-eksploratif}), sehingga, pada pengaturan yang diuji, hasil satu \emph{hop} graf dapat direplikasi melalui penggabungan tabel relasional. Bila graf digunakan tanpa bobot (C-0), konteksnya identik dengan B-Vec pada seluruh pertanyaan. Hasil ini menunjukkan bahwa manfaat pembobotan lebih terlihat daripada tambahan manfaat penelusuran graf dalam eksperimen ini.
+Dengan demikian, peran graf pada rancangan ini terutama menyediakan jawaban \emph{accepted} dari pertanyaan \emph{seed}. Penelusuran dua \emph{hop} hanya menyumbang sebagian kecil konteks akhir. Konfigurasi Join, yang tidak menggunakan graf, menghasilkan konteks akhir identik dengan varian satu \emph{hop} graf pada 384 dari 384 pertanyaan (Subbab~\ref{subsec:analisis-eksploratif}), sehingga, pada pengaturan yang diuji, hasil satu \emph{hop} graf dapat direplikasi melalui penggabungan tabel relasional. Bila graf digunakan tanpa bobot (C-0), konteksnya identik dengan B-Vec pada seluruh pertanyaan. 
 
 \subsection{Pengaruh Skor Suara}
 \label{subsec:analisis-vote}
@@ -563,20 +563,71 @@ Subbab ini mengikuti pemetaan pada Tabel~\ref{tab:pemetaan-perbandingan}. Bab in
 
 \textbf{RQ4.} Pembobotan \emph{accepted answer} pada pemeringkatan ulang vektor (B-Acc) menurunkan \emph{hallucination rate} sebesar 5,4 poin dibandingkan B-Vec. Penambahan mekanisme berbasis graf (C-Acc) hanya memberikan penurunan tambahan sebesar 0,6 poin. Hal ini menunjukkan bahwa sebagian besar penurunan halusinasi berkaitan dengan pembobotan penilaian pengguna, sedangkan manfaat tambahan mekanisme graf masih terbatas. Pada implementasi yang diuji, graf terutama menyediakan jawaban \emph{accepted} dari pertanyaan \emph{seed} melalui penelusuran satu \emph{hop}, yang hasilnya dapat direplikasi menggunakan penggabungan tabel (\emph{join}). Dengan demikian, manfaat struktur graf yang lebih kompleks belum terlihat jelas pada penelitian ini.
 
-\textbf{RQ5 dan H2.} Penambahan skor suara menghasilkan angka lebih rendah (17,0\% terhadap 18,8\%), yaitu selisih 1,8 poin.
+\textbf{RQ5.} Penambahan skor suara menghasilkan angka lebih rendah (17,0\% terhadap 18,8\%), yaitu selisih 1,8 poin.
 
-\subsection{Penjelasan atas Pola yang Teramati}
-\label{subsec:pembahasan-sebab}
+\subsection{Matriks Ketercapaian Tujuan}
+\label{subsec:matriks-tujuan}
 
-Bagian ini memuat dugaan penjelas. Dugaan di bawah tidak diuji kecuali bila disebut terukur.
+Tabel~\ref{tab:matriks-tujuan} menautkan tiap tujuan penelitian (Subbab~\ref{sec:tujuan}) dengan pertanyaan penelitian, metrik, hasil, dan kesimpulan.
 
-\begin{enumerate}
-   \item \textbf{Jawaban \emph{accepted} di konteks.} Jumlah item \emph{accepted} naik dari 1,91 menjadi 3,71 sampai 3,90 (terukur), dan \emph{hallucination rate} turun bersamanya. Namun di dalam setiap konfigurasi, \emph{hallucination rate} tidak menunjukkan tren monoton menurut jumlah item \emph{accepted} (terukur; Tabel~\ref{tab:hr-accepted}). Jadi mekanisme yang menghubungkan keduanya belum terisolasi.
-   \item 
-   \item \textbf{Item graf yang kurang topikal.} Item baru dari graf kurang topikal (terukur, 0,258 terhadap 0,354), dan \emph{context relevance}, \emph{faithfulness}, serta relevansi jawaban C lebih rendah daripada B-Vec (terukur). Hal ini sejalan dengan temuan bahwa keunggulan GraphRAG terhadap RAG tidak selalu konsisten \autocite{Yang2025}.
-   \item 
-   \item \textbf{Bias pengetahuan parametrik.} \emph{Faithfulness} yang menurun walau konteks lebih banyak berisi jawaban \emph{accepted} dapat berkaitan dengan kecenderungan model menggunakan pengetahuan parametriknya \autocite{Patil2024}. Dugaan ini tidak diuji.
-\end{enumerate}
+\begin{table}[!htbp]
+\centering
+\scriptsize
+\caption{Matriks tujuan, pertanyaan penelitian, metrik, hasil, dan kesimpulan.}
+\label{tab:matriks-tujuan}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{|c|c|>{\raggedright\arraybackslash}p{2.6cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{3.0cm}|}
+\hline
+\textbf{Tujuan} & \textbf{RQ} & \textbf{Metrik} & \textbf{Hasil} & \textbf{Kesimpulan} \\
+\hline
+1. Representasi bobot & RQ1 & Graf terbentuk; validasi densifikasi & Graf berbobot terbangun dari seluruh SORD; pertanyaan tanpa sisi keluar turun dari 94,88\% menjadi 23,10\% & Tercapai (artefak) \\
+\hline
+2. Integrasi bobot & RQ2 & NF2, NF3, NF5, NF6 & NF3, NF5, NF6 terpenuhi; NF2 tidak terpenuhi (81,2\% dan 82,7\%) & Tercapai sebagian: kepatuhan kutipan belum memadai \\
+\hline
+3. Selisih HR A, B-Vec, GraphRAG berbobot & RQ3 (H1) & HR versi (a) dan (b) & C-Acc 18,8\% dan C-Acc+Vote 17,0\% terhadap A 25,8\% dan B-Vec 24,8\% & Lebih rendah terhadap B-Vec; terhadap A bergantung pada \texttt{ABSTAIN} \\
+\hline
+4. Kontribusi bobot dan graf & RQ4 & Selisih B-Acc--B-Vec dan C-Acc--B-Acc & $-5{,}4$ dan $-0{,}6$ poin & Bobot berperan; manfaat tambahan graf belum terbukti \\
+\hline
+5. Satu sinyal vs dua sinyal & RQ5 (eksploratif) & Selisih C-Acc+Vote--C-Acc, per \emph{judge} & $-1{,}8$ poin pada panel; Llama $+0{,}6$, Qwen $+2{,}0$, DeepSeek $-2{,}3$ & Belum dapat disimpulkan \\
+\hline
+\end{tabularx}
+\end{table}
+
+% ============================================================
+\subsection{Ringkasan Hasil Seluruh Metrik}
+\label{subsec:tradeoff}
+% ============================================================
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Ringkasan hasil seluruh metrik antarkonfigurasi (\%, kecuali dinyatakan lain).}
+\label{tab:tradeoff}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|l|*{5}{>{\centering\arraybackslash}X|}}
+\hline
+\textbf{Metrik} & \textbf{A} & \textbf{B-Vec} & \textbf{B-Acc} & \textbf{C-Acc} & \textbf{C-Acc+Vote} \\
+\hline
+HR versi (a) & 25,8 & 24,8 & 19,4 & 18,8 & 17,0 \\
+\hline
+HR versi (b), \texttt{ABSTAIN} = gagal & 25,8 & 39,8 & 32,8 & 32,6 & 31,2 \\
+\hline
+\texttt{ABSTAIN} & 0 & 20,1 & 16,7 & 16,9 & 17,2 \\
+\hline
+\emph{Faithfulness} & -- & 61,3 & 59,5 & 57,8 & 57,2 \\
+\hline
+\emph{Citation support} & -- & 90,2 & 91,7 & 90,9 & 89,6 \\
+\hline
+Kutipan valid (NF2), jawaban bukan \texttt{ABSTAIN} & -- & 83,7 & 82,8 & 81,2 & 82,7 \\
+\hline
+Relevansi konteks (0--1) & -- & 0,342 & 0,336 & 0,317 & 0,322 \\
+\hline
+Latensi total rata-rata (detik) & 7,55 & 5,97 & 5,66 & 5,10 & 5,93 \\
+\hline
+\end{tabularx}
+\end{table}
+
+Konfigurasi berbobot menurunkan HR versi (a), tetapi \emph{faithfulness} dan relevansi konteks lebih rendah daripada B-Vec, dan HR versi (b) terhadap A berbalik. Penurunan HR karena itu tidak dibaca sebagai peningkatan mutu menyeluruh: sebagian berasal dari konteks yang memuat lebih banyak jawaban \emph{accepted} tanpa kenaikan relevansi terhadap pertanyaan uji.
 
 \subsection{Posisi terhadap Penelitian Terdahulu}
 \label{subsec:pembahasan-penelitian-terdahulu}
@@ -586,7 +637,9 @@ Bagian ini memuat dugaan penjelas. Dugaan di bawah tidak diuji kecuali bila dise
 \subsection{Implikasi dan Klaim Kontribusi}
 \label{subsec:pembahasan-implikasi}
 
-Penelitian ini menghasilkan mekanisme pembobotan graf berbasis penilaian pengguna, prosedur evaluasi yang dapat ditelusuri, dan hasil perbandingan lima konfigurasi. Penurunan \emph{hallucination rate} terutama terlihat setelah status \emph{accepted answer} digunakan dalam pemeringkatan. Namun, tambahan manfaat mekanisme graf dibandingkan pemeringkatan vektor berbobot masih terbatas. Temuan ini berlaku untuk studi kasus dan pengaturan eksperimen yang diuji.
+Penelitian ini menghasilkan mekanisme pembobotan graf pengetahuan berbasis penilaian pengguna, prosedur evaluasi yang dapat ditelusuri, dan hasil perbandingan lima konfigurasi. Dengan \emph{ABSTAIN} dikeluarkan dari penyebut, \emph{hallucination rate} adalah 25,8\% (A), 24,8\% (B-Vec), 19,4\% (B-Acc), 18,8\% (C-Acc), dan 17,0\% (C-Acc+Vote). B-Acc lebih rendah 5,4 poin daripada B-Vec dan C-Acc lebih rendah 0,6 poin daripada B-Acc. Selisih C-Acc+Vote terhadap C-Acc (1,8 poin) tidak konsisten antar-\emph{judge} sehingga dilaporkan sebagai temuan eksploratif. Seluruh selisih bersifat deskriptif pada sampel dan konfigurasi yang diuji, dan tidak menyimpulkan efektivitas pada domain, \emph{dataset}, atau model generatif lain. Bila \texttt{ABSTAIN} dihitung sebagai kegagalan, hasil terhadap A berbalik arah (Subbab~\ref{subsec:hasil-utama}).
+
+Mekanisme yang dihasilkan menyediakan pencatatan \emph{provenance} dan validasi kutipan. Keterlacakan keluaran belum sepenuhnya memenuhi target, karena kebutuhan NF2 (seluruh jawaban bukan \texttt{ABSTAIN} memuat kutipan valid) tidak terpenuhi (kutipan valid hanya 81,2\% pada C-Acc dan 82,7\% pada C-Acc+Vote). Kebutuhan NF4 (\emph{citation support} tidak lebih rendah daripada B-Vec) terpenuhi pada C-Acc tetapi tidak pada C-Acc+Vote. Kebutuhan lain terpenuhi, yaitu NF3 (rata-rata latensi total paling lama 15 detik), NF5 (tidak ada konteks atau kutipan dari \emph{thread} uji), dan NF6 (variabel kontrol identik antarkonfigurasi).
 
 %============================================================
 \section{Ancaman terhadap Validitas}
@@ -594,11 +647,13 @@ Penelitian ini menghasilkan mekanisme pembobotan graf berbasis penilaian penggun
 %============================================================
 
 \begin{enumerate}
-   \item \textbf{Validitas konstruk.} Seluruh label berasal dari panel \emph{LLM-as-a-Judge} tanpa validasi oleh anotator manusia, sehingga angka halusinasi adalah keluaran panel. Arah A terhadap B-Vec tidak konsisten antar-\emph{judge}. Klaim yang tidak dapat diverifikasi tidak dihitung sebagai halusinasi. \texttt{ABSTAIN} dapat menurunkan versi (a) tanpa meningkatkan kebenaran.
+   \item \textbf{Validitas konstruk.} Seluruh label berasal dari panel \emph{LLM-as-a-Judge} tanpa validasi oleh anotator manusia, sehingga angka halusinasi adalah keluaran panel. Arah A terhadap B-Vec tidak konsisten antar-\emph{judge}. Tingkat kelonggaran ketiga \emph{judge} sangat berbeda. Pada versi (a), Llama menghasilkan \emph{hallucination rate} 3,0--6,0\%, sedangkan DeepSeek dan Qwen 29,4--38,6\% (Tabel~\ref{tab:per-judge}). Karena label panel adalah suara mayoritas dua dari tiga \emph{judge} dan Llama hampir tidak pernah menandai halusinasi, label halusinasi pada panel praktis ditentukan oleh kesepakatan DeepSeek dan Qwen. Urutan antar-konfigurasi berbobot juga tidak stabil antar-\emph{judge}: Llama dan Qwen menilai C-Acc lebih rendah daripada C-Acc+Vote, sedangkan DeepSeek, yang searah dengan panel, menilai sebaliknya. 
    
    \item \textbf{Validitas internal.} Setiap konfigurasi dijalankan satu kali dengan parameter bawaan API (temperatur tidak ditetapkan).
 
    \item \textbf{Kebocoran dan kontrol.} Pengecualian \emph{thread} (384 pertanyaan dan 498 jawaban; Lampiran~\ref{lamp:kebocoran}) mencegah kebocoran langsung dan tidak menyisakan irisan pada keempat konfigurasi berkonteks. Namun mode pengecualian yang lebih ketat (duplikat, pertanyaan tertaut, dan hampir-duplikat dengan kemiripan 0,95) mencatat 13 pertanyaan beririsan pada konteks B dan C, sehingga duplikat atau pertanyaan hampir identik di luar \emph{thread} yang sama tidak sepenuhnya tertutup. Normalisasi $P\_{99}$ menggunakan seluruh populasi termasuk pertanyaan uji. Latensi tidak dikontrol terhadap status \emph{cache}.
+   
+   
 \end{enumerate}
 
 %============================================================

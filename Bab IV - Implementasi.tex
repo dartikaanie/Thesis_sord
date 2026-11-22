@@ -872,7 +872,7 @@ Nilai $\alpha$ dipilih pada himpunan pengembangan (150 pertanyaan pada posisi 43
 
 $\alpha=0{,}25$ lebih rendah pada kedua versi dan dipakai untuk B-Acc, C-Acc, dan C-Acc+Vote. Selisihnya (6,3 poin pada versi (a)) berasal dari satu \emph{run} dengan 129 dan 124 jawaban dan tidak diuji, jadi pemilihan ini bersifat pragmatis. Nilai $\alpha$ dipilih pada konfigurasi C-Acc dan dipakai juga pada B-Acc tanpa pemilihan terpisah.
 
-\paragraph{Diskusi.} $\alpha=0{,}25$ memberi bobot lebih besar pada penilaian pengguna, sehingga lebih banyak jawaban \emph{accepted} masuk ke lima konteks teratas. Pada himpunan pengembangan, hal ini diikuti penolakan yang lebih sedikit (21 terhadap 26 pertanyaan) dan \emph{hallucination rate} yang lebih rendah pada kedua versi. Kemungkinan penjelasannya, jawaban \emph{accepted} yang lebih banyak memberi \emph{generator} solusi yang sudah divalidasi penanya sehingga lebih jarang menolak menjawab. Penjelasan ini tidak diuji, dan hanya dua nilai $\alpha$ yang dibandingkan, sehingga nilai optimum tidak diketahui.
+$\alpha=0{,}25$ memberi bobot lebih besar pada penilaian pengguna, sehingga lebih banyak jawaban \emph{accepted} masuk ke lima konteks teratas. Pada himpunan pengembangan, hal ini diikuti penolakan yang lebih sedikit (21 terhadap 26 pertanyaan) dan \emph{hallucination rate} yang lebih rendah pada kedua versi. Kemungkinan penjelasannya, jawaban \emph{accepted} yang lebih banyak memberi \emph{generator} solusi yang sudah divalidasi penanya sehingga lebih jarang menolak menjawab. Penjelasan ini tidak diuji, dan hanya dua nilai $\alpha$ yang dibandingkan, sehingga nilai optimum tidak diketahui.
 
 %============================================================
 \section{Pemenuhan Kebutuhan Sistem}
@@ -958,6 +958,18 @@ Beberapa batasan implementasi perlu dicatat karena memengaruhi interpretasi hasi
     \item Sampel uji hanya diambil dari pertanyaan yang jawaban diterimanya tersedia pada tabel jawaban (270.988 dari 2.685.814 pertanyaan, 10,09\%), sehingga hasil tidak digeneralisasi ke pertanyaan tanpa jawaban diterima.
     \item Setiap konfigurasi dijalankan satu kali dengan \emph{temperature} bawaan penyedia, sehingga variasi antarpengulangan generasi tidak diukur. Selisih kecil antarkonfigurasi, termasuk antara C-Acc dan C-Acc+Vote, dapat sebagian berasal dari variasi generasi dan variasi label panel.
 \end{enumerate}
+
+\section{Spesifikasi Artefak Akhir}
+\label{sec:spesifikasi-artefak}
+
+Artefak akhir terdiri atas empat bagian.
+\begin{enumerate}
+    \item \textbf{Graf pengetahuan berbobot.} Simpul pertanyaan, jawaban, dan tag; sisi struktural dan sisi densifikasi; serta bobot jawaban dari status \emph{accepted} dan skor suara.
+    \item \textbf{Indeks vektor.} Dipakai untuk \emph{anchoring} dan \emph{semantic expansion}.
+    \item \textbf{Mekanisme pengambilan konteks tiga tahap.} Kandidat diurutkan dengan skor akhir $(1-\alpha)\,\mathrm{sim}_{\mathrm{norm}}+\alpha\,w_{\mathrm{path}}$ dengan $\alpha=0{,}25$, dan lima konteks teratas diberikan kepada LLM.
+    \item \textbf{Pembangkit jawaban.} Memakai instruksi \emph{grounding}, kewajiban kutipan, dan validasi kutipan.
+\end{enumerate}
+Dua skema bobot tersedia, yaitu C-Acc dan C-Acc+Vote, dengan B-Acc sebagai kontrol tanpa graf. Rancangan dan alasan pemilihannya diuraikan pada Bab~\ref{chap:analisis-desain}, dan pelaksanaannya pada subbab-subbab sebelumnya di Bab~\ref{chap:implementasi}.
 
 %============================================================
 \section{Ringkasan}

@@ -1,0 +1,28 @@
+judge_panel_aggregate.py
+------------------------
+Deterministic, tie-free aggregation of the three panel judges' labels
+(docs/DECISION_C_SCORING.md, Amendment 12 (d)). Pure; no I/O.
+
+Ordinal score of a judge label:
+    ABSTAIN -> 0, FAKTUAL -> 0, HALUSINASI_SEBAGIAN -> 1, HALUSINASI_PENUH -> 2
+
+All three judges valid:
+  1. >= 2 judges ABSTAIN                     -> ABSTAIN
+  2. otherwise the median of the three scores: 0 -> FAKTUAL,
+     1 -> HALUSINASI_SEBAGIAN, 2 -> HALUSINASI_PENUH
+  3. hallucinated = label in {SEBAGIAN, PENUH}; this equals a 2-of-3
+     majority vote on hallucinated yes/no.
+
+Exactly two judges valid (the third still failed after retries):
+  - both agree on ABSTAIN status and on binary hallucinated -> their common
+    result; severity = the lower of the two if they differ;
+    panel_incomplete = True.
+  - otherwise UNRESOLVED.
+Fewer than two valid -> UNRESOLVED. An item is never dropped.
+
+HALUSINASI_SEVERITY_UNSPECIFIED: judge-v2.1/v2.2 give this label when an
+error claim has no severity and no CORE error settles it (Amendment 4
+Addendum: a missing severity is never imputed). It is a valid vote for
+"hallucinated" with unknown severity 1 or 2. The panel tries both values: if
+the panel label is the same either way it is used; if not, the panel label
+is HALUSINASI_SEVERITY_UNSPECIFIED. The binary outcome never depends on it.

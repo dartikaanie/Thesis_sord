@@ -1,0 +1,21 @@
+Question title: {title}
+Tags: {tags}
+Question body: {body}
+
+Retrieved item:
+{chunk_text}
+
+Decide whether the retrieved item contains information that helps solve or explain THIS question's specific problem.
+
+Assign exactly one label:
+- "RELEVANT": the item contains information that directly helps solve or explain THIS question's problem: a fix, a workaround, the cause, a recommended approach or tool, or a key part of the solution. It does NOT need to be complete, match the exact versions or wording, or follow the approach the asker already tried. An alternative approach that achieves the asker's underlying goal counts as RELEVANT. The item may be cut off; judge only what is shown.
+- "PARTIAL": same technology or topic, but it addresses a different problem, or it is only tangentially useful (general background the asker could not act on for THIS problem).
+- "IRRELEVANT": unrelated to this problem.
+
+Ask yourself: if the asker read this item, would it move them meaningfully closer to solving or understanding their problem? If yes, the label is RELEVANT. Sharing a technology, library, or keyword with the question is NOT enough on its own.
+
+Respond with ONLY this JSON object:
+{
+  "label": "RELEVANT" | "PARTIAL" | "IRRELEVANT",
+  "reason": "<one sentence>"
+}

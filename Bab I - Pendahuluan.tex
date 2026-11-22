@@ -139,8 +139,9 @@ Ruang lingkup penelitian ini mencakup: (1) representasi penilaian pengguna sebag
 
 Hasil penelitian ini diuji hanya pada satu studi kasus. Penerapan pada sumber pengetahuan lain diperkirakan memerlukan tiga syarat, yang ditetapkan oleh peneliti dan tidak diuji pada penelitian ini: (1) sumber memuat penilaian pengguna yang eksplisit terhadap suatu pengetahuan, (2) tersedia keterkaitan antarinformasi yang dapat dimodelkan sebagai graf, dan (3) penilaian pengguna cukup mencerminkan keandalan pengetahuan tersebut.
 
-% =========================================================
+% ========================================================
 \section{Hipotesis}
+\label{sec:hipotesis}
 % =========================================================
 
 Hipotesis penelitian ini disusun berdasarkan dua premis yang diperoleh dari latar belakang dan rumusan masalah.
@@ -153,12 +154,10 @@ Hipotesis penelitian ini disusun berdasarkan dua premis yang diperoleh dari lata
     Graf pengetahuan memungkinkan representasi dan penelusuran hubungan antarinformasi secara eksplisit \autocite{Syeda2026, WangXL2026}. Penelitian sebelumnya menunjukkan bahwa pembobotan kepercayaan pada graf dapat meningkatkan kinerja GraphRAG \autocite{Shi2026}. Sementara itu, penilaian pengguna telah direpresentasikan sebagai atribut graf pada konten buatan pengguna \autocite{Kleybolte2026}. Berdasarkan temuan tersebut, penilaian pengguna berpotensi dimanfaatkan sebagai dasar pembobotan graf untuk memprioritaskan konteks yang lebih andal dan mengurangi halusinasi LLM.
 \end{enumerate}
 
-Berdasarkan kedua premis tersebut, penelitian ini merumuskan dua hipotesis yang diuji menggunakan data Stack Overflow sebagai studi kasus.
+Berdasarkan kedua premis tersebut, penelitian ini merumuskan satu hipotesis yang diuji menggunakan data Stack Overflow sebagai studi kasus.
 
 \begin{enumerate}
     \item[\textbf{H1}] GraphRAG dengan pembobotan graf pengetahuan berbasis penilaian pengguna menghasilkan laju halusinasi (\emph{hallucination rate}) yang lebih rendah dibandingkan LLM murni dan RAG konvensional berbasis \emph{dense retrieval}.
-
-    \item[\textbf{H2}] GraphRAG dengan pembobotan berdasarkan kombinasi \emph{accepted answer} dan \emph{upvote} menghasilkan laju halusinasi yang lebih rendah dibandingkan GraphRAG dengan pembobotan berdasarkan \emph{accepted answer} saja.
 \end{enumerate}
 
 % =========================================================
@@ -182,7 +181,7 @@ Penelitian ini menggunakan kerangka \emph{Design Science Research Methodology} (
 
     Implementasi menggunakan Neo4j sebagai basis data graf, FAISS sebagai indeks vektor, serta satu model generatif yang digunakan secara konsisten pada seluruh kondisi eksperimen. Luaran tahap ini adalah rancangan mekanisme pembobotan, skema graf, dan dokumentasi arsitektur.
 
-    \item \textbf{Implementasi.}
+    \item \textbf{Implementasi (Demonstrasi).}
 
      Implementasi dilakukan menggunakan tumpukan teknologi yang dipilih berdasarkan kesesuaian kebutuhan, yaitu Neo4j untuk basis data graf, FAISS untuk indeks vektor, dan satu model generatif dalam mode \emph{inference}. Sebagai studi kasus, data yang digunakan adalah dataset SORD \autocite{Fatima2026} dari Stack Overflow. Luaran dari tahapan ini adalah implementasi mekanisme pembobotan dalam GraphRAG yang dapat dijalankan dan didokumentasikan.
 
@@ -196,6 +195,31 @@ Penelitian ini menggunakan kerangka \emph{Design Science Research Methodology} (
 
     Hasil penelitian disimpulkan berdasarkan evaluasi artefak, pengujian hipotesis, dan jawaban terhadap pertanyaan penelitian. Temuan yang diperoleh, termasuk keterbatasan dan peluang pengembangan, didokumentasikan dalam laporan tesis dan dokumentasi teknis. Luaran tahap ini adalah laporan tesis.
 \end{enumerate}
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Tahap DSRM, aktivitas, luaran, dan bukti.}
+\label{tab:dsrm-matriks}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{2.7cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{2.9cm}|}
+\hline
+\textbf{Tahap} & \textbf{Aktivitas} & \textbf{Luaran} & \textbf{Bukti dan letak} \\
+\hline
+Identifikasi masalah & Telaah literatur halusinasi, RAG, GraphRAG, dan pembobotan graf & Rumusan masalah, kesenjangan, RQ1--RQ5 & Bab~\ref{chap:pendahuluan}, \ref{chap:studi} \\
+\hline
+Tujuan solusi & Menetapkan kebutuhan fungsional dan nonfungsional (NF1--NF6) & Spesifikasi kebutuhan dan kriteria sukses & Bab~\ref{chap:analisis-desain} \\
+\hline
+Desain & Merancang bobot, skema graf, pengambilan konteks, dan kondisi pembanding & Rancangan mekanisme dan lima konfigurasi & Bab~\ref{chap:analisis-desain} \\
+\hline
+Implementasi (Demonstrasi) & Membangun graf, densifikasi, indeks vektor, pengambilan konteks, dan pembangkitan jawaban & Sistem yang dapat dijalankan dan diulang & Bab~\ref{chap:implementasi}, Lampiran \\
+\hline
+Evaluasi & Menjalankan lima konfigurasi pada 384 pertanyaan, penilaian panel \emph{judge}, metrik pendukung & \emph{Hallucination Rate}, selisih, NF1--NF6, jawaban RQ3--RQ5 & Bab~\ref{chap:evaluasi} \\
+\hline
+Komunikasi & Menyimpulkan per RQ, kontribusi, dan batas & Laporan tesis & Bab~\ref{chap:penutup} \\
+\hline
+\end{tabularx}
+\end{table}
 
 % =========================================================
 \section{Sistematika Penulisan}
@@ -219,7 +243,7 @@ Bagian ini menjelaskan gambaran umum isi dari setiap bab dalam laporan tesis. Ad
      Bab ini memaparkan proses implementasi mekanisme pembobotan, mencakup: implementasi konstruksi graf pengetahuan berbobot, implementasi integrasi bobot ke dalam pengambilan konteks, teknologi dan pustaka yang digunakan beserta alasan pemilihannya, serta hasil implementasi per komponen.
 
     \item \textbf{Bab V - Evaluasi}\\
-      Bab ini menyajikan hasil pengujian dan evaluasi, mencakup hasil pengujian kuantitatif lima kondisi, analisis untuk pengujian hipotesis H1 dan H2, pemisahan kontribusi pembobotan penilaian pengguna dan struktur graf, analisis tambahan, evaluasi kualitas graf pengetahuan, serta diskusi temuan terhadap hipotesis, penjelasan penyebab hasil berdasarkan data dan literatur, dan keterbatasan.
+      Bab ini menyajikan hasil pengujian dan evaluasi, mencakup hasil pengujian kuantitatif lima kondisi, analisis untuk pengujian hipotesis H1, pemisahan kontribusi pembobotan penilaian pengguna dan struktur graf, analisis tambahan, evaluasi kualitas graf pengetahuan, serta diskusi temuan terhadap hipotesis, penjelasan penyebab hasil berdasarkan data dan literatur, dan keterbatasan.
 
     \item \textbf{Bab VI - Kesimpulan dan Saran}\\
     Bab ini menyajikan kesimpulan yang ditarik dari hasil evaluasi terhadap hipotesis dan pertanyaan penelitian, keterbatasan penelitian, serta saran untuk pengembangan penelitian selanjutnya.

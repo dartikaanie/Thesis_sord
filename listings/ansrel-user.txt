@@ -1,0 +1,16 @@
+Question title: {title}
+Question body: {body}
+
+Answer to evaluate:
+{llm_answer}
+
+Judge ONLY whether this answer addresses what the question asked -- do NOT judge whether it is factually correct (you have no reference to check correctness against, so do not try). Assign exactly one label:
+- "MENJAWAB": directly addresses the core of the question.
+- "MENJAWAB_SEBAGIAN": on topic but misses an important part of the question, or is too generic to be actionable.
+- "TIDAK_MENJAWAB": off-target, a refusal, or answers a different question than the one asked.
+
+Respond with ONLY this JSON object:
+{
+  "answer_relevance_label": "MENJAWAB" | "MENJAWAB_SEBAGIAN" | "TIDAK_MENJAWAB",
+  "justification": "<at most 2 short sentences>"
+}

@@ -1,0 +1,17 @@
+### QUESTION
+Title: {title}
+Tags: {tags}
+Body:
+{body}
+
+### REFERENCE ANSWER (accepted on Stack Overflow)
+{reference}
+
+### RETRIEVED CONTEXT
+{context}
+
+### CITATIONS IN THE CANDIDATE ANSWER
+{citations}
+
+### CANDIDATE ANSWER
+{candidate}
