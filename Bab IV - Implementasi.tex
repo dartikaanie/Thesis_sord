@@ -5,7 +5,7 @@
 \chapter{IMPLEMENTASI}
 \label{chap:implementasi}
 
-Bab ini menjelaskan implementasi \emph{GraphRAG Framework} usulan berdasarkan rancangan pada Bab~\ref{chap:analisis-desain}. Pembahasan disusun mengikuti alur kerja sistem sebagai berikut.
+Bab ini menjelaskan implementasi GraphRAG berbobot penilaian pengguna yang diusulkan berdasarkan rancangan pada Bab~\ref{chap:analisis-desain}. Pembahasan disusun mengikuti alur kerja sistem sebagai berikut.
 \begin{enumerate}[1.]
     \item Gambaran umum implementasi sistem.
     \item Lingkungan implementasi dan perangkat pendukung.
@@ -23,7 +23,7 @@ Bab ini menjelaskan implementasi \emph{GraphRAG Framework} usulan berdasarkan ra
 %============================================================
 
 
-\emph{GraphRAG Framework} diimplementasikan sebagai satu \emph{pipeline} yang terdiri atas empat tahap berurutan, yaitu persiapan data, konstruksi \emph{knowledge graph} (KG) dan indeks vektor, eksekusi kondisi eksperimen yang mencakup \emph{retrieval} dan generasi jawaban, serta evaluasi. Pada tahap persiapan data, dataset SORD divalidasi, digabungkan, dan dideduplikasi menjadi 2.685.814 pertanyaan dan 725.795 jawaban, lalu disusun sampel uji ($n{=}384$) beserta himpunan pengecualian kebocoran data untuk setiap pertanyaan. Pada tahap konstruksi KG dan indeks vektor, populasi tersebut dimuat ke Neo4j sebagai graf berbobot, didensifikasi dengan relasi antarpertanyaan, dan diindeks ke FAISS (indeks pertanyaan dan indeks jawaban). Pada tahap eksekusi kondisi eksperimen, setiap pertanyaan uji diproses oleh tiga kondisi, yaitu Kondisi A (LLM Murni), Kondisi B (RAG Konvensional), dan Kondisi C (GraphRAG dengan pembobotan). Konteks diambil sesuai mekanisme masing-masing kondisi, disusun ke dalam \emph{prompt} yang sama, dan dijawab oleh \emph{generator} yang sama. Pada tahap evaluasi, hasil jawaban dinilai oleh panel \emph{judge} dan dihitung menjadi metrik yang dilaporkan.
+GraphRAG berbobot penilaian pengguna diimplementasikan sebagai satu \emph{pipeline} yang terdiri atas empat tahap berurutan, yaitu persiapan data, konstruksi \emph{knowledge graph} (KG) dan indeks vektor, eksekusi kondisi eksperimen yang mencakup \emph{retrieval} dan generasi jawaban, serta evaluasi. Pada tahap persiapan data, dataset SORD divalidasi, digabungkan, dan dideduplikasi menjadi 2.685.814 pertanyaan dan 725.795 jawaban, lalu disusun sampel uji ($n{=}384$) beserta himpunan pengecualian kebocoran data untuk setiap pertanyaan. Pada tahap konstruksi KG dan indeks vektor, populasi tersebut dimuat ke Neo4j sebagai graf berbobot, didensifikasi dengan relasi antarpertanyaan, dan diindeks ke FAISS (indeks pertanyaan dan indeks jawaban). Pada tahap eksekusi kondisi eksperimen, setiap pertanyaan uji diproses oleh tiga kondisi, yaitu Kondisi A (LLM Murni), Kondisi B (RAG Konvensional), dan Kondisi C (GraphRAG dengan pembobotan). Konteks diambil sesuai mekanisme masing-masing kondisi, disusun ke dalam \emph{prompt} yang sama, dan dijawab oleh \emph{generator} yang sama. Pada tahap evaluasi, hasil jawaban dinilai oleh panel \emph{judge} dan dihitung menjadi metrik yang dilaporkan.
 
 %============================================================
 \section{Lingkungan dan Perangkat Pendukung}
@@ -288,7 +288,7 @@ Sisi \texttt{EMBED\_SIM} & 10.141.497 & Densifikasi; bobot 0,4 \\
 \label{sec:implementasi-kondisi}
 %============================================================
 
-Eksperimen membandingkan tiga kondisi dalam lima konfigurasi, sesuai rancangan pada Subbab~\ref{sec:kondisi-eksperimen}. Kondisi A adalah LLM murni. Kondisi B adalah RAG konvensional berbasis kemiripan vektor dengan dua konfigurasi, yaitu B-Vec yang tidak memakai pembobotan dan B-Acc yang menerapkan pembobotan \emph{accepted answer} tanpa graf. Kondisi C adalah \emph{GraphRAG Framework} usulan dengan dua konfigurasi, yaitu C-Acc yang hanya mempertimbangkan \emph{accepted answer}, dan C-Acc+Vote yang menambahkan skor suara pengguna pada bobot jawaban. Kedua konfigurasi Kondisi C hanya berbeda pada definisi bobot jawaban $w_{\mathrm{ans}}$ (Persamaan~\eqref{eq:w-ans}).
+Eksperimen membandingkan tiga kondisi dalam lima konfigurasi, sesuai rancangan pada Subbab~\ref{sec:kondisi-eksperimen}. Kondisi A adalah LLM murni. Kondisi B adalah RAG konvensional berbasis kemiripan vektor dengan dua konfigurasi, yaitu B-Vec yang tidak memakai pembobotan dan B-Acc yang menerapkan pembobotan \emph{accepted answer} tanpa graf. Kondisi C adalah GraphRAG berbobot penilaian pengguna yang diusulkan, dengan dua konfigurasi, yaitu C-Acc yang hanya mempertimbangkan \emph{accepted answer}, dan C-Acc+Vote yang menambahkan skor suara pengguna pada bobot jawaban. Kedua konfigurasi Kondisi C hanya berbeda pada definisi bobot jawaban $w_{\mathrm{ans}}$ (Persamaan~\eqref{eq:w-ans}).
 
 Komponen yang identik pada seluruh konfigurasi dirangkum dalam Tabel~\ref{tab:komponen-bersama}. Perbedaan mekanisme \emph{retrieval} antarkonfigurasi diringkas pada Tabel~\ref{tab:perbandingan-kondisi}.
 
@@ -355,7 +355,7 @@ B-Acc menggunakan indeks, teks kandidat, dan pengecualian yang sama dengan B-Vec
     \item Lima kandidat dengan skor akhir tertinggi dimasukkan ke dalam \emph{prompt}, dengan identitas jawaban sebagai pemutus seri.
 \end{enumerate}
 
-\subsection{Kondisi C: \emph{GraphRAG Framework}}
+\subsection{Kondisi C: GraphRAG Berbobot Penilaian Pengguna}
 \label{subsec:implementasi-kondisi-c}
 
 Kondisi C membaca KG Neo4j, indeks pertanyaan, dan indeks jawaban yang telah dibangun, dan tidak membangun struktur data apa pun. Kedua konfigurasi Kondisi C (C-Acc dan C-Acc+Vote) menjalankan langkah-langkah yang sama dengan parameter yang sama. Nilai parameter dirangkum pada Tabel~\ref{tab:justifikasi-parameter}.

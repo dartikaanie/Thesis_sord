@@ -209,7 +209,7 @@ Gambar~\ref{fig:contoh-subgraf-kg} menampilkan contoh subgraf dari domain autent
 \includegraphics[width=\textwidth]{images/bab3_flowchart_konstruksi_kg}
 \caption{\emph{Flowchart} konstruksi \emph{knowledge graph} berbobot dari dataset SORD.}
 \label{fig:flowchart-konstruksi-kg}
-\end{figure}'
+\end{figure}
 Gambar~\ref{fig:flowchart-konstruksi-kg} menunjukkan lima tahap pembangunan KG berbobot. Setelah graf struktural terbentuk, pengayaan tautan (tahap~3) dan pengindeksan vektor (tahap~4) dapat dikerjakan terpisah, sedangkan densifikasi (tahap~5) membutuhkan indeks vektor dari tahap~4.
 \begin{enumerate}
     \item Validasi dan konsolidasi data. File mentah SORD divalidasi terhadap jumlah baris dan ukuran yang dilaporkan oleh \textcite{Fatima2026}. Sumber data \emph{Contain} dan \emph{LikeMinusContain} digabungkan dan dideduplikasi berdasarkan identitas \emph{post}.
@@ -544,16 +544,24 @@ Selain metrik utama, penelitian ini menggunakan metrik pendukung untuk menjelask
 
 Ringkasan metrik evaluasi disajikan pada Tabel~\ref{tab:metrik-evaluasi}.
 
-\begin{table}[!htbp]
-\centering
+\begingroup
 \footnotesize
-\caption{Metrik evaluasi utama dan pendukung.}
-\label{tab:metrik-evaluasi}
+\setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.25}
-\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{2.7cm}|>{\raggedright\arraybackslash}p{1.7cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{2.9cm}|>{\raggedright\arraybackslash}p{2.1cm}|}
+\begin{longtable}{|>{\raggedright\arraybackslash}p{0.15\textwidth}|>{\raggedright\arraybackslash}p{0.12\textwidth}|>{\raggedright\arraybackslash}p{0.27\textwidth}|>{\raggedright\arraybackslash}p{0.19\textwidth}|>{\raggedright\arraybackslash}p{0.14\textwidth}|}
+\caption{Metrik evaluasi utama dan pendukung.}
+\label{tab:metrik-evaluasi}\\
 \hline
 \textbf{Metrik} & \textbf{Peran} & \textbf{Yang diukur} & \textbf{Perhitungan / satuan} & \textbf{Berlaku untuk} \\
 \hline
+\endfirsthead
+\caption[]{Metrik evaluasi utama dan pendukung (lanjutan).}\\
+\hline
+\textbf{Metrik} & \textbf{Peran} & \textbf{Yang diukur} & \textbf{Perhitungan / satuan} & \textbf{Berlaku untuk} \\
+\hline
+\endhead
+\hline
+\endfoot
 \emph{Hallucination rate} (HR) & Utama (dasar H1) & Proporsi jawaban yang memuat sedikitnya satu klaim berlabel \texttt{CONTRADICTED} atau \texttt{FABRICATED}; \texttt{ABSTAIN} dan \texttt{UNRESOLVED} dikeluarkan dari penyebut & $\mathrm{HR}=\dfrac{H}{N-A-U}\times 100\%$ & A, B-Vec, B-Acc, C-Acc, C-Acc+Vote \\
 \hline
 \emph{Failure rate} (FR) & Pelengkap HR & Proporsi jawaban yang berhalusinasi atau menolak menjawab; menunjukkan apakah HR rendah disebabkan oleh tingginya \texttt{ABSTAIN} & $\mathrm{FR}=\dfrac{H+A}{N-U}\times 100\%$ & Semua konfigurasi \\
@@ -574,8 +582,8 @@ Keterlacakan kutipan & Pendukung (NF2) & Keberadaan kutipan yang merujuk pada su
 \hline
 Latensi & Pendukung (NF3) & Waktu pemrosesan per pertanyaan & Rata-rata waktu \emph{end-to-end} (detik) dan waktu \emph{retrieval}, dibandingkan batas 15 detik & Semua konfigurasi \\
 \hline
-\end{tabularx}
-\end{table}
+\end{longtable}
+\endgroup
 
 \subsection{Prosedur Pengujian dan Perbandingan Kondisi}
 \label{subsec:prosedur-pengujian}

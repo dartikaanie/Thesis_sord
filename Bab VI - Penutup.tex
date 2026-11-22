@@ -10,7 +10,7 @@ Bab ini menjawab pertanyaan penelitian RQ1 sampai RQ5 satu per satu berdasarkan 
 \section{Kesimpulan}
 \label{sec:kesimpulan}
 
-Penelitian ini mengembangkan \emph{GraphRAG Framework} yang memodelkan penilaian pengguna, yaitu status \emph{accepted answer} dan skor suara, sebagai bobot pada graf pengetahuan, dan menguji pengaruhnya terhadap halusinasi LLM dengan data Stack Overflow (SORD) sebagai studi kasus. Kesimpulan berikut berlaku pada sampel uji 384 pertanyaan, satu model generatif, satu \emph{run} per konfigurasi, dan label dari panel tiga \emph{judge}. Selisih yang dilaporkan bersifat deskriptif karena tidak diuji secara statistik. Dengan \texttt{ABSTAIN} dikeluarkan dari penyebut, \emph{hallucination rate} adalah 25,8\% (A), 24,8\% (B-Vec), 19,4\% (B-Acc), 18,8\% (C-Acc), dan 17,0\% (C-Acc+Vote).
+Penelitian ini mengembangkan mekanisme pembobotan graf pengetahuan pada GraphRAG yang memodelkan penilaian pengguna, yaitu status \emph{accepted answer} dan skor suara, sebagai bobot pada graf pengetahuan, dan menguji pengaruhnya terhadap halusinasi LLM dengan data Stack Overflow (SORD) sebagai studi kasus. Kesimpulan berikut berlaku pada sampel uji 384 pertanyaan, satu model generatif, satu \emph{run} per konfigurasi, dan label dari panel tiga \emph{judge}. Selisih yang dilaporkan bersifat deskriptif karena tidak diuji secara statistik. Dengan \texttt{ABSTAIN} dikeluarkan dari penyebut, \emph{hallucination rate} adalah 25,8\% (A), 24,8\% (B-Vec), 19,4\% (B-Acc), 18,8\% (C-Acc), dan 17,0\% (C-Acc+Vote).
 
 \subsection{Jawaban atas Pertanyaan Penelitian}
 \label{subsec:jawaban-rq}
@@ -80,6 +80,6 @@ Saran untuk penelitian selanjutnya adalah sebagai berikut.
     \item Memperbaiki kepatuhan \emph{generator} terhadap instruksi mengutip, misalnya dengan format keluaran terstruktur atau verifikasi kutipan setelah generasi, karena NF2 tidak terpenuhi pada kedua konfigurasi C.
     \item Memperkaya relasi antarpertanyaan agar penelusuran multi-\emph{hop} berkontribusi, mengingat sebagian besar konteks C-Acc berasal dari satu \emph{hop}.
     \item Mempertimbangkan bobot yang memperhitungkan kemiripan pertanyaan asal dengan pertanyaan uji, karena status \emph{accepted} menandai jawaban yang diterima untuk pertanyaan asalnya, dan karena relevansi konteks konfigurasi berbobot lebih rendah daripada B-Vec.
-    \item Menguji \emph{framework} pada sumber pengetahuan dan model generatif lain yang memenuhi syarat penerapan pada Bab~\ref{chap:pendahuluan}.
+    \item Menguji mekanisme pembobotan pada sumber pengetahuan dan model generatif lain yang memenuhi syarat penerapan pada Bab~\ref{chap:pendahuluan}.
     \item Mencatat panjang keluaran dan status \emph{cache} per kueri, serta menelusuri perpindahan label per pertanyaan, agar penjelasan latensi dan perubahan kategori halusinasi dapat diuji.
 \end{enumerate}

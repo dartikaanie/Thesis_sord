@@ -18,7 +18,7 @@ Bab ini menyajikan evaluasi terhadap 384 pertanyaan uji berdasarkan rancangan pa
    \item Ancaman terhadap validitas dan ringkasan.
 \end{enumerate}
 
-Hasil penilaian menggunakan keputusan mayoritas dari tiga \emph{judge}. Lima konfigurasi yang dibandingkan adalah A, B-Vec, B-Acc, C-Acc, dan C-Acc+Vote (Tabel~\ref{tab:daftar-run}). Selisih antarpersentase dinyatakan dalam persen (\%), yaitu persentase pertama dikurangi persentase kedua.
+Hasil penilaian menggunakan keputusan mayoritas dari tiga \emph{judge}. Lima konfigurasi yang dibandingkan adalah A, B-Vec, B-Acc, C-Acc, dan C-Acc+Vote (Tabel~\ref{tab:daftar-run}). Selisih antarpersentase dinyatakan dalam persen (\%), yaitu persentase pertama dikurangi persentase kedua. 
 
 %============================================================
 \section{Hasil Pelaksanaan dan Verifikasi Kontrol}
@@ -86,7 +86,7 @@ A & 99 & 25,8\% (99/384) & 0\% (0) & 25,8\% (99/384) \\
 B-Vec & 76 & 24,8\% (76/307) & 20,1\% (77) & 39,8\% (153/384) \\
 B-Acc & 62 & 19,4\% (62/320) & 16,7\% (64) & 32,8\% (126/384) \\
 C-Acc & 60 & 18,8\% (60/319) & 16,9\% (65) & 32,6\% (125/384) \\
-C-Acc+Vote & 54 & 17,0\% (54/318) & 17,2\% (66) & 31,2\% (120/384) \\
+C-Acc+Vote & 54 & 17,0\% (54/318) & 17,2\% (66) & 31,3\% (120/384) \\
 \hline
 \end{tabularx}
 \end{table}
@@ -100,7 +100,7 @@ C-Acc+Vote & 54 & 17,0\% (54/318) & 17,2\% (66) & 31,2\% (120/384) \\
 
 Pada metrik utama, \emph{hallucination rate} turun dari 25,8\% pada A dan 24,8\% pada B-Vec menjadi 19,4\% pada B-Acc, 18,8\% pada C-Acc, dan 17,0\% pada C-Acc+Vote. Ketiga konfigurasi berbobot memiliki nilai lebih rendah daripada A dan B-Vec.
 
-Ketika \texttt{ABSTAIN} dihitung sebagai kegagalan, A memiliki nilai terendah (25,8\%) karena tidak pernah menolak menjawab. Di antara konfigurasi berkonteks, C-Acc+Vote terendah (31,2\%) dan B-Vec tertinggi (39,8\%). Proporsi \texttt{ABSTAIN} pada konfigurasi berbobot (16,7--17,2\%) juga lebih rendah daripada B-Vec (20,1\%). Dengan demikian, penurunan halusinasi pada metrik utama tidak disebabkan oleh lebih banyaknya jawaban yang menolak menjawab.
+Ketika \texttt{ABSTAIN} dihitung sebagai kegagalan, A memiliki nilai terendah (25,8\%) karena tidak pernah menolak menjawab. Di antara konfigurasi berkonteks, C-Acc+Vote terendah (31,3\%) dan B-Vec tertinggi (39,8\%). Proporsi \texttt{ABSTAIN} pada konfigurasi berbobot (16,7--17,2\%) juga lebih rendah daripada B-Vec (20,1\%). Dengan demikian, penurunan halusinasi pada metrik utama tidak disebabkan oleh lebih banyaknya jawaban yang menolak menjawab.
 
 Gambar~\ref{fig:komposisi-label} memperlihatkan komposisi 384 jawaban per konfigurasi. Jawaban faktual naik dari 231 (B-Vec) menjadi 258 (B-Acc), 259 (C-Acc), dan 264 (C-Acc+Vote), yaitu 27 sampai 33 jawaban. Kenaikan ini berasal dari dua perubahan sekaligus, yaitu jumlah \texttt{ABSTAIN} turun 11 sampai 13 jawaban (dari 77 menjadi 64 sampai 66), dan jumlah jawaban berhalusinasi turun 14 sampai 22 jawaban (dari 76 menjadi 54 sampai 62). Jadi konteks berbobot diikuti oleh lebih sedikit kesalahan dan lebih sedikit penolakan sekaligus. A memiliki 285 jawaban faktual, lebih banyak daripada konfigurasi berkonteks, karena A tidak pernah menolak menjawab (0 \texttt{ABSTAIN}). Karena itu jumlah jawaban faktual tidak dibandingkan langsung antara A dan konfigurasi berkonteks.
 
@@ -233,7 +233,7 @@ RQ5 & C-Acc+Vote terhadap C-Acc & $-1{,}8$ & $-2{,}2$ \\
 \end{figure}
 
 \begin{enumerate}
-    \item[\textbf{H1 (RQ3).}] Hipotesis H1 menyatakan bahwa kedua konfigurasi C menghasilkan \emph{hallucination rate} lebih rendah daripada A dan B-Vec. Pada seluruh 384 pertanyaan, keempat selisih negatif: $-7{,}0\%$ dan $-8{,}8\%$ terhadap A, serta $-5{,}9\%$ dan $-7{,}8\%$ terhadap B-Vec. Pada $\mathcal{S}$, keempat selisih tetap negatif, tetapi terhadap A mengecil menjadi $-1{,}8\%$ dan $-4{,}0\%$, sedangkan terhadap B-Vec $-5{,}1\%$ dan $-7{,}3\%$. Pada versi (b), kedua konfigurasi C lebih tinggi daripada A (32,6\% dan 31,2\% terhadap 25,8\%, selisih $+6{,}8\%$ dan $+5{,}5\%$), dan lebih rendah daripada B-Vec ($-7{,}3\%$ dan $-8{,}6\%$). Jadi arah H1 terpenuhi terhadap B-Vec pada kedua versi, dan terhadap A hanya pada versi (a). Terhadap A, hasilnya bergantung pada perlakuan \texttt{ABSTAIN}.
+    \item[\textbf{H1 (RQ3).}] Hipotesis H1 menyatakan bahwa kedua konfigurasi C menghasilkan \emph{hallucination rate} lebih rendah daripada A dan B-Vec. Pada seluruh 384 pertanyaan, keempat selisih negatif: $-7{,}0\%$ dan $-8{,}8\%$ terhadap A, serta $-5{,}9\%$ dan $-7{,}8\%$ terhadap B-Vec. Pada $\mathcal{S}$, keempat selisih tetap negatif, tetapi terhadap A mengecil menjadi $-1{,}8\%$ dan $-4{,}0\%$, sedangkan terhadap B-Vec $-5{,}1\%$ dan $-7{,}3\%$. Pada versi (b), kedua konfigurasi C lebih tinggi daripada A (32,6\% dan 31,3\% terhadap 25,8\%, selisih $+6{,}8\%$ dan $+5{,}5\%$), dan lebih rendah daripada B-Vec ($-7{,}3\%$ dan $-8{,}6\%$). Jadi arah H1 terpenuhi terhadap B-Vec pada kedua versi, dan terhadap A hanya pada versi (a). Terhadap A, hasilnya bergantung pada perlakuan \texttt{ABSTAIN}.
 
     \item[\textbf{RQ4.}] Pembobotan \emph{accepted answer} pada pemeringkatan ulang vektor (B-Acc terhadap B-Vec) menurunkan \emph{hallucination rate} 5,4\% (4,4\% pada $\mathcal{S}$). Menambahkan mekanisme berbasis graf di atas pembobotan itu (C-Acc terhadap B-Acc) menurunkannya hanya 0,6\%. Selisih total C-Acc terhadap B-Vec ($-5{,}9\%$) hampir seluruhnya sudah dicapai B-Acc. Dengan demikian, sebagian besar penurunan yang teramati sudah muncul pada B-Acc. Selisih C-Acc terhadap B-Acc mencerminkan seluruh mekanisme berbasis graf, yaitu penelusuran graf, \emph{semantic expansion}, dan \emph{pool} kandidat yang lebih luas (Subbab~\ref{subsec:batasan-implementasi}).
 
@@ -340,7 +340,7 @@ Antarkonfigurasi, lebih banyak item \emph{accepted} berjalan bersama \emph{hallu
 \textbf{Item \emph{accepted}} & \textbf{B-Vec} & \textbf{B-Acc} & \textbf{C-Acc} & \textbf{C-Acc+Vote} \\
 \hline
 0 & 25,0 ($N{=}34$) & 20,0 ($N{=}7$) & 0 ($N{=}2$) & 0 ($N{=}3$) \\
-1 & 26,4 ($N{=}109$) & 22,2 ($N{=}41$) & 18,2 ($N{=}12$) & 31,2 ($N{=}17$) \\
+1 & 26,4 ($N{=}109$) & 22,2 ($N{=}41$) & 18,2 ($N{=}12$) & 31,3 ($N{=}17$) \\
 2 & 25,0 ($N{=}131$) & 15,9 ($N{=}107$) & 18,2 ($N{=}37$) & 11,6 ($N{=}50$) \\
 3 & 24,6 ($N{=}82$) & 23,3 ($N{=}110$) & 18,5 ($N{=}74$) & 14,3 ($N{=}76$) \\
 4 & 19,0 ($N{=}25$) & 20,0 ($N{=}94$) & 16,3 ($N{=}107$) & 16,5 ($N{=}109$) \\
@@ -635,7 +635,7 @@ Tabel~\ref{tab:tradeoff} merangkum seluruh metrik per konfigurasi. Tanda -- pada
 \hline
 HR versi (a) & 25,8 & 24,8 & 19,4 & 18,8 & 17,0 \\
 \hline
-HR versi (b), \texttt{ABSTAIN} = gagal & 25,8 & 39,8 & 32,8 & 32,6 & 31,2 \\
+HR versi (b), \texttt{ABSTAIN} = gagal & 25,8 & 39,8 & 32,8 & 32,6 & 31,3 \\
 \hline
 \texttt{ABSTAIN} & 0 & 20,1 & 16,7 & 16,9 & 17,2 \\
 \hline
