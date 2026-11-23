@@ -193,7 +193,7 @@ Dari A ke B-Vec, 37 pertanyaan tidak lagi berhalusinasi dan 46 mulai berhalusina
 \subsection{Pengujian Hipotesis dan Pertanyaan Penelitian}
 \label{subsec:hasil-h1}
 
-Tabel~\ref{tab:rq-selisih} merangkum perbandingan yang dirancang pada Tabel~\ref{tab:pemetaan-perbandingan}. Selisih dihitung sebagai konfigurasi pertama dikurangi kedua, sehingga selisih negatif berarti konfigurasi pertama lebih rendah.
+Tabel~\ref{tab:rq-selisih} merangkum perbandingan yang dirancang pada Tabel~\ref{tab:matriks-aspek}. Selisih dihitung sebagai konfigurasi pertama dikurangi kedua, sehingga selisih negatif berarti konfigurasi pertama lebih rendah.
 
 \begin{table}[!htbp]
 \centering
@@ -215,9 +215,9 @@ RQ3 (H1) & C-Acc+Vote terhadap B-Vec & $-7{,}8$ & $-7{,}3$ \\
 \hline
 RQ4 & B-Acc terhadap B-Vec & $-5{,}4$ & $-4{,}4$ \\
 \hline
-RQ4 & C-Acc terhadap B-Acc & $-0{,}6$ & $-0{,}7$ \\
-\hline
 RQ4 & C-Acc terhadap B-Vec & $-5{,}9$ & $-5{,}1$ \\
+\hline
+RQ4 (pendukung) & C-Acc terhadap B-Acc & $-0{,}6$ & $-0{,}7$ \\
 \hline
 RQ5 & C-Acc+Vote terhadap C-Acc & $-1{,}8$ & $-2{,}2$ \\
 \hline
@@ -235,7 +235,7 @@ RQ5 & C-Acc+Vote terhadap C-Acc & $-1{,}8$ & $-2{,}2$ \\
 \begin{enumerate}
     \item[\textbf{H1 (RQ3).}] Hipotesis H1 menyatakan bahwa kedua konfigurasi C menghasilkan \emph{hallucination rate} lebih rendah daripada A dan B-Vec. Pada seluruh 384 pertanyaan, keempat selisih negatif: $-7{,}0\%$ dan $-8{,}8\%$ terhadap A, serta $-5{,}9\%$ dan $-7{,}8\%$ terhadap B-Vec. Pada $\mathcal{S}$, keempat selisih tetap negatif, tetapi terhadap A mengecil menjadi $-1{,}8\%$ dan $-4{,}0\%$, sedangkan terhadap B-Vec $-5{,}1\%$ dan $-7{,}3\%$. Pada versi (b), kedua konfigurasi C lebih tinggi daripada A (32,6\% dan 31,3\% terhadap 25,8\%, selisih $+6{,}8\%$ dan $+5{,}5\%$), dan lebih rendah daripada B-Vec ($-7{,}3\%$ dan $-8{,}6\%$). Jadi arah H1 terpenuhi terhadap B-Vec pada kedua versi, dan terhadap A hanya pada versi (a). Terhadap A, hasilnya bergantung pada perlakuan \texttt{ABSTAIN}.
 
-    \item[\textbf{RQ4.}] Pembobotan \emph{accepted answer} pada pemeringkatan ulang vektor (B-Acc terhadap B-Vec) menurunkan \emph{hallucination rate} 5,4\% (4,4\% pada $\mathcal{S}$). Menambahkan mekanisme berbasis graf di atas pembobotan itu (C-Acc terhadap B-Acc) menurunkannya hanya 0,6\%. Selisih total C-Acc terhadap B-Vec ($-5{,}9\%$) hampir seluruhnya sudah dicapai B-Acc. Dengan demikian, sebagian besar penurunan yang teramati sudah muncul pada B-Acc. Selisih C-Acc terhadap B-Acc mencerminkan seluruh mekanisme berbasis graf, yaitu penelusuran graf, \emph{semantic expansion}, dan \emph{pool} kandidat yang lebih luas (Subbab~\ref{subsec:batasan-implementasi}).
+    \item[\textbf{RQ4.}] Kontribusi pembobotan diukur dari dua selisih terhadap RAG konvensional (B-Vec), yaitu B-Acc terhadap B-Vec dan C-Acc terhadap B-Vec. Pada B-Acc, pembobotan \emph{accepted answer} diterapkan pada pemeringkatan ulang hasil pencarian vektor yang sama dengan B-Vec, sehingga selisihnya ($-5{,}4\%$; $-4{,}4\%$ pada $\mathcal{S}$) mencerminkan pengaruh pembobotan. Pada C-Acc, pembobotan yang sama diterapkan bersama mekanisme pengambilan konteks berbasis graf, dan selisihnya terhadap B-Vec adalah $-5{,}9\%$ ($-5{,}1\%$ pada $\mathcal{S}$). Kedua selisih searah pada ketiga \emph{judge} (Subbab~\ref{subsec:hasil-per-judge}). Selisih C-Acc terhadap B-Acc ($-0{,}6\%$) menunjukkan bahwa sebagian besar penurunan sudah muncul pada B-Acc. Selisih ini mencerminkan seluruh mekanisme berbasis graf, yaitu penelusuran graf, \emph{semantic expansion}, dan \emph{pool} kandidat yang lebih luas, sehingga tidak dapat dikaitkan dengan struktur graf saja (Subbab~\ref{subsec:batasan-implementasi}).
 
     \item[\textbf{RQ5 (eksploratif).}] Pada label panel, C-Acc+Vote (17,0\%) lebih rendah daripada C-Acc (18,8\%) sebesar 1,8\%, dan pada $\mathcal{S}$ sebesar 2,2\%.
 \end{enumerate}
@@ -568,18 +568,18 @@ NF6 & Variabel kontrol identik & Tabel~\ref{tab:komponen-bersama} & Terpenuhi \\
 \subsection{Jawaban atas Pertanyaan Penelitian}
 \label{subsec:pembahasan-rumusan-masalah}
 
-Subbab ini mengikuti pemetaan pada Tabel~\ref{tab:pemetaan-perbandingan}. Bab ini menjawab RQ3 sampai RQ5, sedangkan RQ1 dan RQ2 dijawab pada Bab~\ref{chap:analisis-desain} dan \ref{chap:implementasi}.
+Subbab ini mengikuti pemetaan RQ3 sampai RQ5 pada Tabel~\ref{tab:matriks-aspek}. Bab ini menjawab RQ3 sampai RQ5, sedangkan RQ1 dan RQ2 dijawab pada Bab~\ref{chap:analisis-desain} dan \ref{chap:implementasi}.
 
-\textbf{RQ3 (H1).} Kedua konfigurasi C memiliki \emph{hallucination rate} lebih rendah daripada A dan B-Vec pada versi utama (25,8\% dan 24,8\% menjadi 18,8\% dan 17,0\%). Terhadap B-Vec, arahnya sama pada versi (b). Terhadap A, versi (b) berbalik karena A tidak menolak menjawab. Pada himpunan bersama $\mathcal{S}$, selisih terhadap A mengecil menjadi $-1{,}8$ dan $-4{,}0$.
+\textbf{RQ3 (H1).} Kedua konfigurasi C memiliki \emph{hallucination rate} lebih rendah daripada A dan B-Vec pada versi utama (25,8\% dan 24,8\% menjadi 18,8\% dan 17,0\%). Terhadap B-Vec, arahnya sama pada versi (b). Terhadap A, versi (b) berbalik karena A tidak menolak menjawab. Pada himpunan bersama $\mathcal{S}$, selisih terhadap A mengecil menjadi $-1{,}8\%$ dan $-4{,}0\%$.
 
-\textbf{RQ4.} Pembobotan \emph{accepted answer} pada pemeringkatan ulang vektor (B-Acc) menurunkan \emph{hallucination rate} sebesar 5,4\% dibandingkan B-Vec. Penambahan mekanisme berbasis graf (C-Acc) hanya memberikan penurunan tambahan sebesar 0,6\%. Hal ini menunjukkan bahwa sebagian besar penurunan halusinasi berkaitan dengan pembobotan penilaian pengguna, sedangkan manfaat tambahan mekanisme graf masih terbatas. Pada implementasi yang diuji, graf terutama menyediakan jawaban \emph{accepted} dari pertanyaan \emph{seed} melalui penelusuran satu \emph{hop}, yang hasilnya dapat direplikasi menggunakan penggabungan tabel (\emph{join}). Dengan demikian, manfaat struktur graf yang lebih kompleks belum terlihat jelas pada penelitian ini.
+\textbf{RQ4.} Kontribusi pembobotan terhadap perbedaan laju halusinasi dibandingkan RAG konvensional diukur dari B-Acc dan C-Acc terhadap B-Vec, yaitu penurunan sebesar 5,4\% dan 5,9\%, keduanya searah pada ketiga \emph{judge}. Sebagai uraian, penambahan mekanisme berbasis graf pada C-Acc hanya memberikan penurunan tambahan sebesar 0,6\% terhadap B-Acc, dan arahnya berbeda antar-\emph{judge}. Hal ini menunjukkan bahwa sebagian besar penurunan halusinasi berkaitan dengan pembobotan penilaian pengguna, sedangkan manfaat tambahan mekanisme graf masih terbatas. Pada implementasi yang diuji, graf terutama menyediakan jawaban \emph{accepted} dari pertanyaan \emph{seed} melalui penelusuran satu \emph{hop}, yang hasilnya dapat direplikasi menggunakan penggabungan tabel (\emph{join}). Dengan demikian, manfaat struktur graf yang lebih kompleks belum terlihat jelas pada penelitian ini.
 
 \textbf{RQ5 (eksploratif).} Pada label panel, penambahan skor suara menghasilkan angka lebih rendah (17,0\% terhadap 18,8\%), yaitu selisih 1,8\%.
 
 \subsection{Matriks Ketercapaian Tujuan}
 \label{subsec:matriks-tujuan}
 
-Tabel~\ref{tab:matriks-tujuan} menautkan tiap tujuan penelitian (Subbab~\ref{sec:tujuan}) dengan pertanyaan penelitian, metrik, hasil, dan kesimpulan.
+Tabel~\ref{tab:matriks-tujuan} menautkan tiap tujuan penelitian (Subbab~\ref{sec:tujuan}) dengan pertanyaan penelitian, metrik, hasil, dan kesimpulan. Kriteria keberhasilan setiap tujuan ditetapkan pada Tabel~\ref{tab:matriks-aspek}, dan status kebutuhan nonfungsional pada Tabel~\ref{tab:status-nf}. 
 
 \begingroup
 \small
@@ -609,9 +609,9 @@ Tabel~\ref{tab:matriks-tujuan} menautkan tiap tujuan penelitian (Subbab~\ref{sec
 \hline
 3. Selisih HR A, B-Vec, GraphRAG berbobot & RQ3 (H1) & HR versi (a) dan (b) & C-Acc 18,8\% dan C-Acc+Vote 17,0\% terhadap A 25,8\% dan B-Vec 24,8\% & Lebih rendah terhadap B-Vec; terhadap A bergantung pada \texttt{ABSTAIN} \\
 \hline
-4. Kontribusi bobot & RQ4 & Selisih B-Acc--B-Vec dan C-Acc--B-Acc & $-5{,}4$ dan $-0{,}6$\% & Bobot berperan \\
+4. Kontribusi pembobotan & RQ4 & Selisih B-Acc dan C-Acc terhadap B-Vec (uraian: C-Acc--B-Acc) & $-5{,}4\%$ dan $-5{,}9\%$ (uraian: $-0{,}6\%$) & Pembobotan berperan; tambahan graf terbatas \\
 \hline
-5. Satu sinyal vs dua sinyal & RQ5 (eksploratif) & Selisih C-Acc+Vote--C-Acc, per \emph{judge} & $-1{,}8$\% pada panel; Llama $+0{,}6$, Qwen $+2{,}0$, DeepSeek $-2{,}3$ & Belum dapat disimpulkan \\
+5. Satu sinyal vs dua sinyal & RQ5 (eksploratif) & Selisih C-Acc+Vote--C-Acc, per \emph{judge} & $-1{,}8\%$ pada panel; Llama $+0{,}6\%$, Qwen $+2{,}0\%$, DeepSeek $-2{,}3\%$ & Belum dapat disimpulkan \\
 \hline
 
 \end{longtable}

@@ -618,40 +618,7 @@ A & A & LLM murni, tanpa \emph{retrieval}. \\
 
 Pendekatan GraphRAG memiliki kompleksitas arsitektural lebih tinggi daripada Kondisi A dan B karena memerlukan konstruksi dan densifikasi KG serta penelusuran graf. Penelitian ini berfokus pada \emph{hallucination rate}. Latensi dilaporkan secara deskriptif sebagai metrik pendukung, tetapi penelitian ini tidak mengklaim keunggulan efisiensi.
 
-Kondisi A dan B-Vec menjadi pembanding tanpa pembobotan, B-Acc menjadi kontrol pembobotan tanpa graf, sedangkan C-Acc dan C-Acc+Vote merupakan konfigurasi mekanisme yang diusulkan. Pemetaan perbandingan terhadap pertanyaan penelitian disajikan pada Tabel~\ref{tab:matriks-aspek}. Hasil perbandingan didasarkan pada label mayoritas panel \emph{judge} dan diperiksa konsistensinya terhadap penilaian masing-masing \emph{judge}.
-
-\begin{table}[!htbp]
-\centering
-\footnotesize
-\caption{Matriks aspek, kebutuhan, hipotesis, metrik, dan kriteria keberhasilan.}
-\label{tab:matriks-aspek}
-\renewcommand{\arraystretch}{1.2}
-\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{2.4cm}|>{\raggedright\arraybackslash}p{1.5cm}|>{\raggedright\arraybackslash}p{1.9cm}|>{\raggedright\arraybackslash}p{3.3cm}|>{\raggedright\arraybackslash}X|}
-\hline
-\textbf{Aspek} & \textbf{Kebutuhan} & \textbf{Hipotesis/RQ} & \textbf{Metrik} & \textbf{Kriteria keberhasilan} \\
-\hline
-Representasi bobot & F1 & RQ1 & Graf berbobot terbentuk; pertanyaan tanpa sisi keluar sebelum dan sesudah densifikasi & Graf terbentuk dari seluruh populasi SORD; proporsi pertanyaan tanpa sisi keluar dilaporkan sebelum dan sesudah densifikasi \\
-\hline
-Integrasi bobot pada pengambilan konteks & F2--F4 & RQ2 & NF2, NF3, NF5, NF6 & Kriteria NF2, NF3, NF5, dan NF6 pada Tabel~\ref{tab:nf} terpenuhi \\
-\hline
-Efektivitas terhadap halusinasi & NF1 & H1 (RQ3) & \emph{Hallucination rate} versi (a) dan (b) & Kondisi C-Acc dan C-Acc+Vote lebih rendah daripada A dan B-Vec dengan \texttt{ABSTAIN} dikeluarkan dari penyebut; jumlah dan proporsi \texttt{ABSTAIN} dilaporkan terpisah \\
-\hline
-Kontribusi pembobotan & F4, F5 & RQ4 (eksploratif) & Selisih B-Acc terhadap B-Vec (pendukung: C-Acc terhadap B-Acc dan C-Acc terhadap B-Vec) & Selisih negatif dan searah pada ketiga \emph{judge}; dilaporkan deskriptif tanpa uji statistik \\
-\hline
-Pengaruh skor suara & F5 & RQ5 (eksploratif) & Selisih C-Acc+Vote terhadap C-Acc, per \emph{judge} & Selisih negatif dan searah pada ketiga \emph{judge}; bila tidak, dilaporkan belum dapat disimpulkan \\
-\hline
-Keterlacakan kutipan & NF2 & -- & \emph{Valid citation rate} & Seluruh jawaban bukan \texttt{ABSTAIN} memuat sedikitnya satu kutipan yang labelnya terdapat dalam konteks \\
-\hline
-Keandalan kutipan & NF4 & -- & \emph{Citation support} & Pada B-Acc, C-Acc, dan C-Acc+Vote tidak lebih rendah daripada B-Vec \\
-\hline
-Latensi & NF3 & -- & Rerata latensi total per kueri & Tidak melebihi 15 detik; dilaporkan tanpa klaim keunggulan efisiensi \\
-\hline
-Integritas evaluasi & NF5 & -- & Irisan hasil \emph{retrieval} dengan himpunan pengecualian & Tidak ada irisan pada seluruh kueri uji dalam kondisi berkonteks \\
-\hline
-Kontrol perbandingan & NF6 & -- & Variabel kontrol antarkonfigurasi & Sampel, model generatif, struktur \emph{prompt}, model \emph{embedding}, $k=5$, dan instruksi \emph{grounding} sama \\
-\hline
-\end{tabularx}
-\end{table}
+Kondisi A dan B-Vec menjadi pembanding tanpa pembobotan, B-Acc menjadi kontrol pembobotan tanpa graf, sedangkan C-Acc dan C-Acc+Vote merupakan konfigurasi mekanisme yang diusulkan. Hubungan antara aspek, kebutuhan, hipotesis, metrik, dan kriteria keberhasilan disajikan pada Tabel~\ref{tab:matriks-aspek} (Subbab~\ref{sec:ringkasan-desain}). Hasil perbandingan didasarkan pada label mayoritas panel \emph{judge} dan diperiksa konsistensinya terhadap penilaian masing-masing \emph{judge}.
 
 Pada RQ4, selisih B-Acc dan B-Vec mencerminkan pengaruh pembobotan karena keduanya menggunakan pencarian vektor yang sama. Selisih C-Acc dan B-Acc mencerminkan pengaruh mekanisme pengambilan konteks berbasis graf secara keseluruhan, yaitu penelusuran graf, \emph{semantic expansion}, dan \emph{pool} kandidat yang lebih luas, dan bukan pengaruh struktur graf saja. Normalisasi kemiripan juga dilakukan atas \emph{pool} yang berbeda, sehingga skor ternormalisasi kandidat yang sama dapat berbeda antarkonfigurasi. Pemisahan ini bersifat deskriptif karena setiap konfigurasi dijalankan satu kali.
 
@@ -667,8 +634,70 @@ Hipotesis H1 menyatakan bahwa GraphRAG berbobot (C-Acc dan C-Acc+Vote) menghasil
 \label{sec:ringkasan-desain}
 %============================================================
 
-Mekanisme yang dirancang mencakup konstruksi graf pengetahuan berbobot dari SORD, perhitungan bobot keandalan berdasarkan penilaian pengguna, serta pengambilan konteks melalui \emph{anchoring}, penelusuran graf, \emph{semantic expansion}, fusi, dan pemilihan kandidat. Evaluasi dirancang melalui tiga kelompok kondisi dengan lima konfigurasi eksperimen untuk membandingkan pengaruh penggunaan konteks eksternal, pembobotan penilaian pengguna, dan mekanisme pengambilan konteks berbasis graf. Rancangan ini ditujukan untuk memenuhi kebutuhan fungsional F1--F5 dan kebutuhan nonfungsional NF1--NF6. Pemenuhan kebutuhan tersebut diverifikasi melalui implementasi dan evaluasi pada bab berikutnya. Keterlacakan kebutuhan fungsional ke komponen desain dan kriteria verifikasinya disajikan pada Tabel~\ref{tab:checklist-f1-f5}, dan keterlacakan kebutuhan nonfungsional pada Tabel~\ref{tab:keterlacakan-nf}.
-\input{tables/bab3_checklist_f1_f5.tex}
+Mekanisme yang dirancang mencakup konstruksi graf pengetahuan berbobot dari SORD, perhitungan bobot keandalan berdasarkan penilaian pengguna, serta pengambilan konteks melalui \emph{anchoring}, penelusuran graf, \emph{semantic expansion}, fusi, dan pemilihan kandidat. Evaluasi dirancang melalui tiga kelompok kondisi dengan lima konfigurasi eksperimen untuk membandingkan pengaruh penggunaan konteks eksternal, pembobotan penilaian pengguna, dan mekanisme pengambilan konteks berbasis graf. Rancangan ini ditujukan untuk memenuhi kebutuhan fungsional F1--F5 dan kebutuhan nonfungsional NF1--NF6. Pemenuhan kebutuhan tersebut diverifikasi melalui implementasi dan evaluasi pada bab berikutnya. Keterlacakan kebutuhan fungsional ke komponen desain dan kriteria verifikasinya disajikan pada Tabel~\ref{tab:checklist-f1-f5}, dan keterlacakan kebutuhan nonfungsional pada Tabel~\ref{tab:keterlacakan-nf}. Hubungan antara aspek, kebutuhan, hipotesis, metrik, dan kriteria keberhasilan dirangkum pada Tabel~\ref{tab:matriks-aspek}.
+
+\begingroup
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.2}
+\begin{longtable}{|>{\raggedright\arraybackslash}p{0.14\textwidth}|>{\raggedright\arraybackslash}p{0.09\textwidth}|>{\raggedright\arraybackslash}p{0.11\textwidth}|>{\raggedright\arraybackslash}p{0.24\textwidth}|>{\raggedright\arraybackslash}p{0.32\textwidth}|}
+\caption{Matriks aspek, kebutuhan, hipotesis, metrik, dan kriteria keberhasilan.}
+\label{tab:matriks-aspek}\\
+\hline
+\textbf{Aspek} & \textbf{Kebutuhan} & \textbf{Hipotesis/RQ} & \textbf{Metrik} & \textbf{Kriteria keberhasilan} \\
+\hline
+\endfirsthead
+\caption[]{Matriks aspek, kebutuhan, hipotesis, metrik, dan kriteria keberhasilan (lanjutan).}\\
+\hline
+\textbf{Aspek} & \textbf{Kebutuhan} & \textbf{Hipotesis/RQ} & \textbf{Metrik} & \textbf{Kriteria keberhasilan} \\
+\hline
+\endhead
+\hline
+\endfoot
+Representasi bobot & F1 & RQ1 & Graf berbobot terbentuk; pertanyaan tanpa sisi keluar sebelum dan sesudah densifikasi & Graf terbentuk dari seluruh populasi SORD; proporsi pertanyaan tanpa sisi keluar dilaporkan sebelum dan sesudah densifikasi \\
+\hline
+Integrasi bobot pada pengambilan konteks & F2--F4 & RQ2 & NF2, NF3, NF5, NF6 & Memenuhi kriteria NF2, NF3, NF5, dan NF6 pada Tabel~\ref{tab:kebutuhan-nonfungsional} \\
+\hline
+Efektivitas terhadap halusinasi & NF1 & H1 (RQ3) & \emph{Hallucination rate} versi (a) dan (b) & C-Acc dan C-Acc+Vote lebih rendah daripada A dan B-Vec dengan \texttt{ABSTAIN} dikeluarkan dari penyebut; jumlah dan proporsi \texttt{ABSTAIN} dilaporkan terpisah \\
+\hline
+Kontribusi pembobotan & F4, F5 & RQ4 (eksploratif) & Selisih B-Acc terhadap B-Vec (pendukung: C-Acc terhadap B-Acc dan C-Acc terhadap B-Vec) & Selisih negatif dan searah pada ketiga \emph{judge}; dilaporkan deskriptif tanpa uji statistik \\
+\hline
+Pengaruh skor suara & F5 & RQ5 (eksploratif) & Selisih C-Acc+Vote terhadap C-Acc, per \emph{judge} & Selisih negatif dan searah pada ketiga \emph{judge}; bila tidak, dilaporkan belum dapat disimpulkan \\
+\hline
+Keterlacakan kutipan & NF2 & -- & \emph{Valid citation rate} & Seluruh jawaban bukan \texttt{ABSTAIN} memuat sedikitnya satu kutipan yang labelnya terdapat dalam konteks \\
+\hline
+Keandalan kutipan & NF4 & -- & \emph{Citation support} & Pada B-Acc, C-Acc, dan C-Acc+Vote tidak lebih rendah daripada B-Vec \\
+\hline
+Latensi & NF3 & -- & Rerata latensi total per kueri & Tidak melebihi 15 detik; dilaporkan tanpa klaim keunggulan efisiensi \\
+\hline
+Integritas evaluasi & NF5 & -- & Irisan hasil \emph{retrieval} dengan himpunan pengecualian & Tidak ada irisan pada seluruh kueri uji dalam kondisi berkonteks \\
+\hline
+Kontrol perbandingan & NF6 & -- & Variabel kontrol antarkonfigurasi & Sampel, model generatif, struktur \emph{prompt}, model \emph{embedding}, $k=5$, dan instruksi \emph{grounding} sama \\
+\hline
+\end{longtable}
+\endgroup
+
+\begin{table}[!htbp]
+\centering
+\caption{Pemetaan kebutuhan fungsional F1--F5 ke komponen dan kriteria verifikasi.}
+\label{tab:checklist-f1-f5}
+\small
+\begin{tabular}{|c|p{0.27\textwidth}|p{0.25\textwidth}|p{0.32\textwidth}|}
+\hline
+\textbf{Kode} & \textbf{Kebutuhan} & \textbf{Komponen} & \textbf{Kriteria verifikasi} \\
+\hline
+F1 & Konstruksi \emph{knowledge graph} berbobot & Konstruksi KG berbobot (Subbab~\ref{subsec:struktur-kg}) & Simpul \texttt{Question}, \texttt{Answer}, \texttt{Tag} dan keenam tipe sisi terbentuk; setiap \texttt{Answer} memiliki atribut \texttt{score} dan \texttt{isAccepted}, dan $\mathrm{trust}_A$ yang dihitung saat kueri berada dalam $[0,1]$ \\
+\hline
+F2 & Pengindeksan vektor teks & Indeks pertanyaan dan indeks jawaban (Subbab~\ref{subsec:struktur-kg}) & Jumlah vektor sama dengan jumlah pertanyaan dan jawaban yang diindeks; pencarian mengembalikan identitas yang dapat dipetakan ke KG \\
+\hline
+F3 & Pemetaan kueri ke KG (\emph{anchoring}) & \emph{Anchoring} tingkat jawaban (Subbab~\ref{subsec:pengambilan-konteks}) & Setiap kueri memperoleh \emph{seed node}; kandidat awal identik dengan hasil Kondisi B \\
+\hline
+F4 & Pengambilan konteks berbobot & Penelusuran graf, \emph{semantic expansion}, fusi (Subbab~\ref{subsec:pengambilan-konteks}) & Konteks berisi $k{=}5$ jawaban berlabel sumber; pembobotan yang sama dapat diterapkan tanpa graf (B-Acc); irisan dengan himpunan pengecualian kosong \\
+\hline
+F5 & Protokol evaluasi komparatif & Desain evaluasi (Subbab~\ref{sec:rancangan-evaluasi}) & Lima konfigurasi dijalankan pada 384 pertanyaan yang sama; \emph{hallucination rate} dihitung oleh panel \emph{judge} \\
+\hline
+\end{tabular}
+\end{table}
 
 \begin{table}[!htbp]
 \centering
