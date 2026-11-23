@@ -885,43 +885,6 @@ C-Acc+Vote & \texttt{HALUSINASI\_\allowbreak{}PENUH} & \texttt{HALUSINASI\_\allo
 \end{itemize}
 
 \cleardoublepage
-\chapter{KETERSEDIAAN KODE DAN DATA}
-\label{lamp:source-code}
-
-Kode implementasi dan evaluasi tersedia pada repositori \url{https://github.com/dartikaanie/graphrag}, pada \emph{tag} \texttt{tesis-final}. Kelima \emph{run} dijalankan dari \emph{working tree} yang belum bersih (Tabel~\ref{tab:lamp-run}), sehingga repositori ini adalah pembekuan kode setelah \emph{run}, bukan kode persis saat \emph{run}. Bagian yang menentukan hasil dimuat pada Lampiran~\ref{lamp:prompt-judge} dan \ref{lamp:repro}. Tidak ada kunci API atau kredensial basis data pada repositori. Tabel~\ref{tab:lamp-peta-kode} memetakan berkas yang relevan.
-
-\begin{table}[!htbp]
-\centering
-\small
-\caption{Peta modul pada repositori.}
-\label{tab:lamp-peta-kode}
-\renewcommand{\arraystretch}{1.2}
-\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{5.2cm}|>{\raggedright\arraybackslash}X|}
-\hline
-\textbf{Berkas} & \textbf{Fungsi} \\
-\hline
-\texttt{7\_\allowbreak{}build\_\allowbreak{}knowledge\_\allowbreak{}graph.\allowbreak{}py}, \texttt{trust\_\allowbreak{}formulas.\allowbreak{}py} & Pembangunan graf struktural dan bobot jawaban \\
-\hline
-\texttt{10\_\allowbreak{}densify\_\allowbreak{}tag\_\allowbreak{}cooccurrence.\allowbreak{}py}, \texttt{11\_\allowbreak{}densify\_\allowbreak{}embedding\_\allowbreak{}similarity.\allowbreak{}py} & Sisi \texttt{TAG\_COOCCUR} dan \texttt{EMBED\_SIM}, serta indeks vektor \emph{anchor} \\
-\hline
-\texttt{build\_\allowbreak{}kg\_\allowbreak{}answer\_\allowbreak{}index.\allowbreak{}py}, \texttt{kg\_\allowbreak{}corpus.\allowbreak{}py} & Korpus dan indeks FAISS jawaban untuk B \\
-\hline
-\texttt{b\_\allowbreak{}condition\_\allowbreak{}b\_\allowbreak{}rag.\allowbreak{}py} & \emph{Retrieval} B-Vec dan B-Acc \\
-\hline
-\texttt{c\_\allowbreak{}graphrag.\allowbreak{}py} & \emph{Retrieval}, skor akhir, dan pemilihan konteks C-Acc dan C-Acc+Vote \\
-\hline
-\texttt{prompts.\allowbreak{}py}, \texttt{citations.\allowbreak{}py} & Penyusunan \emph{prompt} generator dan validasi kutipan \\
-\hline
-\texttt{common/\allowbreak{}leakage.\allowbreak{}py} & Pengecualian \emph{thread} dan pemeriksaan kebocoran \\
-\hline
-\texttt{judge\_\allowbreak{}panel.\allowbreak{}py}, \texttt{judge\_\allowbreak{}panel\_\allowbreak{}aggregate.\allowbreak{}py} & Panel \emph{judge} dan agregasi label \\
-\hline
-\texttt{official\_\allowbreak{}report.\allowbreak{}py}, \texttt{latency\_\allowbreak{}report.\allowbreak{}py} & Penghitungan metrik dan latensi \\
-\hline
-\end{tabularx}
-\end{table}
-
-\cleardoublepage
 \chapter{DAFTAR ID PERTANYAAN}
 \label{lamp:id}
 

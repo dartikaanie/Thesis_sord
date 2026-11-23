@@ -640,16 +640,16 @@ Mekanisme yang dirancang mencakup konstruksi graf pengetahuan berbobot dari SORD
 \footnotesize
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.2}
-\begin{longtable}{|>{\raggedright\arraybackslash}p{0.14\textwidth}|>{\raggedright\arraybackslash}p{0.09\textwidth}|>{\raggedright\arraybackslash}p{0.11\textwidth}|>{\raggedright\arraybackslash}p{0.24\textwidth}|>{\raggedright\arraybackslash}p{0.32\textwidth}|}
+\begin{longtable}{|>{\raggedright\arraybackslash}p{0.13\textwidth}|>{\raggedright\arraybackslash}p{0.12\textwidth}|>{\raggedright\arraybackslash}p{0.14\textwidth}|>{\raggedright\arraybackslash}p{0.23\textwidth}|>{\raggedright\arraybackslash}p{0.29\textwidth}|}
 \caption{Matriks aspek, kebutuhan, hipotesis, metrik, dan kriteria keberhasilan.}
 \label{tab:matriks-aspek}\\
 \hline
-\textbf{Aspek} & \textbf{Kebutuhan} & \textbf{Hipotesis/RQ} & \textbf{Metrik} & \textbf{Kriteria keberhasilan} \\
+\textbf{Aspek} & \textbf{Kebutuhan} & \textbf{Hipotesis / RQ} & \textbf{Metrik} & \textbf{Kriteria keberhasilan} \\
 \hline
 \endfirsthead
 \caption[]{Matriks aspek, kebutuhan, hipotesis, metrik, dan kriteria keberhasilan (lanjutan).}\\
 \hline
-\textbf{Aspek} & \textbf{Kebutuhan} & \textbf{Hipotesis/RQ} & \textbf{Metrik} & \textbf{Kriteria keberhasilan} \\
+\textbf{Aspek} & \textbf{Kebutuhan} & \textbf{Hipotesis / RQ} & \textbf{Metrik} & \textbf{Kriteria keberhasilan} \\
 \hline
 \endhead
 \hline
@@ -660,7 +660,7 @@ Integrasi bobot pada pengambilan konteks & F2--F4 & RQ2 & NF2, NF3, NF5, NF6 & M
 \hline
 Efektivitas terhadap halusinasi & NF1 & H1 (RQ3) & \emph{Hallucination rate} versi (a) dan (b) & C-Acc dan C-Acc+Vote lebih rendah daripada A dan B-Vec dengan \texttt{ABSTAIN} dikeluarkan dari penyebut; jumlah dan proporsi \texttt{ABSTAIN} dilaporkan terpisah \\
 \hline
-Kontribusi pembobotan & F4, F5 & RQ4 (eksploratif) & Selisih B-Acc terhadap B-Vec (pendukung: C-Acc terhadap B-Acc dan C-Acc terhadap B-Vec) & Selisih negatif dan searah pada ketiga \emph{judge}; dilaporkan deskriptif tanpa uji statistik \\
+Kontribusi pembobotan & F4, F5 & RQ4 (eksploratif) & Selisih B-Acc dan C-Acc terhadap B-Vec (uraian: C-Acc terhadap B-Acc) & Selisih negatif dan searah pada ketiga \emph{judge}; dilaporkan deskriptif tanpa uji statistik \\
 \hline
 Pengaruh skor suara & F5 & RQ5 (eksploratif) & Selisih C-Acc+Vote terhadap C-Acc, per \emph{judge} & Selisih negatif dan searah pada ketiga \emph{judge}; bila tidak, dilaporkan belum dapat disimpulkan \\
 \hline
@@ -676,6 +676,7 @@ Kontrol perbandingan & NF6 & -- & Variabel kontrol antarkonfigurasi & Sampel, mo
 \hline
 \end{longtable}
 \endgroup
+
 
 \begin{table}[!htbp]
 \centering
