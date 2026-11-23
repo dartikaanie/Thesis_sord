@@ -448,17 +448,17 @@ Setiap konfigurasi dijalankan satu kali pada 384 pertanyaan sampel uji yang sama
 \renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\textwidth}{|l|l|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{3.4cm}|}
 \hline
-\textbf{Kondisi} & \textbf{Konfigurasi} & \textbf{Mekanisme \emph{retrieval}} & \textbf{ID \emph{run} (\emph{hash} konfigurasi)} \\
+\textbf{Kondisi} & \textbf{Konfigurasi} & \textbf{Mekanisme \emph{retrieval}}  \\
 \hline
-A & A & Tanpa \emph{retrieval} & \texttt{24bf2a629b} \\
+A & A & Tanpa \emph{retrieval}  \\
 \hline
-\multirow{2}{*}{B} & B-Vec & \emph{Dense retrieval} jawaban, $k=5$ & \texttt{4313f6c578} \\
+\multirow{2}{*}{B} & B-Vec & \emph{Dense retrieval} jawaban, $k=5$  \\
 \cline{2-4}
- & B-Acc & \emph{Dense retrieval} $K_B=10$, diperingkat ulang dengan $w_{\mathrm{ans}}=\mathbf{1}[\mathrm{acc}]$, $k=5$ & \texttt{66824f10e9} \\
+ & B-Acc & \emph{Dense retrieval} $K_B=10$, diperingkat ulang dengan $w_{\mathrm{ans}}=\mathbf{1}[\mathrm{acc}]$, $k=5$  \\
 \hline
-\multirow{2}{*}{C} & C-Acc & \emph{Hybrid retrieval}, $w_{\mathrm{ans}}=\mathbf{1}[\mathrm{acc}]$ & \texttt{7048606315} \\
+\multirow{2}{*}{C} & C-Acc & \emph{Hybrid retrieval}, $w_{\mathrm{ans}}=\mathbf{1}[\mathrm{acc}]$  \\
 \cline{2-4}
- & C-Acc+Vote & \emph{Hybrid retrieval}, $w_{\mathrm{ans}}=w_{\mathrm{acc}}\mathbf{1}[\mathrm{acc}]+w_{\mathrm{vote}}\mathrm{trust}_A$ & \texttt{b71a886f71} \\
+ & C-Acc+Vote & \emph{Hybrid retrieval}, $w_{\mathrm{ans}}=w_{\mathrm{acc}}\mathbf{1}[\mathrm{acc}]+w_{\mathrm{vote}}\mathrm{trust}_A$  \\
 \hline
 \end{tabularx}
 \end{table}
