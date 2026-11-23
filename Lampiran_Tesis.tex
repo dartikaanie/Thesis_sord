@@ -50,11 +50,11 @@ Kode berikut menurunkan label per \emph{judge} dari klaim, kategori tiga nilai, 
 
 \lstinputlisting[language=Python, caption={Kategori, status halusinasi, dan keparahan (\texttt{judge\_binary}).}, label={lst:judge-binary}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/judge-binary.py}
 
-\lstinputlisting[language={}, caption={Dokumentasi agregasi panel (\texttt{judge\_panel\_aggregate.py}).}, label={lst:panel-doc}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/panel-doc.txt}
+\lstinputlisting[language={}, caption={Dokumentasi agregasi panel.}, label={lst:panel-doc}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/panel-doc.txt}
 
-\lstinputlisting[language=Python, caption={Agregasi tiga dan dua \emph{judge} (\texttt{judge\_panel\_aggregate}).}, label={lst:panel-agg}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/panel-agg.py}
+\lstinputlisting[language=Python, caption={Agregasi tiga dan dua \emph{judge}}, label={lst:panel-agg}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/panel-agg.py}
 
-\lstinputlisting[language=Python, caption={Kategori panel (\texttt{panel\_category}).}, label={lst:panel-cat}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/panel-cat.py}
+\lstinputlisting[language=Python, caption={Kategori panel.}, label={lst:panel-cat}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/panel-cat.py}
 
 \section{Statistik Klaim dan Agregasi Metrik Sekunder}
 \label{subsec:lamp-a5}
@@ -62,9 +62,9 @@ Kode berikut menurunkan label per \emph{judge} dari klaim, kategori tiga nilai, 
 \emph{Faithfulness} dan \emph{citation support} dihitung dari klaim dengan penyebut yang hanya memuat klaim berlabel \texttt{YES} atau \texttt{NO}. Klaim bernilai null tidak masuk penyebut dan tidak diimputasi.
 
 
-\lstinputlisting[language=Python, caption={Statistik klaim (\texttt{official\_report.claim\_stats}).}, label={lst:claim-stats}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/claim-stats.py}
+\lstinputlisting[language=Python, caption={Statistik klaim.}, label={lst:claim-stats}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/claim-stats.py}
 
-\lstinputlisting[language=Python, caption={Agregasi panel relevansi konteks dan jawaban (\texttt{secondary\_panel.build\_panel\_records}).}, label={lst:secondary-panel}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/secondary-panel.py}
+\lstinputlisting[language=Python, caption={Agregasi panel relevansi konteks dan jawaban.}, label={lst:secondary-panel}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/secondary-panel.py}
 
 
 \cleardoublepage
@@ -433,12 +433,6 @@ Simpul \texttt{Tag} & 56.435 \\
 
 Simpul terisolasi (derajat keluar 0) berjumlah 94,88\% sebelum densifikasi (2.548.248 dari 2.685.814) dan 23,10\% sesudahnya (620.542). Rata-rata derajat 8,2411 dan median 6. Kedua persentase dikutip dari \texttt{IMPLEMENTATION\_\allowbreak{}STATUS.\allowbreak{}md} (baris 228 sampai 232) dan log \texttt{20261013T145605Z\_\allowbreak{}validate\_\allowbreak{}densification.\allowbreak{}log}, dan tidak dihitung ulang karena kueri langsung memerlukan waktu lama.
 
-\section{Normalisasi Skor Jawaban}
-\label{sec:lamp-kg-p99}
-
-Persentil ke-99 skor jawaban ($P_{99,A}$) bernilai 46,0, dihitung dari 725.795 skor \texttt{Answer} dengan interpolasi linear (\texttt{numpy}) pada kuantil 0,99 (fungsi \texttt{compute\_p99} pada \texttt{trust\_\allowbreak{}formulas.\allowbreak{}py}). Nilai ini dihitung ulang langsung dari Neo4j. Log penerapannya adalah \texttt{20261014T085255Z\_\allowbreak{}apply\_\allowbreak{}logscore\_\allowbreak{}trust.\allowbreak{}log}.
-
-
 \cleardoublepage
 \chapter{QUERY \textit{CYPHER} DAN REPRODUKSIBILITAS}
 \label{lamp:repro}
@@ -477,80 +471,24 @@ Permintaan ke \emph{judge} & temperatur 0,0, \texttt{max\_tokens} 2000, keluaran
 \end{tabularx}
 \end{table}
 
-\section{ID \emph{Run} dan Status Repositori}
-\label{sec:lamp-d-run}
-
-\begin{table}[!htbp]
-\centering
-\scriptsize
-\caption{ID \emph{run}, \emph{hash} konfigurasi, dan komit repositori. Kelima \emph{run} tercatat dengan \emph{working tree} yang belum bersih (\emph{dirty}).}
-\label{tab:lamp-run}
-\renewcommand{\arraystretch}{1.3}
-\begin{tabularx}{\textwidth}{|l|>{\raggedright\arraybackslash}X|l|l|c|}
-\hline
-\textbf{Konfigurasi} & \textbf{ID \emph{run}} & \textbf{\emph{Hash}} & \textbf{Komit} & \textbf{\emph{Dirty}} \\
-\hline
-A & \texttt{cf5bb44a-\allowbreak{}e569-\allowbreak{}44a5-\allowbreak{}a090-\allowbreak{}bca53e732189} & \texttt{24bf2a629b} & \texttt{e1dd0471} & ya \\
-\hline
-B-Vec & \texttt{d558808c-\allowbreak{}2e6b-\allowbreak{}4ca3-\allowbreak{}8672-\allowbreak{}a78e0f500a18} & \texttt{4313f6c578} & \texttt{e1dd0471} & ya \\
-\hline
-B-Acc & \texttt{8860950a-\allowbreak{}8f05-\allowbreak{}440c-\allowbreak{}b935-\allowbreak{}86772e5d340d} & \texttt{66824f10e9} & \texttt{12867695} & ya \\
-\hline
-C-Acc & \texttt{73719917-\allowbreak{}739d-\allowbreak{}4b90-\allowbreak{}830a-\allowbreak{}96cdda9bdd56} & \texttt{7048606315} & \texttt{72d385d8} & ya \\
-\hline
-C-Acc+Vote & \texttt{be26cd03-\allowbreak{}dd51-\allowbreak{}4ed3-\allowbreak{}814a-\allowbreak{}15d37e87e9a9} & \texttt{b71a886f71} & \texttt{ea2cbcc6} & ya \\
-\hline
-\end{tabularx}
-\end{table}
-
-Pada \emph{run} B-Acc, berkas yang berubah dan belum di-\emph{commit} adalah \texttt{b\_\allowbreak{}condition\_\allowbreak{}b\_\allowbreak{}rag.\allowbreak{}py}, \texttt{c\_\allowbreak{}graphrag.\allowbreak{}py}, \texttt{official\_\allowbreak{}params.\allowbreak{}py}, \texttt{run\_\allowbreak{}registry.\allowbreak{}py}, dan \texttt{main\_\allowbreak{}cell\_\allowbreak{}gate.\allowbreak{}py}. Berkas pertama memuat kode pemeringkatan ulang, sehingga pengaruhnya terhadap reproduksibilitas B-Acc paling besar.
-
-Komit \texttt{e1dd0471} yang tercatat pada \emph{run} A dan B-Vec tidak ada di repositori (objek tidak ditemukan; kemungkinan telah ditulis ulang atau dibuat di klon lain), sehingga kode \emph{retrieval}, \emph{prompt}, dan kutipan pada repositori (Lampiran~\ref{lamp:source-code}) tidak dapat dibuktikan identik dengan versi saat kedua \emph{run} itu dijalankan. Untuk C-Acc, berkas yang berbeda dari \emph{working tree} saat ini adalah \texttt{c\_\allowbreak{}graphrag.\allowbreak{}py}, \texttt{official\_\allowbreak{}params.\allowbreak{}py}, \texttt{b\_\allowbreak{}condition\_\allowbreak{}b\_\allowbreak{}rag.\allowbreak{}py}, \texttt{judge\_\allowbreak{}panel.\allowbreak{}py}, dan \texttt{main\_\allowbreak{}cells\_\allowbreak{}report.\allowbreak{}py}. Untuk C-Acc+Vote dan B-Acc, berkas yang berbeda adalah tiga berkas pertama. Perbedaan pada jalur C hanya berupa penambahan (sel baru dan validasi parameter), dan cabang biner dan suara pada \texttt{\_\allowbreak{}qa\_\allowbreak{}weight\_\allowbreak{}cypher} serta rumus pada \texttt{fuse\_\allowbreak{}and\_\allowbreak{}rank} tidak berubah dibandingkan komit \texttt{ea2cbcc}. Kode pemeringkatan ulang B-Acc (\texttt{rerank\_\allowbreak{}by\_\allowbreak{}trust}) belum pernah di-\emph{commit}, sehingga kesamaannya dengan kode saat \emph{run} tidak dapat dipastikan.
-
-\section{Perintah Eksekusi}
-\label{sec:lamp-d-perintah}
-
-\begin{table}[!htbp]
-\centering
-\small
-\caption{Sumber perintah eksekusi setiap konfigurasi.}
-\label{tab:lamp-perintah}
-\renewcommand{\arraystretch}{1.2}
-\begin{tabularx}{\textwidth}{|l|>{\raggedright\arraybackslash}X|}
-\hline
-\textbf{Konfigurasi} & \textbf{Sumber} \\
-\hline
-A dan B-Vec & \texttt{docs/\allowbreak{}OFFICIAL\_\allowbreak{}RUN\_\allowbreak{}MATRIX.\allowbreak{}md} (baris 35 dan 39) \\
-\hline
-B-Acc & \texttt{docs/\allowbreak{}c\_\allowbreak{}0\_\allowbreak{}b\_\allowbreak{}acc\_\allowbreak{}setup.\allowbreak{}md} (baris 96 sampai 99), dengan bendera \texttt{--rerank acc} \\
-\hline
-C-Acc & Tidak ditemukan sebagai perintah tertulis, dan tidak dituliskan ulang. Konfigurasinya direkonstruksi dari \emph{manifest} (\texttt{alpha=0.25}, \texttt{binary\_\allowbreak{}trust=True}) dan dari log \texttt{llm/\allowbreak{}c\_\allowbreak{}graphrag/\allowbreak{}logs/\allowbreak{}20261104T030605Z\_\allowbreak{}openai\_\allowbreak{}gpt-4o-mini.\allowbreak{}log}, yang memuat tujuh baris konfigurasi: \texttt{n\_\allowbreak{}sample=384}, \texttt{seed=42}, penyedia \texttt{openai}, model \texttt{gpt-4o-mini}, \texttt{top\_\allowbreak{}k=5}, \texttt{n\_\allowbreak{}anchor=3}, \texttt{n\_\allowbreak{}semantic\_\allowbreak{}expansion=3}, \texttt{token\_\allowbreak{}chunk\_\allowbreak{}limit=400}, \texttt{fusion\_\allowbreak{}mode=trust\_\allowbreak{}weighted}, \texttt{require\_\allowbreak{}grounding=True}, dan mode kebocoran \texttt{thread}. Bendera baris perintah aslinya tidak terlacak. \\
-\hline
-C-Acc+Vote & \texttt{docs/\allowbreak{}runbook\_\allowbreak{}cacc\_\allowbreak{}vote.\allowbreak{}md} (baris 119 sampai 125) \\
-\hline
-\end{tabularx}
-\end{table}
 
 \section{Kode Query dan Pembobot}
 \label{sec:lamp-d-cypher}
 
-Kode berikut diambil apa adanya dari \texttt{llm/\allowbreak{}c\_\allowbreak{}graphrag/\allowbreak{}c\_\allowbreak{}graphrag.\allowbreak{}py}.
+\lstinputlisting[language=Python, caption={Pembobot normalisasi suara.}, label={lst:vote-norm}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/vote-norm.py}
 
+\lstinputlisting[language=Python, caption={Bobot jawaban.}, label={lst:qa-weight}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/qa-weight.py}
 
-\lstinputlisting[language=Python, caption={Pembobot normalisasi suara (\texttt{\_vote\_norm\_cypher}, baris 230 sampai 233).}, label={lst:vote-norm}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/vote-norm.py}
+\lstinputlisting[language=Python, caption={Penelusuran graf satu dan dua \emph{hop}.}, label={lst:traverse}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/traverse.py}
 
-\lstinputlisting[language=Python, caption={Bobot jawaban (\texttt{\_qa\_weight\_cypher}, baris 236 sampai 244).}, label={lst:qa-weight}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/qa-weight.py}
+\lstinputlisting[language=Python, caption={Kolam jawaban untuk jawaban teratas B .}, label={lst:fetch-pool}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/fetch-pool.py}
 
-\lstinputlisting[language=Python, caption={Penelusuran graf satu dan dua \emph{hop} (\texttt{traverse\_graph}, baris 565 sampai 653).}, label={lst:traverse}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/traverse.py}
-
-\lstinputlisting[language=Python, caption={Kolam jawaban untuk jawaban teratas B (\texttt{fetch\_answer\_pool}, baris 656 sampai 685).}, label={lst:fetch-pool}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/fetch-pool.py}
-
-\lstinputlisting[language=Python, caption={\emph{Semantic expansion} (\texttt{semantic\_expansion}, baris 777 sampai 874).}, label={lst:sem-exp}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/sem-exp.py}
+\lstinputlisting[language=Python, caption={\emph{Semantic expansion}.}, label={lst:sem-exp}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/sem-exp.py}
 
 \section{Pembobot yang Sudah Dirender}
 \label{sec:lamp-d-render}
 
-Hasil eksekusi \texttt{\_\allowbreak{}qa\_\allowbreak{}weight\_\allowbreak{}cypher} untuk C-Acc+Vote (relasi \texttt{r} dan \texttt{r3}) dan C-Acc (biner, \texttt{r3}).
+Hasil eksekusi untuk C-Acc+Vote (relasi \texttt{r} dan \texttt{r3}) dan C-Acc (biner, \texttt{r3}).
 
 
 \lstinputlisting[language={}, caption={Pembobot C-Acc+Vote untuk satu \emph{hop} (relasi \texttt{r}).}, label={lst:w-vote-1}, frame=single, captionpos=t, basicstyle=\ttfamily\scriptsize, breaklines=true]{listings/w-vote-1.txt}
@@ -564,7 +502,7 @@ Hasil eksekusi \texttt{\_\allowbreak{}qa\_\allowbreak{}weight\_\allowbreak{}cyph
 \chapter{VERIFIKASI KEBOCORAN DATA}
 \label{lamp:kebocoran}
 
-Mode pengecualian yang dipakai adalah \texttt{thread} (\texttt{leakage.py}, baris 1 sampai 12 dan 117 sampai 129). Mode ini mengecualikan pertanyaan uji itu sendiri, seluruh jawaban pada \emph{thread}-nya, dan jawaban \emph{accepted}-nya, tanpa yang lain.
+Mode pengecualian yang dipakai adalah \texttt{thread}. Mode ini mengecualikan pertanyaan uji itu sendiri, seluruh jawaban pada \emph{thread}-nya, dan jawaban \emph{accepted}-nya, tanpa yang lain.
 
 Jumlah item yang dikecualikan, diverifikasi dari Neo4j dan rekaman, adalah 384 pertanyaan dan 498 jawaban \emph{thread} (rata-rata 1,30 per pertanyaan, maksimum 8). Total 498 sama persis dengan jumlah \texttt{n\_\allowbreak{}excluded\_\allowbreak{}a} pada rekaman.
 
@@ -586,9 +524,7 @@ C-Acc+Vote & 0/384 & 0/1.920 \\
 \end{tabular}
 \end{table}
 
-A tidak memiliki konteks. Pemeriksaan mencakup \texttt{owner\_\allowbreak{}question\_\allowbreak{}id}, \texttt{via\_\allowbreak{}question\_\allowbreak{}id}, dan \texttt{anchor\_id}, selain \texttt{question\_id} dan \texttt{answer\_id}, dan seluruhnya bersih. Skrip verifikasi adalah \texttt{v15.py} (dihitung ulang) dan \texttt{results/\allowbreak{}p3\_\allowbreak{}indirect\_\allowbreak{}leakage.\allowbreak{}py} untuk kebocoran tidak langsung.
-
-Berkas \texttt{laporan\_\allowbreak{}hasil/\allowbreak{}csv/\allowbreak{}5a\_\allowbreak{}NF5\_\allowbreak{}irisan\_\allowbreak{}pengecualian.\allowbreak{}csv} memuat irisan pada mode pengecualian lain. Pada mode \texttt{dup+linked+neardup0.\allowbreak{}95} (duplikat, pertanyaan tertaut, dan hampir-duplikat dengan kemiripan 0,95) terdapat 13 pertanyaan beririsan pada B dan C. Pada mode \texttt{thread} yang dipakai pada evaluasi tidak ada irisan.
+A tidak memiliki konteks. Pemeriksaan mencakup \texttt{owner\_\allowbreak{}question\_\allowbreak{}id}, \texttt{via\_\allowbreak{}question\_\allowbreak{}id}, dan \texttt{anchor\_id}, selain \texttt{question\_id} dan \texttt{answer\_id}, dan seluruhnya bersih. 
 
 
 
