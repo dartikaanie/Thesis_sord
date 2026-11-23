@@ -962,14 +962,13 @@ Beberapa batasan implementasi perlu dicatat karena memengaruhi interpretasi hasi
 \section{Spesifikasi Artefak Akhir}
 \label{sec:spesifikasi-artefak}
 
-Artefak akhir terdiri atas empat bagian.
+Artefak akhir terdiri atas dua bagian.
 \begin{enumerate}
-    \item \textbf{Graf pengetahuan berbobot.} Simpul pertanyaan, jawaban, dan tag; sisi struktural dan sisi densifikasi; serta bobot jawaban dari status \emph{accepted} dan skor suara.
-    \item \textbf{Indeks vektor.} Dipakai untuk \emph{anchoring} dan \emph{semantic expansion}.
-    \item \textbf{Mekanisme pengambilan konteks tiga tahap.} Kandidat diurutkan dengan skor akhir $(1-\alpha)\,\mathrm{sim}_{\mathrm{norm}}+\alpha\,w_{\mathrm{path}}$ dengan $\alpha=0{,}25$, dan lima konteks teratas diberikan kepada LLM.
-    \item \textbf{Pembangkit jawaban.} Memakai instruksi \emph{grounding}, kewajiban kutipan, dan validasi kutipan.
+    \item \textbf{Graf pengetahuan berbobot.} Simpul pertanyaan, jawaban, dan tag; sisi struktural dan sisi densifikasi; bobot jawaban dari status \emph{accepted} dan skor suara; serta indeks vektor yang dipakai untuk \emph{anchoring} dan \emph{semantic expansion}.
+    \item \textbf{Mekanisme pengambilan konteks berbobot.} Tiga tahap (\emph{anchoring}, penelusuran graf, dan \emph{semantic expansion}). Kandidat diurutkan dengan skor akhir $(1-\alpha)\,\mathrm{sim}_{\mathrm{norm}}+\alpha\,w_{\mathrm{path}}$ dengan $\alpha=0{,}25$, dan lima konteks teratas diberikan kepada LLM.
 \end{enumerate}
-Dua skema bobot tersedia, yaitu C-Acc dan C-Acc+Vote, dengan B-Acc sebagai kontrol tanpa graf. Rancangan dan alasan pemilihannya diuraikan pada Bab~\ref{chap:analisis-desain}, dan pelaksanaannya pada subbab-subbab sebelumnya di Bab~\ref{chap:implementasi}.
+
+Dua skema bobot tersedia, yaitu C-Acc dan C-Acc+Vote, dengan B-Acc sebagai kontrol tanpa graf.
 
 %============================================================
 \section{Ringkasan}
@@ -980,7 +979,7 @@ Implementasi menghasilkan KG berbobot dari seluruh populasi SORD, yang mencakup 
 
 Pertama, struktur asli Stack Overflow belum cukup terhubung untuk mendukung \emph{traversal} graf secara efektif. Densifikasi graf menjadi bagian penting dari mekanisme \emph{retrieval} dua \emph{hop} dan menurunkan proporsi pertanyaan tanpa sisi keluar dari 94,88\% menjadi 23,10\%.
 
-Kedua, skor akhir menggabungkan kemiripan dan bobot jalur karena jawaban berkepercayaan tinggi belum tentu relevan dengan pertanyaan. B-Acc menerapkan bobot \emph{accepted} yang sama pada sepuluh kandidat pencarian vektor tanpa graf, sehingga memisahkan pengaruh pembobotan dari pengaruh mekanisme berbasis graf. Kedua konfigurasi Kondisi C memakai skor akhir, parameter, dan basis kode yang sama, dan hanya berbeda pada bobot jawaban: C-Acc membaca status \emph{accepted} saja, sedangkan C-Acc+Vote menambahkan skor suara yang dinormalisasi logaritmik. Hanya 10,1\% pertanyaan di KG yang memiliki \emph{accepted answer}, sehingga penambahan skor suara berpengaruh pada pemeringkatan jawaban non-\emph{accepted}. Pada sampel uji, konteks akhir C-Acc dan C-Acc+Vote identik pada 240 dari 384 pertanyaan, dan perbedaan terutama berupa penggantian jawaban \emph{accepted} dengan jawaban non-\emph{accepted} berskor suara lebih tinggi (Subbab~\ref{subsec:profil-retrieval}).
+Kedua, skor akhir menggabungkan kemiripan dan bobot jalur karena jawaban berkepercayaan tinggi belum tentu relevan dengan pertanyaan. B-Acc menerapkan bobot \emph{accepted} yang sama pada sepuluh kandidat pencarian vektor tanpa graf, sehingga mengukur pengaruh pembobotan tanpa graf. Kedua konfigurasi Kondisi C memakai skor akhir, parameter, dan basis kode yang sama, dan hanya berbeda pada bobot jawaban: C-Acc membaca status \emph{accepted} saja, sedangkan C-Acc+Vote menambahkan skor suara yang dinormalisasi logaritmik. Hanya 10,1\% pertanyaan di KG yang memiliki \emph{accepted answer}, sehingga penambahan skor suara berpengaruh pada pemeringkatan jawaban non-\emph{accepted}. Pada sampel uji, konteks akhir C-Acc dan C-Acc+Vote identik pada 240 dari 384 pertanyaan, dan perbedaan terutama berupa penggantian jawaban \emph{accepted} dengan jawaban non-\emph{accepted} berskor suara lebih tinggi (Subbab~\ref{subsec:profil-retrieval}).
 
 Ketiga, seluruh konfigurasi berkonteks menggunakan struktur dan isi \emph{prompt} yang sama tanpa menyertakan metadata \emph{retrieval}. Dengan demikian, perbedaan hasil antarkonfigurasi dapat dikaitkan dengan perbedaan konteks yang diambil oleh masing-masing mekanisme \emph{retrieval}, bukan dengan perbedaan instruksi kepada model.
 

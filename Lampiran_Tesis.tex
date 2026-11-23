@@ -6,7 +6,7 @@
 \chapter{\textit{PROMPT JUDGE} DAN ATURAN PENURUNAN LABEL}
 \label{lamp:prompt-judge}
 
-Lampiran ini memuat teks lengkap \emph{prompt} yang dipakai panel \emph{judge} (Llama-3.3-70B, DeepSeek-V3.2, dan Qwen3-235B-A22B-Instruct-2507) serta kode yang menurunkan label akhir. Teks diambil langsung dari objek dan kode Python pada repositori (komit \texttt{1286769}, \emph{working tree} belum bersih, berkas \emph{prompt} tidak diubah), bukan diketik ulang. Placeholder \texttt{\{...\}} hanya diisi agar templat terlihat. Isi \emph{prompt} halusinasi identik dengan dokumen \emph{prompt judge} pada repositori.
+Lampiran ini memuat teks lengkap \emph{prompt} yang dipakai panel \emph{judge} (Llama-3.3-70B, DeepSeek-V3.2, dan Qwen3-235B-A22B-Instruct-2507) serta kode yang menurunkan label akhir. Teks diambil langsung dari objek dan kode Python pada repositori (komit \texttt{1286769}, \emph{working tree} belum bersih, berkas \emph{prompt} tidak diubah), bukan diketik ulang. Isi \emph{prompt} halusinasi identik dengan dokumen \emph{prompt judge} pada repositori.
 
 Parameter permintaan untuk seluruh \emph{judge}: temperatur 0,0, \texttt{max\_tokens} 2000, dan keluaran JSON (\texttt{response\_\allowbreak{}format=\allowbreak{}json\_\allowbreak{}object}).
 
@@ -142,6 +142,8 @@ Pada $S_{278}$, nilai (a) adalah 17,6\% (C-Acc+Vote) dan 19,8\% (C-Acc) untuk pe
 \section{Latensi Lengkap}
 \label{sec:lamp-b-latensi}
 
+Tabel~\ref{tab:lamp-latensi} memuat data latensi per kueri pada kelima konfigurasi, dipisahkan menjadi waktu \emph{retrieval} dan waktu total (\emph{end-to-end}). Konfigurasi A tidak memiliki tahap \emph{retrieval}, sehingga hanya waktu total yang dilaporkan.
+
 \begin{table}[!htbp]
 \centering
 \scriptsize
@@ -154,7 +156,7 @@ Pada $S_{278}$, nilai (a) adalah 17,6\% (C-Acc+Vote) dan 19,8\% (C-Acc) untuk pe
 \hline
 \textbf{Konfigurasi} & \textbf{Rata-rata} & \textbf{Median} & \textbf{Maks.} & \textbf{Pencilan} & \textbf{Rata-rata} & \textbf{Median} & \textbf{Maks.} & \textbf{Pencilan} \\
 \hline
-A & \multicolumn{4}{c|}{tidak ada bidang} & 7,55 & 7,26 & 20,45 & 13 \\
+A & \multicolumn{4}{c|}{-} & 7,55 & 7,26 & 20,45 & 13 \\
 B-Vec & 1,53 & 0,35 & 68,96 & 54 & 5,97 & 4,81 & 77,06 & 13 \\
 B-Acc & 0,23 & 0,17 & 2,43 & 5 & 5,66 & 5,47 & 22,53 & 6 \\
 C-Acc & 1,24 & 1,20 & 4,19 & 10 & 5,10 & 5,07 & 10,33 & 6 \\
@@ -162,15 +164,6 @@ C-Acc+Vote & 0,99 & 0,94 & 5,01 & 6 & 5,93 & 5,74 & 13,44 & 5 \\
 \hline
 \end{tabularx}
 \end{table}
-
-Status \emph{cache} tidak tercatat per kueri. Manifest hanya memuat \texttt{corpus\_\allowbreak{}cache\_\allowbreak{}key}. Berkas \texttt{embedding\_\allowbreak{}cache.\allowbreak{}sqlite3} ada pada folder C, tetapi tidak ada penanda \emph{hit} atau \emph{miss}.
-
-\section{Pemilihan $\alpha$ pada Himpunan Pengembangan}
-\label{sec:lamp-b-alpha}
-
-Hasil pada himpunan pengembangan (150 pertanyaan, posisi 435 sampai 584) dilaporkan pada Tabel~\ref{tab:alpha-dev}. Hasil $\alpha=0{,}25$ dihitung ulang dari \texttt{results/\allowbreak{}panel\_\allowbreak{}devlarge\_\allowbreak{}stage2\_\allowbreak{}panel.\allowbreak{}jsonl} (\emph{run} \texttt{C-1aeed19bd3}). Pemetaan \emph{run} ke $\alpha$ diambil dari dokumen \texttt{DEVLARGE\_\allowbreak{}ALPHA\_\allowbreak{}SELECTION.\allowbreak{}md}, bukan dari bidang \emph{run}, karena bidang \texttt{run\_label} sama untuk kedua nilai $\alpha$.
-
-
 
 \section{Hasil Panel per \emph{Judge}}
 \label{sec:lamp-b-panel}
@@ -203,36 +196,6 @@ Qwen3-235B & 30,7 (C-Acc) & 37,2 (A) & A \\
 
 Llama menilai halusinasi jauh lebih jarang daripada DeepSeek dan Qwen pada semua konfigurasi, sedangkan DeepSeek dan Qwen berada pada tingkat yang berdekatan. Perbedaan tingkat ini tidak mengubah arah selisih konfigurasi berbobot terhadap B-Vec (Subbab~\ref{sec:lamp-b-judge}).
 
-\subsection{Kesepakatan Antar-\emph{Judge}}
-\label{sec:lamp-b-sepakat}
-
-Tiga kolom pertama Tabel~\ref{tab:lamp-sepakat-judge} menghitung persentase dari 384 pertanyaan menurut jumlah \emph{judge} yang memberi label empat kelas yang sama (\texttt{FAKTUAL}, \texttt{HALUSINASI\_\allowbreak{}SEBAGIAN}, \texttt{HALUSINASI\_\allowbreak{}PENUH}, \texttt{ABSTAIN}). Tiga kolom terakhir memuat Cohen's $\kappa$ dan kesepakatan mentah (dalam kurung, \%) tiap pasangan \emph{judge} pada label biner versi (a), yaitu halusinasi atau bukan. Jawaban yang diberi \texttt{ABSTAIN} oleh salah satu \emph{judge} dalam pasangan itu dikeluarkan dari pasangan tersebut. Jumlah pasangan yang tersisa adalah 384 pada A dan 296 sampai 317 pada empat konfigurasi lain.
-
-\begin{table}[!htbp]
-\centering
-\scriptsize
-\caption{Kesepakatan tiga \emph{judge} (\%) dan Cohen\textquotesingle s $\kappa$ (kesepakatan mentah \%) per pasangan.}
-\label{tab:lamp-sepakat-judge}
-\renewcommand{\arraystretch}{1.2}
-\setlength{\tabcolsep}{1.5pt}
-\begin{tabularx}{\textwidth}{|l|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
-\hline
-\textbf{Konfigurasi} & \textbf{Tiga sama} & \textbf{Dua sama} & \textbf{Tiga beda} & \textbf{Llama--DeepSeek} & \textbf{Llama--Qwen} & \textbf{DeepSeek--Qwen} \\
-\hline
-A & 53,6 & 43,8 & 2,6 & 0,13 (67,2) & 0,10 (65,1) & 0,48 (76,0) \\
-\hline
-B-Vec & 56,8 & 41,9 & 1,3 & 0,11 (64,8) & 0,15 (68,2) & 0,42 (73,0) \\
-\hline
-B-Acc & 58,1 & 38,5 & 3,4 & 0,03 (69,4) & 0,11 (69,7) & 0,40 (74,0) \\
-\hline
-C-Acc & 57,0 & 38,3 & 4,7 & 0,02 (67,9) & 0,03 (69,2) & 0,42 (75,1) \\
-\hline
-C-Acc+Vote & 56,3 & 40,6 & 3,1 & 0,10 (71,9) & 0,09 (69,0) & 0,34 (71,8) \\
-\hline
-\end{tabularx}
-\end{table}
-
-Ketiga \emph{judge} memberi label yang sama pada 53,6\% sampai 58,1\% pertanyaan, dan hanya 1,3\% sampai 4,7\% pertanyaan yang diberi tiga label berbeda. Pasangan DeepSeek--Qwen memiliki $\kappa$ sedang (0,34 sampai 0,48), sedangkan pasangan yang melibatkan Llama memiliki $\kappa$ rendah (0,02 sampai 0,15) walaupun kesepakatan mentahnya 64,8\% sampai 71,9\%. Pola ini sejalan dengan tingkat halusinasi Llama yang jauh lebih rendah daripada dua \emph{judge} lain.
 
 \subsection{Label per \emph{Judge}}
 \label{sec:lamp-b-label}

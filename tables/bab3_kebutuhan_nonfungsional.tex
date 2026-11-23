@@ -1,35 +1,32 @@
-\begin{table}[!htbp]
-\centering
-\caption{Kebutuhan nonfungsional.}
-\label{tab:kebutuhan-nonfungsional}
+\begingroup
 \small
-\begin{tabularx}{\textwidth}{|c|l|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.2}
+\begin{longtable}{|>{\centering\arraybackslash}p{0.06\textwidth}|>{\raggedright\arraybackslash}p{0.14\textwidth}|>{\raggedright\arraybackslash}p{0.30\textwidth}|>{\raggedright\arraybackslash}p{0.38\textwidth}|}
+\caption{Kebutuhan nonfungsional.}
+\label{tab:kebutuhan-nonfungsional}\\
 \hline
 \textbf{No.} & \textbf{Kategori} & \textbf{Deskripsi} & \textbf{Kriteria Keberhasilan} \\
 \hline
-NF1 & Laju halusinasi &
-GraphRAG berbobot ditargetkan menghasilkan jawaban dengan tingkat halusinasi lebih rendah daripada sistem pembanding &
-\emph{Hallucination rate} Kondisi C-Acc dan C-Acc+Vote lebih rendah daripada Kondisi A dan B, dengan jawaban \texttt{ABSTAIN} dikeluarkan dari penyebut. Jumlah dan proporsi \texttt{ABSTAIN} dilaporkan terpisah \\
+\endfirsthead
+\caption[]{Kebutuhan nonfungsional (lanjutan).}\\
 \hline
-NF2 & Keterlacakan &
-Jawaban yang dihasilkan dapat ditelusuri ke sumber konteks yang digunakan &
-Seluruh jawaban non-\texttt{ABSTAIN} pada Kondisi B, B-Acc, C-Acc, dan C-Acc+Vote memiliki sedikitnya satu label kutipan yang terdapat dalam konteks. Proporsi jawaban dengan kutipan valid dilaporkan \\
+\textbf{No.} & \textbf{Kategori} & \textbf{Deskripsi} & \textbf{Kriteria Keberhasilan} \\
 \hline
-NF3 & Latensi &
-Sistem memiliki waktu respons yang dapat diterima untuk penggunaan interaktif &
-Rata-rata latensi total, mencakup pengambilan konteks dan generasi jawaban, ditargetkan tidak melebihi 15 detik per kueri \\
+\endhead
 \hline
-NF4 & Keandalan kutipan &
-Kutipan yang digunakan mendukung klaim dalam jawaban &
-Proporsi klaim berkutipan yang didukung sumbernya (\emph{citation support}) pada Kondisi B-Acc, C-Acc, dan C-Acc+Vote tidak lebih rendah daripada Kondisi B \\
+\endfoot
+NF1 & Laju halusinasi & GraphRAG berbobot ditargetkan menghasilkan jawaban dengan tingkat halusinasi lebih rendah daripada sistem pembanding & \emph{Hallucination rate} Kondisi C-Acc dan C-Acc+Vote lebih rendah daripada Kondisi A dan B, dengan jawaban \texttt{ABSTAIN} dikeluarkan dari penyebut. Jumlah dan proporsi \texttt{ABSTAIN} dilaporkan terpisah \\
 \hline
-NF5 & Integritas evaluasi &
-Konteks yang diberikan kepada LLM tidak berasal dari \emph{thread} pertanyaan uji &
-Tidak terdapat irisan antara hasil \emph{retrieval} dan himpunan pengecualian pada seluruh kueri uji dalam kondisi yang menggunakan konteks \\
+NF2 & Keterlacakan & Jawaban yang dihasilkan dapat ditelusuri ke sumber konteks yang digunakan & Seluruh jawaban non-\texttt{ABSTAIN} pada Kondisi B, B-Acc, C-Acc, dan C-Acc+Vote memiliki sedikitnya satu label kutipan yang terdapat dalam konteks. Proporsi jawaban dengan kutipan valid dilaporkan \\
 \hline
-NF6 & Perbandingan antarkondisi &
-Variabel yang bukan bagian dari perlakuan eksperimen dikendalikan secara konsisten &
-Seluruh kondisi menggunakan sampel pertanyaan, model generatif, dan struktur dasar \emph{prompt} yang sama. Kondisi berbasis \emph{retrieval} menggunakan model \emph{embedding}, jumlah konteks ($k=5$), dan instruksi \emph{grounding} yang sama \\
+NF3 & Latensi & Sistem memiliki waktu respons yang dapat diterima untuk penggunaan interaktif & Rata-rata latensi total, mencakup pengambilan konteks dan generasi jawaban, ditargetkan tidak melebihi 15 detik per kueri \\
 \hline
-\end{tabularx}
-\end{table}
+NF4 & Keandalan kutipan & Kutipan yang digunakan mendukung klaim dalam jawaban & Proporsi klaim berkutipan yang didukung sumbernya (\emph{citation support}) pada Kondisi B-Acc, C-Acc, dan C-Acc+Vote tidak lebih rendah daripada Kondisi B \\
+\hline
+NF5 & Integritas evaluasi & Konteks yang diberikan kepada LLM tidak berasal dari \emph{thread} pertanyaan uji & Tidak terdapat irisan antara hasil \emph{retrieval} dan himpunan pengecualian pada seluruh kueri uji dalam kondisi yang menggunakan konteks \\
+\hline
+NF6 & Perbandingan antarkondisi & Variabel yang bukan bagian dari perlakuan eksperimen dikendalikan secara konsisten & Seluruh kondisi menggunakan sampel pertanyaan, model generatif, dan struktur dasar \emph{prompt} yang sama. Kondisi berbasis \emph{retrieval} menggunakan model \emph{embedding}, jumlah konteks ($k=5$), dan instruksi \emph{grounding} yang sama \\
+\hline
+\end{longtable}
+\endgroup

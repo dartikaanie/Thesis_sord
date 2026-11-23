@@ -1,54 +1,36 @@
-
-\begin{table}[!htbp]
-\centering
-\caption{Perbandingan antara Vector RAG dan GraphRAG berdasarkan dimensi teknis yang relevan untuk pengembangan \emph{framework}.
-\autocite{Kamalipour2026}}
-\label{tab:rag_vs_graphrag}
+\begingroup
 \small
-\begin{tabular}{|p{2.8cm}|p{4.8cm}|p{4.8cm}|}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.2}
+\begin{longtable}{|>{\raggedright\arraybackslash}p{0.17\textwidth}|>{\raggedright\arraybackslash}p{0.38\textwidth}|>{\raggedright\arraybackslash}p{0.38\textwidth}|}
+\caption[Perbandingan Vector RAG dan GraphRAG]{Perbandingan antara Vector RAG dan GraphRAG berdasarkan dimensi teknis yang relevan untuk pengembangan \emph{framework} \autocite{Kamalipour2026}.}
+\label{tab:rag_vs_graphrag}\\
 \hline
 \textbf{Dimensi} & \textbf{Vector RAG} & \textbf{GraphRAG} \\
 \hline
-\emph{Memory footprint} &
-Gigabyte vektor padat; perlu \emph{re-embedding} seluruh korpus
-saat ada perubahan &
-Lebih ringan: simpul + sisi (opsional \emph{node embedding});
-pembaruan cukup dengan menyisipkan tripel baru \\
+\endfirsthead
+\caption[]{Perbandingan Vector RAG dan GraphRAG (lanjutan).}\\
 \hline
-Inti \emph{retrieval} &
-ANN berbasis kemiripan (HNSW, IVF-PQ, \emph{k}-NN) &
-Traversal graf multi-hop (BFS, \emph{Greedy-Prune}, SPARQL) \\
+\textbf{Dimensi} & \textbf{Vector RAG} & \textbf{GraphRAG} \\
 \hline
-\emph{Recall} vs presisi &
-\emph{Recall} tinggi, presisi lebih rendah;
-memerlukan \emph{reranking} atau kompresi tambahan &
-Presisi lebih tinggi pada kueri relasional;
-\emph{recall} turun jika \emph{entity linking} gagal \\
+\endhead
 \hline
-\emph{Explainability} &
-Sulit: hanya skor kemiripan yang tersedia &
-Jalur penuh: entitas $\to$ relasi $\to$ entitas;
-dapat diaudit untuk domain teregulasi \\
+\endfoot
+\emph{Memory footprint} & Gigabyte vektor padat; perlu \emph{re-embedding} seluruh korpus saat ada perubahan & Lebih ringan: simpul + sisi (opsional \emph{node embedding}); pembaruan cukup dengan menyisipkan tripel baru \\
 \hline
-Profil latensi &
-Datar terhadap panjang jalur; $<$100 ms dengan HNSW &
-Meningkat seiring jumlah \emph{hop}; umumnya $\sim$3$\times$ Vector
-untuk 3-\emph{hop} \\
+Inti \emph{retrieval} & ANN berbasis kemiripan (HNSW, IVF-PQ, \emph{k}-NN) & Traversal graf multi-hop (BFS, \emph{Greedy-Prune}, SPARQL) \\
 \hline
-\emph{Benchmark} unggulan &
-BEIR, NaturalQuestions (\emph{single-hop} QA) &
-HotpotQA, MultiHop-RAG, RobustQA
-(kueri kompleks multi-\emph{hop}) \\
+\emph{Recall} vs presisi & \emph{Recall} tinggi, presisi lebih rendah; memerlukan \emph{reranking} atau kompresi tambahan & Presisi lebih tinggi pada kueri relasional; \emph{recall} turun jika \emph{entity linking} gagal \\
 \hline
-Kegagalan tipikal &
-Potongan relevan secara topik tetapi tidak relevan secara konteks
-$\to$ halusinasi &
-Simpul antara yang hilang $\to$ kesenjangan jawaban \\
+\emph{Explainability} & Sulit: hanya skor kemiripan yang tersedia & Jalur penuh: entitas $\to$ relasi $\to$ entitas; dapat diaudit untuk domain teregulasi \\
 \hline
-Tepat digunakan saat &
-Throughput tinggi, pencarian \emph{single-hop}, latensi kritis &
-Penalaran multi-\emph{hop}, auditabilitas,
-pembaruan terstruktur berkala \\
+Profil latensi & Datar terhadap panjang jalur; $<$100 ms dengan HNSW & Meningkat seiring jumlah \emph{hop}; umumnya $\sim$3$\times$ Vector untuk 3-\emph{hop} \\
 \hline
-\end{tabular}
-\end{table}
+\emph{Benchmark} unggulan & BEIR, NaturalQuestions (\emph{single-hop} QA) & HotpotQA, MultiHop-RAG, RobustQA (kueri kompleks multi-\emph{hop}) \\
+\hline
+Kegagalan tipikal & Potongan relevan secara topik tetapi tidak relevan secara konteks $\to$ halusinasi & Simpul antara yang hilang $\to$ kesenjangan jawaban \\
+\hline
+Tepat digunakan saat & Throughput tinggi, pencarian \emph{single-hop}, latensi kritis & Penalaran multi-\emph{hop}, auditabilitas, pembaruan terstruktur berkala \\
+\hline
+\end{longtable}
+\endgroup

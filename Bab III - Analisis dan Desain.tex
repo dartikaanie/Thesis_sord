@@ -86,7 +86,7 @@ Berdasarkan keterbatasan di atas, masalah yang ditangani dalam penelitian ini ad
 
 Penilaian pengguna, seperti skor suara pengguna (\emph{vote score}) dan penanda jawaban yang diterima (\emph{accepted answer}), merupakan indikator kualitas yang diberikan pengguna dan tersedia pada platform tanya jawab. Berdasarkan masalah pada Subbab~\ref{subsec:identifikasi-masalah-kondisi}, penelitian ini mengusulkan pemanfaatan indikator tersebut sebagai dasar pembobotan keandalan pada graf pengetahuan, dan bobot tersebut diintegrasikan ke dalam proses pengambilan konteks GraphRAG. Melalui mekanisme ini, pemilihan konteks tidak hanya mempertimbangkan relevansi semantik dan hubungan antarinformasi, tetapi juga tingkat keandalan berdasarkan penilaian pengguna.
 
-Usulan ini terdiri atas tiga unsur, yaitu graf pengetahuan berbobot yang memuat penilaian pengguna sebagai bobot keandalan, pengambilan konteks berbobot yang menggunakan bobot tersebut, dan evaluasi komparatif untuk mengukur pengaruhnya terhadap laju halusinasi. Arsitektur dasar GraphRAG tidak diubah, sehingga yang dikembangkan adalah sumber bobot dan penggunaannya pada pengambilan konteks. Usulan ini menjawab M1 melalui penyediaan konteks eksternal dan menjawab M2 melalui pembobotan keandalan sumber. Hanya satu kelompok kondisi yang merupakan solusi yang dikembangkan, yaitu GraphRAG berbobot penilaian pengguna. Kondisi lainnya, yaitu LLM murni, RAG konvensional, dan RAG dengan pembobotan tanpa graf, menjadi pembanding dan kontrol untuk mengukur pengaruhnya (Subbab~\ref{sec:kondisi-eksperimen}).
+Usulan ini terdiri atas dua unsur, yaitu graf pengetahuan berbobot yang memuat penilaian pengguna sebagai bobot keandalan, dan pengambilan konteks berbobot yang menggunakan bobot tersebut. Evaluasi komparatif bukan bagian artefak, tetapi lingkungan uji untuk mengukur pengaruh artefak terhadap laju halusinasi. Arsitektur dasar GraphRAG tidak diubah, sehingga yang dikembangkan adalah sumber bobot dan penggunaannya pada pengambilan konteks. Usulan ini menjawab M1 melalui penyediaan konteks eksternal dan menjawab M2 melalui pembobotan keandalan sumber. Hanya satu kelompok kondisi yang merupakan solusi yang dikembangkan, yaitu GraphRAG berbobot penilaian pengguna. Kondisi lainnya, yaitu LLM murni, RAG konvensional, dan RAG dengan pembobotan tanpa graf, menjadi pembanding dan kontrol untuk mengukur pengaruhnya (Subbab~\ref{sec:kondisi-eksperimen}).
 
 %============================================================
 
@@ -118,7 +118,7 @@ Berdasarkan kebutuhan pengguna di atas, kebutuhan fungsional dirumuskan untuk su
     Sistem harus memetakan kueri ke sekumpulan simpul awal (\emph{seed nodes}). Pemetaan dilakukan pada tingkat jawaban, yaitu kueri dicari pada indeks vektor jawaban, setiap jawaban dipetakan ke pertanyaan induknya, dan pertanyaan induk dengan jawaban paling mirip dipilih sebagai \emph{seed node}. Dengan cara ini setiap kueri memperoleh titik masuk ke graf tanpa ekstraksi entitas, dan kandidat awalnya sama dengan hasil pencarian vektor biasa.
 
     \item Pengambilan Konteks Berbobot.
-    Sistem harus menggabungkan kandidat dari tiga sumber, yaitu hasil pencarian vektor, jawaban yang ditemukan melalui penelusuran graf hingga dua \emph{hop}, dan jawaban hasil \emph{semantic expansion}. Setiap kandidat diberi bobot jalur berdasarkan penilaian pengguna, lalu diperingkat dengan menggabungkan bobot jalur dan kemiripan semantik. Kandidat dengan skor tertinggi disusun menjadi konteks bagi LLM. Pembobotan yang sama harus dapat diterapkan pada hasil pencarian vektor tanpa graf, sebagai kontrol untuk memisahkan pengaruh pembobotan dari pengaruh struktur graf. Kebutuhan ini menjawab M1 dan M2.
+    Sistem harus menggabungkan kandidat dari tiga sumber, yaitu hasil pencarian vektor, jawaban yang ditemukan melalui penelusuran graf hingga dua \emph{hop}, dan jawaban hasil \emph{semantic expansion}. Setiap kandidat diberi bobot jalur berdasarkan penilaian pengguna, lalu diperingkat dengan menggabungkan bobot jalur dan kemiripan semantik. Kandidat dengan skor tertinggi disusun menjadi konteks bagi LLM. Pembobotan yang sama harus dapat diterapkan pada hasil pencarian vektor tanpa graf, sebagai kontrol untuk mengukur pengaruh pembobotan tanpa graf. Kebutuhan ini menjawab M1 dan M2.
 
     \item Protokol Evaluasi Komparatif.
     Sistem harus mampu membandingkan tiga pendekatan utama, yaitu LLM murni, RAG berbasis vektor, dan GraphRAG berbobot penilaian pengguna, menggunakan sampel pertanyaan yang sama. Evaluasi juga harus memungkinkan perbandingan pengaruh pembobotan \emph{accepted answer} tanpa graf, penggunaan mekanisme pengambilan konteks berbasis graf, serta penambahan skor suara pengguna (\emph{vote score}). Konfigurasi eksperimen dijelaskan pada Subbab~\ref{sec:kondisi-eksperimen}.
@@ -151,16 +151,21 @@ Bagian ini menjelaskan perancangan mekanisme pembobotan graf pengetahuan berbasi
 \subsection{Gambaran Umum Arsitektur Solusi}
 \label{subsec:gambaran-umum-arsitektur}
 
-Mekanisme yang diusulkan terdiri atas dua blok utama, seperti pada Gambar~\ref{fig:arsitektur-framework}. Arsitektur GraphRAG yang digunakan tidak diubah. Pengembangan dibatasi pada pembobotan graf dan penggunaan bobot saat pengambilan konteks.
+Mekanisme yang diusulkan digambarkan pada Gambar~\ref{fig:arsitektur-framework} dan terdiri atas dua bagian, yaitu konstruksi \emph{knowledge graph} berbobot dan mekanisme pengambilan konteks berbobot. Arsitektur GraphRAG yang digunakan tidak diubah. 
 
 \begin{enumerate}
     \item Konstruksi \emph{Knowledge Graph} Berbobot.
-    Dataset SORD \autocite{Fatima2026} diubah menjadi graf berbobot melalui lima tahap. Pertama, data mentah divalidasi, digabungkan, dan dideduplikasi. Kedua, simpul dan relasi dibangun dari metadata Stack Overflow, dengan skor suara pengguna (\emph{vote score}) dan status \emph{accepted answer} disimpan sebagai atribut, serta status \emph{accepted answer} juga menjadi tipe sisi tersendiri. Ketiga, graf diperkaya dengan tautan antar-\emph{thread} dari data \texttt{PostLinks}. Keempat, pertanyaan diubah menjadi vektor dan disimpan dalam indeks FAISS. Kelima, graf didensifikasi dengan relasi antarpertanyaan berdasarkan kemiripan tag dan kemiripan \emph{embedding}. Rinciannya dijelaskan pada Subbab~\ref{subsec:struktur-kg} dan Subbab~\ref{subsec:bobot-keandalan}.
+    Bagian ini dijalankan satu kali sebelum pengujian. Dataset SORD \autocite{Fatima2026} yang berisi pertanyaan, jawaban, dan tag diubah menjadi graf dengan simpul \emph{Question}, \emph{Answer}, dan \emph{Tag}. Skor suara pengguna (\emph{vote score}) dan status \emph{accepted answer} disimpan sebagai atribut, dan status \emph{accepted answer} juga menjadi tipe sisi tersendiri. Bobot jawaban diturunkan dari kedua penilaian tersebut. Pertanyaan dan jawaban juga diubah menjadi vektor dan disimpan dalam dua indeks FAISS, yaitu indeks pertanyaan dan indeks jawaban. Konstruksi dilakukan melalui lima tahap, yaitu validasi dan deduplikasi data, pembangunan simpul dan relasi, pengayaan tautan antar-\emph{thread} dari data \texttt{PostLinks}, pengindeksan vektor, dan densifikasi dengan relasi antarpertanyaan berdasarkan kemiripan tag dan kemiripan \emph{embedding}. Rinciannya dijelaskan pada Subbab~\ref{subsec:struktur-kg} dan Subbab~\ref{subsec:bobot-keandalan}.
 
-    \item Pengambilan Konteks Berbobot.
-    Saat pengguna mengajukan pertanyaan, sistem menjalankan tiga tahap. Pertama, \emph{anchoring}, yaitu mencari jawaban berdasarkan kemiripan semantik dan memetakan pertanyaan induknya sebagai \emph{seed nodes}. Kedua, penelusuran graf berbobot untuk mengumpulkan kandidat jawaban beserta bobot jalurnya. Ketiga, \emph{semantic expansion}, yaitu memperluas kandidat melalui pencarian vektor. Hasil ketiga tahap digabungkan, diperingkat berdasarkan relevansi dan bobot jalur, lalu disusun menjadi konteks bagi LLM (Subbab~\ref{subsec:pengambilan-konteks} dan Subbab~\ref{subsec:penyaringan-konteks}).
+    \item mekanisme pengambilan konteks berbobot.
+    Saat pengguna mengajukan pertanyaan, sistem menjalankan tiga fase \emph{retrieval-augmented generation}.
+    \begin{enumerate}
+        \item \emph{Retrieval}. Pengambilan konteks berbobot terdiri atas tiga tahap, lalu pemeringkatan. Pertama, \emph{anchoring}, yaitu mencari jawaban berdasarkan kemiripan semantik dan memetakan pertanyaan induknya sebagai \emph{seed nodes}. Kedua, penelusuran graf berbobot hingga dua \emph{hop} untuk mengumpulkan kandidat jawaban beserta bobot jalurnya. Ketiga, \emph{semantic expansion}, yaitu memperluas kandidat melalui pencarian vektor. Hasil ketiga tahap digabungkan, diperingkat berdasarkan relevansi dan bobot jalur, dan lima konteks teratas dipilih (Subbab~\ref{subsec:pengambilan-konteks} dan Subbab~\ref{subsec:penyaringan-konteks}).
+        \item \emph{Augmentation}. Konteks terpilih disusun bersama pertanyaan menjadi \emph{prompt} dengan instruksi \emph{grounding} dan kewajiban kutipan.
+        \item \emph{Generation}. LLM menghasilkan jawaban dari \emph{prompt} tersebut.
+    \end{enumerate}
 
-    Pembagian tiga tahap ini mengikuti alur umum GraphRAG yang dijelaskan oleh \textcite{Kamalipour2026}, yaitu pemetaan kueri ke simpul awal, penelusuran graf multi-\emph{hop}, dan penggabungan hasilnya dengan pencarian vektor.
+    Pembagian tiga tahap pada fase \emph{retrieval} mengikuti alur umum GraphRAG yang dijelaskan oleh \textcite{Kamalipour2026}, yaitu pemetaan kueri ke simpul awal, penelusuran graf multi-\emph{hop}, dan penggabungan hasilnya dengan pencarian vektor.
 \end{enumerate}
 
 \begin{figure}[!htbp]
@@ -171,7 +176,6 @@ Mekanisme yang diusulkan terdiri atas dua blok utama, seperti pada Gambar~\ref{f
 \end{figure}
 
 Kondisi yang dibandingkan untuk menguji mekanisme ini dirancang pada Subbab~\ref{sec:kondisi-eksperimen}, dan protokol evaluasinya pada Subbab~\ref{sec:rancangan-evaluasi}. Seluruh kondisi yang menggunakan konteks menerima instruksi generasi yang sama (Subbab~\ref{subsec:pengendalian-variabel}).
-
 %------------------------------------------------------------
 \subsection{Perancangan Struktur Graf Pengetahuan}
 \label{subsec:struktur-kg}
@@ -614,23 +618,39 @@ A & A & LLM murni, tanpa \emph{retrieval}. \\
 
 Pendekatan GraphRAG memiliki kompleksitas arsitektural lebih tinggi daripada Kondisi A dan B karena memerlukan konstruksi dan densifikasi KG serta penelusuran graf. Penelitian ini berfokus pada \emph{hallucination rate}. Latensi dilaporkan secara deskriptif sebagai metrik pendukung, tetapi penelitian ini tidak mengklaim keunggulan efisiensi.
 
-Kondisi A dan B-Vec menjadi pembanding tanpa pembobotan, B-Acc menjadi kontrol pembobotan tanpa graf, sedangkan C-Acc dan C-Acc+Vote merupakan konfigurasi mekanisme yang diusulkan. Pemetaan perbandingan terhadap pertanyaan penelitian disajikan pada Tabel~\ref{tab:pemetaan-perbandingan}. Hasil perbandingan didasarkan pada label mayoritas panel \emph{judge} dan diperiksa konsistensinya terhadap penilaian masing-masing \emph{judge}.
+Kondisi A dan B-Vec menjadi pembanding tanpa pembobotan, B-Acc menjadi kontrol pembobotan tanpa graf, sedangkan C-Acc dan C-Acc+Vote merupakan konfigurasi mekanisme yang diusulkan. Pemetaan perbandingan terhadap pertanyaan penelitian disajikan pada Tabel~\ref{tab:matriks-aspek}. Hasil perbandingan didasarkan pada label mayoritas panel \emph{judge} dan diperiksa konsistensinya terhadap penilaian masing-masing \emph{judge}.
 
 \begin{table}[!htbp]
 \centering
-\caption{Pemetaan perbandingan kondisi terhadap pertanyaan penelitian.}
-\label{tab:pemetaan-perbandingan}
-\begin{tabular}{|p{0.12\textwidth}|p{0.40\textwidth}|p{0.38\textwidth}|}
+\footnotesize
+\caption{Matriks aspek, kebutuhan, hipotesis, metrik, dan kriteria keberhasilan.}
+\label{tab:matriks-aspek}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{2.4cm}|>{\raggedright\arraybackslash}p{1.5cm}|>{\raggedright\arraybackslash}p{1.9cm}|>{\raggedright\arraybackslash}p{3.3cm}|>{\raggedright\arraybackslash}X|}
 \hline
-\textbf{RQ} & \textbf{Perbandingan} & \textbf{Yang diukur} \\
+\textbf{Aspek} & \textbf{Kebutuhan} & \textbf{Hipotesis/RQ} & \textbf{Metrik} & \textbf{Kriteria keberhasilan} \\
 \hline
-RQ3 (H1) & C-Acc dan C-Acc+Vote terhadap A dan B-Vec & Selisih laju halusinasi GraphRAG berbobot terhadap LLM murni dan RAG konvensional \\
+Representasi bobot & F1 & RQ1 & Graf berbobot terbentuk; pertanyaan tanpa sisi keluar sebelum dan sesudah densifikasi & Graf terbentuk dari seluruh populasi SORD; proporsi pertanyaan tanpa sisi keluar dilaporkan sebelum dan sesudah densifikasi \\
 \hline
-RQ4 & B-Acc terhadap B-Vec; C-Acc terhadap B-Acc; C-Acc terhadap B-Vec & Pengaruh pembobotan pada pemeringkatan ulang (B-Acc terhadap B-Vec), pengaruh mekanisme pengambilan konteks berbasis graf secara keseluruhan (C-Acc terhadap B-Acc), dan selisih total (C-Acc terhadap B-Vec) \\
+Integrasi bobot pada pengambilan konteks & F2--F4 & RQ2 & NF2, NF3, NF5, NF6 & Kriteria NF2, NF3, NF5, dan NF6 pada Tabel~\ref{tab:nf} terpenuhi \\
 \hline
-RQ5 & C-Acc+Vote terhadap C-Acc & Perbedaan akibat penambahan skor suara pada bobot jawaban (eksploratif) \\
+Efektivitas terhadap halusinasi & NF1 & H1 (RQ3) & \emph{Hallucination rate} versi (a) dan (b) & Kondisi C-Acc dan C-Acc+Vote lebih rendah daripada A dan B-Vec dengan \texttt{ABSTAIN} dikeluarkan dari penyebut; jumlah dan proporsi \texttt{ABSTAIN} dilaporkan terpisah \\
 \hline
-\end{tabular}
+Kontribusi pembobotan & F4, F5 & RQ4 (eksploratif) & Selisih B-Acc terhadap B-Vec (pendukung: C-Acc terhadap B-Acc dan C-Acc terhadap B-Vec) & Selisih negatif dan searah pada ketiga \emph{judge}; dilaporkan deskriptif tanpa uji statistik \\
+\hline
+Pengaruh skor suara & F5 & RQ5 (eksploratif) & Selisih C-Acc+Vote terhadap C-Acc, per \emph{judge} & Selisih negatif dan searah pada ketiga \emph{judge}; bila tidak, dilaporkan belum dapat disimpulkan \\
+\hline
+Keterlacakan kutipan & NF2 & -- & \emph{Valid citation rate} & Seluruh jawaban bukan \texttt{ABSTAIN} memuat sedikitnya satu kutipan yang labelnya terdapat dalam konteks \\
+\hline
+Keandalan kutipan & NF4 & -- & \emph{Citation support} & Pada B-Acc, C-Acc, dan C-Acc+Vote tidak lebih rendah daripada B-Vec \\
+\hline
+Latensi & NF3 & -- & Rerata latensi total per kueri & Tidak melebihi 15 detik; dilaporkan tanpa klaim keunggulan efisiensi \\
+\hline
+Integritas evaluasi & NF5 & -- & Irisan hasil \emph{retrieval} dengan himpunan pengecualian & Tidak ada irisan pada seluruh kueri uji dalam kondisi berkonteks \\
+\hline
+Kontrol perbandingan & NF6 & -- & Variabel kontrol antarkonfigurasi & Sampel, model generatif, struktur \emph{prompt}, model \emph{embedding}, $k=5$, dan instruksi \emph{grounding} sama \\
+\hline
+\end{tabularx}
 \end{table}
 
 Pada RQ4, selisih B-Acc dan B-Vec mencerminkan pengaruh pembobotan karena keduanya menggunakan pencarian vektor yang sama. Selisih C-Acc dan B-Acc mencerminkan pengaruh mekanisme pengambilan konteks berbasis graf secara keseluruhan, yaitu penelusuran graf, \emph{semantic expansion}, dan \emph{pool} kandidat yang lebih luas, dan bukan pengaruh struktur graf saja. Normalisasi kemiripan juga dilakukan atas \emph{pool} yang berbeda, sehingga skor ternormalisasi kandidat yang sama dapat berbeda antarkonfigurasi. Pemisahan ini bersifat deskriptif karena setiap konfigurasi dijalankan satu kali.
