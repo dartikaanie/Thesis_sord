@@ -6,7 +6,7 @@
 \chapter{\textit{PROMPT JUDGE} DAN ATURAN PENURUNAN LABEL}
 \label{lamp:prompt-judge}
 
-Lampiran ini memuat teks lengkap \emph{prompt} yang dipakai panel \emph{judge} (Llama-3.3-70B, DeepSeek-V3.2, dan Qwen3-235B-A22B-Instruct-2507) serta kode yang menurunkan label akhir. Teks diambil langsung dari objek dan kode Python pada repositori (komit \texttt{1286769}, \emph{working tree} belum bersih, berkas \emph{prompt} tidak diubah), bukan diketik ulang. Isi \emph{prompt} halusinasi identik dengan dokumen \emph{prompt judge} pada repositori.
+Lampiran ini memuat teks lengkap \emph{prompt} yang dipakai panel \emph{judge} (Llama-3.3-70B, DeepSeek-V3.2, dan Qwen3-235B-A22B-Instruct-2507) serta kode yang menurunkan label akhir. Teks diambil langsung dari \emph{prompt} dan kode yang dijalankan pada eksperimen, bukan diketik ulang.
 
 Parameter permintaan untuk seluruh \emph{judge}: temperatur 0,0, \texttt{max\_tokens} 2000, dan keluaran JSON (\texttt{response\_\allowbreak{}format=\allowbreak{}json\_\allowbreak{}object}).
 
@@ -71,7 +71,7 @@ Kode berikut menurunkan label per \emph{judge} dari klaim, kategori tiga nilai, 
 \chapter{HASIL EVALUASI LENGKAP}
 \label{lamp:hasil-lengkap}
 
-Lampiran ini memuat hasil yang melengkapi Bab~\ref{chap:evaluasi}. Seluruh angka dihitung ulang dari berkas hasil mentah, tanpa menjalankan ulang \emph{generator} maupun \emph{judge}.
+Lampiran ini memuat hasil yang melengkapi Bab~\ref{chap:evaluasi}. Seluruh angka dihitung tanpa menjalankan ulang \emph{generator} maupun \emph{judge}.
 
 \section{Selisih terhadap B-Vec pada Tiap \emph{Judge}}
 \label{sec:lamp-b-judge}
@@ -102,16 +102,23 @@ Selisih panel terhadap B-Vec adalah $+1{,}0$ (A), $-5{,}4$ (B-Acc), $-5{,}9$ (C-
 
 Himpunan $S_{278}$ adalah pertanyaan yang bukan \texttt{ABSTAIN} pada B-Vec, C-Acc, dan C-Acc+Vote. Himpunan $S_{273}$ (disebut $\mathcal{S}$ pada Bab~\ref{chap:evaluasi}) menambahkan syarat B-Acc bukan \texttt{ABSTAIN}. Selisih dilaporkan sebagai titik tanpa interval maupun uji inferensial.
 
-\begin{table}[!htbp]
-\centering
+\begingroup
 \footnotesize
-\caption{Selisih \emph{hallucination rate} antarkonfigurasi (selisih, \%).}
-\label{tab:lamp-ci}
 \renewcommand{\arraystretch}{1.2}
-\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|c|c|c|}
+\begin{longtable}{|>{\raggedright\arraybackslash}p{0.50\textwidth}|>{\centering\arraybackslash}p{0.10\textwidth}|>{\centering\arraybackslash}p{0.14\textwidth}|>{\centering\arraybackslash}p{0.12\textwidth}|}
+\caption{Selisih \emph{hallucination rate} antarkonfigurasi (selisih, \%).}
+\label{tab:lamp-ci}\\
 \hline
 \textbf{Perbandingan} & \textbf{Versi} & \textbf{Himpunan} & \textbf{Selisih} \\
 \hline
+\endfirsthead
+\caption[]{Selisih \emph{hallucination rate} antarkonfigurasi (lanjutan).}\\
+\hline
+\textbf{Perbandingan} & \textbf{Versi} & \textbf{Himpunan} & \textbf{Selisih} \\
+\hline
+\endhead
+\hline
+\endfoot
 C-Acc terhadap A & (a) & 384 & $-7{,}0$ \\
 C-Acc+Vote terhadap A & (a) & 384 & $-8{,}8$ \\
 C-Acc terhadap B-Vec & (a) & 384 & $-5{,}9$ \\
@@ -134,8 +141,8 @@ C-Acc terhadap B-Acc & (a) & $S_{278}$ & $-1{,}1$ \\
 C-Acc terhadap A & (b) & 384 & $+6{,}8$ \\
 C-Acc+Vote terhadap A & (b) & 384 & $+5{,}5$ \\
 \hline
-\end{tabularx}
-\end{table}
+\end{longtable}
+\endgroup
 
 Pada $S_{278}$, nilai (a) adalah 17,6\% (C-Acc+Vote) dan 19,8\% (C-Acc) untuk perbandingan pertama, dan 19,8\% (C-Acc) terhadap 20,9\% (B-Acc) untuk perbandingan kedua.
 
@@ -144,26 +151,36 @@ Pada $S_{278}$, nilai (a) adalah 17,6\% (C-Acc+Vote) dan 19,8\% (C-Acc) untuk pe
 
 Tabel~\ref{tab:lamp-latensi} memuat data latensi per kueri pada kelima konfigurasi, dipisahkan menjadi waktu \emph{retrieval} dan waktu total (\emph{end-to-end}). Konfigurasi A tidak memiliki tahap \emph{retrieval}, sehingga hanya waktu total yang dilaporkan.
 
-\begin{table}[!htbp]
-\centering
+\begingroup
 \scriptsize
-\caption{Latensi per kueri (detik). Pencilan memakai aturan IQR (nilai $> Q_3 + 1{,}5\cdot\mathrm{IQR}$).}
-\label{tab:lamp-latensi}
+\setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.2}
-\begin{tabularx}{\textwidth}{|l|*{8}{>{\centering\arraybackslash}X|}}
+\begin{longtable}{|>{\raggedright\arraybackslash}p{0.14\textwidth}|>{\centering\arraybackslash}p{0.085\textwidth}|>{\centering\arraybackslash}p{0.085\textwidth}|>{\centering\arraybackslash}p{0.085\textwidth}|>{\centering\arraybackslash}p{0.085\textwidth}|>{\centering\arraybackslash}p{0.085\textwidth}|>{\centering\arraybackslash}p{0.085\textwidth}|>{\centering\arraybackslash}p{0.085\textwidth}|>{\centering\arraybackslash}p{0.085\textwidth}|}
+\caption{Latensi per kueri (detik). Pencilan memakai aturan IQR (nilai $> Q_3 + 1{,}5\cdot\mathrm{IQR}$).}
+\label{tab:lamp-latensi}\\
 \hline
  & \multicolumn{4}{c|}{\textbf{\emph{Retrieval}}} & \multicolumn{4}{c|}{\textbf{Total (\emph{end-to-end})}} \\
 \hline
 \textbf{Konfigurasi} & \textbf{Rata-rata} & \textbf{Median} & \textbf{Maks.} & \textbf{Pencilan} & \textbf{Rata-rata} & \textbf{Median} & \textbf{Maks.} & \textbf{Pencilan} \\
 \hline
+\endfirsthead
+\caption[]{Latensi per kueri (lanjutan).}\\
+\hline
+ & \multicolumn{4}{c|}{\textbf{\emph{Retrieval}}} & \multicolumn{4}{c|}{\textbf{Total (\emph{end-to-end})}} \\
+\hline
+\textbf{Konfigurasi} & \textbf{Rata-rata} & \textbf{Median} & \textbf{Maks.} & \textbf{Pencilan} & \textbf{Rata-rata} & \textbf{Median} & \textbf{Maks.} & \textbf{Pencilan} \\
+\hline
+\endhead
+\hline
+\endfoot
 A & \multicolumn{4}{c|}{-} & 7,55 & 7,26 & 20,45 & 13 \\
 B-Vec & 1,53 & 0,35 & 68,96 & 54 & 5,97 & 4,81 & 77,06 & 13 \\
 B-Acc & 0,23 & 0,17 & 2,43 & 5 & 5,66 & 5,47 & 22,53 & 6 \\
 C-Acc & 1,24 & 1,20 & 4,19 & 10 & 5,10 & 5,07 & 10,33 & 6 \\
 C-Acc+Vote & 0,99 & 0,94 & 5,01 & 6 & 5,93 & 5,74 & 13,44 & 5 \\
 \hline
-\end{tabularx}
-\end{table}
+\end{longtable}
+\endgroup
 
 \section{Hasil Panel per \emph{Judge}}
 \label{sec:lamp-b-panel}
@@ -532,7 +549,7 @@ A tidak memiliki konteks. Pemeriksaan mencakup \texttt{owner\_\allowbreak{}quest
 \chapter{DETAIL KASUS BERHASIL DAN KASUS GAGAL}
 \label{lamp:kasus}
 
-Lampiran ini memuat data lengkap dua kasus pada Subbab~\ref{sec:analisis-kasus}. Kriteria kasus ditetapkan sebelum isi jawaban dibaca, dan hanya label panel yang digunakan. Pertanyaan dan jawaban Stack Overflow dikutip dari simpul graf, dipotong sekitar 300 karakter (tanda [\ldots]), dan berlisensi CC BY-SA; teks lengkap ada pada pranala pertanyaan. Jawaban \emph{generator} dan alasan \emph{judge} dikutip utuh dari berkas hasil. Label \texttt{[SO-id]} pada jawaban adalah \emph{id} pertanyaan asal, bukan \emph{id} jawaban. Tahun jawaban tidak tersedia karena simpul \texttt{Answer} tidak memiliki properti tanggal. Catatan data pada tiap kasus hanya memuat fakta dari berkas hasil dan tidak menambah tafsir terhadap Bab~\ref{chap:evaluasi}.
+Lampiran ini memuat data lengkap dua kasus pada Subbab~\ref{sec:analisis-kasus}. Kriteria kasus ditetapkan sebelum isi jawaban dibaca, dan hanya label panel yang digunakan. Pertanyaan dan jawaban Stack Overflow dikutip dari simpul graf, dipotong sekitar 300 karakter (tanda [\ldots]), dan berlisensi CC BY-SA; teks lengkap ada pada pranala pertanyaan. Jawaban \emph{generator} dan alasan \emph{judge} dikutip utuh dari hasil eksperimen. Label \texttt{[SO-id]} pada jawaban adalah \emph{id} pertanyaan asal, bukan \emph{id} jawaban. Tahun jawaban tidak tersedia karena simpul \texttt{Answer} tidak memiliki properti tanggal. Catatan data pada tiap kasus hanya memuat fakta dari hasil eksperimen dan tidak menambah tafsir terhadap Bab~\ref{chap:evaluasi}.
 
 \section{Kasus Berhasil: Pertanyaan 2010746}
 \label{sec:lamp-kasus-x}
@@ -824,7 +841,7 @@ C-Acc+Vote & \texttt{HALUSINASI\_\allowbreak{}PENUH} & \texttt{HALUSINASI\_\allo
 \chapter{DAFTAR ID PERTANYAAN}
 \label{lamp:id}
 
-Lampiran ini memuat \emph{id} pertanyaan Stack Overflow pada sampel uji dan himpunan pengembangan. Urutannya mengikuti permutasi bersama (bukan terurut menurut \emph{id}), dan kedua himpunan saling lepas. Sumber: folder \texttt{llm/\allowbreak{}sample\_\allowbreak{}ids/} pada repositori (berkas sampel uji dan himpunan pengembangan). Posisi 385 sampai 434 tidak termasuk dalam daftar ini.
+Lampiran ini memuat \emph{id} pertanyaan Stack Overflow pada sampel uji dan himpunan pengembangan. Urutannya mengikuti permutasi bersama (bukan terurut menurut \emph{id}), dan kedua himpunan saling lepas. Pemilihan sampel dijelaskan pada Subbab~\ref{subsec:dataset-sampling}. Posisi 385 sampai 434 tidak termasuk dalam daftar ini.
 
 \section{Sampel Uji}
 \label{sec:lamp-id-uji}
