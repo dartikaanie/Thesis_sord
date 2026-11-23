@@ -75,5 +75,5 @@ $w = 0{,}4$ (kategoris); nilai kosinus disimpan sebagai atribut
 
 \vspace{0.1cm}
 \raggedright\footnotesize
-Bobot sisi antar-pertanyaan ($w_{qq'}$) dikalikan dengan bobot jawaban ($w_{\mathrm{ans}}$) untuk membentuk bobot jalur $w_{\mathrm{path}}$. Bobot jawaban ditentukan oleh kondisi (Persamaan~\ref{eq:w-ans}): pada Kondisi C-Acc bernilai 1,0 untuk jawaban yang diterima dan 0 untuk jawaban lain, sedangkan pada Kondisi C-Acc+Vote merupakan gabungan berbobot antara status \emph{accepted answer} dan \texttt{trustScore} (Persamaan~\ref{eq:trust-answer}). Nilai \texttt{trustScore} dihitung saat pembangunan graf dan dibaca saat pengambilan konteks tanpa mengubah graf.
+Bobot sisi antar-pertanyaan ($w_{qq'}$) dikalikan dengan bobot jawaban ($w_{\mathrm{ans}}$) untuk membentuk bobot jalur $w_{\mathrm{path}}$. Bobot jawaban ditentukan oleh kondisi (Persamaan~\ref{eq:w-ans}): pada Kondisi C-Acc bernilai 1,0 untuk jawaban yang diterima dan 0 untuk jawaban lain, sedangkan pada Kondisi C-Acc+Vote merupakan gabungan berbobot antara status \emph{accepted answer} dan $\mathrm{trust}_A$ (Persamaan~\ref{eq:trust-answer}). Nilai $\mathrm{trust}_A$ dihitung dari atribut \texttt{score} simpul \texttt{Answer} saat kueri diproses, dan tidak disimpan pada graf.
 \end{table}
