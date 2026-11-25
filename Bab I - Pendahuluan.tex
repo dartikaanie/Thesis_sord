@@ -84,7 +84,7 @@ Penelitian ini diharapkan memberikan manfaat teoritis dan manfaat praktis sebaga
 
     \item Bukti empiris mengenai kontribusi pembobotan.
 
-    Penelitian ini memberikan bukti empiris mengenai eberapa besar pembobotan penilaian pengguna berkontribusi terhadap laju halusinasi. Bukti ini dapat menjadi dasar bagi penelitian lanjutan yang ingin menguji mekanisme serupa pada sumber pengetahuan lain.
+    Penelitian ini memberikan bukti empiris mengenai seberapa besar pembobotan penilaian pengguna berkontribusi terhadap laju halusinasi. Bukti ini dapat menjadi dasar bagi penelitian lanjutan yang ingin menguji mekanisme serupa pada sumber pengetahuan lain.
 
     \item Protokol evaluasi halusinasi yang membandingkan kondisi secara bertahap.
 
@@ -116,7 +116,7 @@ Penelitian ini berfokus pada pengembangan dan evaluasi mekanisme pembobotan graf
 
 Pengujian dibatasi pada satu studi kasus, yaitu data Stack Overflow pada domain pemrograman, yang berperan sebagai objek pembuktian. Stack Overflow dipilih karena platform ini menyimpan jawaban beserta penilaian pengguna berupa skor suara dan penanda jawaban yang diterima (\emph{accepted answer}) \autocite{Kleybolte2026}, kontennya telah digunakan sebagai konteks bagi LLM pada tugas terkait kode \autocite{Nashid2023}, dan jawaban LLM atas pertanyaan pemrograman dilaporkan sering kali tidak benar \autocite{Kabir2024}. Data yang digunakan adalah dataset SORD \autocite{Fatima2026}, dan pengujian menggunakan satu model generatif.
 
-Ruang lingkup penelitian ini mencakup: (1) representasi penilaian pengguna sebagai bobot keandalan pada graf pengetahuan yang dibangun dari data Stack Overflow, (2) integrasi bobot tersebut ke dalam proses pengambilan konteks GraphRAG, dan (3) evaluasi komparatif kuantitatif pada lima kondisi pengujian, yaitu LLM murni, RAG konvensional, RAG konvensional dengan pembobotan penilaian pengguna tanpa graf, GraphRAG dengan bobot satu sinyal penilaian, dan GraphRAG dengan bobot dua sinyal penilaian, menggunakan \emph{benchmark dataset} yang dikonstruksi dari SORD. Pemisahan kontribusi pembobotan dilakukan melalui perbandingan kondisi tersebut. Analisis tambahan yang bersifat eksploratori mencakup perbandingan variasi struktur pengambilan konteks dan analisis pada himpunan pertanyaan yang dijawab oleh seluruh kondisi.
+Ruang lingkup penelitian ini mencakup: (1) representasi penilaian pengguna sebagai bobot keandalan pada graf pengetahuan yang dibangun dari data Stack Overflow, (2) integrasi bobot tersebut ke dalam proses pengambilan konteks GraphRAG, dan (3) evaluasi komparatif kuantitatif pada tiga kondisi pengujian (A, B, dan C) yang direalisasikan dalam lima konfigurasi, yaitu LLM murni (A), RAG konvensional (B-Vec), RAG konvensional dengan pembobotan penilaian pengguna tanpa graf (B-Acc), GraphRAG dengan bobot satu sinyal penilaian (C-Acc), dan GraphRAG dengan bobot dua sinyal penilaian (C-Acc+Vote), menggunakan \emph{benchmark dataset} yang dikonstruksi dari SORD. Pemisahan kontribusi pembobotan dilakukan melalui perbandingan konfigurasi tersebut. Analisis tambahan yang bersifat eksploratori mencakup perbandingan variasi struktur pengambilan konteks dan analisis pada himpunan pertanyaan yang dijawab oleh seluruh konfigurasi.
 
 \textbf{Batasan masalah:}
 \begin{enumerate}
@@ -185,10 +185,8 @@ Penelitian ini menggunakan kerangka \emph{Design Science Research Methodology} (
 
     \item \textbf{Evaluasi.}
 
-    Evaluasi dilakukan secara komparatif menggunakan lima kondisi pengujian, yaitu: (1) LLM murni; (2) RAG konvensional berbasis \emph{dense retrieval}; (3) RAG konvensional dengan pembobotan penilaian pengguna tanpa struktur graf; (4) GraphRAG dengan pembobotan berdasarkan \emph{accepted answer}; dan (5) GraphRAG dengan pembobotan berdasarkan kombinasi \emph{accepted answer} dan \emph{upvote}.
-
-    Seluruh kondisi diuji menggunakan sampel pertanyaan yang sama dari dataset SORD dengan model generatif dan protokol evaluasi yang konsisten. Metrik utama adalah laju halusinasi (\emph{hallucination rate}), yang digunakan untuk membandingkan kinerja setiap kondisi. Perbandingan dilakukan secara bertahap untuk mengevaluasi perbedaan antara LLM murni, RAG konvensional, dan GraphRAG berbobot, serta pengaruh penambahan sinyal penilaian pengguna. Analisis tambahan yang bersifat eksploratori dilakukan untuk mmengukur kontribusi pembobotan serta menguji variasi struktur pengambilan konteks.
-
+    Evaluasi dilakukan secara komparatif pada tiga kondisi pengujian (A, B, dan C) yang direalisasikan dalam lima konfigurasi, yaitu: (1) kondisi A, LLM murni tanpa konteks \emph{retrieval}; (2) kondisi B dengan \emph{dense retrieval} tanpa pembobotan (B-Vec), yaitu RAG konvensional; (3) kondisi B dengan pembobotan berdasarkan \emph{accepted answer} tanpa struktur graf (B-Acc); (4) kondisi C, GraphRAG dengan pembobotan berdasarkan \emph{accepted answer} (C-Acc); dan (5) kondisi C, GraphRAG dengan pembobotan berdasarkan kombinasi \emph{accepted answer} dan skor suara (C-Acc+Vote).
+    
     \item \textbf{Komunikasi Hasil Penelitian.}
 
     Hasil penelitian disimpulkan berdasarkan evaluasi artefak, pengujian hipotesis, dan jawaban terhadap pertanyaan penelitian. Temuan yang diperoleh, termasuk keterbatasan dan peluang pengembangan, didokumentasikan dalam laporan tesis dan dokumentasi teknis. Luaran tahap ini adalah laporan tesis.
@@ -234,16 +232,16 @@ Bagian ini menjelaskan gambaran umum isi dari setiap bab dalam laporan tesis. Ad
     Bab ini menyajikan landasan teori dan penelitian terkait. Topik yang dikaji meliputi: LLM dan halusinasi beserta jenis dan penyebabnya, kelompok pendekatan mitigasi halusinasi, RAG dan keterbatasannya, graf pengetahuan dan GraphRAG, keandalan sumber dan pembobotan pengetahuan, penilaian pengguna pada platform tanya jawab komunitas beserta dataset SORD, serta evaluasi halusinasi LLM. Bab ini ditutup dengan sintesis kesenjangan penelitian dan posisi penelitian ini.
     
     \item \textbf{Bab III - Analisis dan Desain}\\
-    Bab ini menguraikan analisis kondisi saat ini beserta keterbatasannya, analisis kebutuhan fungsional dan nonfungsional mekanisme pembobotan graf pengetahuan berbasis penilaian pengguna, serta desain mekanisme tersebut. Desain mencakup graf pengetahuan berbobot, pengambilan konteks berbobot, lima kondisi pembanding, dan protokol evaluasi komparatif.
+    Bab ini menguraikan analisis kondisi saat ini beserta keterbatasannya, analisis kebutuhan fungsional dan nonfungsional mekanisme pembobotan graf pengetahuan berbasis penilaian pengguna, serta desain mekanisme tersebut. Desain mencakup graf pengetahuan berbobot, pengambilan konteks berbobot, lima konfigurasi pembanding dalam tiga kondisi (A, B, dan C), dan protokol evaluasi komparatif.
 
 
     \item \textbf{Bab IV - Implementasi}\\
      Bab ini memaparkan proses implementasi mekanisme pembobotan, mencakup: implementasi konstruksi graf pengetahuan berbobot, implementasi integrasi bobot ke dalam pengambilan konteks, teknologi dan pustaka yang digunakan beserta alasan pemilihannya, serta hasil implementasi per komponen.
 
     \item \textbf{Bab V - Evaluasi}\\
-      Bab ini menyajikan hasil pengujian dan evaluasi, mencakup hasil pengujian kuantitatif lima kondisi, analisis untuk pengujian hipotesis H1, pemisahan kontribusi pembobotan penilaian pengguna, analisis tambahan, evaluasi kualitas graf pengetahuan, serta diskusi temuan terhadap hipotesis, penjelasan penyebab hasil berdasarkan data dan literatur, dan keterbatasan.
+      Bab ini menyajikan hasil pengujian dan evaluasi, mencakup hasil pengujian kuantitatif tiga kondisi dalam lima konfigurasi, analisis untuk pengujian hipotesis H1, pemisahan kontribusi pembobotan penilaian pengguna, analisis pengaruh komponen, analisis kasus, serta pembahasan temuan terhadap hipotesis dan pertanyaan penelitian, posisi terhadap penelitian terdahulu, dan ancaman terhadap validitas.
 
-    \item \textbf{Bab VI - Kesimpulan dan Saran}\\
+    \item \textbf{Bab VI - Penutup}\\
     Bab ini menyajikan kesimpulan yang ditarik dari hasil evaluasi terhadap hipotesis dan pertanyaan penelitian, keterbatasan penelitian, serta saran untuk pengembangan penelitian selanjutnya.
 
     \item \textbf{Daftar Pustaka}\\
